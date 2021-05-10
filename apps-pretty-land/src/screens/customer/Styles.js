@@ -25,9 +25,8 @@ const styles = StyleSheet.create({
   },
   optionsPhoto: {
     flex: 1,
-    width: "100%",
-    // height: 155,
-    // borderRadius: 20,
+    width: 350,
+    height: 150,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     shadowColor: "blue",
@@ -37,7 +36,6 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 5,
     shadowOpacity: 1.0,
-    // elevation: 3,
   },
   cardDetail: {
     flex: 1,
@@ -66,7 +64,6 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     justifyContent: "center",
-    // alignItems: 'center',
     height: 50,
     borderColor: "#cccccc",
     borderWidth: 0.5,

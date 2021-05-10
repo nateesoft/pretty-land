@@ -1,6 +1,6 @@
 import React from "react"
 import { View, Text, Image, FlatList, TouchableHighlight } from "react-native"
-import { getCountryCount } from "../../../data/MockDataAPI"
+import { getCountryCount } from "../../../data/apis"
 
 import { country } from "../../../data/items"
 import styles from "../Styles"

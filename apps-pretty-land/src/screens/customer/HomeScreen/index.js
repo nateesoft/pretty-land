@@ -37,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
         <DisplayCard
           data={{
             type: "1",
-            title: "คุณนายเนี๊ยบ",
+            title: "พริตตี้",
             info: "30 รายการ",
             img: Img1,
           }}
@@ -45,7 +45,7 @@ const HomeScreen = ({ navigation }) => {
         <DisplayCard
           data={{
             type: "2",
-            title: "พร้อมไฟท์",
+            title: "โคโยตี้",
             info: "10 รายการ",
             img: Img2,
           }}
@@ -53,7 +53,7 @@ const HomeScreen = ({ navigation }) => {
         <DisplayCard
           data={{
             type: "3",
-            title: "ติงต๊อง",
+            title: "พริตตี้ Entertain",
             info: "3 รายการ",
             img: Img3,
           }}
@@ -61,7 +61,7 @@ const HomeScreen = ({ navigation }) => {
         <DisplayCard
           data={{
             type: "4",
-            title: "ไม่ติดนะ",
+            title: "พริตตี้ นวดแผนไทย",
             info: "8 รายการ",
             img: Img4,
           }}

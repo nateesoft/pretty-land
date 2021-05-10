@@ -48,7 +48,7 @@ const DetailScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView>
       <Text>แสดงรายชื่อ Parnter พร้อมรับงาน</Text>
-      <Image source={data.image} />
+      <Image source={data.image} style={{width: 350, height: 350}} />
       <Text>{data.name}</Text>
       <Text>{data.subtitle}</Text>
       <FlatList
