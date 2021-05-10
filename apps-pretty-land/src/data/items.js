@@ -1,0 +1,42 @@
+export const country = [
+  {
+    id: 0,
+    name: "กรุงเทพฯ",
+    type1: 10,
+    type2: 20,
+    type3: 12,
+    type4: 5,
+  },
+  {
+    id: 1,
+    name: "นนทบุรี",
+    type1: 3,
+    type2: 2,
+    type3: 21,
+    type4: 1,
+  },
+  {
+    id: 2,
+    name: "อยุธยา",
+    type1: 0,
+    type2: 0,
+    type3: 31,
+    type4: 9,
+  },
+  {
+    id: 3,
+    name: "นครนายก",
+    type1: 10,
+    type2: 0,
+    type3: 2,
+    type4: 51,
+  },
+  {
+    id: 4,
+    name: "เชียงใหม่",
+    type1: 6,
+    type2: 12,
+    type3: 0,
+    type4: 0,
+  },
+]
