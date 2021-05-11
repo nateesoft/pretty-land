@@ -6,6 +6,7 @@ import PartnerSelectScreen from "./partnerListSelect"
 import PartnerImageScreen from "./partnerImage"
 import PartnerVideoScreen from "./partnerVideo"
 import PaymentForm from "./payment"
+import ReviewTaskScreen from "./reviewTask"
 
 const Stack = createStackNavigator()
 
@@ -26,6 +27,7 @@ const TabNavigator = () => {
       <Stack.Screen name="Partner-Image" component={PartnerImageScreen} />
       <Stack.Screen name="Partner-Video" component={PartnerVideoScreen} />
       <Stack.Screen name="Payment-Form" component={PaymentForm} />
+      <Stack.Screen name="Review-Task" component={ReviewTaskScreen} />
     </Stack.Navigator>
   )
 }

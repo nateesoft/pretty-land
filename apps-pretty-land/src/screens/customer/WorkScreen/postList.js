@@ -67,14 +67,20 @@ const list = [
 ]
 
 const PostListScreen = ({ navigation }) => {
-  const onPressOptions = (item) => {
-    navigation.navigate("Partner-List-Select", { item })
+  const onPressOptions = (item, status) => {
+    if (status === "wait_customer_select_partner") {
+      navigation.navigate("Partner-List-Select", { item })
+    } else if (status === "wait_customer_payment") {
+      navigation.navigate("Payment-Form")
+    } else {
+      navigation.navigate("Review-Task", { status })
+    }
   }
 
   const keyExtractor = (item, index) => index.toString()
 
   const renderItem = ({ item }) => (
-    <ListItem bottomDivider onPress={() => onPressOptions(item)}>
+    <ListItem bottomDivider onPress={() => onPressOptions(item, item.status)}>
       <Avatar source={item.image} />
       <ListItem.Content>
         <ListItem.Title>{item.name}</ListItem.Title>
