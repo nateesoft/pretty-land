@@ -1,9 +1,7 @@
 import React from "react"
-import { View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
-
-import styles from "../Styles"
 
 const DetailScreen2 = ({ navigation, route }) => {
   const { data, item } = route.params
@@ -25,6 +23,14 @@ const DetailScreen2 = ({ navigation, route }) => {
           style={styles.inputForm}
           onChangeText={(value) => setOwner(value)}
           value={owner}
+        />
+        <Input
+          name="comment"
+          placeholder="รายละเอียดเพิ่มเติม"
+          leftIcon={{ type: "font-awesome", name: "comment" }}
+          style={styles.inputForm}
+          onChangeText={(value) => setComment(value)}
+          value={comment}
         />
         <Input
           name="phone"
@@ -50,14 +56,6 @@ const DetailScreen2 = ({ navigation, route }) => {
           onChangeText={(value) => setQty(value)}
           value={qty}
         />
-        <Input
-          name="comment"
-          placeholder="รายละเอียดเพิ่มเติม"
-          leftIcon={{ type: "font-awesome", name: "comment" }}
-          style={styles.inputForm}
-          onChangeText={(value) => setComment(value)}
-          value={comment}
-        />
       </View>
       <Button
         icon={<Icon name="arrow-right" size={15} color="white" />}
@@ -69,5 +67,35 @@ const DetailScreen2 = ({ navigation, route }) => {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  cardDetail: {
+    flex: 1,
+    alignItems: "center",
+    padding: 5,
+    margin: 10,
+  },
+  optionsNameDetail: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "blue",
+    marginBottom: 15,
+    marginTop: 10,
+  },
+  optionsNameDetail2: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "blue",
+    marginBottom: 15,
+    marginTop: 10,
+  },
+  viewCard: {
+    width: "100%",
+    borderRadius: 20,
+    padding: 5,
+  },
+})
 
 export default DetailScreen2

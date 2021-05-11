@@ -1,6 +1,5 @@
 import React from "react"
 import { View, StyleSheet, Dimensions } from "react-native"
-import { Button } from "react-native-elements"
 import { Video } from "expo-av"
 
 const { width } = Dimensions.get("window")

@@ -28,6 +28,10 @@ const DetailScreen2 = ({ navigation }) => {
     navigation.navigate("Customer-Work-Detail3")
   }
 
+  const onPressSelectPartner = () => {
+    navigation.navigate("Customer-Work-Detail")
+  }
+
   return (
     <View style={style.container}>
       <View>
@@ -62,8 +66,20 @@ const DetailScreen2 = ({ navigation }) => {
           </Text>
         ))}
       </View>
-      <View style={{ flex: 1, flexDirection: 'row', marginTop: 10, justifyContent: 'center'}}>
-        <GradientButton text="เลือก Parnter คนนี้" width='90%' blueViolet />
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          marginTop: 10,
+          justifyContent: "center",
+        }}
+      >
+        <GradientButton
+          onPressAction={() => onPressSelectPartner()}
+          text="เลือก Parnter คนนี้"
+          width="90%"
+          blueViolet
+        />
       </View>
     </View>
   )

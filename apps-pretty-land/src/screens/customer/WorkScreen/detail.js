@@ -1,4 +1,5 @@
 import React from "react"
+import { View, StyleSheet } from "react-native"
 import { SafeAreaView, Image, FlatList, Text } from "react-native"
 import { ListItem, Avatar, Button } from "react-native-elements"
 
@@ -46,25 +47,58 @@ const DetailScreen = ({ navigation, route }) => {
   )
 
   return (
-    <SafeAreaView>
-      <Text>แสดงรายชื่อ Parnter พร้อมรับงาน</Text>
-      <Image source={data.image} style={{width: 350, height: 350}} />
-      <Text>{data.name}</Text>
-      <Text>{data.subtitle}</Text>
-      <FlatList
-        keyExtractor={keyExtractor}
-        data={list}
-        renderItem={renderItem}
-      />
-      <Button
-        buttonStyle={{
-          backgroundColor: "chocolate",
-        }}
-        title="CONFIRM PARTNER"
-        onPress={() => onPressConfirmPartner()}
-      />
-    </SafeAreaView>
+    <View style={styles.container}>
+      <View style={styles.cardContainer1}>
+        <Text>{data.name}</Text>
+        <Text>{data.subtitle}</Text>
+        <Image source={data.image} style={styles.image} />
+        <Text style={styles.textTopic}>แสดงรายชื่อ Parnter พร้อมรับงาน</Text>
+      </View>
+      <View style={styles.cardContainer2}>
+        <FlatList style={styles.list} keyExtractor={keyExtractor}
+          data={list}
+          renderItem={renderItem}
+        />
+        <Button style={styles.button} buttonStyle={{
+            backgroundColor: "chocolate",
+          }}
+          title="CONFIRM PARTNER"
+          onPress={() => onPressConfirmPartner()}
+        />
+      </View>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  },
+  cardContainer1: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  cardContainer2: {
+    flex: 1,
+    flexDirection: "column",
+  },
+  list: {
+    flex: 1,
+    width: '100%',
+  },
+  image: {
+    width: 350,
+    height: 250,
+  },
+  button: {
+  },
+  textTopic: {
+    marginBottom: 15,
+  },
+})
 
 export default DetailScreen
