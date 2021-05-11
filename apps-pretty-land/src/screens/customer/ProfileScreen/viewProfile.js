@@ -4,7 +4,6 @@ import { Button, Text, Input } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 
 const ViewProfileScreen = ({ navigation, route }) => {
-  const { data, item } = route.params
   const [owner, setOwner] = React.useState("")
   const [phone, setPhone] = React.useState("")
   const [place, setPlace] = React.useState("")
@@ -13,8 +12,6 @@ const ViewProfileScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.cardDetail}>
-      <Text style={styles.optionsNameDetail}>{data.title}</Text>
-      <Text style={styles.optionsNameDetail2}>{item.name}</Text>
       <View style={styles.viewCard}>
         <Input
           name="owner"
@@ -58,10 +55,17 @@ const ViewProfileScreen = ({ navigation, route }) => {
         />
       </View>
       <Button
-        icon={<Icon name="arrow-right" size={15} color="white" />}
-        iconRight
+        icon={
+          <Icon
+            name="save"
+            size={20}
+            color="white"
+            style={{ marginRight: 5 }}
+          />
+        }
+        iconLeft
         buttonStyle={{ margin: 15 }}
-        title="POST-WORK"
+        title="บันทึกข้อมูล"
         onPress={() => navigation.navigate("Partner-Category")}
       />
     </View>

@@ -8,9 +8,12 @@ const LogoutScreen = ({ navigation }) => {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: "red",
       }}
     >
-      <Text>Logout Screen</Text>
+      <Text style={{ fontSize: 28, color: "white", fontWeight: "bold" }}>
+        ออกจากระบบเรียบร้อย
+      </Text>
     </View>
   )
 }

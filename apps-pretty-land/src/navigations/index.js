@@ -13,7 +13,7 @@ import PartnerProfileScreen from "../screens/partner/ProfileScreen"
 /* customer */
 import CustomerHome from "../screens/customer/HomeScreen/navigator"
 import CustomerWork from "../screens/customer/WorkScreen/navigator"
-import CustomerProfileScreen from "../screens/customer/ProfileScreen"
+import CustomerProfile from "../screens/customer/ProfileScreen/navigator"
 /* Logout */
 import LogoutScreen from '../screens/logout';
 
@@ -61,7 +61,7 @@ const AppNavigation = () => {
         }} />
         <Tab.Screen
           name="c-Profile"
-          component={CustomerProfileScreen}
+          component={CustomerProfile}
           options={{
             tabBarLabel: "ข้อมูลส่วนตัว",
             tabBarIcon: ({ color, size }) => (
