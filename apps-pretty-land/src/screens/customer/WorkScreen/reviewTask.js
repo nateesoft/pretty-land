@@ -6,6 +6,16 @@ import Icon from "react-native-vector-icons/FontAwesome"
 const ReviewTaskScreen = ({ navigation, route }) => {
   const { status } = route.params
 
+  const ComponentRating = ({ disabled }) => (
+    <AirbnbRating
+      count={5}
+      isDisabled={disabled}
+      defaultRating={5}
+      size={40}
+      reviews={["แย่", "พอใช้", "ดี", "ดีมาก", "ประทับใจ"]}
+    />
+  )
+
   return (
     <View style={styles.cardDetail}>
       <Text style={styles.optionsNameDetail}>ตำแหน่งงานที่มองหา</Text>
@@ -75,12 +85,7 @@ const ReviewTaskScreen = ({ navigation, route }) => {
       {status === "customer_with_partner" && (
         <View>
           <Text>ให้คะแนน Partner เพื่อพัฒนาต่อไปค่ะ</Text>
-          <AirbnbRating
-            count={5}
-            defaultRating={5}
-            size={40}
-            reviews={["แย่", "พอใช้", "ดี", "ดีมาก", "ประทับใจ"]}
-          />
+          <ComponentRating disabled={false} />
           <Button
             icon={
               <Icon
@@ -98,12 +103,7 @@ const ReviewTaskScreen = ({ navigation, route }) => {
         </View>
       )}
       {status === "close_job" && (
-        <AirbnbRating
-          count={5}
-          defaultRating={5}
-          size={40}
-          reviews={["แย่", "พอใช้", "ดี", "ดีมาก", "ประทับใจ"]}
-        />
+        <ComponentRating disabled={true} />
       )}
     </View>
   )
