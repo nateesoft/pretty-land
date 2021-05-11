@@ -42,6 +42,7 @@ const DetailScreen2 = ({ navigation }) => {
         />
       </View>
       <ScrollView
+        scrollEventThrottle={0}
         pagingEnabled
         horizontal
         onScroll={change}
