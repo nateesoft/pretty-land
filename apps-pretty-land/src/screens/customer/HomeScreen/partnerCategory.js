@@ -13,7 +13,7 @@ import Img2 from "../../../../assets/img_example/img2.png"
 import Img3 from "../../../../assets/img_example/img3.png"
 import Img4 from "../../../../assets/img_example/img4.png"
 
-const HomeScreen = ({ navigation }) => {
+const PartnerCategory = ({ navigation }) => {
   const [items, setItems] = React.useState([
     { id: 1, type: "1", title: "พริตตี้", info: "30 รายการ", img: Img1 },
     { id: 2, type: "2", title: "โคโยตี้", info: "10 รายการ", img: Img2 },
@@ -33,7 +33,7 @@ const HomeScreen = ({ navigation }) => {
     },
   ])
   const onPressOptions = (item) => {
-    navigation.navigate("Customer-Home-Detail", { item })
+    navigation.navigate("Partner-List-Country", { item })
   }
 
   const DisplayCard = ({ data }) => (
@@ -53,7 +53,7 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView>
         <View style={styles.container}>
           {items.map((item) => (
-            <DisplayCard key={item.key} data={item} />
+            <DisplayCard key={item.id} data={item} />
           ))}
         </View>
       </ScrollView>
@@ -102,4 +102,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HomeScreen
+export default PartnerCategory

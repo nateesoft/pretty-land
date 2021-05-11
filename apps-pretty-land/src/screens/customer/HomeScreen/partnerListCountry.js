@@ -11,11 +11,11 @@ import { getCountryCount } from "../../../data/apis"
 
 import { country } from "../../../data/items"
 
-const DetailScreen = ({ navigation, route }) => {
+const PartnerListCountryScreen = ({ navigation, route }) => {
   const { item: data } = route.params
 
   const onPressCreateItem = (item) => {
-    navigation.navigate("Customer-Home-Detail2", { data, item })
+    navigation.navigate("Create-Post-Form", { data, item })
   }
 
   const renderCategory = ({ item }) => (
@@ -95,4 +95,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default DetailScreen
+export default PartnerListCountryScreen

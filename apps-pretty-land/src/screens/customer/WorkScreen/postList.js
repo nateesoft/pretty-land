@@ -9,6 +9,7 @@ import Img4 from "../../../../assets/img_example/img4.png"
 
 const list = [
   {
+    id: 1,
     name: "Pretty - ฉลองซื้อรถใหม่",
     image: Img1,
     subtitle: "กรุงเทพฯ จำนวน 2 คน",
@@ -16,6 +17,7 @@ const list = [
     statusText: "โพสท์ใหม่",
   },
   {
+    id: 2,
     name: "Coyote - งานรถกะบะซิ่ง",
     image: Img2,
     subtitle: "เชียงใหม่ จำนวน 10 คน",
@@ -23,6 +25,7 @@ const list = [
     statusText: "รอ Admin คอนเฟิร์ม",
   },
   {
+    id: 3,
     name: "Pretty Entertain - รองรับแขก VIP",
     image: Img3,
     subtitle: "กรงเทพฯ จำนวน 4 คน",
@@ -30,6 +33,7 @@ const list = [
     statusText: "รอเลือก Partner",
   },
   {
+    id: 4,
     name: "Pretty นวดแผนไทย - อบรมพนักงาน",
     image: Img1,
     subtitle: "นครราชสีมา จำนวน 5 คน",
@@ -37,6 +41,7 @@ const list = [
     statusText: "รอชำระเงิน",
   },
   {
+    id: 5,
     name: "Pretty นวดแผนไทย - อบรมพนักงาน",
     image: Img4,
     subtitle: "นครราชสีมา จำนวน 5 คน",
@@ -44,6 +49,7 @@ const list = [
     statusText: "รอตรวจสอบเงินโอน",
   },
   {
+    id: 6,
     name: "Pretty นวดแผนไทย - อบรมพนักงาน",
     image: Img2,
     subtitle: "นครราชสีมา จำนวน 5 คน",
@@ -51,6 +57,7 @@ const list = [
     statusText: "อยู่ระหว่างภารกิจ",
   },
   {
+    id: 7,
     name: "Pretty นวดแผนไทย - อบรมพนักงาน",
     image: Img1,
     subtitle: "นครราชสีมา จำนวน 5 คน",
@@ -59,9 +66,9 @@ const list = [
   },
 ]
 
-const HomeScreen = ({ navigation }) => {
+const PostListScreen = ({ navigation }) => {
   const onPressOptions = (item) => {
-    navigation.navigate("Customer-Work-Detail", { item })
+    navigation.navigate("Partner-List-Select", { item })
   }
 
   const keyExtractor = (item, index) => index.toString()
@@ -89,4 +96,4 @@ const HomeScreen = ({ navigation }) => {
   )
 }
 
-export default HomeScreen
+export default PostListScreen

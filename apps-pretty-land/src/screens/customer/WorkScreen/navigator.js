@@ -1,10 +1,11 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
-import Home from "./index"
-import Detail from "./detail"
-import Detail2 from "./detail2"
-import Detail3 from "./detail3"
+import PostListScreen from "./postList"
+import PartnerSelectScreen from "./partnerListSelect"
+import PartnerImageScreen from "./partnerImage"
+import PartnerVideoScreen from "./partnerVideo"
+import PaymentForm from "./payment"
 
 const Stack = createStackNavigator()
 
@@ -12,8 +13,8 @@ const TabNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Home"
-        component={Home}
+        name="Post-List"
+        component={PostListScreen}
         options={{
           title: "แสดงรายการที่โพสท์",
           headerStyle: {
@@ -21,9 +22,10 @@ const TabNavigator = () => {
           },
         }}
       />
-      <Stack.Screen name="Customer-Work-Detail" component={Detail} />
-      <Stack.Screen name="Customer-Work-Detail2" component={Detail2} />
-      <Stack.Screen name="Customer-Work-Detail3" component={Detail3} />
+      <Stack.Screen name="Partner-List-Select" component={PartnerSelectScreen} />
+      <Stack.Screen name="Partner-Image" component={PartnerImageScreen} />
+      <Stack.Screen name="Partner-Video" component={PartnerVideoScreen} />
+      <Stack.Screen name="Payment-Form" component={PaymentForm} />
     </Stack.Navigator>
   )
 }

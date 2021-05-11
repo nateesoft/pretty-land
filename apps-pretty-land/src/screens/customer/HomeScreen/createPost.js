@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 
-const DetailScreen2 = ({ navigation, route }) => {
+const CreatePostForm = ({ navigation, route }) => {
   const { data, item } = route.params
   const [owner, setOwner] = React.useState("")
   const [phone, setPhone] = React.useState("")
@@ -62,7 +62,7 @@ const DetailScreen2 = ({ navigation, route }) => {
         iconRight
         buttonStyle={{ margin: 15 }}
         title="POST-WORK"
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate("Partner-Category")}
       />
     </View>
   )
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default DetailScreen2
+export default CreatePostForm

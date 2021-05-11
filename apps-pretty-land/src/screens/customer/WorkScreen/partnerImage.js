@@ -12,7 +12,7 @@ const Images = [Img1, Img2, Img3, Img4]
 const { width } = Dimensions.get("window")
 const height = (width * 100) / 65
 
-const DetailScreen2 = ({ navigation }) => {
+const PartnerImage = ({ navigation }) => {
   const [active, setActive] = React.useState(0)
 
   const change = ({ nativeEvent }) => {
@@ -25,11 +25,11 @@ const DetailScreen2 = ({ navigation }) => {
   }
 
   const showVideo = () => {
-    navigation.navigate("Customer-Work-Detail3")
+    navigation.navigate("Partner-Video")
   }
 
   const onPressSelectPartner = () => {
-    navigation.navigate("Customer-Work-Detail")
+    navigation.navigate("Partner-List-Select")
   }
 
   return (
@@ -103,4 +103,4 @@ const style = StyleSheet.create({
   pagingActiveText: { fontSize: width / 30, color: "purple", margin: 3 },
 })
 
-export default DetailScreen2
+export default PartnerImage

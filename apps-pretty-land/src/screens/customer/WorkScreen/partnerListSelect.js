@@ -21,15 +21,15 @@ const list = [
   },
 ]
 
-const DetailScreen = ({ navigation, route }) => {
+const PartnerListSelect = ({ navigation, route }) => {
   const { item: data } = route.params
 
   const onPressConfirmPartner = () => {
-    navigation.navigate("Home")
+    navigation.navigate("Post-List")
   }
 
   const onPressShowPartnerDetail = (item) => {
-    navigation.navigate("Customer-Work-Detail2", { data, item })
+    navigation.navigate("Partner-Image", { data, item })
   }
 
   const keyExtractor = (item, index) => index.toString()
@@ -101,4 +101,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default DetailScreen
+export default PartnerListSelect

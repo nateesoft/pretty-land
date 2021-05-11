@@ -5,7 +5,7 @@ import { Video } from "expo-av"
 const { width } = Dimensions.get("window")
 const height = (width * 100) / 60
 
-const DetailScreen3 = ({ navigation }) => {
+const PartnerVideo = ({ navigation }) => {
   const video = React.useRef(null)
   const [status, setStatus] = React.useState({})
 
@@ -39,4 +39,4 @@ const style = StyleSheet.create({
   },
 })
 
-export default DetailScreen3
+export default PartnerVideo
