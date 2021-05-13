@@ -68,22 +68,6 @@ const RegisterPartnerImageForm = ({ navigation }) => {
         }}
         onPress={() => saveAndGoLoginForm()}
       />
-      <Text style={styles.textFooter}>
-        การล็อกอิน หมายถึงคุณตกลง ข้อกำหนดในการใช้งาน, สัญญาบรอดแคสเตอร์ &
-        นโยบายสิทธิส่วนบุคคล (คุณต้องถึงเกณฑ์อายุขั้นต่ำในการใช้ Bigo)
-      </Text>
-      <Text
-        style={{
-          position: "absolute",
-          bottom: 60,
-          fontSize: 12,
-          fontWeight: "bold",
-          marginTop: 5,
-          color: "purple",
-        }}
-      >
-        Copyright © 2020 all right reserved
-      </Text>
     </View>
   )
 }

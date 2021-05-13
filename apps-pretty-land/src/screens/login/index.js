@@ -7,7 +7,7 @@ import {
   ImageBackground,
   TouchableHighlight,
 } from "react-native"
-import { AntDesign, FontAwesome5 } from "@expo/vector-icons"
+import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
 
 import bg from "../../../assets/login.png"
@@ -93,7 +93,6 @@ const LoginScreen = (props) => {
           titleStyle={{
             color: "blue",
             fontSize: 14,
-            fontWeight: 'bold',
             textDecorationLine: 'underline'
           }}
           buttonStyle={{
@@ -103,7 +102,7 @@ const LoginScreen = (props) => {
           }}
           onPress={() => props.navigation.navigate("Register-Partner-Form")}
         />
-        <Text style={styles.textFooter1}>contact us</Text>
+        <Text style={styles.textFooter1}>Contact Us</Text>
         <Text style={styles.textFooter2}>
           Tel : 09-7874-7874 (24Hr) / Line : @Prettylandthailand / Fb: PrettyLand
           - Thailand / Email : Prettylandthailand@gmail.com
