@@ -5,8 +5,7 @@ import { Button } from "react-native-elements/dist/buttons/Button"
 
 import bg from "../../../assets/login.png"
 
-const RegisterPartnerImageForm = (props) => {
-  const { navigation } = props
+const RegisterPartnerImageForm = ({ navigation }) => {
 
   const saveAndGoLoginForm = () => {
     navigation.popToTop()
@@ -59,7 +58,7 @@ const RegisterPartnerImageForm = (props) => {
           />
         }
         buttonStyle={{
-          backgroundColor: "purple",
+          backgroundColor: "#ff2fe6",
           marginTop: 20,
           borderRadius: 25,
           width: 250,

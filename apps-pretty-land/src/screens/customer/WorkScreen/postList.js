@@ -1,6 +1,8 @@
 import React from "react"
-import { SafeAreaView, FlatList } from "react-native"
+import { SafeAreaView, FlatList, View } from "react-native"
 import { ListItem, Avatar } from "react-native-elements"
+import { Button } from "react-native-elements/dist/buttons/Button"
+import { Entypo } from "@expo/vector-icons"
 
 import Img1 from "../../../../assets/img_example/img1.png"
 import Img2 from "../../../../assets/img_example/img2.png"
@@ -10,6 +12,7 @@ import Img4 from "../../../../assets/img_example/img4.png"
 const list = [
   {
     id: 1,
+    partnerType: "1",
     name: "Pretty - ฉลองซื้อรถใหม่",
     image: Img1,
     subtitle: "กรุงเทพฯ จำนวน 2 คน",
@@ -18,6 +21,7 @@ const list = [
   },
   {
     id: 2,
+    partnerType: "2",
     name: "Coyote - งานรถกะบะซิ่ง",
     image: Img2,
     subtitle: "เชียงใหม่ จำนวน 10 คน",
@@ -26,6 +30,7 @@ const list = [
   },
   {
     id: 3,
+    partnerType: "3",
     name: "Pretty Entertain - รองรับแขก VIP",
     image: Img3,
     subtitle: "กรงเทพฯ จำนวน 4 คน",
@@ -34,6 +39,7 @@ const list = [
   },
   {
     id: 4,
+    partnerType: "4",
     name: "Pretty นวดแผนไทย - อบรมพนักงาน",
     image: Img1,
     subtitle: "นครราชสีมา จำนวน 5 คน",
@@ -42,6 +48,7 @@ const list = [
   },
   {
     id: 5,
+    partnerType: "4",
     name: "Pretty นวดแผนไทย - อบรมพนักงาน",
     image: Img4,
     subtitle: "นครราชสีมา จำนวน 5 คน",
@@ -50,6 +57,7 @@ const list = [
   },
   {
     id: 6,
+    partnerType: "4",
     name: "Pretty นวดแผนไทย - อบรมพนักงาน",
     image: Img2,
     subtitle: "นครราชสีมา จำนวน 5 คน",
@@ -58,6 +66,7 @@ const list = [
   },
   {
     id: 7,
+    partnerType: "4",
     name: "Pretty นวดแผนไทย - อบรมพนักงาน",
     image: Img1,
     subtitle: "นครราชสีมา จำนวน 5 คน",
@@ -66,7 +75,15 @@ const list = [
   },
 ]
 
-const PostListScreen = ({ navigation }) => {
+const PostListScreen = ({ navigation, route }) => {
+  const { partnerType } = route.params
+  const filterList = list.filter((item) => {
+    if (partnerType === "all") {
+      return item
+    }
+    return item.partnerType === partnerType
+  })
+
   const onPressOptions = (item, status) => {
     if (status === "wait_customer_select_partner") {
       navigation.navigate("Partner-List-Select", { item })
@@ -75,6 +92,17 @@ const PostListScreen = ({ navigation }) => {
     } else {
       navigation.navigate("Review-Task", { status })
     }
+  }
+
+  const createNewPost = () => {
+    navigation.navigate("Create-New_Post", {
+      data: {
+
+      },
+      item: {
+
+      }
+    })
   }
 
   const keyExtractor = (item, index) => index.toString()
@@ -95,9 +123,29 @@ const PostListScreen = ({ navigation }) => {
     <SafeAreaView>
       <FlatList
         keyExtractor={keyExtractor}
-        data={list}
+        data={filterList}
         renderItem={renderItem}
       />
+      <View>
+        <Button
+          icon={
+            <Entypo
+              name="new-message"
+              color="white"
+              size={24}
+              style={{ marginHorizontal: 8 }}
+            />
+          }
+          title="เขียน POST ใหม่"
+          buttonStyle={{
+            backgroundColor: "#269325",
+            margin: 5,
+            borderRadius: 75,
+            height: 50,
+          }}
+          onPress={()=>createNewPost()}
+        />
+      </View>
     </SafeAreaView>
   )
 }

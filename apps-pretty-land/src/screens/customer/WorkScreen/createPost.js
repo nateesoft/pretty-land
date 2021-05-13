@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 
-const CreatePostForm = ({ navigation, route }) => {
+const CreateNewPostForm = ({ navigation, route }) => {
   const { data, item } = route.params
   const [owner, setOwner] = React.useState("")
   const [phone, setPhone] = React.useState("")
@@ -58,18 +58,11 @@ const CreatePostForm = ({ navigation, route }) => {
         />
       </View>
       <Button
-        icon={
-          <Icon
-            name="save"
-            size={20}
-            color="white"
-            style={{ marginRight: 10 }}
-          />
-        }
+        icon={<Icon name="save" size={20} color="white" style={{marginRight: 10}} />}
         iconLeft
-        buttonStyle={{ margin: 15, paddingHorizontal: 50 }}
+        buttonStyle={{ marginRight: 15, paddingHorizontal: 50 }}
         title="บันทึกข้อมูล"
-        onPress={() => navigation.navigate("Partner-Category")}
+        onPress={() => navigation.navigate("Post-List")}
       />
     </View>
   )
@@ -105,4 +98,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default CreatePostForm
+export default CreateNewPostForm

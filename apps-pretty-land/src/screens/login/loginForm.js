@@ -49,7 +49,7 @@ const LoginForm = (props) => {
       <Button
         title="LOGIN"
         buttonStyle={{
-          backgroundColor: "#83ACFF",
+          backgroundColor: "#ff2fe6",
           marginTop: 20,
           borderRadius: 25,
           width: 250,
@@ -60,9 +60,9 @@ const LoginForm = (props) => {
       />
       <Text style={styles.textOr}>------ DEMO BUTTON ------</Text>
       <Button
-        title="Login as Partner"
+        title="LOGIN AS PARTNER"
         buttonStyle={{
-          backgroundColor: "red",
+          backgroundColor: "black",
           marginTop: 20,
           borderRadius: 25,
           width: 250,
@@ -72,9 +72,9 @@ const LoginForm = (props) => {
         }}
       />
       <Button
-        title="Login as Admin"
+        title="LOGIN AS ADMIN"
         buttonStyle={{
-          backgroundColor: "blue",
+          backgroundColor: "black",
           marginTop: 5,
           borderRadius: 25,
           width: 250,

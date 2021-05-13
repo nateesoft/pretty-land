@@ -4,6 +4,7 @@ import { Image, View, Text } from "react-native"
 
 import PartnerCategoryScreen from "./partnerCategory"
 import PartnerListCountryScreen from "./partnerListCountry"
+import PartnerListPostScreen from "./partnerPostList"
 import CreatePostForm from "./createPost"
 
 import Logo from "../../../../assets/login.png"
@@ -36,6 +37,10 @@ const TabNavigator = () => {
       <Stack.Screen
         name="Partner-List-Country"
         component={PartnerListCountryScreen}
+      />
+      <Stack.Screen
+        name="Partner-List-Post"
+        component={PartnerListPostScreen}
       />
       <Stack.Screen name="Create-Post-Form" component={CreatePostForm} />
     </Stack.Navigator>

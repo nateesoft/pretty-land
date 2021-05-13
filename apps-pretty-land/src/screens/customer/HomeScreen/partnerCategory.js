@@ -16,13 +16,28 @@ import Img4 from "../../../../assets/img_example/img4.png"
 
 const PartnerCategory = ({ navigation }) => {
   const [items, setItems] = React.useState([
-    { id: 1, type: "1", title: "พริตตี้ Event", info: "30 รายการ", img: Img1 },
-    { id: 2, type: "2", title: "โคโยตี้", info: "10 รายการ", img: Img2 },
+    {
+      id: 1,
+      type: "1",
+      title: "พริตตี้ Event",
+      info: "0 รายการ",
+      postQty: 0,
+      img: Img1,
+    },
+    {
+      id: 2,
+      type: "2",
+      title: "โคโยตี้",
+      info: "10 รายการ",
+      postQty: 10,
+      img: Img2,
+    },
     {
       id: 3,
       type: "3",
       title: "พริตตี้ Entertain",
       info: "3 รายการ",
+      postQty: 3,
       img: Img3,
     },
     {
@@ -30,11 +45,19 @@ const PartnerCategory = ({ navigation }) => {
       type: "4",
       title: "พริตตี้ นวดแผนไทย",
       info: "8 รายการ",
+      postQty: 8,
       img: Img4,
     },
   ])
   const onPressOptions = (item) => {
-    navigation.navigate("Partner-List-Country", { item })
+    if (item.postQty === 0) {
+      navigation.navigate("Create-Post-Form", { item })
+    } else {
+      navigation.navigate("c-Work", {
+        screen: "Post-List",
+        params: { partnerType: item.type },
+      })
+    }
   }
 
   const DisplayCard = ({ data }) => (
@@ -123,8 +146,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
-  optionsPhoto: {
-  },
+  optionsPhoto: {},
 })
 
 export default PartnerCategory
