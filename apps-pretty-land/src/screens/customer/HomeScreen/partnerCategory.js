@@ -54,7 +54,7 @@ const PartnerCategory = ({ navigation }) => {
         <Image
           style={styles.optionsPhoto}
           source={data.img}
-          style={{ height: 293, width: "100%", marginBottom: 3 }}
+          style={{ height: 280, width: "100%", marginBottom: 3 }}
         />
         <Text style={styles.optionsName}>{data.title}</Text>
         <Text style={styles.optionsInfo}>({data.info})</Text>

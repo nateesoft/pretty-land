@@ -24,17 +24,18 @@ import LogoutScreen from "../screens/logout"
 /* Login */
 import LoginScreen from "../screens/login"
 import LoginForm from "../screens/login/loginForm"
+import RegisterPartnerForm from "../screens/login/registerPartner"
+import RegisterPartnerBankForm from "../screens/login/registerPartner2"
+import RegisterPartnerImageForm from "../screens/login/registerPartner3"
 import WalkthroughScreen from "../screens/walkthrough"
-
-/* icons */
-import HomeIcon from "../../assets/icons/home.png"
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
 
 const loginAs = ""
 
-const AppNavigation = () => {
+const AppNavigation = (props) => {
+  console.log(props);
   if (loginAs === "") {
     return (
       <Stack.Navigator>
@@ -57,6 +58,48 @@ const AppNavigation = () => {
           component={LoginForm}
           options={{
             title: "Login Form",
+            headerStyle: {
+              backgroundColor: "#ff2fe6",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Register-Partner-Form"
+          component={RegisterPartnerForm}
+          options={{
+            title: "ลงทะเบียนผู้ร่วมงาน",
+            headerStyle: {
+              backgroundColor: "#ff2fe6",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Partner-Register-Bank-Form"
+          component={RegisterPartnerBankForm}
+          options={{
+            title: "ลงทะเบียนผู้ร่วมงาน",
+            headerStyle: {
+              backgroundColor: "#ff2fe6",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Partner-Register-Image-Form"
+          component={RegisterPartnerImageForm}
+          options={{
+            title: "ลงทะเบียนผู้ร่วมงาน",
             headerStyle: {
               backgroundColor: "#ff2fe6",
             },

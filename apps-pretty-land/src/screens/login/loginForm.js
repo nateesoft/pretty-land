@@ -1,13 +1,11 @@
 import React from "react"
 import { View, StyleSheet, Text, Image, TextInput } from "react-native"
 import Icon from "@expo/vector-icons/AntDesign"
-import Icon2 from "react-native-vector-icons/FontAwesome"
 import { Button } from "react-native-elements/dist/buttons/Button"
 
 import bg from "../../../assets/login.png"
-import LineLogo from "../../../assets/icons/line-logo.png"
 
-const LoginScreen = (props) => {
+const LoginForm = (props) => {
   const { navigate } = props.navigation
 
   return (
@@ -60,6 +58,31 @@ const LoginScreen = (props) => {
           borderWidth: 0.5,
         }}
       />
+      <Text style={styles.textOr}>------ DEMO BUTTON ------</Text>
+      <Button
+        title="Login as Partner"
+        buttonStyle={{
+          backgroundColor: "red",
+          marginTop: 20,
+          borderRadius: 25,
+          width: 250,
+          paddingHorizontal: 15,
+          height: 45,
+          borderWidth: 0.5,
+        }}
+      />
+      <Button
+        title="Login as Admin"
+        buttonStyle={{
+          backgroundColor: "blue",
+          marginTop: 5,
+          borderRadius: 25,
+          width: 250,
+          paddingHorizontal: 15,
+          height: 45,
+          borderWidth: 0.5,
+        }}
+      />
       <Text style={styles.textFooter}>
         การล็อกอิน หมายถึงคุณตกลง ข้อกำหนดในการใช้งาน, สัญญาบรอดแคสเตอร์ &
         นโยบายสิทธิส่วนบุคคล (คุณต้องถึงเกณฑ์อายุขั้นต่ำในการใช้ Bigo)
@@ -93,7 +116,6 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     marginBottom: 10,
-    opacity: 0.65,
   },
   textLogo: {
     fontSize: 24,
@@ -117,9 +139,9 @@ const styles = StyleSheet.create({
     borderRadius: 23,
   },
   textOr: {
-    marginVertical: 15,
     fontSize: 14,
     color: "gray",
+    marginTop: 50,
   },
   textInput: {
     backgroundColor: "white",
@@ -145,4 +167,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default LoginScreen
+export default LoginForm

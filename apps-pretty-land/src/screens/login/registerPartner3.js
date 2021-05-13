@@ -1,85 +1,73 @@
 import React from "react"
 import { View, StyleSheet, Text, Image, TextInput } from "react-native"
-import Icon from "react-native-vector-icons/FontAwesome"
+import Icon from "@expo/vector-icons/AntDesign"
 import { Button } from "react-native-elements/dist/buttons/Button"
 
 import bg from "../../../assets/login.png"
-import LineLogo from "../../../assets/icons/line-logo.png"
 
-const LoginScreen = (props) => {
-  const { navigate } = props.navigation
+const RegisterPartnerImageForm = (props) => {
+  const { navigation } = props
+
+  const saveAndGoLoginForm = () => {
+    navigation.popToTop()
+    navigation.navigate("Login-Form")
+  }
+
+  const InputForm = ({ label, icon, type='i' }) => (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        borderWidth: 0.5,
+        paddingHorizontal: 10,
+        borderColor: "#00716F",
+        backgroundColor: "white",
+        marginTop: 5,
+        height: 40,
+        borderRadius: 50,
+      }}
+    >
+      {type === "i" && <Icon name={icon} color="#00716F" size={20} />}
+      <TextInput style={styles.textInput} placeholder={label} />
+    </View>
+  )
 
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={bg} />
       <Text style={styles.textLogo}>PRETTY LAND</Text>
       <Text style={styles.textDetail}>Love Your Moments</Text>
+      <Text style={styles.textFormInfo}>ลงทะเบียนผู้ร่วมงาน</Text>
+      <Text style={{ marginBottom: 5, color: "gray" }}>
+        เพิ่มรูปภาพ และวิดีโอ
+      </Text>
+      <InputForm icon="picture" label="รูปภาพ1" />
+      <InputForm icon="picture" label="รูปภาพ2" />
+      <InputForm icon="picture" label="รูปภาพ3" />
+      <InputForm icon="picture" label="รูปภาพ4" />
+      <InputForm icon="picture" label="รูปภาพ5" />
+      <InputForm icon="videocamera" label="วิดีโอ" />
       <Button
+        title="บันทึกข้อมูล"
+        iconLeft
         icon={
           <Icon
-            name="facebook-square"
+            name="save"
             color="white"
             size={24}
             style={{ marginHorizontal: 8 }}
           />
         }
-        title="เข้าสู่ระบบด้วย facebook"
         buttonStyle={{
-          backgroundColor: "#285D9A",
-          marginTop: 45,
-          borderRadius: 25,
-          width: 250,
-          height: 45,
-        }}
-        onPress={() => props.navigation.navigate("Customer-Home")}
-      />
-      <Button
-        icon={
-          <Image
-            source={LineLogo}
-            style={{ width: 25, height: 25, marginHorizontal: 8 }}
-          />
-        }
-        title="เข้าสู่ระบบด้วย LINE"
-        buttonStyle={{
-          backgroundColor: "#5DB253",
-          marginTop: 5,
-          borderRadius: 25,
-          width: 250,
-          height: 45,
-        }}
-        onPress={() => props.navigation.navigate("Customer-Home")}
-      />
-      <Text style={styles.textOr}>------ OR ------</Text>
-      <Button
-        title="LOGIN"
-        titleStyle={{
-          color: "black",
-          fontWeight: "bold",
-          fontSize: 16,
-        }}
-        buttonStyle={{
-          backgroundColor: "yellow",
-          marginTop: 5,
+          backgroundColor: "purple",
+          marginTop: 20,
           borderRadius: 25,
           width: 250,
           paddingHorizontal: 15,
           height: 45,
-          borderWidth: 1,
-          borderColor: 'gray',
+          borderWidth: 0.5,
         }}
-        onPress={() => props.navigation.navigate("Login-Form")}
-      />
-      <Button
-        title="ลงทะเบียนผู้ร่วมงาน"
-        buttonStyle={{
-          backgroundColor: "black",
-          borderRadius: 25,
-          width: 250,
-          height: 45,
-          marginTop: 5,
-        }}
-        onPress={() => props.navigation.navigate("Register-Partner-Form")}
+        onPress={() => saveAndGoLoginForm()}
       />
       <Text style={styles.textFooter}>
         การล็อกอิน หมายถึงคุณตกลง ข้อกำหนดในการใช้งาน, สัญญาบรอดแคสเตอร์ &
@@ -87,12 +75,12 @@ const LoginScreen = (props) => {
       </Text>
       <Text
         style={{
+          position: "absolute",
+          bottom: 60,
           fontSize: 12,
           fontWeight: "bold",
           marginTop: 5,
           color: "purple",
-          position: "absolute",
-          bottom: 60,
         }}
       >
         Copyright © 2020 all right reserved
@@ -125,6 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "bold",
     color: "gray",
+    marginBottom: 20,
   },
   btnFacebook: {
     marginHorizontal: 55,
@@ -136,9 +125,9 @@ const styles = StyleSheet.create({
     borderRadius: 23,
   },
   textOr: {
-    marginVertical: 15,
     fontSize: 14,
     color: "gray",
+    marginTop: 50,
   },
   textInput: {
     backgroundColor: "white",
@@ -154,14 +143,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   textFooter: {
+    position: "absolute",
+    bottom: 80,
     width: "90%",
     textAlign: "center",
     flexWrap: "wrap",
     fontSize: 12,
     color: "gray",
-    position: "absolute",
-    bottom: 80,
+  },
+  textFormInfo: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginTop: 20,
+    marginBottom: 8,
   },
 })
 
-export default LoginScreen
+export default RegisterPartnerImageForm
