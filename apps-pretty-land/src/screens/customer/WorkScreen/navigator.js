@@ -19,8 +19,9 @@ const TabNavigator = () => {
         options={{
           title: "แสดงรายการที่โพสท์",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "purple",
           },
+          headerTintColor: 'white',
         }}
       />
       <Stack.Screen name="Partner-List-Select" component={PartnerSelectScreen} />

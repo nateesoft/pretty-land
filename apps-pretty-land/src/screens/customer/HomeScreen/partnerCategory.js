@@ -2,12 +2,13 @@ import React from "react"
 import {
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   TouchableHighlight,
   View,
   Text,
   Image,
 } from "react-native"
+import { Col, Row, Grid } from "react-native-easy-grid"
+
 import Img1 from "../../../../assets/img_example/img1.png"
 import Img2 from "../../../../assets/img_example/img2.png"
 import Img3 from "../../../../assets/img_example/img3.png"
@@ -15,7 +16,7 @@ import Img4 from "../../../../assets/img_example/img4.png"
 
 const PartnerCategory = ({ navigation }) => {
   const [items, setItems] = React.useState([
-    { id: 1, type: "1", title: "พริตตี้", info: "30 รายการ", img: Img1 },
+    { id: 1, type: "1", title: "พริตตี้ Event", info: "30 รายการ", img: Img1 },
     { id: 2, type: "2", title: "โคโยตี้", info: "10 รายการ", img: Img2 },
     {
       id: 3,
@@ -41,64 +42,88 @@ const PartnerCategory = ({ navigation }) => {
       underlayColor="pink"
       onPress={() => onPressOptions(data)}
     >
-      <View style={styles.cardContainer}>
+      <View
+        style={{
+          backgroundColor: "red",
+          padding: 10,
+          width: "100%",
+          alignItems: "center",
+          borderRadius: 5,
+        }}
+      >
+        <Image
+          style={styles.optionsPhoto}
+          source={data.img}
+          style={{ height: 293, width: "100%", marginBottom: 3 }}
+        />
         <Text style={styles.optionsName}>{data.title}</Text>
-        <Image style={styles.optionsPhoto} source={data.img} />
-        <Text style={styles.optionsInfo}>{data.info}</Text>
+        <Text style={styles.optionsInfo}>({data.info})</Text>
       </View>
     </TouchableHighlight>
   )
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={styles.container}>
-          {items.map((item) => (
-            <DisplayCard key={item.id} data={item} />
-          ))}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ScrollView>
+      <View style={styles.container}>
+        <Grid>
+          <Row style={{ marginVertical: 5 }}>
+            <Col style={{ marginRight: 5 }}>
+              <DisplayCard
+                style={styles.cardContainer}
+                key={1}
+                data={items[0]}
+              />
+            </Col>
+            <Col>
+              <DisplayCard
+                style={styles.cardContainer}
+                key={1}
+                data={items[1]}
+              />
+            </Col>
+          </Row>
+          <Row style={{ marginVertical: 5 }}>
+            <Col style={{ marginRight: 5 }}>
+              <DisplayCard
+                style={styles.cardContainer}
+                key={1}
+                data={items[2]}
+              />
+            </Col>
+            <Col>
+              <DisplayCard
+                style={styles.cardContainer}
+                key={1}
+                data={items[3]}
+              />
+            </Col>
+          </Row>
+        </Grid>
+      </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    marginHorizontal: 10,
   },
   cardContainer: {
-    flex: 1,
-    margin: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "#cccccc",
-    borderWidth: 0.5,
-    borderRadius: 20,
+    height: 100,
+    borderWidth: 1.5,
+    borderColor: "red",
+    backgroundColor: "red",
   },
   optionsName: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
-    textAlign: "center",
-    color: "blue",
-    marginTop: 8,
+    color: "white",
   },
   optionsInfo: {
-    fontSize: 28,
-    marginTop: 3,
-    marginBottom: 5,
-    fontSize: 15,
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
   },
   optionsPhoto: {
-    width: 350,
-    height: 150,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    shadowColor: "blue",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowRadius: 5,
-    shadowOpacity: 1.0,
   },
 })
 

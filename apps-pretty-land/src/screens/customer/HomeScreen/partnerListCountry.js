@@ -7,9 +7,24 @@ import {
   FlatList,
   TouchableHighlight,
 } from "react-native"
+import SearchableDropdown from "react-native-searchable-dropdown"
+
 import { getCountryCount } from "../../../data/apis"
 
-import { country } from "../../../data/items"
+// import { country } from "../../../data/items"
+
+const countryList = [
+  { id: 1, name: "กรุงเทพมหานคร" },
+  { id: 2, name: "อำนาจเจริญ" },
+  { id: 3, name: "อ่างทอง" },
+  { id: 4, name: "บึงกาฬ" },
+  { id: 5, name: "บุรีรัมย์" },
+  { id: 6, name: "ฉะเชิงเทรา" },
+  { id: 7, name: "ชัยนาท" },
+  { id: 8, name: "ชัยภูมิ" },
+  { id: 9, name: "จันทบุรี" },
+  { id: 10, name: "เชียงใหม่" },
+]
 
 const PartnerListCountryScreen = ({ navigation, route }) => {
   const { item: data } = route.params
@@ -36,11 +51,50 @@ const PartnerListCountryScreen = ({ navigation, route }) => {
       <Text style={styles.optionsNameDetail}>{data.title}</Text>
       <Image style={styles.optionsPhoto} source={data.img} />
       <Text style={styles.optionsInfo}>{data.info}</Text>
-      <FlatList
+      {/* <FlatList
         data={country}
         renderItem={renderCategory}
         keyExtractor={(item) => `${item.id}`}
-      />
+      /> */}
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-start",
+          alignContent: 'stretch',
+          width: "100%",
+        }}
+      >
+        <Text style={styles.headingText}>ค้นหาจังหวัด</Text>
+        <SearchableDropdown
+          onTextChange={(text) => console.log(text)}
+          onItemSelect={(item) => alert(JSON.stringify(item))}
+          containerStyle={{ padding: 5 }}
+          textInputStyle={{
+            padding: 12,
+            borderWidth: 1,
+            borderColor: "#ccc",
+            backgroundColor: "#FAF7F6",
+          }}
+          itemStyle={{
+            padding: 10,
+            marginTop: 2,
+            backgroundColor: "#FAF9F8",
+            borderColor: "#bbb",
+            borderWidth: 1,
+          }}
+          itemTextStyle={{
+            color: "#222",
+          }}
+          itemsContainerStyle={{
+            maxHeight: "60%",
+          }}
+          items={countryList}
+          defaultIndex={2}
+          placeholder="--------- เลือกจังหวัด ---------"
+          resetValue={false}
+          underlineColorAndroid="transparent"
+        />
+      </View>
     </View>
   )
 }
@@ -91,8 +145,8 @@ const styles = StyleSheet.create({
   },
   categoriesName: {
     fontSize: 16,
-    color: 'blue',
-  }
+    color: "blue",
+  },
 })
 
 export default PartnerListCountryScreen
