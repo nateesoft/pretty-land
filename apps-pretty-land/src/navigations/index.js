@@ -37,9 +37,7 @@ const loginAs = ""
 const AppNavigation = (props) => {
   if (loginAs === "") {
     return (
-      <Stack.Navigator screenOptions={{
-        headerShown: false,
-      }}>
+      <Stack.Navigator>
         <Stack.Screen
           name="login"
           component={LoginScreen}
@@ -52,6 +50,7 @@ const AppNavigation = (props) => {
             headerTitleStyle: {
               fontWeight: "bold",
             },
+            headerShown: false,
           }}
         />
         <Stack.Screen
