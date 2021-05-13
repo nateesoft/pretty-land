@@ -4,16 +4,16 @@ import {
   StyleSheet,
   Text,
   Image,
-  TextInput,
   ImageBackground,
+  TouchableHighlight,
 } from "react-native"
-import Icon from "react-native-vector-icons/FontAwesome"
-import { AntDesign } from "@expo/vector-icons"
+import { AntDesign, FontAwesome5 } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
 
 import bg from "../../../assets/login.png"
 import bgImage from "../../../assets/bg.png"
-import LineLogo from "../../../assets/icons/line-logo.png"
+import lineLogo from '../../../assets/icons/LINE_APP.png';
+import facebookLogo from '../../../assets/icons/f_logo_RGB-Blue_58.png';
 
 const LoginScreen = (props) => {
   const { navigate } = props.navigation
@@ -24,48 +24,52 @@ const LoginScreen = (props) => {
         <Image style={styles.image} source={bg} />
         <Text style={styles.textLogo}>PRETTY LAND</Text>
         <Text style={styles.textDetail}>Love Your Moments</Text>
-        <Button
-          icon={
-            <Icon
-              name="facebook-square"
-              color="white"
-              size={24}
-              style={{ marginHorizontal: 8 }}
-            />
-          }
-          title="เข้าสู่ระบบด้วย facebook"
-          buttonStyle={{
-            backgroundColor: "#0A69D6",
-            marginTop: 45,
-            borderRadius: 25,
-            width: 250,
-            height: 45,
-          }}
+        <TouchableHighlight
+          style={styles.btnClickContain}
           onPress={() => props.navigation.navigate("Customer-Home")}
-        />
-        <Button
-          icon={
-            <Image
-              source={LineLogo}
-              style={{ width: 25, height: 25, marginHorizontal: 8 }}
-            />
-          }
-          title="เข้าสู่ระบบด้วย LINE"
-          titleStyle={{
-            color: 'black',
-          }}
-          buttonStyle={{
-            backgroundColor: "#35D00D",
-            marginTop: 5,
-            borderRadius: 25,
-            width: 250,
-            height: 45,
-          }}
+        >
+          <View style={styles.btnContainer}>
+            <Image source={facebookLogo} style={{ width: 24, height: 24}} />
+            <Text
+              style={{
+                marginLeft: 10,
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 16,
+              }}
+            >
+              เข้าสู่ระบบด้วย facebook
+            </Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.btnLineClickContain}
           onPress={() => props.navigation.navigate("Customer-Home")}
-        />
+        >
+          <View style={styles.btnContainer}>
+            <Image source={lineLogo} style={{ width: 24, height: 24}} />
+            <Text
+              style={{
+                marginLeft: 10,
+                color: "snow",
+                fontWeight: "bold",
+                fontSize: 16,
+              }}
+            >
+              เข้าสู่ระบบด้วย LINE
+            </Text>
+          </View>
+        </TouchableHighlight>
         <Text style={styles.textOr}>------ OR ------</Text>
         <Button
-          icon={<AntDesign name="login" size={20} style={{marginLeft: 10}} color="white" />}
+          icon={
+            <AntDesign
+              name="login"
+              size={20}
+              style={{ marginLeft: 10 }}
+              color="white"
+            />
+          }
           iconRight
           title="LOGIN"
           titleStyle={{
@@ -87,8 +91,10 @@ const LoginScreen = (props) => {
         <Button
           title="ลงทะเบียนผู้ร่วมงาน"
           titleStyle={{
-            color: 'blue',
+            color: "blue",
             fontSize: 14,
+            fontWeight: 'bold',
+            textDecorationLine: 'underline'
           }}
           buttonStyle={{
             borderRadius: 25,
@@ -97,21 +103,13 @@ const LoginScreen = (props) => {
           }}
           onPress={() => props.navigation.navigate("Register-Partner-Form")}
         />
-        <Text style={styles.textFooter}>
-          การล็อกอิน หมายถึงคุณตกลง ข้อกำหนดในการใช้งาน, สัญญาบรอดแคสเตอร์ &
-          นโยบายสิทธิส่วนบุคคล (คุณต้องถึงเกณฑ์อายุขั้นต่ำในการใช้ Bigo)
+        <Text style={styles.textFooter1}>contact us</Text>
+        <Text style={styles.textFooter2}>
+          Tel : 09-7874-7874 (24Hr) / Line : @Prettylandthailand / Fb: PrettyLand
+          - Thailand / Email : Prettylandthailand@gmail.com
         </Text>
-        <Text
-          style={{
-            fontSize: 12,
-            fontWeight: "bold",
-            marginTop: 5,
-            color: "purple",
-            position: "absolute",
-            bottom: 60,
-          }}
-        >
-          Copyright © 2020 all right reserved
+        <Text style={styles.textFooter3}>
+          คุณเห็นด้วยกับเงื่อนไขการให้บริการ และ นโยบายความเป็นส่วนตัว
         </Text>
       </View>
     </ImageBackground>
@@ -151,9 +149,16 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 23,
   },
+  btnContainer: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    textAlignVertical: "center",
+    paddingLeft: 10,
+  },
   textOr: {
     marginVertical: 15,
     fontSize: 14,
+    fontWeight: 'bold',
     color: "gray",
   },
   textInput: {
@@ -169,19 +174,60 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  textFooter: {
+  textFooter1: {
     width: "90%",
     textAlign: "center",
     flexWrap: "wrap",
     fontSize: 12,
     color: "gray",
     position: "absolute",
-    bottom: 80,
+    bottom: 120,
+    color: 'red',
+  },
+  textFooter2: {
+    width: "90%",
+    textAlign: "center",
+    flexWrap: "wrap",
+    fontSize: 12,
+    color: "gray",
+    position: "absolute",
+    bottom: 85,
+    color: 'black',
+  },
+  textFooter3: {
+    width: "90%",
+    textAlign: "center",
+    flexWrap: "wrap",
+    fontSize: 12,
+    color: "gray",
+    position: "absolute",
+    bottom: 60,
+    color: 'green',
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center"
+    justifyContent: "center",
+  },
+  btnClickContain: {
+    paddingTop: 11,
+    paddingLeft: 10,
+    marginBottom: 5,
+    backgroundColor: "#0A69D6",
+    marginTop: 45,
+    borderRadius: 25,
+    width: 250,
+    height: 45,
+  },
+  btnLineClickContain: {
+    paddingTop: 11,
+    paddingLeft: 10,
+    marginBottom: 5,
+    backgroundColor: "#35D00D",
+    marginTop: 5,
+    borderRadius: 25,
+    width: 250,
+    height: 45,
   },
 })
 
