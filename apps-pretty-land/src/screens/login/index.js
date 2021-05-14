@@ -52,7 +52,7 @@ const LoginScreen = (props) => {
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.btnLineClickContain}
-          onPress={() => signIn2({ username: "", password: "" })}
+          onPress={() => signIn({ username: "", password: "", screen: 'customer' })}
         >
           <View style={styles.btnContainer}>
             <Image source={lineLogo} style={{ width: 24, height: 24 }} />
