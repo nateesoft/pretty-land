@@ -58,7 +58,14 @@ const CreateNewPostForm = ({ navigation, route }) => {
         />
       </View>
       <Button
-        icon={<Icon name="save" size={20} color="white" style={{marginRight: 10}} />}
+        icon={
+          <Icon
+            name="save"
+            size={20}
+            color="white"
+            style={{ marginRight: 10 }}
+          />
+        }
         iconLeft
         buttonStyle={{ marginRight: 15, paddingHorizontal: 50 }}
         title="บันทึกข้อมูล"

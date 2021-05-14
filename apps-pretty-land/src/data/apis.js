@@ -1,6 +1,6 @@
-import { country } from "./items"
+import { country, partnerCategory, countryList, postList } from "./items"
 
-export function getCountryCount(id, type) {
+export const getCountryCount = (id, type) => {
   return country.map((data) => {
     if (data.id === id) {
       if (type === "1") {
@@ -13,6 +13,22 @@ export function getCountryCount(id, type) {
         return data.type4
       }
     }
-    return "";
+    return ""
   })
+}
+
+export const getPartnerGroup = () => {
+  return partnerCategory
+}
+
+export const getCountryList = () => {
+  return countryList
+}
+
+export const getCountry = () => {
+  return country
+}
+
+export const getPostList = () => {
+  return postList
 }

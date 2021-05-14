@@ -55,11 +55,15 @@ const PartnerListSelect = ({ navigation, route }) => {
         <Text style={styles.textTopic}>แสดงรายชื่อ Parnter พร้อมรับงาน</Text>
       </View>
       <View style={styles.cardContainer2}>
-        <FlatList style={styles.list} keyExtractor={keyExtractor}
+        <FlatList
+          style={styles.list}
+          keyExtractor={keyExtractor}
           data={list}
           renderItem={renderItem}
         />
-        <Button style={styles.button} buttonStyle={{
+        <Button
+          style={styles.button}
+          buttonStyle={{
             backgroundColor: "chocolate",
           }}
           title="CONFIRM PARTNER"
@@ -73,14 +77,14 @@ const PartnerListSelect = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
+    flexDirection: "column",
+    justifyContent: "space-around",
   },
   cardContainer1: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   cardContainer2: {
     flex: 1,
@@ -88,14 +92,13 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    width: '100%',
+    width: "100%",
   },
   image: {
     width: 350,
     height: 250,
   },
-  button: {
-  },
+  button: {},
   textTopic: {
     marginBottom: 15,
   },

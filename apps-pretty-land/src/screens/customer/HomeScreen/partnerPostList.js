@@ -1,22 +1,9 @@
 import React from "react"
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  FlatList,
-  TouchableHighlight,
-} from "react-native"
-import { getCountryCount } from "../../../data/apis"
-
-import { country } from "../../../data/items"
+import { StyleSheet, View, Text, Image, FlatList } from "react-native"
+import { getCountryCount, getCountry } from "../../../data/apis"
 
 const PartnerPostList = ({ navigation, route }) => {
   const { item: data } = route.params
-
-  const onPressCreateItem = (item) => {
-    navigation.navigate("Create-Post-Form", { data, item })
-  }
 
   const renderCategory = ({ item }) => (
     <View style={styles.categoriesItemContainer}>
@@ -32,7 +19,7 @@ const PartnerPostList = ({ navigation, route }) => {
       <Image style={styles.optionsPhoto} source={data.img} />
       <Text style={styles.optionsInfo}>{data.info}</Text>
       <FlatList
-        data={country}
+        data={getCountry}
         renderItem={renderCategory}
         keyExtractor={(item) => `${item.id}`}
       />

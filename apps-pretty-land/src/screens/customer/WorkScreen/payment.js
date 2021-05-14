@@ -13,9 +13,8 @@ const PaymentForm = ({ navigation }) => {
   useEffect(() => {
     ;(async () => {
       if (Platform.OS !== "web") {
-        const {
-          status,
-        } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync()
         if (status !== "granted") {
           alert("Sorry, we need camera roll permissions to make this work!")
         }
@@ -30,7 +29,7 @@ const PaymentForm = ({ navigation }) => {
       aspect: [4, 3],
       quality: 1,
     })
-    
+
     if (!result.cancelled) {
       setImage(result.uri)
     }
@@ -63,15 +62,29 @@ const PaymentForm = ({ navigation }) => {
         value={datetime}
       />
       <Button
-        icon={<Icon name="file" size={15} color="white" style={{marginRight: 5}} />}
+        icon={
+          <Icon
+            name="file"
+            size={15}
+            color="white"
+            style={{ marginRight: 5 }}
+          />
+        }
         title="เลือกไฟล์...สลิปสำหรับการโอนเงิน"
         onPress={pickImage}
       />
       {image && (
-        <View style={{flex: 1, justifyContent: 'space-around'}}>
+        <View style={{ flex: 1, justifyContent: "space-around" }}>
           <Image source={{ uri: image }} style={{ width: 200, height: 250 }} />
           <Button
-            icon={<Icon name="save" size={20} color="white" style={{marginRight: 5}} />}
+            icon={
+              <Icon
+                name="save"
+                size={20}
+                color="white"
+                style={{ marginRight: 5 }}
+              />
+            }
             buttonStyle={styles.buttonConfirm}
             title="ยืนยันข้อมูลการโอนเงิน ไปยัง Admin"
           />
@@ -88,9 +101,9 @@ const styles = StyleSheet.create({
   inputForm: {
     margin: 10,
     borderWidth: 1.5,
-    borderColor: '#bbb',
+    borderColor: "#bbb",
     padding: 5,
-  }
+  },
 })
 
 export default PaymentForm

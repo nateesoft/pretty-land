@@ -9,46 +9,11 @@ import {
 } from "react-native"
 import { Col, Row, Grid } from "react-native-easy-grid"
 
-import Img1 from "../../../../assets/img_example/img1.png"
-import Img2 from "../../../../assets/img_example/img2.png"
-import Img3 from "../../../../assets/img_example/img3.png"
-import Img4 from "../../../../assets/img_example/img4.png"
+/* import data */
+import { getPartnerGroup } from "../../../data/apis"
 
 const PartnerCategory = ({ navigation }) => {
-  const [items, setItems] = React.useState([
-    {
-      id: 1,
-      type: "1",
-      title: "พริตตี้ Event",
-      info: "0 รายการ",
-      postQty: 0,
-      img: Img1,
-    },
-    {
-      id: 2,
-      type: "2",
-      title: "โคโยตี้",
-      info: "10 รายการ",
-      postQty: 10,
-      img: Img2,
-    },
-    {
-      id: 3,
-      type: "3",
-      title: "พริตตี้ Entertain",
-      info: "3 รายการ",
-      postQty: 3,
-      img: Img3,
-    },
-    {
-      id: 4,
-      type: "4",
-      title: "พริตตี้ นวดแผนไทย",
-      info: "8 รายการ",
-      postQty: 8,
-      img: Img4,
-    },
-  ])
+  const [items, setItems] = React.useState(getPartnerGroup)
   const onPressOptions = (item) => {
     if (item.postQty === 0) {
       navigation.navigate("Create-Post-Form", { item })

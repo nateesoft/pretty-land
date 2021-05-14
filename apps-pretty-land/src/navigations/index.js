@@ -1,13 +1,8 @@
 import React from "react"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import {
-  createStackNavigator,
-} from "@react-navigation/stack"
-
+import { createStackNavigator } from "@react-navigation/stack"
 import { Button, Text, View } from "react-native"
 
 import LoginNavigator from "../screens/login/navigator"
-
 import CustomerNavigator from "../screens/customer/navigator"
 import AdminNavigator from "../screens/admin/navigator"
 import PartnerNavigator from "../screens/partner/navigator"
@@ -78,7 +73,7 @@ const AppNavigation = ({ navigation }) => {
   const authContext = React.useMemo(
     () => ({
       signIn: async (data) => {
-        const { username, password, screen } = data;
+        const { username, password, screen } = data
         dispatch({ type: "SIGN_IN", token: "dummy-auth-token", screen })
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),

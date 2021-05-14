@@ -11,7 +11,7 @@ const HomeScreen = ({ navigation }) => {
       }}
     >
       <Text>Home Screen</Text>
-      <Button 
+      <Button
         title="Go to Work"
         onPress={() => navigation.navigate("a-Work")}
       />

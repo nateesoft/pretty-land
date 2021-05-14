@@ -14,11 +14,11 @@ const Tab = createBottomTabNavigator()
 const AdminNavigator = ({ navigation, route }) => {
   return (
     <Tab.Navigator>
-        <Tab.Screen name="a-Home" component={HomeScreen} />
-        <Tab.Screen name="a-Work" component={WorkScreen} />
-        <Tab.Screen name="a-Profile" component={ProfileScreen} />
-        <Tab.Screen name="a-Logout" component={LogoutScreen} />
-      </Tab.Navigator>
+      <Tab.Screen name="a-Home" component={HomeScreen} />
+      <Tab.Screen name="a-Work" component={WorkScreen} />
+      <Tab.Screen name="a-Profile" component={ProfileScreen} />
+      <Tab.Screen name="a-Logout" component={LogoutScreen} />
+    </Tab.Navigator>
   )
 }
 

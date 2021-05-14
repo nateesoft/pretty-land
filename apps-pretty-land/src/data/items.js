@@ -1,3 +1,117 @@
+export const postList = [
+  {
+    id: 1,
+    partnerType: "1",
+    name: "Pretty - ฉลองซื้อรถใหม่",
+    image: require("../../assets/img_example/img1.png"),
+    subtitle: "กรุงเทพฯ จำนวน 2 คน",
+    status: "customer_new_post_done",
+    statusText: "โพสท์ใหม่",
+  },
+  {
+    id: 2,
+    partnerType: "2",
+    name: "Coyote - งานรถกะบะซิ่ง",
+    image: require("../../assets/img_example/img2.png"),
+    subtitle: "เชียงใหม่ จำนวน 10 คน",
+    status: "wait_admin_confirm_new_post",
+    statusText: "รอ Admin คอนเฟิร์ม",
+  },
+  {
+    id: 3,
+    partnerType: "3",
+    name: "Pretty Entertain - รองรับแขก VIP",
+    image: require("../../assets/img_example/img3.png"),
+    subtitle: "กรงเทพฯ จำนวน 4 คน",
+    status: "wait_customer_select_partner",
+    statusText: "รอเลือก Partner",
+  },
+  {
+    id: 4,
+    partnerType: "4",
+    name: "Pretty นวดแผนไทย - อบรมพนักงาน",
+    image: require("../../assets/img_example/img1.png"),
+    subtitle: "นครราชสีมา จำนวน 5 คน",
+    status: "wait_customer_payment",
+    statusText: "รอชำระเงิน",
+  },
+  {
+    id: 5,
+    partnerType: "4",
+    name: "Pretty นวดแผนไทย - อบรมพนักงาน",
+    image: require("../../assets/img_example/img4.png"),
+    subtitle: "นครราชสีมา จำนวน 5 คน",
+    status: "wait_admin_confirm_payment",
+    statusText: "รอตรวจสอบเงินโอน",
+  },
+  {
+    id: 6,
+    partnerType: "4",
+    name: "Pretty นวดแผนไทย - อบรมพนักงาน",
+    image: require("../../assets/img_example/img2.png"),
+    subtitle: "นครราชสีมา จำนวน 5 คน",
+    status: "customer_with_partner",
+    statusText: "อยู่ระหว่างภารกิจ",
+  },
+  {
+    id: 7,
+    partnerType: "4",
+    name: "Pretty นวดแผนไทย - อบรมพนักงาน",
+    image: require("../../assets/img_example/img1.png"),
+    subtitle: "นครราชสีมา จำนวน 5 คน",
+    status: "close_job",
+    statusText: "ปิดงานเรียบร้อย",
+  },
+]
+
+export const partnerCategory = [
+  {
+    id: 1,
+    type: "1",
+    title: "พริตตี้ Event",
+    info: "0 รายการ",
+    postQty: 0,
+    img: require("../../assets/img_example/img1.png"),
+  },
+  {
+    id: 2,
+    type: "2",
+    title: "โคโยตี้",
+    info: "10 รายการ",
+    postQty: 10,
+    img: require("../../assets/img_example/img2.png"),
+  },
+  {
+    id: 3,
+    type: "3",
+    title: "พริตตี้ Entertain",
+    info: "3 รายการ",
+    postQty: 3,
+    img: require("../../assets/img_example/img3.png"),
+  },
+  {
+    id: 4,
+    type: "4",
+    title: "พริตตี้ นวดแผนไทย",
+    info: "8 รายการ",
+    postQty: 8,
+    img: require("../../assets/img_example/img4.png"),
+  },
+]
+
+export const countryList = [
+  { id: 1, name: "กรุงเทพมหานคร" },
+  { id: 2, name: "อำนาจเจริญ" },
+  { id: 3, name: "อ่างทอง" },
+  { id: 4, name: "บึงกาฬ" },
+  { id: 5, name: "บุรีรัมย์" },
+  { id: 6, name: "ฉะเชิงเทรา" },
+  { id: 7, name: "ชัยนาท" },
+  { id: 8, name: "ชัยภูมิ" },
+  { id: 9, name: "จันทบุรี" },
+  { id: 10, name: "เชียงใหม่" },
+]
+
 export const country = [
   {
     id: 0,

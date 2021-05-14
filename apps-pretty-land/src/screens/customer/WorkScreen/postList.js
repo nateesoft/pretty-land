@@ -4,80 +4,11 @@ import { ListItem, Avatar } from "react-native-elements"
 import { Button } from "react-native-elements/dist/buttons/Button"
 import { Entypo } from "@expo/vector-icons"
 
-import Img1 from "../../../../assets/img_example/img1.png"
-import Img2 from "../../../../assets/img_example/img2.png"
-import Img3 from "../../../../assets/img_example/img3.png"
-import Img4 from "../../../../assets/img_example/img4.png"
-
-const list = [
-  {
-    id: 1,
-    partnerType: "1",
-    name: "Pretty - ฉลองซื้อรถใหม่",
-    image: Img1,
-    subtitle: "กรุงเทพฯ จำนวน 2 คน",
-    status: "customer_new_post_done",
-    statusText: "โพสท์ใหม่",
-  },
-  {
-    id: 2,
-    partnerType: "2",
-    name: "Coyote - งานรถกะบะซิ่ง",
-    image: Img2,
-    subtitle: "เชียงใหม่ จำนวน 10 คน",
-    status: "wait_admin_confirm_new_post",
-    statusText: "รอ Admin คอนเฟิร์ม",
-  },
-  {
-    id: 3,
-    partnerType: "3",
-    name: "Pretty Entertain - รองรับแขก VIP",
-    image: Img3,
-    subtitle: "กรงเทพฯ จำนวน 4 คน",
-    status: "wait_customer_select_partner",
-    statusText: "รอเลือก Partner",
-  },
-  {
-    id: 4,
-    partnerType: "4",
-    name: "Pretty นวดแผนไทย - อบรมพนักงาน",
-    image: Img1,
-    subtitle: "นครราชสีมา จำนวน 5 คน",
-    status: "wait_customer_payment",
-    statusText: "รอชำระเงิน",
-  },
-  {
-    id: 5,
-    partnerType: "4",
-    name: "Pretty นวดแผนไทย - อบรมพนักงาน",
-    image: Img4,
-    subtitle: "นครราชสีมา จำนวน 5 คน",
-    status: "wait_admin_confirm_payment",
-    statusText: "รอตรวจสอบเงินโอน",
-  },
-  {
-    id: 6,
-    partnerType: "4",
-    name: "Pretty นวดแผนไทย - อบรมพนักงาน",
-    image: Img2,
-    subtitle: "นครราชสีมา จำนวน 5 คน",
-    status: "customer_with_partner",
-    statusText: "อยู่ระหว่างภารกิจ",
-  },
-  {
-    id: 7,
-    partnerType: "4",
-    name: "Pretty นวดแผนไทย - อบรมพนักงาน",
-    image: Img1,
-    subtitle: "นครราชสีมา จำนวน 5 คน",
-    status: "close_job",
-    statusText: "ปิดงานเรียบร้อย",
-  },
-]
+import { getPostList } from '../../../data/apis'
 
 const PostListScreen = ({ navigation, route }) => {
   const { partnerType } = route.params
-  const filterList = list.filter((item) => {
+  const filterList = getPostList().filter((item) => {
     if (partnerType === "all") {
       return item
     }

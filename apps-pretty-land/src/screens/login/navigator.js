@@ -1,6 +1,5 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 
 import LoginScreen from "./index"
 import LoginForm from "./loginForm"
@@ -10,24 +9,7 @@ import RegisterPartnerImageForm from "./registerPartner3"
 
 const Stack = createStackNavigator()
 
-function getHeaderTitle(route) {
-  const routeName = getFocusedRouteNameFromRoute(route) ?? "Feed"
-
-  switch (routeName) {
-    case "Feed":
-      return "News feed"
-    case "Profile":
-      return "My profile"
-    case "Account":
-      return "My account"
-  }
-}
-
 const LoginNavigator = ({ navigation, route }) => {
-  React.useLayoutEffect(() => {
-    navigation.setOptions({ headerTitle: getHeaderTitle(route) })
-  }, [navigation, route])
-
   return (
     <Stack.Navigator>
       <Stack.Screen

@@ -1,66 +1,21 @@
 import React from "react"
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  FlatList,
-  TouchableHighlight,
-} from "react-native"
+import { StyleSheet, View, Text, Image } from "react-native"
 import SearchableDropdown from "react-native-searchable-dropdown"
 
-import { getCountryCount } from "../../../data/apis"
-
-// import { country } from "../../../data/items"
-
-const countryList = [
-  { id: 1, name: "กรุงเทพมหานคร" },
-  { id: 2, name: "อำนาจเจริญ" },
-  { id: 3, name: "อ่างทอง" },
-  { id: 4, name: "บึงกาฬ" },
-  { id: 5, name: "บุรีรัมย์" },
-  { id: 6, name: "ฉะเชิงเทรา" },
-  { id: 7, name: "ชัยนาท" },
-  { id: 8, name: "ชัยภูมิ" },
-  { id: 9, name: "จันทบุรี" },
-  { id: 10, name: "เชียงใหม่" },
-]
+import { getCountryList } from "../../../data/apis"
 
 const PartnerListCountryScreen = ({ navigation, route }) => {
   const { item: data } = route.params
-
-  const onPressCreateItem = (item) => {
-    navigation.navigate("Create-Post-Form", { data, item })
-  }
-
-  const renderCategory = ({ item }) => (
-    <TouchableHighlight
-      underlayColor="pink"
-      onPress={() => onPressCreateItem(item)}
-    >
-      <View style={styles.categoriesItemContainer}>
-        <Text style={styles.categoriesName}>
-          {item.name} ({getCountryCount(item.id, data.type)})
-        </Text>
-      </View>
-    </TouchableHighlight>
-  )
-
   return (
     <View style={styles.cardDetail}>
       <Text style={styles.optionsNameDetail}>{data.title}</Text>
       <Image style={styles.optionsPhoto} source={data.img} />
       <Text style={styles.optionsInfo}>{data.info}</Text>
-      {/* <FlatList
-        data={country}
-        renderItem={renderCategory}
-        keyExtractor={(item) => `${item.id}`}
-      /> */}
       <View
         style={{
           flex: 1,
           justifyContent: "flex-start",
-          alignContent: 'stretch',
+          alignContent: "stretch",
           width: "100%",
         }}
       >
@@ -88,7 +43,7 @@ const PartnerListCountryScreen = ({ navigation, route }) => {
           itemsContainerStyle={{
             maxHeight: "60%",
           }}
-          items={countryList}
+          items={getCountryList}
           defaultIndex={2}
           placeholder="--------- เลือกจังหวัด ---------"
           resetValue={false}
