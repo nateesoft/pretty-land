@@ -1,36 +1,18 @@
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
-/* customer */
-import CustomerHome from "./HomeScreen/navigator"
-import CustomerWork from "./WorkScreen/navigator"
-import CustomerProfile from "./ProfileScreen/navigator"
+/* all screen */
+import HomeScreen from "./HomeScreen/navigator"
+import WorkScreen from "./WorkScreen/navigator"
+import ProfileScreen from "./ProfileScreen/navigator"
 
 /* Logout */
 import LogoutScreen from "../logout"
 
 const Tab = createBottomTabNavigator()
 
-function getHeaderTitle(route) {
-  const routeName = getFocusedRouteNameFromRoute(route) ?? "Feed"
-
-  switch (routeName) {
-    case "Feed":
-      return "News feed"
-    case "Profile":
-      return "My profile"
-    case "Account":
-      return "My account"
-  }
-}
-
 const CustomerNavigator = ({ navigation, route }) => {
-  React.useLayoutEffect(() => {
-    navigation.setOptions({ headerTitle: getHeaderTitle(route) })
-  }, [navigation, route])
-
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -43,7 +25,7 @@ const CustomerNavigator = ({ navigation, route }) => {
     >
       <Tab.Screen
         name="c-Home"
-        component={CustomerHome}
+        component={HomeScreen}
         options={{
           title: "หน้าหลัก",
           tabBarIcon: ({ color, size }) => (
@@ -54,7 +36,7 @@ const CustomerNavigator = ({ navigation, route }) => {
       />
       <Tab.Screen
         name="c-Work"
-        component={CustomerWork}
+        component={WorkScreen}
         options={{
           tabBarLabel: "รายการโพสท์",
           tabBarIcon: ({ color, size }) => (
@@ -64,7 +46,7 @@ const CustomerNavigator = ({ navigation, route }) => {
       />
       <Tab.Screen
         name="c-Profile"
-        component={CustomerProfile}
+        component={ProfileScreen}
         options={{
           tabBarLabel: "ข้อมูลส่วนตัว",
           tabBarIcon: ({ color, size }) => (

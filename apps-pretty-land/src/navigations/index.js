@@ -1,38 +1,19 @@
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import {
-  createBottomStackNavigator,
   createStackNavigator,
 } from "@react-navigation/stack"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
 
-import { Button, Text, TextInput, View } from "react-native"
-import { NavigationContainer } from "@react-navigation/native"
+import { Button, Text, View } from "react-native"
 
-/* admin */
-import AdminHomeScreen from "../screens/admin/HomeScreen"
-import AdminWorkScreen from "../screens/admin/WorkScreen"
-import AdminProfileScreen from "../screens/admin/ProfileScreen"
-/* partner */
-import PartnerHomeScreen from "../screens/partner/HomeScreen"
-import PartnerWorkScreen from "../screens/partner/WorkScreen"
-import PartnerProfileScreen from "../screens/partner/ProfileScreen"
-/* customer */
-import CustomerHome from "../screens/customer/HomeScreen/navigator"
-import CustomerWork from "../screens/customer/WorkScreen/navigator"
-import CustomerProfile from "../screens/customer/ProfileScreen/navigator"
-/* Logout */
-import LogoutScreen from "../screens/logout"
-
-/* Login */
 import LoginNavigator from "../screens/login/navigator"
-/* Customer */
+
 import CustomerNavigator from "../screens/customer/navigator"
+import AdminNavigator from "../screens/admin/navigator"
+import PartnerNavigator from "../screens/partner/navigator"
 
 import { Context as AuthContext } from "../context/AuthContext"
-import { Provider as AuthProvider } from "../context/AuthContext"
 
-const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
 
 function SplashScreen() {
@@ -43,16 +24,6 @@ function SplashScreen() {
   )
 }
 
-function AdminScreen() {
-  const { signOut } = React.useContext(AuthContext)
-
-  return (
-    <View>
-      <Text>Admin Signed in!</Text>
-      <Button title="Sign out" onPress={signOut} />
-    </View>
-  )
-}
 function PartnerScreen() {
   const { signOut } = React.useContext(AuthContext)
 
@@ -146,8 +117,8 @@ const AppNavigation = ({ navigation }) => {
               state.screen === "customer"
                 ? CustomerNavigator
                 : state.screen === "partner"
-                ? PartnerScreen
-                : AdminScreen
+                ? PartnerNavigator
+                : AdminNavigator
             }
             options={{
               headerShown: false,
