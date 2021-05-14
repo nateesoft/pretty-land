@@ -6,6 +6,9 @@ import {
 } from "@react-navigation/stack"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
+import { Button, Text, TextInput, View } from "react-native"
+import { NavigationContainer } from "@react-navigation/native"
+
 /* admin */
 import AdminHomeScreen from "../screens/admin/HomeScreen"
 import AdminWorkScreen from "../screens/admin/WorkScreen"
@@ -22,180 +25,138 @@ import CustomerProfile from "../screens/customer/ProfileScreen/navigator"
 import LogoutScreen from "../screens/logout"
 
 /* Login */
-import LoginScreen from "../screens/login"
-import LoginForm from "../screens/login/loginForm"
-import RegisterPartnerForm from "../screens/login/registerPartner"
-import RegisterPartnerBankForm from "../screens/login/registerPartner2"
-import RegisterPartnerImageForm from "../screens/login/registerPartner3"
-import WalkthroughScreen from "../screens/walkthrough"
+import LoginNavigator from "../screens/login/navigator"
+/* Customer */
+import CustomerNavigator from "../screens/customer/navigator"
+
+import { Context as AuthContext } from "../context/AuthContext"
+import { Provider as AuthProvider } from "../context/AuthContext"
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
 
-const loginAs = ""
+function SplashScreen() {
+  return (
+    <View>
+      <Text>Loading...</Text>
+    </View>
+  )
+}
 
-const AppNavigation = (props) => {
-  if (loginAs === "") {
-    return (
+function AdminScreen() {
+  const { signOut } = React.useContext(AuthContext)
+
+  return (
+    <View>
+      <Text>Admin Signed in!</Text>
+      <Button title="Sign out" onPress={signOut} />
+    </View>
+  )
+}
+function PartnerScreen() {
+  const { signOut } = React.useContext(AuthContext)
+
+  return (
+    <View>
+      <Text>Partner Signed in!</Text>
+      <Button title="Sign out" onPress={signOut} />
+    </View>
+  )
+}
+
+const AppNavigation = ({ navigation }) => {
+  const [state, dispatch] = React.useReducer(
+    (prevState, action) => {
+      switch (action.type) {
+        case "RESTORE_TOKEN":
+          return {
+            ...prevState,
+            userToken: action.token,
+            isLoading: false,
+          }
+        case "SIGN_IN":
+          return {
+            ...prevState,
+            isSignout: false,
+            userToken: action.token,
+            screen: action.screen,
+          }
+        case "SIGN_OUT":
+          return {
+            ...prevState,
+            isSignout: true,
+            userToken: null,
+          }
+      }
+    },
+    {
+      isLoading: true,
+      isSignout: false,
+      userToken: null,
+    }
+  )
+
+  React.useEffect(() => {
+    const bootstrapAsync = async () => {
+      let userToken
+      dispatch({ type: "RESTORE_TOKEN", token: userToken })
+    }
+    bootstrapAsync()
+  }, [])
+
+  const authContext = React.useMemo(
+    () => ({
+      signIn: async (data) => {
+        const { username, password, screen } = data;
+        dispatch({ type: "SIGN_IN", token: "dummy-auth-token", screen })
+      },
+      signOut: () => dispatch({ type: "SIGN_OUT" }),
+      signUp: async (data) => {
+        dispatch({ type: "SIGN_IN", token: "dummy-auth-token" })
+      },
+    }),
+    []
+  )
+
+  return (
+    <AuthContext.Provider value={authContext}>
       <Stack.Navigator>
-        <Stack.Screen
-          name="login"
-          component={LoginScreen}
-          options={{
-            title: "Home",
-            headerStyle: {
-              backgroundColor: "#ff2fe6",
-            },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Login-Form"
-          component={LoginForm}
-          options={{
-            title: "Login Form",
-            headerStyle: {
-              backgroundColor: "#ff2fe6",
-            },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Register-Partner-Form"
-          component={RegisterPartnerForm}
-          options={{
-            title: "ลงทะเบียนผู้ร่วมงาน",
-            headerStyle: {
-              backgroundColor: "#ff2fe6",
-            },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Partner-Register-Bank-Form"
-          component={RegisterPartnerBankForm}
-          options={{
-            title: "ลงทะเบียนผู้ร่วมงาน",
-            headerStyle: {
-              backgroundColor: "#ff2fe6",
-            },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Partner-Register-Image-Form"
-          component={RegisterPartnerImageForm}
-          options={{
-            title: "ลงทะเบียนผู้ร่วมงาน",
-            headerStyle: {
-              backgroundColor: "#ff2fe6",
-            },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-        />
+        {state.isLoading ? (
+          <Stack.Screen name="Splash" component={SplashScreen} />
+        ) : state.userToken == null ? (
+          <Stack.Screen
+            name="app-login"
+            component={LoginNavigator}
+            options={{
+              title: "Pretty Land",
+              headerStyle: {
+                backgroundColor: "#ff2fe6",
+              },
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+              headerShown: false,
+            }}
+          />
+        ) : (
+          <Stack.Screen
+            name="Home"
+            component={
+              state.screen === "customer"
+                ? CustomerNavigator
+                : state.screen === "partner"
+                ? PartnerScreen
+                : AdminScreen
+            }
+            options={{
+              headerShown: false,
+            }}
+          />
+        )}
       </Stack.Navigator>
-    )
-  }
-  if (loginAs === "intro") {
-    return (
-      <Tab.Navigator>
-        <Tab.Screen name="walkthrough" component={WalkthroughScreen} />
-      </Tab.Navigator>
-    )
-  }
-  if (loginAs === "admin") {
-    return (
-      <Tab.Navigator>
-        <Tab.Screen name="a-Home" component={AdminHomeScreen} />
-        <Tab.Screen name="a-Work" component={AdminWorkScreen} />
-        <Tab.Screen name="a-Profile" component={AdminProfileScreen} />
-      </Tab.Navigator>
-    )
-  }
-  if (loginAs === "partner") {
-    return (
-      <Tab.Navigator>
-        <Tab.Screen name="p-Home" component={PartnerHomeScreen} />
-        <Tab.Screen name="p-Work" component={PartnerWorkScreen} />
-        <Tab.Screen name="p-Profile" component={PartnerProfileScreen} />
-      </Tab.Navigator>
-    )
-  }
-  if (loginAs === "customer") {
-    return (
-      <Tab.Navigator
-        tabBarOptions={{
-          activeTintColor: "purple",
-          inactiveTintColor: "white",
-          style: {
-            backgroundColor: "#ff2fe6",
-          },
-        }}
-      >
-        <Tab.Screen
-          name="c-Home"
-          component={CustomerHome}
-          options={{
-            title: "หน้าหลัก",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="home" color="white" size={size} />
-            ),
-            color: "white",
-          }}
-        />
-        <Tab.Screen
-          name="c-Work"
-          component={CustomerWork}
-          options={{
-            tabBarLabel: "รายการโพสท์",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="post" color="white" size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="c-Profile"
-          component={CustomerProfile}
-          options={{
-            tabBarLabel: "ข้อมูลส่วนตัว",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="card-account-details"
-                color="white"
-                size={size}
-              />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="c-More"
-          component={LogoutScreen}
-          options={{
-            tabBarLabel: "Logout",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="logout" color="white" size={size} />
-            ),
-          }}
-        />
-      </Tab.Navigator>
-    )
-  }
+    </AuthContext.Provider>
+  )
 }
 
 export default AppNavigation

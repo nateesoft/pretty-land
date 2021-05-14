@@ -65,7 +65,7 @@ const RegisterPartnerForm = (props) => {
           height: 45,
           borderWidth: 0.5,
         }}
-        onPress={() => props.navigation.navigate("Partner-Register-Bank-Form")}
+        onPress={() => navigate("Partner-Register-Bank-Form")}
       />
     </View>
   )

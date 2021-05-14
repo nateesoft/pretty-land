@@ -4,9 +4,13 @@ import Icon from "@expo/vector-icons/AntDesign"
 import { Button } from "react-native-elements/dist/buttons/Button"
 
 import bg from "../../../assets/login.png"
+import { Context as AuthContext } from "../../context/AuthContext"
 
-const LoginForm = (props) => {
-  const { navigate } = props.navigation
+const LoginForm = ({ navigation, route }) => {
+  const [username, setUsername] = React.useState("")
+  const [password, setPassword] = React.useState("")
+
+  const { signIn } = React.useContext(AuthContext)
 
   return (
     <View style={styles.container}>
@@ -25,7 +29,12 @@ const LoginForm = (props) => {
         }}
       >
         <Icon name="user" color="#00716F" size={20} />
-        <TextInput style={styles.textInput} placeholder="ข้อมูลผู้ใช้งาน" />
+        <TextInput
+          style={styles.textInput}
+          placeholder="ข้อมูลผู้ใช้งาน"
+          value={username}
+          onChangeText={(value)=>setUsername(value)}
+        />
       </View>
       <View
         style={{
@@ -44,6 +53,8 @@ const LoginForm = (props) => {
           secureTextEntry={true}
           style={styles.textInput}
           placeholder="รหัสผาน"
+          value={password}
+          onChangeText={(value)=>setPassword(value)}
         />
       </View>
       <Button
@@ -57,6 +68,7 @@ const LoginForm = (props) => {
           height: 45,
           borderWidth: 0.5,
         }}
+        onPress={() => signIn({ username, password, screen: 'admin' })}
       />
       <Text style={styles.textOr}>------ DEMO BUTTON ------</Text>
       <Button
@@ -70,6 +82,7 @@ const LoginForm = (props) => {
           height: 45,
           borderWidth: 0.5,
         }}
+        onPress={() => signIn({ username, password, screen: 'partner' })}
       />
       <Button
         title="LOGIN AS ADMIN"
@@ -82,6 +95,7 @@ const LoginForm = (props) => {
           height: 45,
           borderWidth: 0.5,
         }}
+        onPress={() => signIn({ username, password, screen: 'admin' })}
       />
     </View>
   )

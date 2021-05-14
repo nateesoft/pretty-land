@@ -9,14 +9,16 @@ import {
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
+import { Context as AuthContext } from "../../context/AuthContext"
 
 import bg from "../../../assets/login.png"
 import bgImage from "../../../assets/bg.png"
-import lineLogo from '../../../assets/icons/LINE_APP.png';
-import facebookLogo from '../../../assets/icons/f_logo_RGB-Blue_58.png';
+import lineLogo from "../../../assets/icons/LINE_APP.png"
+import facebookLogo from "../../../assets/icons/f_logo_RGB-Blue_58.png"
 
 const LoginScreen = (props) => {
   const { navigate } = props.navigation
+  const { signIn } = React.useContext(AuthContext)
 
   return (
     <ImageBackground source={bgImage} style={styles.imageBg}>
@@ -26,10 +28,16 @@ const LoginScreen = (props) => {
         <Text style={styles.textDetail}>Love Your Moments</Text>
         <TouchableHighlight
           style={styles.btnClickContain}
-          onPress={() => props.navigation.navigate("Customer-Home")}
+          onPress={() =>
+            signIn({
+              username: "customer",
+              password: "000000",
+              screen: "customer",
+            })
+          }
         >
           <View style={styles.btnContainer}>
-            <Image source={facebookLogo} style={{ width: 24, height: 24}} />
+            <Image source={facebookLogo} style={{ width: 24, height: 24 }} />
             <Text
               style={{
                 marginLeft: 10,
@@ -44,10 +52,10 @@ const LoginScreen = (props) => {
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.btnLineClickContain}
-          onPress={() => props.navigation.navigate("Customer-Home")}
+          onPress={() => signIn2({ username: "", password: "" })}
         >
           <View style={styles.btnContainer}>
-            <Image source={lineLogo} style={{ width: 24, height: 24}} />
+            <Image source={lineLogo} style={{ width: 24, height: 24 }} />
             <Text
               style={{
                 marginLeft: 10,
@@ -86,26 +94,26 @@ const LoginScreen = (props) => {
             borderWidth: 1,
             borderColor: "gray",
           }}
-          onPress={() => props.navigation.navigate("Login-Form")}
+          onPress={() => navigate("Login-Form")}
         />
         <Button
           title="ลงทะเบียนผู้ร่วมงาน"
           titleStyle={{
             color: "blue",
             fontSize: 14,
-            textDecorationLine: 'underline'
+            textDecorationLine: "underline",
           }}
           buttonStyle={{
             borderRadius: 25,
             width: 250,
             height: 45,
           }}
-          onPress={() => props.navigation.navigate("Register-Partner-Form")}
+          onPress={() => navigate("Register-Partner-Form")}
         />
         <Text style={styles.textFooter1}>Contact Us</Text>
         <Text style={styles.textFooter2}>
-          Tel : 09-7874-7874 (24Hr) / Line : @Prettylandthailand / Fb: PrettyLand
-          - Thailand / Email : Prettylandthailand@gmail.com
+          Tel : 09-7874-7874 (24Hr) / Line : @Prettylandthailand / Fb:
+          PrettyLand - Thailand / Email : Prettylandthailand@gmail.com
         </Text>
         <Text style={styles.textFooter3}>
           คุณเห็นด้วยกับเงื่อนไขการให้บริการ และ นโยบายความเป็นส่วนตัว
@@ -157,7 +165,7 @@ const styles = StyleSheet.create({
   textOr: {
     marginVertical: 15,
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "gray",
   },
   textInput: {
@@ -181,7 +189,7 @@ const styles = StyleSheet.create({
     color: "gray",
     position: "absolute",
     bottom: 120,
-    color: 'red',
+    color: "red",
   },
   textFooter2: {
     width: "90%",
@@ -191,7 +199,7 @@ const styles = StyleSheet.create({
     color: "gray",
     position: "absolute",
     bottom: 85,
-    color: 'black',
+    color: "black",
   },
   textFooter3: {
     width: "90%",
@@ -201,7 +209,7 @@ const styles = StyleSheet.create({
     color: "gray",
     position: "absolute",
     bottom: 60,
-    color: 'green',
+    color: "green",
   },
   imageBg: {
     flex: 1,
