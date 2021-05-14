@@ -13,11 +13,11 @@ const HomeScreen = ({ navigation }) => {
       <Text>Home Screen</Text>
       <Button 
         title="Go to Work"
-        onPress={() => navigation.navigate("AdminWorkScreen")}
+        onPress={() => navigation.navigate("a-Work")}
       />
       <Button
         title="Go to Profile"
-        onPress={() => navigation.navigate("AdminProfileScreen")}
+        onPress={() => navigation.navigate("a-Profile")}
       />
     </View>
   )
