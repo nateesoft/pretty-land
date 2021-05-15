@@ -1,13 +1,5 @@
 import React from "react"
-import {
-  StyleSheet,
-  ScrollView,
-  TouchableHighlight,
-  View,
-  Text,
-  Image,
-} from "react-native"
-import { Col, Row, Grid } from "react-native-easy-grid"
+import { StyleSheet, TouchableHighlight, View, Text, Image } from "react-native"
 
 /* import data */
 import { getPartnerGroup } from "../../../data/apis"
@@ -60,9 +52,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   box: {
-    // height: 100,
-    // borderWidth: 1.5,
-    // backgroundColor: "red",
     width: "50%",
     height: "50%",
     padding: 5,

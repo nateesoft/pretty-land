@@ -73,7 +73,7 @@ export const partnerCategory = [
     postQty: 0,
     img: require("../../assets/img_example/img1.png"),
     label: "พริตตี้ Event",
-    value: "pretty-event"
+    value: "pretty-event",
   },
   {
     id: 2,
@@ -83,7 +83,7 @@ export const partnerCategory = [
     postQty: 10,
     img: require("../../assets/img_example/img2.png"),
     label: "โคโยตี้",
-    value: "coyote"
+    value: "coyote",
   },
   {
     id: 3,
@@ -93,7 +93,7 @@ export const partnerCategory = [
     postQty: 3,
     img: require("../../assets/img_example/img3.png"),
     label: "พริตตี้ Entertain",
-    value: "pretty-entertain"
+    value: "pretty-entertain",
   },
   {
     id: 4,
@@ -103,7 +103,7 @@ export const partnerCategory = [
     postQty: 8,
     img: require("../../assets/img_example/img4.png"),
     label: "พริตตี้ นวดแผนไทย",
-    value: "pretty-massage"
+    value: "pretty-massage",
   },
 ]
 
@@ -161,4 +161,82 @@ export const country = [
     type3: 0,
     type4: 0,
   },
+]
+export const membersList = [
+  {
+    id: 1,
+    memberType: "customer",
+    name: "นาย A",
+    image: require("../../assets/img_example/img1.png"),
+    status: "active",
+  },
+  {
+    id: 2,
+    memberType: "customer",
+    name: "นาย B",
+    image: require("../../assets/img_example/img2.png"),
+    status: "active",
+  },
+  {
+    id: 3,
+    memberType: "customer",
+    name: "นาย C",
+    image: require("../../assets/img_example/img3.png"),
+    status: "active",
+  },
+  {
+    id: 4,
+    memberType: "partner",
+    name: "พริตตี้-1",
+    image: require("../../assets/img_example/img1.png"),
+    status: "active",
+  },
+  {
+    id: 5,
+    memberType: "partner",
+    name: "พริตตี้-2",
+    image: require("../../assets/img_example/img2.png"),
+    status: "active",
+  },
+  {
+    id: 6,
+    memberType: "partner",
+    name: "พริตตี้-3",
+    image: require("../../assets/img_example/img3.png"),
+    status: "active",
+  },
+  {
+    id: 7,
+    memberType: "partner",
+    name: "พริตตี้-1",
+    image: require("../../assets/img_example/img1.png"),
+    status: "active",
+  },
+  {
+    id: 8,
+    memberType: "admin",
+    name: "admin-001",
+    image: require("../../assets/img_example/img1.png"),
+    status: "active",
+  },
+  {
+    id: 9,
+    memberType: "admin",
+    name: "admin-002",
+    image: require("../../assets/img_example/img2.png"),
+    status: "active",
+  },
+  {
+    id: 10,
+    memberType: "admin",
+    name: "admin-003",
+    image: require("../../assets/img_example/img3.png"),
+    status: "active",
+  },
+]
+
+export const memberCategory = [
+  { value: 1, label: "Customer" },
+  { value: 2, label: "Partner" },
+  { value: 3, label: "Admin" },
 ]

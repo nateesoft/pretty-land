@@ -1,4 +1,11 @@
-import { country, partnerCategory, countryList, postList } from "./items"
+import {
+  country,
+  partnerCategory,
+  countryList,
+  postList,
+  membersList,
+  memberCategory,
+} from "./items"
 
 export const getCountryCount = (id, type) => {
   return country.map((data) => {
@@ -43,4 +50,12 @@ export const getTransferListToConfirm = () => {
   return postList.filter(
     (item, index) => item.status === "wait_admin_confirm_payment"
   )
+}
+
+export const getMemberList = () => {
+  return membersList
+}
+
+export const getMemberCategory = () => {
+  return memberCategory
 }
