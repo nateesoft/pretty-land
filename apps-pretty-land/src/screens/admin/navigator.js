@@ -5,7 +5,7 @@ import { Foundation, MaterialIcons, Feather, MaterialCommunityIcons } from "@exp
 /* all screen */
 import TaskNavigator from "./TaskScreen/navigator"
 import TransferNavigator from "./TransferScreen/navigator"
-import MemberScreen from "./MemberScreen"
+import MemberNavigator from "./MemberScreen/navigator"
 import ProfileNavigator from './ProfileScreen/navigator'
 
 /* Logout */
@@ -46,7 +46,7 @@ const AdminNavigator = ({ navigation, route }) => {
       />
       <Tab.Screen
         name="a-Member"
-        component={MemberScreen}
+        component={MemberNavigator}
         options={{
           title: "สมาชิกในระบบ",
           tabBarIcon: ({ color, size }) => (

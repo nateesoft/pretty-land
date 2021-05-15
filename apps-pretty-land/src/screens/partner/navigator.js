@@ -1,10 +1,15 @@
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import {
+  FontAwesome5,
+  Foundation,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons"
 
 /* all screen */
-import HomeScreen from "./HomeScreen"
-import WorkScreen from "./WorkScreen"
-import ProfileScreen from "./ProfileScreen"
+import HomeNavigator from "./HomeScreen/navigator"
+import WorkNavigator from "./WorkScreen/navigator"
+import ProfileNavigator from "./ProfileScreen/navigator"
 
 /* Logout */
 import LogoutScreen from "../logout"
@@ -13,11 +18,59 @@ const Tab = createBottomTabNavigator()
 
 const PartnerNavigator = ({ navigation, route }) => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="p-Home" component={HomeScreen} />
-      <Tab.Screen name="p-Work" component={WorkScreen} />
-      <Tab.Screen name="p-Profile" component={ProfileScreen} />
-      <Tab.Screen name="p-Logout" component={LogoutScreen} />
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: "purple",
+        inactiveTintColor: "white",
+        style: {
+          backgroundColor: "#ff2fe6",
+        },
+      }}
+    >
+      <Tab.Screen
+        name="p-Home"
+        component={HomeNavigator}
+        options={{
+          title: "งานจ้างทั้งหมด",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="kiss-wink-heart" color="white" size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="p-Work"
+        component={WorkNavigator}
+        options={{
+          title: "งานของฉัน",
+          tabBarIcon: ({ color, size }) => (
+            <Foundation name="social-foursquare" color="white" size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="p-Profile"
+        component={ProfileNavigator}
+        options={{
+          title: "ข้อมูลส่วนตัว",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="card-account-details"
+              color="white"
+              size={size}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="p-Logout"
+        component={LogoutScreen}
+        options={{
+          title: "Logout",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="logout" color="white" size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   )
 }

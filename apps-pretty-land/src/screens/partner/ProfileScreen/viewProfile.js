@@ -2,21 +2,8 @@ import React from "react"
 import { StyleSheet, View } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
-import DropDownPicker from "react-native-dropdown-picker"
 
-import { getPartnerGroup, getCountryList } from "../../../data/apis"
-
-const CreatePostForm = ({ navigation, route }) => {
-  const { data, item } = route.params
-
-  const [openSelectPartner, setOpenSelectPartner] = React.useState(false)
-  const [partner, setPartner] = React.useState("")
-  const [partnerList, setPartnerList] = React.useState(getPartnerGroup())
-
-  const [openSelectCountry, setOpenSelectCountry] = React.useState(false)
-  const [country, setCountry] = React.useState("")
-  const [countryList, setCountryList] = React.useState(getCountryList())
-
+const ViewProfileScreen = ({ navigation, route }) => {
   const [owner, setOwner] = React.useState("")
   const [phone, setPhone] = React.useState("")
   const [place, setPlace] = React.useState("")
@@ -25,32 +12,7 @@ const CreatePostForm = ({ navigation, route }) => {
 
   return (
     <View style={styles.cardDetail}>
-      <Text style={styles.optionsNameDetail}>โพสทข้อมูลที่ต้องการ</Text>
-      <Text style={styles.optionsNameDetail2}>{item.name}</Text>
-      <DropDownPicker
-        placeholder="เลือก Partner"
-        open={openSelectPartner}
-        setOpen={setOpenSelectPartner}
-        value={partner}
-        setValue={setPartner}
-        items={partnerList}
-        setItems={setPartnerList}
-        style={styles.dropdownStyle}
-        textStyle={{ fontSize: 18 }}
-        zIndex={2}
-      />
-      <DropDownPicker
-        placeholder="เลือกจังหวัด"
-        open={openSelectCountry}
-        setOpen={setOpenSelectCountry}
-        value={country}
-        setValue={setCountry}
-        items={countryList}
-        setItems={setCountryList}
-        style={styles.dropdownStyle}
-        textStyle={{ fontSize: 18 }}
-        zIndex={1}
-      />
+      <Text style={styles.textTopic}>แก้ไขข้อมูลส่วนตัว</Text>
       <View style={styles.viewCard}>
         <Input
           name="owner"
@@ -99,7 +61,7 @@ const CreatePostForm = ({ navigation, route }) => {
             name="save"
             size={20}
             color="white"
-            style={{ marginRight: 10 }}
+            style={{ marginRight: 5 }}
           />
         }
         iconLeft
@@ -113,17 +75,17 @@ const CreatePostForm = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   btnSave: {
-    margin: 15,
-    paddingHorizontal: 50,
+    margin: 15, 
+    paddingHorizontal: 50, 
     borderRadius: 55,
-    backgroundColor: "#ff2fe6",
+    backgroundColor: '#ff2fe6',
   },
   cardDetail: {
     flex: 1,
     alignItems: "center",
     padding: 5,
     margin: 10,
-    backgroundColor: "white",
+    backgroundColor: 'white',
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -146,11 +108,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 5,
   },
-  dropdownStyle: {
-    marginBottom: 10,
-    borderColor: "#ff2fe6",
-    borderWidth: 1.5,
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "blue",
+    marginBottom: 15,
+    marginTop: 10,
   },
 })
 
-export default CreatePostForm
+export default ViewProfileScreen

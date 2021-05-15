@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
 import { AntDesign, Ionicons } from "react-native-vector-icons"
 
-const ConfirmTaskScreen = ({ navigation, route }) => {
+const MemberDetailScreen = ({ navigation, route }) => {
   return (
     <View style={styles.cardDetail}>
       <Text style={styles.optionsNameDetail}>ตำแหน่งงานที่มองหา</Text>
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ConfirmTaskScreen
+export default MemberDetailScreen
