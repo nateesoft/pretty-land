@@ -42,6 +42,7 @@ const CustomerNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="post" color="white" size={size} />
           ),
+          tabBarBadge: 3,
         }}
       />
       <Tab.Screen
@@ -59,7 +60,7 @@ const CustomerNavigator = ({ navigation, route }) => {
         }}
       />
       <Tab.Screen
-        name="c-More"
+        name="c-Logout"
         component={LogoutScreen}
         options={{
           tabBarLabel: "Logout",

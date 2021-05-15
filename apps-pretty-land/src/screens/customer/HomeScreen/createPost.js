@@ -1,20 +1,58 @@
 import React from "react"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, View, TouchableOpacity } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
+import DropDownPicker from "react-native-dropdown-picker"
+
+import { getPartnerGroup, getCountryList } from "../../../data/apis"
 
 const CreatePostForm = ({ navigation, route }) => {
   const { data, item } = route.params
+
+  const [openSelectPartner, setOpenSelectPartner] = React.useState(false)
+  const [partner, setPartner] = React.useState("")
+  const [partnerList, setPartnerList] = React.useState(getPartnerGroup())
+
+  const [openSelectCountry, setOpenSelectCountry] = React.useState(false)
+  const [country, setCountry] = React.useState("")
+  const [countryList, setCountryList] = React.useState(getCountryList())
+
   const [owner, setOwner] = React.useState("")
   const [phone, setPhone] = React.useState("")
   const [place, setPlace] = React.useState("")
   const [comment, setComment] = React.useState("")
   const [qty, setQty] = React.useState("")
 
+  // DropDownPicker.setTheme("DARK")
+
   return (
     <View style={styles.cardDetail}>
-      <Text style={styles.optionsNameDetail}>{item.title}</Text>
+      <Text style={styles.optionsNameDetail}>โพสทข้อมูลที่ต้องการ</Text>
       <Text style={styles.optionsNameDetail2}>{item.name}</Text>
+      <DropDownPicker
+        placeholder="เลือก Partner"
+        open={openSelectPartner}
+        setOpen={setOpenSelectPartner}
+        value={partner}
+        setValue={setPartner}
+        items={partnerList}
+        setItems={setPartnerList}
+        style={styles.dropdownStyle}
+        textStyle={{ fontSize: 18 }}
+        zIndex={2}
+      />
+      <DropDownPicker
+        placeholder="เลือกจังหวัด"
+        open={openSelectCountry}
+        setOpen={setOpenSelectCountry}
+        value={country}
+        setValue={setCountry}
+        items={countryList}
+        setItems={setCountryList}
+        style={styles.dropdownStyle}
+        textStyle={{ fontSize: 18 }}
+        zIndex={1}
+      />
       <View style={styles.viewCard}>
         <Input
           name="owner"
@@ -67,7 +105,7 @@ const CreatePostForm = ({ navigation, route }) => {
           />
         }
         iconLeft
-        buttonStyle={{ margin: 15, paddingHorizontal: 50 }}
+        buttonStyle={styles.btnSave}
         title="บันทึกข้อมูล"
         onPress={() => navigation.navigate("Partner-Category")}
       />
@@ -76,11 +114,18 @@ const CreatePostForm = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
+  btnSave: {
+    margin: 15,
+    paddingHorizontal: 50,
+    borderRadius: 55,
+    backgroundColor: "#ff2fe6",
+  },
   cardDetail: {
     flex: 1,
     alignItems: "center",
     padding: 5,
     margin: 10,
+    backgroundColor: "white",
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -102,6 +147,11 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 20,
     padding: 5,
+  },
+  dropdownStyle: {
+    marginBottom: 10,
+    borderColor: "#ff2fe6",
+    borderWidth: 1.5,
   },
 })
 

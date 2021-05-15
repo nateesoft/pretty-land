@@ -1,106 +1,158 @@
-import React from "react"
-import { View, Image, StyleSheet, ScrollView, Dimensions } from "react-native"
-import { Text, Button } from "react-native-elements"
-import GradientButton from "react-native-gradient-buttons"
+import * as React from "react"
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  ScrollView,
+  TouchableHighlight,
+} from "react-native"
+import { Video } from "expo-av"
+import { AntDesign } from "@expo/vector-icons"
+import { Button } from "react-native-elements/dist/buttons/Button"
 
-import Img1 from "../../../../assets/img_example/img1.png"
-import Img2 from "../../../../assets/img_example/img2.png"
-import Img3 from "../../../../assets/img_example/img3.png"
-import Img4 from "../../../../assets/img_example/img4.png"
+import Img1 from "../../../../assets/img_example/f1.jpg"
+import Img2 from "../../../../assets/img_example/f2.jpg"
+import Img3 from "../../../../assets/img_example/f3.jpg"
+import Img4 from "../../../../assets/img_example/f4.jpg"
+import Img5 from "../../../../assets/img_example/f5.jpg"
+import ImgVideo from "../../../../assets/img_example/f_video.mp4"
 
-const Images = [Img1, Img2, Img3, Img4]
-const { width } = Dimensions.get("window")
-const height = (width * 100) / 65
+const images = [
+  { props: { source: Img1 } },
+  { props: { source: Img2 } },
+  { props: { source: Img3 } },
+  { props: { source: Img4 } },
+  { props: { source: Img5 } },
+]
 
-const PartnerImage = ({ navigation }) => {
-  const [active, setActive] = React.useState(0)
+export default function PartnerImage(props) {
+  const { navigation, route } = props
+  const { item } = route.params
 
-  const change = ({ nativeEvent }) => {
-    const slide = Math.ceil(
-      nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width
-    )
-    if (slide !== active) {
-      setActive(slide)
-    }
-  }
-
-  const showVideo = () => {
-    navigation.navigate("Partner-Video")
-  }
+  const video = React.useRef(null)
+  const [status, setStatus] = React.useState({})
 
   const onPressSelectPartner = () => {
     navigation.navigate("Partner-List-Select")
   }
 
+  const onPreviewImageList = (index) => {
+    navigation.navigate("Image-Preview", { index, images })
+  }
+
   return (
-    <View style={style.container}>
-      <View>
+    <ScrollView>
+      <View style={styles.imageContainer}>
+        <Text style={{ fontSize: 20, color: "green", fontWeight: "bold" }}>
+          รายละเอียด Partner
+        </Text>
+        <View
+          style={{
+            alignItems: "center",
+            padding: 10,
+            marginTop: 10,
+            borderWidth: 2.5,
+            borderColor: "#ff2fe6",
+            width: 350,
+            borderRadius: 25,
+          }}
+        >
+          <Text style={{ fontSize: 16 }}>ชื่อ Partner: {item.name}</Text>
+          <Text style={{ fontSize: 16 }}>คะแนนการทำงาน: 100 คะแนน</Text>
+          <Text style={{ fontSize: 16 }}>ข้อมูลจำเพาะ:</Text>
+          <Text style={{ fontSize: 16 }}>สัดส่วน 36 36 36 ผิวขาว สูง 165</Text>
+          <Text style={{ fontSize: 16 }}>ราคาที่เสนอ: 1,000 บาท</Text>
+          <Text style={{ fontSize: 16 }}>ค่าดำเนินการ: 100 บาท</Text>
+        </View>
         <Button
-          buttonStyle={{ backgroundColor: "chocolate" }}
-          title="แสดงวิดีโอของ Partner"
-          onPress={() => showVideo()}
+          title="เลือก Partner คนนี้"
+          icon={
+            <AntDesign
+              name="checkcircleo"
+              size={20}
+              style={{ marginRight: 5 }}
+              color="white"
+            />
+          }
+          color="red"
+          buttonStyle={{
+            backgroundColor: '#ff2fe6',
+            marginVertical: 10,
+            borderRadius: 25,
+            paddingHorizontal: 15,
+          }}
+          onPress={() => onPressSelectPartner()}
+        />
+        {images.map((item, index) => (
+          <TouchableHighlight onPress={() => onPreviewImageList(index)} key={index}>
+            <View
+              style={{
+                backgroundColor: "white",
+                borderWidth: 0.5,
+                marginVertical: 5,
+                alignItems: "center",
+                padding: 10,
+                borderColor: '#ff2fe6',
+                borderRadius: 25,
+              }}
+            >
+              <Image
+                key={index}
+                source={item.props.source}
+                style={styles.image}
+              />
+              <Text style={{ marginVertical: 10, fontSize: 14 }}>
+                รูปที่ {index + 1}
+              </Text>
+            </View>
+          </TouchableHighlight>
+        ))}
+      </View>
+      <View style={styles.container}>
+        <Video
+          ref={video}
+          style={styles.video}
+          source={ImgVideo}
+          useNativeControls
+          resizeMode="contain"
+          isLooping
+          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
         />
       </View>
-      <ScrollView
-        scrollEventThrottle={0}
-        pagingEnabled
-        horizontal
-        onScroll={change}
-        showsHorizontalScrollIndicator={false}
-        style={style.scroll}
-      >
-        {Images.map((item, index) => (
-          <Image
-            key={index}
-            source={item}
-            style={{ width, height, resizeMode: "cover" }}
-          />
-        ))}
-      </ScrollView>
-      <View style={style.pagination}>
-        {Images.map((i, k) => (
-          <Text
-            key={k}
-            style={k === active ? style.pagingActiveText : style.pagingText}
-          >
-            ⬤
-          </Text>
-        ))}
-      </View>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          marginTop: 10,
-          justifyContent: "center",
-        }}
-      >
-        <GradientButton
-          onPressAction={() => onPressSelectPartner()}
-          text="เลือก Parnter คนนี้"
-          width="90%"
-          blueViolet
-        />
-      </View>
-    </View>
+    </ScrollView>
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    width,
-    height,
+    flex: 1,
+    justifyContent: "space-between",
+    backgroundColor: "white",
   },
-  scroll: { width, height },
-  image: { width, height, resizeMode: "cover" },
-  pagination: {
-    flexDirection: "row",
-    position: "absolute",
-    bottom: 10,
+  video: {
     alignSelf: "center",
+    width: 350,
+    height: 300,
+    borderRadius: 25,
   },
-  pagingText: { fontSize: width / 30, color: "white", margin: 3 },
-  pagingActiveText: { fontSize: width / 30, color: "purple", margin: 3 },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imageContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "white",
+  },
+  image: {
+    height: 300,
+    width: 320,
+    margin: 5,
+    padding: 10,
+    borderWidth: 1.5,
+    borderRadius: 25,
+  },
 })
-
-export default PartnerImage

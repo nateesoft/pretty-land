@@ -13,7 +13,7 @@ const CreateNewPostForm = ({ navigation, route }) => {
 
   return (
     <View style={styles.cardDetail}>
-      <Text style={styles.optionsNameDetail}>{item.title}</Text>
+      <Text style={styles.optionsNameDetail}>โพสทข้อมูลที่ต้องการ</Text>
       <Text style={styles.optionsNameDetail2}>{item.name}</Text>
       <View style={styles.viewCard}>
         <Input
@@ -67,7 +67,7 @@ const CreateNewPostForm = ({ navigation, route }) => {
           />
         }
         iconLeft
-        buttonStyle={{ marginRight: 15, paddingHorizontal: 50 }}
+        buttonStyle={styles.btnSave}
         title="บันทึกข้อมูล"
         onPress={() => navigation.navigate("Post-List")}
       />
@@ -76,11 +76,18 @@ const CreateNewPostForm = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
+  btnSave: { 
+    margin: 15, 
+    paddingHorizontal: 50, 
+    borderRadius: 55,
+    backgroundColor: '#ff2fe6',
+  },
   cardDetail: {
     flex: 1,
     alignItems: "center",
     padding: 5,
     margin: 10,
+    backgroundColor: "white",
   },
   optionsNameDetail: {
     fontSize: 24,

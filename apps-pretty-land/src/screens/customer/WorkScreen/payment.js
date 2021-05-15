@@ -11,7 +11,7 @@ const PaymentForm = ({ navigation }) => {
   const [datetime, setDateTime] = useState("")
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (Platform.OS !== "web") {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -37,6 +37,7 @@ const PaymentForm = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text style={styles.optionsNameDetail}>ยืนยันข้อมูลการโอนเงิน</Text>
       <Input
         name="bank"
         placeholder="ธนาคารที่โอนเงิน"
@@ -103,6 +104,14 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "#bbb",
     padding: 5,
+  },
+  optionsNameDetail: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "blue",
+    marginBottom: 15,
+    marginTop: 10,
   },
 })
 

@@ -3,6 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack"
 
 import ViewProfileScreen from "./viewProfile"
 
+import { LogoTitle } from "../../../components/Header"
+
 const Stack = createStackNavigator()
 
 const TabNavigator = () => {
@@ -12,7 +14,14 @@ const TabNavigator = () => {
         name="View-Profile"
         component={ViewProfileScreen}
         options={{
-          title: "แก้ไขข้อมูลส่วนตัว",
+          title: "Edit-Profile",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => (
+            <LogoTitle title="Pretty Land" {...props} />
+          ),
         }}
       />
     </Stack.Navigator>

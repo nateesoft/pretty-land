@@ -27,6 +27,24 @@ const LoginScreen = (props) => {
         <Text style={styles.textLogo}>PRETTY LAND</Text>
         <Text style={styles.textDetail}>Love Your Moments</Text>
         <TouchableHighlight
+          style={styles.btnLineClickContain}
+          onPress={() => signIn({ username: "", password: "", screen: 'customer' })}
+        >
+          <View style={styles.btnContainer}>
+            <Image source={lineLogo} style={{ width: 24, height: 24 }} />
+            <Text
+              style={{
+                marginLeft: 10,
+                color: "snow",
+                fontWeight: "bold",
+                fontSize: 16,
+              }}
+            >
+              เข้าสู่ระบบด้วย LINE
+            </Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight
           style={styles.btnClickContain}
           onPress={() =>
             signIn({
@@ -47,24 +65,6 @@ const LoginScreen = (props) => {
               }}
             >
               เข้าสู่ระบบด้วย facebook
-            </Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.btnLineClickContain}
-          onPress={() => signIn({ username: "", password: "", screen: 'customer' })}
-        >
-          <View style={styles.btnContainer}>
-            <Image source={lineLogo} style={{ width: 24, height: 24 }} />
-            <Text
-              style={{
-                marginLeft: 10,
-                color: "snow",
-                fontWeight: "bold",
-                fontSize: 16,
-              }}
-            >
-              เข้าสู่ระบบด้วย LINE
             </Text>
           </View>
         </TouchableHighlight>
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom: 5,
     backgroundColor: "#0A69D6",
-    marginTop: 45,
+    marginTop: 5,
     borderRadius: 25,
     width: 250,
     height: 45,
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom: 5,
     backgroundColor: "#35D00D",
-    marginTop: 5,
+    marginTop: 45,
     borderRadius: 25,
     width: 250,
     height: 45,

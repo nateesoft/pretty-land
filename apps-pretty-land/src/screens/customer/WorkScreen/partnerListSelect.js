@@ -1,9 +1,10 @@
 import React from "react"
 import { View, StyleSheet } from "react-native"
-import { SafeAreaView, Image, FlatList, Text } from "react-native"
+import { Image, FlatList, Text } from "react-native"
 import { ListItem, Avatar, Button } from "react-native-elements"
+import ProgressCircle from "react-native-progress-circle"
 
-import Img1 from "../../../../assets/img_example/girl1.png"
+import Img1 from "../../../../assets/img_example/f1.jpg"
 import Img2 from "../../../../assets/img_example/girl2.png"
 
 const list = [
@@ -35,23 +36,43 @@ const PartnerListSelect = ({ navigation, route }) => {
   const keyExtractor = (item, index) => index.toString()
 
   const renderItem = ({ item }) => (
-    <ListItem bottomDivider onPress={() => onPressShowPartnerDetail(item)}>
-      <Avatar source={item.image} />
-      <ListItem.Content>
+    <ListItem
+      bottomDivider
+      onPress={() => onPressShowPartnerDetail(item)}
+      containerStyle={{
+        backgroundColor: "#fef8e3",
+        borderRadius: 8,
+        marginVertical: 5,
+      }}
+    >
+      <Avatar source={item.image} size={64} />
+      <ListItem.Content style={{ marginLeft: 10 }}>
         <ListItem.Title>{item.name}</ListItem.Title>
         <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
         <ListItem.Subtitle>Status: {item.status}</ListItem.Subtitle>
       </ListItem.Content>
-      <ListItem.Chevron />
+      <ProgressCircle
+        percent={30}
+        radius={17}
+        borderWidth={1.5}
+        color="f580084"
+        shadowColor="#FFF"
+        bgColor="#FFF"
+      >
+        <Image source={require("../../../../assets/icons/pl.png")} />
+      </ProgressCircle>
     </ListItem>
   )
 
   return (
     <View style={styles.container}>
       <View style={styles.cardContainer1}>
-        <Text>{data.name}</Text>
-        <Text>{data.subtitle}</Text>
-        <Image source={data.image} style={styles.image} />
+        <Text style={{ fontSize: 20, color: "blue", fontWeight: "bold" }}>
+          {data.name}
+        </Text>
+        <Text style={{ fontSize: 18, color: "chocolate" }}>
+          {data.subtitle}
+        </Text>
         <Text style={styles.textTopic}>แสดงรายชื่อ Parnter พร้อมรับงาน</Text>
       </View>
       <View style={styles.cardContainer2}>
@@ -60,7 +81,15 @@ const PartnerListSelect = ({ navigation, route }) => {
           keyExtractor={keyExtractor}
           data={list}
           renderItem={renderItem}
+          style={{
+            height: 600,
+            borderWidth: 1,
+            borderColor: "#eee",
+            padding: 5,
+          }}
         />
+      </View>
+      <View style={{ alignItems: "center", backgroundColor: "white" }}>
         <Button
           style={styles.button}
           buttonStyle={{
@@ -81,10 +110,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   cardContainer1: {
-    flex: 1,
     flexDirection: "column",
-    justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: "white",
+    padding: 10,
   },
   cardContainer2: {
     flex: 1,

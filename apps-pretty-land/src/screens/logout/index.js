@@ -1,6 +1,5 @@
 import React from "react"
-import { Button, StyleSheet } from "react-native"
-import { View, Text } from "react-native"
+import { Button, StyleSheet, View, Text } from "react-native"
 
 import { Context as AuthContext } from "../../context/AuthContext"
 
@@ -19,16 +18,9 @@ const LogoutScreen = ({ navigation }) => {
       <Text style={{ fontSize: 28, color: "white", fontWeight: "bold" }}>
         ยืนยันการออกจากระบบ
       </Text>
-      <Button title="ออกจากระบบ" style={styles.btnGoHome} onPress={()=>signOut()} />
+      <Button title="ออกจากระบบ" color="white" onPress={()=>signOut()} />
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  btnGoHome: {
-    borderWidth: 1.5,
-    backgroundColor: 'white',
-  }
-})
 
 export default LogoutScreen

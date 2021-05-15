@@ -1,46 +1,29 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
-import { Image, View, Text } from "react-native"
 
 import PartnerCategoryScreen from "./partnerCategory"
 import PartnerListCountryScreen from "./partnerListCountry"
 import PartnerListPostScreen from "./partnerPostList"
 import CreatePostForm from "./createPost"
 
-import Logo from "../../../../assets/login.png"
+import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const LogoTitle = () => {
-  return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <Image style={{ width: 30, height: 30, marginRight: 15 }} source={Logo} />
-      <Text style={{ fontSize: 16, fontWeight: "bold", color: "white" }}>
-        แสดงกลุ่มพาทเนอร์
-      </Text>
-    </View>
-  )
-}
-
-const TabNavigator = () => {
+const TabNavigator = ({ title }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Partner-Category"
         component={PartnerCategoryScreen}
         options={{
-          title: "แสดงกลุ่มพาทเนอร์",
+          title: "Back",
           headerStyle: {
             backgroundColor: "#ff2fe6",
           },
-          headerTitle: (props) => <LogoTitle {...props} />,
+          headerTitle: (props) => (
+            <LogoTitle title="แสดงกลุ่มพาทเนอร์" {...props} />
+          ),
         }}
       />
       <Stack.Screen
@@ -51,7 +34,20 @@ const TabNavigator = () => {
         name="Partner-List-Post"
         component={PartnerListPostScreen}
       />
-      <Stack.Screen name="Create-Post-Form" component={CreatePostForm} />
+      <Stack.Screen
+        name="Create-Post-Form"
+        component={CreatePostForm}
+        options={{
+          title: 'สร้างโพสท์ใหม่',
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => (
+            <LogoTitle title="Pretty Land" {...props} />
+          ),
+        }}
+      />
     </Stack.Navigator>
   )
 }

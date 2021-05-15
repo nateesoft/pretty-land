@@ -72,6 +72,8 @@ export const partnerCategory = [
     info: "0 รายการ",
     postQty: 0,
     img: require("../../assets/img_example/img1.png"),
+    label: "พริตตี้ Event",
+    value: "pretty-event"
   },
   {
     id: 2,
@@ -80,6 +82,8 @@ export const partnerCategory = [
     info: "10 รายการ",
     postQty: 10,
     img: require("../../assets/img_example/img2.png"),
+    label: "โคโยตี้",
+    value: "coyote"
   },
   {
     id: 3,
@@ -88,6 +92,8 @@ export const partnerCategory = [
     info: "3 รายการ",
     postQty: 3,
     img: require("../../assets/img_example/img3.png"),
+    label: "พริตตี้ Entertain",
+    value: "pretty-entertain"
   },
   {
     id: 4,
@@ -96,20 +102,22 @@ export const partnerCategory = [
     info: "8 รายการ",
     postQty: 8,
     img: require("../../assets/img_example/img4.png"),
+    label: "พริตตี้ นวดแผนไทย",
+    value: "pretty-massage"
   },
 ]
 
 export const countryList = [
-  { id: 1, name: "กรุงเทพมหานคร" },
-  { id: 2, name: "อำนาจเจริญ" },
-  { id: 3, name: "อ่างทอง" },
-  { id: 4, name: "บึงกาฬ" },
-  { id: 5, name: "บุรีรัมย์" },
-  { id: 6, name: "ฉะเชิงเทรา" },
-  { id: 7, name: "ชัยนาท" },
-  { id: 8, name: "ชัยภูมิ" },
-  { id: 9, name: "จันทบุรี" },
-  { id: 10, name: "เชียงใหม่" },
+  { value: 1, label: "กรุงเทพมหานคร" },
+  { value: 2, label: "อำนาจเจริญ" },
+  { value: 3, label: "อ่างทอง" },
+  { value: 4, label: "บึงกาฬ" },
+  { value: 5, label: "บุรีรัมย์" },
+  { value: 6, label: "ฉะเชิงเทรา" },
+  { value: 7, label: "ชัยนาท" },
+  { value: 8, label: "ชัยภูมิ" },
+  { value: 9, label: "จันทบุรี" },
+  { value: 10, label: "เชียงใหม่" },
 ]
 
 export const country = [
