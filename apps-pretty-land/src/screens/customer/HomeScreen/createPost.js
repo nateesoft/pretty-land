@@ -23,8 +23,6 @@ const CreatePostForm = ({ navigation, route }) => {
   const [comment, setComment] = React.useState("")
   const [qty, setQty] = React.useState("")
 
-  // DropDownPicker.setTheme("DARK")
-
   return (
     <View style={styles.cardDetail}>
       <Text style={styles.optionsNameDetail}>โพสทข้อมูลที่ต้องการ</Text>

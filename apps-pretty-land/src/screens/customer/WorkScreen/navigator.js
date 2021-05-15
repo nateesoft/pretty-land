@@ -7,7 +7,7 @@ import PartnerImageScreen from "./partnerImage"
 import ImagePreviewScreen from "./imagePreview"
 import PaymentForm from "./payment"
 import ReviewTaskScreen from "./reviewTask"
-import CreateNewPostForm from "./createPost"
+import CreateNewPostForm from "../HomeScreen/createPost"
 
 import { LogoTitle } from "../../../components/Header"
 

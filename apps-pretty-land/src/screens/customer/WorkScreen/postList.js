@@ -16,7 +16,7 @@ import { getPostList } from "../../../data/apis"
 
 const PostListScreen = ({ navigation, route }) => {
   const { partnerType } = route.params
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = React.useState(false)
 
   const filterList = getPostList().filter((item) => {
     if (partnerType === "all") {
@@ -26,7 +26,7 @@ const PostListScreen = ({ navigation, route }) => {
   })
 
   const handleRefresh = () => {
-    console.log('refresh data list');
+    console.log("refresh data list")
   }
 
   const onPressOptions = (item, status) => {
@@ -109,7 +109,10 @@ const PostListScreen = ({ navigation, route }) => {
             padding: 5,
           }}
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={()=>handleRefresh()} />
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => handleRefresh()}
+            />
           }
         />
       </View>
