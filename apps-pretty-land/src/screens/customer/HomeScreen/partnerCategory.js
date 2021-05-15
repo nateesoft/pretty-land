@@ -29,20 +29,12 @@ const PartnerCategory = ({ navigation }) => {
     <TouchableHighlight
       underlayColor="pink"
       onPress={() => onPressOptions(data)}
+      style={styles.box}
     >
-      <View
-        style={{
-          backgroundColor: "red",
-          padding: 10,
-          width: "100%",
-          alignItems: "center",
-          borderRadius: 5,
-        }}
-      >
+      <View style={styles.inner}>
         <Image
-          style={styles.optionsPhoto}
           source={data.img}
-          style={{ height: 280, width: "100%", marginBottom: 3 }}
+          style={{ height: 280, width: "90%", margin: 5 }}
         />
         <Text style={styles.optionsName}>{data.title}</Text>
         <Text style={styles.optionsInfo}>({data.info})</Text>
@@ -50,56 +42,37 @@ const PartnerCategory = ({ navigation }) => {
     </TouchableHighlight>
   )
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Grid>
-          <Row style={{ marginVertical: 5 }}>
-            <Col style={{ marginRight: 5 }}>
-              <DisplayCard
-                style={styles.cardContainer}
-                key={1}
-                data={items[0]}
-              />
-            </Col>
-            <Col>
-              <DisplayCard
-                style={styles.cardContainer}
-                key={1}
-                data={items[1]}
-              />
-            </Col>
-          </Row>
-          <Row style={{ marginVertical: 5 }}>
-            <Col style={{ marginRight: 5 }}>
-              <DisplayCard
-                style={styles.cardContainer}
-                key={1}
-                data={items[2]}
-              />
-            </Col>
-            <Col>
-              <DisplayCard
-                style={styles.cardContainer}
-                key={1}
-                data={items[3]}
-              />
-            </Col>
-          </Row>
-        </Grid>
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <DisplayCard data={items[0]} />
+      <DisplayCard data={items[1]} />
+      <DisplayCard data={items[2]} />
+      <DisplayCard data={items[3]} />
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 10,
+    width: "100%",
+    height: "100%",
+    padding: 5,
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
-  cardContainer: {
-    height: 100,
-    borderWidth: 1.5,
-    borderColor: "red",
+  box: {
+    // height: 100,
+    // borderWidth: 1.5,
+    // backgroundColor: "red",
+    width: "50%",
+    height: "50%",
+    padding: 5,
+  },
+  inner: {
+    flex: 1,
     backgroundColor: "red",
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
   },
   optionsName: {
     fontSize: 20,
@@ -111,7 +84,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
-  optionsPhoto: {},
 })
 
 export default PartnerCategory
