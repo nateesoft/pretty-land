@@ -32,3 +32,15 @@ export const getCountry = () => {
 export const getPostList = () => {
   return postList
 }
+
+export const getPostToConfirmList = () => {
+  return postList.filter(
+    (item, index) => item.status === "wait_admin_confirm_new_post"
+  )
+}
+
+export const getTransferListToConfirm = () => {
+  return postList.filter(
+    (item, index) => item.status === "wait_admin_confirm_payment"
+  )
+}

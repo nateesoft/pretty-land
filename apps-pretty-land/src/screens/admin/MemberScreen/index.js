@@ -1,7 +1,7 @@
 import React from "react"
 import { View, Text } from "react-native"
 
-const WorkScreen = () => {
+const MemberScreen = () => {
   return (
     <View
       style={{
@@ -10,9 +10,9 @@ const WorkScreen = () => {
         justifyContent: "center",
       }}
     >
-      <Text>Work Screen</Text>
+      <Text>Member Screen</Text>
     </View>
   )
 }
 
-export default WorkScreen
+export default MemberScreen
