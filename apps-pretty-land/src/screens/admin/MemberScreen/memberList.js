@@ -37,7 +37,6 @@ const PostListToConfirmScreen = ({ navigation, route }) => {
   }
 
   const getBgColor = (status) => {
-    console.log(status);
     if (status === "admin") {
       return "#fdddf3"
     } else if (status === "customer") {
