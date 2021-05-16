@@ -1,13 +1,18 @@
 import React from "react"
-import { StyleSheet, View } from "react-native"
+import { ScrollView, StyleSheet, View } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 import DropDownPicker from "react-native-dropdown-picker"
 
-import { getPartnerGroup, getCountryList } from "../../../data/apis"
+import {
+  getPartnerGroup,
+  getCountryList,
+  addPostList,
+} from "../../../data/apis"
 
-const CreatePostForm = ({ navigation, route }) => {
-  const { data, item } = route.params
+const CreatePostForm = (props) => {
+  const { navigation, route } = props
+  const { data, item, pageFrom } = route.params
 
   const [openSelectPartner, setOpenSelectPartner] = React.useState(false)
   const [partner, setPartner] = React.useState("")
@@ -22,6 +27,18 @@ const CreatePostForm = ({ navigation, route }) => {
   const [place, setPlace] = React.useState("")
   const [comment, setComment] = React.useState("")
   const [qty, setQty] = React.useState("")
+
+  const createNewPost = () => {
+    addPostList({
+      post_owner: owner,
+      partnerType: partner,
+      name: comment,
+      subtitle: `${partner} จำนวน ${qty}`,
+      status: "customer_new_post_done",
+      statusText: "โพสท์ใหม่",
+    })
+    navigation.navigate(pageFrom)
+  }
 
   return (
     <View style={styles.cardDetail}>
@@ -105,7 +122,7 @@ const CreatePostForm = ({ navigation, route }) => {
         iconLeft
         buttonStyle={styles.btnSave}
         title="บันทึกข้อมูล"
-        onPress={() => navigation.navigate("Partner-Category")}
+        onPress={() => createNewPost()}
       />
     </View>
   )

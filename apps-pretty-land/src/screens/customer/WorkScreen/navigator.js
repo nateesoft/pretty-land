@@ -100,6 +100,9 @@ const TabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{
+          pageFrom: "Post-List",
+        }}
       />
     </Stack.Navigator>
   )

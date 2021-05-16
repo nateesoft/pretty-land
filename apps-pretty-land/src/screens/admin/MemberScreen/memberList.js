@@ -13,7 +13,7 @@ import DropDownPicker from "react-native-dropdown-picker"
 
 import { getMemberList, getMemberCategory } from "../../../data/apis"
 
-const PostListToConfirmScreen = ({ navigation, route }) => {
+const MemberAllListScreen = ({ navigation, route }) => {
   const { partnerType } = route.params
   const [refreshing, setRefreshing] = React.useState(false)
 
@@ -143,4 +143,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PostListToConfirmScreen
+export default MemberAllListScreen

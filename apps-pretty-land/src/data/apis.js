@@ -5,6 +5,7 @@ import {
   postList,
   membersList,
   memberCategory,
+  postStatus,
 } from "./items"
 
 export const getCountryCount = (id, type) => {
@@ -42,7 +43,13 @@ export const getPostList = () => {
 
 export const getPostToConfirmList = () => {
   return postList.filter(
-    (item, index) => item.status === "wait_admin_confirm_new_post"
+    (item, index) => item.status === "customer_new_post_done"
+  )
+}
+
+export const getPostToPartnerList = () => {
+  return postList.filter(
+    (item, index) => item.status === "admin_confirm_new_post"
   )
 }
 
@@ -58,4 +65,21 @@ export const getMemberList = () => {
 
 export const getMemberCategory = () => {
   return memberCategory
+}
+
+export const getPostStatus = () => {
+  return postStatus
+}
+
+export const addPostList = (newPost) => {
+  postList.push({
+    id: postList.length + 1,
+    post_owner: newPost.postOwner,
+    partnerType: newPost.partnerType,
+    name: newPost.name,
+    image: require("../../assets/img_example/img1.png"),
+    subtitle: newPost.subtitle,
+    status: "customer_new_post_done",
+    statusText: "โพสท์ใหม่",
+  })
 }

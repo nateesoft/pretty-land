@@ -1,8 +1,7 @@
 import React from "react"
 import { View, StyleSheet, Text, Image, TextInput } from "react-native"
 import Icon from "@expo/vector-icons/AntDesign"
-import { FontAwesome, Ionicons} from "@expo/vector-icons"
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome, Ionicons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { Button } from "react-native-elements/dist/buttons/Button"
 
 import bg from "../../../assets/login.png"
@@ -29,6 +28,7 @@ const RegisterPartnerForm = (props) => {
       {type === "a" && <FontAwesome name={icon} size={24} color="black" />}
       {type === "i" && <Icon name={icon} color="#00716F" size={20} />}
       {type==='i2' && <Ionicons name={icon} size={24} color="black" />}
+      {type==='a5' && <FontAwesome5 name={icon} size={24} color="black" />}
       <TextInput style={styles.textInput} placeholder={label} />
     </View>
   )
@@ -41,10 +41,12 @@ const RegisterPartnerForm = (props) => {
       <Text style={styles.textFormInfo}>ลงทะเบียนผู้ร่วมงาน</Text>
       <Text style={{ marginBottom: 5, color: "gray" }}>เพิ่มข้อมูลส่วนตัว</Text>
       <InputForm icon="user" label="ชื่อ" />
-      <InputForm icon="intersex" label="เพศ" type="a" />
+      <InputForm icon="human-male-female" label="เพศ" type="m" />
       <InputForm icon="mobile-phone" label="เบอร์โทรศัพท์" type="a" />
       <InputForm icon="human-male-height" label="ส่วนสูง" type="m" />
-      <InputForm icon="body" label="สัดส่วน" type='i2' />
+      <InputForm icon="md-woman-outline" label="สัดส่วน 32-24-35" type='i2' />
+      <InputForm icon="weight" label="น้ำหนัก" type='a5' />
+      <InputForm icon="timeline-clock" label="อายุ" type='m' />
       <Button
         title="เพิ่มข้อมูลธนาคาร"
         iconLeft

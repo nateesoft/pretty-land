@@ -38,14 +38,15 @@ const TabNavigator = ({ title }) => {
         name="Create-Post-Form"
         component={CreatePostForm}
         options={{
-          title: 'สร้างโพสท์ใหม่',
+          title: "สร้างโพสท์ใหม่",
           headerStyle: {
             backgroundColor: "#ff2fe6",
           },
           headerTintColor: "white",
-          headerTitle: (props) => (
-            <LogoTitle title="Pretty Land" {...props} />
-          ),
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+        initialParams={{
+          pageFrom: "Partner-Category",
         }}
       />
     </Stack.Navigator>

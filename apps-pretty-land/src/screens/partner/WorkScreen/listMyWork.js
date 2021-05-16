@@ -34,7 +34,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
   const getBgColor = (status) => {
     if (status === "customer_new_post_done") {
       return "#fdddf3"
-    } else if (status === "wait_admin_confirm_new_post") {
+    } else if (status === "admin_confirm_new_post") {
       return "#fef8e3"
     } else if (status === "wait_customer_select_partner") {
       return "#fcf2ff"

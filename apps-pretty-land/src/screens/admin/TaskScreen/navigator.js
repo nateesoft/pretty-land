@@ -1,8 +1,9 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
-import PostListToConfirmScreen from "./postListToConfirm"
-import ConfirmTaskScreen from "./confirmTask"
+import PostListAllScreen from "./postListAll"
+import DetailTaskScreen from "./detailTask"
+import VerifyPaymentSlipScreen from "./verifyPaymentSlip"
 
 import { LogoTitle } from "../../../components/Header"
 
@@ -12,8 +13,8 @@ const StackNavigator = ({ navigation, route }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Post-List-To-Confirm"
-        component={PostListToConfirmScreen}
+        name="Post-List-All"
+        component={PostListAllScreen}
         options={{
           title: "Back",
           headerStyle: {
@@ -25,8 +26,8 @@ const StackNavigator = ({ navigation, route }) => {
         initialParams={{ partnerType: "all" }}
       />
       <Stack.Screen
-        name="Confirm-Task"
-        component={ConfirmTaskScreen}
+        name="Detail-Task"
+        component={DetailTaskScreen}
         options={{
           title: "Back",
           headerStyle: {
@@ -35,7 +36,18 @@ const StackNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
-        initialParams={{ partnerType: "all" }}
+      />
+      <Stack.Screen
+        name="Verify-Payment-Slip"
+        component={VerifyPaymentSlipScreen}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
       />
     </Stack.Navigator>
   )

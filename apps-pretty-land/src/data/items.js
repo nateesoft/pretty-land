@@ -2,24 +2,31 @@ export const postList = [
   {
     id: 1,
     partnerType: "1",
+    postOwner: "A",
     name: "Pretty - ฉลองซื้อรถใหม่",
     image: require("../../assets/img_example/img1.png"),
     subtitle: "กรุงเทพฯ จำนวน 2 คน",
     status: "customer_new_post_done",
-    statusText: "โพสท์ใหม่",
+    statusText: "โพสท์ใหม่รอ approve",
+    textToPartner: "",
+    textToAdmin: "โพสท์ใหม่รอ approve",
   },
   {
     id: 2,
     partnerType: "2",
+    postOwner: "B",
     name: "Coyote - งานรถกะบะซิ่ง",
     image: require("../../assets/img_example/img2.png"),
     subtitle: "เชียงใหม่ จำนวน 10 คน",
-    status: "wait_admin_confirm_new_post",
-    statusText: "รอ Admin คอนเฟิร์ม",
+    status: "admin_confirm_new_post",
+    statusText: "รอเลือก Partner",
+    textToPartner: "รอรับงาน",
+    textToAdmin: "รอ Partner รับงาน",
   },
   {
     id: 3,
     partnerType: "3",
+    postOwner: "C",
     name: "Pretty Entertain - รองรับแขก VIP",
     image: require("../../assets/img_example/img3.png"),
     subtitle: "กรงเทพฯ จำนวน 4 คน",
@@ -29,6 +36,7 @@ export const postList = [
   {
     id: 4,
     partnerType: "4",
+    postOwner: "D",
     name: "Pretty นวดแผนไทย - อบรมพนักงาน",
     image: require("../../assets/img_example/img1.png"),
     subtitle: "นครราชสีมา จำนวน 5 คน",
@@ -38,6 +46,7 @@ export const postList = [
   {
     id: 5,
     partnerType: "4",
+    postOwner: "E",
     name: "Pretty นวดแผนไทย - อบรมพนักงาน",
     image: require("../../assets/img_example/img4.png"),
     subtitle: "นครราชสีมา จำนวน 5 คน",
@@ -47,6 +56,7 @@ export const postList = [
   {
     id: 6,
     partnerType: "4",
+    postOwner: "E",
     name: "Pretty นวดแผนไทย - อบรมพนักงาน",
     image: require("../../assets/img_example/img2.png"),
     subtitle: "นครราชสีมา จำนวน 5 คน",
@@ -56,6 +66,7 @@ export const postList = [
   {
     id: 7,
     partnerType: "4",
+    postOwner: "F",
     name: "Pretty นวดแผนไทย - อบรมพนักงาน",
     image: require("../../assets/img_example/img1.png"),
     subtitle: "นครราชสีมา จำนวน 5 คน",
@@ -171,13 +182,6 @@ export const membersList = [
     status: "active",
   },
   {
-    id: 2,
-    memberType: "customer",
-    name: "นาย B",
-    image: require("../../assets/img_example/img2.png"),
-    status: "active",
-  },
-  {
     id: 3,
     memberType: "customer",
     name: "นาย C",
@@ -208,7 +212,14 @@ export const membersList = [
   {
     id: 7,
     memberType: "partner",
-    name: "พริตตี้-1",
+    name: "โคโยตี้-1",
+    image: require("../../assets/img_example/img1.png"),
+    status: "active",
+  },
+  {
+    id: 10,
+    memberType: "partner",
+    name: "พริตตี้-นวดแผนไทย",
     image: require("../../assets/img_example/img1.png"),
     status: "active",
   },
@@ -226,17 +237,19 @@ export const membersList = [
     image: require("../../assets/img_example/img2.png"),
     status: "active",
   },
-  {
-    id: 10,
-    memberType: "admin",
-    name: "admin-003",
-    image: require("../../assets/img_example/img3.png"),
-    status: "active",
-  },
 ]
 
 export const memberCategory = [
+  { value: 0, label: "แสดงทั้งหมด" },
   { value: 1, label: "Customer" },
   { value: 2, label: "Partner" },
   { value: 3, label: "Admin" },
+]
+
+export const postStatus = [
+  { value: 0, label: "แสดงทั้งหมด" },
+  { value: 1, label: "โพสท์ใหม่" },
+  { value: 2, label: "ตรวจสอบแล้ว" },
+  { value: 3, label: "รอตรวจสอบสลิปโอนเงิน" },
+  { value: 4, label: "ปิดงานเรียบร้อย" },
 ]

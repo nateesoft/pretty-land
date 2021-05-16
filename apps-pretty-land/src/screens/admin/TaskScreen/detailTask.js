@@ -3,38 +3,55 @@ import { StyleSheet, View } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
 import { AntDesign, Ionicons } from "react-native-vector-icons"
 
-const ConfirmTransferTaskScreen = ({ navigation, route }) => {
+const ConfirmTaskScreen = ({ navigation, route }) => {
   return (
     <View style={styles.cardDetail}>
-      <Text style={styles.optionsNameDetail}>ข้อมูลการโอนเงินเข้าสู่ระบบ</Text>
+      <Text style={styles.optionsNameDetail}>ตำแหน่งงานที่มองหา</Text>
+      <Text style={styles.optionsNameDetail2}>จังหวัดที่ต้องการ</Text>
       <View style={styles.viewCard}>
+        <Input
+          name="owner"
+          disabled
+          leftIcon={{ type: "font-awesome", name: "address-book" }}
+          style={styles.inputForm}
+          value="คุณโดนใจ ใช่เลย"
+        />
+        <Input
+          name="comment"
+          placeholder="รายละเอียดเพิ่มเติม"
+          disabled
+          leftIcon={{ type: "font-awesome", name: "comment" }}
+          style={styles.inputForm}
+          value="รูปร่างดี หุ่นดี ขาว ด่วน!!!"
+        />
+        <Input
+          name="phone"
+          placeholder="เบอร์ติดต่อ"
+          disabled
+          leftIcon={{ type: "font-awesome", name: "phone" }}
+          style={styles.inputForm}
+          value="0812208944"
+        />
         <Input
           name="place"
           disabled
           leftIcon={{ type: "font-awesome", name: "home" }}
           style={styles.inputForm}
-          value="โอนเงินเมื่อวันที่ 01/01/2021"
+          value="หน้าวัดลาปลาเค้า"
         />
         <Input
           name="qty"
           disabled
           leftIcon={{ type: "font-awesome", name: "users" }}
           style={styles.inputForm}
-          value="ยอดเงินที่โอน 100 บาท"
+          value="1 ตำแหน่ง"
         />
         <Input
           name="status"
           disabled
           leftIcon={{ type: "font-awesome", name: "star" }}
           style={styles.inputForm}
-          value="เลขที่อ้างอิง"
-        />
-        <Input
-          name="status"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "star" }}
-          style={styles.inputForm}
-          value="รูปภาพสลิปการโอนเงิน"
+          value="รอพิจารณาจาก Admin"
         />
       </View>
       <Button
@@ -48,8 +65,8 @@ const ConfirmTransferTaskScreen = ({ navigation, route }) => {
         }
         iconLeft
         buttonStyle={{ margin: 5, backgroundColor: "#ff2fe6", paddingHorizontal: 20, borderRadius: 25 }}
-        title="การโอนเงินเสร็จสมบูรณ์"
-        onPress={() => navigation.navigate("Post-List")}
+        title="อนุมัติโพสท์"
+        onPress={() => navigation.navigate("Post-List-All")}
       />
       <Button
         icon={
@@ -62,8 +79,8 @@ const ConfirmTransferTaskScreen = ({ navigation, route }) => {
         }
         iconLeft
         buttonStyle={{ margin: 5, backgroundColor: "red", borderRadius: 25, paddingHorizontal: 20 }}
-        title="ไม่อนุมัติสลิปการโอนเงิน"
-        onPress={() => navigation.navigate("Post-List")}
+        title="ไม่อนุมัติโพสท์"
+        onPress={() => navigation.navigate("Post-List-All")}
       />
     </View>
   )
@@ -99,4 +116,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ConfirmTransferTaskScreen
+export default ConfirmTaskScreen

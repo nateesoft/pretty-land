@@ -42,7 +42,7 @@ const PostListScreen = ({ navigation, route }) => {
   const getBgColor = (status) => {
     if (status === "customer_new_post_done") {
       return "#fdddf3"
-    } else if (status === "wait_admin_confirm_new_post") {
+    } else if (status === "admin_confirm_new_post") {
       return "#fef8e3"
     } else if (status === "wait_customer_select_partner") {
       return "#fcf2ff"
@@ -98,23 +98,31 @@ const PostListScreen = ({ navigation, route }) => {
     <SafeAreaView>
       <View style={styles.container}>
         <Text style={styles.textTopic}>แสดงรายการที่โพสท์</Text>
-        <FlatList
-          keyExtractor={keyExtractor}
-          data={filterList}
-          renderItem={renderItem}
-          style={{
-            height: 600,
-            borderWidth: 1,
-            borderColor: "#eee",
-            padding: 5,
-          }}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => handleRefresh()}
-            />
-          }
-        />
+        {filterList.length > 0 && (
+          <FlatList
+            keyExtractor={keyExtractor}
+            data={filterList}
+            renderItem={renderItem}
+            style={{
+              height: 600,
+              borderWidth: 1,
+              borderColor: "#eee",
+              padding: 5,
+            }}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={() => handleRefresh()}
+              />
+            }
+          />
+        )}
+        {filterList.length === 0 && <Text style={{
+          fontSize: 28,
+          textAlign: 'center',
+          paddingVertical: 100,
+          backgroundColor: 'white',
+        }}>ไม่พบข้อมูลการโพสท์</Text>}
       </View>
       <View style={{ alignItems: "center", backgroundColor: "white" }}>
         <Button

@@ -1,8 +1,8 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
-import PostListToConfirmScreen from "./memberList"
-import ConfirmTaskScreen from "./memberDetail"
+import MemberAllListScreen from "./memberList"
+import MemberDetailScreen from "./memberDetail"
 
 import { LogoTitle } from "../../../components/Header"
 
@@ -13,7 +13,7 @@ const StackNavigator = ({ navigation, route }) => {
     <Stack.Navigator>
       <Stack.Screen
         name="List-All-Member"
-        component={PostListToConfirmScreen}
+        component={MemberAllListScreen}
         options={{
           title: "Back",
           headerStyle: {
@@ -26,7 +26,7 @@ const StackNavigator = ({ navigation, route }) => {
       />
       <Stack.Screen
         name="Member-Detail"
-        component={ConfirmTaskScreen}
+        component={MemberDetailScreen}
         options={{
           title: "Back",
           headerStyle: {
@@ -35,7 +35,6 @@ const StackNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
-        initialParams={{ partnerType: "all" }}
       />
     </Stack.Navigator>
   )
