@@ -28,7 +28,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
   }
 
   const onPressOptions = (item, status) => {
-    navigation.navigate("Confirm-Task", { status })
+    navigation.navigate("Work-Detail", { status })
   }
 
   const getBgColor = (status) => {

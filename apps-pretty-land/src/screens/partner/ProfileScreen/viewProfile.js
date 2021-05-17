@@ -133,7 +133,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
           iconLeft
           buttonStyle={styles.btnSave}
           title="บันทึกข้อมูล"
-          onPress={() => navigation.navigate("Partner-Category")}
+          onPress={() => console.log("Save to firebase")}
         />
       </View>
     </ScrollView>

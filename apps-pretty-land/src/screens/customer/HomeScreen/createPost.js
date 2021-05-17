@@ -41,92 +41,90 @@ const CreatePostForm = (props) => {
   }
 
   return (
-    <ScrollView>
-      <View style={styles.cardDetail}>
-        <Text style={styles.optionsNameDetail}>โพสทข้อมูลที่ต้องการ</Text>
-        <Text style={styles.optionsNameDetail2}>{item.name}</Text>
-        <DropDownPicker
-          placeholder="เลือก Partner"
-          open={openSelectPartner}
-          setOpen={setOpenSelectPartner}
-          value={partner}
-          setValue={setPartner}
-          items={partnerList}
-          setItems={setPartnerList}
-          style={styles.dropdownStyle}
-          textStyle={{ fontSize: 18 }}
-          zIndex={2}
+    <View style={styles.cardDetail}>
+      <Text style={styles.optionsNameDetail}>โพสทข้อมูลที่ต้องการ</Text>
+      <Text style={styles.optionsNameDetail2}>{item.name}</Text>
+      <DropDownPicker
+        placeholder="เลือก Partner"
+        open={openSelectPartner}
+        setOpen={setOpenSelectPartner}
+        value={partner}
+        setValue={setPartner}
+        items={partnerList}
+        setItems={setPartnerList}
+        style={styles.dropdownStyle}
+        textStyle={{ fontSize: 18 }}
+        zIndex={2}
+      />
+      <DropDownPicker
+        placeholder="เลือกจังหวัด"
+        open={openSelectCountry}
+        setOpen={setOpenSelectCountry}
+        value={country}
+        setValue={setCountry}
+        items={countryList}
+        setItems={setCountryList}
+        style={styles.dropdownStyle}
+        textStyle={{ fontSize: 18 }}
+        zIndex={1}
+      />
+      <View style={styles.viewCard}>
+        <Input
+          name="owner"
+          placeholder="ชื่อคนโพสท์"
+          leftIcon={{ type: "font-awesome", name: "address-book" }}
+          style={styles.inputForm}
+          onChangeText={(value) => setOwner(value)}
+          value={owner}
         />
-        <DropDownPicker
-          placeholder="เลือกจังหวัด"
-          open={openSelectCountry}
-          setOpen={setOpenSelectCountry}
-          value={country}
-          setValue={setCountry}
-          items={countryList}
-          setItems={setCountryList}
-          style={styles.dropdownStyle}
-          textStyle={{ fontSize: 18 }}
-          zIndex={1}
+        <Input
+          name="comment"
+          placeholder="รายละเอียดเพิ่มเติม"
+          leftIcon={{ type: "font-awesome", name: "comment" }}
+          style={styles.inputForm}
+          onChangeText={(value) => setComment(value)}
+          value={comment}
         />
-        <View style={styles.viewCard}>
-          <Input
-            name="owner"
-            placeholder="ชื่อคนโพสท์"
-            leftIcon={{ type: "font-awesome", name: "address-book" }}
-            style={styles.inputForm}
-            onChangeText={(value) => setOwner(value)}
-            value={owner}
-          />
-          <Input
-            name="comment"
-            placeholder="รายละเอียดเพิ่มเติม"
-            leftIcon={{ type: "font-awesome", name: "comment" }}
-            style={styles.inputForm}
-            onChangeText={(value) => setComment(value)}
-            value={comment}
-          />
-          <Input
-            name="phone"
-            placeholder="เบอร์ติดต่อ"
-            leftIcon={{ type: "font-awesome", name: "phone" }}
-            style={styles.inputForm}
-            onChangeText={(value) => setPhone(value)}
-            value={phone}
-          />
-          <Input
-            name="place"
-            placeholder="สถานที่นัดพบ"
-            leftIcon={{ type: "font-awesome", name: "home" }}
-            style={styles.inputForm}
-            onChangeText={(value) => setPlace(value)}
-            value={place}
-          />
-          <Input
-            name="qty"
-            placeholder="จำนวนคนที่ต้องการ"
-            leftIcon={{ type: "font-awesome", name: "users" }}
-            style={styles.inputForm}
-            onChangeText={(value) => setQty(value)}
-            value={qty}
-          />
-        </View>
-        <Button
-          icon={
-            <Icon
-              name="save"
-              size={20}
-              color="white"
-              style={{ marginRight: 10 }}
-            />
-          }
-          iconLeft
-          buttonStyle={styles.btnSave}
-          title="บันทึกข้อมูล"
-          onPress={() => createNewPost()}
+        <Input
+          name="phone"
+          placeholder="เบอร์ติดต่อ"
+          leftIcon={{ type: "font-awesome", name: "phone" }}
+          style={styles.inputForm}
+          onChangeText={(value) => setPhone(value)}
+          value={phone}
+        />
+        <Input
+          name="place"
+          placeholder="สถานที่นัดพบ"
+          leftIcon={{ type: "font-awesome", name: "home" }}
+          style={styles.inputForm}
+          onChangeText={(value) => setPlace(value)}
+          value={place}
+        />
+        <Input
+          name="qty"
+          placeholder="จำนวนคนที่ต้องการ"
+          leftIcon={{ type: "font-awesome", name: "users" }}
+          style={styles.inputForm}
+          onChangeText={(value) => setQty(value)}
+          value={qty}
         />
       </View>
-    </ScrollView>
+      <Button
+        icon={
+          <Icon
+            name="save"
+            size={20}
+            color="white"
+            style={{ marginRight: 10 }}
+          />
+        }
+        iconLeft
+        buttonStyle={styles.btnSave}
+        title="บันทึกข้อมูล"
+        onPress={() => createNewPost()}
+      />
+    </View>
   )
 }
 

@@ -65,22 +65,8 @@ const WorkDetailScreen = ({ navigation, route }) => {
         }
         iconLeft
         buttonStyle={{ margin: 5, backgroundColor: "#ff2fe6", paddingHorizontal: 20, borderRadius: 25 }}
-        title="อนุมัติโพสท์"
-        onPress={() => navigation.navigate("Post-List-To-Confirm")}
-      />
-      <Button
-        icon={
-          <Ionicons
-            name="trash-bin-outline"
-            size={15}
-            color="white"
-            style={{ marginRight: 5 }}
-          />
-        }
-        iconLeft
-        buttonStyle={{ margin: 5, backgroundColor: "red", borderRadius: 25, paddingHorizontal: 20 }}
-        title="ไม่อนุมัติโพสท์"
-        onPress={() => navigation.navigate("Post-List-To-Confirm")}
+        title="บันทึกปิดงาน"
+        onPress={() => navigation.navigate("List-My-Work")}
       />
     </View>
   )
