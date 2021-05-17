@@ -1,8 +1,17 @@
 import React from "react"
-import { StyleSheet, TouchableHighlight, View, Text, Image } from "react-native"
+import {
+  StyleSheet,
+  TouchableHighlight,
+  View,
+  Text,
+  Image,
+  Dimensions,
+} from "react-native"
 
 /* import data */
 import { getPartnerGroup } from "../../../data/apis"
+
+const widthFix = Dimensions.get("window").width * 50/100
 
 const PartnerCategory = ({ navigation }) => {
   const [items, setItems] = React.useState(getPartnerGroup)
@@ -26,7 +35,7 @@ const PartnerCategory = ({ navigation }) => {
       <View style={styles.inner}>
         <Image
           source={data.img}
-          style={{ height: 280, width: "90%", margin: 5 }}
+          style={{ height: widthFix, width: "90%", margin: 5 }}
         />
         <Text style={styles.optionsName}>{data.title}</Text>
         <Text style={styles.optionsInfo}>({data.info})</Text>
@@ -64,12 +73,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   optionsName: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: "bold",
     color: "white",
   },
   optionsInfo: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: "bold",
     color: "white",
   },

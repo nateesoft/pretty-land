@@ -1,11 +1,11 @@
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 
 /* all screen */
 import HomeScreen from "./HomeScreen/navigator"
 import WorkScreen from "./WorkScreen/navigator"
-import ProfileScreen from "./ProfileScreen/navigator"
+import ContactAdminScreen from "./ContactAdminScreen/navigator"
 
 /* Logout */
 import LogoutScreen from "../logout"
@@ -46,14 +46,14 @@ const CustomerNavigator = ({ navigation, route }) => {
         }}
       />
       <Tab.Screen
-        name="c-Profile"
-        component={ProfileScreen}
+        name="c-Contact-Admin"
+        component={ContactAdminScreen}
         options={{
-          tabBarLabel: "ข้อมูลส่วนตัว",
+          tabBarLabel: "ติดต่อ Admin",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="card-account-details"
-              color="white"
+            <MaterialIcons
+              name="contact-phone"
+              color="green"
               size={size}
             />
           ),

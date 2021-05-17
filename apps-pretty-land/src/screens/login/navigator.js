@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 
 import LoginScreen from "./index"
 import LoginForm from "./loginForm"
+import RegisterPlanForm from "./registerPlan"
 import RegisterPartnerForm from "./registerPartner"
 import RegisterPartnerBankForm from "./registerPartner2"
 import RegisterPartnerImageForm from "./registerPartner3"
@@ -32,6 +33,20 @@ const LoginNavigator = ({ navigation, route }) => {
         component={LoginForm}
         options={{
           title: "Login Form",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Register-Plan-Form"
+        component={RegisterPlanForm}
+        options={{
+          title: "ลงทะเบียนผู้ร่วมงาน",
           headerStyle: {
             backgroundColor: "#ff2fe6",
           },

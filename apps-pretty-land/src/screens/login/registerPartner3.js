@@ -35,11 +35,7 @@ const RegisterPartnerImageForm = ({ navigation }) => {
     <View style={styles.container}>
       <Image style={styles.image} source={bg} />
       <Text style={styles.textLogo}>PRETTY LAND</Text>
-      <Text style={styles.textDetail}>Love Your Moments</Text>
-      <Text style={styles.textFormInfo}>ลงทะเบียนผู้ร่วมงาน</Text>
-      <Text style={{ marginBottom: 5, color: "gray" }}>
-        เพิ่มรูปภาพ และวิดีโอ
-      </Text>
+      <Text style={styles.textFormInfo}>เพิ่มรูปภาพ และวิดีโอ</Text>
       <InputForm icon="picture" label="รูปภาพ1" />
       <InputForm icon="picture" label="รูปภาพ2" />
       <InputForm icon="picture" label="รูปภาพ3" />

@@ -1,8 +1,12 @@
 import React from "react"
 import { View, StyleSheet, Text, Image, TextInput } from "react-native"
-import Icon from "@expo/vector-icons/AntDesign"
 import { Button } from "react-native-elements/dist/buttons/Button"
-import { MaterialCommunityIcons, FontAwesome5, FontAwesome } from "@expo/vector-icons"
+import {
+  MaterialCommunityIcons,
+  FontAwesome5,
+  MaterialIcons,
+  AntDesign,
+} from "@expo/vector-icons"
 
 import bg from "../../../assets/login.png"
 
@@ -24,10 +28,11 @@ const RegisterPartnerBankForm = (props) => {
       }}
     >
       {type === "a" && <FontAwesome5 name={icon} size={24} color="black" />}
-      {type === "i" && <Icon name={icon} color="#00716F" size={20} />}
+      {type === "i" && <AntDesign name={icon} color="#00716F" size={20} />}
       {type === "m" && (
         <MaterialCommunityIcons name={icon} size={24} color="black" />
       )}
+      {type === "m2" && <MaterialIcons name={icon} size={24} color="black" />}
       <TextInput style={styles.textInput} placeholder={label} />
     </View>
   )
@@ -36,16 +41,20 @@ const RegisterPartnerBankForm = (props) => {
     <View style={styles.container}>
       <Image style={styles.image} source={bg} />
       <Text style={styles.textLogo}>PRETTY LAND</Text>
-      <Text style={styles.textDetail}>Love Your Moments</Text>
-      <Text style={styles.textFormInfo}>ลงทะเบียนผู้ร่วมงาน</Text>
-      <Text style={{ marginBottom: 5, color: "gray" }}>เพิ่มข้อมูลธนาคาร</Text>
-      <InputForm icon="bank" label="เลือกธนาคาร" type="m" />
-      <InputForm icon="money-check" label="ใส่เลขบัญชี" type='a' />
+      <Text style={styles.textFormInfo}>เพิ่มข้อมูลธนาคาร</Text>
+      <View style={{ borderRadius: 25, borderColor: 'green', padding: 10 }}>
+        <InputForm icon="bank" label="เลือกธนาคาร-1" type="m" />
+        <InputForm icon="money-check" label="ใส่เลขบัญชี-1" type="a" />
+      </View>
+      <View style={{ borderRadius: 25, borderColor: 'orange', padding: 10 }}>
+        <InputForm icon="bank" label="เลือกธนาคาร-2" type="m" />
+        <InputForm icon="money-check" label="ใส่เลขบัญชี-2" type="a" />
+      </View>
       <Button
         title="เพิ่มรูป และวิดีโอ"
         iconLeft
         icon={
-          <Icon
+          <AntDesign
             name="picture"
             color="white"
             size={24}

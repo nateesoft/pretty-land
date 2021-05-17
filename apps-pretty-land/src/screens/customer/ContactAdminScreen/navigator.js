@@ -1,7 +1,7 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
-import ViewProfileScreen from "./viewProfile"
+import ViewContactScreen from "./viewContact"
 
 import { LogoTitle } from "../../../components/Header"
 
@@ -12,7 +12,7 @@ const TabNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="View-Profile"
-        component={ViewProfileScreen}
+        component={ViewContactScreen}
         options={{
           title: "Edit-Profile",
           headerStyle: {

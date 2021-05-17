@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react"
-import { Image, View, Platform, StyleSheet } from "react-native"
-import * as ImagePicker from "expo-image-picker"
-import { Button, Text, Input } from "react-native-elements"
+import React from "react"
+import { Image, View, StyleSheet } from "react-native"
+import { Button, Text } from "react-native-elements"
 import { AntDesign, FontAwesome, Fontisto } from "react-native-vector-icons"
 
 import SlipImg from "../../../../assets/img_example/slip.png"
@@ -80,11 +79,11 @@ const VerifyPaymentSlip = ({ navigation }) => {
             name="checksquareo"
             size={20}
             color="white"
-            style={{ marginTo: 5 }}
+            style={{ marginRight: 5 }}
           />
         }
         buttonStyle={styles.buttonConfirm}
-        title="ยืนยันข้อมูลการโอนเงิน ไปยัง Admin"
+        title="ยืนยันข้อมูลถูกต้อง"
       />
     </View>
   )
@@ -94,14 +93,7 @@ const styles = StyleSheet.create({
   buttonConfirm: {
     backgroundColor: "green",
     borderRadius: 25,
-    padding: 10,
-  },
-  inputForm: {
-    margin: 10,
-    borderWidth: 1.5,
-    borderColor: "#bbb",
-    padding: 5,
-    borderRadius: 25,
+    paddingHorizontal: 20,
   },
   optionsNameDetail: {
     fontSize: 24,

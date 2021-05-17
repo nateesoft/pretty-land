@@ -1,13 +1,28 @@
 import React from "react"
-import { View, StyleSheet, Text, Image, TextInput } from "react-native"
-import Icon from "@expo/vector-icons/AntDesign"
-import { FontAwesome, Ionicons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
-import { Button } from "react-native-elements/dist/buttons/Button"
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TextInput,
+  ScrollView,
+} from "react-native"
+import {
+  AntDesign,
+  FontAwesome,
+  Ionicons,
+  MaterialCommunityIcons,
+  FontAwesome5,
+  Entypo,
+} from "@expo/vector-icons"
+import { Button, CheckBox } from "react-native-elements"
 
 import bg from "../../../assets/login.png"
 
 const RegisterPartnerForm = (props) => {
   const { navigate } = props.navigation
+  const [workIn, setWorkIn] = React.useState(true)
+  const [workOut, setWorkOut] = React.useState(false)
 
   const InputForm = ({ label, icon, type = "i" }) => (
     <View
@@ -24,68 +39,75 @@ const RegisterPartnerForm = (props) => {
         width: 300,
       }}
     >
-      {type==='m' && <MaterialCommunityIcons name={icon} size={24} color="black" />}
+      {type === "m" && (
+        <MaterialCommunityIcons name={icon} size={24} color="black" />
+      )}
       {type === "a" && <FontAwesome name={icon} size={24} color="black" />}
-      {type === "i" && <Icon name={icon} color="#00716F" size={20} />}
-      {type==='i2' && <Ionicons name={icon} size={24} color="black" />}
-      {type==='a5' && <FontAwesome5 name={icon} size={24} color="black" />}
+      {type === "i" && <AntDesign name={icon} color="#00716F" size={20} />}
+      {type === "i2" && <Ionicons name={icon} size={24} color="black" />}
+      {type === "a5" && <FontAwesome5 name={icon} size={24} color="black" />}
       <TextInput style={styles.textInput} placeholder={label} />
     </View>
   )
 
   return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={bg} />
-      <Text style={styles.textLogo}>PRETTY LAND</Text>
-      <Text style={styles.textDetail}>Love Your Moments</Text>
-      <Text style={styles.textFormInfo}>ลงทะเบียนผู้ร่วมงาน</Text>
-      <Text style={{ marginBottom: 5, color: "gray" }}>เพิ่มข้อมูลส่วนตัว</Text>
-      <InputForm icon="user" label="ชื่อ" />
-      <InputForm icon="human-male-female" label="เพศ" type="m" />
-      <InputForm icon="mobile-phone" label="เบอร์โทรศัพท์" type="a" />
-      <InputForm icon="human-male-height" label="ส่วนสูง" type="m" />
-      <InputForm icon="md-woman-outline" label="สัดส่วน 32-24-35" type='i2' />
-      <InputForm icon="weight" label="น้ำหนัก" type='a5' />
-      <InputForm icon="timeline-clock" label="อายุ" type='m' />
-      <Button
-        title="เพิ่มข้อมูลธนาคาร"
-        iconLeft
-        icon={
-          <Icon
-            name="bank"
-            color="white"
-            size={24}
-            style={{ marginHorizontal: 8 }}
+    <ScrollView>
+      <View style={styles.container}>
+        <Image style={styles.image} source={bg} />
+        <Text style={styles.textFormInfo}>รายละเอียดการรับงาน</Text>
+        <View style={{ width: "80%", marginHorizontal: 20, padding: 10 }}>
+          <CheckBox
+            title="รับงานนอกสถานที่"
+            checked={workIn}
+            onPress={() => setWorkIn(!workIn)}
           />
-        }
-        buttonStyle={{
-          backgroundColor: "#65A3E1",
-          marginTop: 20,
-          borderRadius: 25,
-          width: 250,
-          paddingHorizontal: 15,
-          height: 45,
-          borderWidth: 0.5,
-        }}
-        onPress={() => navigate("Partner-Register-Bank-Form")}
-      />
-    </View>
+          <CheckBox
+            title="รับงานในสถานที่"
+            checked={workOut}
+            onPress={() => setWorkOut(!workOut)}
+          />
+        </View>
+        <InputForm icon="mobile-phone" label="เบอร์โทรศัพท์" type="a" />
+        <InputForm icon="line" label="ที่อยู่ติดต่อ" type="a5" />
+        <InputForm icon="line" label="LINE ID" type="a5" />
+        <Button
+          title="เพิ่มข้อมูลธนาคาร"
+          iconLeft
+          icon={
+            <AntDesign
+              name="bank"
+              color="white"
+              size={24}
+              style={{ marginHorizontal: 15 }}
+            />
+          }
+          buttonStyle={{
+            backgroundColor: "#65A3E1",
+            marginTop: 20,
+            borderRadius: 25,
+            width: 250,
+            paddingHorizontal: 15,
+            height: 45,
+            borderWidth: 0.5,
+          }}
+          onPress={() => navigate("Partner-Register-Bank-Form")}
+        />
+      </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: "column",
     backgroundColor: "snow",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: -120,
   },
   image: {
     height: 100,
     width: 100,
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   textLogo: {
     fontSize: 24,

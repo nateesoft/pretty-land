@@ -21,7 +21,7 @@ const LoginScreen = (props) => {
   const { signIn } = React.useContext(AuthContext)
 
   return (
-    <ImageBackground source={bgImage} style={styles.imageBg}>
+    <ImageBackground source={bgImage} style={styles.imageBg} resizeMode="stretch">
       <View style={styles.container}>
         <Image style={styles.image} source={bg} />
         <Text style={styles.textLogo}>PRETTY LAND</Text>
@@ -108,7 +108,7 @@ const LoginScreen = (props) => {
             width: 250,
             height: 45,
           }}
-          onPress={() => navigate("Register-Partner-Form")}
+          onPress={() => navigate("Register-Plan-Form")}
         />
         <Text style={styles.textFooter1}>Contact Us</Text>
         <Text style={styles.textFooter2}>
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "gray",
     position: "absolute",
-    bottom: 120,
+    bottom: 135,
     color: "red",
   },
   textFooter2: {

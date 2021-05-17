@@ -12,7 +12,7 @@ const WalkThrough = () => {
     Appearance.addChangeListener(({ colorScheme }) => {
       setColorScheme(colorScheme);
     });
-  });
+  }, []);
 
   return (
     <AppearanceProvider>
