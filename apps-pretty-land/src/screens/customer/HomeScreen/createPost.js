@@ -22,22 +22,26 @@ const CreatePostForm = (props) => {
   const [country, setCountry] = React.useState("")
   const [countryList, setCountryList] = React.useState(getCountryList())
 
-  const [owner, setOwner] = React.useState("")
+  const [customer, setCustomer] = React.useState("")
   const [phone, setPhone] = React.useState("")
   const [place, setPlace] = React.useState("")
-  const [comment, setComment] = React.useState("")
+  const [remark, setRemark] = React.useState("")
   const [qty, setQty] = React.useState("")
 
   const createNewPost = () => {
     addPostList({
-      post_owner: owner,
+      post_owner: customer,
       partnerType: partner,
-      name: comment,
+      name: remark,
       subtitle: `${partner} จำนวน ${qty}`,
       status: "customer_new_post_done",
       statusText: "โพสท์ใหม่",
     })
-    navigation.navigate(pageFrom)
+    if (pageFrom) {
+      navigation.navigate(pageFrom)
+    } else {
+      navigation.navigate("Partner-Category")
+    }
   }
 
   return (
@@ -70,20 +74,13 @@ const CreatePostForm = (props) => {
       />
       <View style={styles.viewCard}>
         <Input
-          name="owner"
-          placeholder="ชื่อคนโพสท์"
+          name="customer"
+          placeholder="ชื่อ"
           leftIcon={{ type: "font-awesome", name: "address-book" }}
           style={styles.inputForm}
-          onChangeText={(value) => setOwner(value)}
-          value={owner}
-        />
-        <Input
-          name="comment"
-          placeholder="รายละเอียดเพิ่มเติม"
-          leftIcon={{ type: "font-awesome", name: "comment" }}
-          style={styles.inputForm}
-          onChangeText={(value) => setComment(value)}
-          value={comment}
+          onChangeText={(value) => setCustomer(value)}
+          value={customer}
+          leftIconContainerStyle={{marginRight: 20}}
         />
         <Input
           name="phone"
@@ -92,6 +89,7 @@ const CreatePostForm = (props) => {
           style={styles.inputForm}
           onChangeText={(value) => setPhone(value)}
           value={phone}
+          leftIconContainerStyle={{marginRight: 20}}
         />
         <Input
           name="place"
@@ -100,6 +98,16 @@ const CreatePostForm = (props) => {
           style={styles.inputForm}
           onChangeText={(value) => setPlace(value)}
           value={place}
+          leftIconContainerStyle={{marginRight: 20}}
+        />
+        <Input
+          name="remark"
+          placeholder="รายละเอียดเพิ่มเติม"
+          leftIcon={{ type: "font-awesome", name: "comment" }}
+          style={styles.inputForm}
+          onChangeText={(value) => setRemark(value)}
+          value={remark}
+          leftIconContainerStyle={{marginRight: 20}}
         />
         <Input
           name="qty"
@@ -108,6 +116,7 @@ const CreatePostForm = (props) => {
           style={styles.inputForm}
           onChangeText={(value) => setQty(value)}
           value={qty}
+          leftIconContainerStyle={{marginRight: 20}}
         />
       </View>
       <Button
@@ -129,6 +138,7 @@ const CreatePostForm = (props) => {
 }
 
 const styles = StyleSheet.create({
+  inputForm: {},
   btnSave: {
     margin: 15,
     paddingHorizontal: 50,

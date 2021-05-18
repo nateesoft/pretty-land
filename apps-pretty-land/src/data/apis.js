@@ -1,15 +1,19 @@
 import {
-  country,
   partnerCategory,
-  countryList,
-  postList,
-  membersList,
   memberCategory,
   postStatus,
+  countryList,
+  membersSystemList,
+} from "./master_data"
+
+import {
+  customerPostList,
+  partnerCategoryForCustomer,
+  partnerCountOfCountry,
 } from "./items"
 
 export const getCountryCount = (id, type) => {
-  return country.map((data) => {
+  return partnerCountOfCountry.map((data) => {
     if (data.id === id) {
       if (type === "1") {
         return data.type1
@@ -29,38 +33,42 @@ export const getPartnerGroup = () => {
   return partnerCategory
 }
 
+export const getPartnerGroupForCustomer = () => {
+  return partnerCategoryForCustomer
+}
+
 export const getCountryList = () => {
   return countryList
 }
 
 export const getCountry = () => {
-  return country
+  return countryList
 }
 
 export const getPostList = () => {
-  return postList
+  return customerPostList
 }
 
 export const getPostToConfirmList = () => {
-  return postList.filter(
+  return customerPostList.filter(
     (item, index) => item.status === "customer_new_post_done"
   )
 }
 
 export const getPostToPartnerList = () => {
-  return postList.filter(
+  return customerPostList.filter(
     (item, index) => item.status === "admin_confirm_new_post"
   )
 }
 
 export const getTransferListToConfirm = () => {
-  return postList.filter(
+  return customerPostList.filter(
     (item, index) => item.status === "wait_admin_confirm_payment"
   )
 }
 
 export const getMemberList = () => {
-  return membersList
+  return membersSystemList
 }
 
 export const getMemberCategory = () => {
@@ -72,9 +80,9 @@ export const getPostStatus = () => {
 }
 
 export const addPostList = (newPost) => {
-  postList.push({
-    id: postList.length + 1,
-    post_owner: newPost.postOwner,
+  customerPostList.push({
+    id: customerPostList.length + 1,
+    post_owner: newPost.customer,
     partnerType: newPost.partnerType,
     name: newPost.name,
     image: require("../../assets/img_example/img1.png"),

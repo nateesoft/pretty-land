@@ -9,12 +9,12 @@ import {
 } from "react-native"
 
 /* import data */
-import { getPartnerGroup } from "../../../data/apis"
+import { getPartnerGroupForCustomer } from "../../../data/apis"
 
 const widthFix = Dimensions.get("window").width * 50/100
 
 const PartnerCategory = ({ navigation }) => {
-  const [items, setItems] = React.useState(getPartnerGroup)
+  const [items, setItems] = React.useState(getPartnerGroupForCustomer)
   const onPressOptions = (item) => {
     if (item.postQty === 0) {
       navigation.navigate("Create-Post-Form", { item })

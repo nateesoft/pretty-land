@@ -75,11 +75,19 @@ const PostListScreen = ({ navigation, route }) => {
         marginVertical: 5,
       }}
     >
-      <Avatar source={item.image} size={64} />
+      <Avatar source={item.image} size={128} />
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>{item.name}</ListItem.Title>
-        <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
-        <ListItem.Subtitle>Status: {item.statusText}</ListItem.Subtitle>
+        <ListItem.Title>ชื่อโพสท์: {item.name}</ListItem.Title>
+        <ListItem.Subtitle>ประเภท: {item.partnerRequest}</ListItem.Subtitle>
+        <ListItem.Subtitle>จังหวัด: {item.province}</ListItem.Subtitle>
+        <ListItem.Subtitle>
+          จำนวนที่ต้องการ: {item.partnerQtyRequest} คน
+        </ListItem.Subtitle>
+        <ListItem.Subtitle
+          style={{ backgroundColor: "pink", padding: 5 }}
+        >
+          Status: {item.statusText}
+        </ListItem.Subtitle>
       </ListItem.Content>
       <ProgressCircle
         percent={30}
@@ -117,12 +125,18 @@ const PostListScreen = ({ navigation, route }) => {
             }
           />
         )}
-        {filterList.length === 0 && <Text style={{
-          fontSize: 28,
-          textAlign: 'center',
-          paddingVertical: 100,
-          backgroundColor: 'white',
-        }}>ไม่พบข้อมูลการโพสท์</Text>}
+        {filterList.length === 0 && (
+          <Text
+            style={{
+              fontSize: 28,
+              textAlign: "center",
+              paddingVertical: 100,
+              backgroundColor: "white",
+            }}
+          >
+            ไม่พบข้อมูลการโพสท์
+          </Text>
+        )}
       </View>
       <View style={{ alignItems: "center", backgroundColor: "white" }}>
         <Button

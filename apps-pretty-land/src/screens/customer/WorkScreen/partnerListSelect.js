@@ -68,12 +68,8 @@ const PartnerListSelect = ({ navigation, route }) => {
     <View style={styles.container}>
       <View style={styles.cardContainer1}>
         <Text style={{ fontSize: 20, color: "blue", fontWeight: "bold" }}>
-          {data.name}
+          แสดงรายชื่อ Parnter พร้อมรับงาน
         </Text>
-        <Text style={{ fontSize: 18, color: "chocolate" }}>
-          {data.subtitle}
-        </Text>
-        <Text style={styles.textTopic}>แสดงรายชื่อ Parnter พร้อมรับงาน</Text>
       </View>
       <View style={styles.cardContainer2}>
         <FlatList

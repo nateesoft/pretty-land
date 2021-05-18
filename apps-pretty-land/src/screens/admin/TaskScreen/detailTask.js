@@ -4,55 +4,25 @@ import { Button, Text, Input } from "react-native-elements"
 import { AntDesign, Ionicons } from "react-native-vector-icons"
 
 const ConfirmTaskScreen = ({ navigation, route }) => {
+  const { item } = route.params
+
   return (
     <View style={styles.cardDetail}>
-      <Text style={styles.optionsNameDetail}>ตำแหน่งงานที่มองหา</Text>
-      <Text style={styles.optionsNameDetail2}>จังหวัดที่ต้องการ</Text>
+      <Text style={{ fontSize: 22 }}>รายละเอียด</Text>
       <View style={styles.viewCard}>
-        <Input
-          name="owner"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "address-book" }}
-          style={styles.inputForm}
-          value="คุณโดนใจ ใช่เลย"
-        />
-        <Input
-          name="comment"
-          placeholder="รายละเอียดเพิ่มเติม"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "comment" }}
-          style={styles.inputForm}
-          value="รูปร่างดี หุ่นดี ขาว ด่วน!!!"
-        />
-        <Input
-          name="phone"
-          placeholder="เบอร์ติดต่อ"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "phone" }}
-          style={styles.inputForm}
-          value="0812208944"
-        />
-        <Input
-          name="place"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "home" }}
-          style={styles.inputForm}
-          value="หน้าวัดลาปลาเค้า"
-        />
-        <Input
-          name="qty"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "users" }}
-          style={styles.inputForm}
-          value="1 ตำแหน่ง"
-        />
-        <Input
-          name="status"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "star" }}
-          style={styles.inputForm}
-          value="รอพิจารณาจาก Admin"
-        />
+        <View style={{ marginLeft: 10, padding: 20 }}>
+          <Text style={{ fontSize: 16 }}>ชื่อลูกค้า: {item.customer}</Text>
+          <Text style={{ fontSize: 16 }}>ชื่อโพสท์: {item.name}</Text>
+          <Text style={{ fontSize: 16 }}>
+            ประเภทที่ต้องการ: {item.partnerRequest}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.viewCard}>
+        <View style={{ marginLeft: 10, padding: 20 }}>
+          <Text style={{ fontSize: 16 }}>สถานะที่นัดพบ: {item.place}</Text>
+          <Text style={{ fontSize: 16 }}>เบอร์ติดต่อ: {item.customerContact}</Text>
+        </View>
       </View>
       <Button
         icon={
@@ -64,7 +34,12 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           />
         }
         iconLeft
-        buttonStyle={{ margin: 5, backgroundColor: "#ff2fe6", paddingHorizontal: 20, borderRadius: 25 }}
+        buttonStyle={{
+          margin: 5,
+          backgroundColor: "#ff2fe6",
+          paddingHorizontal: 20,
+          borderRadius: 25,
+        }}
         title="อนุมัติโพสท์"
         onPress={() => navigation.navigate("Post-List-All")}
       />
@@ -78,7 +53,12 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           />
         }
         iconLeft
-        buttonStyle={{ margin: 5, backgroundColor: "red", borderRadius: 25, paddingHorizontal: 20 }}
+        buttonStyle={{
+          margin: 5,
+          backgroundColor: "red",
+          borderRadius: 25,
+          paddingHorizontal: 20,
+        }}
         title="ไม่อนุมัติโพสท์"
         onPress={() => navigation.navigate("Post-List-All")}
       />
@@ -92,6 +72,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     margin: 10,
+    backgroundColor: "white",
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -112,7 +93,10 @@ const styles = StyleSheet.create({
   viewCard: {
     width: "100%",
     borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#eee",
     padding: 5,
+    marginVertical: 5,
   },
 })
 

@@ -33,7 +33,7 @@ const PostListAllScreen = ({ navigation, route }) => {
     if (status === "wait_customer_payment") {
       navigation.navigate("Verify-Payment-Slip")
     } else {
-      navigation.navigate("Detail-Task", { status })
+      navigation.navigate("Detail-Task", { item })
     }
   }
 
@@ -66,9 +66,11 @@ const PostListAllScreen = ({ navigation, route }) => {
         marginVertical: 5,
       }}
     >
-      <Avatar source={item.image} size={64} />
+      <Avatar source={item.image} size={128} />
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>{item.name}</ListItem.Title>
+        <ListItem.Title>ชื่อลูกค้า: {item.customer}</ListItem.Title>
+        <ListItem.Subtitle>ชื่อโพสท์: {item.name}</ListItem.Subtitle>
+        <ListItem.Subtitle>ประเภทที่ต้องการ: {item.partnerRequest}</ListItem.Subtitle>
         <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
         <ListItem.Subtitle>Status: {item.statusText}</ListItem.Subtitle>
       </ListItem.Content>
