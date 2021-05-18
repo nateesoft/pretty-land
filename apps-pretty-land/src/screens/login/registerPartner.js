@@ -13,7 +13,7 @@ import {
   Ionicons,
   MaterialCommunityIcons,
   FontAwesome5,
-  Entypo,
+  MaterialIcons,
 } from "@expo/vector-icons"
 import { Button, CheckBox } from "react-native-elements"
 
@@ -42,6 +42,9 @@ const RegisterPartnerForm = (props) => {
       {type === "m" && (
         <MaterialCommunityIcons name={icon} size={24} color="black" />
       )}
+      {type === "m2" && (
+        <MaterialIcons name={icon} size={24} color="black" />
+      )}
       {type === "a" && <FontAwesome name={icon} size={24} color="black" />}
       {type === "i" && <AntDesign name={icon} color="#00716F" size={20} />}
       {type === "i2" && <Ionicons name={icon} size={24} color="black" />}
@@ -68,10 +71,10 @@ const RegisterPartnerForm = (props) => {
           />
         </View>
         <InputForm icon="mobile-phone" label="เบอร์โทรศัพท์" type="a" />
-        <InputForm icon="line" label="ที่อยู่ติดต่อ" type="a5" />
+        <InputForm icon="home-work" label="ที่อยู่ติดต่อ" type="m2" />
         <InputForm icon="line" label="LINE ID" type="a5" />
         <Button
-          title="เพิ่มข้อมูลธนาคาร"
+          title="เพิ่มข้อมูลถัดไป"
           iconLeft
           icon={
             <AntDesign
@@ -89,6 +92,7 @@ const RegisterPartnerForm = (props) => {
             paddingHorizontal: 15,
             height: 45,
             borderWidth: 0.5,
+            marginBottom: 20,
           }}
           onPress={() => navigate("Partner-Register-Bank-Form")}
         />

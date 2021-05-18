@@ -25,7 +25,7 @@ const RegisterPlanForm = (props) => {
   const [type2, setType2] = React.useState(false)
   const [type3, setType3] = React.useState(false)
   const [type4, setType4] = React.useState(false)
-  const [sexType, setSexType] = React.useState("male")
+  const [sexType, setSexType] = React.useState("female")
 
   const InputForm = ({ label, icon, type = "i" }) => (
     <View
@@ -84,21 +84,6 @@ const RegisterPlanForm = (props) => {
         <View style={{ flexDirection: "row", width: "90%", backgroundColor: "#eee", borderRadius: 25, margin: 5, padding: 10 }}>
           <View style={{ flexDirection: "row", alignItems: "baseline" }}>
             <RadioButton
-              value="male"
-              status={sexType === "male" ? "checked" : "unchecked"}
-              onPress={() => setSexType("male")}
-              color="black"
-            />
-            <Fontisto
-              name="male"
-              size={24}
-              color="black"
-              style={{ marginRight: 10 }}
-            />
-            <Text>Male</Text>
-          </View>
-          <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-            <RadioButton
               value="female"
               status={sexType === "female" ? "checked" : "unchecked"}
               onPress={() => setSexType("female")}
@@ -111,6 +96,21 @@ const RegisterPlanForm = (props) => {
               style={{ marginRight: 10 }}
             />
             <Text>Female</Text>
+          </View>
+          <View style={{ flexDirection: "row", alignItems: "baseline" }}>
+            <RadioButton
+              value="male"
+              status={sexType === "male" ? "checked" : "unchecked"}
+              onPress={() => setSexType("male")}
+              color="black"
+            />
+            <Fontisto
+              name="male"
+              size={24}
+              color="black"
+              style={{ marginRight: 10 }}
+            />
+            <Text>Male</Text>
           </View>
           <View style={{ flexDirection: "row", alignItems: "baseline" }}>
             <RadioButton
@@ -133,7 +133,7 @@ const RegisterPlanForm = (props) => {
         <InputForm icon="md-woman-outline" label="สัดส่วน 32-24-35" type="i2" />
         <InputForm icon="weight" label="น้ำหนัก" type="a5" />
         <Button
-          title="รายละเอียดการรับงาน"
+          title="เพิ่มข้อมูลถัดไป"
           iconLeft
           icon={
             <MaterialIcons
@@ -151,6 +151,7 @@ const RegisterPlanForm = (props) => {
             paddingHorizontal: 15,
             height: 45,
             borderWidth: 0.5,
+            marginBottom: 20,
           }}
           onPress={() => navigate("Register-Partner-Form")}
         />
@@ -162,7 +163,7 @@ const RegisterPlanForm = (props) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    backgroundColor: "snow",
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
   },

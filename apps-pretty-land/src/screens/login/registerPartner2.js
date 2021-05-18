@@ -51,7 +51,7 @@ const RegisterPartnerBankForm = (props) => {
         <InputForm icon="money-check" label="ใส่เลขบัญชี-2" type="a" />
       </View>
       <Button
-        title="เพิ่มรูป และวิดีโอ"
+        title="เพิ่มข้อมูลถัดไป"
         iconLeft
         icon={
           <AntDesign
@@ -62,7 +62,7 @@ const RegisterPartnerBankForm = (props) => {
           />
         }
         buttonStyle={{
-          backgroundColor: "#4BA754",
+          backgroundColor: "#65A3E1",
           marginTop: 20,
           borderRadius: 25,
           width: 250,
