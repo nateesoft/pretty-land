@@ -16,11 +16,8 @@ const ListMyWorkScreen = ({ navigation, route }) => {
   const { partnerType } = route.params
   const [refreshing, setRefreshing] = React.useState(false)
 
-  const filterList = getDataForPartnerWork().filter((item) => {
-    if (partnerType === "all") {
-      return item
-    }
-    return item.partnerType === partnerType
+  const filterList = getDataForPartnerWork(1).filter((item) => {
+    return item
   })
 
   const handleRefresh = () => {
@@ -48,15 +45,27 @@ const ListMyWorkScreen = ({ navigation, route }) => {
       }}
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>วันที่แจ้งรับงาน: 18/05/2021</ListItem.Title>
-        <ListItem.Title>สถานที่แจ้งรับงาน: สุขุมวิท62</ListItem.Title>
-        <ListItem.Title>ราคาที่เสนอ: 2000</ListItem.Title>
+        <ListItem.Title>โหมดงาน: {item.partnerType}</ListItem.Title>
+        <ListItem.Title>วันที่แจ้งรับงาน: {item.jobDateRequest}</ListItem.Title>
+        <ListItem.Title>สถานที่แจ้งรับงาน: {item.place}</ListItem.Title>
+        <ListItem.Title>จังหวัด: {item.province}</ListItem.Title>
+        <ListItem.Title>ราคาที่เสนอ: {item.priceRequest}</ListItem.Title>
         <Text>---------------------------------------</Text>
         <ListItem.Title>ชื่องาน: {item.name}</ListItem.Title>
         <ListItem.Subtitle>ลูกค้า: {item.customer}</ListItem.Subtitle>
-        <ListItem.Subtitle>เบอร์ติดต่อ: {item.customerContact}</ListItem.Subtitle>
+        <ListItem.Subtitle>
+          เบอร์ติดต่อ: {item.customerContact}
+        </ListItem.Subtitle>
         <Text>---------------------------------------</Text>
-        <ListItem.Title style={{backgroundColor: 'blue', color: 'white', paddingHorizontal: 5}}>สถานะ: รอลูกค้าคอนเฟิร์มเลือก</ListItem.Title>
+        <ListItem.Title
+          style={{
+            backgroundColor: "blue",
+            color: "white",
+            paddingHorizontal: 5,
+          }}
+        >
+          สถานะ: {item.jobStatusDesc}
+        </ListItem.Title>
       </ListItem.Content>
       <ProgressCircle
         percent={30}

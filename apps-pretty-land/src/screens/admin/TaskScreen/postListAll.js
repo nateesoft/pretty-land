@@ -20,7 +20,6 @@ const PostListAllScreen = ({ navigation, route }) => {
   const [partner, setPartner] = React.useState("")
   const [partnerList, setPartnerList] = React.useState(getPostStatus())
 
-
   const filterList = getPostList().filter((item) => {
     return item;
   })

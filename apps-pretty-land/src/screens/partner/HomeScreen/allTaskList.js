@@ -7,20 +7,21 @@ import {
   Image,
   RefreshControl,
 } from "react-native"
-import { ListItem, Avatar, Text } from "react-native-elements"
+import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
+import DropDownPicker from "react-native-dropdown-picker"
 
-import { getDataForPartnerWork } from "../../../data/apis"
+import { allGroupContryWork, getCountryList } from "../../../data/apis"
 
 const AllTaskListScreen = ({ navigation, route }) => {
-  const { partnerType } = route.params
   const [refreshing, setRefreshing] = React.useState(false)
 
-  const filterList = getDataForPartnerWork().filter((item) => {
-    if (partnerType === "all") {
-      return item
-    }
-    return item.partnerType === partnerType
+  const [openSelectCountry, setOpenSelectCountry] = React.useState(false)
+  const [country, setCountry] = React.useState("")
+  const [countryList, setCountryList] = React.useState(getCountryList())
+
+  const filterList = allGroupContryWork().filter((item) => {
+    return item
   })
 
   const handleRefresh = () => {
@@ -28,24 +29,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
   }
 
   const onPressOptions = (item) => {
-    navigation.navigate("Task-Detail", { item })
-  }
-
-  const getBgColor = (status) => {
-    if (status === "customer_new_post_done") {
-      return "#fdddf3"
-    } else if (status === "admin_confirm_new_post") {
-      return "#fef8e3"
-    } else if (status === "wait_customer_select_partner") {
-      return "#fcf2ff"
-    } else if (status === "wait_customer_payment") {
-      return "#fff0ee"
-    } else if (status === "wait_admin_confirm_payment") {
-      return "#fdddf3"
-    } else if (status === "customer_with_partner") {
-      return "#fef8e3"
-    }
-    return "#fcf2ff"
+    navigation.navigate("All-Customer-Post-List", { item })
   }
 
   const keyExtractor = (item, index) => index.toString()
@@ -55,17 +39,57 @@ const AllTaskListScreen = ({ navigation, route }) => {
       bottomDivider
       onPress={() => onPressOptions(item)}
       containerStyle={{
-        backgroundColor: getBgColor(item.status),
         borderRadius: 8,
         marginVertical: 5,
       }}
     >
       <ListItem.Content style={{ margin: 10 }}>
-        <ListItem.Title style={{fontSize: 20, marginBottom: 5, backgroundColor: '#123456', color: 'white', paddingHorizontal: 5}}>ลูกค้า: {item.customer}</ListItem.Title>
-        <ListItem.Title style={{marginBottom: 5, }}>ชื่องาน: {item.name}</ListItem.Title>
-        <ListItem.Title style={{marginBottom: 5, }}>level: {item.customerLevel}</ListItem.Title>
-        <ListItem.Title style={{marginBottom: 5, backgroundColor: 'chocolate', color: 'white', paddingHorizontal: 5}}>โหมดงาน: {item.partnerRequest}</ListItem.Title>
-        <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
+        <ListItem.Title
+          style={{
+            fontSize: 20,
+            marginBottom: 5,
+            paddingHorizontal: 5,
+            fontWeight: "bold",
+          }}
+        >
+          จังหวัด: {item.province}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginLeft: 15,
+            marginBottom: 5,
+            paddingHorizontal: 5,
+          }}
+        >
+          {item.work1} ({item.prettyMcQty})
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginLeft: 15,
+            marginBottom: 5,
+            paddingHorizontal: 5,
+          }}
+        >
+          {item.work2} ({item.prettyEventQty})
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginLeft: 15,
+            marginBottom: 5,
+            paddingHorizontal: 5,
+          }}
+        >
+          {item.work3} ({item.coyoteQty})
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginLeft: 15,
+            marginBottom: 5,
+            paddingHorizontal: 5,
+          }}
+        >
+          {item.work4} ({item.prettyMassage})
+        </ListItem.Title>
       </ListItem.Content>
       <ProgressCircle
         percent={30}
@@ -85,6 +109,17 @@ const AllTaskListScreen = ({ navigation, route }) => {
       <View style={styles.container}>
         <Text style={styles.textTopic}>งานว่าจ้างทั้งหมดในระบบ</Text>
         <Text style={styles.textTopicDetail}>ที่ตรงกับความต้องการ</Text>
+        <DropDownPicker
+          placeholder="เลือกจังหวัด"
+          open={openSelectCountry}
+          setOpen={setOpenSelectCountry}
+          value={country}
+          setValue={setCountry}
+          items={countryList}
+          setItems={setCountryList}
+          textStyle={{ fontSize: 18 }}
+          zIndex={20}
+        />
         <FlatList
           keyExtractor={keyExtractor}
           data={filterList}

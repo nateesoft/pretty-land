@@ -11,6 +11,7 @@ import {
   partnerCountOfCountry,
   partnerToSelect,
   partnerJobsList,
+  customerPostGroupByProvince,
 } from "./mockup"
 
 export const getCountryCount = (id, type) => {
@@ -52,9 +53,10 @@ export const getPostToConfirmList = () => {
   )
 }
 
-export const getPostToPartnerList = () => {
+export const getPostToPartnerList = (provinceId) => {
   return customerPostList.filter(
-    (item, index) => item.status === "admin_confirm_new_post"
+    (item, index) =>
+      item.status === "admin_confirm_new_post" && item.provinceId === provinceId
   )
 }
 
@@ -89,10 +91,14 @@ export const addPostList = (newPost) => {
   })
 }
 
-export const getPartnerListToSelect = (filter) => {
+export const getPartnerListToSelect = () => {
   return partnerToSelect
 }
 
-export const getDataForPartnerWork = () => {
-  return partnerJobsList
+export const getDataForPartnerWork = (partnerId) => {
+  return partnerJobsList.filter((item, index) => item.partnerId === partnerId)
+}
+
+export const allGroupContryWork = () => {
+  return customerPostGroupByProvince
 }

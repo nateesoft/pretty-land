@@ -9,14 +9,53 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
     <View style={styles.cardDetail}>
       <Text style={styles.optionsNameDetail2}>รายละเอียดลูกค้าจ้างงาน</Text>
       <View style={styles.viewCard}>
-        <Text style={{fontSize: 20, marginBottom: 5, backgroundColor: '#123456', color: 'white', paddingHorizontal: 5}}>ลูกค้า: {item.customer}</Text>
-        <Text style={{marginBottom: 5, }}>ชื่องาน: {item.name}</Text>
-        <Text style={{marginBottom: 5, }}>level: {item.customerLevel}</Text>
-        <Text style={{marginBottom: 5, backgroundColor: 'chocolate', color: 'white', paddingHorizontal: 5}}>โหมดงาน: {item.partnerRequest}</Text>
-        <Text style={{marginBottom: 15}}>{item.subtitle}</Text>
-        <Text style={{marginBottom: 15}}>สถานะที่จัดงาน: {item.place}</Text>
-        <Text style={{marginBottom: 15}}>เบอร์ติดต่อลูกค้า: {item.customerContact}</Text>
-        <View style={{ borderWidth: 1.5, borderRadius: 10, borderColor: 'gray', padding: 10}}>
+        <Text
+          style={{
+            fontSize: 20,
+            marginBottom: 5,
+            backgroundColor: "#123456",
+            color: "white",
+            paddingHorizontal: 5,
+          }}
+        >
+          จังหวัด: {item.province}
+        </Text>
+        <Text
+          style={{
+            fontSize: 20,
+            marginBottom: 5,
+            backgroundColor: "#123456",
+            color: "white",
+            paddingHorizontal: 5,
+          }}
+        >
+          ลูกค้า: {item.customer}
+        </Text>
+        <Text style={{ marginBottom: 5 }}>ชื่องาน: {item.name}</Text>
+        <Text style={{ marginBottom: 5 }}>level: {item.customerLevel}</Text>
+        <Text
+          style={{
+            marginBottom: 5,
+            backgroundColor: "chocolate",
+            color: "white",
+            paddingHorizontal: 5,
+          }}
+        >
+          โหมดงาน: {item.partnerRequest}
+        </Text>
+        <Text style={{ marginBottom: 15 }}>{item.subtitle}</Text>
+        <Text style={{ marginBottom: 15 }}>สถานะที่จัดงาน: {item.place}</Text>
+        <Text style={{ marginBottom: 15 }}>
+          เบอร์ติดต่อลูกค้า: {item.customerContact}
+        </Text>
+        <View
+          style={{
+            borderWidth: 1.5,
+            borderRadius: 10,
+            borderColor: "gray",
+            padding: 10,
+          }}
+        >
           <Input placeholder="เสนอราคา (บาท)" />
           <Input placeholder="ระบุสถานที่" />
           <Input placeholder="เบอร์ติดต่อ" />

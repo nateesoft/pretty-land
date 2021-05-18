@@ -2,6 +2,7 @@ import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
 import AllTaskListScreen from "./allTaskList"
+import AllCustomerPostListScreen from "./allCustomerPostList"
 import TaskDetail from "./taskDetail"
 
 import { LogoTitle } from "../../../components/Header"
@@ -14,6 +15,19 @@ const StackNavigator = ({ navigation, route }) => {
       <Stack.Screen
         name="All-Task-List"
         component={AllTaskListScreen}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+        initialParams={{ partnerType: "all" }}
+      />
+      <Stack.Screen
+        name="All-Customer-Post-List"
+        component={AllCustomerPostListScreen}
         options={{
           title: "Back",
           headerStyle: {

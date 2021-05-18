@@ -21,7 +21,6 @@ const WorkDetailScreen = ({ navigation, route }) => {
           ลูกค้า: {item.customer}
         </Text>
         <Text style={{ marginBottom: 5 }}>ชื่องาน: {item.name}</Text>
-        <Text style={{ marginBottom: 5 }}>level: {item.customerLevel}</Text>
         <Text
           style={{
             marginBottom: 5,
@@ -30,10 +29,9 @@ const WorkDetailScreen = ({ navigation, route }) => {
             paddingHorizontal: 5,
           }}
         >
-          โหมดงาน: {item.partnerRequest}
+          โหมดงาน: {item.partnerType}
         </Text>
-        <Text style={{ marginBottom: 15 }}>{item.subtitle}</Text>
-        <Text style={{ marginBottom: 15 }}>สถานะที่จัดงาน: {item.place}</Text>
+        <Text style={{ marginBottom: 5 }}>สถานะที่จัดงาน: {item.place}</Text>
         <Text style={{ marginBottom: 15 }}>
           เบอร์ติดต่อลูกค้า: {item.customerContact}
         </Text>
@@ -42,33 +40,59 @@ const WorkDetailScreen = ({ navigation, route }) => {
             borderWidth: 1.5,
             borderRadius: 10,
             borderColor: "gray",
-            padding: 10,
+            padding: 5,
           }}
         >
-          <Input placeholder="เสนอราคา (บาท)" value="2000" />
-          <Input placeholder="ระบุสถานที่" value="นครปฐม" />
-          <Input placeholder="เบอร์ติดต่อ" value="081-3320909" />
+          <Input placeholder="เสนอราคา (บาท)" value="ราคาที่เสนอ 2000 บาท" />
+          <Input placeholder="ระบุสถานที่" value="จังหวัดที่นัดพบ นครปฐม" />
+          <Input placeholder="เบอร์ติดต่อ" value="เบอร์โทรลูกค้า 081-3320909" />
         </View>
       </View>
-      <Button
-        icon={
-          <AntDesign
-            name="checkcircleo"
-            size={15}
-            color="white"
-            style={{ marginRight: 5 }}
-          />
-        }
-        iconLeft
-        buttonStyle={{
-          margin: 5,
-          backgroundColor: "#ff2fe6",
-          paddingHorizontal: 20,
-          borderRadius: 25,
-        }}
-        title="บันทึกปิดงาน"
-        onPress={() => navigation.navigate("List-My-Work")}
-      />
+      <View>
+        <Text>สถานะ {item.jobStatusDesc}</Text>
+      </View>
+      {item.jobStatus === "customer_confirm" && (
+        <Button
+          icon={
+            <AntDesign
+              name="team"
+              size={15}
+              color="white"
+              style={{ marginRight: 5 }}
+            />
+          }
+          iconLeft
+          buttonStyle={{
+            margin: 5,
+            backgroundColor: "green",
+            paddingHorizontal: 20,
+            borderRadius: 25,
+          }}
+          title="บันทึกเจอลูกค้าแล้ว"
+          onPress={() => navigation.navigate("List-My-Work")}
+        />
+      )}
+      {item.jobStatus === "customer_meet" && (
+        <Button
+          icon={
+            <AntDesign
+              name="checkcircleo"
+              size={15}
+              color="white"
+              style={{ marginRight: 5 }}
+            />
+          }
+          iconLeft
+          buttonStyle={{
+            margin: 5,
+            backgroundColor: "#ff2fe6",
+            paddingHorizontal: 20,
+            borderRadius: 25,
+          }}
+          title="บันทึกปิดงาน"
+          onPress={() => navigation.navigate("List-My-Work")}
+        />
+      )}
     </View>
   )
 }
