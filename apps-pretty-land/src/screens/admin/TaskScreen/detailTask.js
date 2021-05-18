@@ -9,6 +9,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
   return (
     <View style={styles.cardDetail}>
       <Text style={{ fontSize: 22 }}>รายละเอียด</Text>
+      <Text style={{ fontSize: 22 }}>Level: {item.customerLevel}</Text>
       <View style={styles.viewCard}>
         <View style={{ marginLeft: 10, padding: 20 }}>
           <Text style={{ fontSize: 16 }}>ชื่อลูกค้า: {item.customer}</Text>

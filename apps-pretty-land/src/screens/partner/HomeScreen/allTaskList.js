@@ -10,13 +10,13 @@ import {
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 
-import { getPostToPartnerList } from "../../../data/apis"
+import { getDataForPartnerWork } from "../../../data/apis"
 
 const AllTaskListScreen = ({ navigation, route }) => {
   const { partnerType } = route.params
   const [refreshing, setRefreshing] = React.useState(false)
 
-  const filterList = getPostToPartnerList().filter((item) => {
+  const filterList = getDataForPartnerWork().filter((item) => {
     if (partnerType === "all") {
       return item
     }
@@ -27,8 +27,8 @@ const AllTaskListScreen = ({ navigation, route }) => {
     console.log("refresh data list")
   }
 
-  const onPressOptions = (item, status) => {
-    navigation.navigate("Task-Detail", { status })
+  const onPressOptions = (item) => {
+    navigation.navigate("Task-Detail", { item })
   }
 
   const getBgColor = (status) => {
@@ -53,18 +53,19 @@ const AllTaskListScreen = ({ navigation, route }) => {
   const renderItem = ({ item }) => (
     <ListItem
       bottomDivider
-      onPress={() => onPressOptions(item, item.status)}
+      onPress={() => onPressOptions(item)}
       containerStyle={{
         backgroundColor: getBgColor(item.status),
         borderRadius: 8,
         marginVertical: 5,
       }}
     >
-      <Avatar source={item.image} size={64} />
-      <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>{item.name}</ListItem.Title>
+      <ListItem.Content style={{ margin: 10 }}>
+        <ListItem.Title style={{fontSize: 20, marginBottom: 5, backgroundColor: '#123456', color: 'white', paddingHorizontal: 5}}>ลูกค้า: {item.customer}</ListItem.Title>
+        <ListItem.Title style={{marginBottom: 5, }}>ชื่องาน: {item.name}</ListItem.Title>
+        <ListItem.Title style={{marginBottom: 5, }}>level: {item.customerLevel}</ListItem.Title>
+        <ListItem.Title style={{marginBottom: 5, backgroundColor: 'chocolate', color: 'white', paddingHorizontal: 5}}>โหมดงาน: {item.partnerRequest}</ListItem.Title>
         <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
-        <ListItem.Subtitle>Status: {item.statusText}</ListItem.Subtitle>
       </ListItem.Content>
       <ProgressCircle
         percent={30}

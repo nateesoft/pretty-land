@@ -10,13 +10,13 @@ import {
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 
-import { getPostToConfirmList } from "../../../data/apis"
+import { getDataForPartnerWork } from "../../../data/apis"
 
 const ListMyWorkScreen = ({ navigation, route }) => {
   const { partnerType } = route.params
   const [refreshing, setRefreshing] = React.useState(false)
 
-  const filterList = getPostToConfirmList().filter((item) => {
+  const filterList = getDataForPartnerWork().filter((item) => {
     if (partnerType === "all") {
       return item
     }
@@ -27,24 +27,11 @@ const ListMyWorkScreen = ({ navigation, route }) => {
     console.log("refresh data list")
   }
 
-  const onPressOptions = (item, status) => {
-    navigation.navigate("Work-Detail", { status })
+  const onPressOptions = (item) => {
+    navigation.navigate("Work-Detail", { item })
   }
 
   const getBgColor = (status) => {
-    if (status === "customer_new_post_done") {
-      return "#fdddf3"
-    } else if (status === "admin_confirm_new_post") {
-      return "#fef8e3"
-    } else if (status === "wait_customer_select_partner") {
-      return "#fcf2ff"
-    } else if (status === "wait_customer_payment") {
-      return "#fff0ee"
-    } else if (status === "wait_admin_confirm_payment") {
-      return "#fdddf3"
-    } else if (status === "customer_with_partner") {
-      return "#fef8e3"
-    }
     return "#fcf2ff"
   }
 
@@ -53,18 +40,23 @@ const ListMyWorkScreen = ({ navigation, route }) => {
   const renderItem = ({ item }) => (
     <ListItem
       bottomDivider
-      onPress={() => onPressOptions(item, item.status)}
+      onPress={() => onPressOptions(item)}
       containerStyle={{
         backgroundColor: getBgColor(item.status),
         borderRadius: 8,
         marginVertical: 5,
       }}
     >
-      <Avatar source={item.image} size={64} />
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>{item.name}</ListItem.Title>
-        <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
-        <ListItem.Subtitle>Status: {item.statusText}</ListItem.Subtitle>
+        <ListItem.Title>วันที่แจ้งรับงาน: 18/05/2021</ListItem.Title>
+        <ListItem.Title>สถานที่แจ้งรับงาน: สุขุมวิท62</ListItem.Title>
+        <ListItem.Title>ราคาที่เสนอ: 2000</ListItem.Title>
+        <Text>---------------------------------------</Text>
+        <ListItem.Title>ชื่องาน: {item.name}</ListItem.Title>
+        <ListItem.Subtitle>ลูกค้า: {item.customer}</ListItem.Subtitle>
+        <ListItem.Subtitle>เบอร์ติดต่อ: {item.customerContact}</ListItem.Subtitle>
+        <Text>---------------------------------------</Text>
+        <ListItem.Title style={{backgroundColor: 'blue', color: 'white', paddingHorizontal: 5}}>สถานะ: รอลูกค้าคอนเฟิร์มเลือก</ListItem.Title>
       </ListItem.Content>
       <ProgressCircle
         percent={30}

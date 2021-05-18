@@ -9,21 +9,14 @@ import {
 } from "react-native"
 
 /* import data */
-import { getPartnerGroupForCustomer } from "../../../data/apis"
+import { getPartnerGroup } from "../../../data/apis"
 
-const widthFix = Dimensions.get("window").width * 50/100
+const widthFix = Dimensions.get("window").width * 70/100
 
 const PartnerCategory = ({ navigation }) => {
-  const [items, setItems] = React.useState(getPartnerGroupForCustomer)
+  const [items, setItems] = React.useState(getPartnerGroup)
   const onPressOptions = (item) => {
-    if (item.postQty === 0) {
-      navigation.navigate("Create-Post-Form", { item })
-    } else {
-      navigation.navigate("c-Work", {
-        screen: "Post-List",
-        params: { partnerType: item.type },
-      })
-    }
+    navigation.navigate("Create-Post-Form", { item })
   }
 
   const DisplayCard = ({ data }) => (
@@ -37,8 +30,7 @@ const PartnerCategory = ({ navigation }) => {
           source={data.img}
           style={{ height: widthFix, width: "90%", margin: 5 }}
         />
-        <Text style={styles.optionsName}>{data.title}</Text>
-        <Text style={styles.optionsInfo}>({data.info})</Text>
+        <Text style={styles.optionsName}>{data.label}</Text>
       </View>
     </TouchableHighlight>
   )
@@ -73,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   optionsName: {
-    fontSize: 17,
+    fontSize: 24,
     fontWeight: "bold",
     color: "white",
   },

@@ -2,30 +2,34 @@ export const partnerCategory = [
   {
     id: 1,
     type: "PRETTY_MC",
-    label: "พริตตี้ MC",
-    value: "pretty-event",
+    value: "pretty-mc",
+    label: "MC",
     active: true,
+    img: require("../../assets/img_example/img1.png"),
   },
   {
     id: 2,
     type: "COYOTE",
-    label: "โคโยตี้",
     value: "coyote",
+    label: "โคโยตี้",
     active: true,
+    img: require("../../assets/img_example/img2.png"),
   },
   {
     id: 3,
     type: "PRETTY_ENTERTAIN",
-    label: "พริตตี้ Entertain",
     value: "pretty-entertain",
+    label: "Entertain",
     active: true,
+    img: require("../../assets/img_example/img3.png"),
   },
   {
     id: 4,
     type: "PRETTY_MASSAGE",
-    label: "พริตตี้ นวดแผนไทย",
     value: "pretty-massage",
+    label: "นวดแผนไทย",
     active: true,
+    img: require("../../assets/img_example/img4.png"),
   },
 ]
 
@@ -61,20 +65,22 @@ export const membersSystemList = [
   {
     id: 1,
     memberType: "customer",
-    name: "นาย A",
+    name: "A",
     image: require("../../assets/img_example/img1.png"),
     status: "active",
     username: 'customer01',
     password: '000000',
+    customerLevel: 0,
   },
   {
     id: 2,
     memberType: "customer",
-    name: "นาย C",
+    name: "BBB",
     image: require("../../assets/img_example/img3.png"),
     status: "active",
     username: 'customer02',
     password: '000000',
+    customerLevel: 2,
   },
   {
     id: 3,
@@ -84,6 +90,7 @@ export const membersSystemList = [
     status: "active",
     username: 'partner01',
     password: '000000',
+    customerLevel: 0,
   },
   {
     id: 4,
@@ -93,6 +100,7 @@ export const membersSystemList = [
     status: "active",
     username: 'partner02',
     password: '000000',
+    customerLevel: 0,
   },
   {
     id: 5,
@@ -102,6 +110,7 @@ export const membersSystemList = [
     status: "active",
     username: 'partner03',
     password: '000000',
+    customerLevel: 0,
   },
   {
     id: 6,
@@ -111,6 +120,7 @@ export const membersSystemList = [
     status: "active",
     username: 'partner04',
     password: '000000',
+    customerLevel: 0,
   },
   {
     id: 7,
@@ -120,6 +130,7 @@ export const membersSystemList = [
     status: "active",
     username: 'partner05',
     password: '000000',
+    customerLevel: 0,
   },
   {
     id: 8,
@@ -129,6 +140,7 @@ export const membersSystemList = [
     status: "active",
     username: 'admin01',
     password: '000000',
+    customerLevel: 0,
   },
   {
     id: 9,
@@ -138,5 +150,6 @@ export const membersSystemList = [
     status: "active",
     username: 'admin02',
     password: '000000',
+    customerLevel: 0,
   },
 ]

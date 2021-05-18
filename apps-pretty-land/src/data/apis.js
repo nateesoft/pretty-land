@@ -8,9 +8,10 @@ import {
 
 import {
   customerPostList,
-  partnerCategoryForCustomer,
   partnerCountOfCountry,
-} from "./items"
+  partnerToSelect,
+  partnerJobsList,
+} from "./mockup"
 
 export const getCountryCount = (id, type) => {
   return partnerCountOfCountry.map((data) => {
@@ -31,10 +32,6 @@ export const getCountryCount = (id, type) => {
 
 export const getPartnerGroup = () => {
   return partnerCategory
-}
-
-export const getPartnerGroupForCustomer = () => {
-  return partnerCategoryForCustomer
 }
 
 export const getCountryList = () => {
@@ -90,4 +87,12 @@ export const addPostList = (newPost) => {
     status: "customer_new_post_done",
     statusText: "โพสท์ใหม่",
   })
+}
+
+export const getPartnerListToSelect = (filter) => {
+  return partnerToSelect
+}
+
+export const getDataForPartnerWork = () => {
+  return partnerJobsList
 }

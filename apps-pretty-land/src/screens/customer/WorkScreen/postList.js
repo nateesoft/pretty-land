@@ -15,14 +15,10 @@ import ProgressCircle from "react-native-progress-circle"
 import { getPostList } from "../../../data/apis"
 
 const PostListScreen = ({ navigation, route }) => {
-  const { partnerType } = route.params
   const [refreshing, setRefreshing] = React.useState(false)
 
   const filterList = getPostList().filter((item) => {
-    if (partnerType === "all") {
-      return item
-    }
-    return item.partnerType === partnerType
+    return item.customer === "A"
   })
 
   const handleRefresh = () => {
@@ -83,9 +79,7 @@ const PostListScreen = ({ navigation, route }) => {
         <ListItem.Subtitle>
           จำนวนที่ต้องการ: {item.partnerQtyRequest} คน
         </ListItem.Subtitle>
-        <ListItem.Subtitle
-          style={{ backgroundColor: "pink", padding: 5 }}
-        >
+        <ListItem.Subtitle style={{ backgroundColor: "pink", padding: 5 }}>
           Status: {item.statusText}
         </ListItem.Subtitle>
       </ListItem.Content>
@@ -137,21 +131,6 @@ const PostListScreen = ({ navigation, route }) => {
             ไม่พบข้อมูลการโพสท์
           </Text>
         )}
-      </View>
-      <View style={{ alignItems: "center", backgroundColor: "white" }}>
-        <Button
-          icon={
-            <Entypo
-              name="new-message"
-              color="white"
-              size={24}
-              style={{ marginHorizontal: 8 }}
-            />
-          }
-          title="เขียน POST ใหม่"
-          buttonStyle={styles.btnNewPost}
-          onPress={() => createNewPost()}
-        />
       </View>
     </SafeAreaView>
   )
