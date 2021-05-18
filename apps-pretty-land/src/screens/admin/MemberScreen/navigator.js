@@ -22,7 +22,6 @@ const StackNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
-        initialParams={{ partnerType: "all" }}
       />
       <Stack.Screen
         name="Member-Detail"

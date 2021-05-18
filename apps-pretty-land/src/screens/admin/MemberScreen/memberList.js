@@ -14,26 +14,20 @@ import DropDownPicker from "react-native-dropdown-picker"
 import { getMemberList, getMemberCategory } from "../../../data/apis"
 
 const MemberAllListScreen = ({ navigation, route }) => {
-  const { partnerType } = route.params
   const [refreshing, setRefreshing] = React.useState(false)
 
   const [openSelectPartner, setOpenSelectPartner] = React.useState(false)
   const [partner, setPartner] = React.useState("")
   const [partnerList, setPartnerList] = React.useState(getMemberCategory())
 
-  const filterList = getMemberList().filter((item) => {
-    if (partnerType === "all") {
-      return item
-    }
-    return item.partnerType === partnerType
-  })
+  const filterList = getMemberList();
 
   const handleRefresh = () => {
     console.log("refresh data list")
   }
 
-  const onPressOptions = (item, status) => {
-    navigation.navigate("Member-Detail")
+  const onPressOptions = (item) => {
+    navigation.navigate("Member-Detail", { item })
   }
 
   const getBgColor = (status) => {
@@ -52,18 +46,19 @@ const MemberAllListScreen = ({ navigation, route }) => {
   const renderItem = ({ item }) => (
     <ListItem
       bottomDivider
-      onPress={() => onPressOptions(item, item.status)}
+      onPress={() => onPressOptions(item)}
       containerStyle={{
         backgroundColor: getBgColor(item.memberType),
         borderRadius: 8,
         marginVertical: 5,
       }}
     >
-      <Avatar source={item.image} size={64} />
+      <Avatar source={item.image} size={128} />
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>{item.name}</ListItem.Title>
-        <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
-        <ListItem.Subtitle>Status: {item.statusText}</ListItem.Subtitle>
+        <ListItem.Title>ชื่อสมาชิก: {item.name}</ListItem.Title>
+        <ListItem.Subtitle>Level: {item.customerLevel}</ListItem.Subtitle>
+        <ListItem.Subtitle>ประเภทสมาชิก: {item.memberType}</ListItem.Subtitle>
+        <ListItem.Subtitle>สถานะ: {item.status}</ListItem.Subtitle>
       </ListItem.Content>
       <ProgressCircle
         percent={30}

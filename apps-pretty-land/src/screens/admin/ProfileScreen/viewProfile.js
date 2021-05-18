@@ -4,55 +4,50 @@ import { Button, Text, Input } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 
 const ViewProfileScreen = ({ navigation, route }) => {
-  const [owner, setOwner] = React.useState("")
-  const [phone, setPhone] = React.useState("")
-  const [place, setPlace] = React.useState("")
-  const [comment, setComment] = React.useState("")
-  const [qty, setQty] = React.useState("")
+  const [username, setUsername] = React.useState("admin")
+  const [password, setPassword] = React.useState("")
+  const [newPassword, setNewPassword] = React.useState("")
+  const [reNewPassword, setReNewPassword] = React.useState("")
 
   return (
     <View style={styles.cardDetail}>
       <Text style={styles.textTopic}>แก้ไขข้อมูลส่วนตัว</Text>
+      <Text style={styles.textSubTopic}>เปลี่ยนรหัสผ่าน</Text>
       <View style={styles.viewCard}>
         <Input
-          name="owner"
-          placeholder="ชื่อคนโพสท์"
+          name="username"
+          placeholder="ชื่อผู้ใช้งาน"
+          leftIcon={{ type: "font-awesome", name: "user" }}
+          style={styles.inputForm}
+          value={username}
+          disabled
+        />
+        <Input
+          name="password"
+          placeholder="รหัสผ่านเดิม"
           leftIcon={{ type: "font-awesome", name: "address-book" }}
           style={styles.inputForm}
-          onChangeText={(value) => setOwner(value)}
-          value={owner}
+          onChangeText={(value) => setPassword(value)}
+          value={password}
+          secureTextEntry={true}
         />
         <Input
           name="comment"
-          placeholder="รายละเอียดเพิ่มเติม"
-          leftIcon={{ type: "font-awesome", name: "comment" }}
+          placeholder="รหัสผ่านใหม่"
+          leftIcon={{ type: "font-awesome", name: "lock" }}
           style={styles.inputForm}
-          onChangeText={(value) => setComment(value)}
-          value={comment}
+          onChangeText={(value) => setNewPassword(value)}
+          value={newPassword}
+          secureTextEntry={true}
         />
         <Input
           name="phone"
-          placeholder="เบอร์ติดต่อ"
-          leftIcon={{ type: "font-awesome", name: "phone" }}
+          placeholder="ยืนยันรหัสผ่านใหม่"
+          leftIcon={{ type: "font-awesome", name: "lock" }}
           style={styles.inputForm}
-          onChangeText={(value) => setPhone(value)}
-          value={phone}
-        />
-        <Input
-          name="place"
-          placeholder="สถานที่นัดพบ"
-          leftIcon={{ type: "font-awesome", name: "home" }}
-          style={styles.inputForm}
-          onChangeText={(value) => setPlace(value)}
-          value={place}
-        />
-        <Input
-          name="qty"
-          placeholder="จำนวนคนที่ต้องการ"
-          leftIcon={{ type: "font-awesome", name: "users" }}
-          style={styles.inputForm}
-          onChangeText={(value) => setQty(value)}
-          value={qty}
+          onChangeText={(value) => setReNewPassword(value)}
+          value={reNewPassword}
+          secureTextEntry={true}
         />
       </View>
       <Button
@@ -67,7 +62,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
         iconLeft
         buttonStyle={styles.btnSave}
         title="บันทึกข้อมูล"
-        onPress={() => navigation.navigate("Partner-Category")}
+        onPress={() => console.log("Save data to api")}
       />
     </View>
   )
@@ -113,6 +108,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "blue",
+    marginBottom: 15,
+    marginTop: 10,
+  },
+  textSubTopic: {
+    fontSize: 18,
+    textAlign: "center",
     marginBottom: 15,
     marginTop: 10,
   },

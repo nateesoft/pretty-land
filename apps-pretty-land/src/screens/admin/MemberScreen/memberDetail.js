@@ -1,20 +1,36 @@
 import React from "react"
-import { StyleSheet, View } from "react-native"
-import { Button, Text, Input } from "react-native-elements"
-import { AntDesign, Ionicons } from "react-native-vector-icons"
+import { StyleSheet, View, Image } from "react-native"
+import { Button, Text } from "react-native-elements"
+import { Ionicons } from "react-native-vector-icons"
 
 const MemberDetailScreen = ({ navigation, route }) => {
+  const { item } = route.params
   return (
     <View style={styles.cardDetail}>
-      <Text style={styles.optionsNameDetail}>ตำแหน่งงานที่มองหา</Text>
-      <Text style={styles.optionsNameDetail2}>จังหวัดที่ต้องการ</Text>
       <View style={styles.viewCard}>
         <Text style={{ fontSize: 22 }}>แสดงรายละเอียดสมาชิก</Text>
-        <View style={{ padding: 20, borderWidth: 1, borderRadius: 25, margin: 10 }}>
-          <Text style={{fontSize: 16}}>ประเภทสมาชิก: ลูกค้า</Text>
-          <Text style={{fontSize: 16}}>ประเภทสมาชิก: Partner</Text>
-          <Text style={{fontSize: 16}}>วันที่เป็นสมาชิก:   11/01/2021</Text>
-          <Text style={{fontSize: 16}}>ระดับ Level:   11/01/2021</Text>
+        <Image
+          source={item.image}
+          style={{
+            justifyContent: 'center',
+            width: "100%",
+            height: 350,
+            marginTop: 20,
+          }}
+        />
+        <View
+          style={{ padding: 20, borderWidth: 1, borderRadius: 25, margin: 10 }}
+        >
+          <Text style={{ fontSize: 16 }}>ชื่อ: {item.name}</Text>
+          <Text style={{ fontSize: 16 }}>ประเภทสมาชิก: {item.memberType}</Text>
+          <Text style={{ fontSize: 16 }}>
+            วันที่เป็นสมาชิก: {item.dateIssue}
+          </Text>
+          <Text style={{ fontSize: 16 }}>
+            ระดับ Level: {item.customerLevel}
+          </Text>
+          <Text style={{ fontSize: 16 }}>เบอร์ติดต่อ: {item.phone}</Text>
+          <Text style={{ fontSize: 16 }}>สถานะ: {item.status}</Text>
         </View>
       </View>
       <Button
