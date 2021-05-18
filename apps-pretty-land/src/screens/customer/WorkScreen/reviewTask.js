@@ -1,10 +1,10 @@
 import React from "react"
 import { StyleSheet, View } from "react-native"
-import { Button, Text, Input, AirbnbRating } from "react-native-elements"
+import { Button, Text, AirbnbRating } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 
 const ReviewTaskScreen = ({ navigation, route }) => {
-  const { status } = route.params
+  const { item } = route.params
 
   const ComponentRating = ({ disabled }) => (
     <AirbnbRating
@@ -18,71 +18,62 @@ const ReviewTaskScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.cardDetail}>
-      <Text style={styles.optionsNameDetail}>ตำแหน่งงานที่มองหา</Text>
-      <Text style={styles.optionsNameDetail2}>จังหวัดที่ต้องการ</Text>
-      <View style={styles.viewCard}>
-        <Input
-          name="owner"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "address-book" }}
-          style={styles.inputForm}
-          value="คุณโดนใจ ใช่เลย"
-        />
-        <Input
-          name="comment"
-          placeholder="รายละเอียดเพิ่มเติม"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "comment" }}
-          style={styles.inputForm}
-          value="รูปร่างดี หุ่นดี ขาว ด่วน!!!"
-        />
-        <Input
-          name="phone"
-          placeholder="เบอร์ติดต่อ"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "phone" }}
-          style={styles.inputForm}
-          value="0812208944"
-        />
-        <Input
-          name="place"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "home" }}
-          style={styles.inputForm}
-          value="หน้าวัดลาปลาเค้า"
-        />
-        <Input
-          name="qty"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "users" }}
-          style={styles.inputForm}
-          value="1 ตำแหน่ง"
-        />
-        <Input
-          name="status"
-          disabled
-          leftIcon={{ type: "font-awesome", name: "star" }}
-          style={styles.inputForm}
-          value="รอพิจารณาจาก Admin"
-        />
+      <View
+        style={{
+          width: "100%",
+          padding: 10,
+          borderWidth: 1.5,
+          borderColor: "#aaa",
+          borderRadius: 15,
+          margin: 5,
+        }}
+      >
+        {item.status === "customer_new_post_done" && (
+          <Text style={{ fontSize: 18 }}>โพสท์ใหม่ รอตรวจสอบจาก admin...</Text>
+        )}
+        {item.status === "wait_admin_confirm_payment" && (
+          <Text style={{ fontSize: 18 }}>รอตรวจสอบ หลักฐานการโอนเงิน...</Text>
+        )}
+        {item.status === "customer_with_partner" && (
+          <>
+            <Text style={{ fontSize: 18 }}>
+              รอลูกค้า และ partner ยืนยันปิดงาน...
+            </Text>
+            <Text style={{ fontSize: 16 }}>
+              ...หลังจากใช้บริการเรียบร้อยแล้ว กรุณาให้คะแนนความพึงพอใจ 
+              เพื่อเป็นประโยชน์ในการพัฒนาต่อไป...
+            </Text>
+          </>
+        )}
+        {item.status === "close_job" && (
+          <>
+            <Text style={{ fontSize: 18 }}>
+              ปิดงานเรียบร้อยแล้ว Happy ending
+            </Text>
+            <Text style={{ fontSize: 16 }}>
+              แสดงคะแนนที่ให้ไปสำหรับ partner
+            </Text>
+          </>
+        )}
       </View>
-      {status !== "customer_with_partner" && status !== "close_job" && (
-        <Button
-          icon={
-            <Icon
-              name="close"
-              size={15}
-              color="white"
-              style={{ marginRight: 5 }}
-            />
-          }
-          iconLeft
-          buttonStyle={{ margin: 5, backgroundColor: "red" }}
-          title="แจ้งยกเลิกโพสท์นี้"
-          onPress={() => navigation.navigate("Post-List")}
-        />
-      )}
-      {status === "customer_with_partner" && (
+      {item.status !== "customer_with_partner" &&
+        item.status !== "close_job" && (
+          <Button
+            icon={
+              <Icon
+                name="close"
+                size={15}
+                color="white"
+                style={{ marginRight: 5 }}
+              />
+            }
+            iconLeft
+            buttonStyle={{ margin: 5, backgroundColor: "red" }}
+            title="แจ้งยกเลิกโพสท์นี้"
+            onPress={() => navigation.navigate("Post-List")}
+          />
+        )}
+      {item.status === "customer_with_partner" && (
         <View>
           <Text>ให้คะแนน Partner เพื่อพัฒนาต่อไปค่ะ</Text>
           <ComponentRating disabled={false} />
@@ -102,9 +93,7 @@ const ReviewTaskScreen = ({ navigation, route }) => {
           />
         </View>
       )}
-      {status === "close_job" && (
-        <ComponentRating disabled={true} />
-      )}
+      {item.status === "close_job" && <ComponentRating disabled={true} />}
     </View>
   )
 }

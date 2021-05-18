@@ -8,8 +8,6 @@ import {
   RefreshControl,
 } from "react-native"
 import { ListItem, Avatar, Text } from "react-native-elements"
-import { Button } from "react-native-elements/dist/buttons/Button"
-import { Entypo } from "@expo/vector-icons"
 import ProgressCircle from "react-native-progress-circle"
 
 import { getPostList } from "../../../data/apis"
@@ -31,7 +29,7 @@ const PostListScreen = ({ navigation, route }) => {
     } else if (status === "wait_customer_payment") {
       navigation.navigate("Payment-Form")
     } else {
-      navigation.navigate("Review-Task", { status })
+      navigation.navigate("Review-Task", { item })
     }
   }
 
