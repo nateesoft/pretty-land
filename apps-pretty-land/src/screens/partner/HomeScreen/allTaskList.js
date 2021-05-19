@@ -20,7 +20,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
   const [country, setCountry] = React.useState("")
   const [countryList, setCountryList] = React.useState(getCountryList())
 
-  const filterList = allGroupContryWork().filter((item) => {
+  const filterList = allGroupContryWork().filter((item, index) => {
     return item
   })
 
@@ -70,7 +70,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
             paddingHorizontal: 5,
           }}
         >
-          {item.work2} ({item.prettyEventQty})
+          {item.work2} ({item.prettyEntertainQty})
         </ListItem.Title>
         <ListItem.Title
           style={{

@@ -3,7 +3,6 @@ import { createStackNavigator } from "@react-navigation/stack"
 
 import PartnerCategoryScreen from "./partnerCategory"
 import PartnerListCountryScreen from "./partnerListCountry"
-import PartnerListPostScreen from "./partnerPostList"
 import CreatePostForm from "./createPost"
 
 import { LogoTitle } from "../../../components/Header"
@@ -29,10 +28,6 @@ const TabNavigator = ({ title }) => {
       <Stack.Screen
         name="Partner-List-Country"
         component={PartnerListCountryScreen}
-      />
-      <Stack.Screen
-        name="Partner-List-Post"
-        component={PartnerListPostScreen}
       />
       <Stack.Screen
         name="Create-Post-Form"

@@ -1,85 +1,59 @@
-import {
-  partnerCategory,
-  memberCategory,
-  postStatus,
-  countryList,
-  membersSystemList,
-} from "./master_data"
+import * as master from "./master_data"
+import * as mockup from "./mockup"
 
-import {
-  customerPostList,
-  partnerCountOfCountry,
-  partnerToSelect,
-  partnerJobsList,
-  customerPostGroupByProvince,
-} from "./mockup"
-
-export const getCountryCount = (id, type) => {
-  return partnerCountOfCountry.map((data) => {
-    if (data.id === id) {
-      if (type === "1") {
-        return data.type1
-      } else if (type === "2") {
-        return data.type2
-      } else if (type === "3") {
-        return data.type3
-      } else if (type === "4") {
-        return data.type4
-      }
-    }
-    return ""
-  })
-}
+import { provinces } from './province'
+import { members } from './member'
+import { PARTNER_TYPE } from "./master_data"
 
 export const getPartnerGroup = () => {
-  return partnerCategory
+  return master.partnerGroup
 }
 
 export const getCountryList = () => {
-  return countryList
+  return provinces
 }
 
 export const getCountry = () => {
-  return countryList
+  return provinces
 }
 
 export const getPostList = () => {
-  return customerPostList
+  return mockup.customerPostList
 }
 
 export const getPostToConfirmList = () => {
-  return customerPostList.filter(
+  return mockup.customerPostList.filter(
     (item, index) => item.status === "customer_new_post_done"
   )
 }
 
 export const getPostToPartnerList = (provinceId) => {
-  return customerPostList.filter(
+  return mockup.customerPostList.filter(
     (item, index) =>
       item.status === "admin_confirm_new_post" && item.provinceId === provinceId
   )
 }
 
 export const getTransferListToConfirm = () => {
-  return customerPostList.filter(
+  return mockup.customerPostList.filter(
     (item, index) => item.status === "wait_admin_confirm_payment"
   )
 }
 
 export const getMemberList = () => {
-  return membersSystemList
+  return members
 }
 
 export const getMemberCategory = () => {
-  return memberCategory
+  return master.memberGroup
 }
 
 export const getPostStatus = () => {
-  return postStatus
+  return master.postStatus
 }
 
 export const addPostList = (newPost) => {
-  customerPostList.push({
+  mockup.customerPostList.push({
     id: customerPostList.length + 1,
     post_owner: newPost.customer,
     partnerType: newPost.partnerType,
@@ -92,13 +66,40 @@ export const addPostList = (newPost) => {
 }
 
 export const getPartnerListToSelect = () => {
-  return partnerToSelect
+  return mockup.partnerToSelect
 }
 
 export const getDataForPartnerWork = (partnerId) => {
-  return partnerJobsList.filter((item, index) => item.partnerId === partnerId)
+  return mockup.partnerJobsList.filter(
+    (item, index) => item.partnerId === partnerId
+  )
 }
 
 export const allGroupContryWork = () => {
-  return customerPostGroupByProvince
+  const data = []
+  mockup.customerPostList.forEach((item, index) => {
+    const pretty =
+      item.partnerRequest === PARTNER_TYPE[0] ? item.partnerQtyRequest : 0
+    const prettyEntertain =
+      item.partnerRequest === PARTNER_TYPE[1] ? item.partnerQtyRequest : 0
+    const coyote =
+      item.partnerRequest === PARTNER_TYPE[2] ? item.partnerQtyRequest : 0
+    const prettyMassage =
+      item.partnerRequest === PARTNER_TYPE[3] ? item.partnerQtyRequest : 0
+    data.push({
+      id: index,
+      provinceId: item.provinceId,
+      province: item.province,
+      work1: "Pretty MC",
+      prettyMcQty: pretty,
+      work2: "Pretty Event",
+      prettyEntertainQty: prettyEntertain,
+      work3: "Coyote",
+      coyoteQty: coyote,
+      work4: "Pretty Massage",
+      prettyMassage: prettyMassage,
+    })
+  })
+
+  return data
 }

@@ -1,4 +1,6 @@
-export const partnerCategory = [
+export const PARTNER_TYPE = ["Pretty", "Pretty Entertain", "Coyote", "Massage"]
+
+export const partnerGroup = [
   {
     id: 1,
     type: "PRETTY_MC",
@@ -33,141 +35,15 @@ export const partnerCategory = [
   },
 ]
 
-export const memberCategory = [
-  { value: 0, label: "แสดงทั้งหมด" },
+export const memberGroup = [
   { value: 1, label: "Customer" },
   { value: 2, label: "Partner" },
   { value: 3, label: "Admin" },
 ]
 
 export const postStatus = [
-  { value: 0, label: "แสดงทั้งหมด" },
   { value: 1, label: "โพสท์ใหม่" },
   { value: 2, label: "ตรวจสอบแล้ว" },
   { value: 3, label: "รอตรวจสอบสลิปโอนเงิน" },
   { value: 4, label: "ปิดงานเรียบร้อย" },
-]
-
-export const countryList = [
-  { value: 1, label: "กรุงเทพมหานคร" },
-  { value: 2, label: "อำนาจเจริญ" },
-  { value: 3, label: "อ่างทอง" },
-  { value: 4, label: "บึงกาฬ" },
-  { value: 5, label: "บุรีรัมย์" },
-  { value: 6, label: "ฉะเชิงเทรา" },
-  { value: 7, label: "ชัยนาท" },
-  { value: 8, label: "ชัยภูมิ" },
-  { value: 9, label: "จันทบุรี" },
-  { value: 10, label: "เชียงใหม่" },
-]
-
-export const membersSystemList = [
-  {
-    id: 1,
-    memberType: "customer",
-    name: "A",
-    image: null,
-    status: "active",
-    username: "customer01",
-    password: "000000",
-    customerLevel: 0,
-    phone: "0812230980",
-    dateIssue: "01/01/2021",
-  },
-  {
-    id: 2,
-    memberType: "customer",
-    name: "BBB",
-    image: null,
-    status: "active",
-    username: "customer02",
-    password: "000000",
-    customerLevel: 2,
-    phone: "0812230980",
-    dateIssue: "01/01/2021",
-  },
-  {
-    id: 3,
-    memberType: "partner",
-    name: "พริตตี้-1",
-    image: require("../../assets/img_example/img1.png"),
-    status: "active",
-    username: "partner01",
-    password: "000000",
-    customerLevel: 0,
-    phone: "0812230980",
-    dateIssue: "01/01/2021",
-  },
-  {
-    id: 4,
-    memberType: "partner",
-    name: "พริตตี้-2",
-    image: require("../../assets/img_example/img2.png"),
-    status: "active",
-    username: "partner02",
-    password: "000000",
-    customerLevel: 0,
-    phone: "0812230980",
-    dateIssue: "01/01/2021",
-  },
-  {
-    id: 5,
-    memberType: "partner",
-    name: "พริตตี้-3",
-    image: require("../../assets/img_example/img3.png"),
-    status: "active",
-    username: "partner03",
-    password: "000000",
-    customerLevel: 0,
-    phone: "0812230980",
-    dateIssue: "01/01/2021",
-  },
-  {
-    id: 6,
-    memberType: "partner",
-    name: "โคโยตี้-1",
-    image: require("../../assets/img_example/img1.png"),
-    status: "active",
-    username: "partner04",
-    password: "000000",
-    customerLevel: 0,
-    phone: "0812230980",
-    dateIssue: "01/01/2021",
-  },
-  {
-    id: 7,
-    memberType: "partner",
-    name: "พริตตี้-นวดแผนไทย",
-    image: require("../../assets/img_example/img1.png"),
-    status: "active",
-    username: "partner05",
-    password: "000000",
-    customerLevel: 0,
-    phone: "0812230980",
-    dateIssue: "01/01/2021",
-  },
-  {
-    id: 8,
-    memberType: "superadmin",
-    name: "admin",
-    image: null,
-    status: "active",
-    username: "admin01",
-    password: "000000",
-    customerLevel: 0,
-    phone: "0812230980",
-    dateIssue: "01/01/2021",
-  },
-  {
-    id: 9,
-    memberType: "admin",
-    name: "admin-001",
-    image: null,
-    status: "active",
-    username: "admin02",
-    password: "000000",
-    customerLevel: 0,
-    phone: "0812230980",
-    dateIssue: "01/01/2021",
-  },
 ]
