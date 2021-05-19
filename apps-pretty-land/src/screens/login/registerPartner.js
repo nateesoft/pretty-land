@@ -71,7 +71,9 @@ const RegisterPartnerForm = (props) => {
           />
         </View>
         <InputForm icon="mobile-phone" label="เบอร์โทรศัพท์" type="a" />
-        <InputForm icon="home-work" label="ที่อยู่ติดต่อ" type="m2" />
+        <InputForm icon="home-work" label="จังหวัด" type="m2" />
+        <InputForm icon="home-work" label="อำเภอ" type="m2" />
+        <InputForm icon="home-work" label="คอนโด/ตึก/หมู่บ้าน" type="m2" />
         <InputForm icon="line" label="LINE ID" type="a5" />
         <Button
           title="เพิ่มข้อมูลถัดไป"

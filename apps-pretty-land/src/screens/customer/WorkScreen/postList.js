@@ -27,7 +27,7 @@ const PostListScreen = ({ navigation, route }) => {
     if (status === "wait_customer_select_partner") {
       navigation.navigate("Partner-List-Select", { item })
     } else if (status === "wait_customer_payment") {
-      navigation.navigate("Payment-Form")
+      navigation.navigate("Payment-Form", { item })
     } else {
       navigation.navigate("Review-Task", { item })
     }
@@ -48,13 +48,6 @@ const PostListScreen = ({ navigation, route }) => {
       return "#fef8e3"
     }
     return "#fcf2ff"
-  }
-
-  const createNewPost = () => {
-    navigation.navigate("Create-New-Post", {
-      data: {},
-      item: {},
-    })
   }
 
   const keyExtractor = (item, index) => index.toString()

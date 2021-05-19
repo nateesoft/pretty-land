@@ -6,9 +6,8 @@ import {
   ScrollView,
   ImageBackground,
 } from "react-native"
-import { Image, FlatList, Text } from "react-native"
-import { ListItem, Avatar, Button } from "react-native-elements"
-import ProgressCircle from "react-native-progress-circle"
+import { Text } from "react-native"
+import { Button } from "react-native-elements"
 import { MaterialIcons } from "react-native-vector-icons"
 
 import { getPartnerListToSelect } from "../../../data/apis"
@@ -18,44 +17,9 @@ const PartnerListSelect = ({ navigation, route }) => {
 
   const list = getPartnerListToSelect("")
 
-  const onPressConfirmPartner = () => {
-    navigation.navigate("Post-List")
-  }
-
   const onPressShowPartnerDetail = (item) => {
     navigation.navigate("Partner-Image", { data, item })
   }
-
-  const keyExtractor = (item, index) => index.toString()
-
-  const renderItem = ({ item }) => (
-    <ListItem
-      bottomDivider
-      onPress={() => onPressShowPartnerDetail(item)}
-      containerStyle={{
-        backgroundColor: "#fef8e3",
-        borderRadius: 8,
-        marginVertical: 5,
-      }}
-    >
-      <Avatar source={item.image} size={64} />
-      <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>{item.name}</ListItem.Title>
-        <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
-        <ListItem.Subtitle>Status: {item.status}</ListItem.Subtitle>
-      </ListItem.Content>
-      <ProgressCircle
-        percent={30}
-        radius={17}
-        borderWidth={1.5}
-        color="f580084"
-        shadowColor="#FFF"
-        bgColor="#FFF"
-      >
-        <Image source={require("../../../../assets/icons/pl.png")} />
-      </ProgressCircle>
-    </ListItem>
-  )
 
   const DisplayCard = ({ data }) => (
     <ImageBackground
@@ -169,7 +133,9 @@ const PartnerListSelect = ({ navigation, route }) => {
             color="white"
             style={{ marginRight: 10 }}
           />
-        } />
+        }
+        onPress={()=>navigation.navigate("Payment-Form", { item: data })}
+        />
       </View>
     </ScrollView>
   )

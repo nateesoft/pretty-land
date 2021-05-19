@@ -39,7 +39,7 @@ export const customerPostList = [
     provinceMapping: {
       id: 1,
       value: "10",
-      label: "กรุงเทพมหานคร"
+      label: "กรุงเทพมหานคร",
     },
     image: require("../../assets/img_example/img1.png"),
     subtitle: "กรุงเทพฯ จำนวน 2 คน",
@@ -66,7 +66,7 @@ export const customerPostList = [
     provinceMapping: {
       id: 38,
       value: "50",
-      label: "เชียงใหม่"
+      label: "เชียงใหม่",
     },
     image: require("../../assets/img_example/img2.png"),
     subtitle: "เชียงใหม่ จำนวน 10 คน",
@@ -91,7 +91,7 @@ export const customerPostList = [
     provinceMapping: {
       id: 1,
       value: "10",
-      label: "กรุงเทพมหานคร"
+      label: "กรุงเทพมหานคร",
     },
     image: require("../../assets/img_example/img3.png"),
     subtitle: "กรงเทพฯ จำนวน 4 คน",
@@ -133,7 +133,30 @@ export const customerPostList = [
     textToPartner: "รอลูกค้าชำระเงิน",
     textToAdmin: "รอลูกค้าชำระเงิน",
     customerContact: "081-0000000",
-    listPartnerSelect: [],
+    listPartnerSelect: [
+      {
+        name: "น้องกิ๊ฟ วันทอง",
+        subtitle: "น่ารักยิ้มเก่ง ขาวหมวย",
+        status: "พร้อมทำงาน",
+        image: require("../../assets/img_example/girl1.png"),
+        place: "เกษตรนวมินท์",
+        partnerRequest: "Pretty",
+        price: 2000,
+        sex: "หญิง",
+        detail: "ขาวสวย หมวยอึ๋ม",
+      },
+      {
+        name: "น้องเข็ม",
+        subtitle: "อวบ สมส่วน ขาว",
+        status: "พร้อมทำงาน",
+        image: require("../../assets/img_example/girl2.png"),
+        place: "เกษตรนวมินท์",
+        partnerRequest: "Pretty",
+        price: 1500,
+        sex: "หญิง",
+        detail: "ผิวแทน เอาใจเก่ง",
+      },
+    ],
   },
   {
     id: 5,

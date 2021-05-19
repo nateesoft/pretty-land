@@ -1,8 +1,8 @@
 import * as master from "./master_data"
 import * as mockup from "./mockup"
 
-import { provinces } from './province'
-import { members } from './member'
+import { provinces } from "./province"
+import { members } from "./member"
 import { PARTNER_TYPE } from "./master_data"
 
 export const getPartnerGroup = () => {
@@ -24,6 +24,13 @@ export const getPostList = () => {
 export const getPostToConfirmList = () => {
   return mockup.customerPostList.filter(
     (item, index) => item.status === "customer_new_post_done"
+  )
+}
+
+export const getPostToPayment = (postId) => {
+  return mockup.customerPostList.filter(
+    (item, index) =>
+      item.status === "wait_customer_payment" && item.id === postId
   )
 }
 

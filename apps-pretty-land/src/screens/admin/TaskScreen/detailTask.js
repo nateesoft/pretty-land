@@ -9,10 +9,10 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
   return (
     <View style={styles.cardDetail}>
       <Text style={{ fontSize: 22 }}>รายละเอียด</Text>
-      <Text style={{ fontSize: 22 }}>Level: {item.customerLevel}</Text>
       <View style={styles.viewCard}>
         <View style={{ marginLeft: 10, padding: 20 }}>
           <Text style={{ fontSize: 16 }}>ชื่อลูกค้า: {item.customer}</Text>
+          <Text style={{ fontSize: 16 }}>Level: {item.customerLevel}</Text>
           <Text style={{ fontSize: 16 }}>ชื่อโพสท์: {item.name}</Text>
           <Text style={{ fontSize: 16 }}>
             ประเภทที่ต้องการ: {item.partnerRequest}
@@ -22,47 +22,53 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       <View style={styles.viewCard}>
         <View style={{ marginLeft: 10, padding: 20 }}>
           <Text style={{ fontSize: 16 }}>สถานะที่นัดพบ: {item.place}</Text>
-          <Text style={{ fontSize: 16 }}>เบอร์ติดต่อ: {item.customerContact}</Text>
+          <Text style={{ fontSize: 16 }}>
+            เบอร์ติดต่อ: {item.customerContact}
+          </Text>
         </View>
       </View>
-      <Button
-        icon={
-          <AntDesign
-            name="checkcircleo"
-            size={15}
-            color="white"
-            style={{ marginRight: 5 }}
+      {item.status === "customer_new_post_done" && (
+        <View>
+          <Button
+            icon={
+              <AntDesign
+                name="checkcircleo"
+                size={15}
+                color="white"
+                style={{ marginRight: 5 }}
+              />
+            }
+            iconLeft
+            buttonStyle={{
+              margin: 5,
+              backgroundColor: "#ff2fe6",
+              paddingHorizontal: 20,
+              borderRadius: 25,
+            }}
+            title="อนุมัติโพสท์"
+            onPress={() => navigation.navigate("Post-List-All")}
           />
-        }
-        iconLeft
-        buttonStyle={{
-          margin: 5,
-          backgroundColor: "#ff2fe6",
-          paddingHorizontal: 20,
-          borderRadius: 25,
-        }}
-        title="อนุมัติโพสท์"
-        onPress={() => navigation.navigate("Post-List-All")}
-      />
-      <Button
-        icon={
-          <Ionicons
-            name="trash-bin-outline"
-            size={15}
-            color="white"
-            style={{ marginRight: 5 }}
+          <Button
+            icon={
+              <Ionicons
+                name="trash-bin-outline"
+                size={15}
+                color="white"
+                style={{ marginRight: 5 }}
+              />
+            }
+            iconLeft
+            buttonStyle={{
+              margin: 5,
+              backgroundColor: "red",
+              borderRadius: 25,
+              paddingHorizontal: 20,
+            }}
+            title="ไม่อนุมัติโพสท์"
+            onPress={() => navigation.navigate("Post-List-All")}
           />
-        }
-        iconLeft
-        buttonStyle={{
-          margin: 5,
-          backgroundColor: "red",
-          borderRadius: 25,
-          paddingHorizontal: 20,
-        }}
-        title="ไม่อนุมัติโพสท์"
-        onPress={() => navigation.navigate("Post-List-All")}
-      />
+        </View>
+      )}
     </View>
   )
 }
