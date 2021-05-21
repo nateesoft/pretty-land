@@ -65,21 +65,25 @@ const RegisterPlanForm = (props) => {
             checked={type1}
             onPress={() => setType1(!type1)}
           />
+          {type1 && <InputForm icon="money" label="ค่าบริการ Pretty/MC" type="a" />}
           <CheckBox
             title="โคโยตี้ (Coyote)"
             checked={type2}
             onPress={() => setType2(!type2)}
           />
+          {type2 && <InputForm icon="money" label="ค่าบริการ Coyote" type="a" />}
           <CheckBox
             title="พริตตี้ (Pretty) Entertain"
             checked={type3}
             onPress={() => setType3(!type3)}
           />
+          {type3 && <InputForm icon="money" label="ค่าบริการ Pretty Entertain" type="a" />}
           <CheckBox
             title="พริตตี้ (Pretty) นวดแผนไทย"
             checked={type4}
             onPress={() => setType4(!type4)}
           />
+          {type4 && <InputForm icon="money" label="ค่าบริการ Pretty นวดแผนไทย" type="a" />}
         </View>
         <View style={{ flexDirection: "row", width: "90%", backgroundColor: "#eee", borderRadius: 25, margin: 5, padding: 10 }}>
           <View style={{ flexDirection: "row", alignItems: "baseline" }}>

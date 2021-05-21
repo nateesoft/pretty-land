@@ -58,18 +58,6 @@ const RegisterPartnerForm = (props) => {
       <View style={styles.container}>
         <Image style={styles.image} source={bg} />
         <Text style={styles.textFormInfo}>รายละเอียดการรับงาน</Text>
-        <View style={{ width: "80%", marginHorizontal: 20, padding: 10 }}>
-          <CheckBox
-            title="รับงานนอกสถานที่"
-            checked={workIn}
-            onPress={() => setWorkIn(!workIn)}
-          />
-          <CheckBox
-            title="รับงานในสถานที่"
-            checked={workOut}
-            onPress={() => setWorkOut(!workOut)}
-          />
-        </View>
         <InputForm icon="mobile-phone" label="เบอร์โทรศัพท์" type="a" />
         <InputForm icon="home-work" label="จังหวัด" type="m2" />
         <InputForm icon="home-work" label="อำเภอ" type="m2" />

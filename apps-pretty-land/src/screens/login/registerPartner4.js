@@ -1,19 +1,17 @@
 import React from "react"
 import { View, StyleSheet, Text, Image, TextInput } from "react-native"
+import Icon from "@expo/vector-icons/AntDesign"
 import { Button } from "react-native-elements/dist/buttons/Button"
-import {
-  MaterialCommunityIcons,
-  FontAwesome5,
-  MaterialIcons,
-  AntDesign,
-} from "@expo/vector-icons"
 
 import bg from "../../../assets/login.png"
 
-const RegisterPartnerBankForm = (props) => {
-  const { navigate } = props.navigation
+const RegisterPartnerImageForm = ({ navigation }) => {
+  const saveAndGoLoginForm = () => {
+    navigation.popToTop()
+    navigation.navigate("Login-Form")
+  }
 
-  const InputForm = ({ label, icon, type = "i" }) => (
+  const InputForm = ({ label, icon, type = "i", isPassword = false }) => (
     <View
       style={{
         flexDirection: "row",
@@ -27,13 +25,12 @@ const RegisterPartnerBankForm = (props) => {
         borderRadius: 50,
       }}
     >
-      {type === "a" && <FontAwesome5 name={icon} size={24} color="black" />}
-      {type === "i" && <AntDesign name={icon} color="#00716F" size={20} />}
-      {type === "m" && (
-        <MaterialCommunityIcons name={icon} size={24} color="black" />
-      )}
-      {type === "m2" && <MaterialIcons name={icon} size={24} color="black" />}
-      <TextInput style={styles.textInput} placeholder={label} />
+      {type === "i" && <Icon name={icon} color="#00716F" size={20} />}
+      <TextInput
+        style={styles.textInput}
+        placeholder={label}
+        secureTextEntry={isPassword}
+      />
     </View>
   )
 
@@ -41,24 +38,23 @@ const RegisterPartnerBankForm = (props) => {
     <View style={styles.container}>
       <Image style={styles.image} source={bg} />
       <Text style={styles.textLogo}>PRETTY LAND</Text>
-      <Text style={styles.textFormInfo}>เพิ่มข้อมูลธนาคาร</Text>
-      <View style={{ borderRadius: 25, borderColor: 'green', padding: 10 }}>
-        <InputForm icon="bank" label="เลือกธนาคาร" type="m" />
-        <InputForm icon="money-check" label="ใส่เลขบัญชี" type="a" />
-      </View>
+      <Text style={styles.textFormInfo}>ข้อมูลสำหรับเข้าใช้งานระบบ</Text>
+      <InputForm icon="user" label="Username" />
+      <InputForm icon="lock" label="Password" isPassword />
+      <InputForm icon="lock" label="Re-Password" isPassword />
       <Button
-        title="เพิ่มข้อมูลถัดไป"
+        title="บันทึกข้อมูล"
         iconLeft
         icon={
-          <AntDesign
-            name="picture"
+          <Icon
+            name="save"
             color="white"
             size={24}
             style={{ marginHorizontal: 8 }}
           />
         }
         buttonStyle={{
-          backgroundColor: "#65A3E1",
+          backgroundColor: "#ff2fe6",
           marginTop: 20,
           borderRadius: 25,
           width: 250,
@@ -66,8 +62,12 @@ const RegisterPartnerBankForm = (props) => {
           height: 45,
           borderWidth: 0.5,
         }}
-        onPress={() => navigate("Partner-Register-Image-Form")}
+        onPress={() => saveAndGoLoginForm()}
       />
+      <View style={{alignItems: 'center', marginTop: 20}}>
+        <Text style={{color: 'red'}}>*ท่านสามารถเข้าใช้งานระบบได้</Text>
+        <Text style={{color: 'red'}}>เมื่อได้รับการอนุมัติจากผู้ดูแลระบบแล้วเท่านั้น</Text>
+      </View>
     </View>
   )
 }
@@ -142,4 +142,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default RegisterPartnerBankForm
+export default RegisterPartnerImageForm

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -11,18 +11,31 @@ import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import DropDownPicker from "react-native-dropdown-picker"
 
+import firebase from "../../../../util/firebase"
+import { snapshotToArray } from "../../../../util"
 import { getPostList, getPostStatus } from "../../../data/apis"
 
 const PostListAllScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false)
-
+  const [posts, setPosts] = React.useState([])
   const [openSelectPartner, setOpenSelectPartner] = React.useState(false)
   const [partner, setPartner] = React.useState("")
   const [partnerList, setPartnerList] = React.useState(getPostStatus())
 
-  const filterList = getPostList().filter((item) => {
-    return item;
-  })
+  useEffect(() => {
+    const onChangeValue = firebase
+      .database()
+      .ref("posts")
+      .on("value", (snapshot) => {
+        setPosts(snapshotToArray(snapshot))
+      })
+
+    return () => firebase.database().ref("posts").off("value", onChangeValue)
+  }, [])
+
+  // const filterList = getPostList().filter((item) => {
+  //   return item;
+  // })
 
   const handleRefresh = () => {
     console.log("refresh data list")
@@ -103,8 +116,8 @@ const PostListAllScreen = ({ navigation, route }) => {
           zIndex={2}
         />
         <FlatList
-          keyExtractor={keyExtractor}
-          data={filterList}
+          keyExtractor={item => item.id.toString()}
+          data={posts}
           renderItem={renderItem}
           style={{
             height: 600,

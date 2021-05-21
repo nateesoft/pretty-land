@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -6,21 +6,33 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
+  Button,
 } from "react-native"
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import DropDownPicker from "react-native-dropdown-picker"
 
-import { getMemberList, getMemberCategory } from "../../../data/apis"
+import firebase from "../../../../util/firebase"
+import { snapshotToArray } from "../../../../util"
+import { getMemberCategory } from "../../../data/apis"
 
 const MemberAllListScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false)
-
   const [openSelectPartner, setOpenSelectPartner] = React.useState(false)
   const [partner, setPartner] = React.useState("")
   const [partnerList, setPartnerList] = React.useState(getMemberCategory())
+  const [members, setMembers] = useState([])
 
-  const filterList = getMemberList();
+  useEffect(() => {
+    const onChangeValue = firebase
+      .database()
+      .ref("members")
+      .on("value", (snapshot) => {
+        setMembers(snapshotToArray(snapshot))
+      })
+
+    return () => firebase.database().ref("members").off("value", onChangeValue)
+  }, [])
 
   const handleRefresh = () => {
     console.log("refresh data list")
@@ -28,6 +40,21 @@ const MemberAllListScreen = ({ navigation, route }) => {
 
   const onPressOptions = (item) => {
     navigation.navigate("Member-Detail", { item })
+  }
+
+  const removeUser = (item) => {
+    // firebase
+    //   .database()
+    //   .ref("User")
+    //   .on("value", (snapshot) => {
+    //     snapshot.forEach((childSnapshot) => {
+    //       const id = childSnapshot.val().id
+    //       if (id === item.id) {
+    //         snapshot.child(childSnapshot.key).remove()
+    //       }
+    //     })
+    //   })
+    console.log('remove user');
   }
 
   const getBgColor = (status) => {
@@ -41,8 +68,6 @@ const MemberAllListScreen = ({ navigation, route }) => {
     return "#fcf2ff"
   }
 
-  const keyExtractor = (item, index) => index.toString()
-
   const renderItem = ({ item }) => (
     <ListItem
       bottomDivider
@@ -53,7 +78,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
         marginVertical: 5,
       }}
     >
-      <Avatar source={item.image} size={128} />
+      <Avatar source={{ uri: item.image }} size={128} />
       <ListItem.Content style={{ marginLeft: 10 }}>
         <ListItem.Title>ชื่อสมาชิก: {item.name}</ListItem.Title>
         <ListItem.Subtitle>Level: {item.customerLevel}</ListItem.Subtitle>
@@ -90,8 +115,8 @@ const MemberAllListScreen = ({ navigation, route }) => {
           zIndex={2}
         />
         <FlatList
-          keyExtractor={keyExtractor}
-          data={filterList}
+          keyExtractor={(item) => item.id.toString()}
+          data={members}
           renderItem={renderItem}
           style={{
             height: 600,

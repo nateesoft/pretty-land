@@ -7,6 +7,7 @@ import RegisterPlanForm from "./registerPlan"
 import RegisterPartnerForm from "./registerPartner"
 import RegisterPartnerBankForm from "./registerPartner2"
 import RegisterPartnerImageForm from "./registerPartner3"
+import RegisterLoginImageForm from "./registerPartner4"
 
 const Stack = createStackNavigator()
 
@@ -87,6 +88,20 @@ const LoginNavigator = ({ navigation, route }) => {
       <Stack.Screen
         name="Partner-Register-Image-Form"
         component={RegisterPartnerImageForm}
+        options={{
+          title: "ลงทะเบียนผู้ร่วมงาน",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Partner-Login-Form"
+        component={RegisterLoginImageForm}
         options={{
           title: "ลงทะเบียนผู้ร่วมงาน",
           headerStyle: {

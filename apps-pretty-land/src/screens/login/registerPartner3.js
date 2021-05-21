@@ -1,18 +1,31 @@
 import React from "react"
-import { View, StyleSheet, Text, Image, TextInput } from "react-native"
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TextInput,
+  ScrollView,
+  SafeAreaView,
+} from "react-native"
 import Icon from "@expo/vector-icons/AntDesign"
 import { Button } from "react-native-elements/dist/buttons/Button"
 
 import bg from "../../../assets/login.png"
 
-const RegisterPartnerImageForm = ({ navigation }) => {
+const partnerTypeList = [
+  "Pretty/Mc",
+  "Pretty Entertain",
+  "Coyote",
+  "Pretty Massage",
+]
 
+const RegisterPartnerImageForm = ({ navigation }) => {
   const saveAndGoLoginForm = () => {
-    navigation.popToTop()
-    navigation.navigate("Login-Form")
+    navigation.navigate("Partner-Login-Form")
   }
 
-  const InputForm = ({ label, icon, type='i' }) => (
+  const InputForm = ({ label, icon, type = "i" }) => (
     <View
       style={{
         flexDirection: "row",
@@ -32,29 +45,60 @@ const RegisterPartnerImageForm = ({ navigation }) => {
   )
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Image style={styles.image} source={bg} />
       <Text style={styles.textLogo}>PRETTY LAND</Text>
       <Text style={styles.textFormInfo}>เพิ่มรูปภาพ และวิดีโอ</Text>
-      <InputForm icon="picture" label="รูปภาพ1" />
-      <InputForm icon="picture" label="รูปภาพ2" />
-      <InputForm icon="picture" label="รูปภาพ3" />
-      <InputForm icon="picture" label="รูปภาพ4" />
-      <InputForm icon="picture" label="รูปภาพ5" />
-      <InputForm icon="videocamera" label="วิดีโอ" />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {partnerTypeList.map((item, index) => (
+          <View
+            key={index}
+            style={{
+              alignItems: "center",
+              borderWidth: 1,
+              borderColor: "#eee",
+              padding: 10,
+              borderRadius: 25,
+              marginTop: 5,
+              backgroundColor: "pink",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+
+              elevation: 5,
+            }}
+          >
+            <Text
+              style={{ marginBottom: 5, fontWeight: "bold", color: "blue" }}
+            >
+              ประเภท {item}
+            </Text>
+            <InputForm icon="picture" label="รูปภาพ1" />
+            <InputForm icon="picture" label="รูปภาพ2" />
+            <InputForm icon="picture" label="รูปภาพ3" />
+            <InputForm icon="picture" label="รูปภาพ4" />
+            <InputForm icon="picture" label="รูปภาพ5" />
+            <InputForm icon="videocamera" label="วิดีโอ" />
+          </View>
+        ))}
+      </ScrollView>
       <Button
-        title="บันทึกข้อมูล"
+        title="เพิ่มข้อมูลถัดไป"
         iconLeft
         icon={
           <Icon
-            name="save"
+            name="lock"
             color="white"
             size={24}
             style={{ marginHorizontal: 8 }}
           />
         }
         buttonStyle={{
-          backgroundColor: "#ff2fe6",
+          backgroundColor: "#65A3E1",
           marginTop: 20,
           borderRadius: 25,
           width: 250,
@@ -64,7 +108,7 @@ const RegisterPartnerImageForm = ({ navigation }) => {
         }}
         onPress={() => saveAndGoLoginForm()}
       />
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -75,7 +119,6 @@ const styles = StyleSheet.create({
     backgroundColor: "snow",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: -120,
   },
   image: {
     height: 100,
