@@ -14,7 +14,6 @@ import {
 import * as ImagePicker from "expo-image-picker"
 import { Video } from "expo-av"
 import { AntDesign } from "@expo/vector-icons"
-
 import firebase from "../../../util/firebase"
 import { GetIcon } from "../../components/GetIcons"
 import bg from "../../../assets/login.png"
@@ -162,6 +161,40 @@ const RegisterImageUpload = ({ navigation, route }) => {
     })()
   }, [])
 
+  async function uploadImageAsync(uri, setImage) {
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
+  
+    const fileName = uri.substring(uri.lastIndexOf("/") + 1)
+    const ref = firebase.storage().ref('images/partners').child(fileName);
+    const snapshot = await ref.put(blob);
+  
+    // We're done with the blob, close and release it
+    blob.close();
+
+    Alert.alert(
+      "Photo uploaded!",
+      "Your photo has been uploaded to Firebase Cloud Storage!"
+    )
+    setUploading(false)
+    setImage(null)
+  
+    return await snapshot.ref.getDownloadURL();
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.image} source={bg} />
@@ -188,12 +221,12 @@ const RegisterImageUpload = ({ navigation, route }) => {
             {imgA1 && (
               <View style={{ marginTop: 5 }}>
                 <Image source={{ uri: imgA1, width: 300, height: 250 }} />
-                <Button
+                {/* <Button
                   title="upload"
                   onPress={() =>
-                    uploadImage({ file: imgA1, handleImg: setImgA1 })
+                    uploadImageAsync(imgA1, setImgA1)
                   }
-                />
+                /> */}
               </View>
             )}
             <View style={styles.formControl}>
@@ -204,7 +237,13 @@ const RegisterImageUpload = ({ navigation, route }) => {
                 style={styles.textInput}
                 placeholder="ที่อยู่ URL รูปภาพ2"
               />
+              <Button title="เลือกรูป" onPress={() => selectImage(setImgA2)} />
             </View>
+            {imgA2 && (
+              <View style={{ marginTop: 5 }}>
+                <Image source={{ uri: imgA2, width: 300, height: 250 }} />
+              </View>
+            )}
             <View style={styles.formControl}>
               <GetIcon type="ad" name="picture" />
               <TextInput
@@ -213,7 +252,13 @@ const RegisterImageUpload = ({ navigation, route }) => {
                 style={styles.textInput}
                 placeholder="ที่อยู่ URL รูปภาพ3"
               />
+              <Button title="เลือกรูป" onPress={() => selectImage(setImgA3)} />
             </View>
+            {imgA3 && (
+              <View style={{ marginTop: 5 }}>
+                <Image source={{ uri: imgA3, width: 300, height: 250 }} />
+              </View>
+            )}
             <View style={styles.formControl}>
               <GetIcon type="ad" name="picture" />
               <TextInput
@@ -222,7 +267,13 @@ const RegisterImageUpload = ({ navigation, route }) => {
                 style={styles.textInput}
                 placeholder="ที่อยู่ URL รูปภาพ4"
               />
+              <Button title="เลือกรูป" onPress={() => selectImage(setImgA4)} />
             </View>
+            {imgA4 && (
+              <View style={{ marginTop: 5 }}>
+                <Image source={{ uri: imgA4, width: 300, height: 250 }} />
+              </View>
+            )}
             <View style={styles.formControl}>
               <GetIcon type="ad" name="picture" />
               <TextInput
@@ -231,7 +282,13 @@ const RegisterImageUpload = ({ navigation, route }) => {
                 style={styles.textInput}
                 placeholder="ที่อยู่ URL รูปภาพ5"
               />
+              <Button title="เลือกรูป" onPress={() => selectImage(setImgA5)} />
             </View>
+            {imgA5 && (
+              <View style={{ marginTop: 5 }}>
+                <Image source={{ uri: imgA5, width: 300, height: 250 }} />
+              </View>
+            )}
             <View style={styles.formControl}>
               <GetIcon type="ad" name="videocamera" />
               <TextInput
