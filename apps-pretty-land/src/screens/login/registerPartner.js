@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   View,
   StyleSheet,
@@ -6,63 +6,106 @@ import {
   Image,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native"
-import {
-  AntDesign,
-  FontAwesome,
-  Ionicons,
-  MaterialCommunityIcons,
-  FontAwesome5,
-  MaterialIcons,
-} from "@expo/vector-icons"
-import { Button, CheckBox } from "react-native-elements"
+import { AntDesign } from "@expo/vector-icons"
+import { Button } from "react-native-elements"
 
+import { GetIcon } from "../../components/GetIcons"
 import bg from "../../../assets/login.png"
 
-const RegisterPartnerForm = (props) => {
-  const { navigate } = props.navigation
-  const [workIn, setWorkIn] = React.useState(true)
-  const [workOut, setWorkOut] = React.useState(false)
+const RegisterPartnerForm = ({ navigation, route }) => {
+  const { navigate } = navigation
+  const { partnerData } = route.params
+  const [mobile, setMobile] = useState("")
+  const [province, setProvince] = useState("")
+  const [district, setDistrict] = useState("")
+  const [address, setAddress] = useState("")
+  const [lineId, setLineId] = useState("")
 
-  const InputForm = ({ label, icon, type = "i" }) => (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        borderWidth: 0.5,
-        paddingHorizontal: 10,
-        borderColor: "#00716F",
-        backgroundColor: "white",
-        marginTop: 5,
-        height: 40,
-        borderRadius: 50,
-        width: 300,
-      }}
-    >
-      {type === "m" && (
-        <MaterialCommunityIcons name={icon} size={24} color="black" />
-      )}
-      {type === "m2" && (
-        <MaterialIcons name={icon} size={24} color="black" />
-      )}
-      {type === "a" && <FontAwesome name={icon} size={24} color="black" />}
-      {type === "i" && <AntDesign name={icon} color="#00716F" size={20} />}
-      {type === "i2" && <Ionicons name={icon} size={24} color="black" />}
-      {type === "a5" && <FontAwesome5 name={icon} size={24} color="black" />}
-      <TextInput style={styles.textInput} placeholder={label} />
-    </View>
-  )
+  const handleNextData = () => {
+    if(!mobile){
+      Alert.alert("กรุณาระบุเบอร์โทรศัพท์ เพื่อติดต่อ")
+      return;
+    }
+    if(!province){
+      Alert.alert("กรุณาระบุจังหวัดที่รับงานได้")
+      return;
+    }
+    if(!district){
+      Alert.alert("กรุณาระบุอำเภอที่รับงานได้")
+      return;
+    }
+    if(!address){
+      Alert.alert("กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
+      return;
+    }
+    if(!lineId){
+      Alert.alert("กรุณาระบุ Line Id")
+      return;
+    }
+    navigate("Partner-Register-Bank-Form", {
+      addressData: {
+        ...partnerData,
+        mobile,
+        province,
+        district,
+        address,
+        lineId,
+      },
+    })
+  }
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: "white" }}>
       <View style={styles.container}>
         <Image style={styles.image} source={bg} />
         <Text style={styles.textFormInfo}>รายละเอียดการรับงาน</Text>
-        <InputForm icon="mobile-phone" label="เบอร์โทรศัพท์" type="a" />
-        <InputForm icon="home-work" label="จังหวัด" type="m2" />
-        <InputForm icon="home-work" label="อำเภอ" type="m2" />
-        <InputForm icon="home-work" label="คอนโด/ตึก/หมู่บ้าน" type="m2" />
-        <InputForm icon="line" label="LINE ID" type="a5" />
+        <View style={styles.formControl}>
+          <GetIcon type="fa" name="mobile-phone" />
+          <TextInput
+            value={`${mobile}`}
+            onChangeText={(value) => setMobile(value)}
+            style={styles.textInput}
+            placeholder="เบอร์โทรศัพท์"
+          />
+        </View>
+        <View style={styles.formControl}>
+          <GetIcon type="mi" name="home-work" />
+          <TextInput
+            value={`${province}`}
+            onChangeText={(value) => setProvince(value)}
+            style={styles.textInput}
+            placeholder="จังหวัด"
+          />
+        </View>
+        <View style={styles.formControl}>
+          <GetIcon type="mi" name="home-work" />
+          <TextInput
+            value={`${district}`}
+            onChangeText={(value) => setDistrict(value)}
+            style={styles.textInput}
+            placeholder="อำเภอ"
+          />
+        </View>
+        <View style={styles.formControl}>
+          <GetIcon type="mi" name="home-work" />
+          <TextInput
+            value={`${address}`}
+            onChangeText={(value) => setAddress(value)}
+            style={styles.textInput}
+            placeholder="คอนโด/ตึก/หมู่บ้าน"
+          />
+        </View>
+        <View style={styles.formControl}>
+          <GetIcon type="fa5" name="line" />
+          <TextInput
+            value={`${lineId}`}
+            onChangeText={(value) => setLineId(value)}
+            style={styles.textInput}
+            placeholder="LINE ID"
+          />
+        </View>
         <Button
           title="เพิ่มข้อมูลถัดไป"
           iconLeft
@@ -84,7 +127,7 @@ const RegisterPartnerForm = (props) => {
             borderWidth: 0.5,
             marginBottom: 20,
           }}
-          onPress={() => navigate("Partner-Register-Bank-Form")}
+          onPress={() => handleNextData()}
         />
       </View>
     </ScrollView>
@@ -94,14 +137,12 @@ const RegisterPartnerForm = (props) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    backgroundColor: "snow",
     alignItems: "center",
     justifyContent: "center",
   },
   image: {
     height: 100,
     width: 100,
-    // marginBottom: 10,
   },
   textLogo: {
     fontSize: 24,
@@ -156,6 +197,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 20,
     marginBottom: 8,
+  },
+  formControl: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 0.5,
+    paddingHorizontal: 10,
+    borderColor: "#00716F",
+    backgroundColor: "white",
+    marginTop: 5,
+    height: 40,
+    borderRadius: 50,
+    width: 300,
   },
 })
 

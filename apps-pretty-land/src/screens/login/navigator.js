@@ -3,11 +3,11 @@ import { createStackNavigator } from "@react-navigation/stack"
 
 import LoginScreen from "./index"
 import LoginForm from "./loginForm"
-import RegisterPlanForm from "./registerPlan"
+import RegisterPlanForm from "./registerPlanForm"
 import RegisterPartnerForm from "./registerPartner"
-import RegisterPartnerBankForm from "./registerPartner2"
-import RegisterPartnerImageForm from "./registerPartner3"
-import RegisterLoginImageForm from "./registerPartner4"
+import RegisterPartnerBankForm from "./registerBankForm"
+import RegisterPartnerImageUpload from "./registerImageUpload"
+import RegisterLoginImageForm from "./registerLoginForm"
 
 const Stack = createStackNavigator()
 
@@ -86,8 +86,8 @@ const LoginNavigator = ({ navigation, route }) => {
         }}
       />
       <Stack.Screen
-        name="Partner-Register-Image-Form"
-        component={RegisterPartnerImageForm}
+        name="Partner-Register-Image-Upload"
+        component={RegisterPartnerImageUpload}
         options={{
           title: "ลงทะเบียนผู้ร่วมงาน",
           headerStyle: {

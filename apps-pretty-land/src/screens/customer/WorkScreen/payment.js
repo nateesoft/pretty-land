@@ -7,6 +7,7 @@ import {
   FlatList,
   RefreshControl,
   ScrollView,
+  Alert,
 } from "react-native"
 import * as ImagePicker from "expo-image-picker"
 import { Button, Text, Input } from "react-native-elements"
@@ -29,7 +30,7 @@ const PaymentForm = ({ navigation, route }) => {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync()
         if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!")
+          Alert.alert("Sorry, we need camera roll permissions to make this work!")
         }
       }
     })()

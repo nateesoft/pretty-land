@@ -1,6 +1,7 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
-import { Button, Text, View } from "react-native"
+import { Alert, Text, View } from "react-native"
+import base64 from "react-native-base64"
 
 import LoginNavigator from "../screens/login/navigator"
 import CustomerNavigator from "../screens/customer/navigator"
@@ -15,17 +16,6 @@ function SplashScreen() {
   return (
     <View>
       <Text>Loading...</Text>
-    </View>
-  )
-}
-
-function PartnerScreen() {
-  const { signOut } = React.useContext(AuthContext)
-
-  return (
-    <View>
-      <Text>Partner Signed in!</Text>
-      <Button title="Sign out" onPress={signOut} />
     </View>
   )
 }
@@ -74,7 +64,14 @@ const AppNavigation = ({ navigation }) => {
     () => ({
       signIn: async (data) => {
         const { username, password, screen } = data
-        dispatch({ type: "SIGN_IN", token: "dummy-auth-token", screen })
+        const fixPass = base64.encode("Wonder-Woman-2021")
+        const pass64 = base64.encode(password)
+        // console.log(fixPass, pass64)
+        if (username === "admin" && pass64 === fixPass) {
+          dispatch({ type: "SIGN_IN", token: "dummy-auth-token", screen })
+        } else {
+          Alert.alert("Username or password invalid!!!")
+        }
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),
       signUp: async (data) => {
