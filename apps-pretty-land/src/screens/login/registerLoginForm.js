@@ -11,7 +11,6 @@ import bg from "../../../assets/login.png"
 
 const RegisterLoginForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { imageData } = route.params
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [rePassword, setRePassword] = useState("")
@@ -41,10 +40,9 @@ const RegisterLoginForm = ({ navigation, route }) => {
     // save data to firebase
     const newId = uuid.v4()
     const data = {
-      ...imageData,
+      id: newId,
       username,
       password: encryptPassword(password),
-      id: newId,
       memberType: "partner",
       status: "new_register",
       statusText: "สมัครเป็น Partner ใหม่",

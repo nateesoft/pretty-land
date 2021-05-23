@@ -108,7 +108,7 @@ const LoginScreen = (props) => {
             width: 250,
             height: 45,
           }}
-          onPress={() => navigate("Register-Plan-Form")}
+          onPress={() => navigate("Partner-Login-Form")}
         />
         <Text style={styles.textFooter1}>Contact Us</Text>
         <Text style={styles.textFooter2}>

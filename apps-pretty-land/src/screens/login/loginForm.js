@@ -70,33 +70,6 @@ const LoginForm = ({ navigation, route }) => {
         }}
         onPress={() => signIn({ username, password, screen: 'admin' })}
       />
-      <Text style={styles.textOr}>------ DEMO BUTTON ------</Text>
-      <Button
-        title="LOGIN AS PARTNER"
-        buttonStyle={{
-          backgroundColor: "black",
-          marginTop: 20,
-          borderRadius: 25,
-          width: 250,
-          paddingHorizontal: 15,
-          height: 45,
-          borderWidth: 0.5,
-        }}
-        onPress={() => signIn({ username, password, screen: 'partner' })}
-      />
-      <Button
-        title="LOGIN AS ADMIN"
-        buttonStyle={{
-          backgroundColor: "black",
-          marginTop: 5,
-          borderRadius: 25,
-          width: 250,
-          paddingHorizontal: 15,
-          height: 45,
-          borderWidth: 0.5,
-        }}
-        onPress={() => signIn({ username: "admin", password: "Wonder-Woman-2021", screen: 'admin' })}
-      />
     </View>
   )
 }

@@ -1,4 +1,6 @@
 import firebase from "firebase/app"
+import "firebase/database"
+import "firebase/storage"
 
 const firebaseConfig = {
   apiKey: "AIzaSyBGL9A2kCwZgdeaaCuFjjhHfqHdT3XBJ0c",
@@ -12,9 +14,11 @@ const firebaseConfig = {
   measurementId: "G-SC20Q2SELV",
 }
 
-// Initialize Firebase
 if (!firebase.apps.length) {
+  // Initialize Firebase
   firebase.initializeApp(firebaseConfig)
+} else {
+  firebase.app()
 }
 
 export default firebase
