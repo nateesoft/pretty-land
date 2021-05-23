@@ -2,8 +2,7 @@ import React, { useState } from "react"
 import { View, StyleSheet, Text, Image, TextInput, Alert } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
-import uuid from "react-native-uuid"
-import base64 from 'react-native-base64'
+import base64 from "react-native-base64"
 
 import firebase from "../../../util/firebase"
 import { GetIcon } from "../../components/GetIcons"
@@ -37,35 +36,31 @@ const RegisterLoginForm = ({ navigation, route }) => {
       return
     }
 
-    // find username from firebase
-    
-
-    // save data to firebase
-    const newId = uuid.v4()
-    const data = {
-      id: newId,
-      username,
-      password: encryptPassword(password),
-      memberType: "partner",
-      status: "new_register",
-      statusText: "สมัครเป็น Partner ใหม่",
-    }
-    firebase.database().ref(`members/${newId}`).set(data)
-    Alert.alert("บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")
-    navigation.popToTop()
-    navigate("Login-Form")
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(username, password)
+      .then((userCredential) => {
+        const user = userCredential.user
+        if (user) {
+          const newId = user.uid
+          const data = {
+            id: newId,
+            username,
+            password: encryptPassword(password),
+            memberType: "partner",
+            status: "new_register",
+            statusText: "สมัครเป็น Partner ใหม่",
+          }
+          firebase.database().ref(`members/${newId}`).set(data)
+          Alert.alert("บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")
+          navigation.popToTop()
+          navigate("Login-Form")
+        }
+      })
+      .catch((error) => {
+        Alert.alert(error.message)
+      })
   }
-
-  const InputForm = ({ label, icon, type = "i", isPassword = false }) => (
-    <View style={styles.formControl}>
-      {type === "i" && <AntDesign name={icon} color="#00716F" size={20} />}
-      <TextInput
-        style={styles.textInput}
-        placeholder={label}
-        secureTextEntry={isPassword}
-      />
-    </View>
-  )
 
   return (
     <View style={styles.container}>
@@ -73,29 +68,29 @@ const RegisterLoginForm = ({ navigation, route }) => {
       <Text style={styles.textLogo}>PRETTY LAND</Text>
       <Text style={styles.textFormInfo}>ข้อมูลสำหรับเข้าใช้งานระบบ</Text>
       <View style={styles.formControl}>
-        <GetIcon type="ad" name="user" />
+        <GetIcon type="mci" name="email" />
         <TextInput
           style={styles.textInput}
-          placeholder="Username"
+          placeholder="Email สำหรับเข้าใช้งาน"
           value={username}
           onChangeText={(value) => setUsername(value)}
         />
       </View>
       <View style={styles.formControl}>
-        <GetIcon type="ad" name="lock" />
+        <GetIcon type="mci" name="form-textbox-password" />
         <TextInput
           style={styles.textInput}
-          placeholder="Password"
+          placeholder="กำหนดรหัสผ่าน"
           secureTextEntry={true}
           value={password}
           onChangeText={(value) => setPassword(value)}
         />
       </View>
       <View style={styles.formControl}>
-        <GetIcon type="ad" name="lock" />
+        <GetIcon type="mci" name="form-textbox-password" />
         <TextInput
           style={styles.textInput}
-          placeholder="Re-Password"
+          placeholder="ยืนยันรหัสผ่านอีกครั้ง"
           secureTextEntry={true}
           value={rePassword}
           onChangeText={(value) => setRePassword(value)}

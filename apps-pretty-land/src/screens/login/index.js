@@ -18,17 +18,25 @@ import facebookLogo from "../../../assets/icons/f_logo_RGB-Blue_58.png"
 
 const LoginScreen = (props) => {
   const { navigate } = props.navigation
-  const { signIn } = React.useContext(AuthContext)
+  const { signInCustomer } = React.useContext(AuthContext)
 
   return (
-    <ImageBackground source={bgImage} style={styles.imageBg} resizeMode="stretch">
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
       <View style={styles.container}>
         <Image style={styles.image} source={bg} />
         <Text style={styles.textLogo}>PRETTY LAND</Text>
         <Text style={styles.textDetail}>Love Your Moments</Text>
         <TouchableHighlight
           style={styles.btnLineClickContain}
-          onPress={() => signIn({ username: "cust01", password: "000000", screen: 'customer' })}
+          onPress={() =>
+            signInCustomer({
+              loginType: "facebook",
+            })
+          }
         >
           <View style={styles.btnContainer}>
             <Image source={lineLogo} style={{ width: 24, height: 24 }} />
@@ -47,10 +55,8 @@ const LoginScreen = (props) => {
         <TouchableHighlight
           style={styles.btnClickContain}
           onPress={() =>
-            signIn({
-              username: "cust02",
-              password: "000000",
-              screen: "customer",
+            signInCustomer({
+              loginType: "facebook",
             })
           }
         >
