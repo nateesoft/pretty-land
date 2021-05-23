@@ -2,7 +2,10 @@ import React, { useState } from "react"
 import { View, StyleSheet, Text, Image, TextInput, Alert } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
+import uuid from "react-native-uuid"
+import base64 from 'react-native-base64'
 
+import firebase from "../../../util/firebase"
 import { GetIcon } from "../../components/GetIcons"
 import bg from "../../../assets/login.png"
 
@@ -12,6 +15,10 @@ const RegisterLoginForm = ({ navigation, route }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [rePassword, setRePassword] = useState("")
+
+  const encryptPassword = (password) => {
+    return base64.encode(password)
+  }
 
   const saveAndGoLoginForm = () => {
     if (!username) {
@@ -30,14 +37,22 @@ const RegisterLoginForm = ({ navigation, route }) => {
       Alert.alert("รหัสผ่าน และรหัสยืนยันจะต้องตรงกัน !!!")
       return
     }
+
+    // save data to firebase
+    const newId = uuid.v4()
+    const data = {
+      ...imageData,
+      username,
+      password: encryptPassword(password),
+      id: newId,
+      memberType: "partner",
+      status: "new_register",
+      statusText: "สมัครเป็น Partner ใหม่",
+    }
+    firebase.database().ref(`members/${newId}`).set(data)
+
     navigation.popToTop()
-    navigate("Login-Form", {
-      data: {
-        ...imageData,
-        username,
-        password,
-      },
-    })
+    navigate("Login-Form")
   }
 
   const InputForm = ({ label, icon, type = "i", isPassword = false }) => (

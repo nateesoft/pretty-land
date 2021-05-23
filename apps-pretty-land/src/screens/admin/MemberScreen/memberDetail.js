@@ -8,30 +8,32 @@ const MemberDetailScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.cardDetail}>
       <View style={styles.viewCard}>
-          <Text style={{ fontSize: 22 }}>แสดงรายละเอียดสมาชิก</Text>
-          {item.image && <Image
-            source={{ uri: item.image}}
+        <Text style={{ fontSize: 22 }}>แสดงรายละเอียดสมาชิก</Text>
+        {item.image && (
+          <Image
+            source={{ uri: item.image }}
             style={{
               justifyContent: "center",
               width: "100%",
               height: 350,
               marginTop: 20,
             }}
-          />} 
-          <View
-            style={{ padding: 20, borderWidth: 1, borderRadius: 25, margin: 10 }}
-          >
-            <Text style={{ fontSize: 16 }}>ชื่อ: {item.name}</Text>
-            <Text style={{ fontSize: 16 }}>ประเภทสมาชิก: {item.memberType}</Text>
-            <Text style={{ fontSize: 16 }}>
-              วันที่เป็นสมาชิก: {item.dateIssue}
-            </Text>
-            <Text style={{ fontSize: 16 }}>
-              ระดับ Level: {item.customerLevel}
-            </Text>
-            <Text style={{ fontSize: 16 }}>เบอร์ติดต่อ: {item.phone}</Text>
-            <Text style={{ fontSize: 16 }}>สถานะ: {item.status}</Text>
-          </View>
+          />
+        )}
+        <View
+          style={{ padding: 20, borderWidth: 1, borderRadius: 25, margin: 10 }}
+        >
+          <Text style={{ fontSize: 16 }}>ชื่อ: {item.name}</Text>
+          <Text style={{ fontSize: 16 }}>ประเภทสมาชิก: {item.memberType}</Text>
+          <Text style={{ fontSize: 16 }}>
+            วันที่เป็นสมาชิก: {item.dateIssue}
+          </Text>
+          <Text style={{ fontSize: 16 }}>
+            ระดับ Level: {item.customerLevel}
+          </Text>
+          <Text style={{ fontSize: 16 }}>เบอร์ติดต่อ: {item.phone}</Text>
+          <Text style={{ fontSize: 16 }}>สถานะ: {item.status}</Text>
+        </View>
         {item.status === "wait_approve" && (
           <Button
             icon={

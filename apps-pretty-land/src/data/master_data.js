@@ -35,6 +35,13 @@ export const partnerGroup = [
   },
 ]
 
+export const memberStatus =[
+  { value: 1, label: "active" },
+  { value: 2, label: "wait_approve" },
+  { value: 3, label: "not_approve" },
+  { value: 4, label: "pending" },
+]
+
 export const memberGroup = [
   { value: 1, label: "Customer" },
   { value: 2, label: "Partner" },

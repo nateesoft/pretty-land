@@ -24,13 +24,11 @@ const RegisterPlanForm = (props) => {
   const [type3, setType3] = useState(false)
   const [type4, setType4] = useState(false)
   const [sexType, setSexType] = useState("female")
+  const [name, setName] = useState("")
   const [age, setAge] = useState("")
   const [height, setHeight] = useState("")
   const [weight, setWeight] = useState("")
   const [stature, setStature] = useState("")
-  const [price1, setPrice1] = useState(0)
-  const [price2, setPrice2] = useState(0)
-  const [price3, setPrice3] = useState(0)
   const [price4, setPrice4] = useState(0)
 
   const handleNexData = () => {
@@ -61,13 +59,11 @@ const RegisterPlanForm = (props) => {
         workType3: type3 ? "Y" : "N",
         workType4: type4 ? "Y" : "N",
         sex: sexType,
+        name,
         age,
         height,
         stature,
         weight,
-        typePrice1: price1,
-        typePrice2: price2,
-        typePrice3: price3,
         typePrice4: price4,
       },
     })
@@ -91,49 +87,16 @@ const RegisterPlanForm = (props) => {
               checked={type1}
               onPress={() => setType1(!type1)}
             />
-            {type1 && (
-              <View style={styles.formControl}>
-                <GetIcon type="fa" name="money" />
-                <TextInput
-                  value={`${price1}`}
-                  onChangeText={(value) => setPrice1(value)}
-                  style={styles.textInput}
-                  placeholder="ค่าบริการ"
-                />
-              </View>
-            )}
             <CheckBox
               title="โคโยตี้ (Coyote)"
               checked={type2}
               onPress={() => setType2(!type2)}
             />
-            {type2 && (
-              <View style={styles.formControl}>
-                <GetIcon type="fa" name="money" />
-                <TextInput
-                  value={`${price2}`}
-                  onChangeText={(value) => setPrice2(value)}
-                  style={styles.textInput}
-                  placeholder="ค่าบริการ"
-                />
-              </View>
-            )}
             <CheckBox
               title="พริตตี้ (Pretty) Entertain"
               checked={type3}
               onPress={() => setType3(!type3)}
             />
-            {type3 && (
-              <View style={styles.formControl}>
-                <GetIcon type="fa" name="money" />
-                <TextInput
-                  value={`${price3}`}
-                  onChangeText={(value) => setPrice3(value)}
-                  style={styles.textInput}
-                  placeholder="ค่าบริการ"
-                />
-              </View>
-            )}
             <CheckBox
               title="พริตตี้ (Pretty) นวดแผนไทย"
               checked={type4}
@@ -205,6 +168,15 @@ const RegisterPlanForm = (props) => {
               />
               <Text>Other</Text>
             </View>
+          </View>
+          <View style={styles.formControl}>
+            <GetIcon type="mci" name="card-account-details" />
+            <TextInput
+              value={`${name}`}
+              onChangeText={(value) => setName(value)}
+              style={styles.textInput}
+              placeholder="ชื่อเล่น/ชื่อในวงการ"
+            />
           </View>
           <View style={styles.formControl}>
             <GetIcon type="mci" name="timeline-clock" />

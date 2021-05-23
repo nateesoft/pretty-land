@@ -33,10 +33,6 @@ const PostListAllScreen = ({ navigation, route }) => {
     return () => firebase.database().ref("posts").off("value", onChangeValue)
   }, [])
 
-  // const filterList = getPostList().filter((item) => {
-  //   return item;
-  // })
-
   const handleRefresh = () => {
     console.log("refresh data list")
   }

@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
-  Button,
 } from "react-native"
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
@@ -42,21 +41,6 @@ const MemberAllListScreen = ({ navigation, route }) => {
     navigation.navigate("Member-Detail", { item })
   }
 
-  const removeUser = (item) => {
-    // firebase
-    //   .database()
-    //   .ref("User")
-    //   .on("value", (snapshot) => {
-    //     snapshot.forEach((childSnapshot) => {
-    //       const id = childSnapshot.val().id
-    //       if (id === item.id) {
-    //         snapshot.child(childSnapshot.key).remove()
-    //       }
-    //     })
-    //   })
-    console.log('remove user');
-  }
-
   const getBgColor = (status) => {
     if (status === "admin") {
       return "#fdddf3"
@@ -81,7 +65,6 @@ const MemberAllListScreen = ({ navigation, route }) => {
       <Avatar source={{ uri: item.image }} size={128} />
       <ListItem.Content style={{ marginLeft: 10 }}>
         <ListItem.Title>ชื่อสมาชิก: {item.name}</ListItem.Title>
-        <ListItem.Subtitle>Level: {item.customerLevel}</ListItem.Subtitle>
         <ListItem.Subtitle>ประเภทสมาชิก: {item.memberType}</ListItem.Subtitle>
         <ListItem.Subtitle>สถานะ: {item.status}</ListItem.Subtitle>
       </ListItem.Content>
