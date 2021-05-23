@@ -66,8 +66,10 @@ const AppNavigation = ({ navigation }) => {
         const { username, password, screen } = data
         const fixPass = base64.encode("Wonder-Woman-2021")
         const pass64 = base64.encode(password)
-        // console.log(fixPass, pass64)
-        if (username === "admin" && pass64 === fixPass) {
+        if (screen === "customer") {
+          dispatch({ type: "SIGN_IN", token: "dummy-auth-token", screen })
+        }
+        if (screen !== "customer" && username === "admin" && pass64 === fixPass) {
           dispatch({ type: "SIGN_IN", token: "dummy-auth-token", screen })
         } else {
           Alert.alert("Username or password invalid!!!")
