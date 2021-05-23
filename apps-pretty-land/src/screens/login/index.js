@@ -34,7 +34,7 @@ const LoginScreen = (props) => {
           style={styles.btnLineClickContain}
           onPress={() =>
             signInCustomer({
-              loginType: "facebook",
+              loginType: "line",
             })
           }
         >

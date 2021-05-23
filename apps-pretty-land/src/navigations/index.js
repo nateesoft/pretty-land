@@ -55,7 +55,7 @@ const AppNavigation = ({ navigation }) => {
     }
   )
 
-  const logIn = async () => {
+  const facebookLogin = async () => {
     try {
       await Facebook.initializeAsync({
         appId: "507458737111150",
@@ -70,11 +70,20 @@ const AppNavigation = ({ navigation }) => {
         const response = await fetch(
           `https://graph.facebook.com/me?access_token=${token}`
         )
-        Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`)
-        // console.log(await response.json())
-        // Alert.alert('Logged in!');
+        // console.log("Logged in!", `Hi ${(await response.json()).name}!`)
+        const fbProfile = await response.json()
+        // save facebook account to database
+        // const fbProfile = await Facebook.getAuthenticationCredentialAsync()
+        // console.log(fbProfile)
+        // demo into customer scree
+        Alert.alert(`สวัสดีค่ะ คุณ ${fbProfile.name} ยินดีต้อนรับเข้าสู่ Pretty Land`)
+        dispatch({
+          type: "SIGN_IN",
+          token: "dummy-auth-token",
+          screen: "customer",
+        })
       } else {
-        // type === 'cancel'
+        console.log("Cancel fackbook login action")
       }
     } catch (error) {
       Alert.alert(error)
@@ -99,11 +108,17 @@ const AppNavigation = ({ navigation }) => {
           .then((userCredential) => {
             const user = userCredential.user
             if (user) {
-              dispatch({
-                type: "SIGN_IN",
-                token: "dummy-auth-token",
-                screen: member.memberType,
-              })
+              firebase
+                .database()
+                .ref(`members/${user.uid}`)
+                .on("value", (snapshot) => {
+                  const member = snapshot.val()
+                  dispatch({
+                    type: "SIGN_IN",
+                    token: "dummy-auth-token",
+                    screen: member.memberType,
+                  })
+                })
             }
           })
           .catch((error) => {
@@ -112,42 +127,10 @@ const AppNavigation = ({ navigation }) => {
       },
       signInCustomer: async (data) => {
         if (data.loginType === "facebook") {
-          // const provider = new firebase.auth.FacebookAuthProvider()
-          // firebase
-          //   .auth()
-          //   .signInWithPopup(provider)
-          //   .then((result) => {
-          //     const credential = result.credential
-          //     const user = result.user
-          //     const accessToken = credential.accessToken
-          //     console.log("user:", user)
-          //     console.log("accessToken:", accessToken)
-          //   })
-          //   .catch((error) => {
-          //     // Handle Errors here.
-          //     const errorCode = error.code
-          //     const errorMessage = error.message
-          //     // The email of the user's account used.
-          //     const email = error.email
-          //     // The firebase.auth.AuthCredential type that was used.
-          //     const credential = error.credential
-          //     console.log('login by facebook error:', error);
-          //     Alert.alert(error.message)
-          //   })
-
-          // const fbAccessToken = '95b0a0d704d8f2186d477532e29f09ed'
-          // const provider =
-          //   firebase.auth.FacebookAuthProvider.credential(fbAccessToken)
-          // firebase
-          //   .auth()
-          //   .signInWithCredential(provider)
-          //   .then((user) => {})
-          //   .catch((error) => {
-          //     Alert.alert(error.message)
-          //   })
-          logIn()
+          facebookLogin()
         }
         if (data.loginType === "line") {
+          Alert.alert("อยู่ในระหว่างการพัฒนา")
         }
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),
