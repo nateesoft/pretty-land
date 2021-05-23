@@ -1,5 +1,5 @@
-import React from "react"
-import { View, StyleSheet, Text, Image, TextInput } from "react-native"
+import React, { useState, useContext } from "react"
+import { View, StyleSheet, Text, Image, TextInput, Alert } from "react-native"
 import Icon from "@expo/vector-icons/AntDesign"
 import { Button } from "react-native-elements/dist/buttons/Button"
 
@@ -7,10 +7,18 @@ import bg from "../../../assets/login.png"
 import { Context as AuthContext } from "../../context/AuthContext"
 
 const LoginForm = ({ navigation, route }) => {
-  const [username, setUsername] = React.useState("")
-  const [password, setPassword] = React.useState("")
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
-  const { signIn } = React.useContext(AuthContext)
+  const { signIn } = useContext(AuthContext)
+
+  const validateLogin = () => {
+    if (username && password) {
+      signIn({ username, password, screen: "admin" })
+    } else {
+      Alert.alert("กรุณาระบุข้อมูลผู้ใช้งาน และรหัสผ่านให้ครบถ้วน !!!")
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -33,7 +41,7 @@ const LoginForm = ({ navigation, route }) => {
           style={styles.textInput}
           placeholder="ข้อมูลผู้ใช้งาน"
           value={username}
-          onChangeText={(value)=>setUsername(value)}
+          onChangeText={(value) => setUsername(value)}
         />
       </View>
       <View
@@ -54,7 +62,7 @@ const LoginForm = ({ navigation, route }) => {
           style={styles.textInput}
           placeholder="รหัสผาน"
           value={password}
-          onChangeText={(value)=>setPassword(value)}
+          onChangeText={(value) => setPassword(value)}
         />
       </View>
       <Button
@@ -68,7 +76,7 @@ const LoginForm = ({ navigation, route }) => {
           height: 45,
           borderWidth: 0.5,
         }}
-        onPress={() => signIn({ username, password, screen: 'admin' })}
+        onPress={() => validateLogin()}
       />
     </View>
   )

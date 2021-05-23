@@ -37,6 +37,9 @@ const RegisterLoginForm = ({ navigation, route }) => {
       return
     }
 
+    // find username from firebase
+    
+
     // save data to firebase
     const newId = uuid.v4()
     const data = {
@@ -48,7 +51,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
       statusText: "สมัครเป็น Partner ใหม่",
     }
     firebase.database().ref(`members/${newId}`).set(data)
-
+    Alert.alert("บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")
     navigation.popToTop()
     navigate("Login-Form")
   }
@@ -120,12 +123,6 @@ const RegisterLoginForm = ({ navigation, route }) => {
         }}
         onPress={() => saveAndGoLoginForm()}
       />
-      <View style={{ alignItems: "center", marginTop: 20 }}>
-        <Text style={{ color: "red" }}>*ท่านสามารถเข้าใช้งานระบบได้</Text>
-        <Text style={{ color: "red" }}>
-          เมื่อได้รับการอนุมัติจากผู้ดูแลระบบแล้วเท่านั้น
-        </Text>
-      </View>
     </View>
   )
 }

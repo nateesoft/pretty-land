@@ -9,13 +9,3 @@ export const snapshotToArray = (snapshot) => {
 
   return returnArr
 }
-
-export const getChildFromSnapshot = (snapshot, id) => {
-  snapshot.forEach((childSnapshot) => {
-    childSnapshot.forEach((obj) => {
-      if (obj.id === id) {
-        return childSnapshot
-      }
-    })
-  })
-}

@@ -1,7 +1,9 @@
-import React from "react"
+import React, { useEffect, useMemo } from "react"
 import { createStackNavigator } from "@react-navigation/stack"
-import { Alert, Text, View } from "react-native"
+import { Text, View } from "react-native"
 import base64 from "react-native-base64"
+
+import firebase from "../../util/firebase"
 
 import LoginNavigator from "../screens/login/navigator"
 import CustomerNavigator from "../screens/customer/navigator"
@@ -52,7 +54,7 @@ const AppNavigation = ({ navigation }) => {
     }
   )
 
-  React.useEffect(() => {
+  useEffect(() => {
     const bootstrapAsync = async () => {
       let userToken
       dispatch({ type: "RESTORE_TOKEN", token: userToken })
@@ -60,20 +62,26 @@ const AppNavigation = ({ navigation }) => {
     bootstrapAsync()
   }, [])
 
-  const authContext = React.useMemo(
+  const authContext = useMemo(
     () => ({
       signIn: async (data) => {
-        const { username, password, screen } = data
-        const fixPass = base64.encode("Wonder-Woman-2021")
-        const pass64 = base64.encode(password)
-        if (screen === "customer") {
-          dispatch({ type: "SIGN_IN", token: "dummy-auth-token", screen })
-        }
-        if (screen !== "customer" && username === "admin" && pass64 === fixPass) {
-          dispatch({ type: "SIGN_IN", token: "dummy-auth-token", screen })
-        } else {
-          Alert.alert("Username or password invalid!!!")
-        }
+        const { username, password } = data
+        const ref = firebase.database().ref("members")
+        ref.on("value", (snapshot) => {
+          snapshot.forEach((childSnapshot) => {
+            const member = childSnapshot.val()
+            member.key = childSnapshot.key
+            const isUser = member.username === username
+            const isPass = base64.decode(member.password) === password
+            if (isUser && isPass) {
+              dispatch({
+                type: "SIGN_IN",
+                token: "dummy-auth-token",
+                screen: member.memberType,
+              })
+            }
+          })
+        })
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),
       signUp: async (data) => {
