@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo } from "react"
+import React, { useEffect, useMemo, useReducer } from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 import { Alert, Text, View } from "react-native"
-import base64 from "react-native-base64"
 import * as Facebook from "expo-facebook"
 
 import firebase from "../../util/firebase"
@@ -24,7 +23,7 @@ function SplashScreen() {
 }
 
 const AppNavigation = ({ navigation }) => {
-  const [state, dispatch] = React.useReducer(
+  const [state, dispatch] = useReducer(
     (prevState, action) => {
       switch (action.type) {
         case "RESTORE_TOKEN":
@@ -39,6 +38,7 @@ const AppNavigation = ({ navigation }) => {
             isSignout: false,
             userToken: action.token,
             screen: action.screen,
+            status: action.status,
           }
         case "SIGN_OUT":
           return {
@@ -76,7 +76,9 @@ const AppNavigation = ({ navigation }) => {
         // const fbProfile = await Facebook.getAuthenticationCredentialAsync()
         // console.log(fbProfile)
         // demo into customer scree
-        Alert.alert(`สวัสดีค่ะ คุณ ${fbProfile.name} ยินดีต้อนรับเข้าสู่ Pretty Land`)
+        Alert.alert(
+          `สวัสดีค่ะ คุณ ${fbProfile.name} ยินดีต้อนรับเข้าสู่ Pretty Land`
+        )
         dispatch({
           type: "SIGN_IN",
           token: "dummy-auth-token",
@@ -113,10 +115,12 @@ const AppNavigation = ({ navigation }) => {
                 .ref(`members/${user.uid}`)
                 .on("value", (snapshot) => {
                   const member = snapshot.val()
+                  console.log('member:', member)
                   dispatch({
                     type: "SIGN_IN",
-                    token: "dummy-auth-token",
+                    token: user.uid,
                     screen: member.memberType,
+                    status: member.status,
                   })
                 })
             }
@@ -127,7 +131,8 @@ const AppNavigation = ({ navigation }) => {
       },
       signInCustomer: async (data) => {
         if (data.loginType === "facebook") {
-          facebookLogin()
+          // facebookLogin()
+          Alert.alert("อยู่ในระหว่างการพัฒนา")
         }
         if (data.loginType === "line") {
           Alert.alert("อยู่ในระหว่างการพัฒนา")
@@ -174,6 +179,10 @@ const AppNavigation = ({ navigation }) => {
             }
             options={{
               headerShown: false,
+            }}
+            initialParams={{
+              userId: state.userToken,
+              status: state.status,
             }}
           />
         )}

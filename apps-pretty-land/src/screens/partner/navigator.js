@@ -17,6 +17,7 @@ import LogoutScreen from "../logout"
 const Tab = createBottomTabNavigator()
 
 const PartnerNavigator = ({ navigation, route }) => {
+  const { userId, status } = route.params
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -36,6 +37,7 @@ const PartnerNavigator = ({ navigation, route }) => {
             <FontAwesome5 name="kiss-wink-heart" color="white" size={size} />
           ),
         }}
+        initialParams={{ userId, status }}
       />
       <Tab.Screen
         name="p-Work"
@@ -46,6 +48,7 @@ const PartnerNavigator = ({ navigation, route }) => {
             <Foundation name="social-foursquare" color="white" size={size} />
           ),
         }}
+        initialParams={{ userId, status }}
       />
       <Tab.Screen
         name="p-Profile"
@@ -60,6 +63,7 @@ const PartnerNavigator = ({ navigation, route }) => {
             />
           ),
         }}
+        initialParams={{ userId, status }}
       />
       <Tab.Screen
         name="p-Logout"
@@ -70,6 +74,7 @@ const PartnerNavigator = ({ navigation, route }) => {
             <MaterialCommunityIcons name="logout" color="white" size={size} />
           ),
         }}
+        initialParams={{ userId, status }}
       />
     </Tab.Navigator>
   )

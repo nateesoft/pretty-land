@@ -68,10 +68,10 @@ const RegisterLoginForm = ({ navigation, route }) => {
       <Text style={styles.textLogo}>PRETTY LAND</Text>
       <Text style={styles.textFormInfo}>ข้อมูลสำหรับเข้าใช้งานระบบ</Text>
       <View style={styles.formControl}>
-        <GetIcon type="mci" name="email" />
+        <GetIcon type="ad" name="user" />
         <TextInput
           style={styles.textInput}
-          placeholder="Email สำหรับเข้าใช้งาน"
+          placeholder="ข้อมูลผู้ใช้งาน"
           value={username}
           onChangeText={(value) => setUsername(value)}
         />
