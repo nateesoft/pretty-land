@@ -13,8 +13,8 @@ import {
   AntDesign,
 } from "@expo/vector-icons"
 
-import { GetIcon } from "../../components/GetIcons"
-import bg from "../../../assets/login.png"
+import { GetIcon } from "../../../components/GetIcons"
+import bg from "../../../../assets/login.png"
 
 const RegisterPartnerBankForm = ({ navigation, route }) => {
   const { navigate } = navigation

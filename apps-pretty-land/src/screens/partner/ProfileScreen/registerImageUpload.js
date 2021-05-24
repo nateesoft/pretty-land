@@ -16,9 +16,9 @@ import * as ImagePicker from "expo-image-picker"
 import { Video } from "expo-av"
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
-import firebase from "../../../util/firebase"
-import { GetIcon } from "../../components/GetIcons"
-import bg from "../../../assets/login.png"
+import firebase from "../../../../util/firebase"
+import { GetIcon } from "../../../components/GetIcons"
+import bg from "../../../../assets/login.png"
 
 const RegisterImageUpload = ({ navigation, route }) => {
   const { navigate } = navigation

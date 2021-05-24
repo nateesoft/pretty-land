@@ -14,8 +14,8 @@ import { Fontisto, Foundation, MaterialIcons } from "@expo/vector-icons"
 import { Button, CheckBox } from "react-native-elements"
 import { RadioButton } from "react-native-paper"
 
-import { GetIcon } from "../../components/GetIcons"
-import bg from "../../../assets/login.png"
+import { GetIcon } from "../../../components/GetIcons"
+import bg from "../../../../assets/login.png"
 
 const RegisterPlanForm = (props) => {
   const { navigate } = props.navigation

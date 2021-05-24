@@ -11,8 +11,8 @@ import {
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 
-import { GetIcon } from "../../components/GetIcons"
-import bg from "../../../assets/login.png"
+import { GetIcon } from "../../../components/GetIcons"
+import bg from "../../../../assets/login.png"
 
 const RegisterPartnerForm = ({ navigation, route }) => {
   const { navigate } = navigation
