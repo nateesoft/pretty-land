@@ -14,7 +14,7 @@ const Stack = createStackNavigator()
 const TabNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen
+      {/* <Stack.Screen
         name="View-Partner-Profile"
         component={ViewProfileScreen}
         options={{
@@ -27,7 +27,7 @@ const TabNavigator = () => {
             <LogoTitle title="Pretty Land" {...props} />
           ),
         }}
-      />
+      /> */}
       <Stack.Screen
         name="Register-Plan-Form"
         component={RegisterPlanForm}

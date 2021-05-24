@@ -15,7 +15,6 @@ import { Button, CheckBox } from "react-native-elements"
 import { RadioButton } from "react-native-paper"
 
 import { GetIcon } from "../../../components/GetIcons"
-import bg from "../../../../assets/login.png"
 
 const RegisterPlanForm = (props) => {
   const { navigate } = props.navigation
@@ -76,7 +75,6 @@ const RegisterPlanForm = (props) => {
     >
       <ScrollView style={{ backgroundColor: "white" }}>
         <View style={styles.container}>
-          <Image style={styles.image} source={bg} />
           <Text style={styles.textFormInfo}>เพิ่มข้อมูลส่วนตัว</Text>
           <Text style={{ marginBottom: 10, fontSize: 16 }}>
             ประเภทงานที่รับ

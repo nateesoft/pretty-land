@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   Text,
-  Image,
   TextInput,
   ScrollView,
   Alert,
@@ -14,7 +13,6 @@ import {
 } from "@expo/vector-icons"
 
 import { GetIcon } from "../../../components/GetIcons"
-import bg from "../../../../assets/login.png"
 
 const RegisterPartnerBankForm = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -43,8 +41,6 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
   return (
     <ScrollView style={{ backgroundColor: "white" }}>
       <View style={styles.container}>
-        <Image style={styles.image} source={bg} />
-        <Text style={styles.textLogo}>PRETTY LAND</Text>
         <Text style={styles.textFormInfo}>เพิ่มข้อมูลธนาคาร</Text>
         <View style={styles.formControl}>
           <GetIcon type="mci" name="bank" />

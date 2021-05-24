@@ -18,7 +18,6 @@ import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
-import bg from "../../../../assets/login.png"
 
 const RegisterImageUpload = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -275,8 +274,6 @@ const RegisterImageUpload = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.image} source={bg} />
-      <Text style={styles.textLogo}>PRETTY LAND</Text>
       <Text style={styles.textFormInfo}>เพิ่มรูปภาพ และวิดีโอ</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
         {workType1 === "Y" && (

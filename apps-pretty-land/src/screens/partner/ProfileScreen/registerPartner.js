@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   Text,
-  Image,
   TextInput,
   ScrollView,
   Alert,
@@ -12,7 +11,6 @@ import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 
 import { GetIcon } from "../../../components/GetIcons"
-import bg from "../../../../assets/login.png"
 
 const RegisterPartnerForm = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -24,25 +22,25 @@ const RegisterPartnerForm = ({ navigation, route }) => {
   const [lineId, setLineId] = useState("")
 
   const handleNextData = () => {
-    if(!mobile){
+    if (!mobile) {
       Alert.alert("กรุณาระบุเบอร์โทรศัพท์ เพื่อติดต่อ")
-      return;
+      return
     }
-    if(!province){
+    if (!province) {
       Alert.alert("กรุณาระบุจังหวัดที่รับงานได้")
-      return;
+      return
     }
-    if(!district){
+    if (!district) {
       Alert.alert("กรุณาระบุอำเภอที่รับงานได้")
-      return;
+      return
     }
-    if(!address){
+    if (!address) {
       Alert.alert("กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
-      return;
+      return
     }
-    if(!lineId){
+    if (!lineId) {
       Alert.alert("กรุณาระบุ Line Id")
-      return;
+      return
     }
     navigate("Partner-Register-Bank-Form", {
       addressData: {
@@ -59,7 +57,6 @@ const RegisterPartnerForm = ({ navigation, route }) => {
   return (
     <ScrollView style={{ backgroundColor: "white" }}>
       <View style={styles.container}>
-        <Image style={styles.image} source={bg} />
         <Text style={styles.textFormInfo}>รายละเอียดการรับงาน</Text>
         <View style={styles.formControl}>
           <GetIcon type="fa" name="mobile-phone" />
@@ -85,7 +82,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             value={`${district}`}
             onChangeText={(value) => setDistrict(value)}
             style={styles.textInput}
-            placeholder="อำเภอ"
+            placeholder="อำเภอ/เขต"
           />
         </View>
         <View style={styles.formControl}>

@@ -39,62 +39,6 @@ const LoginNavigator = ({ navigation, route }) => {
           },
         }}
       />
-      {/* <Stack.Screen
-        name="Register-Plan-Form"
-        component={RegisterPlanForm}
-        options={{
-          title: "ลงทะเบียนผู้ร่วมงาน",
-          headerStyle: {
-            backgroundColor: "#ff2fe6",
-          },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
-      /> */}
-      {/* <Stack.Screen
-        name="Register-Partner-Form"
-        component={RegisterPartnerForm}
-        options={{
-          title: "ลงทะเบียนผู้ร่วมงาน",
-          headerStyle: {
-            backgroundColor: "#ff2fe6",
-          },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
-      /> */}
-      {/* <Stack.Screen
-        name="Partner-Register-Bank-Form"
-        component={RegisterPartnerBankForm}
-        options={{
-          title: "ลงทะเบียนผู้ร่วมงาน",
-          headerStyle: {
-            backgroundColor: "#ff2fe6",
-          },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
-      /> */}
-      {/* <Stack.Screen
-        name="Partner-Register-Image-Upload"
-        component={RegisterPartnerImageUpload}
-        options={{
-          title: "ลงทะเบียนผู้ร่วมงาน",
-          headerStyle: {
-            backgroundColor: "#ff2fe6",
-          },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
-      /> */}
       <Stack.Screen
         name="Partner-Login-Form"
         component={RegisterLoginImageForm}
