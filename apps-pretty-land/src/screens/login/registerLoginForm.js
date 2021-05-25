@@ -5,6 +5,7 @@ import { Button } from "react-native-elements/dist/buttons/Button"
 import base64 from "react-native-base64"
 import uuid from "react-native-uuid"
 
+import { snapshotToArray } from "../../../util"
 import firebase from "../../../util/firebase"
 import { GetIcon } from "../../components/GetIcons"
 import bg from "../../../assets/login.png"
@@ -37,21 +38,36 @@ const RegisterLoginForm = ({ navigation, route }) => {
       return
     }
 
-    // save data to firebase
-    const newId = uuid.v4()
-    const data = {
-      id: newId,
-      username,
-      password: encryptPassword(password),
-      memberType: "partner",
-      status: "new_register",
-      statusText: "สมัครเป็น Partner ใหม่",
-    }
-    firebase.database().ref(`members/${newId}`).set(data)
-
-    Alert.alert("บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")
-    navigation.popToTop()
-    navigate("Login-Form")
+    firebase
+      .database()
+      .ref(`members`)
+      .orderByChild("username")
+      .equalTo(username)
+      .once("value", (snapshot) => {
+        const data = snapshotToArray(snapshot)
+        if (data.length === 0) {
+          const newId = uuid.v4()
+          const saveData = {
+            id: newId,
+            username,
+            password: encryptPassword(password),
+            memberType: "partner",
+            status: "new_register",
+            statusText: "สมัครเป็น Partner ใหม่",
+          }
+          firebase.database().ref(`members/${newId}`).set(saveData)
+          Alert.alert("บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")
+          navigation.popToTop()
+          navigate("Login-Form")
+        } else {
+          const user = data[0]
+          Alert.alert(
+            "Warning !!!",
+            `ข้อมูลผู้ใช้งาน: ${user.username} มีอยู่แล้ว`,
+            [{ text: "OK" }]
+          )
+        }
+      })
   }
 
   return (

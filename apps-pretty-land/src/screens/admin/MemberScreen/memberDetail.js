@@ -1,10 +1,19 @@
 import React from "react"
-import { StyleSheet, View, Image, SafeAreaView } from "react-native"
+import { StyleSheet, View, Image, SafeAreaView, Alert } from "react-native"
 import { Button, Text } from "react-native-elements"
-import { Ionicons, Feather } from "react-native-vector-icons"
+import { Ionicons, Feather, AntDesign } from "react-native-vector-icons"
+
+import firebase from "../../../../util/firebase"
 
 const MemberDetailScreen = ({ navigation, route }) => {
+  const { navigate } = navigation
   const { item } = route.params
+
+  const handleRemovePermanent = () => {
+    firebase.database().ref(`members/${item.id}`).remove()
+    navigate("List-All-Member")
+  }
+
   return (
     <SafeAreaView style={styles.cardDetail}>
       <View style={styles.viewCard}>
@@ -23,23 +32,27 @@ const MemberDetailScreen = ({ navigation, route }) => {
         <View
           style={{ padding: 20, borderWidth: 1, borderRadius: 25, margin: 10 }}
         >
-          <Text style={{ fontSize: 16 }}>ชื่อ: {item.name}</Text>
+          <Text style={{ fontSize: 16 }}>
+            ชื่อ: {item.name || item.username}
+          </Text>
           <Text style={{ fontSize: 16 }}>ประเภทสมาชิก: {item.memberType}</Text>
           <Text style={{ fontSize: 16 }}>
-            วันที่เป็นสมาชิก: {item.dateIssue}
+            วันที่เป็นสมาชิก: {item.dateIssue || "ยังไม่ได้กำหนด"}
           </Text>
           <Text style={{ fontSize: 16 }}>
-            ระดับ Level: {item.customerLevel}
+            ระดับ Level: {item.customerLevel || 0}
           </Text>
-          <Text style={{ fontSize: 16 }}>เบอร์ติดต่อ: {item.phone}</Text>
-          <Text style={{ fontSize: 16 }}>สถานะ: {item.status}</Text>
+          <Text style={{ fontSize: 16 }}>
+            เบอร์ติดต่อ: {item.phone || "ยังไม่ได้กำหนด"}
+          </Text>
+          <Text style={{ fontSize: 16 }}>สถานะ: {item.statusText}</Text>
         </View>
         {item.status === "wait_approve" && (
           <Button
             icon={
               <Feather
                 name="user-check"
-                size={15}
+                size={24}
                 color="white"
                 style={{ marginRight: 5 }}
               />
@@ -58,9 +71,9 @@ const MemberDetailScreen = ({ navigation, route }) => {
         {item.status !== "wait_approve" && item.status !== "not_approve" && (
           <Button
             icon={
-              <Ionicons
-                name="trash-bin-outline"
-                size={15}
+              <AntDesign
+                name="deleteuser"
+                size={24}
                 color="white"
                 style={{ marginRight: 5 }}
               />
@@ -97,6 +110,25 @@ const MemberDetailScreen = ({ navigation, route }) => {
             onPress={() => navigation.navigate("List-All-Member")}
           />
         )}
+        <Button
+          icon={
+            <Ionicons
+              name="trash-bin-outline"
+              size={24}
+              color="white"
+              style={{ marginRight: 5 }}
+            />
+          }
+          iconLeft
+          buttonStyle={{
+            margin: 5,
+            backgroundColor: "red",
+            borderRadius: 25,
+            paddingHorizontal: 20,
+          }}
+          title="ลบข้อมูลออกจากระบบ"
+          onPress={() => handleRemovePermanent()}
+        />
       </View>
     </SafeAreaView>
   )

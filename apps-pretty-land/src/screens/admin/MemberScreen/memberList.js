@@ -64,9 +64,9 @@ const MemberAllListScreen = ({ navigation, route }) => {
     >
       <Avatar source={{ uri: item.image }} size={128} />
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>ชื่อสมาชิก: {item.name}</ListItem.Title>
+        <ListItem.Title>ชื่อสมาชิก: {item.name||item.username}</ListItem.Title>
         <ListItem.Subtitle>ประเภทสมาชิก: {item.memberType}</ListItem.Subtitle>
-        <ListItem.Subtitle>สถานะ: {item.status}</ListItem.Subtitle>
+        <ListItem.Subtitle>สถานะ: {item.statusText}</ListItem.Subtitle>
       </ListItem.Content>
       <ProgressCircle
         percent={30}
