@@ -2,7 +2,9 @@ import React, { useEffect, useMemo, useReducer } from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 import { Alert, Text, View } from "react-native"
 import * as Facebook from "expo-facebook"
+import base64 from "react-native-base64"
 
+import { snapshotToArray } from "../../util"
 import firebase from "../../util/firebase"
 
 import LoginNavigator from "../screens/login/navigator"
@@ -105,28 +107,27 @@ const AppNavigation = ({ navigation }) => {
       signIn: (data) => {
         const { username, password } = data
         firebase
-          .auth()
-          .signInWithEmailAndPassword(username, password)
-          .then((userCredential) => {
-            const user = userCredential.user
+          .database()
+          .ref("members")
+          .orderByChild("username")
+          .equalTo(username)
+          .on("value", (snapshot) => {
+            const user = snapshotToArray(snapshot)[0]
             if (user) {
-              firebase
-                .database()
-                .ref(`members/${user.uid}`)
-                .on("value", (snapshot) => {
-                  const member = snapshot.val()
-                  console.log('member:', member)
-                  dispatch({
-                    type: "SIGN_IN",
-                    token: user.uid,
-                    screen: member.memberType,
-                    status: member.status,
-                  })
+              const passwordDb = base64.decode(user.password)
+              if (passwordDb === password) {
+                dispatch({
+                  type: "SIGN_IN",
+                  token: user.id,
+                  screen: user.memberType,
+                  status: user.status,
                 })
+              } else {
+                Alert.alert("รหัสผ่านไม่ถูกต้อง !!!")
+              }
+            } else {
+              Alert.alert("ไม่พบข้อมูลผู้ใช้งานในระบบ !!!")
             }
-          })
-          .catch((error) => {
-            Alert.alert(error.message)
           })
       },
       signInCustomer: async (data) => {

@@ -1,72 +1,100 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
   View,
   StyleSheet,
   Text,
-  Image,
   TextInput,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
   Alert,
 } from "react-native"
-import { Fontisto, Foundation, MaterialIcons } from "@expo/vector-icons"
-import { Button, CheckBox } from "react-native-elements"
-import { RadioButton } from "react-native-paper"
+import { MaterialIcons } from "@expo/vector-icons"
+import { Button } from "react-native-elements"
+import RadioButtonRN from "radio-buttons-react-native"
+import { FontAwesome } from "react-native-vector-icons"
 
+import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
-const RegisterPlanForm = (props) => {
-  const { navigate } = props.navigation
-  const [type1, setType1] = useState(false)
-  const [type2, setType2] = useState(false)
-  const [type3, setType3] = useState(false)
-  const [type4, setType4] = useState(false)
+const radioData = [
+  { label: "พริตตี้ Event / Mc", value: "1" },
+  { label: "โคโยตี้ / งานเต้น", value: "2" },
+  { label: "พริตตี้ En / Env.", value: "3" },
+  { label: "พริตตี้ นวดแผนไทย", value: "4" },
+]
+
+const sexData = [
+  { label: "หญิง", value: "female" },
+  { label: "ชาย", value: "male" },
+  { label: "อื่น ๆ", value: "other" },
+]
+
+const RegisterPlanForm = ({ navigation, route }) => {
+  const { navigate } = navigation
+  const { userId, status } = route.params
+
+  const [type, setType] = useState(false)
   const [sexType, setSexType] = useState("female")
   const [name, setName] = useState("")
   const [age, setAge] = useState("")
   const [height, setHeight] = useState("")
   const [weight, setWeight] = useState("")
   const [stature, setStature] = useState("")
-  const [price4, setPrice4] = useState(0)
+  const [price, setPrice] = useState(0)
 
   const handleNexData = () => {
-    if (!type1 && !type2 && !type3 && !type4) {
+    if (!type) {
       Alert.alert("กรุณาระบุประเภทงานที่ต้องการรับบริการ !!!")
       return
     }
-    if(!age){
+    if (!age) {
       Alert.alert("กรุณาระบุอายุ")
       return
     }
-    if(!height){
+    if (!height) {
       Alert.alert("กรุณาระบุส่วนสูง")
       return
     }
-    if(!weight){
+    if (!weight) {
       Alert.alert("กรุณาระบุน้ำหนัก")
       return
     }
-    if(!stature){
+    if (!stature) {
       Alert.alert("กรุณาระบุสัดส่วน")
       return
     }
     navigate("Register-Partner-Form", {
-      partnerData: {
-        workType1: type1 ? "Y" : "N",
-        workType2: type2 ? "Y" : "N",
-        workType3: type3 ? "Y" : "N",
-        workType4: type4 ? "Y" : "N",
+      planData: {
+        id: userId,
+        workType: type,
         sex: sexType,
         name,
         age,
         height,
         stature,
         weight,
-        typePrice4: price4,
+        price,
       },
     })
   }
+
+  useEffect(() => {
+    const onChangeValue = firebase
+      .database()
+      .ref(`members/${userId}`)
+      .on("value", (snapshot) => {
+        const data = { ...snapshot.val() }
+        setName(data.name || "")
+        setAge(data.age || "")
+        setHeight(data.height || "")
+        setStature(data.stature || "")
+        setWeight(data.weight || "")
+      })
+
+    return () =>
+      firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+  }, [])
 
   return (
     <KeyboardAvoidingView
@@ -75,98 +103,53 @@ const RegisterPlanForm = (props) => {
     >
       <ScrollView style={{ backgroundColor: "white" }}>
         <View style={styles.container}>
-          <Text style={styles.textFormInfo}>เพิ่มข้อมูลส่วนตัว</Text>
+          <Text style={styles.textFormInfo}>ข้อมูลส่วนตัว</Text>
           <Text style={{ marginBottom: 10, fontSize: 16 }}>
             ประเภทงานที่รับ
           </Text>
           <View style={{ width: "80%" }}>
-            <CheckBox
-              title="พริตตี้ (Pretty)/ MC"
-              checked={type1}
-              onPress={() => setType1(!type1)}
+            <RadioButtonRN
+              data={radioData}
+              selectedBtn={(e) => setType(e.value)}
+              icon={
+                <FontAwesome name="check-circle" size={25} color="#2c9dd1" />
+              }
+              initial={1}
             />
-            <CheckBox
-              title="โคโยตี้ (Coyote)"
-              checked={type2}
-              onPress={() => setType2(!type2)}
-            />
-            <CheckBox
-              title="พริตตี้ (Pretty) Entertain"
-              checked={type3}
-              onPress={() => setType3(!type3)}
-            />
-            <CheckBox
-              title="พริตตี้ (Pretty) นวดแผนไทย"
-              checked={type4}
-              onPress={() => setType4(!type4)}
-            />
-            {type4 && (
-              <View style={styles.formControl}>
+            {type === "4" && (
+              <View style={styles.formControlPrice}>
                 <GetIcon type="fa" name="money" />
                 <TextInput
-                  value={`${price4}`}
-                  onChangeText={(value) => setPrice4(value)}
+                  value={`${price}`}
+                  onChangeText={(value) => setPrice(value)}
                   style={styles.textInput}
                   placeholder="ค่าบริการ"
                 />
               </View>
             )}
           </View>
-          <View
+          <View style={{ width: "80%" }}>
+            <Text style={{ width: "80%", padding: 10, fontSize: 16 }}>
+              เลือกเพศ
+            </Text>
+            <RadioButtonRN
+              data={sexData}
+              selectedBtn={(e) => setSexType(e.value)}
+              icon={
+                <FontAwesome name="check-circle" size={25} color="#2c9dd1" />
+              }
+              initial={1}
+            />
+          </View>
+          <Text
             style={{
-              flex: 1,
-              flexDirection: "row",
               width: "80%",
-              margin: 5,
               padding: 10,
+              fontSize: 16,
             }}
           >
-            <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-              <RadioButton
-                value="female"
-                status={sexType === "female" ? "checked" : "unchecked"}
-                onPress={() => setSexType("female")}
-                color="black"
-              />
-              <Fontisto
-                name="female"
-                size={24}
-                color="black"
-                style={{ marginRight: 10 }}
-              />
-              <Text>Female</Text>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-              <RadioButton
-                value="male"
-                status={sexType === "male" ? "checked" : "unchecked"}
-                onPress={() => setSexType("male")}
-                color="black"
-              />
-              <Fontisto
-                name="male"
-                size={24}
-                color="black"
-                style={{ marginRight: 10 }}
-              />
-              <Text>Male</Text>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-              <RadioButton
-                value="other"
-                status={sexType === "other" ? "checked" : "unchecked"}
-                onPress={() => setSexType("other")}
-                color="black"
-              />
-              <Foundation
-                name="torsos-all-female"
-                size={24}
-                color="black"
-                style={{ marginRight: 10 }}
-              />
-              <Text>Other</Text>
-            </View>
-          </View>
+            รายละเอียดส่วนตัว
+          </Text>
           <View style={styles.formControl}>
             <GetIcon type="mci" name="card-account-details" />
             <TextInput
@@ -213,7 +196,7 @@ const RegisterPlanForm = (props) => {
             />
           </View>
           <Button
-            title="เพิ่มข้อมูลถัดไป"
+            title="ถัดไป"
             iconLeft
             icon={
               <MaterialIcons
@@ -227,7 +210,7 @@ const RegisterPlanForm = (props) => {
               backgroundColor: "#65A3E1",
               marginTop: 20,
               borderRadius: 25,
-              width: 250,
+              width: 150,
               paddingHorizontal: 15,
               height: 45,
               borderWidth: 0.5,
@@ -279,7 +262,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: "white",
-    width: 250,
+    width: "72%",
     textAlign: "center",
     fontSize: 16,
     marginVertical: 5,
@@ -310,12 +293,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 0.5,
     paddingHorizontal: 10,
-    borderColor: "#00716F",
+    borderColor: "#ccc",
     backgroundColor: "white",
     marginTop: 5,
-    height: 40,
-    borderRadius: 50,
-    width: 300,
+    height: 50,
+    borderRadius: 5,
+  },
+  formControlPrice: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 0.5,
+    paddingHorizontal: 10,
+    borderColor: "#2c9dd1",
+    backgroundColor: "white",
+    marginTop: 5,
+    height: 50,
+    borderRadius: 5,
   },
 })
 

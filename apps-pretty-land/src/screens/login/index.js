@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import {
   View,
   StyleSheet,
@@ -18,7 +18,7 @@ import facebookLogo from "../../../assets/icons/f_logo_RGB-Blue_58.png"
 
 const LoginScreen = (props) => {
   const { navigate } = props.navigation
-  const { signInCustomer } = React.useContext(AuthContext)
+  const { signInCustomer } = useContext(AuthContext)
 
   return (
     <ImageBackground

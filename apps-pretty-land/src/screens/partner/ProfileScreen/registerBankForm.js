@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
   View,
   StyleSheet,
@@ -8,35 +8,51 @@ import {
   Alert,
 } from "react-native"
 import { Button } from "react-native-elements/dist/buttons/Button"
-import {
-  AntDesign,
-} from "@expo/vector-icons"
+import { AntDesign } from "@expo/vector-icons"
 
+import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterPartnerBankForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { addressData } = route.params
+  const { partnerData } = route.params
   const [bank, setBank] = useState("")
   const [bankNo, setBankNo] = useState("")
 
   const handleNextData = () => {
-    if(!bank){
+    if (!bank) {
       Alert.alert("กรุณาระบุธนาคารที่รอรับเงินโอน")
-      return;
+      return
     }
-    if(!bankNo){
+    if (!bankNo) {
       Alert.alert("กรุณาระบุเลขที่บัญชีธนาคาร")
-      return;
+      return
     }
     navigate("Partner-Register-Image-Upload", {
       bankData: {
-        ...addressData,
+        ...partnerData,
         bank,
         bankNo,
       },
     })
   }
+
+  useEffect(() => {
+    const onChangeValue = firebase
+      .database()
+      .ref(`members/${partnerData.id}`)
+      .on("value", (snapshot) => {
+        const data = { ...snapshot.val() }
+        setBank(data.bank || "")
+        setBankNo(data.bankNo || "")
+      })
+
+    return () =>
+      firebase
+        .database()
+        .ref(`members/${partnerData.id}`)
+        .off("value", onChangeValue)
+  }, [])
 
   return (
     <ScrollView style={{ backgroundColor: "white" }}>
@@ -61,7 +77,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
           />
         </View>
         <Button
-          title="เพิ่มข้อมูลถัดไป"
+          title="ถัดไป"
           iconLeft
           icon={
             <AntDesign
@@ -75,7 +91,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
             backgroundColor: "#65A3E1",
             marginTop: 20,
             borderRadius: 25,
-            width: 250,
+            width: 150,
             paddingHorizontal: 15,
             height: 45,
             borderWidth: 0.5,

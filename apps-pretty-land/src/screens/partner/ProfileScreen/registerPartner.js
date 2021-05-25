@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
   View,
   StyleSheet,
@@ -10,11 +10,12 @@ import {
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 
+import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterPartnerForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { partnerData } = route.params
+  const { planData } = route.params
   const [mobile, setMobile] = useState("")
   const [province, setProvince] = useState("")
   const [district, setDistrict] = useState("")
@@ -22,6 +23,10 @@ const RegisterPartnerForm = ({ navigation, route }) => {
   const [lineId, setLineId] = useState("")
 
   const handleNextData = () => {
+    if (!lineId) {
+      Alert.alert("กรุณาระบุ Line Id")
+      return
+    }
     if (!mobile) {
       Alert.alert("กรุณาระบุเบอร์โทรศัพท์ เพื่อติดต่อ")
       return
@@ -34,17 +39,14 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       Alert.alert("กรุณาระบุอำเภอที่รับงานได้")
       return
     }
-    if (!address) {
+    if (planData.workType === "4" && !address) {
       Alert.alert("กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
       return
     }
-    if (!lineId) {
-      Alert.alert("กรุณาระบุ Line Id")
-      return
-    }
+
     navigate("Partner-Register-Bank-Form", {
-      addressData: {
-        ...partnerData,
+      partnerData: {
+        ...planData,
         mobile,
         province,
         district,
@@ -54,10 +56,39 @@ const RegisterPartnerForm = ({ navigation, route }) => {
     })
   }
 
+  useEffect(() => {
+    const onChangeValue = firebase
+      .database()
+      .ref(`members/${planData.id}`)
+      .on("value", (snapshot) => {
+        const data = { ...snapshot.val() }
+        setLineId(data.lineId || "")
+        setMobile(data.mobile || "")
+        setProvince(data.province || "")
+        setDistrict(data.district || "")
+        setAddress(data.address || "")
+      })
+
+    return () =>
+      firebase
+        .database()
+        .ref(`members/${planData.id}`)
+        .off("value", onChangeValue)
+  }, [])
+
   return (
     <ScrollView style={{ backgroundColor: "white" }}>
       <View style={styles.container}>
         <Text style={styles.textFormInfo}>รายละเอียดการรับงาน</Text>
+        <View style={styles.formControl}>
+          <GetIcon type="fa5" name="line" />
+          <TextInput
+            value={`${lineId}`}
+            onChangeText={(value) => setLineId(value)}
+            style={styles.textInput}
+            placeholder="LINE ID"
+          />
+        </View>
         <View style={styles.formControl}>
           <GetIcon type="fa" name="mobile-phone" />
           <TextInput
@@ -67,6 +98,9 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             placeholder="เบอร์โทรศัพท์"
           />
         </View>
+        <Text style={{ color: "blue" }}>
+          * เบอร์โทรศัพท์จะไม่แสดงให้ลูกค้าเห็น
+        </Text>
         <View style={styles.formControl}>
           <GetIcon type="mi" name="home-work" />
           <TextInput
@@ -85,26 +119,19 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             placeholder="อำเภอ/เขต"
           />
         </View>
-        <View style={styles.formControl}>
-          <GetIcon type="mi" name="home-work" />
-          <TextInput
-            value={`${address}`}
-            onChangeText={(value) => setAddress(value)}
-            style={styles.textInput}
-            placeholder="คอนโด/ตึก/หมู่บ้าน"
-          />
-        </View>
-        <View style={styles.formControl}>
-          <GetIcon type="fa5" name="line" />
-          <TextInput
-            value={`${lineId}`}
-            onChangeText={(value) => setLineId(value)}
-            style={styles.textInput}
-            placeholder="LINE ID"
-          />
-        </View>
+        {planData.workType === "4" && (
+          <View style={styles.formControl}>
+            <GetIcon type="mi" name="home-work" />
+            <TextInput
+              value={`${address}`}
+              onChangeText={(value) => setAddress(value)}
+              style={styles.textInput}
+              placeholder="คอนโด/ตึก/หมู่บ้าน"
+            />
+          </View>
+        )}
         <Button
-          title="เพิ่มข้อมูลถัดไป"
+          title="ถัดไป"
           iconLeft
           icon={
             <AntDesign
@@ -118,7 +145,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             backgroundColor: "#65A3E1",
             marginTop: 20,
             borderRadius: 25,
-            width: 250,
+            width: 150,
             paddingHorizontal: 15,
             height: 45,
             borderWidth: 0.5,

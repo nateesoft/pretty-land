@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image, TextInput, Alert } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
 import base64 from "react-native-base64"
+import uuid from "react-native-uuid"
 
 import firebase from "../../../util/firebase"
 import { GetIcon } from "../../components/GetIcons"
@@ -36,30 +37,21 @@ const RegisterLoginForm = ({ navigation, route }) => {
       return
     }
 
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(username, password)
-      .then((userCredential) => {
-        const user = userCredential.user
-        if (user) {
-          const newId = user.uid
-          const data = {
-            id: newId,
-            username,
-            password: encryptPassword(password),
-            memberType: "partner",
-            status: "new_register",
-            statusText: "สมัครเป็น Partner ใหม่",
-          }
-          firebase.database().ref(`members/${newId}`).set(data)
-          Alert.alert("บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")
-          navigation.popToTop()
-          navigate("Login-Form")
-        }
-      })
-      .catch((error) => {
-        Alert.alert(error.message)
-      })
+    // save data to firebase
+    const newId = uuid.v4()
+    const data = {
+      id: newId,
+      username,
+      password: encryptPassword(password),
+      memberType: "partner",
+      status: "new_register",
+      statusText: "สมัครเป็น Partner ใหม่",
+    }
+    firebase.database().ref(`members/${newId}`).set(data)
+
+    Alert.alert("บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")
+    navigation.popToTop()
+    navigate("Login-Form")
   }
 
   return (

@@ -1,33 +1,20 @@
-import React from "react"
+import React, { useContext} from "react"
 import { createStackNavigator } from "@react-navigation/stack"
+
+import { Context as AuthContext } from "../../../context/AuthContext"
 
 import RegisterPlanForm from "./registerPlanForm"
 import RegisterPartnerForm from "./registerPartner"
 import RegisterPartnerBankForm from "./registerBankForm"
 import RegisterPartnerImageUpload from "./registerImageUpload"
-import ViewProfileScreen from "./viewProfile"
-
-import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const TabNavigator = () => {
+const TabNavigator = ({ navigation, route }) => {
+  const { userId, status } = route.params
+
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen
-        name="View-Partner-Profile"
-        component={ViewProfileScreen}
-        options={{
-          title: "Edit-Partner-Profile",
-          headerStyle: {
-            backgroundColor: "#ff2fe6",
-          },
-          headerTintColor: "white",
-          headerTitle: (props) => (
-            <LogoTitle title="Pretty Land" {...props} />
-          ),
-        }}
-      /> */}
       <Stack.Screen
         name="Register-Plan-Form"
         component={RegisterPlanForm}
@@ -41,6 +28,7 @@ const TabNavigator = () => {
             fontWeight: "bold",
           },
         }}
+        initialParams={{ userId, status }}
       />
       <Stack.Screen
         name="Register-Partner-Form"
@@ -55,6 +43,7 @@ const TabNavigator = () => {
             fontWeight: "bold",
           },
         }}
+        initialParams={{ userId, status }}
       />
       <Stack.Screen
         name="Partner-Register-Bank-Form"
@@ -69,6 +58,7 @@ const TabNavigator = () => {
             fontWeight: "bold",
           },
         }}
+        initialParams={{ userId, status }}
       />
       <Stack.Screen
         name="Partner-Register-Image-Upload"
@@ -83,6 +73,7 @@ const TabNavigator = () => {
             fontWeight: "bold",
           },
         }}
+        initialParams={{ userId, status }}
       />
     </Stack.Navigator>
   )

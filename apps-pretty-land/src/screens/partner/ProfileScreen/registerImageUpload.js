@@ -7,7 +7,6 @@ import {
   TextInput,
   ScrollView,
   SafeAreaView,
-  Platform,
   Alert,
   Button as ButtonLink,
 } from "react-native"
@@ -16,103 +15,54 @@ import * as ImagePicker from "expo-image-picker"
 import { Video } from "expo-av"
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
+import uuid from "react-native-uuid"
+
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterImageUpload = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { bankData } = route.params
+  const { bankData, id } = route.params
   const video = React.useRef(null)
-  const { workType1, workType2, workType3, workType4 } = bankData
+  const keepImage = React.useRef(null)
 
-  const [isUploading, setUploading] = useState(false)
-  const [uploadFinish, setUploadFinish] = useState(false)
+  const [uploadFinish, setUploadFinish] = useState("none")
+  const [hideButtonUpload, setHideButtonUpload] = useState(false)
 
   const [image, setImage] = useState(null)
+  const [username, setUsername] = useState(null)
+  const [password, setPassword] = useState(null)
 
-  const [imgA1, setImgA1] = useState(null)
-  const [imgA2, setImgA2] = useState(null)
-  const [imgA3, setImgA3] = useState(null)
-  const [imgA4, setImgA4] = useState(null)
-  const [imgA5, setImgA5] = useState(null)
-  const [imgA6, setImgA6] = useState(null)
-  const [imgA1url, setImgA1url] = useState(null)
-  const [imgA2url, setImgA2url] = useState(null)
-  const [imgA3url, setImgA3url] = useState(null)
-  const [imgA4url, setImgA4url] = useState(null)
-  const [imgA5url, setImgA5url] = useState(null)
-  const [imgA6url, setImgA6url] = useState(null)
+  const [imageFile1, setImageFile1] = useState(null)
+  const [imageFile2, setImageFile2] = useState(null)
+  const [imageFile3, setImageFile3] = useState(null)
+  const [imageFile4, setImageFile4] = useState(null)
+  const [imageFile5, setImageFile5] = useState(null)
+  const [videoFile, setVideoFile] = useState(null)
 
-  const [imgB1, setImgB1] = useState(null)
-  const [imgB2, setImgB2] = useState(null)
-  const [imgB3, setImgB3] = useState(null)
-  const [imgB4, setImgB4] = useState(null)
-  const [imgB5, setImgB5] = useState(null)
-  const [imgB6, setImgB6] = useState(null)
-  const [imgB1url, setImgB1url] = useState(null)
-  const [imgB2url, setImgB2url] = useState(null)
-  const [imgB3url, setImgB3url] = useState(null)
-  const [imgB4url, setImgB4url] = useState(null)
-  const [imgB5url, setImgB5url] = useState(null)
-  const [imgB6url, setImgB6url] = useState(null)
+  const [imageUrl1, setImageUrl1] = useState(null)
+  const [imageUrl2, setImageUrl2] = useState(null)
+  const [imageUrl3, setImageUrl3] = useState(null)
+  const [imageUrl4, setImageUrl4] = useState(null)
+  const [imageUrl5, setImageUrl5] = useState(null)
+  const [videoUrl, setVideoUrl] = useState(null)
 
-  const [imgC1, setImgC1] = useState(null)
-  const [imgC2, setImgC2] = useState(null)
-  const [imgC3, setImgC3] = useState(null)
-  const [imgC4, setImgC4] = useState(null)
-  const [imgC5, setImgC5] = useState(null)
-  const [imgC6, setImgC6] = useState(null)
-  const [imgC1url, setImgC1url] = useState(null)
-  const [imgC2url, setImgC2url] = useState(null)
-  const [imgC3url, setImgC3url] = useState(null)
-  const [imgC4url, setImgC4url] = useState(null)
-  const [imgC5url, setImgC5url] = useState(null)
-  const [imgC6url, setImgC6url] = useState(null)
-
-  const [imgD1, setImgD1] = useState(null)
-  const [imgD2, setImgD2] = useState(null)
-  const [imgD3, setImgD3] = useState(null)
-  const [imgD4, setImgD4] = useState(null)
-  const [imgD5, setImgD5] = useState(null)
-  const [imgD6, setImgD6] = useState(null)
-  const [imgD1url, setImgD1url] = useState(null)
-  const [imgD2url, setImgD2url] = useState(null)
-  const [imgD3url, setImgD3url] = useState(null)
-  const [imgD4url, setImgD4url] = useState(null)
-  const [imgD5url, setImgD5url] = useState(null)
-  const [imgD6url, setImgD6url] = useState(null)
-
-  const handleNextData = () => {
-    navigate("Partner-Login-Form", {
-      imageData: {
-        ...bankData,
-        image,
-        imgA1: imgA1url,
-        imgA2: imgA2url,
-        imgA3: imgA3url,
-        imgA4: imgA4url,
-        imgA5: imgA5url,
-        imgA6: imgA6url,
-        imgB1: imgB1url,
-        imgB2: imgB2url,
-        imgB3: imgB3url,
-        imgB4: imgB4url,
-        imgB5: imgB5url,
-        imgB6: imgB6url,
-        imgC1: imgC1url,
-        imgC2: imgC2url,
-        imgC3: imgC3url,
-        imgC4: imgC4url,
-        imgC5: imgC5url,
-        imgC6: imgC6url,
-        imgD1: imgD1url,
-        imgD2: imgD2url,
-        imgD3: imgD3url,
-        imgD4: imgD4url,
-        imgD5: imgD5url,
-        imgD6: imgD6url,
-      },
-    })
+  const saveProfileData = () => {
+    const dataUpdate = {
+      ...bankData,
+      image,
+      imageUrl1,
+      imageUrl2,
+      imageUrl3,
+      imageUrl4,
+      imageUrl5,
+      videoUrl,
+      username,
+      password,
+    }
+    console.log(dataUpdate)
+    firebase.database().ref(`members/${dataUpdate.id}`).update(dataUpdate)
+    Alert.alert("อัพเดตข้อมูลเรียบร้อยแล้ว")
   }
 
   const selectImage = async (handleImg) => {
@@ -141,111 +91,63 @@ const RegisterImageUpload = ({ navigation, route }) => {
 
   useEffect(() => {
     ;(async () => {
-      if (Platform.OS !== "web") {
-        const { status } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync()
-        if (status !== "granted") {
-          Alert.alert(
-            "Sorry, we need camera roll permissions to make this work!"
-          )
-        }
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+      if (status !== "granted") {
+        Alert.alert("Sorry, we need camera roll permissions to make this work!")
       }
     })()
   }, [])
 
+  useEffect(() => {
+    const onChangeValue = firebase
+      .database()
+      .ref(`members/${bankData.id}`)
+      .on("value", (snapshot) => {
+        const data = { ...snapshot.val() }
+        setUsername(data.username)
+        setPassword(data.password)
+
+        setImageUrl1(data.imageUrl1 || "")
+        setImageUrl2(data.imageUrl2 || "")
+        setImageUrl3(data.imageUrl3 || "")
+        setImageUrl4(data.imageUrl4 || "")
+        setImageUrl5(data.imageUrl5 || "")
+        setVideoUrl(data.videoUrl || "")
+      })
+
+    return () =>
+      firebase
+        .database()
+        .ref(`members/${bankData.id}`)
+        .off("value", onChangeValue)
+  }, [])
+
   const uploadAllImageVideo = () => {
-    setUploadFinish(false)
-    if (workType1 === "Y") {
-      if (imgA1) {
-        uploadImageAsync(imgA1, setImgA1url)
-        setImage(imgA1url)
-      }
-      if (imgA2) {
-        uploadImageAsync(imgA2, setImgA2url)
-      }
-      if (imgA3) {
-        uploadImageAsync(imgA3, setImgA3url)
-      }
-      if (imgA4) {
-        uploadImageAsync(imgA4, setImgA4url)
-      }
-      if (imgA5) {
-        uploadImageAsync(imgA5, setImgA5url)
-      }
-      if (imgA6) {
-        uploadImageAsync(imgA6, setImgA6url)
-      }
+    setHideButtonUpload(true)
+    if (imageFile1) {
+      uploadImageAsync(imageFile1, setImageUrl1, true)
     }
-    if (workType2 === "Y") {
-      if (imgB1) {
-        uploadImageAsync(imgB1, setImgB1url)
-        setImage(imgB1url)
-      }
-      if (imgB2) {
-        uploadImageAsync(imgB2, setImgB2url)
-      }
-      if (imgB3) {
-        uploadImageAsync(imgB3, setImgB3url)
-      }
-      if (imgB4) {
-        uploadImageAsync(imgB4, setImgB4url)
-      }
-      if (imgB5) {
-        uploadImageAsync(imgB5, setImgB5url)
-      }
-      if (imgB6) {
-        uploadImageAsync(imgB6, setImgB6url)
-      }
+    if (imageFile2) {
+      uploadImageAsync(imageFile2, setImageUrl2, false)
     }
-    if (workType3 === "Y") {
-      if (imgC1) {
-        uploadImageAsync(imgC1, setImgC1url)
-        setImage(imgC1url)
-      }
-      if (imgC2) {
-        uploadImageAsync(imgC2, setImgC2url)
-      }
-      if (imgC3) {
-        uploadImageAsync(imgC3, setImgC3url)
-      }
-      if (imgC4) {
-        uploadImageAsync(imgC4, setImgC4url)
-      }
-      if (imgC5) {
-        uploadImageAsync(imgC5, setImgC5url)
-      }
-      if (imgC6) {
-        uploadImageAsync(imgC6, setImgC6url)
-      }
+    if (imageFile3) {
+      uploadImageAsync(imageFile3, setImageUrl3, false)
     }
-    if (workType4 === "Y") {
-      if (imgD1) {
-        uploadImageAsync(imgD1, setImgD1url)
-        setImage(imgD1url)
-      }
-      if (imgD2) {
-        uploadImageAsync(imgD2, setImgD2url)
-      }
-      if (imgD3) {
-        uploadImageAsync(imgD3, setImgD3url)
-      }
-      if (imgD4) {
-        uploadImageAsync(imgD4, setImgD4url)
-      }
-      if (imgD5) {
-        uploadImageAsync(imgD5, setImgD5url)
-      }
-      if (imgD6) {
-        uploadImageAsync(imgD6, setImgD6url)
-      }
+    if (imageFile4) {
+      uploadImageAsync(imageFile4, setImageUrl4, false)
     }
-    setUploadFinish(true)
+    if (imageFile5) {
+      uploadImageAsync(imageFile5, setImageUrl5, false)
+    }
+    if (videoFile) {
+      uploadImageAsync(videoFile, setVideoUrl, false)
+    }
   }
 
-  async function uploadImageAsync(imageSource, updateUrl) {
+  async function uploadImageAsync(imageSource, updateUrl, isProfile) {
     // Why are we using XMLHttpRequest? See:
     // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-    setUploading(true)
+    setUploadFinish("in_progress")
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       xhr.onload = function () {
@@ -260,440 +162,182 @@ const RegisterImageUpload = ({ navigation, route }) => {
       xhr.send(null)
     })
 
-    const fileName = imageSource.substring(imageSource.lastIndexOf("/") + 1)
+    // const fileName = imageSource.substring(imageSource.lastIndexOf("/") + 1)
+    const fileName = uuid.v4()
     const ref = firebase.storage().ref("images/member/partner").child(fileName)
     const snapshot = await ref.put(blob)
 
     // We're done with the blob, close and release it
     blob.close()
 
-    setUploading(false)
     const url = await snapshot.ref.getDownloadURL()
-    updateUrl(url);
+    updateUrl(url)
+    if (isProfile) {
+      setImage(url)
+    }
+    setUploadFinish("finish")
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.textFormInfo}>เพิ่มรูปภาพ และวิดีโอ</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {workType1 === "Y" && (
-          <View style={styles.inputControl}>
-            <Text
-              style={{ marginBottom: 5, fontWeight: "bold", color: "blue" }}
-            >
-              ประเภท Pretty/Mc
-            </Text>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgA1}
-                onChangeText={(value) => setImgA1(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ1"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgA1)}
-              />
-            </View>
-            {imgA1 && (
-              <View style={{ marginTop: 5 }}>
-                <Image source={{ uri: imgA1, width: 300, height: 250 }} />
-              </View>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgA2}
-                onChangeText={(value) => setImgA2(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ2"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgA2)}
-              />
-            </View>
-            {imgA2 && (
-              <View style={{ marginTop: 5 }}>
-                <Image source={{ uri: imgA2, width: 300, height: 250 }} />
-              </View>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgA3}
-                onChangeText={(value) => setImgA3(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ3"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgA3)}
-              />
-            </View>
-            {imgA3 && (
-              <View style={{ marginTop: 5 }}>
-                <Image source={{ uri: imgA3, width: 300, height: 250 }} />
-              </View>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgA4}
-                onChangeText={(value) => setImgA4(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ4"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgA4)}
-              />
-            </View>
-            {imgA4 && (
-              <View style={{ marginTop: 5 }}>
-                <Image source={{ uri: imgA4, width: 300, height: 250 }} />
-              </View>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgA5}
-                onChangeText={(value) => setImgA5(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ5"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgA5)}
-              />
-            </View>
-            {imgA5 && (
-              <View style={{ marginTop: 5 }}>
-                <Image source={{ uri: imgA5, width: 300, height: 250 }} />
-              </View>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="videocamera" />
-              <TextInput
-                value={imgA6}
-                onChangeText={(value) => setImgA6(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL วิดีโอ"
-              />
-              <ButtonLink
-                title="เลือกวิดีโอ"
-                onPress={() => selectVideo(setImgA6)}
-              />
-            </View>
-            {imgA6 && (
-              <View style={{ marginTop: 5 }}>
-                <Video
-                  ref={video}
-                  style={{ width: 300, height: 250 }}
-                  source={{ uri: imgA6 }}
-                  useNativeControls
-                  resizeMode="contain"
-                  isLooping
-                />
-              </View>
-            )}
+        <View style={styles.inputControl}>
+          <View style={styles.formControl}>
+            <GetIcon type="ad" name="picture" />
+            <TextInput
+              value={imageFile1}
+              onChangeText={(value) => setImageFile1(value)}
+              style={styles.textInput}
+              placeholder="ที่อยู่ URL รูปภาพ1"
+            />
+            <ButtonLink
+              title="เลือกรูป"
+              onPress={() => selectImage(setImageFile1)}
+            />
           </View>
-        )}
-        {workType2 === "Y" && (
-          <View style={styles.inputControl}>
-            <Text
-              style={{ marginBottom: 5, fontWeight: "bold", color: "blue" }}
-            >
-              ประเภท Pretty Entertain
-            </Text>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgB1}
-                onChangeText={(value) => setImgB1(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ1"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgB1)}
+          {imageFile1 && (
+            <View style={{ marginTop: 5 }}>
+              <Image
+                ref={keepImage}
+                source={{ uri: imageFile1, width: 300, height: 250 }}
               />
             </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgB2}
-                onChangeText={(value) => setImgB2(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ2"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgB2)}
-              />
-            </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgB3}
-                onChangeText={(value) => setImgB3(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ3"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgB3)}
-              />
-            </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgB4}
-                onChangeText={(value) => setImgB4(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ4"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgB4)}
-              />
-            </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgB5}
-                onChangeText={(value) => setImgB5(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ5"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgB5)}
-              />
-            </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="videocamera" />
-              <TextInput
-                value={imgB6}
-                onChangeText={(value) => setImgB6(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL วิดีโอ"
-              />
-              <ButtonLink
-                title="เลือกวิดีโอ"
-                onPress={() => selectVideo(setImgB6)}
-              />
-            </View>
+          )}
+          <View style={styles.formControl}>
+            <GetIcon type="ad" name="picture" />
+            <TextInput
+              value={imageFile2}
+              onChangeText={(value) => setImageFile2(value)}
+              style={styles.textInput}
+              placeholder="ที่อยู่ URL รูปภาพ2"
+            />
+            <ButtonLink
+              title="เลือกรูป"
+              onPress={() => selectImage(setImageFile2)}
+            />
           </View>
-        )}
-        {workType3 === "Y" && (
-          <View style={styles.inputControl}>
-            <Text
-              style={{ marginBottom: 5, fontWeight: "bold", color: "blue" }}
-            >
-              ประเภท Coyote
-            </Text>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgC1}
-                onChangeText={(value) => setImgC1(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ1"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgC1)}
-              />
+          {imageFile2 && (
+            <View style={{ marginTop: 5 }}>
+              <Image source={{ uri: imageFile2, width: 300, height: 250 }} />
             </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgC2}
-                onChangeText={(value) => setImgC2(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ2"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgC2)}
-              />
-            </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgC3}
-                onChangeText={(value) => setImgC3(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ3"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgC3)}
-              />
-            </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgC4}
-                onChangeText={(value) => setImgC4(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ4"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgC4)}
-              />
-            </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgC5}
-                onChangeText={(value) => setImgC5(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ5"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgC5)}
-              />
-            </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="videocamera" />
-              <TextInput
-                value={imgC6}
-                onChangeText={(value) => setImgC6(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL วิดีโอ"
-              />
-              <ButtonLink
-                title="เลือกวิดีโอ"
-                onPress={() => selectImage(setImgC6)}
-              />
-            </View>
+          )}
+          <View style={styles.formControl}>
+            <GetIcon type="ad" name="picture" />
+            <TextInput
+              value={imageFile3}
+              onChangeText={(value) => setImageFile3(value)}
+              style={styles.textInput}
+              placeholder="ที่อยู่ URL รูปภาพ3"
+            />
+            <ButtonLink
+              title="เลือกรูป"
+              onPress={() => selectImage(setImageFile3)}
+            />
           </View>
-        )}
-        {workType4 === "Y" && (
-          <View style={styles.inputControl}>
-            <Text
-              style={{ marginBottom: 5, fontWeight: "bold", color: "blue" }}
-            >
-              ประเภท Pretty นวดแผนไทย
-            </Text>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgD1}
-                onChangeText={(value) => setImgD1(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ1"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgD1)}
-              />
+          {imageFile3 && (
+            <View style={{ marginTop: 5 }}>
+              <Image source={{ uri: imageFile3, width: 300, height: 250 }} />
             </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgD2}
-                onChangeText={(value) => setImgD2(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ2"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgD2)}
-              />
-            </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgD3}
-                onChangeText={(value) => setImgD3(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ3"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgD3)}
-              />
-            </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgD4}
-                onChangeText={(value) => setImgD4(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ4"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgD4)}
-              />
-            </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="picture" />
-              <TextInput
-                value={imgD5}
-                onChangeText={(value) => setImgD5(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL รูปภาพ5"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectImage(setImgD5)}
-              />
-            </View>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="videocamera" />
-              <TextInput
-                value={imgD6}
-                onChangeText={(value) => setImgD6(value)}
-                style={styles.textInput}
-                placeholder="ที่อยู่ URL วิดีโอ"
-              />
-              <ButtonLink
-                title="เลือกรูป"
-                onPress={() => selectVideo(setImgD6)}
-              />
-            </View>
+          )}
+          <View style={styles.formControl}>
+            <GetIcon type="ad" name="picture" />
+            <TextInput
+              value={imageFile4}
+              onChangeText={(value) => setImageFile4(value)}
+              style={styles.textInput}
+              placeholder="ที่อยู่ URL รูปภาพ4"
+            />
+            <ButtonLink
+              title="เลือกรูป"
+              onPress={() => selectImage(setImageFile4)}
+            />
           </View>
-        )}
+          {imageFile4 && (
+            <View style={{ marginTop: 5 }}>
+              <Image source={{ uri: imageFile4, width: 300, height: 250 }} />
+            </View>
+          )}
+          <View style={styles.formControl}>
+            <GetIcon type="ad" name="picture" />
+            <TextInput
+              value={imageFile5}
+              onChangeText={(value) => setImageFile5(value)}
+              style={styles.textInput}
+              placeholder="ที่อยู่ URL รูปภาพ5"
+            />
+            <ButtonLink
+              title="เลือกรูป"
+              onPress={() => selectImage(setImageFile5)}
+            />
+          </View>
+          {imageFile5 && (
+            <View style={{ marginTop: 5 }}>
+              <Image source={{ uri: imageFile5, width: 300, height: 250 }} />
+            </View>
+          )}
+          <View style={styles.formControl}>
+            <GetIcon type="ad" name="videocamera" />
+            <TextInput
+              value={videoFile}
+              onChangeText={(value) => setVideoFile(value)}
+              style={styles.videoInput}
+              placeholder="ที่อยู่ URL วิดีโอ"
+            />
+            <ButtonLink
+              title="เลือกวิดีโอ"
+              onPress={() => selectVideo(setVideoFile)}
+            />
+          </View>
+          {videoFile && (
+            <View style={{ marginTop: 5 }}>
+              <Video
+                ref={video}
+                style={{ width: 300, height: 250 }}
+                source={{ uri: videoFile }}
+                useNativeControls
+                resizeMode="contain"
+                isLooping
+              />
+            </View>
+          )}
+        </View>
       </ScrollView>
-      {isUploading && (
+      {uploadFinish === "in_progress" && (
         <Progress.Bar
           width={200}
           indeterminate={true}
           style={{ marginTop: 10 }}
         />
       )}
-      <Button
-        title="อัพโหลด"
-        iconLeft
-        icon={
-          <MaterialCommunityIcons
-            name="cloud-upload"
-            color="white"
-            size={24}
-            style={{ marginHorizontal: 8 }}
-          />
-        }
-        buttonStyle={{
-          backgroundColor: "green",
-          marginTop: 20,
-          borderRadius: 25,
-          width: 250,
-          paddingHorizontal: 15,
-          height: 45,
-          borderWidth: 0.5,
-        }}
-        onPress={() => uploadAllImageVideo()}
-      />
-      {uploadFinish && (
+      {!hideButtonUpload && (
         <Button
-          title="เพิ่มข้อมูลถัดไป"
+          title="อัพโหลด"
+          iconLeft
+          icon={
+            <MaterialCommunityIcons
+              name="cloud-upload"
+              color="white"
+              size={24}
+              style={{ marginHorizontal: 8 }}
+            />
+          }
+          buttonStyle={{
+            backgroundColor: "green",
+            marginTop: 20,
+            borderRadius: 25,
+            width: 250,
+            paddingHorizontal: 15,
+            height: 45,
+            borderWidth: 0.5,
+            marginBottom: 20,
+          }}
+          onPress={() => uploadAllImageVideo()}
+        />
+      )}
+      {hideButtonUpload && (
+        <Button
+          title="บันทึกข้อมูล"
           iconLeft
           icon={
             <AntDesign
@@ -707,12 +351,12 @@ const RegisterImageUpload = ({ navigation, route }) => {
             backgroundColor: "#65A3E1",
             marginTop: 5,
             borderRadius: 25,
-            width: 250,
+            width: 200,
             paddingHorizontal: 15,
             height: 45,
             borderWidth: 0.5,
           }}
-          onPress={() => handleNextData()}
+          onPress={() => saveProfileData()}
         />
       )}
     </SafeAreaView>
@@ -761,6 +405,13 @@ const styles = StyleSheet.create({
   textInput: {
     backgroundColor: "white",
     width: 200,
+    textAlign: "center",
+    fontSize: 16,
+    marginVertical: 5,
+  },
+  videoInput: {
+    backgroundColor: "white",
+    width: 180,
     textAlign: "center",
     fontSize: 16,
     marginVertical: 5,
