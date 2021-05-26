@@ -43,7 +43,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
   const [height, setHeight] = useState("")
   const [weight, setWeight] = useState("")
   const [stature, setStature] = useState("")
-  const [price, setPrice] = useState(0)
+  const [price, setPrice] = useState("")
 
   const handleNexData = () => {
     if (!workType) {

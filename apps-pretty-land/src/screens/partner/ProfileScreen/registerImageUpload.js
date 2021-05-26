@@ -239,8 +239,8 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile1)}
             />
           </View>
-          {imageUrl1 && <OldImage link={imageUrl1} text="รูปเดิมที่เคยอัพโหลด(1)" />}
-          {imageFile1 && !imageFile1 && (
+          {imageUrl1 && !imageFile1 && <OldImage link={imageUrl1} text="รูปเดิมที่เคยอัพโหลด(1)" />}
+          {imageFile1 && (
             <View style={{ marginTop: 5 }}>
               <Image source={{ uri: imageFile1, width: 300, height: 250 }} />
             </View>
@@ -258,8 +258,8 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile2)}
             />
           </View>
-          {imageUrl2 && <OldImage link={imageUrl2} text="รูปเดิมที่เคยอัพโหลด(2)" />}
-          {imageFile2 && !imageFile2 && (
+          {imageUrl2 && !imageFile2 && <OldImage link={imageUrl2} text="รูปเดิมที่เคยอัพโหลด(2)" />}
+          {imageFile2 && (
             <View style={{ marginTop: 5 }}>
               <Image source={{ uri: imageFile2, width: 300, height: 250 }} />
             </View>
