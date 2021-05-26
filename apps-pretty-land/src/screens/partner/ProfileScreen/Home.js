@@ -9,10 +9,20 @@ import {
   TouchableHighlight,
 } from "react-native"
 import { Video } from "expo-av"
-import { FontAwesome, Feather, FontAwesome5 } from "@expo/vector-icons"
+import {
+  FontAwesome,
+  Feather,
+  FontAwesome5,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons"
 
 import firebase from "../../../../util/firebase"
 import { ActivityIndicator } from "react-native-paper"
+
+import FemaleSimple from "../../../../assets/avatar/1.png"
+import MaleSimple from "../../../../assets/avatar/2.png"
+import OtherSimple from "../../../../assets/avatar/3.png"
+import { Button } from "react-native-elements"
 
 const ProfileHomeScreen = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -38,10 +48,20 @@ const ProfileHomeScreen = ({ navigation, route }) => {
       .ref(`members/${userId}`)
       .on("value", (snapshot) => {
         const data = { ...snapshot.val() }
-        setImageProfile(data.image || null)
+        if (!data.image) {
+          if (data.sex === "female") {
+            setImageProfile(FemaleSimple)
+          } else if (data.sex === "male") {
+            setImageProfile(MaleSimple)
+          } else {
+            setImageProfile(OtherSimple)
+          }
+        } else {
+          setImageProfile({ uri: data.image })
+        }
         setName(data.name || data.username)
-        setMobile(data.mobile || "<ไม่พบข้อมูล>")
-        setLineId(data.lineId || "<ไม่พบข้อมูล>")
+        setMobile(data.mobile || "<ไม่กำหนด>")
+        setLineId(data.lineId || "<ไม่กำหนด>")
         setImg1(data.imageUrl1 || null)
         setImg2(data.imageUrl2 || null)
         setImg3(data.imageUrl3 || null)
@@ -60,7 +80,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
         <View style={{ alignSelf: "center" }}>
           <View style={styles.profileImage}>
             <Image
-              source={{ uri: imageProfile }}
+              source={imageProfile}
               style={styles.image}
               resizeMode="cover"
             />
@@ -117,7 +137,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
 
         <View style={styles.statsContainer}>
           <View style={styles.statsBox}>
-            <Text style={[styles.text, { fontSize: 24 }]}>10</Text>
+            <Text style={[styles.text, { fontSize: 24 }]}>0</Text>
             <Text style={[styles.text, styles.subText]}>งานที่รับทั้งหมด</Text>
           </View>
           <View
@@ -130,11 +150,22 @@ const ProfileHomeScreen = ({ navigation, route }) => {
               },
             ]}
           >
-            <Text style={[styles.text, { fontSize: 24 }]}>5</Text>
-            <Text style={[styles.text, styles.subText]}>คะแนนสะสม</Text>
+            <Text style={[styles.text, { fontSize: 24, fontWeight: "bold" }]}>
+              0
+            </Text>
+            <Text style={[styles.text, styles.subText, { fontWeight: "bold" }]}>
+              คะแนนสะสม
+            </Text>
           </View>
           <View style={styles.statsBox}>
-            <Text style={[styles.text, { fontSize: 18 }]}>01/02/2021</Text>
+            <Text
+              style={[
+                styles.text,
+                { fontSize: 18, marginBottom: 5, color: "blue" },
+              ]}
+            >
+              รออนุมัติข้อมูล
+            </Text>
             <Text style={[styles.text, styles.subText]}>วันที่เริ่มงาน</Text>
           </View>
         </View>
@@ -160,6 +191,30 @@ const ProfileHomeScreen = ({ navigation, route }) => {
             >
               <ActivityIndicator style={styles.video} size="large" />
             </Video>
+          </View>
+        )}
+
+        {!img1 && !img2 && !img3 && !img4 && !img5 && !videoUrl && (
+          <View style={{ alignItems: "center", margin: 50 }}>
+            <Text style={{ fontSize: 32 }}>ยังไม่พบข้อมูล</Text>
+            <Button
+              title="เพิ่มข้อมูลผู้ร่วมงานใหม่"
+              buttonStyle={{
+                backgroundColor: "chocolate",
+                margin: 20,
+                borderRadius: 10,
+                padding: 15,
+              }}
+              icon={
+                <MaterialCommunityIcons
+                  name="card-account-details-star-outline"
+                  size={24}
+                  color="white"
+                  style={{ marginRight: 10 }}
+                />
+              }
+              onPress={() => navigate("Register-Plan-Form")}
+            />
           </View>
         )}
 

@@ -38,14 +38,14 @@ const RegisterImageUpload = ({ navigation, route }) => {
   const [imageFile3, setImageFile3] = useState(null)
   const [imageFile4, setImageFile4] = useState(null)
   const [imageFile5, setImageFile5] = useState(null)
-  const [videoFile, setVideoFile] = useState(null)
+  const [imageFile6, setImageFile6] = useState(null)
 
   const [imageUrl1, setImageUrl1] = useState(null)
   const [imageUrl2, setImageUrl2] = useState(null)
   const [imageUrl3, setImageUrl3] = useState(null)
   const [imageUrl4, setImageUrl4] = useState(null)
   const [imageUrl5, setImageUrl5] = useState(null)
-  const [videoUrl, setVideoUrl] = useState(null)
+  const [imageUrl6, setImageUrl6] = useState(null)
 
   const saveProfileData = () => {
     const dataUpdate = {
@@ -55,7 +55,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
       imageUrl3,
       imageUrl4,
       imageUrl5,
-      videoUrl,
+      videoUrl: imageUrl6,
       username,
       password,
     }
@@ -105,12 +105,12 @@ const RegisterImageUpload = ({ navigation, route }) => {
         setUsername(data.username)
         setPassword(data.password)
 
-        setImageUrl1(data.imageUrl1 || "")
-        setImageUrl2(data.imageUrl2 || "")
-        setImageUrl3(data.imageUrl3 || "")
-        setImageUrl4(data.imageUrl4 || "")
-        setImageUrl5(data.imageUrl5 || "")
-        setVideoUrl(data.videoUrl || "")
+        setImageUrl1(data.imageUrl1 || null)
+        setImageUrl2(data.imageUrl2 || null)
+        setImageUrl3(data.imageUrl3 || null)
+        setImageUrl4(data.imageUrl4 || null)
+        setImageUrl5(data.imageUrl5 || null)
+        setImageUrl6(data.videoUrl || null)
       })
 
     return () =>
@@ -134,8 +134,8 @@ const RegisterImageUpload = ({ navigation, route }) => {
     if (imageFile5) {
       uploadImageAsync(imageFile5, setImageUrl5, false)
     }
-    if (videoFile) {
-      uploadImageAsync(videoFile, setVideoUrl, false)
+    if (imageFile6) {
+      uploadImageAsync(imageFile6, setImageUrl6, false)
     }
   }
 
@@ -173,9 +173,56 @@ const RegisterImageUpload = ({ navigation, route }) => {
     setUploadFinish("finish")
   }
 
+  const OldImage = ({ link, text }) => (
+    <View style={{ marginTop: 5, alignSelf: "center" }}>
+      <Image source={{ uri: link, width: 300, height: 250 }} />
+      <Text
+        style={{
+          position: "absolute",
+          fontSize: 20,
+          fontWeight: "bold",
+          color: "blue",
+          backgroundColor: "yellow",
+          bottom: 5,
+          left: 10,
+          padding: 5,
+        }}
+      >
+        {text}
+      </Text>
+    </View>
+  )
+
+  const OldVideo = ({ link }) => (
+    <View style={{ marginTop: 5 }}>
+      <Video
+        ref={video}
+        style={{ width: 300, height: 250 }}
+        source={{ uri: link }}
+        useNativeControls
+        resizeMode="contain"
+        isLooping
+      />
+      <Text
+        style={{
+          position: "absolute",
+          fontSize: 20,
+          fontWeight: "bold",
+          color: "white",
+          backgroundColor: "red",
+          bottom: 5,
+          right: 10,
+          padding: 5,
+        }}
+      >
+        วิดีโอเดิมที่เคยอัพโหลด
+      </Text>
+    </View>
+  )
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.textFormInfo}>เพิ่มรูปภาพ และวิดีโอ</Text>
+      <Text style={styles.textFormInfo}>เพิ่ม/แก้ไข รูปภาพ และวิดีโอ</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.inputControl}>
           <View style={styles.formControl}>
@@ -191,12 +238,10 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile1)}
             />
           </View>
+          {imageUrl1 && <OldImage link={imageUrl1} text="รูปเดิมที่เคยอัพโหลด(1)" />}
           {imageFile1 && (
             <View style={{ marginTop: 5 }}>
-              <Image
-                ref={keepImage}
-                source={{ uri: imageFile1, width: 300, height: 250 }}
-              />
+              <Image source={{ uri: imageFile1, width: 300, height: 250 }} />
             </View>
           )}
           <View style={styles.formControl}>
@@ -212,6 +257,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile2)}
             />
           </View>
+          {imageUrl2 && <OldImage link={imageUrl2} text="รูปเดิมที่เคยอัพโหลด(2)" />}
           {imageFile2 && (
             <View style={{ marginTop: 5 }}>
               <Image source={{ uri: imageFile2, width: 300, height: 250 }} />
@@ -230,6 +276,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile3)}
             />
           </View>
+          {imageUrl3 && <OldImage link={imageUrl3} text="รูปเดิมที่เคยอัพโหลด(3)" />}
           {imageFile3 && (
             <View style={{ marginTop: 5 }}>
               <Image source={{ uri: imageFile3, width: 300, height: 250 }} />
@@ -248,6 +295,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile4)}
             />
           </View>
+          {imageUrl4 && <OldImage link={imageUrl4} text="รูปเดิมที่เคยอัพโหลด(4)" />}
           {imageFile4 && (
             <View style={{ marginTop: 5 }}>
               <Image source={{ uri: imageFile4, width: 300, height: 250 }} />
@@ -266,6 +314,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile5)}
             />
           </View>
+          {imageUrl5 && <OldImage link={imageUrl5} text="รูปเดิมที่เคยอัพโหลด(5)" />}
           {imageFile5 && (
             <View style={{ marginTop: 5 }}>
               <Image source={{ uri: imageFile5, width: 300, height: 250 }} />
@@ -274,22 +323,23 @@ const RegisterImageUpload = ({ navigation, route }) => {
           <View style={styles.formControl}>
             <GetIcon type="ad" name="videocamera" />
             <TextInput
-              value={videoFile}
-              onChangeText={(value) => setVideoFile(value)}
+              value={imageFile6}
+              onChangeText={(value) => setImageFile6(value)}
               style={styles.videoInput}
               placeholder="ที่อยู่ URL วิดีโอ"
             />
             <ButtonLink
               title="เลือกวิดีโอ"
-              onPress={() => selectVideo(setVideoFile)}
+              onPress={() => selectVideo(setImageFile6)}
             />
           </View>
-          {videoFile && (
+          {imageUrl6 && <OldVideo link={imageUrl6} />}
+          {imageFile6 && (
             <View style={{ marginTop: 5 }}>
               <Video
                 ref={video}
                 style={{ width: 300, height: 250 }}
-                source={{ uri: videoFile }}
+                source={{ uri: imageFile6 }}
                 useNativeControls
                 resizeMode="contain"
                 isLooping
@@ -350,6 +400,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
             paddingHorizontal: 15,
             height: 45,
             borderWidth: 0.5,
+            marginBottom: 20,
           }}
           onPress={() => saveProfileData()}
         />
