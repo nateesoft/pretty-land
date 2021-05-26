@@ -1,6 +1,8 @@
 import * as master from "./master_data"
 import * as mockup from "./mockup"
 import { provinces } from "./province"
+import { districts } from "./district"
+import { banks } from "./bank"
 import { PARTNER_TYPE } from "./master_data"
 
 export const getPartnerGroup = () => {
@@ -8,7 +10,7 @@ export const getPartnerGroup = () => {
 }
 
 export const getCountryList = () => {
-  return provinces
+  return provinces.sort()
 }
 
 export const getCountry = () => {
@@ -103,4 +105,12 @@ export const allGroupContryWork = () => {
   })
 
   return data
+}
+
+export const getBankList = () => {
+  return banks
+}
+
+export const getDistrictList = (PROVINCE_ID) => {
+  return districts.filter((item, index) => item.PROVINCE_ID === PROVINCE_ID)
 }

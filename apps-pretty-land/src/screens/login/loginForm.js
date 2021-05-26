@@ -34,6 +34,7 @@ const LoginForm = ({ navigation, route }) => {
           borderColor: "#00716F",
           backgroundColor: "white",
           height: 40,
+          borderRadius: 10,
         }}
       >
         <Icon name="user" color="#00716F" size={20} />
@@ -54,6 +55,7 @@ const LoginForm = ({ navigation, route }) => {
           backgroundColor: "white",
           marginTop: 5,
           height: 40,
+          borderRadius: 10,
         }}
       >
         <Icon name="lock" color="#00716F" size={20} />

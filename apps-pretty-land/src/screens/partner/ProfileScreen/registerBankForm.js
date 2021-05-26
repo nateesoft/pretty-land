@@ -4,20 +4,26 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  ScrollView,
   Alert,
+  SafeAreaView,
 } from "react-native"
-import { Button } from "react-native-elements/dist/buttons/Button"
 import { AntDesign } from "@expo/vector-icons"
+import { Button } from "react-native-elements"
+import DropDownPicker from "react-native-dropdown-picker"
+
+import { getBankList } from "../../../data/apis"
 
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterPartnerBankForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { partnerData } = route.params
+  const { userId, status, workType } = route.params
   const [bank, setBank] = useState("")
   const [bankNo, setBankNo] = useState("")
+
+  const [openSelectBank, setOpenSelectBank] = React.useState(false)
+  const [bankList, setBankList] = React.useState(getBankList())
 
   const handleNextData = () => {
     if (!bank) {
@@ -28,19 +34,20 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
       Alert.alert("กรุณาระบุเลขที่บัญชีธนาคาร")
       return
     }
-    navigate("Partner-Register-Image-Upload", {
-      bankData: {
-        ...partnerData,
-        bank,
-        bankNo,
-      },
+
+    // save data
+    firebase.database().ref(`members/${userId}`).update({
+      bank,
+      bankNo,
     })
+
+    navigate("Partner-Register-Image-Upload", { userId, status, workType })
   }
 
   useEffect(() => {
     const onChangeValue = firebase
       .database()
-      .ref(`members/${partnerData.id}`)
+      .ref(`members/${userId}`)
       .on("value", (snapshot) => {
         const data = { ...snapshot.val() }
         setBank(data.bank || "")
@@ -48,25 +55,31 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
       })
 
     return () =>
-      firebase
-        .database()
-        .ref(`members/${partnerData.id}`)
-        .off("value", onChangeValue)
+      firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
   }, [])
 
   return (
-    <ScrollView style={{ backgroundColor: "white" }}>
-      <View style={styles.container}>
+    <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
+      <View style={{ alignItems: "center" }}>
         <Text style={styles.textFormInfo}>เพิ่มข้อมูลธนาคาร</Text>
-        <View style={styles.formControl}>
-          <GetIcon type="mci" name="bank" />
-          <TextInput
-            value={`${bank}`}
-            onChangeText={(value) => setBank(value)}
-            style={styles.textInput}
-            placeholder="เลือกธนาคาร"
-          />
-        </View>
+      </View>
+
+      <View style={{ width: "80%", alignSelf: "center" }}>
+        <Text style={{ fontSize: 16, padding: 5 }}>ธนาคาร</Text>
+        <DropDownPicker
+          placeholder="-- เลือกธนาคาร --"
+          open={openSelectBank}
+          setOpen={setOpenSelectBank}
+          value={bank}
+          setValue={setBank}
+          items={bankList}
+          setItems={setBankList}
+          textStyle={{ fontSize: 18 }}
+        />
+
+        <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
+          เลขที่บัญชีธนาคาร
+        </Text>
         <View style={styles.formControl}>
           <GetIcon type="fa5" name="money-check" />
           <TextInput
@@ -77,7 +90,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
           />
         </View>
         <Button
-          title="ถัดไป"
+          title="บันทึก/ถัดไป"
           iconLeft
           icon={
             <AntDesign
@@ -91,7 +104,6 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
             backgroundColor: "#65A3E1",
             marginTop: 20,
             borderRadius: 25,
-            width: 150,
             paddingHorizontal: 15,
             height: 45,
             borderWidth: 0.5,
@@ -99,7 +111,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
           onPress={() => handleNextData()}
         />
       </View>
-    </ScrollView>
+    </SafeAreaView>
   )
 }
 
@@ -176,9 +188,8 @@ const styles = StyleSheet.create({
     borderColor: "#00716F",
     backgroundColor: "white",
     marginTop: 5,
-    height: 40,
-    borderRadius: 50,
-    width: 300,
+    height: 50,
+    borderRadius: 10,
   },
 })
 

@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@react-native-masked-view/masked-view": "github:react-native-masked-view/masked-view",
-    "@react-native-picker/picker": "1.9.11",
     "@react-navigation/bottom-tabs": "^5.11.10",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
@@ -31,6 +30,9 @@
     "react-native-image-crop-picker": "^0.36.2",
     "react-native-image-picker": "^3.8.0",
     "react-native-image-zoom-viewer": "^3.0.1",
+    "react-native-modal-select-list": "^1.1.0",
+    "react-native-modal-select-option": "0.0.7",
+    "react-native-modal-selector": "^2.0.3",
     "react-native-paper": "^4.8.1",
     "react-native-progress": "^4.1.2",
     "react-native-progress-circle": "^2.1.0",

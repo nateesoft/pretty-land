@@ -2,7 +2,7 @@ const WalkthroughAppConfig = {
     onboardingConfig: {
       walkthroughScreens: [
         {
-          icon: require("../../../assets/react-native.png"),
+          icon: require("../../../assets/icon.png"),
           title: "React Native Walkthrough",
           description: "Welcome your users with a beautiful app walkthrough.",
         },

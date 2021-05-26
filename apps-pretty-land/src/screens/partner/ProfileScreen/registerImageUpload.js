@@ -22,7 +22,7 @@ import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterImageUpload = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { bankData, id } = route.params
+  const { userId, status, workType } = route.params
   const video = React.useRef(null)
   const keepImage = React.useRef(null)
 
@@ -49,7 +49,6 @@ const RegisterImageUpload = ({ navigation, route }) => {
 
   const saveProfileData = () => {
     const dataUpdate = {
-      ...bankData,
       image,
       imageUrl1,
       imageUrl2,
@@ -60,8 +59,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
       username,
       password,
     }
-    console.log(dataUpdate)
-    firebase.database().ref(`members/${dataUpdate.id}`).update(dataUpdate)
+    firebase.database().ref(`members/${userId}`).update(dataUpdate)
     Alert.alert("อัพเดตข้อมูลเรียบร้อยแล้ว")
   }
 
@@ -101,7 +99,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
   useEffect(() => {
     const onChangeValue = firebase
       .database()
-      .ref(`members/${bankData.id}`)
+      .ref(`members/${userId}`)
       .on("value", (snapshot) => {
         const data = { ...snapshot.val() }
         setUsername(data.username)
@@ -116,10 +114,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
       })
 
     return () =>
-      firebase
-        .database()
-        .ref(`members/${bankData.id}`)
-        .off("value", onChangeValue)
+      firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
   }, [])
 
   const uploadAllImageVideo = () => {

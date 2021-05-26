@@ -8,11 +8,13 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  SafeAreaView,
 } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import RadioButtonRN from "radio-buttons-react-native"
 import { FontAwesome } from "react-native-vector-icons"
+import DropDownPicker from "react-native-dropdown-picker"
 
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
@@ -34,8 +36,8 @@ const RegisterPlanForm = ({ navigation, route }) => {
   const { navigate } = navigation
   const { userId, status } = route.params
 
-  const [type, setType] = useState(false)
-  const [sexType, setSexType] = useState("female")
+  const [workType, setWorkType] = useState(false)
+  const [sex, setSex] = useState("female")
   const [name, setName] = useState("")
   const [age, setAge] = useState("")
   const [height, setHeight] = useState("")
@@ -44,7 +46,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
   const [price, setPrice] = useState(0)
 
   const handleNexData = () => {
-    if (!type) {
+    if (!workType) {
       Alert.alert("กรุณาระบุประเภทงานที่ต้องการรับบริการ !!!")
       return
     }
@@ -64,19 +66,19 @@ const RegisterPlanForm = ({ navigation, route }) => {
       Alert.alert("กรุณาระบุสัดส่วน")
       return
     }
-    navigate("Register-Partner-Form", {
-      planData: {
-        id: userId,
-        workType: type,
-        sex: sexType,
-        name,
-        age,
-        height,
-        stature,
-        weight,
-        price,
-      },
+    // save data
+    firebase.database().ref(`members/${userId}`).update({
+      id: userId,
+      workType,
+      sex,
+      name,
+      age,
+      height,
+      stature,
+      weight,
+      price,
     })
+    navigate("Register-Partner-Form", { userId, status, workType })
   }
 
   useEffect(() => {
@@ -101,22 +103,28 @@ const RegisterPlanForm = ({ navigation, route }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-      <ScrollView style={{ backgroundColor: "white" }}>
-        <View style={styles.container}>
-          <Text style={styles.textFormInfo}>ข้อมูลส่วนตัว</Text>
-          <Text style={{ marginBottom: 10, fontSize: 16 }}>
-            ประเภทงานที่รับ
-          </Text>
-          <View style={{ width: "80%" }}>
+      <ScrollView>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: "#fff",
+            alignItems: "center",
+          }}
+        >
+          <View style={{ alignItems: "center" }}>
+            <Text style={styles.textFormInfo}>ประเภทงานที่รับ</Text>
+          </View>
+
+          <View style={{ width: "80%", alignSelf: "center" }}>
             <RadioButtonRN
               data={radioData}
-              selectedBtn={(e) => setType(e.value)}
+              selectedBtn={(e) => setWorkType(e.value)}
               icon={
                 <FontAwesome name="check-circle" size={25} color="#2c9dd1" />
               }
               initial={1}
             />
-            {type === "4" && (
+            {workType === "4" && (
               <View style={styles.formControlPrice}>
                 <GetIcon type="fa" name="money" />
                 <TextInput
@@ -127,98 +135,95 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 />
               </View>
             )}
-          </View>
-          <View style={{ width: "80%" }}>
-            <Text style={{ width: "80%", padding: 10, fontSize: 16 }}>
+            <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
               เลือกเพศ
             </Text>
             <RadioButtonRN
               data={sexData}
-              selectedBtn={(e) => setSexType(e.value)}
+              selectedBtn={(e) => setSex(e.value)}
               icon={
                 <FontAwesome name="check-circle" size={25} color="#2c9dd1" />
               }
               initial={1}
             />
-          </View>
-          <Text
-            style={{
-              width: "80%",
-              padding: 10,
-              fontSize: 16,
-            }}
-          >
-            รายละเอียดส่วนตัว
-          </Text>
-          <View style={styles.formControl}>
-            <GetIcon type="mci" name="card-account-details" />
-            <TextInput
-              value={`${name}`}
-              onChangeText={(value) => setName(value)}
-              style={styles.textInput}
-              placeholder="ชื่อเล่น/ชื่อในวงการ"
-            />
-          </View>
-          <View style={styles.formControl}>
-            <GetIcon type="mci" name="timeline-clock" />
-            <TextInput
-              value={`${age}`}
-              onChangeText={(value) => setAge(value)}
-              style={styles.textInput}
-              placeholder="อายุ"
-            />
-          </View>
-          <View style={styles.formControl}>
-            <GetIcon type="mci" name="human-male-height" />
-            <TextInput
-              value={`${height}`}
-              onChangeText={(value) => setHeight(value)}
-              style={styles.textInput}
-              placeholder="ส่วนสูง"
-            />
-          </View>
-          <View style={styles.formControl}>
-            <GetIcon type="ii" name="md-woman-outline" />
-            <TextInput
-              value={stature}
-              onChangeText={(value) => setStature(value)}
-              style={styles.textInput}
-              placeholder="สัดส่วน 32-24-35"
-            />
-          </View>
-          <View style={styles.formControl}>
-            <GetIcon type="fa5" name="weight" />
-            <TextInput
-              value={weight}
-              onChangeText={(value) => setWeight(value)}
-              style={styles.textInput}
-              placeholder="น้ำหนัก"
-            />
-          </View>
-          <Button
-            title="ถัดไป"
-            iconLeft
-            icon={
-              <MaterialIcons
-                name="meeting-room"
-                color="white"
-                size={24}
-                style={{ marginHorizontal: 15 }}
+            <Text
+              style={{
+                width: "80%",
+                padding: 10,
+                fontSize: 16,
+              }}
+            >
+              รายละเอียดส่วนตัว
+            </Text>
+            <View style={styles.formControl}>
+              <GetIcon type="mci" name="card-account-details" />
+              <TextInput
+                value={`${name}`}
+                onChangeText={(value) => setName(value)}
+                style={styles.textInput}
+                placeholder="ชื่อเล่น/ชื่อในวงการ"
               />
-            }
-            buttonStyle={{
-              backgroundColor: "#65A3E1",
-              marginTop: 20,
-              borderRadius: 25,
-              width: 150,
-              paddingHorizontal: 15,
-              height: 45,
-              borderWidth: 0.5,
-              marginBottom: 20,
-            }}
-            onPress={() => handleNexData()}
-          />
-        </View>
+            </View>
+            <View style={styles.formControl}>
+              <GetIcon type="mci" name="timeline-clock" />
+              <TextInput
+                value={`${age}`}
+                onChangeText={(value) => setAge(value)}
+                style={styles.textInput}
+                placeholder="อายุ"
+              />
+            </View>
+            <View style={styles.formControl}>
+              <GetIcon type="mci" name="human-male-height" />
+              <TextInput
+                value={`${height}`}
+                onChangeText={(value) => setHeight(value)}
+                style={styles.textInput}
+                placeholder="ส่วนสูง"
+              />
+            </View>
+            <View style={styles.formControl}>
+              <GetIcon type="ii" name="md-woman-outline" />
+              <TextInput
+                value={stature}
+                onChangeText={(value) => setStature(value)}
+                style={styles.textInput}
+                placeholder="สัดส่วน 32-24-35"
+              />
+            </View>
+            <View style={styles.formControl}>
+              <GetIcon type="fa5" name="weight" />
+              <TextInput
+                value={weight}
+                onChangeText={(value) => setWeight(value)}
+                style={styles.textInput}
+                placeholder="น้ำหนัก"
+              />
+            </View>
+            <Button
+              title="บันทึก/ถัดไป"
+              iconLeft
+              icon={
+                <MaterialIcons
+                  name="meeting-room"
+                  color="white"
+                  size={24}
+                  style={{ marginHorizontal: 15 }}
+                />
+              }
+              buttonStyle={{
+                backgroundColor: "#65A3E1",
+                marginTop: 20,
+                borderRadius: 25,
+                paddingHorizontal: 15,
+                height: 45,
+                borderWidth: 0.5,
+                marginBottom: 20,
+              }}
+              onPress={() => handleNexData()}
+            />
+          </View>
+        </SafeAreaView>
       </ScrollView>
     </KeyboardAvoidingView>
   )
@@ -262,7 +267,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: "white",
-    width: "72%",
+    width: 250,
     textAlign: "center",
     fontSize: 16,
     marginVertical: 5,
