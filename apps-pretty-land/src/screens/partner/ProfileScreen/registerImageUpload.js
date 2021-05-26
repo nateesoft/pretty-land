@@ -61,6 +61,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     }
     firebase.database().ref(`members/${userId}`).update(dataUpdate)
     Alert.alert("อัพเดตข้อมูลเรียบร้อยแล้ว")
+    navigate("Profile-Home", { userId, status})
   }
 
   const selectImage = async (handleImg) => {
@@ -239,7 +240,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
             />
           </View>
           {imageUrl1 && <OldImage link={imageUrl1} text="รูปเดิมที่เคยอัพโหลด(1)" />}
-          {imageFile1 && (
+          {imageFile1 && !imageFile1 && (
             <View style={{ marginTop: 5 }}>
               <Image source={{ uri: imageFile1, width: 300, height: 250 }} />
             </View>
@@ -258,7 +259,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
             />
           </View>
           {imageUrl2 && <OldImage link={imageUrl2} text="รูปเดิมที่เคยอัพโหลด(2)" />}
-          {imageFile2 && (
+          {imageFile2 && !imageFile2 && (
             <View style={{ marginTop: 5 }}>
               <Image source={{ uri: imageFile2, width: 300, height: 250 }} />
             </View>
@@ -276,7 +277,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile3)}
             />
           </View>
-          {imageUrl3 && <OldImage link={imageUrl3} text="รูปเดิมที่เคยอัพโหลด(3)" />}
+          {imageUrl3 && !imageFile3 && <OldImage link={imageUrl3} text="รูปเดิมที่เคยอัพโหลด(3)" />}
           {imageFile3 && (
             <View style={{ marginTop: 5 }}>
               <Image source={{ uri: imageFile3, width: 300, height: 250 }} />
@@ -295,7 +296,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile4)}
             />
           </View>
-          {imageUrl4 && <OldImage link={imageUrl4} text="รูปเดิมที่เคยอัพโหลด(4)" />}
+          {imageUrl4 && !imageFile4 && <OldImage link={imageUrl4} text="รูปเดิมที่เคยอัพโหลด(4)" />}
           {imageFile4 && (
             <View style={{ marginTop: 5 }}>
               <Image source={{ uri: imageFile4, width: 300, height: 250 }} />
@@ -314,7 +315,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile5)}
             />
           </View>
-          {imageUrl5 && <OldImage link={imageUrl5} text="รูปเดิมที่เคยอัพโหลด(5)" />}
+          {imageUrl5 && !imageFile5 && <OldImage link={imageUrl5} text="รูปเดิมที่เคยอัพโหลด(5)" />}
           {imageFile5 && (
             <View style={{ marginTop: 5 }}>
               <Image source={{ uri: imageFile5, width: 300, height: 250 }} />
@@ -333,7 +334,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectVideo(setImageFile6)}
             />
           </View>
-          {imageUrl6 && <OldVideo link={imageUrl6} />}
+          {imageUrl6 && !imageFile6 && <OldVideo link={imageUrl6} />}
           {imageFile6 && (
             <View style={{ marginTop: 5 }}>
               <Video

@@ -53,8 +53,10 @@ const ProfileHomeScreen = ({ navigation, route }) => {
             setImageProfile(FemaleSimple)
           } else if (data.sex === "male") {
             setImageProfile(MaleSimple)
-          } else {
+          } else if (data.sex === "other") {
             setImageProfile(OtherSimple)
+          }  else {
+            setImageProfile(FemaleSimple)
           }
         } else {
           setImageProfile({ uri: data.image })
@@ -196,7 +198,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
 
         {!img1 && !img2 && !img3 && !img4 && !img5 && !videoUrl && (
           <View style={{ alignItems: "center", margin: 50 }}>
-            <Text style={{ fontSize: 32 }}>ยังไม่พบข้อมูล</Text>
+            <Text style={{ fontSize: 20 }}>ยังไม่พบข้อมูล/รูปภาพ และวิดีโอ</Text>
             <Button
               title="เพิ่มข้อมูลผู้ร่วมงานใหม่"
               buttonStyle={{
