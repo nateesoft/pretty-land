@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   Alert,
   Button as ButtonLink,
+  ImageBackground,
 } from "react-native"
 import * as Progress from "react-native-progress"
 import * as ImagePicker from "expo-image-picker"
@@ -17,6 +18,7 @@ import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import uuid from "react-native-uuid"
 
+import bgImage from "../../../../assets/bg.png"
 import { Context as AuthContext } from "../../../context/AuthContext"
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
@@ -222,11 +224,15 @@ const RegisterImageUpload = ({ navigation, route }) => {
   )
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.textFormInfo}>เพิ่ม/แก้ไข รูปภาพ และวิดีโอ</Text>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.inputControl}>
-          <View style={styles.formControl}>
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.textFormInfo}>เพิ่ม/แก้ไข รูปภาพ และวิดีโอ</Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={[styles.formControl, { marginTop: 20 }]}>
             <GetIcon type="ad" name="picture" />
             <TextInput
               value={imageFile1}
@@ -239,10 +245,15 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile1)}
             />
           </View>
-          {imageUrl1 && !imageFile1 && <OldImage link={imageUrl1} text="รูปเดิมที่เคยอัพโหลด(1)" />}
+          {imageUrl1 && !imageFile1 && (
+            <OldImage link={imageUrl1} text="รูปเดิมที่เคยอัพโหลด(1)" />
+          )}
           {imageFile1 && (
-            <View style={{ marginTop: 5 }}>
-              <Image source={{ uri: imageFile1, width: 300, height: 250 }} />
+            <View style={{ marginTop: 5, alignSelf: "center" }}>
+              <Image
+                source={{ uri: imageFile1, width: 315, height: 250 }}
+                style={{ borderRadius: 5 }}
+              />
             </View>
           )}
           <View style={styles.formControl}>
@@ -258,10 +269,15 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile2)}
             />
           </View>
-          {imageUrl2 && !imageFile2 && <OldImage link={imageUrl2} text="รูปเดิมที่เคยอัพโหลด(2)" />}
+          {imageUrl2 && !imageFile2 && (
+            <OldImage link={imageUrl2} text="รูปเดิมที่เคยอัพโหลด(2)" />
+          )}
           {imageFile2 && (
-            <View style={{ marginTop: 5 }}>
-              <Image source={{ uri: imageFile2, width: 300, height: 250 }} />
+            <View style={{ marginTop: 5, alignSelf: "center" }}>
+              <Image
+                source={{ uri: imageFile2, width: 315, height: 250 }}
+                style={{ borderRadius: 5 }}
+              />
             </View>
           )}
           <View style={styles.formControl}>
@@ -277,10 +293,15 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile3)}
             />
           </View>
-          {imageUrl3 && !imageFile3 && <OldImage link={imageUrl3} text="รูปเดิมที่เคยอัพโหลด(3)" />}
+          {imageUrl3 && !imageFile3 && (
+            <OldImage link={imageUrl3} text="รูปเดิมที่เคยอัพโหลด(3)" />
+          )}
           {imageFile3 && (
-            <View style={{ marginTop: 5 }}>
-              <Image source={{ uri: imageFile3, width: 300, height: 250 }} />
+            <View style={{ marginTop: 5, alignSelf: "center" }}>
+              <Image
+                source={{ uri: imageFile3, width: 315, height: 250 }}
+                style={{ borderRadius: 5 }}
+              />
             </View>
           )}
           <View style={styles.formControl}>
@@ -296,10 +317,15 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile4)}
             />
           </View>
-          {imageUrl4 && !imageFile4 && <OldImage link={imageUrl4} text="รูปเดิมที่เคยอัพโหลด(4)" />}
+          {imageUrl4 && !imageFile4 && (
+            <OldImage link={imageUrl4} text="รูปเดิมที่เคยอัพโหลด(4)" />
+          )}
           {imageFile4 && (
-            <View style={{ marginTop: 5 }}>
-              <Image source={{ uri: imageFile4, width: 300, height: 250 }} />
+            <View style={{ marginTop: 5, alignSelf: "center" }}>
+              <Image
+                source={{ uri: imageFile4, width: 315, height: 250 }}
+                style={{ borderRadius: 5 }}
+              />
             </View>
           )}
           <View style={styles.formControl}>
@@ -315,10 +341,15 @@ const RegisterImageUpload = ({ navigation, route }) => {
               onPress={() => selectImage(setImageFile5)}
             />
           </View>
-          {imageUrl5 && !imageFile5 && <OldImage link={imageUrl5} text="รูปเดิมที่เคยอัพโหลด(5)" />}
+          {imageUrl5 && !imageFile5 && (
+            <OldImage link={imageUrl5} text="รูปเดิมที่เคยอัพโหลด(5)" />
+          )}
           {imageFile5 && (
-            <View style={{ marginTop: 5 }}>
-              <Image source={{ uri: imageFile5, width: 300, height: 250 }} />
+            <View style={{ marginTop: 5, alignSelf: "center" }}>
+              <Image
+                source={{ uri: imageFile5, width: 315, height: 250 }}
+                style={{ borderRadius: 5 }}
+              />
             </View>
           )}
           <View style={styles.formControl}>
@@ -336,10 +367,10 @@ const RegisterImageUpload = ({ navigation, route }) => {
           </View>
           {imageUrl6 && !imageFile6 && <OldVideo link={imageUrl6} />}
           {imageFile6 && (
-            <View style={{ marginTop: 5 }}>
+            <View style={{ marginTop: 5, alignSelf: "center" }}>
               <Video
                 ref={video}
-                style={{ width: 300, height: 250 }}
+                style={{ width: 315, height: 250, borderRadius: 5 }}
                 source={{ uri: imageFile6 }}
                 useNativeControls
                 resizeMode="contain"
@@ -347,66 +378,66 @@ const RegisterImageUpload = ({ navigation, route }) => {
               />
             </View>
           )}
-        </View>
-      </ScrollView>
-      {uploadFinish === "in_progress" && (
-        <Progress.Bar
-          width={200}
-          indeterminate={true}
-          style={{ marginTop: 10 }}
-        />
-      )}
-      {!hideButtonUpload && (
-        <Button
-          title="อัพโหลด"
-          iconLeft
-          icon={
-            <MaterialCommunityIcons
-              name="cloud-upload"
-              color="white"
-              size={24}
-              style={{ marginHorizontal: 8 }}
-            />
-          }
-          buttonStyle={{
-            backgroundColor: "green",
-            marginTop: 20,
-            borderRadius: 25,
-            width: 250,
-            paddingHorizontal: 15,
-            height: 45,
-            borderWidth: 0.5,
-            marginBottom: 20,
-          }}
-          onPress={() => uploadAllImageVideo()}
-        />
-      )}
-      {hideButtonUpload && (
-        <Button
-          title="บันทึกข้อมูล"
-          iconLeft
-          icon={
-            <AntDesign
-              name="lock"
-              color="white"
-              size={24}
-              style={{ marginHorizontal: 8 }}
-            />
-          }
-          buttonStyle={{
-            backgroundColor: "#65A3E1",
-            marginTop: 5,
-            borderRadius: 25,
-            width: 200,
-            paddingHorizontal: 15,
-            height: 45,
-            borderWidth: 0.5,
-            marginBottom: 20,
-          }}
-          onPress={() => saveProfileData()}
-        />
-      )}
-    </SafeAreaView>
+        </ScrollView>
+        {uploadFinish === "in_progress" && (
+          <Progress.Bar
+            width={200}
+            indeterminate={true}
+            style={{ marginTop: 10 }}
+          />
+        )}
+        {!hideButtonUpload && (
+          <Button
+            title="อัพโหลด"
+            iconLeft
+            icon={
+              <MaterialCommunityIcons
+                name="cloud-upload"
+                color="white"
+                size={24}
+                style={{ marginHorizontal: 8 }}
+              />
+            }
+            buttonStyle={{
+              backgroundColor: "green",
+              marginTop: 20,
+              borderRadius: 25,
+              width: 250,
+              paddingHorizontal: 15,
+              height: 45,
+              borderWidth: 0.5,
+              marginBottom: 20,
+            }}
+            onPress={() => uploadAllImageVideo()}
+          />
+        )}
+        {hideButtonUpload && (
+          <Button
+            title="บันทึกข้อมูล"
+            iconLeft
+            icon={
+              <AntDesign
+                name="lock"
+                color="white"
+                size={24}
+                style={{ marginHorizontal: 8 }}
+              />
+            }
+            buttonStyle={{
+              backgroundColor: "#65A3E1",
+              marginTop: 5,
+              borderRadius: 25,
+              width: 200,
+              paddingHorizontal: 15,
+              height: 45,
+              borderWidth: 0.5,
+              marginBottom: 20,
+            }}
+            onPress={() => saveProfileData()}
+          />
+        )}
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
@@ -414,7 +445,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -450,14 +480,12 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   textInput: {
-    backgroundColor: "white",
     width: 200,
     textAlign: "center",
     fontSize: 16,
     marginVertical: 5,
   },
   videoInput: {
-    backgroundColor: "white",
     width: 180,
     textAlign: "center",
     fontSize: 16,
@@ -489,11 +517,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 0.5,
     paddingHorizontal: 10,
-    borderColor: "#00716F",
-    backgroundColor: "white",
+    borderColor: "#ff2fe6",
     marginTop: 5,
     height: 40,
-    borderRadius: 50,
+    borderRadius: 5,
   },
   inputControl: {
     alignItems: "center",
@@ -512,6 +539,11 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

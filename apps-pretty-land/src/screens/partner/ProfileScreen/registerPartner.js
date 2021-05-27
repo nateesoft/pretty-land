@@ -6,13 +6,14 @@ import {
   TextInput,
   SafeAreaView,
   Alert,
+  ImageBackground,
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
 
+import bgImage from "../../../../assets/bg.png"
 import { getCountryList, getDistrictList } from "../../../data/apis"
-
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
@@ -83,104 +84,111 @@ const RegisterPartnerForm = ({ navigation, route }) => {
   }, [])
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
-      <View style={{ alignItems: "center" }}>
-        <Text style={styles.textFormInfo}>รายละเอียดการรับงาน</Text>
-      </View>
-      <View style={{ width: "80%", alignSelf: "center" }}>
-        <Text style={{ fontSize: 16, padding: 5, textTransform: "uppercase" }}>
-          Line Id
-        </Text>
-        <View style={styles.formControl}>
-          <GetIcon type="fa5" name="line" />
-          <TextInput
-            value={`${lineId}`}
-            onChangeText={(value) => setLineId(value)}
-            style={styles.textInput}
-            placeholder="LINE ID"
-          />
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={{ height: "100%" }}>
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.textFormInfo}>รายละเอียดการรับงาน</Text>
         </View>
-        <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>
-          เบอร์โทรศัพท์
-        </Text>
-        <View style={styles.formControl}>
-          <GetIcon type="fa" name="mobile-phone" />
-          <TextInput
-            value={`${mobile}`}
-            onChangeText={(value) => setMobile(value)}
-            style={styles.textInput}
-            placeholder="เบอร์โทรศัพท์"
-          />
-        </View>
-        <Text style={{ color: "#123456", marginTop: 5 }}>
-          * เบอร์โทรศัพท์จะไม่แสดงให้ลูกค้าเห็น
-        </Text>
-        <View style={{ alignSelf: "center" }}>
-          <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
-            จังหวัดที่รับงาน
+        <View style={{ width: "80%", alignSelf: "center" }}>
+          <Text style={{ fontSize: 16, padding: 5, textTransform: "uppercase" }}>
+            Line Id
           </Text>
-          <DropDownPicker
-            placeholder="-- เลือกจังหวัด --"
-            open={openSelectProvince}
-            setOpen={setOpenSelectProvince}
-            value={province}
-            setValue={setProvince}
-            items={provinceList}
-            setItems={setProvinceList}
-            textStyle={{ fontSize: 18 }}
-            searchable={false}
-            zIndex={4}
-          />
+          <View style={styles.formControl}>
+            <GetIcon type="fa5" name="line" />
+            <TextInput
+              value={`${lineId}`}
+              onChangeText={(value) => setLineId(value)}
+              style={styles.textInput}
+              placeholder="LINE ID"
+            />
+          </View>
+          <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>
+            เบอร์โทรศัพท์
+          </Text>
+          <View style={styles.formControl}>
+            <GetIcon type="fa" name="mobile-phone" />
+            <TextInput
+              value={`${mobile}`}
+              onChangeText={(value) => setMobile(value)}
+              style={styles.textInput}
+              placeholder="เบอร์โทรศัพท์"
+            />
+          </View>
+          <Text style={{ color: "#123456", marginTop: 5 }}>
+            * เบอร์โทรศัพท์จะไม่แสดงให้ลูกค้าเห็น
+          </Text>
+          <View style={{ alignSelf: "center" }}>
+            <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
+              จังหวัดที่รับงาน
+            </Text>
+            <DropDownPicker
+              placeholder="-- เลือกจังหวัด --"
+              open={openSelectProvince}
+              setOpen={setOpenSelectProvince}
+              value={province}
+              setValue={setProvince}
+              items={provinceList}
+              setItems={setProvinceList}
+              textStyle={{ fontSize: 18 }}
+              searchable={false}
+              zIndex={4}
+              selectedItemContainerStyle={{backgroundColor: '#eee'}}
+            />
 
-          <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>อำเภอ</Text>
-          <DropDownPicker
-            placeholder="-- เลือกอำเภอ --"
-            open={openSelectDistrict}
-            setOpen={setOpenSelectDistrict}
-            value={district}
-            setValue={setDistrict}
-            items={getDistrictList(province)}
-            setItems={setDistrictList}
-            searchable={false}
-            textStyle={{ fontSize: 18 }}
-            zIndex={3}
-          />
-          {type4 && (
-            <View style={styles.formControl}>
-              <GetIcon type="mi" name="home-work" />
-              <TextInput
-                value={`${address}`}
-                onChangeText={(value) => setAddress(value)}
-                style={styles.textInput}
-                placeholder="คอนโด/ตึก/หมู่บ้าน"
-              />
-            </View>
-          )}
-          <Button
-            title="บันทึก/ถัดไป"
-            iconLeft
-            icon={
-              <AntDesign
-                name="bank"
-                color="white"
-                size={24}
-                style={{ marginHorizontal: 15 }}
-              />
-            }
-            buttonStyle={{
-              backgroundColor: "#65A3E1",
-              marginTop: 20,
-              borderRadius: 25,
-              paddingHorizontal: 15,
-              height: 45,
-              borderWidth: 0.5,
-              marginBottom: 20,
-            }}
-            onPress={() => handleNextData()}
-          />
+            <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>อำเภอ</Text>
+            <DropDownPicker
+              placeholder="-- เลือกอำเภอ --"
+              open={openSelectDistrict}
+              setOpen={setOpenSelectDistrict}
+              value={district}
+              setValue={setDistrict}
+              items={getDistrictList(province)}
+              setItems={setDistrictList}
+              searchable={false}
+              textStyle={{ fontSize: 18 }}
+              zIndex={3}
+            />
+            {type4 && (
+              <View style={styles.formControl}>
+                <GetIcon type="mi" name="home-work" />
+                <TextInput
+                  value={`${address}`}
+                  onChangeText={(value) => setAddress(value)}
+                  style={styles.textInput}
+                  placeholder="คอนโด/ตึก/หมู่บ้าน"
+                />
+              </View>
+            )}
+            <Button
+              title="บันทึก/ถัดไป"
+              iconLeft
+              icon={
+                <AntDesign
+                  name="bank"
+                  color="white"
+                  size={24}
+                  style={{ marginHorizontal: 15 }}
+                />
+              }
+              buttonStyle={{
+                backgroundColor: "#65A3E1",
+                marginTop: 20,
+                borderRadius: 25,
+                paddingHorizontal: 15,
+                height: 45,
+                borderWidth: 0.5,
+                marginBottom: 20,
+              }}
+              onPress={() => handleNextData()}
+            />
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
@@ -221,7 +229,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   textInput: {
-    backgroundColor: "white",
     width: 250,
     textAlign: "center",
     fontSize: 16,
@@ -253,11 +260,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 0.5,
     paddingHorizontal: 10,
-    borderColor: "#00716F",
-    backgroundColor: "white",
+    borderColor: "#ff2fe6",
     marginTop: 5,
     height: 50,
     borderRadius: 10,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

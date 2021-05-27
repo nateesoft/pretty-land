@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, StyleSheet, Text, Image, TextInput, Alert } from "react-native"
+import { View, StyleSheet, Text, Image, TextInput, Alert,ImageBackground } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
 import base64 from "react-native-base64"
@@ -10,6 +10,7 @@ import { snapshotToArray } from "../../../util"
 import firebase from "../../../util/firebase"
 import { GetIcon } from "../../components/GetIcons"
 import bg from "../../../assets/login.png"
+import bgImage from "../../../assets/bg.png"
 
 const RegisterLoginForm = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -72,62 +73,68 @@ const RegisterLoginForm = ({ navigation, route }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={bg} />
-      <Text style={styles.textLogo}>PRETTY LAND</Text>
-      <Text style={styles.textFormInfo}>ข้อมูลสำหรับเข้าใช้งานระบบ</Text>
-      <View style={styles.formControl}>
-        <GetIcon type="ad" name="user" />
-        <TextInput
-          style={styles.textInput}
-          placeholder="ข้อมูลผู้ใช้งาน"
-          value={username}
-          onChangeText={(value) => setUsername(value)}
-        />
-      </View>
-      <View style={styles.formControl}>
-        <GetIcon type="mci" name="form-textbox-password" />
-        <TextInput
-          style={styles.textInput}
-          placeholder="กำหนดรหัสผ่าน"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={(value) => setPassword(value)}
-        />
-      </View>
-      <View style={styles.formControl}>
-        <GetIcon type="mci" name="form-textbox-password" />
-        <TextInput
-          style={styles.textInput}
-          placeholder="ยืนยันรหัสผ่านอีกครั้ง"
-          secureTextEntry={true}
-          value={rePassword}
-          onChangeText={(value) => setRePassword(value)}
-        />
-      </View>
-      <Button
-        title="บันทึกข้อมูล"
-        iconLeft
-        icon={
-          <AntDesign
-            name="save"
-            color="white"
-            size={24}
-            style={{ marginHorizontal: 8 }}
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <View style={styles.container}>
+        <Image style={styles.image} source={bg} />
+        <Text style={styles.textLogo}>PRETTY LAND</Text>
+        <Text style={styles.textFormInfo}>ข้อมูลสำหรับเข้าใช้งานระบบ</Text>
+        <View style={styles.formControl}>
+          <GetIcon type="ad" name="user" />
+          <TextInput
+            style={styles.textInput}
+            placeholder="ข้อมูลผู้ใช้งาน"
+            value={username}
+            onChangeText={(value) => setUsername(value)}
           />
-        }
-        buttonStyle={{
-          backgroundColor: "#ff2fe6",
-          marginTop: 20,
-          borderRadius: 25,
-          width: 250,
-          paddingHorizontal: 15,
-          height: 45,
-          borderWidth: 0.5,
-        }}
-        onPress={() => saveAndGoLoginForm()}
-      />
-    </View>
+        </View>
+        <View style={styles.formControl}>
+          <GetIcon type="mci" name="form-textbox-password" />
+          <TextInput
+            style={styles.textInput}
+            placeholder="กำหนดรหัสผ่าน"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={(value) => setPassword(value)}
+          />
+        </View>
+        <View style={styles.formControl}>
+          <GetIcon type="mci" name="form-textbox-password" />
+          <TextInput
+            style={styles.textInput}
+            placeholder="ยืนยันรหัสผ่านอีกครั้ง"
+            secureTextEntry={true}
+            value={rePassword}
+            onChangeText={(value) => setRePassword(value)}
+          />
+        </View>
+        <Button
+          title="บันทึกข้อมูล"
+          iconLeft
+          icon={
+            <AntDesign
+              name="save"
+              color="white"
+              size={24}
+              style={{ marginHorizontal: 8 }}
+            />
+          }
+          buttonStyle={{
+            backgroundColor: "#ff2fe6",
+            marginTop: 20,
+            borderRadius: 25,
+            width: 250,
+            paddingHorizontal: 15,
+            height: 45,
+            borderWidth: 0.5,
+          }}
+          onPress={() => saveAndGoLoginForm()}
+        />
+      </View>
+    </ImageBackground>
   )
 }
 
@@ -135,7 +142,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "snow",
     alignItems: "center",
     justifyContent: "center",
     marginTop: -120,
@@ -209,6 +215,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
     height: 40,
     borderRadius: 50,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

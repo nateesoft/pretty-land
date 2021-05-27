@@ -6,13 +6,14 @@ import {
   TextInput,
   Alert,
   SafeAreaView,
+  ImageBackground,
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
 
 import { getBankList } from "../../../data/apis"
-
+import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
@@ -59,59 +60,65 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
   }, [])
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
-      <View style={{ alignItems: "center" }}>
-        <Text style={styles.textFormInfo}>เพิ่มข้อมูลธนาคาร</Text>
-      </View>
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={{ height: "100%" }}>
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.textFormInfo}>เพิ่มข้อมูลธนาคาร</Text>
+        </View>
 
-      <View style={{ width: "80%", alignSelf: "center" }}>
-        <Text style={{ fontSize: 16, padding: 5 }}>ธนาคาร</Text>
-        <DropDownPicker
-          placeholder="-- เลือกธนาคาร --"
-          open={openSelectBank}
-          setOpen={setOpenSelectBank}
-          value={bank}
-          setValue={setBank}
-          items={bankList}
-          setItems={setBankList}
-          textStyle={{ fontSize: 18 }}
-        />
+        <View style={{ width: "80%", alignSelf: "center" }}>
+          <Text style={{ fontSize: 16, padding: 5 }}>ธนาคาร</Text>
+          <DropDownPicker
+            placeholder="-- เลือกธนาคาร --"
+            open={openSelectBank}
+            setOpen={setOpenSelectBank}
+            value={bank}
+            setValue={setBank}
+            items={bankList}
+            setItems={setBankList}
+            textStyle={{ fontSize: 18 }}
+          />
 
-        <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
-          เลขที่บัญชีธนาคาร
-        </Text>
-        <View style={styles.formControl}>
-          <GetIcon type="fa5" name="money-check" />
-          <TextInput
-            value={`${bankNo}`}
-            onChangeText={(value) => setBankNo(value)}
-            style={styles.textInput}
-            placeholder="ใส่เลขบัญชี"
+          <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
+            เลขที่บัญชีธนาคาร
+          </Text>
+          <View style={styles.formControl}>
+            <GetIcon type="fa5" name="money-check" />
+            <TextInput
+              value={`${bankNo}`}
+              onChangeText={(value) => setBankNo(value)}
+              style={styles.textInput}
+              placeholder="ใส่เลขบัญชี"
+            />
+          </View>
+          <Button
+            title="บันทึก/ถัดไป"
+            iconLeft
+            icon={
+              <AntDesign
+                name="picture"
+                color="white"
+                size={24}
+                style={{ marginHorizontal: 8 }}
+              />
+            }
+            buttonStyle={{
+              backgroundColor: "#65A3E1",
+              marginTop: 20,
+              borderRadius: 25,
+              paddingHorizontal: 15,
+              height: 45,
+              borderWidth: 0.5,
+            }}
+            onPress={() => handleNextData()}
           />
         </View>
-        <Button
-          title="บันทึก/ถัดไป"
-          iconLeft
-          icon={
-            <AntDesign
-              name="picture"
-              color="white"
-              size={24}
-              style={{ marginHorizontal: 8 }}
-            />
-          }
-          buttonStyle={{
-            backgroundColor: "#65A3E1",
-            marginTop: 20,
-            borderRadius: 25,
-            paddingHorizontal: 15,
-            height: 45,
-            borderWidth: 0.5,
-          }}
-          onPress={() => handleNextData()}
-        />
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
@@ -153,7 +160,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   textInput: {
-    backgroundColor: "white",
     width: 250,
     textAlign: "center",
     fontSize: 16,
@@ -185,11 +191,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 0.5,
     paddingHorizontal: 10,
-    borderColor: "#00716F",
-    backgroundColor: "white",
+    borderColor: "#ff2fe6",
     marginTop: 5,
     height: 50,
     borderRadius: 10,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

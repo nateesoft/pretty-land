@@ -9,12 +9,14 @@ import {
   Platform,
   Alert,
   SafeAreaView,
+  ImageBackground,
 } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
 import { Button, CheckBox } from "react-native-elements"
 import RadioButtonRN from "radio-buttons-react-native"
 import { FontAwesome } from "react-native-vector-icons"
 
+import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
@@ -121,23 +123,23 @@ const RegisterPlanForm = ({ navigation, route }) => {
   }, [])
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
     >
-      <ScrollView>
-        <SafeAreaView
-          style={{
-            flex: 1,
-            backgroundColor: "#fff",
-            alignItems: "center",
-          }}
-        >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <ScrollView>
           <View style={{ alignItems: "center" }}>
             <Text style={styles.textFormInfo}>รายละเอียดงานที่รับ</Text>
           </View>
 
-          <View style={{ alignItems: "center", width: "80%" }}>
+          <View
+            style={{ alignItems: "center", width: "80%", alignSelf: "center" }}
+          >
             <Text
               style={{
                 fontSize: 16,
@@ -149,25 +151,25 @@ const RegisterPlanForm = ({ navigation, route }) => {
               ประเภทงาน
             </Text>
             <CheckBox
-              containerStyle={{ width: "100%", backgroundColor: "#fff" }}
+              containerStyle={styles.checkbox}
               title={radioData[0].label}
               checked={type1}
               onPress={() => setType1(!type1)}
             />
             <CheckBox
-              containerStyle={{ width: "100%", backgroundColor: "#fff" }}
+              containerStyle={styles.checkbox}
               title={radioData[1].label}
               checked={type2}
               onPress={() => setType2(!type2)}
             />
             <CheckBox
-              containerStyle={{ width: "100%", backgroundColor: "#fff" }}
+              containerStyle={styles.checkbox}
               title={radioData[2].label}
               checked={type3}
               onPress={() => setType3(!type3)}
             />
             <CheckBox
-              containerStyle={{ width: "100%", backgroundColor: "#fff" }}
+              containerStyle={styles.checkbox}
               title={radioData[3].label}
               checked={type4}
               onPress={() => setType4(!type4)}
@@ -199,9 +201,11 @@ const RegisterPlanForm = ({ navigation, route }) => {
 
           <View style={{ width: "80%", alignSelf: "center" }}>
             <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
-              เลือกเพศ
+              เพศ
             </Text>
             <RadioButtonRN
+              box={false}
+              animationTypes={["shake"]}
               data={sexData}
               selectedBtn={(e) => setSex(e.value)}
               icon={
@@ -286,9 +290,9 @@ const RegisterPlanForm = ({ navigation, route }) => {
               onPress={() => handleNexData()}
             />
           </View>
-        </SafeAreaView>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   )
 }
 
@@ -329,7 +333,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   textInput: {
-    backgroundColor: "white",
     width: 250,
     textAlign: "center",
     fontSize: 16,
@@ -361,8 +364,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 0.5,
     paddingHorizontal: 10,
-    borderColor: "#ccc",
-    backgroundColor: "white",
+    borderColor: "#ff2fe6",
     marginTop: 5,
     height: 50,
     borderRadius: 5,
@@ -372,12 +374,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 0.5,
     paddingHorizontal: 10,
-    borderColor: "#2c9dd1",
-    backgroundColor: "white",
+    borderColor: "#ff2fe6",
     marginTop: 5,
     height: 50,
     borderRadius: 5,
   },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+  },
+  checkbox: { width: "100%", backgroundColor: null, borderColor: "#ff2fe6" },
 })
 
 export default RegisterPlanForm

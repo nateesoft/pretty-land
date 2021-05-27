@@ -1,9 +1,18 @@
 import React, { useState, useContext } from "react"
-import { View, StyleSheet, Text, Image, TextInput, Alert } from "react-native"
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TextInput,
+  Alert,
+  ImageBackground,
+} from "react-native"
 import Icon from "@expo/vector-icons/AntDesign"
 import { Button } from "react-native-elements/dist/buttons/Button"
 
 import bg from "../../../assets/login.png"
+import bgImage from "../../../assets/bg.png"
 import { Context as AuthContext } from "../../context/AuthContext"
 
 const LoginForm = ({ navigation, route }) => {
@@ -21,66 +30,72 @@ const LoginForm = ({ navigation, route }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={bg} />
-      <Text style={styles.textLogo}>PRETTY LAND</Text>
-      <Text style={styles.textDetail}>Love Your Moments</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          borderWidth: 0.5,
-          paddingHorizontal: 10,
-          borderColor: "#00716F",
-          backgroundColor: "white",
-          height: 40,
-          borderRadius: 10,
-        }}
-      >
-        <Icon name="user" color="#00716F" size={20} />
-        <TextInput
-          style={styles.textInput}
-          placeholder="ข้อมูลผู้ใช้งาน"
-          value={username}
-          onChangeText={(value) => setUsername(value)}
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <View style={styles.container}>
+        <Image style={styles.image} source={bg} />
+        <Text style={styles.textLogo}>PRETTY LAND</Text>
+        <Text style={styles.textDetail}>Love Your Moments</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            borderWidth: 0.5,
+            paddingHorizontal: 10,
+            borderColor: "#00716F",
+            backgroundColor: "white",
+            height: 40,
+            borderRadius: 10,
+          }}
+        >
+          <Icon name="user" color="#00716F" size={20} />
+          <TextInput
+            style={styles.textInput}
+            placeholder="ข้อมูลผู้ใช้งาน"
+            value={username}
+            onChangeText={(value) => setUsername(value)}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            borderWidth: 0.5,
+            paddingHorizontal: 10,
+            borderColor: "#00716F",
+            backgroundColor: "white",
+            marginTop: 5,
+            height: 40,
+            borderRadius: 10,
+          }}
+        >
+          <Icon name="lock" color="#00716F" size={20} />
+          <TextInput
+            secureTextEntry={true}
+            style={styles.textInput}
+            placeholder="รหัสผาน"
+            value={password}
+            onChangeText={(value) => setPassword(value)}
+          />
+        </View>
+        <Button
+          title="LOGIN"
+          buttonStyle={{
+            backgroundColor: "#ff2fe6",
+            marginTop: 20,
+            borderRadius: 25,
+            width: 250,
+            paddingHorizontal: 15,
+            height: 45,
+            borderWidth: 0.5,
+          }}
+          onPress={() => validateLogin()}
         />
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          borderWidth: 0.5,
-          paddingHorizontal: 10,
-          borderColor: "#00716F",
-          backgroundColor: "white",
-          marginTop: 5,
-          height: 40,
-          borderRadius: 10,
-        }}
-      >
-        <Icon name="lock" color="#00716F" size={20} />
-        <TextInput
-          secureTextEntry={true}
-          style={styles.textInput}
-          placeholder="รหัสผาน"
-          value={password}
-          onChangeText={(value) => setPassword(value)}
-        />
-      </View>
-      <Button
-        title="LOGIN"
-        buttonStyle={{
-          backgroundColor: "#ff2fe6",
-          marginTop: 20,
-          borderRadius: 25,
-          width: 250,
-          paddingHorizontal: 15,
-          height: 45,
-          borderWidth: 0.5,
-        }}
-        onPress={() => validateLogin()}
-      />
-    </View>
+    </ImageBackground>
   )
 }
 
@@ -88,7 +103,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "snow",
     alignItems: "center",
     justifyContent: "center",
     marginTop: -120,
@@ -145,6 +159,11 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     fontSize: 12,
     color: "gray",
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

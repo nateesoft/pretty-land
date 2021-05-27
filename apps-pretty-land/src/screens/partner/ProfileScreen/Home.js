@@ -8,6 +8,7 @@ import {
   View,
   TouchableNativeFeedback,
   LogBox,
+  ImageBackground,
 } from "react-native"
 import { Video } from "expo-av"
 import {
@@ -23,6 +24,7 @@ import { AppConfig } from '../../../Constants'
 import firebase from "../../../../util/firebase"
 import { Context as AuthContext } from "../../../context/AuthContext"
 
+import bgImage from "../../../../assets/bg.png"
 import FemaleSimple from "../../../../assets/avatar/1.png"
 import MaleSimple from "../../../../assets/avatar/2.png"
 import OtherSimple from "../../../../assets/avatar/3.png"
@@ -95,218 +97,223 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   }, [])
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {userStatus === AppConfig.MemberStatus.newRegister && (
-          <TouchableNativeFeedback onPress={() => signOut()}>
-            <View style={{ alignSelf: "flex-end", margin: 10 }}>
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {userStatus === AppConfig.MemberStatus.newRegister && (
+            <TouchableNativeFeedback onPress={() => signOut()}>
+              <View style={{ alignSelf: "flex-end", margin: 10 }}>
+                <Text
+                  style={[
+                    styles.text,
+                    { color: "red", fontSize: 14, fontWeight: "bold" },
+                  ]}
+                >
+                  LOGGOUT
+                </Text>
+              </View>
+            </TouchableNativeFeedback>
+          )}
+          <View style={{ alignSelf: "center" }}>
+            <View style={styles.profileImage}>
+              <Image
+                source={imageProfile}
+                style={styles.image}
+                resizeMode="cover"
+              />
+            </View>
+            <TouchableNativeFeedback onPress={handleEditForm}>
+              <View style={styles.edit}>
+                <Feather name="edit" size={32} color="#fff" />
+              </View>
+            </TouchableNativeFeedback>
+          </View>
+
+          <View style={styles.infoContainer}>
+            <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
+              {name}
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "baseline",
+                marginTop: 10,
+                alignSelf: "flex-start",
+              }}
+            >
+              <FontAwesome
+                name="phone"
+                size={16}
+                color="#aeb5bc"
+                style={{ marginRight: 10 }}
+              />
               <Text
                 style={[
                   styles.text,
-                  { color: "red", fontSize: 14, fontWeight: "bold" },
+                  { color: "#bbb", fontSize: 14, marginRight: 10 },
                 ]}
               >
-                LOGGOUT
+                {mobile}
+              </Text>
+              <FontAwesome5
+                name="line"
+                size={16}
+                color="#aeb5bc"
+                style={{ marginRight: 10 }}
+              />
+              <Text style={[styles.text, { color: "#bbb", fontSize: 14 }]}>
+                {lineId}
               </Text>
             </View>
-          </TouchableNativeFeedback>
-        )}
-        <View style={{ alignSelf: "center" }}>
-          <View style={styles.profileImage}>
-            <Image
-              source={imageProfile}
-              style={styles.image}
-              resizeMode="cover"
-            />
           </View>
-          <TouchableNativeFeedback onPress={handleEditForm}>
-            <View style={styles.edit}>
-              <Feather name="edit" size={32} color="#fff" />
+
+          <View style={styles.statsContainer}>
+            <View style={styles.statsBox}>
+              <Text style={[styles.text, { fontSize: 24 }]}>0</Text>
+              <Text style={[styles.text, styles.subText]}>งานที่รับทั้งหมด</Text>
             </View>
-          </TouchableNativeFeedback>
-        </View>
-
-        <View style={styles.infoContainer}>
-          <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
-            {name}
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "baseline",
-              marginTop: 10,
-              alignSelf: "flex-start",
-            }}
-          >
-            <FontAwesome
-              name="phone"
-              size={16}
-              color="#aeb5bc"
-              style={{ marginRight: 10 }}
-            />
-            <Text
+            <View
               style={[
-                styles.text,
-                { color: "#bbb", fontSize: 14, marginRight: 10 },
+                styles.statsBox,
+                {
+                  borderColor: "#ccc",
+                  borderLeftWidth: 1,
+                  borderRightWidth: 1,
+                },
               ]}
             >
-              {mobile}
-            </Text>
-            <FontAwesome5
-              name="line"
-              size={16}
-              color="#aeb5bc"
-              style={{ marginRight: 10 }}
-            />
-            <Text style={[styles.text, { color: "#bbb", fontSize: 14 }]}>
-              {lineId}
-            </Text>
+              <Text style={[styles.text, { fontSize: 24, fontWeight: "bold" }]}>
+                0
+              </Text>
+              <Text style={[styles.text, styles.subText, { fontWeight: "bold" }]}>
+                คะแนนสะสม
+              </Text>
+            </View>
+            <View style={styles.statsBox}>
+              <Text
+                style={[
+                  styles.text,
+                  { fontSize: 12, marginBottom: 5, color: "blue" },
+                ]}
+              >
+                {memberRegisterDate}
+              </Text>
+              <Text style={[styles.text, styles.subText]}>วันที่เริ่มงาน</Text>
+            </View>
           </View>
-        </View>
 
-        <View style={styles.statsContainer}>
-          <View style={styles.statsBox}>
-            <Text style={[styles.text, { fontSize: 24 }]}>0</Text>
-            <Text style={[styles.text, styles.subText]}>งานที่รับทั้งหมด</Text>
-          </View>
-          <View
-            style={[
-              styles.statsBox,
-              {
-                borderColor: "#ccc",
-                borderLeftWidth: 1,
-                borderRightWidth: 1,
-              },
-            ]}
-          >
-            <Text style={[styles.text, { fontSize: 24, fontWeight: "bold" }]}>
-              0
-            </Text>
-            <Text style={[styles.text, styles.subText, { fontWeight: "bold" }]}>
-              คะแนนสะสม
-            </Text>
-          </View>
-          <View style={styles.statsBox}>
-            <Text
-              style={[
-                styles.text,
-                { fontSize: 12, marginBottom: 5, color: "blue" },
-              ]}
-            >
-              {memberRegisterDate}
-            </Text>
-            <Text style={[styles.text, styles.subText]}>วันที่เริ่มงาน</Text>
-          </View>
-        </View>
-
-        {videoUrl && (
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              padding: 10,
-              marginTop: 10,
-              alignSelf: "center",
-            }}
-          >
-            <Video
-              ref={video}
-              style={styles.video}
-              source={{ uri: videoUrl }}
-              useNativeControls
-              resizeMode="contain"
-              isLooping
-              onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            >
-              <ActivityIndicator style={styles.video} size="large" />
-            </Video>
-          </View>
-        )}
-
-        {!img1 && !img2 && !img3 && !img4 && !img5 && !videoUrl && (
-          <View style={{ alignItems: "center", margin: 50 }}>
-            <Text style={{ fontSize: 20 }}>
-              ยังไม่พบข้อมูล/รูปภาพ และวิดีโอ
-            </Text>
-            <Button
-              title="เพิ่มรูปภาพ/วิดีโอ"
-              buttonStyle={{
-                backgroundColor: "chocolate",
-                margin: 20,
-                borderRadius: 10,
-                padding: 15,
+          {videoUrl && (
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                padding: 10,
+                marginTop: 10,
+                alignSelf: "center",
               }}
-              icon={
-                <MaterialCommunityIcons
-                  name="card-account-details-star-outline"
-                  size={24}
-                  color="white"
-                  style={{ marginRight: 10 }}
-                />
-              }
-              onPress={() => navigate("Register-Plan-Form")}
-            />
-          </View>
-        )}
+            >
+              <Video
+                ref={video}
+                style={styles.video}
+                source={{ uri: videoUrl }}
+                useNativeControls
+                resizeMode="contain"
+                isLooping
+                onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+              >
+                <ActivityIndicator style={styles.video} size="large" />
+              </Video>
+            </View>
+          )}
 
-        <View style={{ marginTop: 32 }}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {img1 && (
-              <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{ uri: img1 }}
-                  style={styles.image}
-                  resizeMode="cover"
-                />
-              </View>
-            )}
-            {img1 && (
-              <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{ uri: img2 }}
-                  style={styles.image}
-                  resizeMode="cover"
-                />
-              </View>
-            )}
-            {img1 && (
-              <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{ uri: img3 }}
-                  style={styles.image}
-                  resizeMode="cover"
-                />
-              </View>
-            )}
-            {img1 && (
-              <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{ uri: img4 }}
-                  style={styles.image}
-                  resizeMode="cover"
-                />
-              </View>
-            )}
-            {img1 && (
-              <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{ uri: img5 }}
-                  style={styles.image}
-                  resizeMode="cover"
-                />
-              </View>
-            )}
-          </ScrollView>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          {!img1 && !img2 && !img3 && !img4 && !img5 && !videoUrl && (
+            <View style={{ alignItems: "center", margin: 50 }}>
+              <Text style={{ fontSize: 20 }}>
+                ยังไม่พบข้อมูล/รูปภาพ และวิดีโอ
+              </Text>
+              <Button
+                title="เพิ่มรูปภาพ/วิดีโอ"
+                buttonStyle={{
+                  backgroundColor: "chocolate",
+                  margin: 20,
+                  borderRadius: 10,
+                  padding: 15,
+                }}
+                icon={
+                  <MaterialCommunityIcons
+                    name="card-account-details-star-outline"
+                    size={24}
+                    color="white"
+                    style={{ marginRight: 10 }}
+                  />
+                }
+                onPress={() => navigate("Register-Plan-Form")}
+              />
+            </View>
+          )}
+
+          <View style={{ marginTop: 32 }}>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+              {img1 && (
+                <View style={styles.mediaImageContainer}>
+                  <Image
+                    source={{ uri: img1 }}
+                    style={styles.image}
+                    resizeMode="cover"
+                  />
+                </View>
+              )}
+              {img1 && (
+                <View style={styles.mediaImageContainer}>
+                  <Image
+                    source={{ uri: img2 }}
+                    style={styles.image}
+                    resizeMode="cover"
+                  />
+                </View>
+              )}
+              {img1 && (
+                <View style={styles.mediaImageContainer}>
+                  <Image
+                    source={{ uri: img3 }}
+                    style={styles.image}
+                    resizeMode="cover"
+                  />
+                </View>
+              )}
+              {img1 && (
+                <View style={styles.mediaImageContainer}>
+                  <Image
+                    source={{ uri: img4 }}
+                    style={styles.image}
+                    resizeMode="cover"
+                  />
+                </View>
+              )}
+              {img1 && (
+                <View style={styles.mediaImageContainer}>
+                  <Image
+                    source={{ uri: img5 }}
+                    style={styles.image}
+                    resizeMode="cover"
+                  />
+                </View>
+              )}
+            </ScrollView>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   text: {
     color: "#52575D",
@@ -398,6 +405,11 @@ const styles = StyleSheet.create({
     width: 350,
     height: 300,
     borderRadius: 25,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 
