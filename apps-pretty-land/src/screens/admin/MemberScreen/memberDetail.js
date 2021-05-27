@@ -1,11 +1,20 @@
 import React from "react"
-import { StyleSheet, View, Image, SafeAreaView, Alert } from "react-native"
+import {
+  StyleSheet,
+  View,
+  Image,
+  SafeAreaView,
+  Alert,
+  ImageBackground,
+} from "react-native"
 import { Button, Text } from "react-native-elements"
 import { Ionicons, Feather, AntDesign } from "react-native-vector-icons"
 import Moment from "moment"
 
+import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
+import Image1 from "../../../../assets/img_example/f1.jpg"
 
 const MemberDetailScreen = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -68,67 +77,67 @@ const MemberDetailScreen = ({ navigation, route }) => {
   }
 
   return (
-    <SafeAreaView style={styles.cardDetail}>
-      <View style={styles.viewCard}>
-        <Text style={{ fontSize: 22 }}>แสดงรายละเอียดสมาชิก</Text>
-        {item.image && (
-          <Image
-            source={{ uri: item.image }}
-            style={{
-              justifyContent: "center",
-              width: "100%",
-              height: 350,
-              marginTop: 20,
-            }}
-          />
-        )}
-        <View
-          style={{ padding: 20, borderWidth: 1, borderRadius: 25, margin: 10 }}
-        >
-          <Text style={{ fontSize: 16 }}>
-            ชื่อ: {item.name || item.username}
-          </Text>
-          <Text style={{ fontSize: 16 }}>ประเภทสมาชิก: {item.memberType}</Text>
-          <Text style={{ fontSize: 16 }}>
-            วันที่เป็นสมาชิก:{" "}
-            {item.member_register_date
-              ? Moment(item.member_register_date).format("D MMM YYYY")
-              : "[ รออนุมัติ ]"}
-          </Text>
-          <Text style={{ fontSize: 16 }}>
-            ระดับ Level: {item.customerLevel || 0}
-          </Text>
-          <Text style={{ fontSize: 16 }}>
-            เบอร์ติดต่อ: {item.mobile || "[ ไม่พบข้อมูล ]"}
-          </Text>
-          <Text style={{ fontSize: 16 }}>สถานะ: {item.statusText}</Text>
-        </View>
-        {item.status === AppConfig.MemberStatus.newRegister && (
-          <Button
-            icon={
-              <Feather
-                name="user-check"
-                size={24}
-                color="white"
-                style={{ marginRight: 5 }}
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={{ height: "100%" }}>
+        <View style={styles.viewCard}>
+          <View
+            style={{ alignSelf: "center", marginTop: 20, marginBottom: 10 }}
+          >
+            <Text style={{ fontSize: 22 }}>แสดงรายละเอียดสมาชิก</Text>
+          </View>
+
+          {item.image && (
+            <View style={{ alignItems: "center" }}>
+              <Image
+                source={{ uri: item.image }}
+                style={{
+                  justifyContent: "center",
+                  width: "95%",
+                  height: 350,
+                  borderRadius: 20,
+                }}
               />
-            }
-            iconLeft
-            buttonStyle={{
-              margin: 5,
-              backgroundColor: "green",
-              borderRadius: 10,
+            </View>
+          )}
+          <View
+            style={{
+              padding: 20,
+              borderWidth: 1,
+              borderRadius: 25,
+              margin: 10,
             }}
-            title="อนุมัติเป็น Partner"
-            onPress={() => approveMember()}
-          />
-        )}
-        {item.status !== AppConfig.MemberStatus.newRegister &&
-          item.status !== AppConfig.MemberStatus.suspend && (
+          >
+            <Text style={{ fontSize: 16 }}>
+              ชื่อ: {item.name || item.username}
+            </Text>
+            <Text style={{ fontSize: 16 }}>
+              ประเภทสมาชิก: {item.memberType}
+            </Text>
+            <Text style={{ fontSize: 16 }}>
+              วันที่เป็นสมาชิก:{" "}
+              {item.member_register_date
+                ? Moment(item.member_register_date).format("D MMM YYYY")
+                : "[ รออนุมัติ ]"}
+            </Text>
+            <Text style={{ fontSize: 16 }}>
+              ระดับ Level: {item.customerLevel || 0}
+            </Text>
+            <Text style={{ fontSize: 16 }}>
+              เบอร์ติดต่อ: {item.mobile || "[ ไม่พบข้อมูล ]"}
+            </Text>
+            <Text style={{ fontSize: 16 }}>สถานะ: {item.statusText}</Text>
+          </View>
+        </View>
+        <View style={{ alignItems: "center" }}>
+          {item.status === AppConfig.MemberStatus.newRegister && (
             <Button
               icon={
-                <AntDesign
-                  name="deleteuser"
+                <Feather
+                  name="user-check"
                   size={24}
                   color="white"
                   style={{ marginRight: 5 }}
@@ -137,19 +146,62 @@ const MemberDetailScreen = ({ navigation, route }) => {
               iconLeft
               buttonStyle={{
                 margin: 5,
-                backgroundColor: "red",
+                backgroundColor: "green",
+                width: 250,
                 borderRadius: 10,
               }}
-              title="สั่งพักงาน"
-              onPress={() => suspendMember()}
+              title="อนุมัติเป็น Partner"
+              onPress={() => approveMember()}
             />
           )}
-        {item.status === AppConfig.MemberStatus.suspend && (
+          {item.status !== AppConfig.MemberStatus.newRegister &&
+            item.status !== AppConfig.MemberStatus.suspend && (
+              <Button
+                icon={
+                  <AntDesign
+                    name="deleteuser"
+                    size={24}
+                    color="white"
+                    style={{ marginRight: 5 }}
+                  />
+                }
+                iconLeft
+                buttonStyle={{
+                  margin: 5,
+                  backgroundColor: "red",
+                  width: 250,
+                  borderRadius: 10,
+                }}
+                title="สั่งพักงาน"
+                onPress={() => suspendMember()}
+              />
+            )}
+          {item.status === AppConfig.MemberStatus.suspend && (
+            <Button
+              icon={
+                <Ionicons
+                  name="shield-checkmark-outline"
+                  size={15}
+                  color="white"
+                  style={{ marginRight: 5 }}
+                />
+              }
+              iconLeft
+              buttonStyle={{
+                margin: 5,
+                backgroundColor: "blue",
+                width: 250,
+                borderRadius: 10,
+              }}
+              title="ยกเลิกสั่งพักงาน"
+              onPress={() => cancelSuspendMember()}
+            />
+          )}
           <Button
             icon={
               <Ionicons
-                name="shield-checkmark-outline"
-                size={15}
+                name="trash-bin-outline"
+                size={24}
                 color="white"
                 style={{ marginRight: 5 }}
               />
@@ -157,42 +209,25 @@ const MemberDetailScreen = ({ navigation, route }) => {
             iconLeft
             buttonStyle={{
               margin: 5,
-              backgroundColor: "blue",
+              backgroundColor: "red",
+              width: 250,
               borderRadius: 10,
             }}
-            title="ยกเลิกสั่งพักงาน"
-            onPress={() => cancelSuspendMember()}
+            title="ลบข้อมูลออกจากระบบ"
+            onPress={() => handleRemovePermanent()}
           />
-        )}
-        <Button
-          icon={
-            <Ionicons
-              name="trash-bin-outline"
-              size={24}
-              color="white"
-              style={{ marginRight: 5 }}
-            />
-          }
-          iconLeft
-          buttonStyle={{
-            margin: 5,
-            backgroundColor: "red",
-            borderRadius: 10,
-          }}
-          title="ลบข้อมูลออกจากระบบ"
-          onPress={() => handleRemovePermanent()}
-        />
-      </View>
-    </SafeAreaView>
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   cardDetail: {
     flex: 1,
-    alignItems: "center",
     padding: 5,
     margin: 10,
+    alignSelf: "center",
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -211,9 +246,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   viewCard: {
-    width: "100%",
     borderRadius: 20,
     padding: 5,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

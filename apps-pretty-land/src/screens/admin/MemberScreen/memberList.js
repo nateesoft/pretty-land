@@ -6,11 +6,14 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
+  ImageBackground,
+  TouchableNativeFeedback,
 } from "react-native"
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import DropDownPicker from "react-native-dropdown-picker"
 
+import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
@@ -59,83 +62,93 @@ const MemberAllListScreen = ({ navigation, route }) => {
   }
 
   const renderItem = ({ item }) => (
-    <ListItem
-      bottomDivider
+    <TouchableNativeFeedback
       onPress={() => onPressOptions(item)}
-      containerStyle={{
-        backgroundColor: getBgColor(item.memberType),
-        borderRadius: 8,
-        marginVertical: 5,
-      }}
+      style={{ backgroundColor: "red" }}
     >
-      {item.image ? <Avatar source={{ uri: item.image }} size={128} />: null}
-      <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>
-          ชื่อสมาชิก: {item.name || item.username}
-        </ListItem.Title>
-        <ListItem.Subtitle>ประเภทสมาชิก: {item.memberType}</ListItem.Subtitle>
-        <ListItem.Subtitle>สถานะ: {item.statusText}</ListItem.Subtitle>
-      </ListItem.Content>
-      <ProgressCircle
-        percent={30}
-        radius={17}
-        borderWidth={1.5}
-        color="f580084"
-        shadowColor="#FFF"
-        bgColor="#FFF"
+      <ListItem
+        bottomDivider
+        containerStyle={{
+          backgroundColor: null,
+          borderRadius: 8,
+          marginVertical: 5,
+        }}
       >
-        <Image source={require("../../../../assets/icons/pl.png")} />
-      </ProgressCircle>
-    </ListItem>
+        {item.image ? <Avatar source={{ uri: item.image }} size={128} /> : null}
+        <ListItem.Content style={{ marginLeft: 10 }}>
+          <ListItem.Title>
+            ชื่อสมาชิก: {item.name || item.username}
+          </ListItem.Title>
+          <ListItem.Subtitle>ประเภทสมาชิก: {item.memberType}</ListItem.Subtitle>
+          <ListItem.Subtitle>สถานะ: {item.statusText}</ListItem.Subtitle>
+        </ListItem.Content>
+        <ProgressCircle
+          percent={30}
+          radius={17}
+          borderWidth={1.5}
+          color="f580084"
+          shadowColor="#FFF"
+          bgColor="#FFF"
+        >
+          <Image source={require("../../../../assets/icons/pl.png")} />
+        </ProgressCircle>
+      </ListItem>
+    </TouchableNativeFeedback>
   )
 
   return (
-    <SafeAreaView style={{ height: "100%", backgroundColor: "#fff" }}>
-      <View style={styles.container}>
-        <Text style={styles.textTopic}>ผู้ใช้งานในระบบทั้งหมด</Text>
-        <DropDownPicker
-          placeholder="เลือกประเภทสมาชิก"
-          open={openSelectPartner}
-          setOpen={setOpenSelectPartner}
-          value={partner}
-          setValue={setPartner}
-          items={partnerList}
-          setItems={setPartnerList}
-          style={styles.dropdownStyle}
-          textStyle={{ fontSize: 18 }}
-          zIndex={2}
-        />
-        {members.length === 0 && (
-          <CardNotfound text="ไม่พบข้อมูลสมาชิกในระบบ" />
-        )}
-        {members.length > 0 && (
-          <FlatList
-            keyExtractor={(item) => item.id.toString()}
-            data={members}
-            renderItem={renderItem}
-            style={{
-              height: 600,
-              borderWidth: 1,
-              borderColor: "#eee",
-              padding: 5,
-            }}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={() => handleRefresh()}
-              />
-            }
-          />
-        )}
-      </View>
-    </SafeAreaView>
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={{ height: "100%" }}>
+        <View style={styles.container}>
+          <Text style={styles.textTopic}>ผู้ใช้งานในระบบทั้งหมด</Text>
+          <View style={{ width: "90%", alignSelf: "center" }}>
+            <DropDownPicker
+              placeholder="เลือกประเภทสมาชิก"
+              open={openSelectPartner}
+              setOpen={setOpenSelectPartner}
+              value={partner}
+              setValue={setPartner}
+              items={partnerList}
+              setItems={setPartnerList}
+              style={styles.dropdownStyle}
+              textStyle={{ fontSize: 18 }}
+              zIndex={2}
+              searchable={false}
+            />
+          </View>
+          {members.length === 0 && (
+            <CardNotfound text="ไม่พบข้อมูลสมาชิกในระบบ" />
+          )}
+          {members.length > 0 && (
+            <FlatList
+              keyExtractor={(item) => item.id.toString()}
+              data={members}
+              renderItem={renderItem}
+              style={{
+                height: 600,
+                padding: 5,
+              }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={() => handleRefresh()}
+                />
+              }
+            />
+          )}
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 5,
-    backgroundColor: "white",
   },
   textTopic: {
     fontSize: 24,
@@ -156,6 +169,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderColor: "#ff2fe6",
     borderWidth: 1.5,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

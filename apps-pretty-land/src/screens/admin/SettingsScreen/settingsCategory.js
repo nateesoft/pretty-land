@@ -1,41 +1,49 @@
 import React from "react"
-import { StyleSheet, View } from "react-native"
-import { Button, Text, Input } from "react-native-elements"
-import { FontAwesome, Foundation } from "react-native-vector-icons"
+import { StyleSheet, View, ImageBackground } from "react-native"
+import { Button, Text } from "react-native-elements"
+import { FontAwesome } from "react-native-vector-icons"
+
+import bgImage from "../../../../assets/bg.png"
 
 const ViewProfileScreen = ({ navigation, route }) => {
   return (
-    <View style={styles.cardDetail}>
-      <Text style={styles.textTopic}>ตั้งค่าระบบ Settings</Text>
-      <Button
-        icon={
-          <FontAwesome
-            name="user-secret"
-            size={20}
-            color="white"
-            style={{ marginRight: 5 }}
-          />
-        }
-        iconLeft
-        buttonStyle={styles.btnNewAdmin}
-        title="เพิ่มข้อมูลผู้ใช้งาน"
-        onPress={() => navigation.navigate("New-Admin-Form")}
-      />
-      <Button
-        icon={
-          <FontAwesome
-            name="user-secret"
-            size={20}
-            color="white"
-            style={{ marginRight: 5 }}
-          />
-        }
-        iconLeft
-        buttonStyle={styles.btnPostConfig}
-        title="จัดการโพสท์"
-        onPress={() => navigation.navigate("View-Settings")}
-      />
-    </View>
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <View style={styles.cardDetail}>
+        <Text style={styles.textTopic}>ตั้งค่าระบบ Settings</Text>
+        <Button
+          icon={
+            <FontAwesome
+              name="user-secret"
+              size={20}
+              color="white"
+              style={{ marginRight: 5 }}
+            />
+          }
+          iconLeft
+          buttonStyle={styles.btnNewAdmin}
+          title="เพิ่มข้อมูลผู้ใช้งาน"
+          onPress={() => navigation.navigate("New-Admin-Form")}
+        />
+        <Button
+          icon={
+            <FontAwesome
+              name="user-secret"
+              size={20}
+              color="white"
+              style={{ marginRight: 5 }}
+            />
+          }
+          iconLeft
+          buttonStyle={styles.btnPostConfig}
+          title="จัดการโพสท์"
+          onPress={() => navigation.navigate("View-Settings")}
+        />
+      </View>
+    </ImageBackground>
   )
 }
 
@@ -59,7 +67,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     margin: 10,
-    backgroundColor: "white",
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -89,6 +96,11 @@ const styles = StyleSheet.create({
     color: "blue",
     marginBottom: 15,
     marginTop: 10,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

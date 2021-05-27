@@ -1,11 +1,19 @@
 import React, { useState } from "react"
-import { View, StyleSheet, Text, Image, TextInput, Alert,ImageBackground } from "react-native"
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TextInput,
+  Alert,
+  ImageBackground,
+} from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
 import base64 from "react-native-base64"
 import uuid from "react-native-uuid"
 
-import { AppConfig } from '../../Constants'
+import { AppConfig } from "../../Constants"
 import { snapshotToArray } from "../../../util"
 import firebase from "../../../util/firebase"
 import { GetIcon } from "../../components/GetIcons"

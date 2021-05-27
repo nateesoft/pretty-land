@@ -6,13 +6,14 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
+  ImageBackground,
 } from "react-native"
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import DropDownPicker from "react-native-dropdown-picker"
 
+import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
-
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import { getPostList, getPostStatus } from "../../../data/apis"
@@ -69,7 +70,7 @@ const PostListAllScreen = ({ navigation, route }) => {
       bottomDivider
       onPress={() => onPressOptions(item, item.status)}
       containerStyle={{
-        backgroundColor: getBgColor(item.status),
+        backgroundColor: null,
         borderRadius: 8,
         marginVertical: 5,
       }}
@@ -98,50 +99,57 @@ const PostListAllScreen = ({ navigation, route }) => {
   )
 
   return (
-    <SafeAreaView style={{ height: "100%", backgroundColor: "#fff" }}>
-      <View style={styles.container}>
-        <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
-        <DropDownPicker
-          placeholder="เลือกประเภทโพสท์"
-          open={openSelectPartner}
-          setOpen={setOpenSelectPartner}
-          value={partner}
-          setValue={setPartner}
-          items={partnerList}
-          setItems={setPartnerList}
-          style={styles.dropdownStyle}
-          textStyle={{ fontSize: 18 }}
-          zIndex={2}
-        />
-        {posts.length === 0 && <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />}
-        {posts.length > 0 && (
-          <FlatList
-            keyExtractor={(item) => item.id.toString()}
-            data={posts}
-            renderItem={renderItem}
-            style={{
-              height: 600,
-              borderWidth: 1,
-              borderColor: "#eee",
-              padding: 5,
-            }}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={() => handleRefresh()}
-              />
-            }
-          />
-        )}
-      </View>
-    </SafeAreaView>
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={{ height: "100%" }}>
+        <View style={styles.container}>
+          <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
+          <View style={{ width: "90%", alignSelf: "center" }}>
+            <DropDownPicker
+              placeholder="เลือกประเภทโพสท์"
+              open={openSelectPartner}
+              setOpen={setOpenSelectPartner}
+              value={partner}
+              setValue={setPartner}
+              items={partnerList}
+              setItems={setPartnerList}
+              style={styles.dropdownStyle}
+              textStyle={{ fontSize: 18 }}
+              zIndex={2}
+            />
+          </View>
+          {posts.length === 0 && <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />}
+          {posts.length > 0 && (
+            <FlatList
+              keyExtractor={(item) => item.id.toString()}
+              data={posts}
+              renderItem={renderItem}
+              style={{
+                height: 600,
+                borderWidth: 1,
+                borderColor: "#eee",
+                padding: 5,
+              }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={() => handleRefresh()}
+                />
+              }
+            />
+          )}
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 5,
-    backgroundColor: "white",
   },
   textTopic: {
     fontSize: 24,
@@ -157,6 +165,11 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     height: 45,
     width: 250,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

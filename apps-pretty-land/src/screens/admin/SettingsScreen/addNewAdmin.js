@@ -1,7 +1,9 @@
 import React from "react"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, View, ImageBackground } from "react-native"
 import { Button, Text, Input, CheckBox } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
+
+import bgImage from "../../../../assets/bg.png"
 
 const ViewProfileScreen = ({ navigation, route }) => {
   const [username, setUsername] = React.useState("")
@@ -9,47 +11,54 @@ const ViewProfileScreen = ({ navigation, route }) => {
   const [isAdmin, setSuperAdmin] = React.useState(false)
 
   return (
-    <View style={styles.cardDetail}>
-      <Text style={styles.textTopic}>เพิ่มข้อมูล Admin</Text>
-      <View style={styles.viewCard}>
-        <Input
-          name="username"
-          placeholder="Username"
-          leftIcon={{ type: "font-awesome", name: "address-book" }}
-          style={styles.inputForm}
-          onChangeText={(value) => setUsername(value)}
-          value={username}
-        />
-        <Input
-          name="password"
-          placeholder="Password"
-          leftIcon={{ type: "font-awesome", name: "lock" }}
-          style={styles.inputForm}
-          onChangeText={(value) => setPassword(value)}
-          value={password}
-          secureTextEntry={true}
-        />
-        <CheckBox
-          title="กำหนดเป็นผู้ดูแลระบบหลัก"
-          checked={isAdmin}
-          onPress={() => setSuperAdmin(!isAdmin)}
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <View style={styles.cardDetail}>
+        <Text style={styles.textTopic}>เพิ่มข้อมูล Admin</Text>
+        <View style={styles.viewCard}>
+          <Input
+            name="username"
+            placeholder="Username"
+            leftIcon={{ type: "font-awesome", name: "address-book" }}
+            style={styles.inputForm}
+            onChangeText={(value) => setUsername(value)}
+            value={username}
+          />
+          <Input
+            name="password"
+            placeholder="Password"
+            leftIcon={{ type: "font-awesome", name: "lock" }}
+            style={styles.inputForm}
+            onChangeText={(value) => setPassword(value)}
+            value={password}
+            secureTextEntry={true}
+          />
+          <CheckBox
+            title="กำหนดเป็นผู้ดูแลระบบหลัก"
+            checked={isAdmin}
+            onPress={() => setSuperAdmin(!isAdmin)}
+            containerStyle={{ backgroundColor: null, borderColor: "#ff2fe6" }}
+          />
+        </View>
+        <Button
+          icon={
+            <Icon
+              name="save"
+              size={20}
+              color="white"
+              style={{ marginRight: 5 }}
+            />
+          }
+          iconLeft
+          buttonStyle={styles.btnSave}
+          title="เพิ่มข้อมูล"
+          onPress={() => navigation.navigate("Settings-Category")}
         />
       </View>
-      <Button
-        icon={
-          <Icon
-            name="save"
-            size={20}
-            color="white"
-            style={{ marginRight: 5 }}
-          />
-        }
-        iconLeft
-        buttonStyle={styles.btnSave}
-        title="เพิ่มข้อมูล"
-        onPress={() => navigation.navigate("Settings-Category")}
-      />
-    </View>
+    </ImageBackground>
   )
 }
 
@@ -65,7 +74,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     margin: 10,
-    backgroundColor: "white",
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -95,6 +103,11 @@ const styles = StyleSheet.create({
     color: "blue",
     marginBottom: 15,
     marginTop: 10,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 
