@@ -32,19 +32,19 @@ const RegisterLoginForm = ({ navigation, route }) => {
 
   const saveAndGoLoginForm = () => {
     if (!username) {
-      Alert.alert("กรุณาระบุชื่อเข้าใช้งาน")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุชื่อเข้าใช้งาน")
       return
     }
     if (!password) {
-      Alert.alert("กรุณาระบุรหัสผ่าน เพื่อเข้าใช้งาน")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุรหัสผ่าน เพื่อเข้าใช้งาน")
       return
     }
     if (!rePassword) {
-      Alert.alert("กรุณายืนยันรหัสผ่าน")
+      Alert.alert("แจ้งเตือน", "กรุณายืนยันรหัสผ่าน")
       return
     }
     if (password !== rePassword) {
-      Alert.alert("รหัสผ่าน และรหัสยืนยันจะต้องตรงกัน !!!")
+      Alert.alert("แจ้งเตือน", "รหัสผ่าน และรหัสยืนยันจะต้องตรงกัน !!!")
       return
     }
 
@@ -66,13 +66,13 @@ const RegisterLoginForm = ({ navigation, route }) => {
             statusText: AppConfig.MemberStatus.newRegisterMessage,
           }
           firebase.database().ref(`members/${newId}`).set(saveData)
-          Alert.alert("บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")
+          Alert.alert("กระบวนการสมบูรณ์", "บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")
           navigation.popToTop()
           navigate("Login-Form")
         } else {
           const user = data[0]
           Alert.alert(
-            "Warning !!!",
+            "แจ้งเตือน",
             `ข้อมูลผู้ใช้งาน: ${user.username} มีอยู่แล้ว`,
             [{ text: "OK" }]
           )

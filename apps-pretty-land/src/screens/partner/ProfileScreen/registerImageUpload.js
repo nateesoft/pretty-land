@@ -62,7 +62,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
       password,
     }
     firebase.database().ref(`members/${userId}`).update(dataUpdate)
-    Alert.alert("อัพเดตข้อมูลเรียบร้อยแล้ว")
+    Alert.alert("กระบวนการเสร็จสมบูรณ์", "อัพเดตข้อมูลเรียบร้อยแล้ว")
     signOut()
   }
 
@@ -94,7 +94,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     ;(async () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
       if (status !== "granted") {
-        Alert.alert("Sorry, we need camera roll permissions to make this work!")
+        Alert.alert("แจ้งเตือน", "ขออภัย, กรุณาให้สิทธิ์การเข้าถึงรูปภาพของท่าน!")
       }
     })()
   }, [])

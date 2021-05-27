@@ -34,23 +34,23 @@ const RegisterPartnerForm = ({ navigation, route }) => {
 
   const handleNextData = () => {
     if (!lineId) {
-      Alert.alert("กรุณาระบุ Line Id")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ Line Id")
       return
     }
     if (!mobile) {
-      Alert.alert("กรุณาระบุเบอร์โทรศัพท์ เพื่อติดต่อ")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุเบอร์โทรศัพท์ เพื่อติดต่อ")
       return
     }
     if (!province) {
-      Alert.alert("กรุณาระบุจังหวัดที่รับงานได้")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุจังหวัดที่รับงานได้")
       return
     }
     if (!district) {
-      Alert.alert("กรุณาระบุอำเภอที่รับงานได้")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุอำเภอที่รับงานได้")
       return
     }
     if (type4 && !address) {
-      Alert.alert("กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
       return
     }
 

@@ -4,7 +4,7 @@ import { Alert, Text, View } from "react-native"
 import * as Facebook from "expo-facebook"
 import base64 from "react-native-base64"
 
-import { AppConfig } from '../Constants'
+import { AppConfig } from "../Constants"
 import { snapshotToArray } from "../../util"
 import firebase from "../../util/firebase"
 
@@ -93,7 +93,7 @@ const AppNavigation = () => {
         console.log("Cancel fackbook login action")
       }
     } catch (error) {
-      Alert.alert(error)
+      Alert.alert("Error", error)
     }
   }
 
@@ -120,7 +120,7 @@ const AppNavigation = () => {
               const passwordDb = base64.decode(user.password)
               if (passwordDb === password) {
                 if (user.status === AppConfig.MemberStatus.suspend) {
-                  Alert.alert(AppConfig.MemberStatus.suspendMessagePopup)
+                  Alert.alert("แจ้งเตือน", AppConfig.MemberStatus.suspendMessagePopup)
                 } else {
                   dispatch({
                     type: "SIGN_IN",
@@ -130,20 +130,20 @@ const AppNavigation = () => {
                   })
                 }
               } else {
-                Alert.alert("รหัสผ่านไม่ถูกต้อง !!!")
+                Alert.alert("แจ้งเตือน", "รหัสผ่านไม่ถูกต้อง !!!")
               }
             } else {
-              Alert.alert("ไม่พบข้อมูลผู้ใช้งานในระบบ !!!")
+              Alert.alert("แจ้งเตือน", "ไม่พบข้อมูลผู้ใช้งานในระบบ !!!")
             }
           })
       },
       signInCustomer: async (data) => {
         if (data.loginType === "facebook") {
           // facebookLogin()
-          Alert.alert("อยู่ในระหว่างการพัฒนา")
+          Alert.alert("Pretty Land", "Function นี้ยังอยู่ในระหว่างการพัฒนา")
         }
         if (data.loginType === "line") {
-          Alert.alert("อยู่ในระหว่างการพัฒนา")
+          Alert.alert("Pretty Land", "Function นี้ยังอยู่ในระหว่างการพัฒนา")
         }
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),

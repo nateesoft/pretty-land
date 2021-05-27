@@ -25,7 +25,7 @@ const LoginForm = ({ navigation, route }) => {
     if (username && password) {
       signIn({ username, password, screen: "admin" })
     } else {
-      Alert.alert("กรุณาระบุข้อมูลผู้ใช้งาน และรหัสผ่านให้ครบถ้วน !!!")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุข้อมูลผู้ใช้งาน และรหัสผ่านให้ครบถ้วน !!!")
     }
   }
 

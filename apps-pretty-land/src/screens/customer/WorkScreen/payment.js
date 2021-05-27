@@ -30,7 +30,7 @@ const PaymentForm = ({ navigation, route }) => {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync()
         if (status !== "granted") {
-          Alert.alert("Sorry, we need camera roll permissions to make this work!")
+          Alert.alert("แจ้งเตือน", "ขออภัย, กรุณาให้สิทธิืการเข้าถึงรูปภาพของท่าน!")
         }
       }
     })()

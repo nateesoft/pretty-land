@@ -52,27 +52,27 @@ const RegisterPlanForm = ({ navigation, route }) => {
 
   const handleNexData = () => {
     if (!type1 && !type2 && !type3 && !type4) {
-      Alert.alert("กรุณาระบุประเภทงานที่ต้องการรับบริการ !!!")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุประเภทงานที่ต้องการรับบริการ !!!")
       return
     }
     if (!age) {
-      Alert.alert("กรุณาระบุอายุ")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุอายุ")
       return
     }
     if (!height) {
-      Alert.alert("กรุณาระบุส่วนสูง")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุส่วนสูง")
       return
     }
     if (!weight) {
-      Alert.alert("กรุณาระบุน้ำหนัก")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุน้ำหนัก")
       return
     }
     if (!stature) {
-      Alert.alert("กรุณาระบุสัดส่วน")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุสัดส่วน")
       return
     }
     if (type4 && !price4) {
-      Alert.alert("กรุณาระบุราคา สำหรับประเภทนวดแผนไทย")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุราคา สำหรับประเภทนวดแผนไทย")
       return
     }
 

@@ -28,11 +28,11 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
 
   const handleNextData = () => {
     if (!bank) {
-      Alert.alert("กรุณาระบุธนาคารที่รอรับเงินโอน")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุธนาคารที่รอรับเงินโอน")
       return
     }
     if (!bankNo) {
-      Alert.alert("กรุณาระบุเลขที่บัญชีธนาคาร")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุเลขที่บัญชีธนาคาร")
       return
     }
 
