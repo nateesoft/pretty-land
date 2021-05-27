@@ -2,25 +2,67 @@ import React from "react"
 import { StyleSheet, View, Image, SafeAreaView, Alert } from "react-native"
 import { Button, Text } from "react-native-elements"
 import { Ionicons, Feather, AntDesign } from "react-native-vector-icons"
-import Moment from 'moment';
+import Moment from "moment"
 
+import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
 
 const MemberDetailScreen = ({ navigation, route }) => {
   const { navigate } = navigation
   const { item } = route.params
 
-  const handleRemovePermanent = () => {
+  const confirmRemovePermanent = () => {
     firebase.database().ref(`members/${item.id}`).remove()
     navigate("List-All-Member")
   }
 
+  const handleRemovePermanent = () => {
+    Alert.alert(
+      "ต้องการลบข้อมูลผู้ใช้ถาวร ใช่หรือไม่ ?",
+      "กรุณายืนยันอีกครั้ง ถ้ากดลบข้อมูลจะไม่สามารถเรียกคืนได้อีก !!!",
+      [
+        {
+          text: "ยืนยันการลบ",
+          onPress: () => confirmRemovePermanent(),
+        },
+        {
+          text: "ยกเลิก",
+          onPress: () => console.log("No Pressed"),
+          style: "cancel",
+        },
+      ],
+      { cancelable: false }
+    )
+  }
+
   const approveMember = () => {
-    // save data
+    // update status member
     firebase.database().ref(`members/${item.id}`).update({
-      status: "active",
-      statusText: "ผ่านการอนุมัติ",
-      member_register_date: new Date().toUTCString()
+      status: AppConfig.MemberStatus.active,
+      statusText: AppConfig.MemberStatus.activeMessage,
+      member_register_date: new Date().toUTCString(),
+      member_update_date: new Date().toUTCString(),
+    })
+    navigation.navigate("List-All-Member")
+  }
+
+  const suspendMember = () => {
+    // update status member
+    firebase.database().ref(`members/${item.id}`).update({
+      status: AppConfig.MemberStatus.suspend,
+      statusText: AppConfig.MemberStatus.suspendMessage,
+      member_update_date: new Date().toUTCString(),
+    })
+    navigation.navigate("List-All-Member")
+  }
+
+  const cancelSuspendMember = () => {
+    // update status member
+    firebase.database().ref(`members/${item.id}`).update({
+      status: AppConfig.MemberStatus.active,
+      statusText: AppConfig.MemberStatus.activeMessage,
+      member_register_date: new Date().toUTCString(),
+      member_update_date: new Date().toUTCString(),
     })
     navigation.navigate("List-All-Member")
   }
@@ -48,17 +90,20 @@ const MemberDetailScreen = ({ navigation, route }) => {
           </Text>
           <Text style={{ fontSize: 16 }}>ประเภทสมาชิก: {item.memberType}</Text>
           <Text style={{ fontSize: 16 }}>
-            วันที่เป็นสมาชิก: {item.member_register_date ? Moment(item.member_register_date).format('D MMM YYYY') : "ยังไม่ได้กำหนด"}
+            วันที่เป็นสมาชิก:{" "}
+            {item.member_register_date
+              ? Moment(item.member_register_date).format("D MMM YYYY")
+              : "[ รออนุมัติ ]"}
           </Text>
           <Text style={{ fontSize: 16 }}>
             ระดับ Level: {item.customerLevel || 0}
           </Text>
           <Text style={{ fontSize: 16 }}>
-            เบอร์ติดต่อ: {item.mobile || "ยังไม่ได้กำหนด"}
+            เบอร์ติดต่อ: {item.mobile || "[ ไม่พบข้อมูล ]"}
           </Text>
           <Text style={{ fontSize: 16 }}>สถานะ: {item.statusText}</Text>
         </View>
-        {item.status === "new_register" && (
+        {item.status === AppConfig.MemberStatus.newRegister && (
           <Button
             icon={
               <Feather
@@ -72,35 +117,34 @@ const MemberDetailScreen = ({ navigation, route }) => {
             buttonStyle={{
               margin: 5,
               backgroundColor: "green",
-              borderRadius: 25,
-              paddingHorizontal: 20,
+              borderRadius: 10,
             }}
             title="อนุมัติเป็น Partner"
             onPress={() => approveMember()}
           />
         )}
-        {item.status !== "new_register" && item.status !== "not_approve" && (
-          <Button
-            icon={
-              <AntDesign
-                name="deleteuser"
-                size={24}
-                color="white"
-                style={{ marginRight: 5 }}
-              />
-            }
-            iconLeft
-            buttonStyle={{
-              margin: 5,
-              backgroundColor: "red",
-              borderRadius: 25,
-              paddingHorizontal: 20,
-            }}
-            title="สั่งพักงาน"
-            onPress={() => navigation.navigate("List-All-Member")}
-          />
-        )}
-        {item.status === "not_approve" && (
+        {item.status !== AppConfig.MemberStatus.newRegister &&
+          item.status !== AppConfig.MemberStatus.suspend && (
+            <Button
+              icon={
+                <AntDesign
+                  name="deleteuser"
+                  size={24}
+                  color="white"
+                  style={{ marginRight: 5 }}
+                />
+              }
+              iconLeft
+              buttonStyle={{
+                margin: 5,
+                backgroundColor: "red",
+                borderRadius: 10,
+              }}
+              title="สั่งพักงาน"
+              onPress={() => suspendMember()}
+            />
+          )}
+        {item.status === AppConfig.MemberStatus.suspend && (
           <Button
             icon={
               <Ionicons
@@ -113,12 +157,11 @@ const MemberDetailScreen = ({ navigation, route }) => {
             iconLeft
             buttonStyle={{
               margin: 5,
-              backgroundColor: "green",
-              borderRadius: 25,
-              paddingHorizontal: 20,
+              backgroundColor: "blue",
+              borderRadius: 10,
             }}
             title="ยกเลิกสั่งพักงาน"
-            onPress={() => navigation.navigate("List-All-Member")}
+            onPress={() => cancelSuspendMember()}
           />
         )}
         <Button
@@ -134,8 +177,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
           buttonStyle={{
             margin: 5,
             backgroundColor: "red",
-            borderRadius: 25,
-            paddingHorizontal: 20,
+            borderRadius: 10,
           }}
           title="ลบข้อมูลออกจากระบบ"
           onPress={() => handleRemovePermanent()}

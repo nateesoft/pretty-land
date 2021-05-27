@@ -23,7 +23,7 @@ import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterImageUpload = ({ navigation, route }) => {
   const { signOut } = React.useContext(AuthContext)
-  const { userId, status, workType } = route.params
+  const { userId } = route.params
   const video = React.useRef(null)
 
   const [uploadFinish, setUploadFinish] = useState("none")

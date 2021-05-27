@@ -1,3 +1,5 @@
+import { AppConfig } from '../Constants'
+
 export const PARTNER_TYPE = ["Pretty", "Pretty Entertain", "Coyote", "Massage"]
 
 export const partnerGroup = [
@@ -36,10 +38,10 @@ export const partnerGroup = [
 ]
 
 export const memberStatus =[
-  { value: 1, label: "active" },
-  { value: 2, label: "new_register" },
-  { value: 3, label: "not_approve" },
-  { value: 4, label: "pending" },
+  { value: 1, label: AppConfig.MemberStatus.active },
+  { value: 2, label: AppConfig.MemberStatus.newRegister },
+  { value: 3, label: AppConfig.MemberStatus.notApprove },
+  { value: 4, label: AppConfig.MemberStatus.suspend },
 ]
 
 export const memberGroup = [

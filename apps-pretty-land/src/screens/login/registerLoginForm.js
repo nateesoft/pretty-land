@@ -5,6 +5,7 @@ import { Button } from "react-native-elements/dist/buttons/Button"
 import base64 from "react-native-base64"
 import uuid from "react-native-uuid"
 
+import { AppConfig } from '../../Constants'
 import { snapshotToArray } from "../../../util"
 import firebase from "../../../util/firebase"
 import { GetIcon } from "../../components/GetIcons"
@@ -52,8 +53,8 @@ const RegisterLoginForm = ({ navigation, route }) => {
             username,
             password: encryptPassword(password),
             memberType: "partner",
-            status: "new_register",
-            statusText: "สมัครเป็น Partner ใหม่",
+            status: AppConfig.MemberStatus.newRegister,
+            statusText: AppConfig.MemberStatus.newRegisterMessage,
           }
           firebase.database().ref(`members/${newId}`).set(saveData)
           Alert.alert("บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")

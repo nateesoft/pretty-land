@@ -19,6 +19,7 @@ import {
 import { ActivityIndicator } from "react-native-paper"
 import Moment from "moment"
 
+import { AppConfig } from '../../../Constants'
 import firebase from "../../../../util/firebase"
 import { Context as AuthContext } from "../../../context/AuthContext"
 
@@ -96,7 +97,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {userStatus === "new_register" && (
+        {userStatus === AppConfig.MemberStatus.newRegister && (
           <TouchableNativeFeedback onPress={() => signOut()}>
             <View style={{ alignSelf: "flex-end", margin: 10 }}>
               <Text

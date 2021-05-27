@@ -39,15 +39,14 @@ const RegisterPlanForm = ({ navigation, route }) => {
   const [type2, setType2] = useState(false)
   const [type3, setType3] = useState(false)
   const [type4, setType4] = useState(false)
+  const [price4, setPrice4] = useState("")
 
-  const [workType, setWorkType] = useState("")
   const [sex, setSex] = useState("female")
   const [name, setName] = useState("")
   const [age, setAge] = useState("")
   const [height, setHeight] = useState("")
   const [weight, setWeight] = useState("")
   const [stature, setStature] = useState("")
-  const [price4, setPrice4] = useState("")
 
   const handleNexData = () => {
     if (!type1 && !type2 && !type3 && !type4) {
@@ -79,28 +78,16 @@ const RegisterPlanForm = ({ navigation, route }) => {
       setPrice4(0)
     }
 
-    let dataWorkType = ""
-    if (type1) {
-      dataWorkType = dataWorkType + "1,"
-    }
-    if (type2) {
-      dataWorkType = dataWorkType + "2,"
-    }
-    if (type3) {
-      dataWorkType = dataWorkType + "3,"
-    }
-    if (type4) {
-      dataWorkType = dataWorkType + "4,"
-    }
-    setWorkType(dataWorkType)
-
     // save data
     firebase
       .database()
       .ref(`members/${userId}`)
       .update({
         id: userId,
-        workType: dataWorkType,
+        type1,
+        type2,
+        type3,
+        type4,
         sex,
         name,
         age,
@@ -109,7 +96,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
         weight,
         price4: !price4 ? 0 : price4,
       })
-    navigate("Register-Partner-Form", { userId, status, workType: dataWorkType })
+    navigate("Register-Partner-Form", { userId, status, type4 })
   }
 
   useEffect(() => {
@@ -123,7 +110,10 @@ const RegisterPlanForm = ({ navigation, route }) => {
         setHeight(data.height || "")
         setStature(data.stature || "")
         setWeight(data.weight || "")
-        setWorkType(data.workType || "")
+        setType1(data.type1 || false)
+        setType1(data.type2 || false)
+        setType1(data.type3 || false)
+        setType1(data.type4 || false)
       })
 
     return () =>

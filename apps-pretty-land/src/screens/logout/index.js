@@ -1,10 +1,29 @@
 import React from "react"
-import { Button, StyleSheet, View, Text } from "react-native"
+import { Button, Alert, View, Text } from "react-native"
 
 import { Context as AuthContext } from "../../context/AuthContext"
 
 const LogoutScreen = ({ navigation, route }) => {
   const { signOut } = React.useContext(AuthContext)
+
+  const handleLogoutConfirm = () => {
+    Alert.alert(
+      "แจ้งเตือน",
+      "คุณต้องการออกจากระบบ Pretty Land ใช่ไหรือไม่ ?",
+      [
+        {
+          text: "ออกจากระบบ",
+          onPress: () => signOut(),
+        },
+        {
+          text: "ยกเลิก",
+          onPress: () => console.log("No Pressed"),
+          style: "cancel",
+        },
+      ],
+      { cancelable: false }
+    )
+  }
 
   return (
     <View
@@ -18,7 +37,7 @@ const LogoutScreen = ({ navigation, route }) => {
       <Text style={{ fontSize: 28, color: "white", fontWeight: "bold" }}>
         ยืนยันการออกจากระบบ
       </Text>
-      <Button title="ออกจากระบบ" color="white" onPress={()=>signOut()} />
+      <Button title="ออกจากระบบ" color="white" onPress={()=>handleLogoutConfirm()} />
     </View>
   )
 }

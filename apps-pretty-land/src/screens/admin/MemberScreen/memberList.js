@@ -68,7 +68,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
         marginVertical: 5,
       }}
     >
-      <Avatar source={{ uri: item.image }} size={128} />
+      {item.image ? <Avatar source={{ uri: item.image }} size={128} />: null}
       <ListItem.Content style={{ marginLeft: 10 }}>
         <ListItem.Title>
           ชื่อสมาชิก: {item.name || item.username}

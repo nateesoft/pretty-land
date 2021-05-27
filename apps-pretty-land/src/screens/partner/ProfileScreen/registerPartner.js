@@ -18,7 +18,7 @@ import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterPartnerForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { userId, status, workType } = route.params
+  const { userId, status, type4 } = route.params
   const [mobile, setMobile] = useState("")
   const [province, setProvince] = useState("")
   const [district, setDistrict] = useState("")
@@ -30,8 +30,6 @@ const RegisterPartnerForm = ({ navigation, route }) => {
 
   const [openSelectDistrict, setOpenSelectDistrict] = useState(false)
   const [districtList, setDistrictList] = useState([])
-
-  console.log('workType:', workType)
 
   const handleNextData = () => {
     if (!lineId) {
@@ -50,7 +48,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       Alert.alert("กรุณาระบุอำเภอที่รับงานได้")
       return
     }
-    if (workType === "4" && !address) {
+    if (type4 && !address) {
       Alert.alert("กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
       return
     }
@@ -64,7 +62,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       lineId,
     })
 
-    navigate("Partner-Register-Bank-Form", { userId, status, workType })
+    navigate("Partner-Register-Bank-Form", { userId, status })
   }
 
   useEffect(() => {
@@ -147,7 +145,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             textStyle={{ fontSize: 18 }}
             zIndex={3}
           />
-          {workType.split(",").includes("4") && (
+          {type4 && (
             <View style={styles.formControl}>
               <GetIcon type="mi" name="home-work" />
               <TextInput

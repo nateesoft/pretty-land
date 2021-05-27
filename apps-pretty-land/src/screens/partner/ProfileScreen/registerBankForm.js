@@ -18,7 +18,7 @@ import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterPartnerBankForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { userId, status, workType } = route.params
+  const { userId, status } = route.params
   const [bank, setBank] = useState("")
   const [bankNo, setBankNo] = useState("")
 
@@ -41,7 +41,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
       bankNo,
     })
 
-    navigate("Partner-Register-Image-Upload", { userId, status, workType })
+    navigate("Partner-Register-Image-Upload", { userId, status })
   }
 
   useEffect(() => {

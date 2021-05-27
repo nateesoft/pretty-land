@@ -4,6 +4,7 @@ import { Alert, Text, View } from "react-native"
 import * as Facebook from "expo-facebook"
 import base64 from "react-native-base64"
 
+import { AppConfig } from '../Constants'
 import { snapshotToArray } from "../../util"
 import firebase from "../../util/firebase"
 
@@ -26,7 +27,7 @@ function SplashScreen() {
   )
 }
 
-const AppNavigation = ({ navigation }) => {
+const AppNavigation = () => {
   const [state, dispatch] = useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -118,12 +119,16 @@ const AppNavigation = ({ navigation }) => {
             if (user) {
               const passwordDb = base64.decode(user.password)
               if (passwordDb === password) {
-                dispatch({
-                  type: "SIGN_IN",
-                  token: user.id,
-                  screen: user.memberType,
-                  status: user.status,
-                })
+                if (user.status === AppConfig.MemberStatus.suspend) {
+                  Alert.alert(AppConfig.MemberStatus.suspendMessagePopup)
+                } else {
+                  dispatch({
+                    type: "SIGN_IN",
+                    token: user.id,
+                    screen: user.memberType,
+                    status: user.status,
+                  })
+                }
               } else {
                 Alert.alert("รหัสผ่านไม่ถูกต้อง !!!")
               }
@@ -177,7 +182,7 @@ const AppNavigation = ({ navigation }) => {
               state.screen === "customer"
                 ? CustomerNavigator
                 : state.screen === "partner"
-                ? state.status === "new_register"
+                ? state.status === AppConfig.MemberStatus.newRegister
                   ? PartnerProfileNavigator
                   : PartnerNavigator
                 : AdminNavigator
