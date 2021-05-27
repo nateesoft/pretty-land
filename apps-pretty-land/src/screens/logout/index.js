@@ -3,7 +3,7 @@ import { Button, StyleSheet, View, Text } from "react-native"
 
 import { Context as AuthContext } from "../../context/AuthContext"
 
-const LogoutScreen = ({ navigation }) => {
+const LogoutScreen = ({ navigation, route }) => {
   const { signOut } = React.useContext(AuthContext)
 
   return (

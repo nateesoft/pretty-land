@@ -11,6 +11,7 @@ import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import DropDownPicker from "react-native-dropdown-picker"
 
+import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import { getMemberCategory } from "../../../data/apis"
@@ -27,7 +28,12 @@ const MemberAllListScreen = ({ navigation, route }) => {
       .database()
       .ref("members")
       .on("value", (snapshot) => {
-        setMembers(snapshotToArray(snapshot))
+        const memberInCloud = snapshotToArray(snapshot)
+        setMembers(
+          memberInCloud.filter(
+            (item, index) => item.memberType !== "superadmin"
+          )
+        )
       })
 
     return () => firebase.database().ref("members").off("value", onChangeValue)
@@ -64,7 +70,9 @@ const MemberAllListScreen = ({ navigation, route }) => {
     >
       <Avatar source={{ uri: item.image }} size={128} />
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>ชื่อสมาชิก: {item.name||item.username}</ListItem.Title>
+        <ListItem.Title>
+          ชื่อสมาชิก: {item.name || item.username}
+        </ListItem.Title>
         <ListItem.Subtitle>ประเภทสมาชิก: {item.memberType}</ListItem.Subtitle>
         <ListItem.Subtitle>สถานะ: {item.statusText}</ListItem.Subtitle>
       </ListItem.Content>
@@ -82,7 +90,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
   )
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ height: "100%", backgroundColor: "#fff" }}>
       <View style={styles.container}>
         <Text style={styles.textTopic}>ผู้ใช้งานในระบบทั้งหมด</Text>
         <DropDownPicker
@@ -97,23 +105,28 @@ const MemberAllListScreen = ({ navigation, route }) => {
           textStyle={{ fontSize: 18 }}
           zIndex={2}
         />
-        <FlatList
-          keyExtractor={(item) => item.id.toString()}
-          data={members}
-          renderItem={renderItem}
-          style={{
-            height: 600,
-            borderWidth: 1,
-            borderColor: "#eee",
-            padding: 5,
-          }}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => handleRefresh()}
-            />
-          }
-        />
+        {members.length === 0 && (
+          <CardNotfound text="ไม่พบข้อมูลสมาชิกในระบบ" />
+        )}
+        {members.length > 0 && (
+          <FlatList
+            keyExtractor={(item) => item.id.toString()}
+            data={members}
+            renderItem={renderItem}
+            style={{
+              height: 600,
+              borderWidth: 1,
+              borderColor: "#eee",
+              padding: 5,
+            }}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={() => handleRefresh()}
+              />
+            }
+          />
+        )}
       </View>
     </SafeAreaView>
   )

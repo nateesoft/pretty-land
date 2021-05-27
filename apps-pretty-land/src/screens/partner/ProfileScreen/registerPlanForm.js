@@ -11,10 +11,9 @@ import {
   SafeAreaView,
 } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
-import { Button } from "react-native-elements"
+import { Button, CheckBox } from "react-native-elements"
 import RadioButtonRN from "radio-buttons-react-native"
 import { FontAwesome } from "react-native-vector-icons"
-import DropDownPicker from "react-native-dropdown-picker"
 
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
@@ -36,17 +35,22 @@ const RegisterPlanForm = ({ navigation, route }) => {
   const { navigate } = navigation
   const { userId, status } = route.params
 
-  const [workType, setWorkType] = useState(false)
+  const [type1, setType1] = useState(true)
+  const [type2, setType2] = useState(false)
+  const [type3, setType3] = useState(false)
+  const [type4, setType4] = useState(false)
+
+  const [workType, setWorkType] = useState("")
   const [sex, setSex] = useState("female")
   const [name, setName] = useState("")
   const [age, setAge] = useState("")
   const [height, setHeight] = useState("")
   const [weight, setWeight] = useState("")
   const [stature, setStature] = useState("")
-  const [price, setPrice] = useState("")
+  const [price4, setPrice4] = useState("")
 
   const handleNexData = () => {
-    if (!workType) {
+    if (!type1 && !type2 && !type3 && !type4) {
       Alert.alert("กรุณาระบุประเภทงานที่ต้องการรับบริการ !!!")
       return
     }
@@ -66,19 +70,46 @@ const RegisterPlanForm = ({ navigation, route }) => {
       Alert.alert("กรุณาระบุสัดส่วน")
       return
     }
+    if (type4 && !price4) {
+      Alert.alert("กรุณาระบุราคา สำหรับประเภทนวดแผนไทย")
+      return
+    }
+
+    if (!type4) {
+      setPrice4(0)
+    }
+
+    let dataWorkType = ""
+    if (type1) {
+      dataWorkType = dataWorkType + "1,"
+    }
+    if (type2) {
+      dataWorkType = dataWorkType + "2,"
+    }
+    if (type3) {
+      dataWorkType = dataWorkType + "3,"
+    }
+    if (type4) {
+      dataWorkType = dataWorkType + "4,"
+    }
+    setWorkType(dataWorkType)
+
     // save data
-    firebase.database().ref(`members/${userId}`).update({
-      id: userId,
-      workType,
-      sex,
-      name,
-      age,
-      height,
-      stature,
-      weight,
-      price,
-    })
-    navigate("Register-Partner-Form", { userId, status, workType })
+    firebase
+      .database()
+      .ref(`members/${userId}`)
+      .update({
+        id: userId,
+        workType: dataWorkType,
+        sex,
+        name,
+        age,
+        height,
+        stature,
+        weight,
+        price4: !price4 ? 0 : price4,
+      })
+    navigate("Register-Partner-Form", { userId, status, workType: dataWorkType })
   }
 
   useEffect(() => {
@@ -92,6 +123,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
         setHeight(data.height || "")
         setStature(data.stature || "")
         setWeight(data.weight || "")
+        setWorkType(data.workType || "")
       })
 
     return () =>
@@ -112,29 +144,70 @@ const RegisterPlanForm = ({ navigation, route }) => {
           }}
         >
           <View style={{ alignItems: "center" }}>
-            <Text style={styles.textFormInfo}>ประเภทงานที่รับ</Text>
+            <Text style={styles.textFormInfo}>รายละเอียดงานที่รับ</Text>
+          </View>
+
+          <View style={{ alignItems: "center", width: "80%" }}>
+            <Text
+              style={{
+                fontSize: 16,
+                padding: 5,
+                marginTop: 10,
+                alignSelf: "flex-start",
+              }}
+            >
+              ประเภทงาน
+            </Text>
+            <CheckBox
+              containerStyle={{ width: "100%", backgroundColor: "#fff" }}
+              title={radioData[0].label}
+              checked={type1}
+              onPress={() => setType1(!type1)}
+            />
+            <CheckBox
+              containerStyle={{ width: "100%", backgroundColor: "#fff" }}
+              title={radioData[1].label}
+              checked={type2}
+              onPress={() => setType2(!type2)}
+            />
+            <CheckBox
+              containerStyle={{ width: "100%", backgroundColor: "#fff" }}
+              title={radioData[2].label}
+              checked={type3}
+              onPress={() => setType3(!type3)}
+            />
+            <CheckBox
+              containerStyle={{ width: "100%", backgroundColor: "#fff" }}
+              title={radioData[3].label}
+              checked={type4}
+              onPress={() => setType4(!type4)}
+            />
+            {type4 && (
+              <>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    padding: 5,
+                    marginTop: 10,
+                    alignSelf: "flex-start",
+                  }}
+                >
+                  ค่าบริการ สำหรับนวดแผนไทย
+                </Text>
+                <View style={styles.formControlPrice}>
+                  <GetIcon type="fa" name="money" />
+                  <TextInput
+                    value={`${price4}`}
+                    onChangeText={(value) => setPrice4(value)}
+                    style={[styles.textInput, { width: 300 }]}
+                    placeholder="จำนวนเงิน"
+                  />
+                </View>
+              </>
+            )}
           </View>
 
           <View style={{ width: "80%", alignSelf: "center" }}>
-            <RadioButtonRN
-              data={radioData}
-              selectedBtn={(e) => setWorkType(e.value)}
-              icon={
-                <FontAwesome name="check-circle" size={25} color="#2c9dd1" />
-              }
-              initial={1}
-            />
-            {workType === "4" && (
-              <View style={styles.formControlPrice}>
-                <GetIcon type="fa" name="money" />
-                <TextInput
-                  value={`${price}`}
-                  onChangeText={(value) => setPrice(value)}
-                  style={styles.textInput}
-                  placeholder="ค่าบริการ"
-                />
-              </View>
-            )}
             <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
               เลือกเพศ
             </Text>

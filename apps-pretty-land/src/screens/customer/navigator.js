@@ -13,6 +13,8 @@ import LogoutScreen from "../logout"
 const Tab = createBottomTabNavigator()
 
 const CustomerNavigator = ({ navigation, route }) => {
+  const { userId, status } = route.params
+
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -33,6 +35,7 @@ const CustomerNavigator = ({ navigation, route }) => {
           ),
           color: "white",
         }}
+        initialParams={{ userId, status }}
       />
       <Tab.Screen
         name="c-Work"
@@ -44,6 +47,7 @@ const CustomerNavigator = ({ navigation, route }) => {
           ),
           tabBarBadge: 3,
         }}
+        initialParams={{ userId, status }}
       />
       <Tab.Screen
         name="c-Contact-Admin"
@@ -58,6 +62,7 @@ const CustomerNavigator = ({ navigation, route }) => {
             />
           ),
         }}
+        initialParams={{ userId, status }}
       />
       <Tab.Screen
         name="c-Logout"
@@ -68,6 +73,7 @@ const CustomerNavigator = ({ navigation, route }) => {
             <MaterialCommunityIcons name="logout" color="white" size={size} />
           ),
         }}
+        initialParams={{ userId, status }}
       />
     </Tab.Navigator>
   )

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react"
+import React, { useRef, useEffect, useState, useContext } from "react"
 import {
   SafeAreaView,
   ScrollView,
@@ -6,7 +6,8 @@ import {
   Image,
   Text,
   View,
-  TouchableHighlight,
+  TouchableNativeFeedback,
+  LogBox,
 } from "react-native"
 import { Video } from "expo-av"
 import {
@@ -15,9 +16,11 @@ import {
   FontAwesome5,
   MaterialCommunityIcons,
 } from "@expo/vector-icons"
+import { ActivityIndicator } from "react-native-paper"
+import Moment from "moment"
 
 import firebase from "../../../../util/firebase"
-import { ActivityIndicator } from "react-native-paper"
+import { Context as AuthContext } from "../../../context/AuthContext"
 
 import FemaleSimple from "../../../../assets/avatar/1.png"
 import MaleSimple from "../../../../assets/avatar/2.png"
@@ -25,6 +28,8 @@ import OtherSimple from "../../../../assets/avatar/3.png"
 import { Button } from "react-native-elements"
 
 const ProfileHomeScreen = ({ navigation, route }) => {
+  const { signOut } = React.useContext(AuthContext)
+
   const { navigate } = navigation
   const { userId, status: userStatus } = route.params
   const video = useRef(null)
@@ -32,6 +37,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
 
   const [imageProfile, setImageProfile] = useState(null)
   const [name, setName] = useState("")
+  const [memberRegisterDate, setMemberRegisterDate] = useState("")
   const [mobile, setMobile] = useState("")
   const [lineId, setLineId] = useState("")
 
@@ -41,6 +47,12 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   const [img4, setImg4] = useState(null)
   const [img5, setImg5] = useState(null)
   const [videoUrl, setVideoUrl] = useState(null)
+
+  LogBox.ignoreLogs(["Setting a timer"])
+
+  const handleEditForm = () => {
+    navigate("Register-Plan-Form")
+  }
 
   useEffect(() => {
     const onChangeValue = firebase
@@ -55,7 +67,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
             setImageProfile(MaleSimple)
           } else if (data.sex === "other") {
             setImageProfile(OtherSimple)
-          }  else {
+          } else {
             setImageProfile(FemaleSimple)
           }
         } else {
@@ -70,6 +82,11 @@ const ProfileHomeScreen = ({ navigation, route }) => {
         setImg4(data.imageUrl4 || null)
         setImg5(data.imageUrl5 || null)
         setVideoUrl(data.videoUrl || null)
+        setMemberRegisterDate(
+          data.member_register_date
+            ? Moment(data.member_register_date).format("D MMM YYYY")
+            : "รออนุมัติข้อมูล"
+        )
       })
 
     return () =>
@@ -79,6 +96,20 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
+        {userStatus === "new_register" && (
+          <TouchableNativeFeedback onPress={() => signOut()}>
+            <View style={{ alignSelf: "flex-end", margin: 10 }}>
+              <Text
+                style={[
+                  styles.text,
+                  { color: "red", fontSize: 14, fontWeight: "bold" },
+                ]}
+              >
+                LOGGOUT
+              </Text>
+            </View>
+          </TouchableNativeFeedback>
+        )}
         <View style={{ alignSelf: "center" }}>
           <View style={styles.profileImage}>
             <Image
@@ -87,16 +118,11 @@ const ProfileHomeScreen = ({ navigation, route }) => {
               resizeMode="cover"
             />
           </View>
-          <TouchableHighlight onPress={() => navigate("Register-Plan-Form")}>
+          <TouchableNativeFeedback onPress={handleEditForm}>
             <View style={styles.edit}>
-              <Feather
-                name="edit"
-                size={32}
-                color="#dfd8c8"
-                style={{ marginTop: 4, marginLeft: 3 }}
-              />
+              <Feather name="edit" size={32} color="#fff" />
             </View>
-          </TouchableHighlight>
+          </TouchableNativeFeedback>
         </View>
 
         <View style={styles.infoContainer}>
@@ -163,10 +189,10 @@ const ProfileHomeScreen = ({ navigation, route }) => {
             <Text
               style={[
                 styles.text,
-                { fontSize: 18, marginBottom: 5, color: "blue" },
+                { fontSize: 12, marginBottom: 5, color: "blue" },
               ]}
             >
-              รออนุมัติข้อมูล
+              {memberRegisterDate}
             </Text>
             <Text style={[styles.text, styles.subText]}>วันที่เริ่มงาน</Text>
           </View>
@@ -198,9 +224,11 @@ const ProfileHomeScreen = ({ navigation, route }) => {
 
         {!img1 && !img2 && !img3 && !img4 && !img5 && !videoUrl && (
           <View style={{ alignItems: "center", margin: 50 }}>
-            <Text style={{ fontSize: 20 }}>ยังไม่พบข้อมูล/รูปภาพ และวิดีโอ</Text>
+            <Text style={{ fontSize: 20 }}>
+              ยังไม่พบข้อมูล/รูปภาพ และวิดีโอ
+            </Text>
             <Button
-              title="เพิ่มข้อมูลผู้ร่วมงานใหม่"
+              title="เพิ่มรูปภาพ/วิดีโอ"
               buttonStyle={{
                 backgroundColor: "chocolate",
                 margin: 20,

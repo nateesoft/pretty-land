@@ -18,6 +18,7 @@ const Tab = createBottomTabNavigator()
 
 const PartnerNavigator = ({ navigation, route }) => {
   const { userId, status } = route.params
+  
   return (
     <Tab.Navigator
       tabBarOptions={{

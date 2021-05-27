@@ -16,8 +16,8 @@ import bgImage from "../../../assets/bg.png"
 import lineLogo from "../../../assets/icons/LINE_APP.png"
 import facebookLogo from "../../../assets/icons/f_logo_RGB-Blue_58.png"
 
-const LoginScreen = (props) => {
-  const { navigate } = props.navigation
+const LoginScreen = ({ navigation, route }) => {
+  const { navigate } = navigation
   const { signInCustomer } = useContext(AuthContext)
 
   return (

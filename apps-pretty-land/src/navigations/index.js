@@ -10,7 +10,9 @@ import firebase from "../../util/firebase"
 import LoginNavigator from "../screens/login/navigator"
 import CustomerNavigator from "../screens/customer/navigator"
 import AdminNavigator from "../screens/admin/navigator"
+
 import PartnerNavigator from "../screens/partner/navigator"
+import PartnerProfileNavigator from "../screens/partner/ProfileScreen/navigator"
 
 import { Context as AuthContext } from "../context/AuthContext"
 
@@ -175,7 +177,9 @@ const AppNavigation = ({ navigation }) => {
               state.screen === "customer"
                 ? CustomerNavigator
                 : state.screen === "partner"
-                ? PartnerNavigator
+                ? state.status === "new_register"
+                  ? PartnerProfileNavigator
+                  : PartnerNavigator
                 : AdminNavigator
             }
             options={{

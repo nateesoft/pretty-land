@@ -9,7 +9,9 @@ import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const TabNavigator = () => {
+const TabNavigator = ({ navigation, route }) => {
+  const { userId, status } = route.params
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -21,9 +23,7 @@ const TabNavigator = () => {
             backgroundColor: "#ff2fe6",
           },
           headerTintColor: "white",
-          headerTitle: (props) => (
-            <LogoTitle title="Pretty Land" {...props} />
-          ),
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
       />
       <Stack.Screen
@@ -35,9 +35,7 @@ const TabNavigator = () => {
             backgroundColor: "#ff2fe6",
           },
           headerTintColor: "white",
-          headerTitle: (props) => (
-            <LogoTitle title="Pretty Land" {...props} />
-          ),
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
       />
       <Stack.Screen
@@ -49,9 +47,7 @@ const TabNavigator = () => {
             backgroundColor: "#ff2fe6",
           },
           headerTintColor: "white",
-          headerTitle: (props) => (
-            <LogoTitle title="Pretty Land" {...props} />
-          ),
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
       />
     </Stack.Navigator>

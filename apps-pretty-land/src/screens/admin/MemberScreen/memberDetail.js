@@ -2,6 +2,7 @@ import React from "react"
 import { StyleSheet, View, Image, SafeAreaView, Alert } from "react-native"
 import { Button, Text } from "react-native-elements"
 import { Ionicons, Feather, AntDesign } from "react-native-vector-icons"
+import Moment from 'moment';
 
 import firebase from "../../../../util/firebase"
 
@@ -12,6 +13,16 @@ const MemberDetailScreen = ({ navigation, route }) => {
   const handleRemovePermanent = () => {
     firebase.database().ref(`members/${item.id}`).remove()
     navigate("List-All-Member")
+  }
+
+  const approveMember = () => {
+    // save data
+    firebase.database().ref(`members/${item.id}`).update({
+      status: "active",
+      statusText: "ผ่านการอนุมัติ",
+      member_register_date: new Date().toUTCString()
+    })
+    navigation.navigate("List-All-Member")
   }
 
   return (
@@ -37,17 +48,17 @@ const MemberDetailScreen = ({ navigation, route }) => {
           </Text>
           <Text style={{ fontSize: 16 }}>ประเภทสมาชิก: {item.memberType}</Text>
           <Text style={{ fontSize: 16 }}>
-            วันที่เป็นสมาชิก: {item.dateIssue || "ยังไม่ได้กำหนด"}
+            วันที่เป็นสมาชิก: {item.member_register_date ? Moment(item.member_register_date).format('D MMM YYYY') : "ยังไม่ได้กำหนด"}
           </Text>
           <Text style={{ fontSize: 16 }}>
             ระดับ Level: {item.customerLevel || 0}
           </Text>
           <Text style={{ fontSize: 16 }}>
-            เบอร์ติดต่อ: {item.phone || "ยังไม่ได้กำหนด"}
+            เบอร์ติดต่อ: {item.mobile || "ยังไม่ได้กำหนด"}
           </Text>
           <Text style={{ fontSize: 16 }}>สถานะ: {item.statusText}</Text>
         </View>
-        {item.status === "wait_approve" && (
+        {item.status === "new_register" && (
           <Button
             icon={
               <Feather
@@ -65,10 +76,10 @@ const MemberDetailScreen = ({ navigation, route }) => {
               paddingHorizontal: 20,
             }}
             title="อนุมัติเป็น Partner"
-            onPress={() => navigation.navigate("List-All-Member")}
+            onPress={() => approveMember()}
           />
         )}
-        {item.status !== "wait_approve" && item.status !== "not_approve" && (
+        {item.status !== "new_register" && item.status !== "not_approve" && (
           <Button
             icon={
               <AntDesign

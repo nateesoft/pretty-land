@@ -31,6 +31,8 @@ const RegisterPartnerForm = ({ navigation, route }) => {
   const [openSelectDistrict, setOpenSelectDistrict] = useState(false)
   const [districtList, setDistrictList] = useState([])
 
+  console.log('workType:', workType)
+
   const handleNextData = () => {
     if (!lineId) {
       Alert.alert("กรุณาระบุ Line Id")
@@ -79,10 +81,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       })
 
     return () =>
-      firebase
-        .database()
-        .ref(`members/${userId}`)
-        .off("value", onChangeValue)
+      firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
   }, [])
 
   return (
@@ -91,7 +90,9 @@ const RegisterPartnerForm = ({ navigation, route }) => {
         <Text style={styles.textFormInfo}>รายละเอียดการรับงาน</Text>
       </View>
       <View style={{ width: "80%", alignSelf: "center" }}>
-        <Text style={{ fontSize: 16, padding: 5, textTransform: "uppercase" }}>Line Id</Text>
+        <Text style={{ fontSize: 16, padding: 5, textTransform: "uppercase" }}>
+          Line Id
+        </Text>
         <View style={styles.formControl}>
           <GetIcon type="fa5" name="line" />
           <TextInput
@@ -101,7 +102,9 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             placeholder="LINE ID"
           />
         </View>
-        <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>เบอร์โทรศัพท์</Text>
+        <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>
+          เบอร์โทรศัพท์
+        </Text>
         <View style={styles.formControl}>
           <GetIcon type="fa" name="mobile-phone" />
           <TextInput
@@ -111,11 +114,13 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             placeholder="เบอร์โทรศัพท์"
           />
         </View>
-        <Text style={{ color: "chocolate",marginTop: 5 }}>
+        <Text style={{ color: "#123456", marginTop: 5 }}>
           * เบอร์โทรศัพท์จะไม่แสดงให้ลูกค้าเห็น
         </Text>
         <View style={{ alignSelf: "center" }}>
-          <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>จังหวัดที่รับงาน</Text>
+          <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
+            จังหวัดที่รับงาน
+          </Text>
           <DropDownPicker
             placeholder="-- เลือกจังหวัด --"
             open={openSelectProvince}
@@ -142,7 +147,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             textStyle={{ fontSize: 18 }}
             zIndex={3}
           />
-          {workType === "4" && (
+          {workType.split(",").includes("4") && (
             <View style={styles.formControl}>
               <GetIcon type="mi" name="home-work" />
               <TextInput

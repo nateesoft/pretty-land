@@ -7,7 +7,7 @@ import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const TabNavigator = () => {
+const TabNavigator = ({ navigation, route }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen

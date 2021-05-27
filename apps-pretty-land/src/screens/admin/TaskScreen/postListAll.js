@@ -11,6 +11,8 @@ import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import DropDownPicker from "react-native-dropdown-picker"
 
+import CardNotfound from "../../../components/CardNotfound"
+
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import { getPostList, getPostStatus } from "../../../data/apis"
@@ -22,16 +24,16 @@ const PostListAllScreen = ({ navigation, route }) => {
   const [partner, setPartner] = React.useState("")
   const [partnerList, setPartnerList] = React.useState(getPostStatus())
 
-  useEffect(() => {
-    const onChangeValue = firebase
-      .database()
-      .ref("posts")
-      .on("value", (snapshot) => {
-        setPosts(snapshotToArray(snapshot))
-      })
+  // useEffect(() => {
+  //   const onChangeValue = firebase
+  //     .database()
+  //     .ref("posts")
+  //     .on("value", (snapshot) => {
+  //       setPosts(snapshotToArray(snapshot))
+  //     })
 
-    return () => firebase.database().ref("posts").off("value", onChangeValue)
-  }, [])
+  //   return () => firebase.database().ref("posts").off("value", onChangeValue)
+  // }, [])
 
   const handleRefresh = () => {
     console.log("refresh data list")
@@ -62,8 +64,6 @@ const PostListAllScreen = ({ navigation, route }) => {
     return "#fcf2ff"
   }
 
-  const keyExtractor = (item, index) => index.toString()
-
   const renderItem = ({ item }) => (
     <ListItem
       bottomDivider
@@ -78,7 +78,9 @@ const PostListAllScreen = ({ navigation, route }) => {
         <ListItem.Title>ชื่อลูกค้า: {item.customer}</ListItem.Title>
         <ListItem.Title>Level: {item.customerLevel}</ListItem.Title>
         <ListItem.Subtitle>ชื่อโพสท์: {item.name}</ListItem.Subtitle>
-        <ListItem.Subtitle>ประเภทที่ต้องการ: {item.partnerRequest}</ListItem.Subtitle>
+        <ListItem.Subtitle>
+          ประเภทที่ต้องการ: {item.partnerRequest}
+        </ListItem.Subtitle>
         <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
         <ListItem.Subtitle>Status: {item.statusText}</ListItem.Subtitle>
       </ListItem.Content>
@@ -96,7 +98,7 @@ const PostListAllScreen = ({ navigation, route }) => {
   )
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ height: "100%", backgroundColor: "#fff" }}>
       <View style={styles.container}>
         <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
         <DropDownPicker
@@ -111,23 +113,26 @@ const PostListAllScreen = ({ navigation, route }) => {
           textStyle={{ fontSize: 18 }}
           zIndex={2}
         />
-        <FlatList
-          keyExtractor={item => item.id.toString()}
-          data={posts}
-          renderItem={renderItem}
-          style={{
-            height: 600,
-            borderWidth: 1,
-            borderColor: "#eee",
-            padding: 5,
-          }}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => handleRefresh()}
-            />
-          }
-        />
+        {posts.length === 0 && <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />}
+        {posts.length > 0 && (
+          <FlatList
+            keyExtractor={(item) => item.id.toString()}
+            data={posts}
+            renderItem={renderItem}
+            style={{
+              height: 600,
+              borderWidth: 1,
+              borderColor: "#eee",
+              padding: 5,
+            }}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={() => handleRefresh()}
+              />
+            }
+          />
+        )}
       </View>
     </SafeAreaView>
   )

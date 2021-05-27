@@ -17,14 +17,14 @@ import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import uuid from "react-native-uuid"
 
+import { Context as AuthContext } from "../../../context/AuthContext"
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterImageUpload = ({ navigation, route }) => {
-  const { navigate } = navigation
+  const { signOut } = React.useContext(AuthContext)
   const { userId, status, workType } = route.params
   const video = React.useRef(null)
-  const keepImage = React.useRef(null)
 
   const [uploadFinish, setUploadFinish] = useState("none")
   const [hideButtonUpload, setHideButtonUpload] = useState(false)
@@ -61,7 +61,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     }
     firebase.database().ref(`members/${userId}`).update(dataUpdate)
     Alert.alert("อัพเดตข้อมูลเรียบร้อยแล้ว")
-    navigate("Profile-Home", { userId, status})
+    signOut()
   }
 
   const selectImage = async (handleImg) => {
@@ -120,24 +120,24 @@ const RegisterImageUpload = ({ navigation, route }) => {
 
   const uploadAllImageVideo = () => {
     setHideButtonUpload(true)
-    if (imageFile1) {
-      uploadImageAsync(imageFile1, setImageUrl1, true)
-    }
-    if (imageFile2) {
-      uploadImageAsync(imageFile2, setImageUrl2, false)
-    }
-    if (imageFile3) {
-      uploadImageAsync(imageFile3, setImageUrl3, false)
-    }
-    if (imageFile4) {
-      uploadImageAsync(imageFile4, setImageUrl4, false)
-    }
-    if (imageFile5) {
-      uploadImageAsync(imageFile5, setImageUrl5, false)
-    }
-    if (imageFile6) {
-      uploadImageAsync(imageFile6, setImageUrl6, false)
-    }
+    // if (imageFile1) {
+    //   uploadImageAsync(imageFile1, setImageUrl1, true)
+    // }
+    // if (imageFile2) {
+    //   uploadImageAsync(imageFile2, setImageUrl2, false)
+    // }
+    // if (imageFile3) {
+    //   uploadImageAsync(imageFile3, setImageUrl3, false)
+    // }
+    // if (imageFile4) {
+    //   uploadImageAsync(imageFile4, setImageUrl4, false)
+    // }
+    // if (imageFile5) {
+    //   uploadImageAsync(imageFile5, setImageUrl5, false)
+    // }
+    // if (imageFile6) {
+    //   uploadImageAsync(imageFile6, setImageUrl6, false)
+    // }
   }
 
   async function uploadImageAsync(imageSource, updateUrl, isProfile) {

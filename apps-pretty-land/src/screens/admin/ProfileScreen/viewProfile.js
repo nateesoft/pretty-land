@@ -1,13 +1,17 @@
 import React from "react"
 import { StyleSheet, View } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
-import Icon from "react-native-vector-icons/FontAwesome"
+import { FontAwesome } from "react-native-vector-icons"
 
 const ViewProfileScreen = ({ navigation, route }) => {
-  const [username, setUsername] = React.useState("admin")
+  const [username, setUsername] = React.useState("")
   const [password, setPassword] = React.useState("")
   const [newPassword, setNewPassword] = React.useState("")
   const [reNewPassword, setReNewPassword] = React.useState("")
+
+  const handleSaveChangePassword = () => {
+    console.log('save change password')
+  }
 
   return (
     <View style={styles.cardDetail}>
@@ -52,7 +56,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
       </View>
       <Button
         icon={
-          <Icon
+          <FontAwesome
             name="save"
             size={20}
             color="white"
@@ -62,13 +66,16 @@ const ViewProfileScreen = ({ navigation, route }) => {
         iconLeft
         buttonStyle={styles.btnSave}
         title="บันทึกข้อมูล"
-        onPress={() => console.log("Save data to api")}
+        onPress={() => handleSaveChangePassword()}
       />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  inputForm: {
+    marginLeft: 20,
+  },
   btnSave: {
     margin: 15, 
     paddingHorizontal: 50, 

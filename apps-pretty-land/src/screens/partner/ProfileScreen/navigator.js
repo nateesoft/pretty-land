@@ -1,7 +1,5 @@
-import React, { useContext } from "react"
+import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
-
-import { Context as AuthContext } from "../../../context/AuthContext"
 
 import ProfileHomeScreen from "./Home"
 import RegisterPlanForm from "./registerPlanForm"
