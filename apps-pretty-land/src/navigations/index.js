@@ -27,6 +27,28 @@ function SplashScreen() {
   )
 }
 
+const ComponentAuth = ({ state }) => {
+  console.log("state:", state)
+  if (state.screen === "customer") {
+    return <CustomerNavigator />
+  }
+  if (state.screen === "partner") {
+    if (state.status === AppConfig.MemberStatus.newRegister) {
+      return <PartnerProfileNavigator />
+    } else {
+      return <PartnerNavigator />
+    }
+  }
+  if (state.screen === "admin") {
+    return <AdminNavigator />
+  }
+  if (state.screen === "superadmin") {
+    return <AdminNavigator />
+  }
+
+  return null
+}
+
 const AppNavigation = () => {
   const [state, dispatch] = useReducer(
     (prevState, action) => {
@@ -120,7 +142,10 @@ const AppNavigation = () => {
               const passwordDb = base64.decode(user.password)
               if (passwordDb === password) {
                 if (user.status === AppConfig.MemberStatus.suspend) {
-                  Alert.alert("แจ้งเตือน", AppConfig.MemberStatus.suspendMessagePopup)
+                  Alert.alert(
+                    "แจ้งเตือน",
+                    AppConfig.MemberStatus.suspendMessagePopup
+                  )
                 } else {
                   dispatch({
                     type: "SIGN_IN",
@@ -179,13 +204,10 @@ const AppNavigation = () => {
           <Stack.Screen
             name="Home"
             component={
-              state.screen === "customer"
-                ? CustomerNavigator
-                : state.screen === "partner"
-                ? state.status === AppConfig.MemberStatus.newRegister
-                  ? PartnerProfileNavigator
-                  : PartnerNavigator
-                : AdminNavigator
+              state.screen === "customer" ? CustomerNavigator 
+              : (state.screen === "partner" && state.status === AppConfig.MemberStatus.newRegister) ? PartnerProfileNavigator 
+              : (state.screen === "partner" && state.status === AppConfig.MemberStatus.active) ? PartnerNavigator 
+              : (state.screen === "admin" || state.screen === "superadmin") ? AdminNavigator : null
             }
             options={{
               headerShown: false,

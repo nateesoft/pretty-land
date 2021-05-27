@@ -93,13 +93,13 @@ export const allGroupContryWork = () => {
       id: index,
       provinceId: item.provinceId,
       province: item.province,
-      work1: "Pretty MC",
+      work1: "พริตตี้ Event / Mc",
       prettyMcQty: pretty,
-      work2: "Pretty Event",
+      work2: "โคโยตี้ / งานเต้น",
       prettyEntertainQty: prettyEntertain,
-      work3: "Coyote",
+      work3: "พริตตี้ En / Env",
       coyoteQty: coyote,
-      work4: "Pretty Massage",
+      work4: "พริตตี้ นวดแผนไทย",
       prettyMassage: prettyMassage,
     })
   })

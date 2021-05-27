@@ -6,10 +6,13 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
+  ImageBackground,
 } from "react-native"
-import { ListItem, Avatar, Text } from "react-native-elements"
+import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 
+import bgImage from "../../../../assets/bg.png"
+import CardNotfound from "../../../components/CardNotfound"
 import { getDataForPartnerWork } from "../../../data/apis"
 
 const ListMyWorkScreen = ({ navigation, route }) => {
@@ -81,36 +84,46 @@ const ListMyWorkScreen = ({ navigation, route }) => {
   )
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <Text style={styles.textTopic}>งานที่สนใจ / รอลูกค้าตกลง</Text>
-        <Text style={styles.textTopicDetail}>รอดำเนินการ</Text>
-        <FlatList
-          keyExtractor={keyExtractor}
-          data={filterList}
-          renderItem={renderItem}
-          style={{
-            height: 600,
-            borderWidth: 1,
-            borderColor: "#eee",
-            padding: 5,
-          }}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => handleRefresh()}
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={{ height: "100%" }}>
+        <View style={styles.container}>
+          <Text style={styles.textTopic}>งานที่สนใจ / รอลูกค้าตกลง</Text>
+          <Text style={styles.textTopicDetail}>รอดำเนินการ</Text>
+          {filterList.length === 0 && (
+            <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
+          )}
+          {filterList.length > 0 && (
+            <FlatList
+              keyExtractor={keyExtractor}
+              data={filterList}
+              renderItem={renderItem}
+              style={{
+                height: 600,
+                borderWidth: 1,
+                borderColor: "#eee",
+                padding: 5,
+              }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={() => handleRefresh()}
+                />
+              }
             />
-          }
-        />
-      </View>
-    </SafeAreaView>
+          )}
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 5,
-    backgroundColor: "white",
   },
   textTopic: {
     fontSize: 18,
@@ -133,6 +146,11 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     height: 45,
     width: 250,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

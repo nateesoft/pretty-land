@@ -46,7 +46,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       return
     }
     if (!district) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุอำเภอที่รับงานได้")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ เขต/อำเภอที่รับงานได้")
       return
     }
     if (type4 && !address) {
@@ -141,7 +141,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
 
             <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>อำเภอ</Text>
             <DropDownPicker
-              placeholder="-- เลือกอำเภอ --"
+              placeholder="-- เลือก เขต/อำเภอ --"
               open={openSelectDistrict}
               setOpen={setOpenSelectDistrict}
               value={district}

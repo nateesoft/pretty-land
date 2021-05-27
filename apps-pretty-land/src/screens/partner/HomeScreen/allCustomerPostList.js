@@ -10,6 +10,7 @@ import {
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 
+import CardNotfound from "../../../components/CardNotfound"
 import { getPostToPartnerList } from "../../../data/apis"
 
 const AllCustomerPostList = ({ navigation, route }) => {
@@ -95,10 +96,13 @@ const AllCustomerPostList = ({ navigation, route }) => {
   )
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ height: "100%", backgroundColor: "white" }}>
       <View style={styles.container}>
         <Text style={styles.textTopic}>งานว่าจ้างทั้งหมดในระบบ</Text>
         <Text style={styles.textTopicDetail}>จังหวัด {item.province}</Text>
+        {filterList.length === 0 && (
+          <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
+        )}
         {filterList.length > 0 && (
           <FlatList
             keyExtractor={keyExtractor}

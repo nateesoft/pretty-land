@@ -6,11 +6,14 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
+  ImageBackground,
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import DropDownPicker from "react-native-dropdown-picker"
 
+import bgImage from "../../../../assets/bg.png"
+import CardNotfound from "../../../components/CardNotfound"
 import { allGroupContryWork, getCountryList } from "../../../data/apis"
 
 const AllTaskListScreen = ({ navigation, route }) => {
@@ -105,47 +108,57 @@ const AllTaskListScreen = ({ navigation, route }) => {
   )
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <Text style={styles.textTopic}>งานว่าจ้างทั้งหมดในระบบ</Text>
-        <Text style={styles.textTopicDetail}>ที่ตรงกับความต้องการ</Text>
-        <DropDownPicker
-          placeholder="เลือกจังหวัด"
-          open={openSelectCountry}
-          setOpen={setOpenSelectCountry}
-          value={country}
-          setValue={setCountry}
-          items={countryList}
-          setItems={setCountryList}
-          textStyle={{ fontSize: 18 }}
-          zIndex={20}
-        />
-        <FlatList
-          keyExtractor={keyExtractor}
-          data={filterList}
-          renderItem={renderItem}
-          style={{
-            height: 600,
-            borderWidth: 1,
-            borderColor: "#eee",
-            padding: 5,
-          }}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => handleRefresh()}
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={{ height: "100%" }}>
+        <View style={styles.container}>
+          <Text style={styles.textTopic}>งานว่าจ้างทั้งหมดในระบบ</Text>
+          <Text style={styles.textTopicDetail}>ที่ตรงกับความต้องการ</Text>
+          <DropDownPicker
+            placeholder="เลือกจังหวัด"
+            open={openSelectCountry}
+            setOpen={setOpenSelectCountry}
+            value={country}
+            setValue={setCountry}
+            items={countryList}
+            setItems={setCountryList}
+            textStyle={{ fontSize: 18 }}
+            zIndex={20}
+          />
+          {filterList.length === 0 && (
+            <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
+          )}
+          {filterList.length > 0 && (
+            <FlatList
+              keyExtractor={keyExtractor}
+              data={filterList}
+              renderItem={renderItem}
+              style={{
+                height: 600,
+                borderWidth: 1,
+                borderColor: "#eee",
+                padding: 5,
+              }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={() => handleRefresh()}
+                />
+              }
             />
-          }
-        />
-      </View>
-    </SafeAreaView>
+          )}
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 5,
-    backgroundColor: "white",
   },
   textTopic: {
     fontSize: 18,
@@ -168,6 +181,11 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     height: 45,
     width: 250,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 
