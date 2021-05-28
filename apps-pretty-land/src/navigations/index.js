@@ -27,28 +27,6 @@ function SplashScreen() {
   )
 }
 
-const ComponentAuth = ({ state }) => {
-  console.log("state:", state)
-  if (state.screen === "customer") {
-    return <CustomerNavigator />
-  }
-  if (state.screen === "partner") {
-    if (state.status === AppConfig.MemberStatus.newRegister) {
-      return <PartnerProfileNavigator />
-    } else {
-      return <PartnerNavigator />
-    }
-  }
-  if (state.screen === "admin") {
-    return <AdminNavigator />
-  }
-  if (state.screen === "superadmin") {
-    return <AdminNavigator />
-  }
-
-  return null
-}
-
 const AppNavigation = () => {
   const [state, dispatch] = useReducer(
     (prevState, action) => {
@@ -72,6 +50,8 @@ const AppNavigation = () => {
             ...prevState,
             isSignout: true,
             userToken: null,
+            screen: null,
+            status: null,
           }
       }
     },
@@ -165,10 +145,15 @@ const AppNavigation = () => {
       signInCustomer: async (data) => {
         if (data.loginType === "facebook") {
           // facebookLogin()
-          Alert.alert("Pretty Land", "Function นี้ยังอยู่ในระหว่างการพัฒนา")
+          // Alert.alert("Pretty Land", "Function นี้ยังอยู่ในระหว่างการพัฒนา")
+          dispatch({
+            type: "SIGN_IN",
+            token: "dummy-auth-token",
+            screen: "customer",
+          })
         }
         if (data.loginType === "line") {
-          Alert.alert("Pretty Land", "Function นี้ยังอยู่ในระหว่างการพัฒนา")
+          // Alert.alert("Pretty Land", "Function นี้ยังอยู่ในระหว่างการพัฒนา")
         }
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),
@@ -184,7 +169,7 @@ const AppNavigation = () => {
       <Stack.Navigator>
         {state.isLoading ? (
           <Stack.Screen name="Splash" component={SplashScreen} />
-        ) : state.userToken == null ? (
+        ) : state.userToken == null || state.screen === null ? (
           <Stack.Screen
             name="app-login"
             component={LoginNavigator}
@@ -204,10 +189,17 @@ const AppNavigation = () => {
           <Stack.Screen
             name="Home"
             component={
-              state.screen === "customer" ? CustomerNavigator 
-              : (state.screen === "partner" && state.status === AppConfig.MemberStatus.newRegister) ? PartnerProfileNavigator 
-              : (state.screen === "partner" && state.status === AppConfig.MemberStatus.active) ? PartnerNavigator 
-              : (state.screen === "admin" || state.screen === "superadmin") ? AdminNavigator : null
+              state.screen === "customer"
+                ? CustomerNavigator
+                : state.screen === "partner" &&
+                  state.status === AppConfig.MemberStatus.newRegister
+                ? PartnerProfileNavigator
+                : state.screen === "partner" &&
+                  state.status === AppConfig.MemberStatus.active
+                ? PartnerNavigator
+                : state.screen === "admin" || state.screen === "superadmin"
+                ? AdminNavigator
+                : null
             }
             options={{
               headerShown: false,

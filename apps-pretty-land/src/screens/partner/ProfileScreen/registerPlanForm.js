@@ -20,7 +20,7 @@ import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
-import { AppConfig } from '../../../Constants'
+import { AppConfig } from "../../../Constants"
 
 const radioData = [
   { label: AppConfig.PartnerType.type1, value: "1" },
@@ -115,9 +115,10 @@ const RegisterPlanForm = ({ navigation, route }) => {
         setStature(data.stature || "")
         setWeight(data.weight || "")
         setType1(data.type1 || false)
-        setType1(data.type2 || false)
-        setType1(data.type3 || false)
-        setType1(data.type4 || false)
+        setType2(data.type2 || false)
+        setType3(data.type3 || false)
+        setType4(data.type4 || false)
+        setSex(data.sex || 'female')
       })
 
     return () =>
@@ -202,9 +203,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
           </View>
 
           <View style={{ width: "80%", alignSelf: "center" }}>
-            <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
-              เพศ
-            </Text>
+            <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>เพศ</Text>
             <RadioButtonRN
               box={false}
               animationTypes={["shake"]}
@@ -213,7 +212,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
               icon={
                 <FontAwesome name="check-circle" size={25} color="#2c9dd1" />
               }
-              initial={1}
+              initial={sex === "female" ? 1 : sex === "male" ? 2 : 3}
             />
             <Text
               style={{

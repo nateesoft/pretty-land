@@ -18,4 +18,5 @@ export const GetIcon = ({ type, name, size = 24, color = "black" }) => {
   if (type === "ii") return <Ionicons name={name} size={size} color={color} />
   if (type === "fa5")
     return <FontAwesome5 name={name} size={size} color={color} />
+  return null
 }

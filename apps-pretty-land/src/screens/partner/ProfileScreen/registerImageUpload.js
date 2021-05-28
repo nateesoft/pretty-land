@@ -69,9 +69,8 @@ const RegisterImageUpload = ({ navigation, route }) => {
   const selectImage = async (handleImg) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: false,
-      aspect: [4, 3],
-      quality: 1,
+      allowsEditing: true,
+      videoExportPreset: ImagePicker.VideoExportPreset.LowQuality
     })
     if (!result.cancelled) {
       handleImg(result.uri)
@@ -79,25 +78,23 @@ const RegisterImageUpload = ({ navigation, route }) => {
   }
 
   const selectVideo = async (handleVideo) => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (permissionResult.granted === false) {
+      Alert.alert("แจ้งเตือน", "ขออภัย, กรุณาให้สิทธิ์การเข้าถึงรูปภาพของท่าน!")
+      return
+    }
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       allowsEditing: false,
-      aspect: [4, 3],
-      quality: 1,
+      videoExportPreset: ImagePicker.VideoExportPreset.LowQuality
     })
+
     if (!result.cancelled) {
       handleVideo(result.uri)
     }
   }
-
-  useEffect(() => {
-    ;(async () => {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
-      if (status !== "granted") {
-        Alert.alert("แจ้งเตือน", "ขออภัย, กรุณาให้สิทธิ์การเข้าถึงรูปภาพของท่าน!")
-      }
-    })()
-  }, [])
 
   useEffect(() => {
     const onChangeValue = firebase
@@ -160,18 +157,27 @@ const RegisterImageUpload = ({ navigation, route }) => {
       xhr.send(null)
     })
 
-    // const fileName = imageSource.substring(imageSource.lastIndexOf("/") + 1)
-    const fileName = uuid.v4()
-    const ref = firebase.storage().ref("images/member/partner").child(fileName)
-    const snapshot = await ref.put(blob)
+    const uploadToCloud = true // config upload image to cloud
 
-    // We're done with the blob, close and release it
-    blob.close()
+    if (uploadToCloud) {
+      // const fileName = imageSource.substring(imageSource.lastIndexOf("/") + 1)
+      const fileName = uuid.v4()
+      const ref = firebase
+        .storage()
+        .ref("images/member/partner")
+        .child(fileName)
+      const snapshot = await ref.put(blob)
 
-    const url = await snapshot.ref.getDownloadURL()
-    updateUrl(url)
-    if (isProfile) {
-      setImage(url)
+      // We're done with the blob, close and release it
+      blob.close()
+
+      const url = await snapshot.ref.getDownloadURL()
+      updateUrl(url)
+      if (isProfile) {
+        setImage(url)
+      }
+    } else {
+      blob.close()
     }
     setUploadFinish("finish")
   }
@@ -386,56 +392,52 @@ const RegisterImageUpload = ({ navigation, route }) => {
             style={{ marginTop: 10 }}
           />
         )}
-        {!hideButtonUpload && (
-          <Button
-            title="อัพโหลด"
-            iconLeft
-            icon={
-              <MaterialCommunityIcons
-                name="cloud-upload"
-                color="white"
-                size={24}
-                style={{ marginHorizontal: 8 }}
-              />
-            }
-            buttonStyle={{
-              backgroundColor: "green",
-              marginTop: 20,
-              borderRadius: 25,
-              width: 250,
-              paddingHorizontal: 15,
-              height: 45,
-              borderWidth: 0.5,
-              marginBottom: 20,
-            }}
-            onPress={() => uploadAllImageVideo()}
-          />
-        )}
-        {hideButtonUpload && (
-          <Button
-            title="บันทึกข้อมูล"
-            iconLeft
-            icon={
-              <AntDesign
-                name="lock"
-                color="white"
-                size={24}
-                style={{ marginHorizontal: 8 }}
-              />
-            }
-            buttonStyle={{
-              backgroundColor: "#65A3E1",
-              marginTop: 5,
-              borderRadius: 25,
-              width: 200,
-              paddingHorizontal: 15,
-              height: 45,
-              borderWidth: 0.5,
-              marginBottom: 20,
-            }}
-            onPress={() => saveProfileData()}
-          />
-        )}
+        <Button
+          title="อัพโหลด"
+          iconLeft
+          icon={
+            <MaterialCommunityIcons
+              name="cloud-upload"
+              color="white"
+              size={24}
+              style={{ marginHorizontal: 8 }}
+            />
+          }
+          buttonStyle={{
+            backgroundColor: "green",
+            marginTop: 20,
+            borderRadius: 25,
+            width: 250,
+            paddingHorizontal: 15,
+            height: 45,
+            borderWidth: 0.5,
+            marginBottom: 20,
+          }}
+          onPress={() => uploadAllImageVideo()}
+        />
+        <Button
+          title="บันทึกข้อมูล"
+          iconLeft
+          icon={
+            <AntDesign
+              name="lock"
+              color="white"
+              size={24}
+              style={{ marginHorizontal: 8 }}
+            />
+          }
+          buttonStyle={{
+            backgroundColor: "#65A3E1",
+            marginTop: 5,
+            borderRadius: 25,
+            width: 200,
+            paddingHorizontal: 15,
+            height: 45,
+            borderWidth: 0.5,
+            marginBottom: 20,
+          }}
+          onPress={() => saveProfileData()}
+        />
       </SafeAreaView>
     </ImageBackground>
   )

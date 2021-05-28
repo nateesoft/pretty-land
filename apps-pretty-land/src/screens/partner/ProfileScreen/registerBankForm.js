@@ -82,6 +82,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
             setItems={setBankList}
             textStyle={{ fontSize: 18 }}
             searchable={false}
+            selectedItemContainerStyle={{backgroundColor: '#facaff'}}
           />
 
           <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>

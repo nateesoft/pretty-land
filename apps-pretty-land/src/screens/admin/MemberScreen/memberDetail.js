@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef, useState } from "react"
 import {
   StyleSheet,
   View,
@@ -8,9 +8,11 @@ import {
   ImageBackground,
   ScrollView,
 } from "react-native"
+import { Video } from "expo-av"
 import { Button, Text } from "react-native-elements"
 import { Ionicons, Feather, AntDesign } from "react-native-vector-icons"
 import Moment from "moment"
+import { ActivityIndicator } from "react-native-paper"
 
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
@@ -20,7 +22,8 @@ import { getPartnerGroupByType } from "../../../data/apis"
 const MemberDetailScreen = ({ navigation, route }) => {
   const { navigate } = navigation
   const { item } = route.params
-  console.log(item)
+  const video = useRef(null)
+  const [status, setStatus] = useState({})
 
   const confirmRemovePermanent = () => {
     firebase.database().ref(`members/${item.id}`).remove()
@@ -98,13 +101,6 @@ const MemberDetailScreen = ({ navigation, route }) => {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
               >
-                <View style={styles.mediaImageContainer}>
-                    <Image
-                      source={{ uri: item.image }}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                  </View>
                 {item.imageUrl1 && (
                   <View style={styles.mediaImageContainer}>
                     <Image
@@ -139,6 +135,23 @@ const MemberDetailScreen = ({ navigation, route }) => {
                       style={styles.image}
                       resizeMode="cover"
                     />
+                  </View>
+                )}
+                {item.videoUrl && (
+                  <View style={styles.mediaImageContainer}>
+                    <Video
+                      ref={video}
+                      style={styles.video}
+                      source={{ uri: item.videoUrl }}
+                      useNativeControls
+                      resizeMode="contain"
+                      isLooping
+                      onPlaybackStatusUpdate={(status) =>
+                        setStatus(() => status)
+                      }
+                    >
+                      <ActivityIndicator style={styles.video} size="large" />
+                    </Video>
                   </View>
                 )}
               </ScrollView>
@@ -306,6 +319,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: undefined,
     height: undefined,
+  },
+  video: {
+    alignSelf: "center",
+    width: 350,
+    height: 300,
+    borderRadius: 25,
   },
 })
 

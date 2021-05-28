@@ -136,7 +136,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
               textStyle={{ fontSize: 18 }}
               searchable={false}
               zIndex={4}
-              selectedItemContainerStyle={{backgroundColor: '#eee'}}
+              selectedItemContainerStyle={{backgroundColor: '#facaff'}}
             />
 
             <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>อำเภอ</Text>
@@ -151,6 +151,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
               searchable={false}
               textStyle={{ fontSize: 18 }}
               zIndex={3}
+              selectedItemContainerStyle={{backgroundColor: '#facaff'}}
             />
             {type4 && (
               <View style={styles.formControl}>
