@@ -146,11 +146,11 @@ const AppNavigation = () => {
         if (data.loginType === "facebook") {
           // facebookLogin()
           // Alert.alert("Pretty Land", "Function นี้ยังอยู่ในระหว่างการพัฒนา")
-          dispatch({
-            type: "SIGN_IN",
-            token: "dummy-auth-token",
-            screen: "customer",
-          })
+          // dispatch({
+          //   type: "SIGN_IN",
+          //   token: "dummy-auth-token",
+          //   screen: "customer",
+          // })
         }
         if (data.loginType === "line") {
           // Alert.alert("Pretty Land", "Function นี้ยังอยู่ในระหว่างการพัฒนา")
