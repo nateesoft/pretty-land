@@ -81,6 +81,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
             items={bankList}
             setItems={setBankList}
             textStyle={{ fontSize: 18 }}
+            searchable={false}
           />
 
           <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>

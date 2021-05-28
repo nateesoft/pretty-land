@@ -119,6 +119,7 @@ const PostListAllScreen = ({ navigation, route }) => {
               style={styles.dropdownStyle}
               textStyle={{ fontSize: 18 }}
               zIndex={2}
+              searchable={false}
             />
           </View>
           {posts.length === 0 && <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />}

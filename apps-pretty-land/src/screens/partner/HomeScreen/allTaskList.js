@@ -127,6 +127,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
             setItems={setCountryList}
             textStyle={{ fontSize: 18 }}
             zIndex={20}
+            searchable={false}
           />
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />

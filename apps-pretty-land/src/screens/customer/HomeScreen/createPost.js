@@ -59,6 +59,7 @@ const CreatePostForm = (props) => {
         style={styles.dropdownStyle}
         textStyle={{ fontSize: 18 }}
         zIndex={2}
+        searchable={false}
       />
       <DropDownPicker
         placeholder="เลือกจังหวัด"
@@ -71,6 +72,7 @@ const CreatePostForm = (props) => {
         style={styles.dropdownStyle}
         textStyle={{ fontSize: 18 }}
         zIndex={1}
+        searchable={false}
       />
       <View style={styles.viewCard}>
         <Input
