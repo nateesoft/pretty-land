@@ -258,15 +258,6 @@ const ProfileHomeScreen = ({ navigation, route }) => {
 
           <View style={{ marginTop: 32 }}>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-              {img1 && (
-                <View style={styles.mediaImageContainer}>
-                  <Image
-                    source={{ uri: img1 }}
-                    style={styles.image}
-                    resizeMode="cover"
-                  />
-                </View>
-              )}
               {img2 && (
                 <View style={styles.mediaImageContainer}>
                   <Image

@@ -83,24 +83,25 @@ const RegisterPlanForm = ({ navigation, route }) => {
     }
 
     // save data
-    firebase
-      .database()
-      .ref(`members/${userId}`)
-      .update({
-        id: userId,
-        type1,
-        type2,
-        type3,
-        type4,
-        sex,
-        name,
-        age,
-        height,
-        stature,
-        weight,
-        price4: !price4 ? 0 : price4,
-      })
-    navigate("Register-Partner-Form", { userId, status, type4 })
+    const planData = {
+      id: userId,
+      type1,
+      type2,
+      type3,
+      type4,
+      sex,
+      name,
+      age,
+      height,
+      stature,
+      weight,
+      price4: !price4 ? 0 : price4,
+    }
+    // firebase
+    //   .database()
+    //   .ref(`members/${userId}`)
+    //   .update(planData)
+    navigate("Register-Partner-Form", { userId, status, planData })
   }
 
   useEffect(() => {

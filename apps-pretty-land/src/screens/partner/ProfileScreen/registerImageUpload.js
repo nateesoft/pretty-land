@@ -18,6 +18,7 @@ import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import uuid from "react-native-uuid"
 
+import {AppConfig} from '../../../Constants'
 import bgImage from "../../../../assets/bg.png"
 import { Context as AuthContext } from "../../../context/AuthContext"
 import firebase from "../../../../util/firebase"
@@ -25,7 +26,7 @@ import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterImageUpload = ({ navigation, route }) => {
   const { signOut } = React.useContext(AuthContext)
-  const { userId } = route.params
+  const { userId, status, bankData } = route.params
   const video = React.useRef(null)
 
   const [uploadFinish, setUploadFinish] = useState("none")
@@ -51,7 +52,8 @@ const RegisterImageUpload = ({ navigation, route }) => {
 
   const saveProfileData = () => {
     const dataUpdate = {
-      image,
+      ...bankData,
+      image: image ? image: imageUrl1,
       imageUrl1,
       imageUrl2,
       imageUrl3,
@@ -60,9 +62,11 @@ const RegisterImageUpload = ({ navigation, route }) => {
       videoUrl: imageUrl6,
       username,
       password,
+      status: AppConfig.MemberStatus.newRegister,
+      statusText: AppConfig.MemberStatus.newRegisterMessage,
     }
     firebase.database().ref(`members/${userId}`).update(dataUpdate)
-    Alert.alert("กระบวนการเสร็จสมบูรณ์", "อัพเดตข้อมูลเรียบร้อยแล้ว")
+    Alert.alert("กระบวนการเสร็จสมบูรณ์", "อัพเดตข้อมูลเรียบร้อยแล้ว รอ Admin อนุมัติข้อมูล")
     signOut()
   }
 

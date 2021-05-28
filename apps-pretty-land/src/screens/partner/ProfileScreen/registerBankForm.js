@@ -19,7 +19,7 @@ import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterPartnerBankForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { userId, status } = route.params
+  const { userId, status, partnerData } = route.params
   const [bank, setBank] = useState("")
   const [bankNo, setBankNo] = useState("")
 
@@ -37,12 +37,14 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
     }
 
     // save data
-    firebase.database().ref(`members/${userId}`).update({
+    const bankData = {
+      ...partnerData,
       bank,
       bankNo,
-    })
+    }
+    // firebase.database().ref(`members/${userId}`).update(bankData)
 
-    navigate("Partner-Register-Image-Upload", { userId, status })
+    navigate("Partner-Register-Image-Upload", { userId, status, bankData })
   }
 
   useEffect(() => {

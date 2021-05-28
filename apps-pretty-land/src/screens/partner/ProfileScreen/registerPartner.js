@@ -19,7 +19,8 @@ import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterPartnerForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { userId, status, type4 } = route.params
+  const { userId, status, planData } = route.params
+  const { type4 } = planData
   const [mobile, setMobile] = useState("")
   const [province, setProvince] = useState("")
   const [district, setDistrict] = useState("")
@@ -55,15 +56,17 @@ const RegisterPartnerForm = ({ navigation, route }) => {
     }
 
     // save data
-    firebase.database().ref(`members/${userId}`).update({
+    const partnerData = {
+      ...planData,
       mobile,
       province,
       district,
       address,
       lineId,
-    })
+    }
+    // firebase.database().ref(`members/${userId}`).update(partnerData)
 
-    navigate("Partner-Register-Bank-Form", { userId, status })
+    navigate("Partner-Register-Bank-Form", { userId, status, partnerData })
   }
 
   useEffect(() => {
@@ -94,7 +97,9 @@ const RegisterPartnerForm = ({ navigation, route }) => {
           <Text style={styles.textFormInfo}>รายละเอียดการรับงาน</Text>
         </View>
         <View style={{ width: "80%", alignSelf: "center" }}>
-          <Text style={{ fontSize: 16, padding: 5, textTransform: "uppercase" }}>
+          <Text
+            style={{ fontSize: 16, padding: 5, textTransform: "uppercase" }}
+          >
             Line Id
           </Text>
           <View style={styles.formControl}>
@@ -136,10 +141,12 @@ const RegisterPartnerForm = ({ navigation, route }) => {
               textStyle={{ fontSize: 18 }}
               searchable={false}
               zIndex={4}
-              selectedItemContainerStyle={{backgroundColor: '#facaff'}}
+              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             />
 
-            <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>อำเภอ</Text>
+            <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>
+              อำเภอ
+            </Text>
             <DropDownPicker
               placeholder="-- เลือก เขต/อำเภอ --"
               open={openSelectDistrict}
@@ -151,7 +158,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
               searchable={false}
               textStyle={{ fontSize: 18 }}
               zIndex={3}
-              selectedItemContainerStyle={{backgroundColor: '#facaff'}}
+              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             />
             {type4 && (
               <View style={styles.formControl}>
