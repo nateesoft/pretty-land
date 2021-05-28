@@ -20,11 +20,13 @@ import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
+import { AppConfig } from '../../../Constants'
+
 const radioData = [
-  { label: "พริตตี้ Event / Mc", value: "1" },
-  { label: "โคโยตี้ / งานเต้น", value: "2" },
-  { label: "พริตตี้ En / Env.", value: "3" },
-  { label: "พริตตี้ นวดแผนไทย", value: "4" },
+  { label: AppConfig.PartnerType.type1, value: "1" },
+  { label: AppConfig.PartnerType.type2, value: "2" },
+  { label: AppConfig.PartnerType.type3, value: "3" },
+  { label: AppConfig.PartnerType.type4, value: "4" },
 ]
 
 const sexData = [

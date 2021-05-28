@@ -16,7 +16,7 @@ import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
-import { getPostList, getPostStatus } from "../../../data/apis"
+import { getPostList, getPostStatus, getPartnerGroupByType } from "../../../data/apis"
 
 const PostListAllScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false)
@@ -107,7 +107,7 @@ const PostListAllScreen = ({ navigation, route }) => {
       <SafeAreaView style={{ height: "100%" }}>
         <View style={styles.container}>
           <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
-          <View style={{ width: "90%", alignSelf: "center" }}>
+          <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
             <DropDownPicker
               placeholder="เลือกประเภทโพสท์"
               open={openSelectPartner}

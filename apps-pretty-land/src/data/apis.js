@@ -5,8 +5,31 @@ import { districts } from "./district"
 import { banks } from "./bank"
 import { PARTNER_TYPE } from "./master_data"
 
+import { AppConfig } from "../Constants"
+
 export const getPartnerGroup = () => {
   return master.partnerGroup
+}
+
+export const getPartnerGroupByType = (member) => {
+  if (member.memberType === "partner") {
+    const typeList = []
+    if (member.type1) {
+      typeList.push(AppConfig.PartnerType.type1)
+    }
+    if (member.type2) {
+      typeList.push(AppConfig.PartnerType.type2)
+    }
+    if (member.type3) {
+      typeList.push(AppConfig.PartnerType.type3)
+    }
+    if (member.type4) {
+      typeList.push(AppConfig.PartnerType.type4)
+    }
+    return typeList.toString()
+  }
+
+  return member.memberType
 }
 
 export const getCountryList = () => {
@@ -93,13 +116,13 @@ export const allGroupContryWork = () => {
       id: index,
       provinceId: item.provinceId,
       province: item.province,
-      work1: "พริตตี้ Event / Mc",
+      work1: AppConfig.PartnerType.type1,
       prettyMcQty: pretty,
-      work2: "โคโยตี้ / งานเต้น",
+      work2: AppConfig.PartnerType.type2,
       prettyEntertainQty: prettyEntertain,
-      work3: "พริตตี้ En / Env",
+      work3: AppConfig.PartnerType.type3,
       coyoteQty: coyote,
-      work4: "พริตตี้ นวดแผนไทย",
+      work4: AppConfig.PartnerType.type4,
       prettyMassage: prettyMassage,
     })
   })

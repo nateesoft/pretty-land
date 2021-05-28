@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Alert,
   ImageBackground,
+  ScrollView,
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import { Ionicons, Feather, AntDesign } from "react-native-vector-icons"
@@ -14,11 +15,12 @@ import Moment from "moment"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
-import Image1 from "../../../../assets/img_example/f1.jpg"
+import { getPartnerGroupByType } from "../../../data/apis"
 
 const MemberDetailScreen = ({ navigation, route }) => {
   const { navigate } = navigation
   const { item } = route.params
+  console.log(item)
 
   const confirmRemovePermanent = () => {
     firebase.database().ref(`members/${item.id}`).remove()
@@ -92,15 +94,54 @@ const MemberDetailScreen = ({ navigation, route }) => {
 
           {item.image && (
             <View style={{ alignItems: "center" }}>
-              <Image
-                source={{ uri: item.image }}
-                style={{
-                  justifyContent: "center",
-                  width: "95%",
-                  height: 350,
-                  borderRadius: 20,
-                }}
-              />
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <View style={styles.mediaImageContainer}>
+                    <Image
+                      source={{ uri: item.image }}
+                      style={styles.image}
+                      resizeMode="cover"
+                    />
+                  </View>
+                {item.imageUrl1 && (
+                  <View style={styles.mediaImageContainer}>
+                    <Image
+                      source={{ uri: item.imageUrl1 }}
+                      style={styles.image}
+                      resizeMode="cover"
+                    />
+                  </View>
+                )}
+                {item.imageUrl2 && (
+                  <View style={styles.mediaImageContainer}>
+                    <Image
+                      source={{ uri: item.imageUrl2 }}
+                      style={styles.image}
+                      resizeMode="cover"
+                    />
+                  </View>
+                )}
+                {item.imageUrl3 && (
+                  <View style={styles.mediaImageContainer}>
+                    <Image
+                      source={{ uri: item.imageUrl3 }}
+                      style={styles.image}
+                      resizeMode="cover"
+                    />
+                  </View>
+                )}
+                {item.imageUrl4 && (
+                  <View style={styles.mediaImageContainer}>
+                    <Image
+                      source={{ uri: item.imageUrl4 }}
+                      style={styles.image}
+                      resizeMode="cover"
+                    />
+                  </View>
+                )}
+              </ScrollView>
             </View>
           )}
           <View
@@ -115,7 +156,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
               ชื่อ: {item.name || item.username}
             </Text>
             <Text style={{ fontSize: 16 }}>
-              ประเภทสมาชิก: {item.memberType}
+              รับงาน: {getPartnerGroupByType(item)}
             </Text>
             <Text style={{ fontSize: 16 }}>
               วันที่เป็นสมาชิก:{" "}
@@ -253,6 +294,18 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
+  },
+  mediaImageContainer: {
+    width: 250,
+    height: 350,
+    borderRadius: 12,
+    overflow: "hidden",
+    marginHorizontal: 10,
+  },
+  image: {
+    flex: 1,
+    width: undefined,
+    height: undefined,
   },
 })
 

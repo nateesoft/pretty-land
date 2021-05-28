@@ -17,7 +17,7 @@ import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
-import { getMemberCategory } from "../../../data/apis"
+import { getMemberCategory, getPartnerGroupByType } from "../../../data/apis"
 
 const MemberAllListScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false)
@@ -79,7 +79,17 @@ const MemberAllListScreen = ({ navigation, route }) => {
           <ListItem.Title>
             ชื่อสมาชิก: {item.name || item.username}
           </ListItem.Title>
-          <ListItem.Subtitle>ประเภทสมาชิก: {item.memberType}</ListItem.Subtitle>
+          <ListItem.Subtitle
+            style={{
+              borderWidth: 1,
+              padding: 5,
+              borderRadius: 10,
+              borderColor: "#aaa",
+              marginVertical: 5,
+            }}
+          >
+            รับงาน: {getPartnerGroupByType(item)}
+          </ListItem.Subtitle>
           <ListItem.Subtitle>สถานะ: {item.statusText}</ListItem.Subtitle>
         </ListItem.Content>
         <ProgressCircle
@@ -104,8 +114,8 @@ const MemberAllListScreen = ({ navigation, route }) => {
     >
       <SafeAreaView style={{ height: "100%" }}>
         <View style={styles.container}>
-          <Text style={styles.textTopic}>ผู้ใช้งานในระบบทั้งหมด</Text>
-          <View style={{ width: "90%", alignSelf: "center" }}>
+          <Text style={styles.textTopic}>สมาชิกในระบบทั้งหมด</Text>
+          <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
             <DropDownPicker
               placeholder="เลือกประเภทสมาชิก"
               open={openSelectPartner}
@@ -116,7 +126,6 @@ const MemberAllListScreen = ({ navigation, route }) => {
               setItems={setPartnerList}
               style={styles.dropdownStyle}
               textStyle={{ fontSize: 18 }}
-              zIndex={2}
               searchable={false}
             />
           </View>

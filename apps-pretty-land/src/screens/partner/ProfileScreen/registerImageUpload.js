@@ -125,21 +125,21 @@ const RegisterImageUpload = ({ navigation, route }) => {
     if (imageFile1) {
       uploadImageAsync(imageFile1, setImageUrl1, true)
     }
-    // if (imageFile2) {
-    //   uploadImageAsync(imageFile2, setImageUrl2, false)
-    // }
-    // if (imageFile3) {
-    //   uploadImageAsync(imageFile3, setImageUrl3, false)
-    // }
-    // if (imageFile4) {
-    //   uploadImageAsync(imageFile4, setImageUrl4, false)
-    // }
-    // if (imageFile5) {
-    //   uploadImageAsync(imageFile5, setImageUrl5, false)
-    // }
-    // if (imageFile6) {
-    //   uploadImageAsync(imageFile6, setImageUrl6, false)
-    // }
+    if (imageFile2) {
+      uploadImageAsync(imageFile2, setImageUrl2, false)
+    }
+    if (imageFile3) {
+      uploadImageAsync(imageFile3, setImageUrl3, false)
+    }
+    if (imageFile4) {
+      uploadImageAsync(imageFile4, setImageUrl4, false)
+    }
+    if (imageFile5) {
+      uploadImageAsync(imageFile5, setImageUrl5, false)
+    }
+    if (imageFile6) {
+      uploadImageAsync(imageFile6, setImageUrl6, false)
+    }
   }
 
   async function uploadImageAsync(imageSource, updateUrl, isProfile) {

@@ -267,7 +267,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
                   />
                 </View>
               )}
-              {img1 && (
+              {img2 && (
                 <View style={styles.mediaImageContainer}>
                   <Image
                     source={{ uri: img2 }}
@@ -276,7 +276,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
                   />
                 </View>
               )}
-              {img1 && (
+              {img3 && (
                 <View style={styles.mediaImageContainer}>
                   <Image
                     source={{ uri: img3 }}
@@ -285,7 +285,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
                   />
                 </View>
               )}
-              {img1 && (
+              {img4 && (
                 <View style={styles.mediaImageContainer}>
                   <Image
                     source={{ uri: img4 }}
@@ -294,7 +294,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
                   />
                 </View>
               )}
-              {img1 && (
+              {img5 && (
                 <View style={styles.mediaImageContainer}>
                   <Image
                     source={{ uri: img5 }}
