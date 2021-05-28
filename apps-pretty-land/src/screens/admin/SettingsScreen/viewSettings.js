@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { StyleSheet, View, ImageBackground } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
 import { FontAwesome } from "react-native-vector-icons"
@@ -6,7 +6,7 @@ import { FontAwesome } from "react-native-vector-icons"
 import bgImage from "../../../../assets/bg.png"
 
 const ViewProfileScreen = ({ navigation, route }) => {
-  const [owner, setOwner] = React.useState("")
+  const [feeAmount, setFeeAmount] = useState("")
 
   return (
     <ImageBackground
@@ -18,12 +18,11 @@ const ViewProfileScreen = ({ navigation, route }) => {
         <Text style={styles.textTopic}>ตั้งค่าระบบ Settings</Text>
         <View style={styles.viewCard}>
           <Input
-            name="owner"
             placeholder="ค่าธรรมเนียม 100 บาท"
             leftIcon={{ type: "font-awesome", name: "address-book" }}
             style={styles.inputForm}
-            onChangeText={(value) => setOwner(value)}
-            value={owner}
+            onChangeText={(value) => setFeeAmount(value)}
+            value={feeAmount}
           />
         </View>
         <Button
