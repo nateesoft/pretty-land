@@ -1,19 +1,64 @@
-import React from "react"
-import { StyleSheet, View, ImageBackground } from "react-native"
+import React, { useEffect, useState } from "react"
+import { StyleSheet, View, ImageBackground, Alert } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
 import { FontAwesome } from "react-native-vector-icons"
+import base64 from "react-native-base64"
 
+import firebase from "../../../../util/firebase"
 import bgImage from "../../../../assets/bg.png"
 
 const ViewProfileScreen = ({ navigation, route }) => {
-  const [username, setUsername] = React.useState("")
-  const [password, setPassword] = React.useState("")
-  const [newPassword, setNewPassword] = React.useState("")
-  const [reNewPassword, setReNewPassword] = React.useState("")
+  const { userId } = route.params
+
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [oldPassword, setOwnPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+  const [reNewPassword, setReNewPassword] = useState("")
 
   const handleSaveChangePassword = () => {
-    console.log('save change password')
+    if (!password) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุข้อมูลรหัสผ่านเดิม")
+      return
+    }
+    if (!newPassword) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุข้อมูลรหัสใหม่")
+      return
+    }
+    if (!reNewPassword) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุข้อมูยืนยันรหัสใหม่")
+      return
+    }
+    if (newPassword !== reNewPassword) {
+      Alert.alert("แจ้งเตือน", "รหัสผ่านใหม่ และรหัสผ่านใหม่่ไม่ตรงกัน")
+      return
+    }
+    if (oldPassword !== password) {
+      Alert.alert("แจ้งเตือน", "รหัสผ่านเดิมของท่านไม่ถูกต้อง")
+      return
+    }
+
+    firebase.database().ref(`members/${userId}`).update({
+      password: base64.encode(newPassword),
+    })
+    Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว")
+    setPassword("")
+    setNewPassword("")
+    setReNewPassword("")
   }
+
+  useEffect(() => {
+    const onChangeValue = firebase
+      .database()
+      .ref(`members/${userId}`)
+      .on("value", (snapshot) => {
+        const data = { ...snapshot.val() }
+        setUsername(data.username)
+        setOwnPassword(base64.decode(data.password))
+      })
+
+    return () => firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+  }, [])
 
   return (
     <ImageBackground
@@ -22,17 +67,18 @@ const ViewProfileScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <View style={styles.cardDetail}>
-        <Text style={styles.textTopic}>แก้ไขข้อมูลส่วนตัว</Text>
-        <Text style={styles.textSubTopic}>เปลี่ยนรหัสผ่าน</Text>
+        <Text style={styles.textTopic}>เปลี่ยนรหัสผ่าน</Text>
         <View style={styles.viewCard}>
+        <Text style={{ fontSize: 18 }}>ชื่อผู้ใช้งาน</Text>
           <Input
             name="username"
             placeholder="ชื่อผู้ใช้งาน"
             leftIcon={{ type: "font-awesome", name: "user" }}
-            style={styles.inputForm}
+            style={[styles.inputForm, { fontSize: 22, fontWeight: 'bold' }]}
             value={username}
             disabled
           />
+          <Text style={{ fontSize: 18 }}>ข้อมูลรหัสผ่านเดิมที่ใช้งาน</Text>
           <Input
             name="password"
             placeholder="รหัสผ่านเดิม"
@@ -42,6 +88,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
             value={password}
             secureTextEntry={true}
           />
+          <Text style={{ fontSize: 18 }}>ข้อมูลรหัสผ่านใหม่</Text>
           <Input
             name="comment"
             placeholder="รหัสผ่านใหม่"
@@ -51,6 +98,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
             value={newPassword}
             secureTextEntry={true}
           />
+          <Text style={{ fontSize: 18 }}>ข้อมูลยืนยันรหัสผ่านใหม่</Text>
           <Input
             name="phone"
             placeholder="ยืนยันรหัสผ่านใหม่"
@@ -85,10 +133,10 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   btnSave: {
-    margin: 15, 
-    paddingHorizontal: 50, 
+    margin: 15,
+    paddingHorizontal: 50,
     borderRadius: 55,
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
   },
   cardDetail: {
     flex: 1,

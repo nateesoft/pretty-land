@@ -2,15 +2,15 @@ import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
 import SettingsCategoryScreen from "./settingsCategory"
-import ViewProfileScreen from "./viewSettings"
+import ViewSettingsForm from "./viewSettingsForm"
 import NewAdminFormScreen from "./addNewAdmin"
 
 import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const TabNavigator = ({ navigation, route }) => {
-  const { userId, status } = route.params
+const AdminSettingsNavigator = ({ navigation, route }) => {
+  const { userId } = route.params
 
   return (
     <Stack.Navigator>
@@ -25,10 +25,11 @@ const TabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{userId}}
       />
       <Stack.Screen
         name="View-Settings"
-        component={ViewProfileScreen}
+        component={ViewSettingsForm}
         options={{
           title: "Edit-Admin-Profile",
           headerStyle: {
@@ -37,6 +38,7 @@ const TabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{userId}}
       />
       <Stack.Screen
         name="New-Admin-Form"
@@ -49,9 +51,10 @@ const TabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{userId}}
       />
     </Stack.Navigator>
   )
 }
 
-export default TabNavigator
+export default AdminSettingsNavigator

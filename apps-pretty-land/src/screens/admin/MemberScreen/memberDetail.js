@@ -7,6 +7,7 @@ import {
   Alert,
   ImageBackground,
   ScrollView,
+  TouchableNativeFeedback,
 } from "react-native"
 import { Video } from "expo-av"
 import { Button, Text } from "react-native-elements"
@@ -24,6 +25,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
   const { item } = route.params
   const video = useRef(null)
   const [status, setStatus] = useState({})
+  const [images, setImages] = useState([])
 
   const confirmRemovePermanent = () => {
     firebase.database().ref(`members/${item.id}`).remove()
@@ -47,6 +49,17 @@ const MemberDetailScreen = ({ navigation, route }) => {
       ],
       { cancelable: false }
     )
+  }
+
+  const onPreviewImageList = (index) => {
+    const images = [
+      { props: { source: item.imageUrl1 } },
+      { props: { source: item.imageUrl2 } },
+      { props: { source: item.imageUrl3 } },
+      { props: { source: item.imageUrl4 } },
+      { props: { source: item.imageUrl5 } },
+    ]
+    navigate("Image-Preview", { index, images })
   }
 
   const approveMember = () => {
@@ -102,13 +115,17 @@ const MemberDetailScreen = ({ navigation, route }) => {
                 showsHorizontalScrollIndicator={false}
               >
                 {item.imageUrl1 && (
-                  <View style={styles.mediaImageContainer}>
-                    <Image
-                      source={{ uri: item.imageUrl1 }}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                  </View>
+                  <TouchableNativeFeedback
+                    onPress={() => onPreviewImageList(0)}
+                  >
+                    <View style={styles.mediaImageContainer}>
+                      <Image
+                        source={{ uri: item.imageUrl1 }}
+                        style={styles.image}
+                        resizeMode="cover"
+                      />
+                    </View>
+                  </TouchableNativeFeedback>
                 )}
                 {item.imageUrl2 && (
                   <View style={styles.mediaImageContainer}>

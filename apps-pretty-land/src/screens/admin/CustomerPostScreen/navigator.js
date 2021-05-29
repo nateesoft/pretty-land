@@ -9,7 +9,7 @@ import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const StackNavigator = ({ navigation, route }) => {
+const AdminTaskNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -53,4 +53,4 @@ const StackNavigator = ({ navigation, route }) => {
   )
 }
 
-export default StackNavigator
+export default AdminTaskNavigator

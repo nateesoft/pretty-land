@@ -7,7 +7,8 @@ import RegisterLoginImageForm from "./registerLoginForm"
 
 const Stack = createStackNavigator()
 
-const LoginNavigator = ({ navigation, route }) => {
+const LoginNavigator = () => {
+
   return (
     <Stack.Navigator>
       <Stack.Screen

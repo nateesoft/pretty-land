@@ -38,6 +38,7 @@ const AppNavigation = () => {
             isLoading: false,
           }
         case "SIGN_IN":
+          // console.log('SIGN_IN_data:', action)
           return {
             ...prevState,
             isSignout: false,
@@ -116,7 +117,7 @@ const AppNavigation = () => {
           .ref("members")
           .orderByChild("username")
           .equalTo(username)
-          .on("value", (snapshot) => {
+          .once("value", (snapshot) => {
             const user = snapshotToArray(snapshot)[0]
             if (user) {
               const passwordDb = base64.decode(user.password)
@@ -157,9 +158,6 @@ const AppNavigation = () => {
         }
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),
-      signUp: async (data) => {
-        dispatch({ type: "SIGN_IN", token: "dummy-auth-token" })
-      },
     }),
     []
   )
@@ -191,22 +189,16 @@ const AppNavigation = () => {
             component={
               state.screen === "customer"
                 ? CustomerNavigator
-                : state.screen === "partner" &&
-                  state.status === AppConfig.MemberStatus.newRegister
-                ? PartnerProfileNavigator
-                : state.screen === "partner" &&
-                  state.status === AppConfig.MemberStatus.active
-                ? PartnerNavigator
-                : state.screen === "admin" || state.screen === "superadmin"
-                ? AdminNavigator
-                : null
+                : (state.screen === "partner" && state.status === AppConfig.MemberStatus.newRegister) ? PartnerProfileNavigator
+                : (state.screen === "partner" && state.status === AppConfig.MemberStatus.active) ? PartnerNavigator
+                : (state.screen === "admin" || state.screen === "superadmin") ? AdminNavigator : null
             }
             options={{
               headerShown: false,
             }}
             initialParams={{
               userId: state.userToken,
-              status: state.status,
+              screen: state.screen,
             }}
           />
         )}

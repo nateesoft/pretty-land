@@ -7,7 +7,9 @@ import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const TabNavigator = ({ navigation, route }) => {
+const ProfileNavigator = ({ navigation, route }) => {
+  const { userId, status } = route.params
+  
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -23,9 +25,10 @@ const TabNavigator = ({ navigation, route }) => {
             <LogoTitle title="Pretty Land" {...props} />
           ),
         }}
+        initialParams={{userId, status}}
       />
     </Stack.Navigator>
   )
 }
 
-export default TabNavigator
+export default ProfileNavigator

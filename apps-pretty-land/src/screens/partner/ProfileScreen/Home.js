@@ -31,13 +31,14 @@ import OtherSimple from "../../../../assets/avatar/3.png"
 import { Button } from "react-native-elements"
 
 const ProfileHomeScreen = ({ navigation, route }) => {
-  const { signOut } = React.useContext(AuthContext)
+  const { signOut } = useContext(AuthContext)
 
   const { navigate } = navigation
-  const { userId, status: userStatus } = route.params
+  const { userId } = route.params
   const video = useRef(null)
   const [status, setStatus] = useState({})
 
+  const [userStatus, setUserStatus] = useState("")
   const [imageProfile, setImageProfile] = useState(null)
   const [name, setName] = useState("")
   const [memberRegisterDate, setMemberRegisterDate] = useState("")
@@ -85,6 +86,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
         setImg4(data.imageUrl4 || null)
         setImg5(data.imageUrl5 || null)
         setVideoUrl(data.videoUrl || null)
+        setUserStatus(data.status || '')
         setMemberRegisterDate(
           data.member_register_date
             ? Moment(data.member_register_date).format("D MMM YYYY")

@@ -20,7 +20,6 @@ const AllCustomerPostList = ({ navigation, route }) => {
   const filterList = getPostToPartnerList(item.provinceId)
 
   const handleRefresh = () => {
-    console.log("refresh data list")
   }
 
   const onPressOptions = (item) => {

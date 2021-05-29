@@ -39,7 +39,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
           }
           iconLeft
           buttonStyle={styles.btnPostConfig}
-          title="จัดการโพสท์"
+          title="จัดการข้อมูลระบบ"
           onPress={() => navigation.navigate("View-Settings")}
         />
       </View>

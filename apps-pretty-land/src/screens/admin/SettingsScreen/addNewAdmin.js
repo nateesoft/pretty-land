@@ -1,14 +1,48 @@
-import React from "react"
-import { StyleSheet, View, ImageBackground } from "react-native"
+import React, { useState } from "react"
+import { StyleSheet, View, ImageBackground, Alert } from "react-native"
 import { Button, Text, Input, CheckBox } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
+import base64 from "react-native-base64"
+import uuid from "react-native-uuid"
 
+import firebase from "../../../../util/firebase"
 import bgImage from "../../../../assets/bg.png"
 
-const ViewProfileScreen = ({ navigation, route }) => {
-  const [username, setUsername] = React.useState("")
-  const [password, setPassword] = React.useState("")
-  const [isAdmin, setSuperAdmin] = React.useState(false)
+const AddNewAdminForm = ({ navigation, route }) => {
+  const { userId } = route.params
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [rePassword, setRePassword] = useState("")
+  const [isSuperAdmin, setSuperAdmin] = useState(false)
+
+  const saveNewAdmin = () => {
+    if (!password) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุข้อมูลรหัสผ่านเดิม")
+      return
+    }
+    if (!rePassword) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุข้อมูยืนยันรหัสใหม่")
+      return
+    }
+    if (password !== rePassword) {
+      Alert.alert("แจ้งเตือน", "รหัสผ่านใหม่ และรหัสผ่านใหม่่ไม่ตรงกัน")
+      return
+    }
+
+    const dataNewAdmin = {
+      id: uuid.v4(),
+      username,
+      password: base64.encode(password),
+      memberType: isSuperAdmin ? "superadmin" : "admin",
+    }
+    firebase.database().ref(`members/${id}`).set(dataNewAdmin)
+
+    Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว")
+    setUsername("")
+    setPassword("")
+    setRePassword("")
+    setSuperAdmin(false)
+  }
 
   return (
     <ImageBackground
@@ -19,27 +53,37 @@ const ViewProfileScreen = ({ navigation, route }) => {
       <View style={styles.cardDetail}>
         <Text style={styles.textTopic}>เพิ่มข้อมูล Admin</Text>
         <View style={styles.viewCard}>
+          <Text style={{ fontSize: 18 }}>ข้อมูลชื่อผู้ใช้งาน (admin) ในระบบ</Text>
           <Input
-            name="username"
-            placeholder="Username"
+            placeholder="ข้อมูลผู้ใช้งานใหม่"
             leftIcon={{ type: "font-awesome", name: "address-book" }}
             style={styles.inputForm}
             onChangeText={(value) => setUsername(value)}
             value={username}
           />
+          <Text style={{ fontSize: 18 }}>กำหนดรหัสผ่าน</Text>
           <Input
-            name="password"
-            placeholder="Password"
+            placeholder="รหัสผ่าน"
             leftIcon={{ type: "font-awesome", name: "lock" }}
             style={styles.inputForm}
             onChangeText={(value) => setPassword(value)}
             value={password}
             secureTextEntry={true}
           />
+          <Text style={{ fontSize: 18 }}>ยืนยันรหัสผ่านใหม่</Text>
+          <Input
+            placeholder="ยืนยันรหัสผ่าน"
+            leftIcon={{ type: "font-awesome", name: "lock" }}
+            style={styles.inputForm}
+            onChangeText={(value) => setRePassword(value)}
+            value={rePassword}
+            secureTextEntry={true}
+          />
           <CheckBox
             title="กำหนดเป็นผู้ดูแลระบบหลัก"
-            checked={isAdmin}
-            onPress={() => setSuperAdmin(!isAdmin)}
+            checked={isSuperAdmin}
+            onPress={() => setSuperAdmin(!isSuperAdmin)}
+            textStyle={{ fontSize: 16 }}
             containerStyle={{ backgroundColor: null, borderColor: "#ff2fe6" }}
           />
         </View>
@@ -55,7 +99,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
           iconLeft
           buttonStyle={styles.btnSave}
           title="เพิ่มข้อมูล"
-          onPress={() => navigation.navigate("Settings-Category")}
+          onPress={() => saveNewAdmin()}
         />
       </View>
     </ImageBackground>
@@ -109,6 +153,9 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     justifyContent: "center",
   },
+  inputForm: {
+    marginLeft: 10,
+  },
 })
 
-export default ViewProfileScreen
+export default AddNewAdminForm

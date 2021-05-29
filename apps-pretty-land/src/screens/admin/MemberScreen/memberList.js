@@ -43,22 +43,10 @@ const MemberAllListScreen = ({ navigation, route }) => {
   }, [])
 
   const handleRefresh = () => {
-    console.log("refresh data list")
   }
 
   const onPressOptions = (item) => {
     navigation.navigate("Member-Detail", { item })
-  }
-
-  const getBgColor = (status) => {
-    if (status === "admin") {
-      return "#fdddf3"
-    } else if (status === "customer") {
-      return "#fef8e3"
-    } else if (status === "partner") {
-      return "#fcf2ff"
-    }
-    return "#fcf2ff"
   }
 
   const renderItem = ({ item }) => (

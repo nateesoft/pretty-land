@@ -5,7 +5,7 @@ import {
   Text,
   Image,
   ScrollView,
-  TouchableHighlight,
+  TouchableNativeFeedback,
 } from "react-native"
 import { Video } from "expo-av"
 import { AntDesign } from "@expo/vector-icons"
@@ -137,7 +137,7 @@ export default function PartnerImage(props) {
           onPress={() => onPressSelectPartner()}
         />
         {images.map((item, index) => (
-          <TouchableHighlight
+          <TouchableNativeFeedback
             onPress={() => onPreviewImageList(index)}
             key={index}
           >
@@ -161,7 +161,7 @@ export default function PartnerImage(props) {
                 รูปที่ {index + 1}
               </Text>
             </View>
-          </TouchableHighlight>
+          </TouchableNativeFeedback>
         ))}
       </View>
       <View style={styles.container}>

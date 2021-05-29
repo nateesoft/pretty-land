@@ -1,12 +1,15 @@
-import React from "react"
+import React, { useContext } from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { Ionicons, MaterialIcons, Feather, MaterialCommunityIcons } from "@expo/vector-icons"
 
 /* all screen */
-import TaskNavigator from "./TaskScreen/navigator"
+import TaskNavigator from "./CustomerPostScreen/navigator"
 import MemberNavigator from "./MemberScreen/navigator"
 import ProfileNavigator from './ProfileScreen/navigator'
 import SettingsNavigator from './SettingsScreen/navigator'
+
+/* useContext */
+import { Context as AuthContext} from '../../context/AuthContext'
 
 /* Logout */
 import LogoutScreen from "../logout"
@@ -27,23 +30,23 @@ const AdminNavigator = ({ navigation, route }) => {
       }}
     >
       <Tab.Screen
-        name="a-Task"
-        component={TaskNavigator}
-        options={{
-          title: "โพสท์ทั้งหมด",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="fact-check" color="white" size={size} />
-          ),
-        }}
-        initialParams={{ userId, status }}
-      />
-      <Tab.Screen
         name="a-Member"
         component={MemberNavigator}
         options={{
           title: "สมาชิกในระบบ",
           tabBarIcon: ({ color, size }) => (
             <Feather name="users" color="white" size={size} />
+          ),
+        }}
+        initialParams={{ userId, status }}
+      />
+      <Tab.Screen
+        name="a-Task"
+        component={TaskNavigator}
+        options={{
+          title: "โพสท์ทั้งหมด",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="fact-check" color="white" size={size} />
           ),
         }}
         initialParams={{ userId, status }}

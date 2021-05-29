@@ -86,7 +86,6 @@ const PaymentForm = ({ navigation, route }) => {
   )
 
   const handleRefresh = () => {
-    console.log("refresh data list")
   }
 
   return (

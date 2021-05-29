@@ -28,7 +28,6 @@ const AllTaskListScreen = ({ navigation, route }) => {
   })
 
   const handleRefresh = () => {
-    console.log("refresh data list")
   }
 
   const onPressOptions = (item) => {
