@@ -198,6 +198,7 @@ const AppNavigation = () => {
             }}
             initialParams={{
               userId: state.userToken,
+              status: state.status,
               screen: state.screen,
             }}
           />

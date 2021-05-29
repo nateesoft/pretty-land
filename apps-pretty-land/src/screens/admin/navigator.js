@@ -1,12 +1,17 @@
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { Ionicons, MaterialIcons, Feather, MaterialCommunityIcons } from "@expo/vector-icons"
+import {
+  Ionicons,
+  MaterialIcons,
+  Feather,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons"
 
 /* all screen */
 import TaskNavigator from "./CustomerPostScreen/navigator"
 import MemberNavigator from "./MemberScreen/navigator"
-import ProfileNavigator from './ProfileScreen/navigator'
-import SettingsNavigator from './SettingsScreen/navigator'
+import ProfileNavigator from "./ProfileScreen/navigator"
+import SettingsNavigator from "./SettingsScreen/navigator"
 
 /* Logout */
 import LogoutScreen from "../logout"
@@ -14,7 +19,7 @@ import LogoutScreen from "../logout"
 const Tab = createBottomTabNavigator()
 
 const AdminNavigator = ({ navigation, route }) => {
-  const { userId, status } = route.params
+  const { userId, screen } = route.params
 
   return (
     <Tab.Navigator
@@ -35,7 +40,7 @@ const AdminNavigator = ({ navigation, route }) => {
             <Feather name="users" color="white" size={size} />
           ),
         }}
-        initialParams={{ userId, status }}
+        initialParams={{ userId }}
       />
       <Tab.Screen
         name="a-Task"
@@ -46,7 +51,7 @@ const AdminNavigator = ({ navigation, route }) => {
             <MaterialIcons name="fact-check" color="white" size={size} />
           ),
         }}
-        initialParams={{ userId, status }}
+        initialParams={{ userId }}
       />
       <Tab.Screen
         name="a-Profile"
@@ -61,23 +66,21 @@ const AdminNavigator = ({ navigation, route }) => {
             />
           ),
         }}
-        initialParams={{ userId, status }}
+        initialParams={{ userId }}
       />
-      <Tab.Screen
-        name="a-Settings"
-        component={SettingsNavigator}
-        options={{
-          title: "ตั้งค่าระบบ",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="md-settings-outline"
-              color="white"
-              size={size}
-            />
-          ),
-        }}
-        initialParams={{ userId, status }}
-      />
+      {screen === "superadmin" && (
+        <Tab.Screen
+          name="a-Settings"
+          component={SettingsNavigator}
+          options={{
+            title: "ตั้งค่าระบบ",
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="md-settings-outline" color="white" size={size} />
+            ),
+          }}
+          initialParams={{ userId }}
+        />
+      )}
       <Tab.Screen
         name="a-Logout"
         component={LogoutScreen}
@@ -87,7 +90,7 @@ const AdminNavigator = ({ navigation, route }) => {
             <MaterialCommunityIcons name="logout" color="white" size={size} />
           ),
         }}
-        initialParams={{ userId, status }}
+        initialParams={{ userId }}
       />
     </Tab.Navigator>
   )
