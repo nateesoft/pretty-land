@@ -64,6 +64,9 @@ const RegisterLoginForm = ({ navigation, route }) => {
             memberType: "partner",
             status: AppConfig.MemberStatus.newRegister,
             statusText: AppConfig.MemberStatus.newRegisterMessage,
+            status_priority: AppConfig.MemberStatus.newRegisterPriority,
+            sys_create_date: new Date().toUTCString(),
+            sys_update_date: new Date().toUTCString(),
           }
           firebase.database().ref(`members/${newId}`).set(saveData)
           Alert.alert("กระบวนการสมบูรณ์", "บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")

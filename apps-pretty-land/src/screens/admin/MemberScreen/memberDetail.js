@@ -67,8 +67,10 @@ const MemberDetailScreen = ({ navigation, route }) => {
     firebase.database().ref(`members/${item.id}`).update({
       status: AppConfig.MemberStatus.active,
       statusText: AppConfig.MemberStatus.activeMessage,
+      status_priority: AppConfig.MemberStatus.activePriority,
       member_register_date: new Date().toUTCString(),
       member_update_date: new Date().toUTCString(),
+      sys_update_date: new Date().toUTCString(),
     })
     navigation.navigate("List-All-Member")
   }
@@ -78,7 +80,9 @@ const MemberDetailScreen = ({ navigation, route }) => {
     firebase.database().ref(`members/${item.id}`).update({
       status: AppConfig.MemberStatus.suspend,
       statusText: AppConfig.MemberStatus.suspendMessage,
+      status_priority: AppConfig.MemberStatus.suspendPriority,
       member_update_date: new Date().toUTCString(),
+      sys_update_date: new Date().toUTCString(),
     })
     navigation.navigate("List-All-Member")
   }
@@ -88,8 +92,10 @@ const MemberDetailScreen = ({ navigation, route }) => {
     firebase.database().ref(`members/${item.id}`).update({
       status: AppConfig.MemberStatus.active,
       statusText: AppConfig.MemberStatus.activeMessage,
+      status_priority: AppConfig.MemberStatus.activePriority,
       member_register_date: new Date().toUTCString(),
       member_update_date: new Date().toUTCString(),
+      sys_update_date: new Date().toUTCString(),
     })
     navigation.navigate("List-All-Member")
   }

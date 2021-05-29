@@ -30,6 +30,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
     const onChangeValue = firebase
       .database()
       .ref("members")
+      .orderByChild("status_priority")
       .on("value", (snapshot) => {
         const memberInCloud = snapshotToArray(snapshot)
         setMembers(

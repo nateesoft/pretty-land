@@ -34,6 +34,7 @@ const AddNewAdminForm = ({ navigation, route }) => {
       username,
       password: base64.encode(password),
       memberType: isSuperAdmin ? "superadmin" : "admin",
+      status_priority: 10,
     }
     firebase
       .database()

@@ -1,13 +1,17 @@
 export const AppConfig = {
     MemberStatus: {
-        active: 'active',
-        activeMessage: 'ผ่านการอนุมัติ',
         newRegister: 'new_register',
         newRegisterMessage: 'สมัครเป็น Partner ใหม่',
+        newRegisterPriority: 1,
+        active: 'active',
+        activeMessage: 'ผ่านการอนุมัติ',
+        activePriority: 2,
         notApprove: 'not_approve',
         notApproveMessage: '',
+        notApprovePriority: 3,
         suspend: 'suspend',
         suspendMessage: 'สั่งพักงานชั่วคราว',
+        suspendPriority: 4,
         suspendMessagePopup: 'ขออภัย! บัญชีของท่านถูกยกเลิกชั่วคราว',
     },
     PartnerType: {
