@@ -1,7 +1,7 @@
 import React from "react"
 import { StyleSheet, View, ImageBackground } from "react-native"
 import { Button, Text } from "react-native-elements"
-import { FontAwesome } from "react-native-vector-icons"
+import { FontAwesome, MaterialIcons } from "react-native-vector-icons"
 
 import bgImage from "../../../../assets/bg.png"
 
@@ -30,8 +30,8 @@ const ViewProfileScreen = ({ navigation, route }) => {
         />
         <Button
           icon={
-            <FontAwesome
-              name="user-secret"
+            <MaterialIcons
+              name="app-settings-alt"
               size={20}
               color="white"
               style={{ marginRight: 5 }}
@@ -42,12 +42,33 @@ const ViewProfileScreen = ({ navigation, route }) => {
           title="จัดการข้อมูลระบบ"
           onPress={() => navigation.navigate("View-Settings")}
         />
+        <Button
+          icon={
+            <FontAwesome
+              name="user-secret"
+              size={20}
+              color="white"
+              style={{ marginRight: 5 }}
+            />
+          }
+          iconLeft
+          buttonStyle={styles.btnListAdmin}
+          title="ข้อมูล admin"
+          onPress={() => navigation.navigate("Admin-Lists")}
+        />
       </View>
     </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
+  btnListAdmin: {
+    margin: 5,
+    paddingHorizontal: 50,
+    borderRadius: 55,
+    backgroundColor: "blue",
+    width: 250,
+  },
   btnPostConfig: {
     margin: 5,
     paddingHorizontal: 50,

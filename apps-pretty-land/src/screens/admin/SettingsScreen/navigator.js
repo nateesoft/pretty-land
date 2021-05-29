@@ -4,6 +4,8 @@ import { createStackNavigator } from "@react-navigation/stack"
 import SettingsCategoryScreen from "./settingsCategory"
 import ViewSettingsForm from "./viewSettingsForm"
 import NewAdminFormScreen from "./addNewAdmin"
+import AdminListScreen from './adminList'
+import AdminDetailScreen from './adminDetail'
 
 import { LogoTitle } from "../../../components/Header"
 
@@ -52,6 +54,30 @@ const AdminSettingsNavigator = ({ navigation, route }) => {
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
         initialParams={{userId}}
+      />
+      <Stack.Screen
+        name="Admin-Lists"
+        component={AdminListScreen}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+      />
+      <Stack.Screen
+        name="Admin-Detail"
+        component={AdminDetailScreen}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
       />
     </Stack.Navigator>
   )

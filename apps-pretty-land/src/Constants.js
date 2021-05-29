@@ -1,7 +1,7 @@
 export const AppConfig = {
     MemberStatus: {
         newRegister: 'new_register',
-        newRegisterMessage: 'สมัครเป็น Partner ใหม่',
+        newRegisterMessage: 'รอออนุมัติ',
         newRegisterPriority: 1,
         active: 'active',
         activeMessage: 'ผ่านการอนุมัติ',

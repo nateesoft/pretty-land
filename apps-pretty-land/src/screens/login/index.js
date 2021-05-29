@@ -6,11 +6,13 @@ import {
   Image,
   ImageBackground,
   TouchableHighlight,
+  Linking,
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
-import { Context as AuthContext } from "../../context/AuthContext"
+import { TouchableNativeFeedback } from "react-native"
 
+import { Context as AuthContext } from "../../context/AuthContext"
 import bg from "../../../assets/login.png"
 import bgImage from "../../../assets/bg.png"
 import lineLogo from "../../../assets/icons/LINE_APP.png"
@@ -19,6 +21,10 @@ import facebookLogo from "../../../assets/icons/f_logo_RGB-Blue_58.png"
 const LoginScreen = ({ navigation, route }) => {
   const { navigate } = navigation
   const { signInCustomer } = useContext(AuthContext)
+
+  const LinkToLineContact = () => {
+    Linking.openURL("https://line.me/ti/p/88jO0dx8E-#~")
+  }
 
   return (
     <ImageBackground
@@ -116,7 +122,9 @@ const LoginScreen = ({ navigation, route }) => {
           }}
           onPress={() => navigate("Partner-Login-Form")}
         />
-        <Text style={styles.textFooter1}>Contact Us</Text>
+        <TouchableNativeFeedback onPress={() => LinkToLineContact()}>
+          <Text style={styles.textFooter1}>Contact Us</Text>
+        </TouchableNativeFeedback>
         <Text style={styles.textFooter2}>
           Tel : 09-7874-7874 (24Hr) / Line : @Prettylandthailand / Fb:
           PrettyLand - Thailand / Email : Prettylandthailand@gmail.com

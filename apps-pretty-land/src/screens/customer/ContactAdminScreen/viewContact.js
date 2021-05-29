@@ -1,7 +1,7 @@
 import React from "react"
 import { StyleSheet, View } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
-import {FontAwesome,MaterialIcons} from "react-native-vector-icons"
+import { MaterialIcons } from "react-native-vector-icons"
 
 const ViewContact = ({ navigation, route }) => {
   const [textMsg, setTextMsg] = React.useState("")

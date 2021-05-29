@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { StyleSheet, View, ImageBackground } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
-import { FontAwesome } from "react-native-vector-icons"
+import { FontAwesome, FontAwesome5 } from "react-native-vector-icons"
 
 import firebase from "../../../../util/firebase"
 import bgImage from "../../../../assets/bg.png"
@@ -11,6 +11,23 @@ const ViewSettingForm = ({ navigation, route }) => {
   const [feeAmount, setFeeAmount] = useState("")
   const [imageQuality, setImageQuality] = useState("")
   const [videoQuality, setVideoQuality] = useState("")
+  const [lineContact, setLineContact] = useState("")
+
+  useEffect(() => {
+    const onChangeValue = firebase
+      .database()
+      .ref("appconfig")
+      .on("value", (snapshot) => {
+        const data = { ...snapshot.val() }
+        setFeeAmount(data.fee_amount || null)
+        setLineContact(data.line_contact_admin || "")
+        setImageQuality(data.quality_image_upload || "default")
+        setVideoQuality(data.quality_video_upload || "default")
+      })
+
+    return () =>
+      firebase.database().ref("appconfig").off("value", onChangeValue)
+  }, [])
 
   const updateAppConfigSetting = () => {
     if (!feeAmount) {
@@ -62,6 +79,16 @@ const ViewSettingForm = ({ navigation, route }) => {
             onChangeText={(value) => setVideoQuality(value)}
             value={videoQuality}
             disabled
+          />
+        </View>
+        <View style={styles.viewCard}>
+          <Text style={{ fontSize: 18 }}>Line Contact Admin</Text>
+          <Input
+            placeholder="default"
+            leftIcon={{ type: "font-awesome-5", name: "line" }}
+            style={styles.inputForm}
+            onChangeText={(value) => setLineContact(value)}
+            value={lineContact}
           />
         </View>
         <Button
