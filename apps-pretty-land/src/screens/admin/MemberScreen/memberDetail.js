@@ -53,11 +53,11 @@ const MemberDetailScreen = ({ navigation, route }) => {
 
   const onPreviewImageList = (index) => {
     const images = [
-      { props: { source: item.imageUrl1 } },
-      { props: { source: item.imageUrl2 } },
-      { props: { source: item.imageUrl3 } },
-      { props: { source: item.imageUrl4 } },
-      { props: { source: item.imageUrl5 } },
+      { url: item.imageUrl1 },
+      { url: item.imageUrl2 },
+      { url: item.imageUrl3 },
+      { url: item.imageUrl4 },
+      { url: item.imageUrl5 },
     ]
     navigate("Image-Preview", { index, images })
   }
@@ -127,48 +127,64 @@ const MemberDetailScreen = ({ navigation, route }) => {
                   </TouchableNativeFeedback>
                 )}
                 {item.imageUrl2 && (
-                  <View style={styles.mediaImageContainer}>
-                    <Image
-                      source={{ uri: item.imageUrl2 }}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                  </View>
+                  <TouchableNativeFeedback
+                    onPress={() => onPreviewImageList(1)}
+                  >
+                    <View style={styles.mediaImageContainer}>
+                      <Image
+                        source={{ uri: item.imageUrl2 }}
+                        style={styles.image}
+                        resizeMode="cover"
+                      />
+                    </View>
+                  </TouchableNativeFeedback>
                 )}
                 {item.imageUrl3 && (
-                  <View style={styles.mediaImageContainer}>
-                    <Image
-                      source={{ uri: item.imageUrl3 }}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                  </View>
+                  <TouchableNativeFeedback
+                    onPress={() => onPreviewImageList(2)}
+                  >
+                    <View style={styles.mediaImageContainer}>
+                      <Image
+                        source={{ uri: item.imageUrl3 }}
+                        style={styles.image}
+                        resizeMode="cover"
+                      />
+                    </View>
+                  </TouchableNativeFeedback>
                 )}
                 {item.imageUrl4 && (
-                  <View style={styles.mediaImageContainer}>
-                    <Image
-                      source={{ uri: item.imageUrl4 }}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                  </View>
+                  <TouchableNativeFeedback
+                    onPress={() => onPreviewImageList(3)}
+                  >
+                    <View style={styles.mediaImageContainer}>
+                      <Image
+                        source={{ uri: item.imageUrl4 }}
+                        style={styles.image}
+                        resizeMode="cover"
+                      />
+                    </View>
+                  </TouchableNativeFeedback>
                 )}
                 {item.videoUrl && (
-                  <View style={styles.mediaImageContainer}>
-                    <Video
-                      ref={video}
-                      style={styles.video}
-                      source={{ uri: item.videoUrl }}
-                      useNativeControls
-                      resizeMode="contain"
-                      isLooping
-                      onPlaybackStatusUpdate={(status) =>
-                        setStatus(() => status)
-                      }
-                    >
-                      <ActivityIndicator style={styles.video} size="large" />
-                    </Video>
-                  </View>
+                  <TouchableNativeFeedback
+                    onPress={() => onPreviewImageList(4)}
+                  >
+                    <View style={styles.mediaImageContainer}>
+                      <Video
+                        ref={video}
+                        style={styles.video}
+                        source={{ uri: item.videoUrl }}
+                        useNativeControls
+                        resizeMode="contain"
+                        isLooping
+                        onPlaybackStatusUpdate={(status) =>
+                          setStatus(() => status)
+                        }
+                      >
+                        <ActivityIndicator style={styles.video} size="large" />
+                      </Video>
+                    </View>
+                  </TouchableNativeFeedback>
                 )}
               </ScrollView>
             </View>
@@ -214,9 +230,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
               <Text style={{ fontSize: 22 }}>
                 ชื่อ: {item.name || item.username}
               </Text>
-              <Text style={{ fontSize: 22 }}>
-                ตำแหน่งงาน: ผู้ดูแลระบบ
-              </Text>
+              <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ผู้ดูแลระบบ</Text>
             </View>
           )}
         </View>
@@ -242,7 +256,8 @@ const MemberDetailScreen = ({ navigation, route }) => {
               onPress={() => approveMember()}
             />
           )}
-          {item.status && item.status !== AppConfig.MemberStatus.newRegister &&
+          {item.status &&
+            item.status !== AppConfig.MemberStatus.newRegister &&
             item.status !== AppConfig.MemberStatus.suspend && (
               <Button
                 icon={
