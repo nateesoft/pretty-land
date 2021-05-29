@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { Ionicons, MaterialIcons, Feather, MaterialCommunityIcons } from "@expo/vector-icons"
 
@@ -7,9 +7,6 @@ import TaskNavigator from "./CustomerPostScreen/navigator"
 import MemberNavigator from "./MemberScreen/navigator"
 import ProfileNavigator from './ProfileScreen/navigator'
 import SettingsNavigator from './SettingsScreen/navigator'
-
-/* useContext */
-import { Context as AuthContext} from '../../context/AuthContext'
 
 /* Logout */
 import LogoutScreen from "../logout"

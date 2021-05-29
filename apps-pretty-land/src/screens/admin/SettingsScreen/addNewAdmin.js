@@ -5,11 +5,11 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import base64 from "react-native-base64"
 import uuid from "react-native-uuid"
 
+import { snapshotToArray } from "../../../../util"
 import firebase from "../../../../util/firebase"
 import bgImage from "../../../../assets/bg.png"
 
 const AddNewAdminForm = ({ navigation, route }) => {
-  const { userId } = route.params
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [rePassword, setRePassword] = useState("")
@@ -35,13 +35,29 @@ const AddNewAdminForm = ({ navigation, route }) => {
       password: base64.encode(password),
       memberType: isSuperAdmin ? "superadmin" : "admin",
     }
-    firebase.database().ref(`members/${id}`).set(dataNewAdmin)
-
-    Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว")
-    setUsername("")
-    setPassword("")
-    setRePassword("")
-    setSuperAdmin(false)
+    firebase
+      .database()
+      .ref(`members`)
+      .orderByChild("username")
+      .equalTo(username)
+      .once("value", (snapshot) => {
+        const data = snapshotToArray(snapshot)
+        if (data.length === 0) {
+          firebase.database().ref(`members/${dataNewAdmin.id}`).set(dataNewAdmin)
+          Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว")
+          setUsername("")
+          setPassword("")
+          setRePassword("")
+          setSuperAdmin(false)
+        } else {
+          const user = data[0]
+          Alert.alert(
+            "แจ้งเตือน",
+            `ข้อมูลผู้ใช้งาน: ${user.username} มีอยู่แล้ว`,
+            [{ text: "OK" }]
+          )
+        }
+      })
   }
 
   return (

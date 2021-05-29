@@ -107,7 +107,6 @@ const MemberDetailScreen = ({ navigation, route }) => {
           >
             <Text style={{ fontSize: 22 }}>แสดงรายละเอียดสมาชิก</Text>
           </View>
-
           {item.image && (
             <View style={{ alignItems: "center" }}>
               <ScrollView
@@ -174,34 +173,52 @@ const MemberDetailScreen = ({ navigation, route }) => {
               </ScrollView>
             </View>
           )}
-          <View
-            style={{
-              padding: 20,
-              borderWidth: 1,
-              borderRadius: 25,
-              margin: 10,
-            }}
-          >
-            <Text style={{ fontSize: 16 }}>
-              ชื่อ: {item.name || item.username}
-            </Text>
-            <Text style={{ fontSize: 16 }}>
-              รับงาน: {getPartnerGroupByType(item)}
-            </Text>
-            <Text style={{ fontSize: 16 }}>
-              วันที่เป็นสมาชิก:{" "}
-              {item.member_register_date
-                ? Moment(item.member_register_date).format("D MMM YYYY")
-                : "[ รออนุมัติ ]"}
-            </Text>
-            <Text style={{ fontSize: 16 }}>
-              ระดับ Level: {item.customerLevel || 0}
-            </Text>
-            <Text style={{ fontSize: 16 }}>
-              เบอร์ติดต่อ: {item.mobile || "[ ไม่พบข้อมูล ]"}
-            </Text>
-            <Text style={{ fontSize: 16 }}>สถานะ: {item.statusText}</Text>
-          </View>
+          {item.memberType === "partner" ? (
+            <View
+              style={{
+                padding: 20,
+                borderWidth: 1,
+                borderRadius: 25,
+                margin: 10,
+              }}
+            >
+              <Text style={{ fontSize: 16 }}>
+                ชื่อ: {item.name || item.username}
+              </Text>
+              <Text style={{ fontSize: 16 }}>
+                รับงาน: {getPartnerGroupByType(item)}
+              </Text>
+              <Text style={{ fontSize: 16 }}>
+                วันที่เป็นสมาชิก:{" "}
+                {item.member_register_date
+                  ? Moment(item.member_register_date).format("D MMM YYYY")
+                  : "[ รออนุมัติ ]"}
+              </Text>
+              <Text style={{ fontSize: 16 }}>
+                ระดับ Level: {item.customerLevel || 0}
+              </Text>
+              <Text style={{ fontSize: 16 }}>
+                เบอร์ติดต่อ: {item.mobile || "[ ไม่พบข้อมูล ]"}
+              </Text>
+              <Text style={{ fontSize: 16 }}>สถานะ: {item.statusText}</Text>
+            </View>
+          ) : (
+            <View
+              style={{
+                padding: 20,
+                borderWidth: 1,
+                borderRadius: 25,
+                margin: 10,
+              }}
+            >
+              <Text style={{ fontSize: 22 }}>
+                ชื่อ: {item.name || item.username}
+              </Text>
+              <Text style={{ fontSize: 22 }}>
+                ตำแหน่งงาน: ผู้ดูแลระบบ
+              </Text>
+            </View>
+          )}
         </View>
         <View style={{ alignItems: "center" }}>
           {item.status === AppConfig.MemberStatus.newRegister && (
@@ -225,7 +242,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
               onPress={() => approveMember()}
             />
           )}
-          {item.status !== AppConfig.MemberStatus.newRegister &&
+          {item.status && item.status !== AppConfig.MemberStatus.newRegister &&
             item.status !== AppConfig.MemberStatus.suspend && (
               <Button
                 icon={

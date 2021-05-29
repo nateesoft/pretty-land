@@ -42,57 +42,93 @@ const MemberAllListScreen = ({ navigation, route }) => {
     return () => firebase.database().ref("members").off("value", onChangeValue)
   }, [])
 
-  const handleRefresh = () => {
-  }
+  const handleRefresh = () => {}
 
   const onPressOptions = (item) => {
     navigation.navigate("Member-Detail", { item })
   }
 
-  const renderItem = ({ item }) => (
-    <TouchableNativeFeedback
-      onPress={() => onPressOptions(item)}
-      style={{ backgroundColor: "red" }}
-    >
-      <ListItem
-        bottomDivider
-        containerStyle={{
-          backgroundColor: null,
-          borderRadius: 8,
-          marginVertical: 5,
-        }}
+  const renderItem = ({ item }) =>
+    item.memberType === "partner" ? (
+      <TouchableNativeFeedback
+        onPress={() => onPressOptions(item)}
+        style={{ backgroundColor: "red" }}
       >
-        {item.image ? <Avatar source={{ uri: item.image }} size={128} /> : null}
-        <ListItem.Content style={{ marginLeft: 10 }}>
-          <ListItem.Title>
-            ชื่อสมาชิก: {item.name || item.username}
-          </ListItem.Title>
-          <ListItem.Subtitle
-            style={{
-              borderWidth: 1,
-              padding: 5,
-              borderRadius: 10,
-              borderColor: "#aaa",
-              marginVertical: 5,
-            }}
-          >
-            รับงาน: {getPartnerGroupByType(item)}
-          </ListItem.Subtitle>
-          <ListItem.Subtitle>สถานะ: {item.statusText}</ListItem.Subtitle>
-        </ListItem.Content>
-        <ProgressCircle
-          percent={30}
-          radius={17}
-          borderWidth={1.5}
-          color="f580084"
-          shadowColor="#FFF"
-          bgColor="#FFF"
+        <ListItem
+          bottomDivider
+          containerStyle={{
+            backgroundColor: null,
+            borderRadius: 8,
+            marginVertical: 5,
+          }}
         >
-          <Image source={require("../../../../assets/icons/pl.png")} />
-        </ProgressCircle>
-      </ListItem>
-    </TouchableNativeFeedback>
-  )
+          {item.image ? (
+            <Avatar source={{ uri: item.image }} size={128} />
+          ) : null}
+          <ListItem.Content style={{ marginLeft: 10 }}>
+            <ListItem.Title>
+              ชื่อสมาชิก: {item.name || item.username}
+            </ListItem.Title>
+            <ListItem.Subtitle
+              style={{
+                borderWidth: 1,
+                padding: 5,
+                borderRadius: 10,
+                borderColor: "#aaa",
+                marginVertical: 5,
+              }}
+            >
+              รับงาน: {getPartnerGroupByType(item)}
+            </ListItem.Subtitle>
+            <ListItem.Subtitle>สถานะ: {item.statusText}</ListItem.Subtitle>
+          </ListItem.Content>
+          <ProgressCircle
+            percent={30}
+            radius={17}
+            borderWidth={1.5}
+            color="f580084"
+            shadowColor="#FFF"
+            bgColor="#FFF"
+          >
+            <Image source={require("../../../../assets/icons/pl.png")} />
+          </ProgressCircle>
+        </ListItem>
+      </TouchableNativeFeedback>
+    ) : (
+      <TouchableNativeFeedback
+        onPress={() => onPressOptions(item)}
+        style={{ backgroundColor: "red" }}
+      >
+        <ListItem
+          bottomDivider
+          containerStyle={{
+            backgroundColor: null,
+            borderRadius: 8,
+            marginVertical: 5,
+          }}
+        >
+          <View style={{width: 130, height: 130, borderWidth: 1, padding: 10, borderColor: '#aaa'}}>
+            <Text style={{ alignSelf: "center"}}>No Image</Text>
+          </View>
+          <ListItem.Content style={{ marginLeft: 10 }}>
+            <ListItem.Title>
+              ชื่อสมาชิก: {item.name || item.username}
+            </ListItem.Title>
+            <ListItem.Subtitle style={{fontSize: 20, fontWeight: 'bold'}}>ผู้ดูแลระบบ</ListItem.Subtitle>
+          </ListItem.Content>
+          <ProgressCircle
+            percent={30}
+            radius={17}
+            borderWidth={1.5}
+            color="f580084"
+            shadowColor="#FFF"
+            bgColor="#FFF"
+          >
+            <Image source={require("../../../../assets/icons/pl.png")} />
+          </ProgressCircle>
+        </ListItem>
+      </TouchableNativeFeedback>
+    )
 
   return (
     <ImageBackground
