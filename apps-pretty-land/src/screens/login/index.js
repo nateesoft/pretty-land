@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import {
   View,
   StyleSheet,
@@ -12,6 +12,7 @@ import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
 import { TouchableNativeFeedback } from "react-native"
 
+import firebase from "../../../util/firebase"
 import { Context as AuthContext } from "../../context/AuthContext"
 import bg from "../../../assets/login.png"
 import bgImage from "../../../assets/bg.png"
@@ -21,9 +22,23 @@ import facebookLogo from "../../../assets/icons/f_logo_RGB-Blue_58.png"
 const LoginScreen = ({ navigation, route }) => {
   const { navigate } = navigation
   const { signInCustomer } = useContext(AuthContext)
+  const [lineContact, setLineContact] = useState("")
+
+  useEffect(() => {
+    const onChangeValue = firebase
+      .database()
+      .ref("appconfig")
+      .once("value", (snapshot) => {
+        const data = { ...snapshot.val() }
+        setLineContact(data.line_contact_admin || "https://lin.ee/DgRh5Mw")
+      })
+
+    return () =>
+      firebase.database().ref('appconfig').off("value", onChangeValue)
+  }, [])
 
   const LinkToLineContact = () => {
-    Linking.openURL("https://line.me/ti/p/88jO0dx8E-#~")
+    Linking.openURL(lineContact)
   }
 
   return (

@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableNativeFeedback,
 } from "react-native"
-import { Video } from "expo-av"
+// import { Video } from "expo-av"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
 import * as Progress from "react-native-progress"
@@ -18,7 +18,6 @@ import Img2 from "../../../../assets/img_example/f2.jpg"
 import Img3 from "../../../../assets/img_example/f3.jpg"
 import Img4 from "../../../../assets/img_example/f4.jpg"
 import Img5 from "../../../../assets/img_example/f5.jpg"
-import ImgVideo from "../../../../assets/img_example/f_video.mp4"
 
 const images = [
   { props: { source: Img1 } },
@@ -164,7 +163,7 @@ export default function PartnerImage(props) {
           </TouchableNativeFeedback>
         ))}
       </View>
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
         <Video
           ref={video}
           style={styles.video}
@@ -174,7 +173,7 @@ export default function PartnerImage(props) {
           isLooping
           onPlaybackStatusUpdate={(status) => setStatus(() => status)}
         />
-      </View>
+      </View> */}
     </ScrollView>
   )
 }
