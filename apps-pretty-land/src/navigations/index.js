@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useReducer } from "react"
 import { createStackNavigator } from "@react-navigation/stack"
-import { Alert, Text, View } from "react-native"
+import { Alert, Text, View, Linking } from "react-native"
 import * as Facebook from "expo-facebook"
 import base64 from "react-native-base64"
-import LineLogin from "@xmartlabs/react-native-line"
 
 import { AppConfig } from "../Constants"
 import { snapshotToArray } from "../../util"
@@ -63,16 +62,6 @@ const AppNavigation = () => {
       token: null,
     }
   )
-
-  const lineLogin = async () => {
-    try {
-      const loginResult = await LineLogin.login().then(result=>{
-        console.log('result line login:', result);
-      })
-    } catch (error) {
-      console.log('line login error:', error)
-    }
-  }
 
   const facebookLogin = async () => {
     try {
@@ -152,13 +141,18 @@ const AppNavigation = () => {
             }
           })
       },
-      signInCustomer: async (data) => {
+      signInFacebook: async (data) => {
         if (data.loginType === "facebook") {
           facebookLogin()
         }
-        if (data.loginType === "line") {
-          lineLogin()
-        }
+      },
+      signInLine: async (data) => {
+        console.log('App:=>signInLine:', data)
+        dispatch({
+          type: "SIGN_IN",
+          token: data.code,
+          screen: "customer",
+        })
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),
     }),

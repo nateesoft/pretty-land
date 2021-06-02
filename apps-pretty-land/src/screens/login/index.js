@@ -21,7 +21,7 @@ import facebookLogo from "../../../assets/icons/f_logo_RGB-Blue_58.png"
 
 const LoginScreen = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { signInCustomer } = useContext(AuthContext)
+  const { signInFacebook } = useContext(AuthContext)
   const [lineContact, setLineContact] = useState("")
 
   useEffect(() => {
@@ -53,11 +53,12 @@ const LoginScreen = ({ navigation, route }) => {
         <Text style={styles.textDetail}>Love Your Moments</Text>
         <TouchableHighlight
           style={styles.btnLineClickContain}
-          onPress={() =>
-            signInCustomer({
-              loginType: "line",
-            })
-          }
+          onPress={()=>navigate("Line-Login-Form")}
+          // onPress={() =>
+          //   signInFacebook({
+          //     loginType: "line",
+          //   })
+          // }
         >
           <View style={styles.btnContainer}>
             <Image source={lineLogo} style={{ width: 24, height: 24 }} />
@@ -76,7 +77,7 @@ const LoginScreen = ({ navigation, route }) => {
         <TouchableHighlight
           style={styles.btnClickContain}
           onPress={() =>
-            signInCustomer({
+            signInFacebook({
               loginType: "facebook",
             })
           }
