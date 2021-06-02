@@ -82,8 +82,8 @@ const RegisterPartnerForm = ({ navigation, route }) => {
         setAddress(data.address || "")
       })
 
-    return () =>
-      firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    // return () =>
+    //   firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
   }, [])
 
   return (

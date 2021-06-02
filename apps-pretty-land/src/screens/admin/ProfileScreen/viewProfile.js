@@ -57,7 +57,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
         setOwnPassword(base64.decode(data.password))
       })
 
-    return () => firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    // return () => firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
   }, [])
 
   return (

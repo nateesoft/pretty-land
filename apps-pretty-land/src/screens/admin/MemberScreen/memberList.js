@@ -41,12 +41,12 @@ const MemberAllListScreen = ({ navigation, route }) => {
         )
       })
 
-    return () =>
-      firebase
-        .database()
-        .ref("members")
-        .orderByChild("status_priority")
-        .off("value", onChangeValue)
+    // return () =>
+    //   firebase
+    //     .database()
+    //     .ref("members")
+    //     .orderByChild("status_priority")
+    //     .off("value", onChangeValue)
   }, [])
 
   const handleRefresh = () => {}

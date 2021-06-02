@@ -94,8 +94,8 @@ const ProfileHomeScreen = ({ navigation, route }) => {
         )
       })
 
-    return () =>
-      firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    // return () =>
+    //   firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
   }, [])
 
   return (

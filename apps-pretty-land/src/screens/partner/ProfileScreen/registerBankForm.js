@@ -57,8 +57,8 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
         setBankNo(data.bankNo || "")
       })
 
-    return () =>
-      firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    // return () =>
+    //   firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
   }, [])
 
   return (

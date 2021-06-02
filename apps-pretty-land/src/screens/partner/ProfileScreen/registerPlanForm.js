@@ -122,8 +122,8 @@ const RegisterPlanForm = ({ navigation, route }) => {
         setSex(data.sex || 'female')
       })
 
-    return () =>
-      firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    // return () =>
+    //   firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
   }, [])
 
   return (

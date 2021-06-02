@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -24,17 +24,6 @@ const PostListAllScreen = ({ navigation, route }) => {
   const [openSelectPartner, setOpenSelectPartner] = React.useState(false)
   const [partner, setPartner] = React.useState("")
   const [partnerList, setPartnerList] = React.useState(getPostStatus())
-
-  // useEffect(() => {
-  //   const onChangeValue = firebase
-  //     .database()
-  //     .ref("posts")
-  //     .on("value", (snapshot) => {
-  //       setPosts(snapshotToArray(snapshot))
-  //     })
-
-  //   return () => firebase.database().ref("posts").off("value", onChangeValue)
-  // }, [])
 
   const handleRefresh = () => {
   }

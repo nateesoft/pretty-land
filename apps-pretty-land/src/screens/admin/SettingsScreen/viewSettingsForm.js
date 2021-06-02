@@ -25,8 +25,8 @@ const ViewSettingForm = ({ navigation, route }) => {
         setVideoQuality(data.quality_video_upload || "default")
       })
 
-    return () =>
-      firebase.database().ref("appconfig").off("value", onChangeValue)
+    // return () =>
+      // firebase.database().ref("appconfig").off("value", onChangeValue)
   }, [])
 
   const updateAppConfigSetting = () => {

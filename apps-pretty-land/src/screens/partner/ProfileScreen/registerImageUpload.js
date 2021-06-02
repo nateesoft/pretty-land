@@ -117,8 +117,8 @@ const RegisterImageUpload = ({ navigation, route }) => {
         setImageUrl6(data.videoUrl || null)
       })
 
-    return () =>
-      firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    // return () =>
+    //   firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
   }, [])
 
   const uploadAllImageVideo = () => {

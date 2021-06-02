@@ -33,8 +33,8 @@ const LoginScreen = ({ navigation, route }) => {
         setLineContact(data.line_contact_admin || "https://lin.ee/DgRh5Mw")
       })
 
-    return () =>
-      firebase.database().ref('appconfig').off("value", onChangeValue)
+    // return () =>
+    //   firebase.database().ref('appconfig').off("value", onChangeValue)
   }, [])
 
   const LinkToLineContact = () => {
