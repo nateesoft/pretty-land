@@ -53,12 +53,7 @@ const LoginScreen = ({ navigation, route }) => {
         <Text style={styles.textDetail}>Love Your Moments</Text>
         <TouchableHighlight
           style={styles.btnLineClickContain}
-          onPress={()=>navigate("Line-Login-Form")}
-          // onPress={() =>
-          //   signInFacebook({
-          //     loginType: "line",
-          //   })
-          // }
+          onPress={() => navigate("Line-Login-Form")}
         >
           <View style={styles.btnContainer}>
             <Image source={lineLogo} style={{ width: 24, height: 24 }} />

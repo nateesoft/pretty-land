@@ -6,11 +6,13 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
+  ImageBackground,
 } from "react-native"
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 
 import { getPostList } from "../../../data/apis"
+import bgImage from "../../../../assets/bg.png"
 
 const PostListScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false)
@@ -19,8 +21,7 @@ const PostListScreen = ({ navigation, route }) => {
     return item.customer === "A"
   })
 
-  const handleRefresh = () => {
-  }
+  const handleRefresh = () => {}
 
   const onPressOptions = (item, status) => {
     if (status === "wait_customer_select_partner") {
@@ -87,7 +88,11 @@ const PostListScreen = ({ navigation, route }) => {
   )
 
   return (
-    <SafeAreaView>
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
       <View style={styles.container}>
         <Text style={styles.textTopic}>แสดงรายการที่โพสท์</Text>
         {filterList.length > 0 && (
@@ -112,24 +117,21 @@ const PostListScreen = ({ navigation, route }) => {
         {filterList.length === 0 && (
           <Text
             style={{
-              fontSize: 28,
               textAlign: "center",
-              paddingVertical: 100,
-              backgroundColor: "white",
             }}
           >
             ไม่พบข้อมูลการโพสท์
           </Text>
         )}
       </View>
-    </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 5,
-    backgroundColor: "white",
   },
   textTopic: {
     fontSize: 24,
@@ -140,11 +142,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   btnNewPost: {
-    backgroundColor: "#35D00D",
     margin: 5,
     borderRadius: 75,
     height: 45,
     width: 250,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

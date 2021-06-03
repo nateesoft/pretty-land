@@ -1,4 +1,4 @@
-import { AppConfig } from '../Constants'
+import { AppConfig } from "../Constants"
 
 export const PARTNER_TYPE = ["Pretty", "Pretty Entertain", "Coyote", "Massage"]
 
@@ -9,7 +9,7 @@ export const partnerGroup = [
     value: "pretty-mc",
     label: AppConfig.PartnerType.type1,
     active: true,
-    img: require("../../assets/img_example/img1.png"),
+    img: "https://firebasestorage.googleapis.com/v0/b/pretty-land.appspot.com/o/images%2Fpartner1.jpg?alt=media&token=3133f733-4a8a-4fe0-978f-1df2a7ea84b0",
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ export const partnerGroup = [
     value: "coyote",
     label: AppConfig.PartnerType.type2,
     active: true,
-    img: require("../../assets/img_example/img2.png"),
+    img: "https://firebasestorage.googleapis.com/v0/b/pretty-land.appspot.com/o/images%2Fpartner2.jpg?alt=media&token=2cc7e943-1d7e-4012-aed2-4e36501129ed",
   },
   {
     id: 3,
@@ -25,7 +25,7 @@ export const partnerGroup = [
     value: "pretty-entertain",
     label: AppConfig.PartnerType.type3,
     active: true,
-    img: require("../../assets/img_example/img3.png"),
+    img: "https://firebasestorage.googleapis.com/v0/b/pretty-land.appspot.com/o/images%2Fpartner3.jpg?alt=media&token=37eb5c37-091f-41dd-bf9f-774ef06184e7",
   },
   {
     id: 4,
@@ -33,11 +33,11 @@ export const partnerGroup = [
     value: "pretty-massage",
     label: AppConfig.PartnerType.type4,
     active: true,
-    img: require("../../assets/img_example/img4.png"),
+    img: "https://firebasestorage.googleapis.com/v0/b/pretty-land.appspot.com/o/images%2Fpartner4.jpg?alt=media&token=a9f88168-fbe5-437a-a869-4774b5c28059",
   },
 ]
 
-export const memberStatus =[
+export const memberStatus = [
   { value: 1, label: AppConfig.MemberStatus.active },
   { value: 2, label: AppConfig.MemberStatus.newRegister },
   { value: 3, label: AppConfig.MemberStatus.notApprove },
