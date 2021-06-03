@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -16,8 +16,7 @@ import CardNotfound from "../../../components/CardNotfound"
 import { getDataForPartnerWork } from "../../../data/apis"
 
 const ListMyWorkScreen = ({ navigation, route }) => {
-  const { partnerType } = route.params
-  const [refreshing, setRefreshing] = React.useState(false)
+  const [refreshing, setRefreshing] = useState(false)
 
   const filterList = getDataForPartnerWork(1).filter((item) => {
     return item

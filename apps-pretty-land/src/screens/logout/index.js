@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import { StyleSheet, Alert, View, Text, ImageBackground } from "react-native"
 import { Button } from "react-native-elements"
 import { MaterialIcons } from "@expo/vector-icons"
@@ -7,7 +7,7 @@ import { Context as AuthContext } from "../../context/AuthContext"
 import bgImage from "../../../assets/bg.png"
 
 const LogoutScreen = ({ navigation, route }) => {
-  const { signOut } = React.useContext(AuthContext)
+  const { signOut } = useContext(AuthContext)
 
   const handleLogoutConfirm = () => {
     Alert.alert(

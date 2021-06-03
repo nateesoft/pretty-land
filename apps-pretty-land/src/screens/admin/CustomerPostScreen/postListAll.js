@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -8,22 +8,20 @@ import {
   RefreshControl,
   ImageBackground,
 } from "react-native"
-import { ListItem, Avatar, Text } from "react-native-elements"
+import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import DropDownPicker from "react-native-dropdown-picker"
 
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
-import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
-import { getPostList, getPostStatus, getPartnerGroupByType } from "../../../data/apis"
+import { getPostStatus } from "../../../data/apis"
 
 const PostListAllScreen = ({ navigation, route }) => {
-  const [refreshing, setRefreshing] = React.useState(false)
-  const [posts, setPosts] = React.useState([])
-  const [openSelectPartner, setOpenSelectPartner] = React.useState(false)
-  const [partner, setPartner] = React.useState("")
-  const [partnerList, setPartnerList] = React.useState(getPostStatus())
+  const [refreshing, setRefreshing] = useState(false)
+  const [posts, setPosts] = useState([])
+  const [openSelectPartner, setOpenSelectPartner] = useState(false)
+  const [partner, setPartner] = useState("")
+  const [partnerList, setPartnerList] = useState(getPostStatus())
 
   const handleRefresh = () => {
   }

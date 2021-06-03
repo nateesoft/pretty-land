@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useContext } from "react"
+import React, { memo, useContext } from "react"
 import { WebView } from "react-native-webview"
 import uuid from "react-native-uuid"
 

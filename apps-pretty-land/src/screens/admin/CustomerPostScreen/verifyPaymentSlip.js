@@ -1,9 +1,7 @@
 import React from "react"
-import { Image, View, StyleSheet } from "react-native"
+import { View, StyleSheet } from "react-native"
 import { Button, Text } from "react-native-elements"
 import { AntDesign, FontAwesome, Fontisto } from "react-native-vector-icons"
-
-// import SlipImg from "../../../../assets/img_example/slip.png"
 
 const VerifyPaymentSlip = ({ navigation }) => {
 
@@ -69,10 +67,6 @@ const VerifyPaymentSlip = ({ navigation }) => {
           type="F2"
         />
       </View>
-      {/* <Image
-        source={SlipImg}
-        style={{ width: 200, height: 250, marginBottom: 10 }}
-      /> */}
       <Button
         icon={
           <AntDesign

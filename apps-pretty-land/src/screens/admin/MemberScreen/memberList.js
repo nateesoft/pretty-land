@@ -20,10 +20,10 @@ import { snapshotToArray } from "../../../../util"
 import { getMemberCategory, getPartnerGroupByType } from "../../../data/apis"
 
 const MemberAllListScreen = ({ navigation, route }) => {
-  const [refreshing, setRefreshing] = React.useState(false)
-  const [openSelectPartner, setOpenSelectPartner] = React.useState(false)
-  const [partner, setPartner] = React.useState("")
-  const [partnerList, setPartnerList] = React.useState(getMemberCategory())
+  const [refreshing, setRefreshing] = useState(false)
+  const [openSelectPartner, setOpenSelectPartner] = useState(false)
+  const [partner, setPartner] = useState("")
+  const [partnerList, setPartnerList] = useState(getMemberCategory())
   const [members, setMembers] = useState([])
 
   useEffect(() => {

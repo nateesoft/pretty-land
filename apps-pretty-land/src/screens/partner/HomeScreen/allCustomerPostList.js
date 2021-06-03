@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -15,7 +15,7 @@ import { getPostToPartnerList } from "../../../data/apis"
 
 const AllCustomerPostList = ({ navigation, route }) => {
   const { item } = route.params
-  const [refreshing, setRefreshing] = React.useState(false)
+  const [refreshing, setRefreshing] = useState(false)
 
   const filterList = getPostToPartnerList(item.provinceId)
 

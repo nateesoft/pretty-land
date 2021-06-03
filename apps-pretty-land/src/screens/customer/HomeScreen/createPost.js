@@ -14,7 +14,7 @@ import bgImage from "../../../../assets/bg.png"
 
 const CreatePostForm = (props) => {
   const { navigation, route } = props
-  const { data, item, pageFrom } = route.params
+  const { item, pageFrom } = route.params
 
   const [openSelectPartner, setOpenSelectPartner] =useState(false)
   const [partner, setPartner] =useState("")

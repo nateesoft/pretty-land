@@ -20,7 +20,7 @@ const PaymentForm = ({ navigation, route }) => {
   const [bank, setBank] = useState("")
   const [amount, setAmount] = useState("")
   const [datetime, setDateTime] = useState("")
-  const [refreshing, setRefreshing] = React.useState(false)
+  const [refreshing, setRefreshing] = useState(false)
 
   const { item } = route.params
 

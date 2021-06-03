@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef, useContext } from "react"
 import {
   View,
   StyleSheet,
@@ -25,9 +25,9 @@ import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterImageUpload = ({ navigation, route }) => {
-  const { signOut } = React.useContext(AuthContext)
+  const { signOut } = useContext(AuthContext)
   const { userId, status, bankData } = route.params
-  const video = React.useRef(null)
+  const video = useRef(null)
 
   const [uploadFinish, setUploadFinish] = useState("none")
   const [hideButtonUpload, setHideButtonUpload] = useState(false)

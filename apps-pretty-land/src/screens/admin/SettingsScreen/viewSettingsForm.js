@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { StyleSheet, View, ImageBackground } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
-import { FontAwesome, FontAwesome5 } from "react-native-vector-icons"
+import { FontAwesome } from "react-native-vector-icons"
 
 import firebase from "../../../../util/firebase"
 import bgImage from "../../../../assets/bg.png"

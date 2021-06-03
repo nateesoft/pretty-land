@@ -9,7 +9,7 @@ import {
   ImageBackground,
   TouchableNativeFeedback,
 } from "react-native"
-import { ListItem, Avatar, Text } from "react-native-elements"
+import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import DropDownPicker from "react-native-dropdown-picker"
 
@@ -20,10 +20,10 @@ import { snapshotToArray } from "../../../../util"
 import { getMemberCategory } from "../../../data/apis"
 
 const AdminAllListScreen = ({ navigation, route }) => {
-  const [refreshing, setRefreshing] = React.useState(false)
-  const [openSelectPartner, setOpenSelectPartner] = React.useState(false)
-  const [partner, setPartner] = React.useState("")
-  const [partnerList, setPartnerList] = React.useState(getMemberCategory())
+  const [refreshing, setRefreshing] = useState(false)
+  const [openSelectPartner, setOpenSelectPartner] = useState(false)
+  const [partner, setPartner] = useState("")
+  const [partnerList, setPartnerList] = useState(getMemberCategory())
   const [members, setMembers] = useState([])
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useState, useRef } from "react"
 import {
   View,
   StyleSheet,
@@ -25,8 +25,8 @@ export default function PartnerImage(props) {
   const { navigation, route } = props
   const { item } = route.params
 
-  const video = React.useRef(null)
-  const [status, setStatus] = React.useState({})
+  const video = useRef(null)
+  const [status, setStatus] = useState({})
 
   const onPressSelectPartner = () => {
     navigation.navigate("Partner-List-Select")

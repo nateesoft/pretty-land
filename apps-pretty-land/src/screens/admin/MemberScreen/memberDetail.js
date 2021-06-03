@@ -25,7 +25,6 @@ const MemberDetailScreen = ({ navigation, route }) => {
   const { item } = route.params
   const video = useRef(null)
   const [status, setStatus] = useState({})
-  const [images, setImages] = useState([])
 
   const confirmRemovePermanent = () => {
     firebase.database().ref(`members/${item.id}`).remove()
@@ -216,9 +215,18 @@ const MemberDetailScreen = ({ navigation, route }) => {
                   ? Moment(item.member_register_date).format("D MMM YYYY")
                   : "[ รออนุมัติ ]"}
               </Text>
-              <Text style={{ fontSize: 16 }}>
-                ระดับ Level: {item.customerLevel || 0}
-              </Text>
+              {item.memberType === "admin" && (
+                <Text style={{ fontSize: 16 }}>
+                  ระดับ Level: {item.customerLevel || 0}
+                </Text>
+              )}
+              {item.memberType === "partner" && (
+                <View>
+                  <Text style={{ fontSize: 16 }}>
+                    คะแนน: {item.point || 0} คะแนน
+                  </Text>
+                </View>
+              )}
               <Text style={{ fontSize: 16 }}>
                 เบอร์ติดต่อ: {item.mobile || "[ ไม่พบข้อมูล ]"}
               </Text>

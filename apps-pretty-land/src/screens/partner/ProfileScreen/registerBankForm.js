@@ -23,8 +23,8 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
   const [bank, setBank] = useState("")
   const [bankNo, setBankNo] = useState("")
 
-  const [openSelectBank, setOpenSelectBank] = React.useState(false)
-  const [bankList, setBankList] = React.useState(getBankList())
+  const [openSelectBank, setOpenSelectBank] = useState(false)
+  const [bankList, setBankList] = useState(getBankList())
 
   const handleNextData = () => {
     if (!bank) {

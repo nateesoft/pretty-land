@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -17,11 +17,11 @@ import CardNotfound from "../../../components/CardNotfound"
 import { allGroupContryWork, getCountryList } from "../../../data/apis"
 
 const AllTaskListScreen = ({ navigation, route }) => {
-  const [refreshing, setRefreshing] = React.useState(false)
+  const [refreshing, setRefreshing] = useState(false)
 
-  const [openSelectCountry, setOpenSelectCountry] = React.useState(false)
-  const [country, setCountry] = React.useState("")
-  const [countryList, setCountryList] = React.useState(getCountryList())
+  const [openSelectCountry, setOpenSelectCountry] = useState(false)
+  const [country, setCountry] = useState("")
+  const [countryList, setCountryList] = useState(getCountryList())
 
   const filterList = allGroupContryWork().filter((item, index) => {
     return item

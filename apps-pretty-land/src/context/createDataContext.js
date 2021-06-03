@@ -1,7 +1,7 @@
-import React, { useReducer } from "react"
+import React, { useReducer, createContext } from "react"
 
 export default (reducer, action, defaultValue) => {
-  const Context = React.createContext()
+  const Context = createContext()
 
   const Provider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, defaultValue)

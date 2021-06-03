@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 

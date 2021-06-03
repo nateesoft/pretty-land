@@ -1,16 +1,13 @@
-import React, { useRef, useState } from "react"
+import React from "react"
 import {
   StyleSheet,
   View,
-  Image,
   SafeAreaView,
   Alert,
   ImageBackground,
-  ScrollView,
-  TouchableNativeFeedback,
 } from "react-native"
 import { Button, Text } from "react-native-elements"
-import { Ionicons, AntDesign } from "react-native-vector-icons"
+import { Ionicons } from "react-native-vector-icons"
 
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"

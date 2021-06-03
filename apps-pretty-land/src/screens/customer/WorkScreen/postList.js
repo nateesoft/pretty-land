@@ -1,6 +1,5 @@
-import React from "react"
+import React, { useState } from "react"
 import {
-  SafeAreaView,
   FlatList,
   View,
   StyleSheet,
@@ -15,7 +14,7 @@ import { getPostList } from "../../../data/apis"
 import bgImage from "../../../../assets/bg.png"
 
 const PostListScreen = ({ navigation, route }) => {
-  const [refreshing, setRefreshing] = React.useState(false)
+  const [refreshing, setRefreshing] = useState(false)
 
   const filterList = getPostList().filter((item) => {
     return item.customer === "A"
