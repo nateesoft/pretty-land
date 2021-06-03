@@ -7,7 +7,7 @@ import base64 from "react-native-base64"
 import { AppConfig } from "../Constants"
 import { snapshotToArray } from "../../util"
 import firebase from "../../util/firebase"
-import fackbookLogin from "../../util/facebookLogin"
+import { facebookConfig } from "../../util/appConfig"
 
 import LoginNavigator from "../screens/login/navigator"
 import CustomerNavigator from "../screens/customer/navigator"
@@ -66,7 +66,7 @@ const AppNavigation = () => {
   const facebookLogin = async () => {
     try {
       await Facebook.initializeAsync({
-        appId: fackbookLogin.appId,
+        appId: facebookConfig.appId
       })
 
       const { type, token, expirationDate, permissions, declinedPermissions } =
@@ -150,7 +150,7 @@ const AppNavigation = () => {
         console.log('App:=>signInLine:', data)
         dispatch({
           type: "SIGN_IN",
-          token: data.code,
+          token: data.id,
           screen: "customer",
         })
       },

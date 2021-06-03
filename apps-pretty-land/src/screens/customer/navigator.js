@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 
@@ -7,6 +7,8 @@ import HomeScreen from "./HomeScreen/navigator"
 import WorkScreen from "./WorkScreen/navigator"
 import ContactAdminScreen from "./ContactAdminScreen/navigator"
 
+import { lineConfig } from "../../../util/appConfig"
+
 /* Logout */
 import LogoutScreen from "../logout"
 
@@ -14,6 +16,7 @@ const Tab = createBottomTabNavigator()
 
 const CustomerNavigator = ({ navigation, route }) => {
   const { userId, status } = route.params
+  console.log('CustomerNavigator:userId:', userId)
 
   return (
     <Tab.Navigator
@@ -55,11 +58,7 @@ const CustomerNavigator = ({ navigation, route }) => {
         options={{
           tabBarLabel: "ติดต่อ Admin",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons
-              name="contact-phone"
-              color="green"
-              size={size}
-            />
+            <MaterialIcons name="contact-phone" color="green" size={size} />
           ),
         }}
         initialParams={{ userId, status }}

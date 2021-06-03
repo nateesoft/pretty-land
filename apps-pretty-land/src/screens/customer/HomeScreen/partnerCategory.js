@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   StyleSheet,
   TouchableHighlight,
@@ -11,9 +11,9 @@ import {
 /* import data */
 import { getPartnerGroup } from "../../../data/apis"
 
-const widthFix = Dimensions.get("window").width * 70/100
+const widthFix = (Dimensions.get("window").width * 70) / 100
 
-const PartnerCategory = ({ navigation }) => {
+const PartnerCategory = ({ navigation, route }) => {
   const [items, setItems] = React.useState(getPartnerGroup)
   const onPressOptions = (item) => {
     navigation.navigate("Create-Post-Form", { item })

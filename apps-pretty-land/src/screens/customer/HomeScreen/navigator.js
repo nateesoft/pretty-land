@@ -9,7 +9,10 @@ import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const TabNavigator = ({ navigation, route }) => {
+const CustomerHomeTabNavigator = ({ navigation, route }) => {
+  const { userId, status } = route.params
+  console.log('CustomerHomeTabNavigator:userId:', userId)
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -48,4 +51,4 @@ const TabNavigator = ({ navigation, route }) => {
   )
 }
 
-export default TabNavigator
+export default CustomerHomeTabNavigator

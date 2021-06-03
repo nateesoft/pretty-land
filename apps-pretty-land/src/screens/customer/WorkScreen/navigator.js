@@ -13,7 +13,10 @@ import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const TabNavigator = ({ navigation, route }) => {
+const CustomerWorkTabNavigator = ({ navigation, route }) => {
+  const { userId, status } = route.params
+  console.log('CustomerWorkTabNavigator:userId:', userId)
+
   return (
     <Stack.Navigator>
       <Stack.Screen
