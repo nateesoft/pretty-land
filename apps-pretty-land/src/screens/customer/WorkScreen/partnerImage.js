@@ -13,18 +13,12 @@ import { Button } from "react-native-elements/dist/buttons/Button"
 import * as Progress from "react-native-progress"
 import { AirbnbRating } from "react-native-elements"
 
-import Img1 from "../../../../assets/img_example/f1.jpg"
-import Img2 from "../../../../assets/img_example/f2.jpg"
-import Img3 from "../../../../assets/img_example/f3.jpg"
-import Img4 from "../../../../assets/img_example/f4.jpg"
-import Img5 from "../../../../assets/img_example/f5.jpg"
-
 const images = [
-  { props: { source: Img1 } },
-  { props: { source: Img2 } },
-  { props: { source: Img3 } },
-  { props: { source: Img4 } },
-  { props: { source: Img5 } },
+  { props: { source: null } },
+  { props: { source: null } },
+  { props: { source: null } },
+  { props: { source: null } },
+  { props: { source: null } },
 ]
 
 export default function PartnerImage(props) {

@@ -84,7 +84,7 @@ export const addPostList = (newPost) => {
     post_owner: newPost.customer,
     partnerType: newPost.partnerType,
     name: newPost.name,
-    image: require("../../assets/img_example/img1.png"),
+    image: null,
     subtitle: newPost.subtitle,
     status: "customer_new_post_done",
     statusText: "โพสท์ใหม่",
