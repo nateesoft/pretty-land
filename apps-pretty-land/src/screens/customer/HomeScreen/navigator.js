@@ -11,7 +11,6 @@ const Stack = createStackNavigator()
 
 const CustomerHomeTabNavigator = ({ navigation, route }) => {
   const { userId, status } = route.params
-  console.log('CustomerHomeTabNavigator:userId:', userId)
 
   return (
     <Stack.Navigator>

@@ -147,7 +147,6 @@ const AppNavigation = () => {
         }
       },
       signInLine: async (data) => {
-        console.log('App:=>signInLine:', data)
         dispatch({
           type: "SIGN_IN",
           token: data.id,

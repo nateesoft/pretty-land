@@ -15,7 +15,6 @@ const Stack = createStackNavigator()
 
 const CustomerWorkTabNavigator = ({ navigation, route }) => {
   const { userId, status } = route.params
-  console.log('CustomerWorkTabNavigator:userId:', userId)
 
   return (
     <Stack.Navigator>
@@ -111,4 +110,4 @@ const CustomerWorkTabNavigator = ({ navigation, route }) => {
   )
 }
 
-export default TabNavigator
+export default CustomerWorkTabNavigator
