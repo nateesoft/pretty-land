@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Redirect } from "react-router-dom"
+import { Redirect, Link } from "react-router-dom"
 import jwtDecode from "jwt-decode"
 
 import "./App.css"
@@ -73,6 +73,12 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <p>404 - NOT FOUND LINE USER</p>
+        <Link
+          to="/support"
+          style={{ color: "chocolate", textDecoration: "none" }}
+        >
+          Support Us
+        </Link>
       </header>
     </div>
   )

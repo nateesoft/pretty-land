@@ -6,6 +6,7 @@ import "./index.css"
 import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 import Profile from "./Profile"
+import Support from "./Support"
 
 ReactDOM.render(
   <Router>
@@ -15,6 +16,9 @@ ReactDOM.render(
       </Route>
       <Route path="/profile">
         <Profile />
+      </Route>
+      <Route path="/support">
+        <Support />
       </Route>
     </Switch>
   </Router>,
