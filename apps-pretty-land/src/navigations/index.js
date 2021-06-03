@@ -43,6 +43,7 @@ const AppNavigation = () => {
             ...prevState,
             isSignout: false,
             token: action.token,
+            profile: action.profile,
             screen: action.screen,
             status: action.status,
           }
@@ -62,6 +63,22 @@ const AppNavigation = () => {
       token: null,
     }
   )
+
+  const lineLogin = data => {
+    firebase.database().ref(`customers/${data.id}`).set({
+      id: data.id,
+      profile: data.name,
+      profile_image: data.picture,
+      customerType: "line",
+      status: "active",
+      loginDate: new Date().toUTCString(),
+    })
+    dispatch({
+      type: "SIGN_IN",
+      token: data.id,
+      screen: "customer",
+    })
+  }
 
   const facebookLogin = async () => {
     try {
@@ -147,11 +164,7 @@ const AppNavigation = () => {
         }
       },
       signInLine: async (data) => {
-        dispatch({
-          type: "SIGN_IN",
-          token: data.id,
-          screen: "customer",
-        })
+        lineLogin(data)
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),
     }),
