@@ -18,7 +18,7 @@ import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import uuid from "react-native-uuid"
 
-import {AppConfig} from '../../../Constants'
+import { AppConfig } from "../../../Constants"
 import bgImage from "../../../../assets/bg.png"
 import { Context as AuthContext } from "../../../context/AuthContext"
 import firebase from "../../../../util/firebase"
@@ -26,7 +26,7 @@ import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterImageUpload = ({ navigation, route }) => {
   const { signOut } = useContext(AuthContext)
-  const { userId, status, bankData } = route.params
+  const { userId, bankData } = route.params
   const video = useRef(null)
 
   const [uploadFinish, setUploadFinish] = useState("none")
@@ -53,7 +53,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
   const saveProfileData = () => {
     const dataUpdate = {
       ...bankData,
-      image: image ? image: imageUrl1,
+      image: image ? image : imageUrl1,
       imageUrl1,
       imageUrl2,
       imageUrl3,
@@ -66,7 +66,10 @@ const RegisterImageUpload = ({ navigation, route }) => {
       statusText: AppConfig.MemberStatus.newRegisterMessage,
     }
     firebase.database().ref(`members/${userId}`).update(dataUpdate)
-    Alert.alert("กระบวนการเสร็จสมบูรณ์", "อัพเดตข้อมูลเรียบร้อยแล้ว รอ Admin อนุมัติข้อมูล")
+    Alert.alert(
+      "กระบวนการเสร็จสมบูรณ์",
+      "อัพเดตข้อมูลเรียบร้อยแล้ว รอ Admin อนุมัติข้อมูล"
+    )
     signOut()
   }
 
@@ -74,7 +77,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      videoExportPreset: ImagePicker.VideoExportPreset.LowQuality
+      videoExportPreset: ImagePicker.VideoExportPreset.MediumQuality,
     })
     if (!result.cancelled) {
       handleImg(result.uri)
@@ -92,7 +95,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       allowsEditing: false,
-      videoExportPreset: ImagePicker.VideoExportPreset.LowQuality
+      videoExportPreset: ImagePicker.VideoExportPreset.LowQuality,
     })
 
     if (!result.cancelled) {

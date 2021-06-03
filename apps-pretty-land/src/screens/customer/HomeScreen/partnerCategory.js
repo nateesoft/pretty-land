@@ -19,7 +19,7 @@ const widthFix = (Dimensions.get("window").width * 70) / 100
 const PartnerCategory = ({ navigation, route }) => {
   const [items, setItems] = useState(getPartnerGroup)
   const onPressOptions = (item) => {
-    navigation.navigate("Create-Post-Form", { item })
+    // navigation.navigate("Create-Post-Form", { item })
   }
 
   const DisplayCard = ({ data }) => (
