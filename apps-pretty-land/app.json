@@ -5,6 +5,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "facebookScheme": "fb507458737111150",
+    "facebookAppId": "507458737111150",
+    "facebookDisplayName": "pretty-land",
     "platforms": [
       "ios",
       "android"
@@ -23,7 +26,12 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.thailand.prettyland",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+       "LSApplicationQueriesSchemes": [
+         "fbapi","fb-messenger-api","fbauth2","fbshareextension"
+       ]
+     }
     },
     "android": {
       "package": "com.thailand.prettyland",
