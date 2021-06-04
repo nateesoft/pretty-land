@@ -7,6 +7,7 @@ import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 import Profile from "./Profile"
 import Support from "./Support"
+import Privacy from "./Privacy"
 
 ReactDOM.render(
   <Router>
@@ -19,6 +20,9 @@ ReactDOM.render(
       </Route>
       <Route path="/support">
         <Support />
+      </Route>
+      <Route path="/privacy">
+        <Privacy />
       </Route>
     </Switch>
   </Router>,

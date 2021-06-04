@@ -8,7 +8,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  SafeAreaView,
   ImageBackground,
 } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
@@ -270,7 +269,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
               />
             </View>
             <Button
-              title="บันทึก/ถัดไป"
+              title="ถัดไป"
               iconLeft
               icon={
                 <MaterialIcons

@@ -5,7 +5,7 @@ import {
   Text,
   TextInput,
   Alert,
-  SafeAreaView,
+  ScrollView,
   ImageBackground,
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
@@ -67,7 +67,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <SafeAreaView style={{ height: "100%" }}>
+      <ScrollView>
         <View style={{ alignItems: "center" }}>
           <Text style={styles.textFormInfo}>เพิ่มข้อมูลธนาคาร</Text>
         </View>
@@ -100,7 +100,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
             />
           </View>
           <Button
-            title="บันทึก/ถัดไป"
+            title="ถัดไป"
             iconLeft
             icon={
               <AntDesign
@@ -121,7 +121,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
             onPress={() => handleNextData()}
           />
         </View>
-      </SafeAreaView>
+      </ScrollView>
     </ImageBackground>
   )
 }

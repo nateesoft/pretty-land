@@ -105,7 +105,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <SafeAreaView style={{ height: "100%" }}>
+      <ScrollView style={{ height: "100%" }} showsHorizontalScrollIndicator={false}>
         <View style={styles.viewCard}>
           <View
             style={{ alignSelf: "center", marginTop: 20, marginBottom: 10 }}
@@ -334,7 +334,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
             onPress={() => handleRemovePermanent()}
           />
         </View>
-      </SafeAreaView>
+      </ScrollView>
     </ImageBackground>
   )
 }
@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
   },
   mediaImageContainer: {
     width: 250,
-    height: 350,
+    height: 300,
     borderRadius: 12,
     overflow: "hidden",
     marginHorizontal: 10,

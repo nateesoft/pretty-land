@@ -64,7 +64,7 @@ const AppNavigation = () => {
     }
   )
 
-  const lineLogin = data => {
+  const lineLogin = (data) => {
     firebase.database().ref(`customers/${data.id}`).set({
       id: data.id,
       profile: data.name,
@@ -80,16 +80,32 @@ const AppNavigation = () => {
     })
   }
 
+  const appleLogin = ({ userId, email, fullName }) => {
+    const id = base64.encode(email)
+    firebase.database().ref(`customers/${id}`).set({
+      id,
+      userId,
+      email: email.toString().toLowerCase(),
+      customerType: "apple",
+      status: "active",
+      loginDate: new Date().toUTCString(),
+    })
+    dispatch({
+      type: "SIGN_IN",
+      token: id,
+      screen: "customer",
+    })
+  }
+
   const facebookLogin = async () => {
     try {
       await Facebook.initializeAsync({
-        appId: facebookConfig.appId
+        appId: facebookConfig.appId,
       })
 
-      const { type, token, expirationDate, permissions, declinedPermissions } =
-        await Facebook.logInWithReadPermissionsAsync({
-          permissions: ["public_profile"],
-        })
+      const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ["public_profile"],
+      })
 
       if (type === "success") {
         const response = await fetch(
@@ -158,13 +174,14 @@ const AppNavigation = () => {
             }
           })
       },
-      signInFacebook: async (data) => {
-        if (data.loginType === "facebook") {
-          facebookLogin()
-        }
+      signInFacebook: () => {
+        facebookLogin()
       },
-      signInLine: async (data) => {
+      signInLine: (data) => {
         lineLogin(data)
+      },
+      signInApple: (data) => {
+        appleLogin(data)
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),
     }),
