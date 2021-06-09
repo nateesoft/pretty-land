@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableHighlight,
   Linking,
+  Alert,
 } from "react-native"
 import jwtDecode from "jwt-decode"
 import { AntDesign } from "@expo/vector-icons"
@@ -72,17 +73,18 @@ const LoginScreen = ({ navigation, route }) => {
           </View>
         </TouchableHighlight>
         <TouchableHighlight
-          style={styles.btnClickContain}
+          style={[styles.btnClickContain, { marginBottom: 20 }]}
           onPress={() => signInFacebook()}
         >
           <View style={styles.btnContainer}>
             <Image source={facebookLogo} style={{ width: 24, height: 24 }} />
             <Text
               style={{
-                marginLeft: 10,
+                marginTop: 2,
+                marginLeft: 5,
                 color: "white",
                 fontWeight: "bold",
-                fontSize: 16,
+                fontSize: 14,
               }}
             >
               เข้าสู่ระบบด้วย facebook
@@ -91,9 +93,11 @@ const LoginScreen = ({ navigation, route }) => {
         </TouchableHighlight>
         <AppleAuthentication.AppleAuthenticationButton
           buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-          buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+          buttonStyle={
+            AppleAuthentication.AppleAuthenticationButtonStyle.WHITE_OUTLINE
+          }
           cornerRadius={5}
-          style={{ width: 250, height: 44, marginTop: 10 }}
+          style={{ width: 200, height: 44 }}
           onPress={async () => {
             try {
               const credential = await AppleAuthentication.signInAsync({
@@ -102,6 +106,7 @@ const LoginScreen = ({ navigation, route }) => {
                   AppleAuthentication.AppleAuthenticationScope.EMAIL,
                 ],
               })
+              Alert.alert('Connect Apple authentication')
               const decodeData = jwtDecode(credential["identityToken"])
               // signed in
               signInApple({
@@ -116,6 +121,7 @@ const LoginScreen = ({ navigation, route }) => {
               } else {
                 // handle other errors
                 console.log("error apple login:", e)
+                Alert.alert(`Apple Auth Error: ${e}`)
               }
             }
           }}
@@ -140,7 +146,7 @@ const LoginScreen = ({ navigation, route }) => {
             backgroundColor: "#ff2fe6",
             marginTop: 5,
             borderRadius: 5,
-            width: 250,
+            width: 200,
             paddingHorizontal: 15,
             height: 45,
             borderWidth: 1,
@@ -149,7 +155,7 @@ const LoginScreen = ({ navigation, route }) => {
           onPress={() => navigate("Login-Form")}
         />
         <Button
-          title="ลงทะเบียนผู้ร่วมงาน"
+          title="ลงทะเบียนผู้ร่วมงาน (Register)"
           titleStyle={{
             color: "blue",
             fontSize: 14,
@@ -186,8 +192,8 @@ const styles = StyleSheet.create({
     marginTop: -120,
   },
   image: {
-    height: 100,
-    width: 100,
+    height: 85,
+    width: 85,
     marginBottom: 10,
   },
   textLogo: {
@@ -214,7 +220,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     textAlignVertical: "center",
-    paddingLeft: 10,
   },
   textOr: {
     marginVertical: 15,
@@ -276,7 +281,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     backgroundColor: "#0A69D6",
     borderRadius: 5,
-    width: 250,
+    width: 200,
     height: 45,
   },
   btnLineClickContain: {
@@ -286,7 +291,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#35D00D",
     marginTop: 45,
     borderRadius: 5,
-    width: 250,
+    width: 200,
     height: 45,
   },
 })

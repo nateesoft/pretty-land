@@ -31,7 +31,7 @@ const LoginNavigator = () => {
         name="Login-Form"
         component={LoginForm}
         options={{
-          title: "Login Form",
+          title: "Back",
           headerStyle: {
             backgroundColor: "#ff2fe6",
           },

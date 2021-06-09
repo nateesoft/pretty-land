@@ -70,6 +70,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
       <ScrollView>
         <View style={{ alignItems: "center" }}>
           <Text style={styles.textFormInfo}>เพิ่มข้อมูลธนาคาร</Text>
+          <Text>Add bank information (Optional)</Text>
         </View>
 
         <View style={{ width: "80%", alignSelf: "center" }}>

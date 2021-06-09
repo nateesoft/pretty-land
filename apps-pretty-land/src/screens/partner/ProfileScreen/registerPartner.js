@@ -95,13 +95,14 @@ const RegisterPartnerForm = ({ navigation, route }) => {
     >
       <ScrollView>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.textFormInfo}>รายละเอียดการรับงาน</Text>
+          <Text style={styles.textFormInfo}>จังหวัดที่รับงาน</Text>
+          <Text style={{marginBottom: 5}}>(Ways to get a job)</Text>
         </View>
         <View style={{ width: "80%", alignSelf: "center" }}>
           <Text
-            style={{ fontSize: 16, padding: 5, textTransform: "uppercase" }}
+            style={{ fontSize: 16, padding: 5 }}
           >
-            Line Id
+            Line Id (optional)
           </Text>
           <View style={styles.formControl}>
             <GetIcon type="fa5" name="line" />

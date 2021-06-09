@@ -243,6 +243,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     >
       <SafeAreaView style={styles.container}>
         <Text style={styles.textFormInfo}>เพิ่ม/แก้ไข รูปภาพ และวิดีโอ</Text>
+        <Text>Insert an image/ Video</Text>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.formControl, { marginTop: 20 }]}>
             <GetIcon type="ad" name="picture" />

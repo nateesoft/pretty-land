@@ -8,6 +8,7 @@ import {
   Alert,
   ImageBackground,
   ScrollView,
+  SafeAreaView,
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
@@ -70,7 +71,10 @@ const RegisterLoginForm = ({ navigation, route }) => {
             sys_update_date: new Date().toUTCString(),
           }
           firebase.database().ref(`members/${newId}`).set(saveData)
-          Alert.alert("กระบวนการสมบูรณ์", "บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")
+          Alert.alert(
+            "กระบวนการสมบูรณ์",
+            "บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้"
+          )
           navigation.popToTop()
           navigate("Login-Form")
         } else {
@@ -90,64 +94,83 @@ const RegisterLoginForm = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <ScrollView>
-        <View style={styles.container}>
-          <Image style={styles.image} source={bg} />
-          <Text style={styles.textLogo}>PRETTY LAND</Text>
-          <Text style={styles.textFormInfo}>ข้อมูลสำหรับเข้าใช้งานระบบ</Text>
-          <View style={styles.formControl}>
-            <GetIcon type="ad" name="user" />
-            <TextInput
-              style={styles.textInput}
-              placeholder="ข้อมูลผู้ใช้งาน"
-              value={username}
-              onChangeText={(value) => setUsername(value)}
+      <SafeAreaView style={{ height: "100%" }}>
+        <ScrollView>
+          <View style={styles.container}>
+            <Image style={styles.image} source={bg} />
+            <Text style={styles.textLogo}>PRETTY LAND</Text>
+            <Text style={styles.textFormInfo}>ลงทะเบียนผู้ร่วมงาน</Text>
+            <Text style={{marginBottom: 10, fontWeight: 'bold'}}>(Register)</Text>
+
+            <View style={{ width: "80%", alignSelf: "center" }}>
+              <Text style={{ fontSize: 16, padding: 5 }}>ข้อมูลผู้ใช้งาน Partner หรือ Admin</Text>
+              <View style={styles.formControl}>
+                <GetIcon type="ad" name="user" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="ข้อมูลผู้ใช้งาน"
+                  value={username}
+                  onChangeText={(value) => setUsername(value)}
+                />
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>ข้อมูลรหัสผ่าน (Password)</Text>
+              <View style={styles.formControl}>
+                <GetIcon type="mci" name="form-textbox-password" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="กำหนดรหัสผ่าน"
+                  secureTextEntry={true}
+                  value={password}
+                  onChangeText={(value) => setPassword(value)}
+                />
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>ยืนยันข้อมูลรหัสผ่าน (Re-Password)</Text>
+              <View style={styles.formControl}>
+                <GetIcon type="mci" name="form-textbox-password" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="ยืนยันรหัสผ่านอีกครั้ง"
+                  secureTextEntry={true}
+                  value={rePassword}
+                  onChangeText={(value) => setRePassword(value)}
+                />
+              </View>
+            </View>
+            <Button
+              title="บันทึกข้อมูล"
+              iconLeft
+              icon={
+                <AntDesign
+                  name="save"
+                  color="white"
+                  size={24}
+                  style={{ marginHorizontal: 8 }}
+                />
+              }
+              buttonStyle={{
+                backgroundColor: "#ff2fe6",
+                marginTop: 20,
+                borderRadius: 25,
+                width: 250,
+                paddingHorizontal: 15,
+                height: 45,
+                borderWidth: 0.5,
+              }}
+              onPress={() => saveAndGoLoginForm()}
             />
           </View>
-          <View style={styles.formControl}>
-            <GetIcon type="mci" name="form-textbox-password" />
-            <TextInput
-              style={styles.textInput}
-              placeholder="กำหนดรหัสผ่าน"
-              secureTextEntry={true}
-              value={password}
-              onChangeText={(value) => setPassword(value)}
-            />
-          </View>
-          <View style={styles.formControl}>
-            <GetIcon type="mci" name="form-textbox-password" />
-            <TextInput
-              style={styles.textInput}
-              placeholder="ยืนยันรหัสผ่านอีกครั้ง"
-              secureTextEntry={true}
-              value={rePassword}
-              onChangeText={(value) => setRePassword(value)}
-            />
-          </View>
-          <Button
-            title="บันทึกข้อมูล"
-            iconLeft
-            icon={
-              <AntDesign
-                name="save"
-                color="white"
-                size={24}
-                style={{ marginHorizontal: 8 }}
-              />
-            }
-            buttonStyle={{
-              backgroundColor: "#ff2fe6",
-              marginTop: 20,
-              borderRadius: 25,
-              width: 250,
-              paddingHorizontal: 15,
-              height: 45,
-              borderWidth: 0.5,
-            }}
-            onPress={() => saveAndGoLoginForm()}
-          />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
+      <View style={{ alignItems: "center" }}>
+        <Text style={styles.textFooter1}>Contact Us</Text>
+        <Text style={styles.textFooter2}>
+          Tel : 09-7874-7874 (24Hr) / Line : @Prettylandthailand / Fb:
+          PrettyLand - Thailand / Email : Prettylandthailand@gmail.com
+        </Text>
+        <Text style={styles.textFooter3}>
+          คุณเห็นด้วยกับเงื่อนไขการให้บริการ และ นโยบายความเป็นส่วนตัว
+        </Text>
+      </View>
     </ImageBackground>
   )
 }
@@ -158,6 +181,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 120,
   },
   image: {
     height: 100,
@@ -227,12 +251,39 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 5,
     height: 40,
-    borderRadius: 50,
+    borderRadius: 10,
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
+  },
+  textFooter1: {
+    textAlign: "center",
+    flexWrap: "wrap",
+    fontSize: 12,
+    color: "gray",
+    position: "absolute",
+    bottom: 135,
+    color: "red",
+  },
+  textFooter2: {
+    textAlign: "center",
+    flexWrap: "wrap",
+    fontSize: 12,
+    color: "gray",
+    position: "absolute",
+    bottom: 85,
+    color: "black",
+  },
+  textFooter3: {
+    textAlign: "center",
+    flexWrap: "wrap",
+    fontSize: 12,
+    color: "gray",
+    position: "absolute",
+    bottom: 60,
+    color: "green",
   },
 })
 

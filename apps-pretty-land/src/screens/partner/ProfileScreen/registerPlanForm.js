@@ -138,6 +138,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
         <ScrollView>
           <View style={{ alignItems: "center" }}>
             <Text style={styles.textFormInfo}>รายละเอียดงานที่รับ</Text>
+            <Text>(Work Details)</Text>
           </View>
 
           <View
