@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -14,27 +14,29 @@ import DropDownPicker from "react-native-dropdown-picker"
 
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
-import { allGroupContryWork, getCountryList } from "../../../data/apis"
+import { getCountryList } from "../../../data/apis"
+
+import firebase from "../../../../util/firebase"
+import { snapshotToArrayProvinceGroup } from "../../../../util"
+import { AppConfig } from "../../../Constants"
 
 const AllTaskListScreen = ({ navigation, route }) => {
+  const { userId } = route.params
   const [refreshing, setRefreshing] = useState(false)
+  const [filterList, setFilterList] = useState([])
 
   const [openSelectCountry, setOpenSelectCountry] = useState(false)
   const [country, setCountry] = useState("")
   const [countryList, setCountryList] = useState(getCountryList())
-
-  const filterList = allGroupContryWork().filter((item, index) => {
-    return item
-  })
+  const [profile, setProfile] = useState({})
 
   const handleRefresh = () => {
+    console.log('handleRefresh')
   }
 
   const onPressOptions = (item) => {
-    navigation.navigate("All-Customer-Post-List", { item })
+    navigation.navigate("All-Customer-Post-List", { profile, item: {...item} })
   }
-
-  const keyExtractor = (item, index) => index.toString()
 
   const renderItem = ({ item }) => (
     <ListItem
@@ -43,6 +45,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
       containerStyle={{
         borderRadius: 8,
         marginVertical: 5,
+        backgroundColor: null,
       }}
     >
       <ListItem.Content style={{ margin: 10 }}>
@@ -54,44 +57,52 @@ const AllTaskListScreen = ({ navigation, route }) => {
             fontWeight: "bold",
           }}
         >
-          จังหวัด: {item.province}
+          จังหวัด: {item.provinceName}
         </ListItem.Title>
-        <ListItem.Title
-          style={{
-            marginLeft: 15,
-            marginBottom: 5,
-            paddingHorizontal: 5,
-          }}
-        >
-          {item.work1} ({item.prettyMcQty})
-        </ListItem.Title>
-        <ListItem.Title
-          style={{
-            marginLeft: 15,
-            marginBottom: 5,
-            paddingHorizontal: 5,
-          }}
-        >
-          {item.work2} ({item.prettyEntertainQty})
-        </ListItem.Title>
-        <ListItem.Title
-          style={{
-            marginLeft: 15,
-            marginBottom: 5,
-            paddingHorizontal: 5,
-          }}
-        >
-          {item.work3} ({item.coyoteQty})
-        </ListItem.Title>
-        <ListItem.Title
-          style={{
-            marginLeft: 15,
-            marginBottom: 5,
-            paddingHorizontal: 5,
-          }}
-        >
-          {item.work4} ({item.prettyMassage})
-        </ListItem.Title>
+        {profile.type1 && (
+          <ListItem.Title
+            style={{
+              marginLeft: 15,
+              marginBottom: 5,
+              paddingHorizontal: 5,
+            }}
+          >
+            {AppConfig.PartnerType.type1} ({item.partner1})
+          </ListItem.Title>
+        )}
+        {profile.type2 && (
+          <ListItem.Title
+            style={{
+              marginLeft: 15,
+              marginBottom: 5,
+              paddingHorizontal: 5,
+            }}
+          >
+            {AppConfig.PartnerType.type2} ({item.partner2})
+          </ListItem.Title>
+        )}
+        {profile.type3 && (
+          <ListItem.Title
+            style={{
+              marginLeft: 15,
+              marginBottom: 5,
+              paddingHorizontal: 5,
+            }}
+          >
+            {AppConfig.PartnerType.type3} ({item.partner3})
+          </ListItem.Title>
+        )}
+        {profile.type4 && (
+          <ListItem.Title
+            style={{
+              marginLeft: 15,
+              marginBottom: 5,
+              paddingHorizontal: 5,
+            }}
+          >
+            {AppConfig.PartnerType.type4} ({item.partner4})
+          </ListItem.Title>
+        )}
       </ListItem.Content>
       <ProgressCircle
         percent={30}
@@ -105,6 +116,25 @@ const AllTaskListScreen = ({ navigation, route }) => {
       </ProgressCircle>
     </ListItem>
   )
+
+  useEffect(() => {
+    firebase
+      .database()
+      .ref(`members/${userId}`)
+      .once("value", (snapshot) => {
+        setProfile({ ...snapshot.val() })
+      })
+  }, [])
+
+  useEffect(() => {
+    firebase
+      .database()
+      .ref(`group_posts`)
+      .on("value", (snapshot) => {
+        const postsList = snapshotToArrayProvinceGroup(snapshot)
+        setFilterList(postsList)
+      })
+  }, [])
 
   return (
     <ImageBackground
@@ -127,14 +157,14 @@ const AllTaskListScreen = ({ navigation, route }) => {
             textStyle={{ fontSize: 18 }}
             zIndex={20}
             searchable={false}
-            selectedItemContainerStyle={{backgroundColor: '#facaff'}}
+            selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
           />
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
           )}
           {filterList.length > 0 && (
             <FlatList
-              keyExtractor={keyExtractor}
+              keyExtractor={(item) => item.provinceId.toString()}
               data={filterList}
               renderItem={renderItem}
               style={{

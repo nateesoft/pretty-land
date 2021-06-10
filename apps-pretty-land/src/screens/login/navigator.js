@@ -31,7 +31,7 @@ const LoginNavigator = () => {
         name="Login-Form"
         component={LoginForm}
         options={{
-          title: "Back",
+          title: "เข้าสู่ระบบ",
           headerStyle: {
             backgroundColor: "#ff2fe6",
           },

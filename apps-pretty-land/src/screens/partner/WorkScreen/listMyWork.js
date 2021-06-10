@@ -33,8 +33,6 @@ const ListMyWorkScreen = ({ navigation, route }) => {
     return "#fcf2ff"
   }
 
-  const keyExtractor = (item, index) => index.toString()
-
   const renderItem = ({ item }) => (
     <ListItem
       bottomDivider
@@ -96,7 +94,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
           )}
           {filterList.length > 0 && (
             <FlatList
-              keyExtractor={keyExtractor}
+              keyExtractor={(item) => item.id.toString()}
               data={filterList}
               renderItem={renderItem}
               style={{

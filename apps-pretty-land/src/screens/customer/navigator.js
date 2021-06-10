@@ -54,7 +54,7 @@ const CustomerNavigator = ({ navigation, route }) => {
         options={{
           tabBarLabel: "ติดต่อ Admin",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="contact-phone" color="green" size={size} />
+            <MaterialIcons name="contact-phone" color="white" size={size} />
           ),
         }}
         initialParams={{ userId, status }}

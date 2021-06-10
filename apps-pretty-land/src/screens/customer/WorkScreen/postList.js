@@ -24,11 +24,11 @@ const PostListScreen = ({ navigation, route }) => {
 
   const onPressOptions = (item, status) => {
     if (status === "wait_customer_select_partner") {
-      navigation.navigate("Partner-List-Select", { item })
+      navigation.navigate("Partner-List-Select", { item, userId })
     } else if (status === "wait_customer_payment") {
-      navigation.navigate("Payment-Form", { item })
+      navigation.navigate("Payment-Form", { item, userId })
     } else {
-      navigation.navigate("Review-Task", { item })
+      navigation.navigate("Review-Task", { item, userId })
     }
   }
 
@@ -48,8 +48,6 @@ const PostListScreen = ({ navigation, route }) => {
     }
     return "#fcf2ff"
   }
-
-  const keyExtractor = (item, index) => index.toString()
 
   const renderItem = ({ item }) => (
     <ListItem
@@ -88,7 +86,8 @@ const PostListScreen = ({ navigation, route }) => {
   useEffect(() => {
     firebase
       .database()
-      .ref(`posts/${userId}`)
+      .ref(`posts`)
+      .orderByChild(userId)
       .on("value", (snapshot) => {
         const postsList = snapshotToArray(snapshot)
         setFilterList(postsList)
@@ -105,7 +104,7 @@ const PostListScreen = ({ navigation, route }) => {
         <Text style={styles.textTopic}>แสดงรายการที่โพสท์</Text>
         {filterList.length > 0 && (
           <FlatList
-            keyExtractor={keyExtractor}
+            keyExtractor={(item) => item.id.toString()}
             data={filterList}
             renderItem={renderItem}
             style={{

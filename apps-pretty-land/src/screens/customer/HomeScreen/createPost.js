@@ -72,6 +72,7 @@ const CreatePostForm = (props) => {
         province,
         provinceName: getProvinceName(province)[0],
         customerRemark: remark,
+        customerLevel: 0,
       },
       navigation
     )

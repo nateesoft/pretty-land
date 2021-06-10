@@ -1,86 +1,209 @@
-import React from "react"
-import { StyleSheet, View } from "react-native"
-import { Button, Text, Input } from "react-native-elements"
-import { AntDesign, Ionicons } from "react-native-vector-icons"
+import React, { useState, useEffect } from "react"
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Alert,
+  ScrollView,
+  SafeAreaView,
+  ImageBackground,
+} from "react-native"
+import { Button, Text } from "react-native-elements"
+import { AntDesign } from "react-native-vector-icons"
+
+import bgImage from "../../../../assets/bg.png"
+import { partnerAcceptJobWaitCustomerReview } from "../../../apis"
 
 const ConfirmTaskScreen = ({ navigation, route }) => {
-  const { item } = route.params
+  const { profile, item } = route.params
+  const [amount, setAmount] = useState("")
+  const [place, setPlace] = useState("")
+  const [phone, setPhone] = useState("")
+
+  const [getWork, setGetWork] = useState(false)
+
+  const partnerAcceptJob = () => {
+    if (!amount) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุจำนวนเงินที่ต้องการ")
+      return
+    }
+    if (!place) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุสถานที่")
+      return
+    }
+    if (!phone) {
+      Alert.alert(
+        "แจ้งเตือน",
+        "กรุณาระบุเบอร์ติดต่อ (แสดงเฉพาะผุ้ดูแลระบบเท่านั้น)"
+      )
+      return
+    }
+    partnerAcceptJobWaitCustomerReview(item, {
+      ...profile,
+      amount,
+      place,
+      phone,
+    })
+    navigation.navigate("All-Task-List")
+  }
+
+  useEffect(() => {
+    if (item.partnerSelect) {
+      const checkItem = { ...item.partnerSelect }
+      const acceptAlready = checkItem[0].partnerId === profile.id
+      if (acceptAlready) {
+        setAmount(checkItem[0].amount)
+        setPlace(checkItem[0].place)
+        setPhone(checkItem[0].phone)
+      }
+      setGetWork(acceptAlready)
+    }
+  }, [])
+
   return (
-    <View style={styles.cardDetail}>
-      <Text style={styles.optionsNameDetail2}>รายละเอียดลูกค้าจ้างงาน</Text>
-      <View style={styles.viewCard}>
-        <Text
-          style={{
-            fontSize: 20,
-            marginBottom: 5,
-            backgroundColor: "#123456",
-            color: "white",
-            paddingHorizontal: 5,
-          }}
-        >
-          จังหวัด: {item.province}
-        </Text>
-        <Text
-          style={{
-            fontSize: 20,
-            marginBottom: 5,
-            backgroundColor: "#123456",
-            color: "white",
-            paddingHorizontal: 5,
-          }}
-        >
-          ลูกค้า: {item.customer}
-        </Text>
-        <Text style={{ marginBottom: 5 }}>ชื่องาน: {item.name}</Text>
-        <Text style={{ marginBottom: 5 }}>level: {item.customerLevel}</Text>
-        <Text
-          style={{
-            marginBottom: 5,
-            backgroundColor: "chocolate",
-            color: "white",
-            paddingHorizontal: 5,
-          }}
-        >
-          โหมดงาน: {item.partnerRequest}
-        </Text>
-        <Text style={{ marginBottom: 15 }}>{item.subtitle}</Text>
-        <Text style={{ marginBottom: 15 }}>สถานะที่จัดงาน: {item.place}</Text>
-        <Text style={{ marginBottom: 15 }}>
-          เบอร์ติดต่อลูกค้า: {item.customerContact}
-        </Text>
-        <View
-          style={{
-            borderWidth: 1.5,
-            borderRadius: 10,
-            borderColor: "gray",
-            padding: 10,
-          }}
-        >
-          <Input placeholder="เสนอราคา (บาท)" />
-          <Input placeholder="ระบุสถานที่" />
-          <Input placeholder="เบอร์ติดต่อ" />
-        </View>
-      </View>
-      <Button
-        icon={
-          <AntDesign
-            name="checkcircleo"
-            size={15}
-            color="white"
-            style={{ marginRight: 5 }}
-          />
-        }
-        iconLeft
-        buttonStyle={{
-          margin: 5,
-          backgroundColor: "#ff2fe6",
-          paddingHorizontal: 20,
-          borderRadius: 25,
-        }}
-        title="บันทึกแจ้งรับงาน"
-        onPress={() => navigation.navigate("All-Task-List")}
-      />
-    </View>
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={{ height: "100%" }}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.cardDetail}>
+            <Text style={styles.optionsNameDetail2}>
+              รายละเอียดลูกค้าจ้างงาน
+            </Text>
+            <View style={styles.viewCard}>
+              <Text
+                style={{
+                  marginBottom: 5,
+                  backgroundColor: "#123456",
+                  color: "white",
+                  paddingHorizontal: 5,
+                  height: 30,
+                }}
+              >
+                จังหวัด: {item.provinceName}
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 5,
+                  backgroundColor: "#123456",
+                  color: "white",
+                  paddingHorizontal: 5,
+                  height: 30,
+                }}
+              >
+                ลูกค้า: คุณ{item.customerName}
+              </Text>
+              <Text style={{ marginBottom: 5, height: 30 }}>
+                ระดับลูกค้า level: {item.customerLevel}
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 5,
+                  backgroundColor: "chocolate",
+                  color: "white",
+                  paddingHorizontal: 5,
+                  height: 30,
+                }}
+              >
+                โหมดงาน: {item.partnerRequest}
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 15,
+                  fontSize: 18,
+                  borderWidth: 2,
+                  padding: 10,
+                }}
+              >
+                รับจำนวน {item.partnerQty} คน ขาดอีก{" "}
+                {item.partnerQty -
+                  ((item.partnerSelect && item.partnerSelect.length) || 0)}{" "}
+                คน
+              </Text>
+              <Text style={{ marginBottom: 15 }}>
+                สถานที่: {item.placeMeeting}
+              </Text>
+              <Text style={{ marginBottom: 15 }}>
+                เบอร์ติดต่อลูกค้า: {item.customerPhone}
+              </Text>
+              <View
+                style={{
+                  borderWidth: 1.5,
+                  borderRadius: 10,
+                  borderColor: "gray",
+                  padding: 10,
+                }}
+              >
+                <TextInput
+                  value={amount}
+                  placeholder="เสนอราคา (บาท)"
+                  style={styles.textInput}
+                  keyboardType="number-pad"
+                  onChangeText={(value) => setAmount(value)}
+                />
+                <TextInput
+                  value={place}
+                  placeholder="ระบุสถานที่"
+                  style={styles.textInput}
+                  onChangeText={(value) => setPlace(value)}
+                />
+                <TextInput
+                  value={phone}
+                  placeholder="เบอร์ติดต่อ"
+                  style={styles.textInput}
+                  keyboardType="number-pad"
+                  onChangeText={(value) => setPhone(value)}
+                />
+              </View>
+            </View>
+            {!getWork ? (
+              <View>
+                <Button
+                  icon={
+                    <AntDesign
+                      name="checkcircleo"
+                      size={15}
+                      color="white"
+                      style={{ marginRight: 5 }}
+                    />
+                  }
+                  iconLeft
+                  buttonStyle={{
+                    margin: 5,
+                    backgroundColor: "#ff2fe6",
+                    paddingHorizontal: 20,
+                    borderRadius: 25,
+                  }}
+                  title="บันทึกรับงาน"
+                  onPress={() => partnerAcceptJob()}
+                />
+              </View>
+            ) : (
+              <View>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "blue",
+                  }}
+                >
+                  คุณสมัครรับงานนี้ไปแล้ว
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "red",
+                  }}
+                >
+                  ( สถานะ: รอลูกค้ารับงาน )
+                </Text>
+              </View>
+            )}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
@@ -111,6 +234,19 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 20,
     padding: 5,
+    margin: 20,
+  },
+  textInput: {
+    backgroundColor: "white",
+    textAlign: "center",
+    fontSize: 16,
+    marginVertical: 5,
+    height: 40,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

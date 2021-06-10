@@ -36,8 +36,6 @@ const PaymentForm = ({ navigation, route }) => {
     })()
   }, [])
 
-  const keyExtractor = (item, index) => index.toString()
-
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -93,7 +91,7 @@ const PaymentForm = ({ navigation, route }) => {
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <Text>รายชื่อ Partner ที่เลือก</Text>
         <FlatList
-          keyExtractor={keyExtractor}
+          keyExtractor={(item) => item.id.toString()}
           data={filterList}
           renderItem={renderItem}
           horizontal

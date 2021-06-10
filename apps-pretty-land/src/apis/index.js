@@ -22,11 +22,11 @@ export const saveMemberRegister = (member, navigation) => {
         }
         firebase.database().ref(`members/${newId}`).set(saveData)
         Alert.alert(
-            "กระบวนการสมบูรณ์",
-            "บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้"
-          )
-          navigation.popToTop()
-          navigation.navigate("Login-Form")
+          "กระบวนการสมบูรณ์",
+          "บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้"
+        )
+        navigation.popToTop()
+        navigation.navigate("Login-Form")
       } else {
         Alert.alert(
           "แจ้งเตือน",
@@ -45,6 +45,80 @@ export const saveNewPosts = (postData, navigation) => {
     sys_update_date: new Date().toUTCString(),
     ...postData,
   }
-  firebase.database().ref(`posts/${postData.customerId}/${newId}`).set(saveData)
+  firebase.database().ref(`posts/${newId}`).set(saveData)
+
+  // // update group posts
+  // saveProvincesGroupPostPartner(
+  //   {
+  //     province: postData.province,
+  //     provinceName: postData.provinceName,
+  //     partnerType: postData.partnerRequest,
+  //   },
+  //   postData.partnerQty,
+  // )
+
   navigation.navigate("Partner-Category")
+}
+
+export const updatePosts = (postId, data) => {
+  firebase.database().ref(`posts/${postId}`).update(data)
+}
+
+export const saveProvincesGroupPostPartner = (data, addNumber) => {
+  const { province, provinceName, partnerType } = data
+  const newUpdateData = {
+    provinceId: province,
+    provinceName: provinceName,
+    partner1: partnerType === "pretty-mc" ? addNumber : 0,
+    partner2: partnerType === "coyote" ? addNumber : 0,
+    partner3: partnerType === "pretty-entertain" ? addNumber : 0,
+    partner4: partnerType === "pretty-massage" ? addNumber : 0,
+  }
+  firebase
+    .database()
+    .ref(`group_posts/${province}`)
+    .once("value", (data) => {
+      if (data.numChildren() > 0) {
+        const updateData = {}
+        if (partnerType === "pretty-mc") {
+          updateData.partner1 = parseInt(data.val().partner1) + addNumber
+        }
+        if (partnerType === "coyote") {
+          updateData.partner2 =  parseInt(data.val().partner2) + addNumber
+        }
+        if (partnerType === "pretty-entertain") {
+          updateData.partner3 =  parseInt(data.val().partner3) + addNumber
+        }
+        if (partnerType === "pretty-massage") {
+          updateData.partner4 =  parseInt(data.val().partner4) + addNumber
+        }
+        firebase.database().ref(`group_posts/${province}`).update(updateData)
+      } else {
+        firebase
+          .database()
+          .ref(`group_posts/${province}`)
+          .set({ ...newUpdateData })
+      }
+    })
+}
+
+export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
+  const {
+    id: postId,
+    province,
+    provinceName,
+    partnerRequest: partnerType,
+  } = item
+  updatePosts(postId, {
+    status: "wait_customer_select_partner",
+    statusText: "รอลูกค้าเลือกผู้ร่วมงาน",
+    partnerSelect: [{
+      partnerId: profile.id,
+      partnerName: profile.name,
+      amount: profile.amount,
+      place: profile.place,
+      phone: profile.phone,
+    }],
+  })
+  saveProvincesGroupPostPartner({ province, provinceName, partnerType }, -1)
 }

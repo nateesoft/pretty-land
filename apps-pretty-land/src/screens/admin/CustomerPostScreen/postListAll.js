@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -16,6 +16,9 @@ import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import { getPostStatus } from "../../../data/apis"
 
+import firebase from "../../../../util/firebase"
+import { snapshotToArray } from "../../../../util"
+
 const PostListAllScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false)
   const [posts, setPosts] = useState([])
@@ -23,8 +26,7 @@ const PostListAllScreen = ({ navigation, route }) => {
   const [partner, setPartner] = useState("")
   const [partnerList, setPartnerList] = useState(getPostStatus())
 
-  const handleRefresh = () => {
-  }
+  const handleRefresh = () => {}
 
   const onPressOptions = (item, status) => {
     if (status === "wait_admin_confirm_payment") {
@@ -32,23 +34,6 @@ const PostListAllScreen = ({ navigation, route }) => {
     } else {
       navigation.navigate("Detail-Task", { item })
     }
-  }
-
-  const getBgColor = (status) => {
-    if (status === "customer_new_post_done") {
-      return "#fdddf3"
-    } else if (status === "admin_confirm_new_post") {
-      return "#fef8e3"
-    } else if (status === "wait_customer_select_partner") {
-      return "#fcf2ff"
-    } else if (status === "wait_customer_payment") {
-      return "#fff0ee"
-    } else if (status === "wait_admin_confirm_payment") {
-      return "#fdddf3"
-    } else if (status === "customer_with_partner") {
-      return "#fef8e3"
-    }
-    return "#fcf2ff"
   }
 
   const renderItem = ({ item }) => (
@@ -62,13 +47,12 @@ const PostListAllScreen = ({ navigation, route }) => {
       }}
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>ชื่อลูกค้า: {item.customer}</ListItem.Title>
+        <ListItem.Title>ชื่อลูกค้า: {item.customerName}</ListItem.Title>
         <ListItem.Title>Level: {item.customerLevel}</ListItem.Title>
-        <ListItem.Subtitle>ชื่อโพสท์: {item.name}</ListItem.Subtitle>
         <ListItem.Subtitle>
           ประเภทที่ต้องการ: {item.partnerRequest}
         </ListItem.Subtitle>
-        <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
+        <ListItem.Subtitle>จำนวน: {item.partnerQty}</ListItem.Subtitle>
         <ListItem.Subtitle>Status: {item.statusText}</ListItem.Subtitle>
       </ListItem.Content>
       <ProgressCircle
@@ -83,6 +67,16 @@ const PostListAllScreen = ({ navigation, route }) => {
       </ProgressCircle>
     </ListItem>
   )
+
+  useEffect(() => {
+    firebase
+      .database()
+      .ref(`posts`)
+      .on("value", (snapshot) => {
+        const postsList = snapshotToArray(snapshot)
+        setPosts(postsList)
+      })
+  }, [])
 
   return (
     <ImageBackground
@@ -105,7 +99,7 @@ const PostListAllScreen = ({ navigation, route }) => {
               textStyle={{ fontSize: 18 }}
               zIndex={2}
               searchable={false}
-              selectedItemContainerStyle={{backgroundColor: '#facaff'}}
+              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             />
           </View>
           {posts.length === 0 && <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />}

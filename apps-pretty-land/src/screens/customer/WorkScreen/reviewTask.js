@@ -3,8 +3,10 @@ import { StyleSheet, View } from "react-native"
 import { Button, Text, AirbnbRating } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 
+import { updatePosts } from "../../../apis"
+
 const ReviewTaskScreen = ({ navigation, route }) => {
-  const { item } = route.params
+  const { userId, item } = route.params
 
   const ComponentRating = ({ disabled }) => (
     <AirbnbRating
@@ -15,6 +17,15 @@ const ReviewTaskScreen = ({ navigation, route }) => {
       reviews={["แย่", "พอใช้", "ดี", "ดีมาก", "ประทับใจ"]}
     />
   )
+
+  const cancelThisPosts = () => {
+    updatePosts(item.id, {
+      status: "cancel",
+      statusText: "ยกเลิกโพสท์นี้แล้ว",
+      sys_update_date: new Date().toUTCString(),
+    })
+    navigation.navigate("Post-List")
+  }
 
   return (
     <View style={styles.cardDetail}>
@@ -40,7 +51,7 @@ const ReviewTaskScreen = ({ navigation, route }) => {
               รอลูกค้า และ partner ยืนยันปิดงาน...
             </Text>
             <Text style={{ fontSize: 16 }}>
-              ...หลังจากใช้บริการเรียบร้อยแล้ว กรุณาให้คะแนนความพึงพอใจ 
+              ...หลังจากใช้บริการเรียบร้อยแล้ว กรุณาให้คะแนนความพึงพอใจ
               เพื่อเป็นประโยชน์ในการพัฒนาต่อไป...
             </Text>
           </>
@@ -69,8 +80,8 @@ const ReviewTaskScreen = ({ navigation, route }) => {
             }
             iconLeft
             buttonStyle={{ margin: 5, backgroundColor: "red" }}
-            title="แจ้งยกเลิกโพสท์นี้"
-            onPress={() => navigation.navigate("Post-List")}
+            title="ยกเลิกโพสท์นี้"
+            onPress={() => cancelThisPosts()}
           />
         )}
       {item.status === "customer_with_partner" && (

@@ -70,7 +70,9 @@ const LoginForm = ({ navigation, route }) => {
                 onChangeText={(value) => setUsername(value)}
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>ข้อมูลรหัสผ่าน (Password)</Text>
+            <Text style={{ fontSize: 16, padding: 5 }}>
+              ข้อมูลรหัสผ่าน (Password)
+            </Text>
             <View
               style={{
                 flexDirection: "row",
@@ -122,11 +124,11 @@ const LoginForm = ({ navigation, route }) => {
             onPress={() => navigate("Partner-Login-Form")}
           />
         </View>
-        <View style={{alignItems: "center"}}>
+        <View style={{ alignItems: "center" }}>
           <Text style={styles.textFooter1}>Contact Us</Text>
           <Text style={styles.textFooter2}>
-            Tel : 09-7874-7874 (24Hr) / Line : @Prettylandthailand / Fb: PrettyLand
-            - Thailand / Email : Prettylandthailand@gmail.com
+            Tel : 09-7874-7874 (24Hr) / Line : @Prettylandthailand / Fb:
+            PrettyLand - Thailand / Email : Prettylandthailand@gmail.com
           </Text>
           <Text style={styles.textFooter3}>
             คุณเห็นด้วยกับเงื่อนไขการให้บริการ และ นโยบายความเป็นส่วนตัว
