@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
   FlatList,
   View,
@@ -10,15 +10,15 @@ import {
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 
-import { getPostList } from "../../../data/apis"
+import firebase from "../../../../util/firebase"
+import { snapshotToArray } from "../../../../util"
+
 import bgImage from "../../../../assets/bg.png"
 
 const PostListScreen = ({ navigation, route }) => {
+  const { userId } = route.params
   const [refreshing, setRefreshing] = useState(false)
-
-  const filterList = getPostList().filter((item) => {
-    return item.customer === "A"
-  })
+  const [filterList, setFilterList] = useState([])
 
   const handleRefresh = () => {}
 
@@ -61,13 +61,12 @@ const PostListScreen = ({ navigation, route }) => {
         marginVertical: 5,
       }}
     >
-      <Avatar source={item.image} size={128} />
+      <Avatar source={{ uri: item.partnerImage }} size={128} />
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>ชื่อโพสท์: {item.name}</ListItem.Title>
         <ListItem.Subtitle>ประเภท: {item.partnerRequest}</ListItem.Subtitle>
-        <ListItem.Subtitle>จังหวัด: {item.province}</ListItem.Subtitle>
+        <ListItem.Subtitle>จังหวัด: {item.provinceName}</ListItem.Subtitle>
         <ListItem.Subtitle>
-          จำนวนที่ต้องการ: {item.partnerQtyRequest} คน
+          จำนวนที่ต้องการ: {item.partnerQty} คน
         </ListItem.Subtitle>
         <ListItem.Subtitle style={{ backgroundColor: "pink", padding: 5 }}>
           Status: {item.statusText}
@@ -85,6 +84,16 @@ const PostListScreen = ({ navigation, route }) => {
       </ProgressCircle>
     </ListItem>
   )
+
+  useEffect(() => {
+    firebase
+      .database()
+      .ref(`posts/${userId}`)
+      .on("value", (snapshot) => {
+        const postsList = snapshotToArray(snapshot)
+        setFilterList(postsList)
+      })
+  }, [])
 
   return (
     <ImageBackground

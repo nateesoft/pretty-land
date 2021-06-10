@@ -102,10 +102,10 @@ const PostListAllScreen = ({ navigation, route }) => {
               setValue={setPartner}
               items={partnerList}
               setItems={setPartnerList}
-              style={styles.dropdownStyle}
               textStyle={{ fontSize: 18 }}
               zIndex={2}
               searchable={false}
+              selectedItemContainerStyle={{backgroundColor: '#facaff'}}
             />
           </View>
           {posts.length === 0 && <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />}

@@ -15,6 +15,7 @@ import DropDownPicker from "react-native-dropdown-picker"
 import {
   getPartnerGroup,
   getCountryList,
+  getProvinceName,
 } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import bgImage from "../../../../assets/bg.png"
@@ -29,7 +30,7 @@ const CreatePostForm = (props) => {
   const [partnerList, setPartnerList] = useState(getPartnerGroup())
 
   const [openSelectCountry, setOpenSelectCountry] = useState(false)
-  const [country, setCountry] = useState("")
+  const [province, setProvince] = useState("")
   const [countryList, setCountryList] = useState(getCountryList())
 
   const [customerId, setCustomerId] = useState("")
@@ -61,12 +62,15 @@ const CreatePostForm = (props) => {
         customerId,
         customerName,
         partnerRequest,
+        partnerImage: item.img,
         customerPhone: phone,
         placeMeeting: place,
         partnerQty: qty,
         subtitle: `${partnerRequest} จำนวน ${qty}`,
         status: "customer_new_post_done",
         statusText: "โพสท์ใหม่",
+        province,
+        provinceName: getProvinceName(province)[0],
         customerRemark: remark,
       },
       navigation
@@ -100,22 +104,24 @@ const CreatePostForm = (props) => {
             textStyle={{ fontSize: 18 }}
             zIndex={2}
             searchable={false}
+            selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
           />
           <DropDownPicker
             placeholder="เลือกจังหวัด"
             open={openSelectCountry}
             setOpen={setOpenSelectCountry}
-            value={country}
-            setValue={setCountry}
+            value={province}
+            setValue={setProvince}
             items={countryList}
             setItems={setCountryList}
             style={styles.dropdownStyle}
             textStyle={{ fontSize: 18 }}
             zIndex={1}
             searchable={false}
+            selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
           />
         </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ zIndex: -1 }}>
           <View style={styles.container}>
             <Text style={{ fontSize: 16, padding: 5 }}>
               ชื่อเจ้าของโพสท์ (Name)

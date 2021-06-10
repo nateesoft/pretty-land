@@ -127,6 +127,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
             textStyle={{ fontSize: 18 }}
             zIndex={20}
             searchable={false}
+            selectedItemContainerStyle={{backgroundColor: '#facaff'}}
           />
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />

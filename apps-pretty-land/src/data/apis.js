@@ -137,3 +137,13 @@ export const getBankList = () => {
 export const getDistrictList = (PROVINCE_ID) => {
   return districts.filter((item, index) => item.PROVINCE_ID === PROVINCE_ID)
 }
+
+export const getProvinceName = (provinceIndex) => {
+  return provinces
+    .filter(function (obj) {
+      return obj.id === provinceIndex
+    })
+    .map(function (obj) {
+      return obj.label
+    })
+}

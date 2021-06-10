@@ -188,6 +188,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
               style={styles.dropdownStyle}
               textStyle={{ fontSize: 18 }}
               searchable={false}
+              selectedItemContainerStyle={{backgroundColor: '#facaff'}}
             />
           </View>
           {members.length === 0 && (

@@ -29,7 +29,7 @@ const CustomerWorkTabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
-        initialParams={{ partnerType: "all" }}
+        initialParams={{ partnerType: "all", userId }}
       />
       <Stack.Screen
         name="Partner-List-Select"
@@ -42,6 +42,7 @@ const CustomerWorkTabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{ userId }}
       />
       <Stack.Screen
         name="Partner-Image"
@@ -54,6 +55,7 @@ const CustomerWorkTabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{ userId }}
       />
       <Stack.Screen
         name="Image-Preview"
@@ -66,6 +68,7 @@ const CustomerWorkTabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{ userId }}
       />
       <Stack.Screen
         name="Payment-Form"
@@ -78,6 +81,7 @@ const CustomerWorkTabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{ userId }}
       />
       <Stack.Screen
         name="Review-Task"
@@ -90,6 +94,7 @@ const CustomerWorkTabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{ userId }}
       />
       <Stack.Screen
         name="Create-New-Post"
@@ -104,6 +109,7 @@ const CustomerWorkTabNavigator = ({ navigation, route }) => {
         }}
         initialParams={{
           pageFrom: "Post-List",
+          userId,
         }}
       />
     </Stack.Navigator>
