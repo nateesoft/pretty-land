@@ -48,7 +48,7 @@ const LoginForm = ({ navigation, route }) => {
 
           <View style={{ width: "80%", alignSelf: "center" }}>
             <Text style={{ fontSize: 16, padding: 5 }}>
-              ข้อมูลผู้ใช้งาน Partner หรือ Admin
+              ข้อมูลผู้ใช้งาน (Username)
             </Text>
             <View
               style={{

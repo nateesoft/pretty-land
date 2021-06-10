@@ -29,9 +29,9 @@ const radioData = [
 ]
 
 const sexData = [
-  { label: "หญิง", value: "female" },
-  { label: "ชาย", value: "male" },
-  { label: "อื่น ๆ", value: "other" },
+  { label: "หญิง (Female)", value: "female" },
+  { label: "ชาย (Male)", value: "male" },
+  { label: "อื่น ๆ (Other)", value: "other" },
 ]
 
 const RegisterPlanForm = ({ navigation, route }) => {
@@ -54,6 +54,10 @@ const RegisterPlanForm = ({ navigation, route }) => {
   const handleNexData = () => {
     if (!type1 && !type2 && !type3 && !type4) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุประเภทงานที่ต้องการรับบริการ !!!")
+      return
+    }
+    if (!name) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
       return
     }
     if (!age) {
@@ -118,7 +122,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
         setType2(data.type2 || false)
         setType3(data.type3 || false)
         setType4(data.type4 || false)
-        setSex(data.sex || 'female')
+        setSex(data.sex || "female")
       })
 
     // return () =>
@@ -204,35 +208,40 @@ const RegisterPlanForm = ({ navigation, route }) => {
           </View>
 
           <View style={{ width: "80%", alignSelf: "center" }}>
-            <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>เพศ</Text>
-            <RadioButtonRN
-              box={false}
-              animationTypes={["shake"]}
-              data={sexData}
-              selectedBtn={(e) => setSex(e.value)}
-              icon={
-                <FontAwesome name="check-circle" size={25} color="#2c9dd1" />
-              }
-              initial={sex === "female" ? 1 : sex === "male" ? 2 : 3}
-            />
-            <Text
-              style={{
-                width: "80%",
-                padding: 10,
-                fontSize: 16,
-              }}
-            >
-              รายละเอียดส่วนตัว
+            <View style={{ marginBottom: 20 }}>
+              <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
+                เพศ
+              </Text>
+              <RadioButtonRN
+                box={false}
+                animationTypes={["shake"]}
+                data={sexData}
+                selectedBtn={(e) => setSex(e.value)}
+                icon={
+                  <FontAwesome name="check-circle" size={25} color="#2c9dd1" />
+                }
+                initial={sex === "female" ? 1 : sex === "male" ? 2 : 3}
+              />
+            </View>
+            <Text style={{ fontSize: 16, padding: 5 }}>
+              ชื่อ/ ชื่อเล่น (Name/ Nickname)
             </Text>
+            {!name && (
+              <Text style={{ color: "red" }}>
+                ระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก
+              </Text>
+            )}
             <View style={styles.formControl}>
               <GetIcon type="mci" name="card-account-details" />
               <TextInput
                 value={`${name}`}
                 onChangeText={(value) => setName(value)}
                 style={styles.textInput}
-                placeholder="ชื่อเล่น/ชื่อในวงการ"
+                placeholder="ชื่อ/ ชื่อเล่น"
               />
             </View>
+            <Text style={{ fontSize: 16, padding: 5 }}>อายุ (age)</Text>
+              {!age && <Text style={{ color: "red" }}>ระบุอายุ</Text>}
             <View style={styles.formControl}>
               <GetIcon type="mci" name="timeline-clock" />
               <TextInput
@@ -240,8 +249,13 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 onChangeText={(value) => setAge(value)}
                 style={styles.textInput}
                 placeholder="อายุ"
+                keyboardType="numeric"
               />
             </View>
+            <Text style={{ fontSize: 16, padding: 5 }}>ส่วนสูง (Tall)</Text>
+              {!height && (
+                <Text style={{ color: "red" }}>ระบุข้อมูลส่วนสูง</Text>
+              )}
             <View style={styles.formControl}>
               <GetIcon type="mci" name="human-male-height" />
               <TextInput
@@ -249,8 +263,15 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 onChangeText={(value) => setHeight(value)}
                 style={styles.textInput}
                 placeholder="ส่วนสูง"
+                keyboardType="numeric"
               />
             </View>
+            <Text style={{ fontSize: 16, padding: 5 }}>
+                สัดส่วน 32-24-35 (Stature)
+              </Text>
+              {!stature && (
+                <Text style={{ color: "red" }}>ระบุข้อมูลสัดส่วน</Text>
+              )}
             <View style={styles.formControl}>
               <GetIcon type="ii" name="md-woman-outline" />
               <TextInput
@@ -260,6 +281,12 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 placeholder="สัดส่วน 32-24-35"
               />
             </View>
+            <Text style={{ fontSize: 16, padding: 5 }}>
+                น้ำหนัก (Weight)
+              </Text>
+              {!weight && (
+                <Text style={{ color: "red" }}>ระบุข้อมูลน้ำหนัก</Text>
+              )}
             <View style={styles.formControl}>
               <GetIcon type="fa5" name="weight" />
               <TextInput
@@ -267,6 +294,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 onChangeText={(value) => setWeight(value)}
                 style={styles.textInput}
                 placeholder="น้ำหนัก"
+                keyboardType="numeric"
               />
             </View>
             <Button
