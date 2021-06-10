@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   Alert,
   ImageBackground,
-  ScrollView,
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
@@ -93,17 +92,13 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <ScrollView>
+      <SafeAreaView style={{ flex: 1 }}>
         <View style={{ alignItems: "center" }}>
           <Text style={styles.textFormInfo}>จังหวัดที่รับงาน</Text>
-          <Text style={{marginBottom: 5}}>(Ways to get a job)</Text>
+          <Text style={{ marginBottom: 5 }}>(Ways to get a job)</Text>
         </View>
         <View style={{ width: "80%", alignSelf: "center" }}>
-          <Text
-            style={{ fontSize: 16, padding: 5 }}
-          >
-            Line Id (optional)
-          </Text>
+          <Text style={{ fontSize: 16, padding: 5 }}>Line Id (optional)</Text>
           <View style={styles.formControl}>
             <GetIcon type="fa5" name="line" />
             <TextInput
@@ -123,6 +118,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
               onChangeText={(value) => setMobile(value)}
               style={styles.textInput}
               placeholder="เบอร์โทรศัพท์"
+              keyboardType="numeric"
             />
           </View>
           <Text style={{ color: "#123456", marginTop: 5 }}>
@@ -197,7 +193,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             />
           </View>
         </View>
-      </ScrollView>
+      </SafeAreaView>
     </ImageBackground>
   )
 }

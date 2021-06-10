@@ -36,3 +36,15 @@ export const saveMemberRegister = (member, navigation) => {
       }
     })
 }
+
+export const saveNewPosts = (postData, navigation) => {
+  const newId = uuid.v4()
+  const saveData = {
+    id: newId,
+    sys_create_date: new Date().toUTCString(),
+    sys_update_date: new Date().toUTCString(),
+    ...postData,
+  }
+  firebase.database().ref(`posts/${postData.customerId}/${newId}`).set(saveData)
+  navigation.navigate("Partner-Category")
+}

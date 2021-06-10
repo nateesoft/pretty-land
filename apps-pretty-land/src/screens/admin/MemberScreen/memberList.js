@@ -19,12 +19,17 @@ import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import { getMemberCategory, getPartnerGroupByType } from "../../../data/apis"
 
+import FemaleSimple from "../../../../assets/avatar/1.png"
+import MaleSimple from "../../../../assets/avatar/2.png"
+import OtherSimple from "../../../../assets/avatar/3.png"
+
 const MemberAllListScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false)
   const [openSelectPartner, setOpenSelectPartner] = useState(false)
   const [partner, setPartner] = useState("")
   const [partnerList, setPartnerList] = useState(getMemberCategory())
   const [members, setMembers] = useState([])
+  const [imageProfile, setImageProfile] = useState(null)
 
   useEffect(() => {
     const onChangeValue = firebase
@@ -71,7 +76,22 @@ const MemberAllListScreen = ({ navigation, route }) => {
         >
           {item.image ? (
             <Avatar source={{ uri: item.image }} size={128} />
-          ) : null}
+          ) : (
+            <View>
+              <Image
+                source={
+                  item.sex === "female"
+                    ? FemaleSimple
+                    : item.sex === "male"
+                    ? MaleSimple
+                    : OtherSimple
+                }
+                style={styles.images}
+                resizeMode="cover"
+              />
+              <Text style={styles.noImageText}>No Image</Text>
+            </View>
+          )}
           <ListItem.Content style={{ marginLeft: 10 }}>
             <ListItem.Title>
               ชื่อสมาชิก: {item.name || item.username}
@@ -224,6 +244,13 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
+  },
+  images: { width: 128, height: 128, flex: 1 },
+  noImageText: {
+    position: "absolute",
+    bottom: 10,
+    backgroundColor: "orange",
+    padding: 5,
   },
 })
 

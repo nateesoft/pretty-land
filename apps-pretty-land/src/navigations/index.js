@@ -72,6 +72,7 @@ const AppNavigation = () => {
       customerType: "line",
       status: "active",
       loginDate: new Date().toUTCString(),
+      customerLevel: 0,
     })
     dispatch({
       type: "SIGN_IN",
@@ -89,6 +90,7 @@ const AppNavigation = () => {
       customerType: "apple",
       status: "active",
       loginDate: new Date().toUTCString(),
+      customerLevel: 0,
     })
     dispatch({
       type: "SIGN_IN",
@@ -118,6 +120,7 @@ const AppNavigation = () => {
           customerType: "facebook",
           status: "active",
           loginDate: new Date().toUTCString(),
+          customerLevel: 0,
         })
         dispatch({
           type: "SIGN_IN",

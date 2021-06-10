@@ -5,8 +5,8 @@ import {
   Text,
   TextInput,
   Alert,
-  ScrollView,
   ImageBackground,
+  SafeAreaView,
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
@@ -67,7 +67,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <ScrollView>
+      <SafeAreaView style={{flex:1}}>
         <View style={{ alignItems: "center" }}>
           <Text style={styles.textFormInfo}>เพิ่มข้อมูลธนาคาร</Text>
           <Text>Add bank information (Optional)</Text>
@@ -122,7 +122,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
             onPress={() => handleNextData()}
           />
         </View>
-      </ScrollView>
+      </SafeAreaView>
     </ImageBackground>
   )
 }

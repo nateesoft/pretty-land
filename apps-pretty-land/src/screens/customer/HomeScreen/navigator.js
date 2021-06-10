@@ -26,10 +26,12 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
             <LogoTitle title="แสดงกลุ่มพาทเนอร์" {...props} />
           ),
         }}
+        initialParams={{ userId, status }}
       />
       <Stack.Screen
         name="Partner-List-Country"
         component={PartnerListCountryScreen}
+        initialParams={{ userId, status }}
       />
       <Stack.Screen
         name="Create-Post-Form"
@@ -44,6 +46,8 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         }}
         initialParams={{
           pageFrom: "Partner-Category",
+          userId,
+          status,
         }}
       />
     </Stack.Navigator>
