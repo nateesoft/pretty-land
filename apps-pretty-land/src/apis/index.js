@@ -46,17 +46,6 @@ export const saveNewPosts = (postData, navigation) => {
     ...postData,
   }
   firebase.database().ref(`posts/${newId}`).set(saveData)
-
-  // // update group posts
-  // saveProvincesGroupPostPartner(
-  //   {
-  //     province: postData.province,
-  //     provinceName: postData.provinceName,
-  //     partnerType: postData.partnerRequest,
-  //   },
-  //   postData.partnerQty,
-  // )
-
   navigation.navigate("Partner-Category")
 }
 
@@ -84,13 +73,13 @@ export const saveProvincesGroupPostPartner = (data, addNumber) => {
           updateData.partner1 = parseInt(data.val().partner1) + addNumber
         }
         if (partnerType === "coyote") {
-          updateData.partner2 =  parseInt(data.val().partner2) + addNumber
+          updateData.partner2 = parseInt(data.val().partner2) + addNumber
         }
         if (partnerType === "pretty-entertain") {
-          updateData.partner3 =  parseInt(data.val().partner3) + addNumber
+          updateData.partner3 = parseInt(data.val().partner3) + addNumber
         }
         if (partnerType === "pretty-massage") {
-          updateData.partner4 =  parseInt(data.val().partner4) + addNumber
+          updateData.partner4 = parseInt(data.val().partner4) + addNumber
         }
         firebase.database().ref(`group_posts/${province}`).update(updateData)
       } else {
@@ -109,16 +98,29 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
     provinceName,
     partnerRequest: partnerType,
   } = item
+
+  // update post status
   updatePosts(postId, {
     status: "wait_customer_select_partner",
     statusText: "รอลูกค้าเลือกผู้ร่วมงาน",
-    partnerSelect: [{
-      partnerId: profile.id,
-      partnerName: profile.name,
-      amount: profile.amount,
-      place: profile.place,
-      phone: profile.phone,
-    }],
   })
+
+  // update partnerSelect
+  const data = {
+    partnerId: profile.id,
+    partnerName: profile.name,
+    amount: profile.amount,
+    place: profile.place,
+    phone: profile.phone,
+    age: profile.age,
+    image: profile.image,
+    sex: profile.sex,
+    character: profile.character,
+    selectStatus: 'wait_customer_select'
+  }
+  firebase
+    .database()
+    .ref(`posts/${postId}/partnerSelect/${profile.id}`)
+    .update(data)
   saveProvincesGroupPostPartner({ province, provinceName, partnerType }, -1)
 }

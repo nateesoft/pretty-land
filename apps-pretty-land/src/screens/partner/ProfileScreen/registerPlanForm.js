@@ -47,6 +47,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
   const [sex, setSex] = useState("female")
   const [name, setName] = useState("")
   const [age, setAge] = useState("")
+  const [character, setCharacter] = useState("")
   const [height, setHeight] = useState("")
   const [weight, setWeight] = useState("")
   const [stature, setStature] = useState("")
@@ -99,6 +100,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
       stature,
       weight,
       price4: !price4 ? 0 : price4,
+      character,
     }
     // firebase
     //   .database()
@@ -108,7 +110,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const onChangeValue = firebase
+    firebase
       .database()
       .ref(`members/${userId}`)
       .on("value", (snapshot) => {
@@ -123,6 +125,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
         setType3(data.type3 || false)
         setType4(data.type4 || false)
         setSex(data.sex || "female")
+        setCharacter(data.character || "")
       })
 
     // return () =>
@@ -139,7 +142,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{ alignItems: "center" }}>
             <Text style={styles.textFormInfo}>รายละเอียดงานที่รับ</Text>
             <Text>(Work Details)</Text>
@@ -241,7 +244,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
               />
             </View>
             <Text style={{ fontSize: 16, padding: 5 }}>อายุ (age)</Text>
-              {!age && <Text style={{ color: "red" }}>ระบุอายุ</Text>}
+            {!age && <Text style={{ color: "red" }}>ระบุอายุ</Text>}
             <View style={styles.formControl}>
               <GetIcon type="mci" name="timeline-clock" />
               <TextInput
@@ -252,10 +255,23 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 keyboardType="numeric"
               />
             </View>
+            <Text style={{ fontSize: 16, padding: 5 }}>
+              นิสัยหรือบุคคลิก (character)
+            </Text>
+            {!character && (
+              <Text style={{ color: "red" }}>ระบุนิสัย บุคคลิก</Text>
+            )}
+            <View style={styles.formControl}>
+              <GetIcon type="fa5" name="user-astronaut" />
+              <TextInput
+                value={`${character}`}
+                onChangeText={(value) => setCharacter(value)}
+                style={styles.textInput}
+                placeholder="นิสัยหรือบุคคลิก (character)"
+              />
+            </View>
             <Text style={{ fontSize: 16, padding: 5 }}>ส่วนสูง (Tall)</Text>
-              {!height && (
-                <Text style={{ color: "red" }}>ระบุข้อมูลส่วนสูง</Text>
-              )}
+            {!height && <Text style={{ color: "red" }}>ระบุข้อมูลส่วนสูง</Text>}
             <View style={styles.formControl}>
               <GetIcon type="mci" name="human-male-height" />
               <TextInput
@@ -267,11 +283,11 @@ const RegisterPlanForm = ({ navigation, route }) => {
               />
             </View>
             <Text style={{ fontSize: 16, padding: 5 }}>
-                สัดส่วน 32-24-35 (Stature)
-              </Text>
-              {!stature && (
-                <Text style={{ color: "red" }}>ระบุข้อมูลสัดส่วน</Text>
-              )}
+              สัดส่วน 32-24-35 (Stature)
+            </Text>
+            {!stature && (
+              <Text style={{ color: "red" }}>ระบุข้อมูลสัดส่วน</Text>
+            )}
             <View style={styles.formControl}>
               <GetIcon type="ii" name="md-woman-outline" />
               <TextInput
@@ -281,12 +297,8 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 placeholder="สัดส่วน 32-24-35"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>
-                น้ำหนัก (Weight)
-              </Text>
-              {!weight && (
-                <Text style={{ color: "red" }}>ระบุข้อมูลน้ำหนัก</Text>
-              )}
+            <Text style={{ fontSize: 16, padding: 5 }}>น้ำหนัก (Weight)</Text>
+            {!weight && <Text style={{ color: "red" }}>ระบุข้อมูลน้ำหนัก</Text>}
             <View style={styles.formControl}>
               <GetIcon type="fa5" name="weight" />
               <TextInput

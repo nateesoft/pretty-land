@@ -1,29 +1,32 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
   View,
   StyleSheet,
   TouchableHighlight,
   ScrollView,
   ImageBackground,
+  SafeAreaView,
 } from "react-native"
 import { Text } from "react-native"
 import { Button } from "react-native-elements"
 import { MaterialIcons } from "react-native-vector-icons"
 
-import { getPartnerListToSelect } from "../../../data/apis"
+import bgImage from "../../../../assets/bg.png"
+
+import firebase from "../../../../util/firebase"
+import { snapshotToArray } from "../../../../util"
 
 const PartnerListSelect = ({ navigation, route }) => {
-  const { item: data } = route.params
-
-  const list = getPartnerListToSelect("")
+  const { postItem } = route.params
+  const [listSelect, setListSelect] = useState([])
 
   const onPressShowPartnerDetail = (item) => {
-    navigation.navigate("Partner-Image", { data, item })
+    navigation.navigate("Partner-Image", { postItem, partnerItem: item })
   }
 
   const DisplayCard = ({ data }) => (
     <ImageBackground
-      source={data.image}
+      source={{ uri: data.image }}
       style={{
         width: 180,
         height: 300,
@@ -39,7 +42,7 @@ const PartnerListSelect = ({ navigation, route }) => {
             padding: 2,
           }}
         >
-          อายุ: 20
+          อายุ: {data.age}
         </Text>
       </View>
       <View
@@ -53,7 +56,7 @@ const PartnerListSelect = ({ navigation, route }) => {
           opacity: 0.75,
         }}
       >
-        <Text style={{ color: "white", marginTop: 5 }}>{data.detail}</Text>
+        <Text style={{ color: "white", marginTop: 5 }}>{data.character}</Text>
       </View>
       <View
         style={{
@@ -80,7 +83,7 @@ const PartnerListSelect = ({ navigation, route }) => {
         }}
       >
         <Text style={{ color: "white", fontWeight: "bold" }}>
-          B {data.price}
+          B {data.amount}
         </Text>
       </View>
       <View
@@ -97,47 +100,75 @@ const PartnerListSelect = ({ navigation, route }) => {
         }}
       >
         <Text style={{ color: "blue", fontSize: 22, fontWeight: "bold" }}>
-          {data.name}
+          {data.partnerName}
         </Text>
-        <Text style={{ fontSize: 18 }}>{data.place}</Text>
+        <Text style={{ fontSize: 14 }}>นัดเจอ: {data.place}</Text>
       </View>
     </ImageBackground>
   )
 
+  useEffect(() => {
+    firebase
+      .database()
+      .ref(`posts/${postItem.id}/partnerSelect`)
+      .on("value", (snapshot) => {
+        const listData = snapshotToArray(snapshot)
+        setListSelect(listData)
+      })
+    return firebase.database().ref(`posts/${postItem.id}/partnerSelect`).off()
+  }, [])
+
   return (
-    <ScrollView>
-      <View style={styles.cardContainer1}>
-        <Text style={{ fontSize: 20, color: "blue", fontWeight: "bold" }}>
-          แสดงรายชื่อ Parnter พร้อมรับงาน
-        </Text>
-      </View>
-      <View
-        style={{
-          padding: 5,
-          alignContent: "space-between",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          backgroundColor: "white",
-          justifyContent: "center",
-        }}
-      >
-        {list.map((item, index) => (
-          <TouchableHighlight key={index} onPress={() => onPressShowPartnerDetail(item)}>
-            <DisplayCard data={item} />
-          </TouchableHighlight>
-        ))}
-        <Button title="เข้าหน้ารับชำระ" icon={
-          <MaterialIcons
-            name="attach-money"
-            size={20}
-            color="white"
-            style={{ marginRight: 10 }}
-          />
-        }
-        onPress={()=>navigation.navigate("Payment-Form", { item: data })}
-        />
-      </View>
-    </ScrollView>
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={{ height: "100%" }}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.cardContainer1}>
+            <Text style={{ fontSize: 20, color: "blue", fontWeight: "bold" }}>
+              แสดงรายชื่อ Partner พร้อมรับงาน
+            </Text>
+          </View>
+          <View
+            style={{
+              padding: 5,
+              alignContent: "space-between",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "center",
+            }}
+          >
+            {listSelect.map((item, index) => (
+              <TouchableHighlight
+                key={index}
+                onPress={() => onPressShowPartnerDetail(item)}
+              >
+                <DisplayCard data={item} />
+              </TouchableHighlight>
+            ))}
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <Button
+              title="เข้าหน้ารับชำระ"
+              icon={
+                <MaterialIcons
+                  name="attach-money"
+                  size={20}
+                  color="white"
+                  style={{ marginRight: 10 }}
+                />
+              }
+              onPress={() =>
+                navigation.navigate("Payment-Form", { item: data })
+              }
+              buttonStyle={{ width: 200 }}
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
@@ -150,7 +181,6 @@ const styles = StyleSheet.create({
   cardContainer1: {
     flexDirection: "column",
     alignItems: "center",
-    backgroundColor: "white",
     padding: 10,
   },
   cardContainer2: {
@@ -189,21 +219,10 @@ const styles = StyleSheet.create({
     height: 200,
     width: 100,
   },
-  btnContainer: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    textAlignVertical: "center",
-    paddingLeft: 10,
-  },
-  btnLineClickContain: {
-    paddingTop: 11,
-    paddingLeft: 10,
-    marginBottom: 5,
-    backgroundColor: "#35D00D",
-    marginTop: 45,
-    borderRadius: 25,
-    width: 250,
-    height: 45,
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

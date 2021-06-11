@@ -109,7 +109,7 @@ const PaymentForm = ({ navigation, route }) => {
           }
         />
       </View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Input
           name="bank"
           placeholder="ยอดชำระสำหรับ Partner (0.00)"

@@ -24,7 +24,7 @@ const PostListScreen = ({ navigation, route }) => {
 
   const onPressOptions = (item, status) => {
     if (status === "wait_customer_select_partner") {
-      navigation.navigate("Partner-List-Select", { item, userId })
+      navigation.navigate("Partner-List-Select", { postItem: item, userId })
     } else if (status === "wait_customer_payment") {
       navigation.navigate("Payment-Form", { item, userId })
     } else {
@@ -54,7 +54,7 @@ const PostListScreen = ({ navigation, route }) => {
       bottomDivider
       onPress={() => onPressOptions(item, item.status)}
       containerStyle={{
-        backgroundColor: getBgColor(item.status),
+        backgroundColor: null,
         borderRadius: 8,
         marginVertical: 5,
       }}
@@ -109,8 +109,6 @@ const PostListScreen = ({ navigation, route }) => {
             renderItem={renderItem}
             style={{
               height: 600,
-              borderWidth: 1,
-              borderColor: "#eee",
               padding: 5,
             }}
             refreshControl={

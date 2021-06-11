@@ -14,11 +14,14 @@ import { AntDesign } from "react-native-vector-icons"
 import bgImage from "../../../../assets/bg.png"
 import { partnerAcceptJobWaitCustomerReview } from "../../../apis"
 
+import firebase from "../../../../util/firebase"
+
 const ConfirmTaskScreen = ({ navigation, route }) => {
   const { profile, item } = route.params
   const [amount, setAmount] = useState("")
   const [place, setPlace] = useState("")
   const [phone, setPhone] = useState("")
+  const [workStatus, setWorkStatus] = useState("")
 
   const [getWork, setGetWork] = useState(false)
 
@@ -48,16 +51,25 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    if (item.partnerSelect) {
-      const checkItem = { ...item.partnerSelect }
-      const acceptAlready = checkItem[0].partnerId === profile.id
-      if (acceptAlready) {
-        setAmount(checkItem[0].amount)
-        setPlace(checkItem[0].place)
-        setPhone(checkItem[0].phone)
-      }
-      setGetWork(acceptAlready)
-    }
+    firebase
+      .database()
+      .ref(`posts/${item.id}/partnerSelect/${profile.id}`)
+      .on("value", (snapshot) => {
+        const checkItem = { ...snapshot.val() }
+        const acceptAlready = checkItem.partnerId === profile.id
+        if (acceptAlready) {
+          setAmount(checkItem.amount)
+          setPlace(checkItem.place)
+          setPhone(checkItem.phone)
+          setWorkStatus(checkItem.selectStatus)
+        }
+        setGetWork(acceptAlready)
+      })
+
+    return firebase
+      .database()
+      .ref(`posts/${item.id}/partnerSelect/${profile.id}`)
+      .off()
   }, [])
 
   return (
@@ -119,7 +131,9 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               >
                 รับจำนวน {item.partnerQty} คน ขาดอีก{" "}
                 {item.partnerQty -
-                  ((item.partnerSelect && item.partnerSelect.length) || 0)}{" "}
+                  (item.partnerSelect
+                    ? Object.keys(item.partnerSelect).length
+                    : 0)}{" "}
                 คน
               </Text>
               <Text style={{ marginBottom: 15 }}>
@@ -193,10 +207,12 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 <Text
                   style={{
                     fontSize: 16,
-                    color: "red",
+                    color: "black",
+                    padding: 5,
+                    backgroundColor: 'yellow',
                   }}
                 >
-                  ( สถานะ: รอลูกค้ารับงาน )
+                  ( สถานะ: {workStatus==='customer_confirm' ? 'ได้งานแล้ว': 'รอลูกค้ารับงาน'} )
                 </Text>
               </View>
             )}

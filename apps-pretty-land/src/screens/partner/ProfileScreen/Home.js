@@ -20,7 +20,7 @@ import {
 import { ActivityIndicator } from "react-native-paper"
 import Moment from "moment"
 
-import { AppConfig } from '../../../Constants'
+import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
 import { Context as AuthContext } from "../../../context/AuthContext"
 
@@ -86,7 +86,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
         setImg4(data.imageUrl4 || null)
         setImg5(data.imageUrl5 || null)
         setVideoUrl(data.videoUrl || null)
-        setUserStatus(data.status || '')
+        setUserStatus(data.status || "")
         setMemberRegisterDate(
           data.member_register_date
             ? Moment(data.member_register_date).format("D MMM YYYY")
@@ -106,20 +106,18 @@ const ProfileHomeScreen = ({ navigation, route }) => {
     >
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {userStatus === AppConfig.MemberStatus.newRegister && (
-            <TouchableNativeFeedback onPress={() => signOut()}>
-              <View style={{ alignSelf: "flex-end", margin: 10 }}>
-                <Text
-                  style={[
-                    styles.text,
-                    { color: "red", fontSize: 14, fontWeight: "bold" },
-                  ]}
-                >
-                  LOGGOUT
-                </Text>
-              </View>
-            </TouchableNativeFeedback>
-          )}
+          <TouchableNativeFeedback onPress={() => signOut()}>
+            <View style={{ alignSelf: "flex-end", margin: 10 }}>
+              <Text
+                style={[
+                  styles.text,
+                  { color: "red", fontSize: 14, fontWeight: "bold" },
+                ]}
+              >
+                LOGGOUT
+              </Text>
+            </View>
+          </TouchableNativeFeedback>
           <View style={{ alignSelf: "center" }}>
             <View style={styles.profileImage}>
               <Image
@@ -176,7 +174,9 @@ const ProfileHomeScreen = ({ navigation, route }) => {
           <View style={styles.statsContainer}>
             <View style={styles.statsBox}>
               <Text style={[styles.text, { fontSize: 24 }]}>0</Text>
-              <Text style={[styles.text, styles.subText]}>งานที่รับทั้งหมด</Text>
+              <Text style={[styles.text, styles.subText]}>
+                งานที่รับทั้งหมด
+              </Text>
             </View>
             <View
               style={[
@@ -191,7 +191,9 @@ const ProfileHomeScreen = ({ navigation, route }) => {
               <Text style={[styles.text, { fontSize: 24, fontWeight: "bold" }]}>
                 0
               </Text>
-              <Text style={[styles.text, styles.subText, { fontWeight: "bold" }]}>
+              <Text
+                style={[styles.text, styles.subText, { fontWeight: "bold" }]}
+              >
                 คะแนนสะสม
               </Text>
             </View>
@@ -259,7 +261,10 @@ const ProfileHomeScreen = ({ navigation, route }) => {
           )}
 
           <View style={{ marginTop: 32 }}>
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
               {img2 && (
                 <View style={styles.mediaImageContainer}>
                   <Image
