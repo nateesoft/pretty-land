@@ -110,26 +110,23 @@ const RegisterPlanForm = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    firebase
-      .database()
-      .ref(`members/${userId}`)
-      .on("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        setName(data.name || "")
-        setAge(data.age || "")
-        setHeight(data.height || "")
-        setStature(data.stature || "")
-        setWeight(data.weight || "")
-        setType1(data.type1 || false)
-        setType2(data.type2 || false)
-        setType3(data.type3 || false)
-        setType4(data.type4 || false)
-        setSex(data.sex || "female")
-        setCharacter(data.character || "")
-      })
+    const ref = firebase.database().ref(`members/${userId}`)
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setName(data.name || "")
+      setAge(data.age || "")
+      setHeight(data.height || "")
+      setStature(data.stature || "")
+      setWeight(data.weight || "")
+      setType1(data.type1 || false)
+      setType2(data.type2 || false)
+      setType3(data.type3 || false)
+      setType4(data.type4 || false)
+      setSex(data.sex || "female")
+      setCharacter(data.character || "")
+    })
 
-    // return () =>
-    //   firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   return (

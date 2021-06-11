@@ -93,30 +93,31 @@ const AllCustomerPostList = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    firebase
+    const ref = firebase
       .database()
       .ref(`posts`)
       .orderByChild("province")
       .equalTo(item.provinceId)
-      .on("value", (snapshot) => {
-        const postsList = snapshotToArray(snapshot)
-        setFilterList(
-          postsList.filter((item, index) => {
-            if (item.partnerRequest === "pretty-mc" && profile.type1) {
-              return item
-            }
-            if (item.partnerRequest === "coyote" && profile.type2) {
-              return item
-            }
-            if (item.partnerRequest === "pretty-entertain" && profile.type3) {
-              return item
-            }
-            if (item.partnerRequest === "pretty-massage" && profile.type4) {
-              return item
-            }
-          })
-        )
-      })
+    const listener = ref.on("value", (snapshot) => {
+      const postsList = snapshotToArray(snapshot)
+      setFilterList(
+        postsList.filter((item, index) => {
+          if (item.partnerRequest === "pretty-mc" && profile.type1) {
+            return item
+          }
+          if (item.partnerRequest === "coyote" && profile.type2) {
+            return item
+          }
+          if (item.partnerRequest === "pretty-entertain" && profile.type3) {
+            return item
+          }
+          if (item.partnerRequest === "pretty-massage" && profile.type4) {
+            return item
+          }
+        })
+      )
+    })
+    return () => ref.off("value", listener)
   }, [])
 
   return (

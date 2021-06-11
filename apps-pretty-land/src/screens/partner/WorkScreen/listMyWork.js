@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -13,17 +13,16 @@ import ProgressCircle from "react-native-progress-circle"
 
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
-import { getDataForPartnerWork } from "../../../data/apis"
+
+import firebase from "../../../../util/firebase"
+import { snapshotToArray } from "../../../../util"
 
 const ListMyWorkScreen = ({ navigation, route }) => {
+  const { userId } = route.params
   const [refreshing, setRefreshing] = useState(false)
+  const [filterList, setFilterList] = useState([])
 
-  const filterList = getDataForPartnerWork(1).filter((item) => {
-    return item
-  })
-
-  const handleRefresh = () => {
-  }
+  const handleRefresh = () => {}
 
   const onPressOptions = (item) => {
     navigation.navigate("Work-Detail", { item })
@@ -78,6 +77,15 @@ const ListMyWorkScreen = ({ navigation, route }) => {
       </ProgressCircle>
     </ListItem>
   )
+
+  useEffect(() => {
+    const ref = firebase.database().ref("posts")
+    const listener = ref.on("value", (snapshot) => {
+      console.log("snapshot:", snapshot.val())
+    })
+
+    return () => ref.off(listener, 'value')
+  }, [])
 
   return (
     <ImageBackground

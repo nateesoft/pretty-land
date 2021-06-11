@@ -59,43 +59,40 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const onChangeValue = firebase
-      .database()
-      .ref(`members/${userId}`)
-      .on("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        if (!data.image) {
-          if (data.sex === "female") {
-            setImageProfile(FemaleSimple)
-          } else if (data.sex === "male") {
-            setImageProfile(MaleSimple)
-          } else if (data.sex === "other") {
-            setImageProfile(OtherSimple)
-          } else {
-            setImageProfile(FemaleSimple)
-          }
+    const ref = firebase.database().ref(`members/${userId}`)
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      if (!data.image) {
+        if (data.sex === "female") {
+          setImageProfile(FemaleSimple)
+        } else if (data.sex === "male") {
+          setImageProfile(MaleSimple)
+        } else if (data.sex === "other") {
+          setImageProfile(OtherSimple)
         } else {
-          setImageProfile({ uri: data.image })
+          setImageProfile(FemaleSimple)
         }
-        setName(data.name || data.username)
-        setMobile(data.mobile || "<ไม่กำหนด>")
-        setLineId(data.lineId || "<ไม่กำหนด>")
-        setImg1(data.imageUrl1 || null)
-        setImg2(data.imageUrl2 || null)
-        setImg3(data.imageUrl3 || null)
-        setImg4(data.imageUrl4 || null)
-        setImg5(data.imageUrl5 || null)
-        setVideoUrl(data.videoUrl || null)
-        setUserStatus(data.status || "")
-        setMemberRegisterDate(
-          data.member_register_date
-            ? Moment(data.member_register_date).format("D MMM YYYY")
-            : "รออนุมัติข้อมูล"
-        )
-      })
+      } else {
+        setImageProfile({ uri: data.image })
+      }
+      setName(data.name || data.username)
+      setMobile(data.mobile || "<ไม่กำหนด>")
+      setLineId(data.lineId || "<ไม่กำหนด>")
+      setImg1(data.imageUrl1 || null)
+      setImg2(data.imageUrl2 || null)
+      setImg3(data.imageUrl3 || null)
+      setImg4(data.imageUrl4 || null)
+      setImg5(data.imageUrl5 || null)
+      setVideoUrl(data.videoUrl || null)
+      setUserStatus(data.status || "")
+      setMemberRegisterDate(
+        data.member_register_date
+          ? Moment(data.member_register_date).format("D MMM YYYY")
+          : "รออนุมัติข้อมูล"
+      )
+    })
 
-    // return () =>
-    //   firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   return (

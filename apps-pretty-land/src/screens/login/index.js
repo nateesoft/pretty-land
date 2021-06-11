@@ -28,16 +28,13 @@ const LoginScreen = ({ navigation, route }) => {
   const [lineContact, setLineContact] = useState("")
 
   useEffect(() => {
-    const onChangeValue = firebase
-      .database()
-      .ref("appconfig")
-      .once("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        setLineContact(data.line_contact_admin || "https://lin.ee/DgRh5Mw")
-      })
+    const ref = firebase.database().ref("appconfig")
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setLineContact(data.line_contact_admin || "https://lin.ee/DgRh5Mw")
+    })
 
-    // return () =>
-    //   firebase.database().ref('appconfig').off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   const LinkToLineContact = () => {
@@ -106,7 +103,7 @@ const LoginScreen = ({ navigation, route }) => {
                   AppleAuthentication.AppleAuthenticationScope.EMAIL,
                 ],
               })
-              Alert.alert('Connect Apple authentication')
+              Alert.alert("Connect Apple authentication")
               const decodeData = jwtDecode(credential["identityToken"])
               // signed in
               signInApple({

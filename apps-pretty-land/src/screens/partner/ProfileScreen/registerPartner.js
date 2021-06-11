@@ -70,20 +70,17 @@ const RegisterPartnerForm = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const onChangeValue = firebase
-      .database()
-      .ref(`members/${userId}`)
-      .on("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        setLineId(data.lineId || "")
-        setMobile(data.mobile || "")
-        setProvince(data.province || "")
-        setDistrict(data.district || "")
-        setAddress(data.address || "")
-      })
+    const ref = firebase.database().ref(`members/${userId}`)
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setLineId(data.lineId || "")
+      setMobile(data.mobile || "")
+      setProvince(data.province || "")
+      setDistrict(data.district || "")
+      setAddress(data.address || "")
+    })
 
-    // return () =>
-    //   firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   return (

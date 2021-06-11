@@ -27,26 +27,21 @@ const AdminAllListScreen = ({ navigation, route }) => {
   const [members, setMembers] = useState([])
 
   useEffect(() => {
-    const onChangeValue = firebase
+    const ref = firebase
       .database()
       .ref("members")
       .orderByChild("status_priority")
-      .on("value", (snapshot) => {
-        const memberInCloud = snapshotToArray(snapshot)
-        setMembers(
-          memberInCloud.filter(
-            (item, index) =>
-              item.memberType === "superadmin" || item.memberType === "admin"
-          )
+    const listener = ref.on("value", (snapshot) => {
+      const memberInCloud = snapshotToArray(snapshot)
+      setMembers(
+        memberInCloud.filter(
+          (item, index) =>
+            item.memberType === "superadmin" || item.memberType === "admin"
         )
-      })
+      )
+    })
 
-    // return () =>
-    //   firebase
-    //     .database()
-    //     .ref("members")
-    //     .orderByChild("status_priority")
-    //     .off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   const handleRefresh = () => {}
@@ -111,7 +106,7 @@ const AdminAllListScreen = ({ navigation, route }) => {
               style={styles.dropdownStyle}
               textStyle={{ fontSize: 18 }}
               searchable={false}
-              selectedItemContainerStyle={{backgroundColor: '#facaff'}}
+              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             />
           </View>
           {members.length === 0 && (

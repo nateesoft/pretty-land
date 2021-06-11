@@ -48,17 +48,14 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const onChangeValue = firebase
-      .database()
-      .ref(`members/${userId}`)
-      .on("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        setBank(data.bank || "")
-        setBankNo(data.bankNo || "")
-      })
+    const ref = firebase.database().ref(`members/${userId}`)
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setBank(data.bank || "")
+      setBankNo(data.bankNo || "")
+    })
 
-    // return () =>
-    //   firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   return (
@@ -67,7 +64,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <SafeAreaView style={{flex:1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <View style={{ alignItems: "center" }}>
           <Text style={styles.textFormInfo}>เพิ่มข้อมูลธนาคาร</Text>
           <Text>Add bank information (Optional)</Text>
@@ -85,7 +82,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
             setItems={setBankList}
             textStyle={{ fontSize: 18 }}
             searchable={false}
-            selectedItemContainerStyle={{backgroundColor: '#facaff'}}
+            selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
           />
 
           <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>

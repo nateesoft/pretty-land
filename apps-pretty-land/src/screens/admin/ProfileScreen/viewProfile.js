@@ -38,9 +38,12 @@ const ViewProfileScreen = ({ navigation, route }) => {
       return
     }
 
-    firebase.database().ref(`members/${userId}`).update({
-      password: base64.encode(newPassword),
-    })
+    firebase
+      .database()
+      .ref(`members/${userId}`)
+      .update({
+        password: base64.encode(newPassword),
+      })
     Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว")
     setPassword("")
     setNewPassword("")
@@ -48,16 +51,14 @@ const ViewProfileScreen = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const onChangeValue = firebase
-      .database()
-      .ref(`members/${userId}`)
-      .on("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        setUsername(data.username)
-        setOwnPassword(base64.decode(data.password))
-      })
+    const ref = firebase.database().ref(`members/${userId}`)
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setUsername(data.username)
+      setOwnPassword(base64.decode(data.password))
+    })
 
-    // return () => firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   return (
@@ -69,12 +70,12 @@ const ViewProfileScreen = ({ navigation, route }) => {
       <View style={styles.cardDetail}>
         <Text style={styles.textTopic}>เปลี่ยนรหัสผ่าน</Text>
         <View style={styles.viewCard}>
-        <Text style={{ fontSize: 18 }}>ชื่อผู้ใช้งาน</Text>
+          <Text style={{ fontSize: 18 }}>ชื่อผู้ใช้งาน</Text>
           <Input
             name="username"
             placeholder="ชื่อผู้ใช้งาน"
             leftIcon={{ type: "font-awesome", name: "user" }}
-            style={[styles.inputForm, { fontSize: 22, fontWeight: 'bold' }]}
+            style={[styles.inputForm, { fontSize: 22, fontWeight: "bold" }]}
             value={username}
             disabled
           />

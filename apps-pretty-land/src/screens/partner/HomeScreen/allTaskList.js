@@ -31,11 +31,14 @@ const AllTaskListScreen = ({ navigation, route }) => {
   const [profile, setProfile] = useState({})
 
   const handleRefresh = () => {
-    console.log('handleRefresh')
+    console.log("handleRefresh")
   }
 
   const onPressOptions = (item) => {
-    navigation.navigate("All-Customer-Post-List", { profile, item: {...item} })
+    navigation.navigate("All-Customer-Post-List", {
+      profile,
+      item: { ...item },
+    })
   }
 
   const renderItem = ({ item }) => (
@@ -118,22 +121,21 @@ const AllTaskListScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    firebase
-      .database()
-      .ref(`members/${userId}`)
-      .once("value", (snapshot) => {
-        setProfile({ ...snapshot.val() })
-      })
+    const ref = firebase.database().ref(`members/${userId}`)
+    const listener = ref.on("value", (snapshot) => {
+      setProfile({ ...snapshot.val() })
+    })
+    return () => ref.off("value", listener)
   }, [])
 
   useEffect(() => {
-    firebase
-      .database()
-      .ref(`group_posts`)
-      .on("value", (snapshot) => {
-        const postsList = snapshotToArrayProvinceGroup(snapshot)
-        setFilterList(postsList)
-      })
+    const ref = firebase.database().ref(`group_posts`)
+    const listener = ref.on("value", (snapshot) => {
+      const postsList = snapshotToArrayProvinceGroup(snapshot)
+      setFilterList(postsList)
+    })
+
+    return () => ref.off("value", listener)
   }, [])
 
   return (

@@ -108,14 +108,12 @@ const PartnerListSelect = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    firebase
-      .database()
-      .ref(`posts/${postItem.id}/partnerSelect`)
-      .on("value", (snapshot) => {
-        const listData = snapshotToArray(snapshot)
-        setListSelect(listData)
-      })
-    return firebase.database().ref(`posts/${postItem.id}/partnerSelect`).off()
+    const ref = firebase.database().ref(`posts/${postItem.id}/partnerSelect`)
+    const listener = ref.on("value", (snapshot) => {
+      const listData = snapshotToArray(snapshot)
+      setListSelect(listData)
+    })
+    return () => ref.off("value", listener)
   }, [])
 
   return (

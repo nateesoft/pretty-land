@@ -84,14 +84,12 @@ const PostListScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    firebase
-      .database()
-      .ref(`posts`)
-      .orderByChild(userId)
-      .on("value", (snapshot) => {
-        const postsList = snapshotToArray(snapshot)
-        setFilterList(postsList)
-      })
+    const ref = firebase.database().ref(`posts`).orderByChild(userId)
+    const listener = ref.on("value", (snapshot) => {
+      const postsList = snapshotToArray(snapshot)
+      setFilterList(postsList)
+    })
+    return () => ref.off("value", listener)
   }, [])
 
   return (

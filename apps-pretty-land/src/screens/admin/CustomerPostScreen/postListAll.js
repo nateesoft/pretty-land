@@ -69,13 +69,12 @@ const PostListAllScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    firebase
-      .database()
-      .ref(`posts`)
-      .on("value", (snapshot) => {
-        const postsList = snapshotToArray(snapshot)
-        setPosts(postsList)
-      })
+    const ref = firebase.database().ref(`posts`)
+    const listener = ref.on("value", (snapshot) => {
+      const postsList = snapshotToArray(snapshot)
+      setPosts(postsList)
+    })
+    return () => ref.off("value", listener)
   }, [])
 
   return (

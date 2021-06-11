@@ -57,30 +57,30 @@ export default function PartnerImage({ navigation, route }) {
   }
 
   useEffect(() => {
-    firebase
-      .database()
-      .ref(`members/${partnerItem.partnerId}`)
-      .on("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        setPartnerProfile(data)
-        setImages([
-          { url: data.imageUrl1 || null },
-          { url: data.imageUrl2 || null },
-          { url: data.imageUrl3 || null },
-          { url: data.imageUrl4 || null },
-          { url: data.imageUrl5 || null },
-        ])
-      })
+    const ref = firebase.database().ref(`members/${partnerItem.partnerId}`)
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setPartnerProfile(data)
+      setImages([
+        { url: data.imageUrl1 || null },
+        { url: data.imageUrl2 || null },
+        { url: data.imageUrl3 || null },
+        { url: data.imageUrl4 || null },
+        { url: data.imageUrl5 || null },
+      ])
+    })
+    return () => ref.off("value", listener)
   }, [])
 
   useEffect(() => {
-    firebase
+    const ref = firebase
       .database()
       .ref(`posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`)
-      .on("value", (snapshot) => {
-        const partnerStatusSelect = { ...snapshot.val() }
-        setSelectStatus(partnerStatusSelect.selectStatus)
-      })
+    const listener = ref.on("value", (snapshot) => {
+      const partnerStatusSelect = { ...snapshot.val() }
+      setSelectStatus(partnerStatusSelect.selectStatus)
+    })
+    return () => ref.off("value", listener)
   }, [])
 
   return (
@@ -177,7 +177,7 @@ export default function PartnerImage({ navigation, route }) {
             <Text
               style={{ fontSize: 20, backgroundColor: "yellow", marginTop: 10 }}
             >
-              status:  คุณเลือก Partner คนนี้แล้ว
+              status: คุณเลือก Partner คนนี้แล้ว
             </Text>
           )}
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>

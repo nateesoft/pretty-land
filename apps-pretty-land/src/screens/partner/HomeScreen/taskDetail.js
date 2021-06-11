@@ -51,25 +51,22 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    firebase
+    const ref = firebase
       .database()
       .ref(`posts/${item.id}/partnerSelect/${profile.id}`)
-      .on("value", (snapshot) => {
-        const checkItem = { ...snapshot.val() }
-        const acceptAlready = checkItem.partnerId === profile.id
-        if (acceptAlready) {
-          setAmount(checkItem.amount)
-          setPlace(checkItem.place)
-          setPhone(checkItem.phone)
-          setWorkStatus(checkItem.selectStatus)
-        }
-        setGetWork(acceptAlready)
-      })
+    const listener = ref.on("value", (snapshot) => {
+      const checkItem = { ...snapshot.val() }
+      const acceptAlready = checkItem.partnerId === profile.id
+      if (acceptAlready) {
+        setAmount(checkItem.amount)
+        setPlace(checkItem.place)
+        setPhone(checkItem.phone)
+        setWorkStatus(checkItem.selectStatus)
+      }
+      setGetWork(acceptAlready)
+    })
 
-    return firebase
-      .database()
-      .ref(`posts/${item.id}/partnerSelect/${profile.id}`)
-      .off()
+    return () => ref.off("value", listener)
   }, [])
 
   return (
@@ -209,10 +206,14 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                     fontSize: 16,
                     color: "black",
                     padding: 5,
-                    backgroundColor: 'yellow',
+                    backgroundColor: "yellow",
                   }}
                 >
-                  ( สถานะ: {workStatus==='customer_confirm' ? 'ได้งานแล้ว': 'รอลูกค้ารับงาน'} )
+                  ( สถานะ:{" "}
+                  {workStatus === "customer_confirm"
+                    ? "ได้งานแล้ว"
+                    : "รอลูกค้ารับงาน"}{" "}
+                  )
                 </Text>
               </View>
             )}

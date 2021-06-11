@@ -14,19 +14,16 @@ const ViewSettingForm = ({ navigation, route }) => {
   const [lineContact, setLineContact] = useState("")
 
   useEffect(() => {
-    const onChangeValue = firebase
-      .database()
-      .ref("appconfig")
-      .on("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        setFeeAmount(data.fee_amount || null)
-        setLineContact(data.line_contact_admin || "")
-        setImageQuality(data.quality_image_upload || "default")
-        setVideoQuality(data.quality_video_upload || "default")
-      })
+    const ref = firebase.database().ref("appconfig")
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setFeeAmount(data.fee_amount || null)
+      setLineContact(data.line_contact_admin || "")
+      setImageQuality(data.quality_image_upload || "default")
+      setVideoQuality(data.quality_video_upload || "default")
+    })
 
-    // return () =>
-      // firebase.database().ref("appconfig").off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   const updateAppConfigSetting = () => {
