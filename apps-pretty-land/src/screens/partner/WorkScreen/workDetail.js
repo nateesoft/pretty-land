@@ -1,10 +1,26 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
-import { AntDesign, Ionicons } from "react-native-vector-icons"
+import { AntDesign } from "react-native-vector-icons"
+
+import firebase from "../../../../util/firebase"
 
 const WorkDetailScreen = ({ navigation, route }) => {
-  const { item } = route.params
+  const { userId, item } = route.params
+  const [partner, setPartner] = useState({})
+
+  useEffect(() => {
+    const ref = firebase
+      .database()
+      .ref(`posts/${item.id}/partnerSelect/${userId}`)
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setPartner(data)
+    })
+
+    return () => ref.off("value", listener)
+  }, [])
+
   return (
     <View style={styles.cardDetail}>
       <Text style={styles.optionsNameDetail2}>รายละเอียดงานที่แจ้งลูกค้า</Text>
@@ -18,7 +34,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
             paddingHorizontal: 5,
           }}
         >
-          ลูกค้า: {item.customer}
+          ลูกค้า: {item.customerName}
         </Text>
         <Text style={{ marginBottom: 5 }}>ชื่องาน: {item.name}</Text>
         <Text
@@ -29,11 +45,13 @@ const WorkDetailScreen = ({ navigation, route }) => {
             paddingHorizontal: 5,
           }}
         >
-          โหมดงาน: {item.partnerType}
+          โหมดงาน: {item.partnerRequest}
         </Text>
-        <Text style={{ marginBottom: 5 }}>สถานะที่จัดงาน: {item.place}</Text>
+        <Text style={{ marginBottom: 5 }}>
+          สถานะที่จัดงาน: {item.placeMeeting}
+        </Text>
         <Text style={{ marginBottom: 15 }}>
-          เบอร์ติดต่อลูกค้า: {item.customerContact}
+          เบอร์ติดต่อลูกค้า: {item.customerPhone}
         </Text>
         <View
           style={{
@@ -43,15 +61,26 @@ const WorkDetailScreen = ({ navigation, route }) => {
             padding: 5,
           }}
         >
-          <Input placeholder="เสนอราคา (บาท)" value="ราคาที่เสนอ 2000 บาท" />
-          <Input placeholder="ระบุสถานที่" value="จังหวัดที่นัดพบ นครปฐม" />
-          <Input placeholder="เบอร์ติดต่อ" value="เบอร์โทรลูกค้า 081-3320909" />
+          <Input
+            placeholder="เสนอราคา (บาท)"
+            value={`ราคาที่เสนอ ${partner.amount} บาท`}
+          />
+          <Input
+            placeholder="ระบุสถานที่"
+            value={`จังหวัดที่นัดพบ ${item.provinceName}`}
+          />
+          <Input
+            placeholder="เบอร์ติดต่อ"
+            value={`เบอร์โทรลูกค้า ${item.customerPhone}`}
+          />
         </View>
       </View>
       <View>
-        <Text>สถานะ {item.jobStatusDesc}</Text>
+        <Text style={{ fontSize: 20, backgroundColor: "yellow" }}>
+          สถานะ {partner.selectStatusText}
+        </Text>
       </View>
-      {item.jobStatus === "customer_confirm" && (
+      {partner.selectStatus === "customer_payment" && (
         <Button
           icon={
             <AntDesign
@@ -72,7 +101,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
           onPress={() => navigation.navigate("List-My-Work")}
         />
       )}
-      {item.jobStatus === "customer_meet" && (
+      {partner.selectStatus === "customer_meet" && (
         <Button
           icon={
             <AntDesign

@@ -116,7 +116,8 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
     image: profile.image,
     sex: profile.sex,
     character: profile.character,
-    selectStatus: 'wait_customer_select'
+    selectStatus: 'wait_customer_select',
+    selectStatusText: 'รอลูกค้าเลือกผู้ร่วมงาน',
   }
   firebase
     .database()

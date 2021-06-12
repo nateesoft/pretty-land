@@ -10,6 +10,7 @@ import {
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
+import moment from "moment"
 
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
@@ -28,32 +29,25 @@ const ListMyWorkScreen = ({ navigation, route }) => {
     navigation.navigate("Work-Detail", { item })
   }
 
-  const getBgColor = (status) => {
-    return "#fcf2ff"
-  }
-
   const renderItem = ({ item }) => (
     <ListItem
       bottomDivider
       onPress={() => onPressOptions(item)}
       containerStyle={{
-        backgroundColor: getBgColor(item.status),
+        backgroundColor: null,
         borderRadius: 8,
         marginVertical: 5,
       }}
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>โหมดงาน: {item.partnerType}</ListItem.Title>
-        <ListItem.Title>วันที่แจ้งรับงาน: {item.jobDateRequest}</ListItem.Title>
-        <ListItem.Title>สถานที่แจ้งรับงาน: {item.place}</ListItem.Title>
-        <ListItem.Title>จังหวัด: {item.province}</ListItem.Title>
-        <ListItem.Title>ราคาที่เสนอ: {item.priceRequest}</ListItem.Title>
+        <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
+        <ListItem.Title>
+          วันที่แจ้งรับงาน: {moment(item.sys_create_date).format("D MMM YYYY")}
+        </ListItem.Title>
+        <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
         <Text>---------------------------------------</Text>
-        <ListItem.Title>ชื่องาน: {item.name}</ListItem.Title>
-        <ListItem.Subtitle>ลูกค้า: {item.customer}</ListItem.Subtitle>
-        <ListItem.Subtitle>
-          เบอร์ติดต่อ: {item.customerContact}
-        </ListItem.Subtitle>
+        <ListItem.Subtitle>ลูกค้า: {item.customerName}</ListItem.Subtitle>
+        <ListItem.Subtitle>เบอร์ติดต่อ: {item.customerPhone}</ListItem.Subtitle>
         <Text>---------------------------------------</Text>
         <ListItem.Title
           style={{
@@ -62,7 +56,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
             paddingHorizontal: 5,
           }}
         >
-          สถานะ: {item.jobStatusDesc}
+          สถานะ: {item.statusText}
         </ListItem.Title>
       </ListItem.Content>
       <ProgressCircle
@@ -70,8 +64,6 @@ const ListMyWorkScreen = ({ navigation, route }) => {
         radius={17}
         borderWidth={1.5}
         color="f580084"
-        shadowColor="#FFF"
-        bgColor="#FFF"
       >
         <Image source={require("../../../../assets/icons/pl.png")} />
       </ProgressCircle>
@@ -79,12 +71,17 @@ const ListMyWorkScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase.database().ref("posts")
+    const ref = firebase
+      .database()
+      .ref("posts")
+      .orderByChild(`partnerSelect/${userId}/partnerId`)
+      .equalTo(userId)
     const listener = ref.on("value", (snapshot) => {
-      console.log("snapshot:", snapshot.val())
+      const posts = snapshotToArray(snapshot)
+      setFilterList(posts)
     })
 
-    return () => ref.off(listener, 'value')
+    return () => ref.off("value", listener)
   }, [])
 
   return (
@@ -107,8 +104,6 @@ const ListMyWorkScreen = ({ navigation, route }) => {
               renderItem={renderItem}
               style={{
                 height: 600,
-                borderWidth: 1,
-                borderColor: "#eee",
                 padding: 5,
               }}
               refreshControl={

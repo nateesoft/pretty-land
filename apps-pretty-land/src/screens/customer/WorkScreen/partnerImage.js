@@ -33,6 +33,7 @@ export default function PartnerImage({ navigation, route }) {
       .ref(`posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`)
       .update({
         selectStatus: "customer_confirm",
+        selectStatusText: "ลูกค้าคอนเฟิร์ม รอชำระเงิน",
         sys_create_date: new Date().toUTCString(),
       })
     navigation.navigate("Partner-List-Select")
