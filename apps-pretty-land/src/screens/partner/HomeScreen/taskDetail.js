@@ -24,6 +24,10 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
   const [workStatus, setWorkStatus] = useState("")
 
   const [getWork, setGetWork] = useState(false)
+  const workHide =
+    item.partnerQty -
+      (item.partnerSelect ? Object.keys(item.partnerSelect).length : 0) ===
+    0
 
   const partnerAcceptJob = () => {
     if (!amount) {
@@ -139,37 +143,39 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               <Text style={{ marginBottom: 15 }}>
                 เบอร์ติดต่อลูกค้า: {item.customerPhone}
               </Text>
-              <View
-                style={{
-                  borderWidth: 1.5,
-                  borderRadius: 10,
-                  borderColor: "gray",
-                  padding: 10,
-                }}
-              >
-                <TextInput
-                  value={amount}
-                  placeholder="เสนอราคา (บาท)"
-                  style={styles.textInput}
-                  keyboardType="number-pad"
-                  onChangeText={(value) => setAmount(value)}
-                />
-                <TextInput
-                  value={place}
-                  placeholder="ระบุสถานที่"
-                  style={styles.textInput}
-                  onChangeText={(value) => setPlace(value)}
-                />
-                <TextInput
-                  value={phone}
-                  placeholder="เบอร์ติดต่อ"
-                  style={styles.textInput}
-                  keyboardType="number-pad"
-                  onChangeText={(value) => setPhone(value)}
-                />
-              </View>
+              {!workHide && (
+                <View
+                  style={{
+                    borderWidth: 1.5,
+                    borderRadius: 10,
+                    borderColor: "gray",
+                    padding: 10,
+                  }}
+                >
+                  <TextInput
+                    value={amount}
+                    placeholder="เสนอราคา (บาท)"
+                    style={styles.textInput}
+                    keyboardType="number-pad"
+                    onChangeText={(value) => setAmount(value)}
+                  />
+                  <TextInput
+                    value={place}
+                    placeholder="ระบุสถานที่"
+                    style={styles.textInput}
+                    onChangeText={(value) => setPlace(value)}
+                  />
+                  <TextInput
+                    value={phone}
+                    placeholder="เบอร์ติดต่อ"
+                    style={styles.textInput}
+                    keyboardType="number-pad"
+                    onChangeText={(value) => setPhone(value)}
+                  />
+                </View>
+              )}
             </View>
-            {!getWork ? (
+            {!getWork && !workHide && (
               <View>
                 <Button
                   icon={
@@ -191,31 +197,45 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                   onPress={() => partnerAcceptJob()}
                 />
               </View>
-            ) : (
-              <View>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: "blue",
-                  }}
-                >
-                  คุณสมัครรับงานนี้ไปแล้ว
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: "black",
-                    padding: 5,
-                    backgroundColor: "yellow",
-                  }}
-                >
-                  ( สถานะ:{" "}
-                  {workStatus === "customer_confirm"
-                    ? "ได้งานแล้ว"
-                    : "รอลูกค้ารับงาน"}{" "}
-                  )
-                </Text>
-              </View>
+            )}
+            {getWork && workStatus === "customer_confirm" && (
+              <Text
+                style={{
+                  color: "white",
+                  backgroundColor: "blue",
+                  padding: 20,
+                  fontSize: 20,
+                  fontWeight: "bold",
+                }}
+              >
+                ได้งานแล้ว รอลูกค้าชำระเงิน
+              </Text>
+            )}
+            {getWork && workStatus === "wait_customer_select" && (
+              <Text
+                style={{
+                  color: "white",
+                  backgroundColor: "blue",
+                  padding: 20,
+                  fontSize: 20,
+                  fontWeight: "bold",
+                }}
+              >
+                รอลูกค้ารับงาน
+              </Text>
+            )}
+            {!getWork && workHide && (
+              <Text
+                style={{
+                  color: "black",
+                  backgroundColor: "red",
+                  padding: 20,
+                  fontSize: 20,
+                  fontWeight: "bold",
+                }}
+              >
+                งานนี้ถูกรับงานไปเต็มแล้ว
+              </Text>
             )}
           </View>
         </ScrollView>

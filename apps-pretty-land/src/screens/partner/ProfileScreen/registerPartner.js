@@ -156,14 +156,19 @@ const RegisterPartnerForm = ({ navigation, route }) => {
               selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             />
             {type4 && (
-              <View style={styles.formControl}>
-                <GetIcon type="mi" name="home-work" />
-                <TextInput
-                  value={`${address}`}
-                  onChangeText={(value) => setAddress(value)}
-                  style={styles.textInput}
-                  placeholder="คอนโด/ตึก/หมู่บ้าน"
-                />
+              <View>
+                <View style={styles.formControl}>
+                  <GetIcon type="mi" name="home-work" />
+                  <TextInput
+                    value={`${address}`}
+                    onChangeText={(value) => setAddress(value)}
+                    style={styles.textInput}
+                    placeholder="คอนโด/ตึก/หมู่บ้าน"
+                  />
+                </View>
+                <Text style={{ color: "#123456", marginVertical: 5 }}>
+                  * สำหรับประเภทนวดแผนไทย
+                </Text>
               </View>
             )}
             <Button

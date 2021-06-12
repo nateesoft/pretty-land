@@ -19,6 +19,8 @@ import { snapshotToArray } from "../../../../util"
 const PartnerListSelect = ({ navigation, route }) => {
   const { postItem } = route.params
   const [listSelect, setListSelect] = useState([])
+  const [qtySelect, setQtySelect] = useState(0)
+  const [paymentActive, setPaymentActive] = useState(false)
 
   const onPressShowPartnerDetail = (item) => {
     navigation.navigate("Partner-Image", { postItem, partnerItem: item })
@@ -116,6 +118,21 @@ const PartnerListSelect = ({ navigation, route }) => {
     return () => ref.off("value", listener)
   }, [])
 
+  useEffect(() => {
+    const ref = firebase
+      .database()
+      .ref(`posts/${postItem.id}/partnerSelect`)
+      .orderByChild("selectStatus")
+      .equalTo("customer_confirm")
+    const listener = ref.on("value", (snapshot) => {
+      const sizePartner = snapshotToArray(snapshot)
+      setQtySelect(sizePartner.length)
+      setPaymentActive(sizePartner.length - postItem.partnerQty === 0)
+    })
+
+    return () => ref.off("value", listener)
+  }, [])
+
   return (
     <ImageBackground
       source={bgImage}
@@ -147,23 +164,30 @@ const PartnerListSelect = ({ navigation, route }) => {
               </TouchableHighlight>
             ))}
           </View>
-          <View style={{ alignItems: "center" }}>
-            <Button
-              title="เข้าหน้ารับชำระ"
-              icon={
-                <MaterialIcons
-                  name="attach-money"
-                  size={20}
-                  color="white"
-                  style={{ marginRight: 10 }}
-                />
-              }
-              onPress={() =>
-                navigation.navigate("Payment-Form", { item: data })
-              }
-              buttonStyle={{ width: 200 }}
-            />
+          <View style={{ alignSelf: "center", marginVertical: 20 }}>
+            <Text style={{ fontSize: 20 }}>
+              จำนวนที่ท่านต้องการ {qtySelect}/{postItem.partnerQty}
+            </Text>
           </View>
+          {paymentActive && (
+            <View style={{ alignItems: "center" }}>
+              <Button
+                title="เข้าหน้ารับชำระ"
+                icon={
+                  <MaterialIcons
+                    name="attach-money"
+                    size={20}
+                    color="white"
+                    style={{ marginRight: 10 }}
+                  />
+                }
+                onPress={() =>
+                  navigation.navigate("Payment-Form", { item: data })
+                }
+                buttonStyle={{ width: 200 }}
+              />
+            </View>
+          )}
         </ScrollView>
       </SafeAreaView>
     </ImageBackground>
