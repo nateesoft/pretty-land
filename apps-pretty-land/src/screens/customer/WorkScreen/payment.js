@@ -4,25 +4,53 @@ import {
   View,
   Platform,
   StyleSheet,
-  FlatList,
-  RefreshControl,
   ScrollView,
   Alert,
+  TextInput,
+  ImageBackground,
+  SafeAreaView,
 } from "react-native"
 import * as ImagePicker from "expo-image-picker"
-import { Button, Text, Input } from "react-native-elements"
+import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 
-import { getPostToPayment } from "../../../data/apis"
+import { GetIcon } from "../../../components/GetIcons"
+import bgImage from "../../../../assets/bg.png"
+import firebase from "../../../../util/firebase"
 
 const PaymentForm = ({ navigation, route }) => {
+  const { item } = route.params
+  const [partnerAmount, setPartnerAmount] = useState("")
+  const [feeAmount, setFeeAmount] = useState("")
+  const [netTotalAmount, setNetTotalAmount] = useState("")
+
   const [image, setImage] = useState(null)
   const [bank, setBank] = useState("")
-  const [amount, setAmount] = useState("")
+  const [transferAmount, setTransferAmount] = useState("")
   const [datetime, setDateTime] = useState("")
-  const [refreshing, setRefreshing] = useState(false)
 
-  const { item } = route.params
+  useEffect(() => {
+    const ref = firebase.database().ref(`posts/${item.id}/partnerSelect`)
+    ref.once("value", (snapshot) => {
+      let totalAmount = 0
+      snapshot.forEach((item, index) => {
+        const amt = parseInt(item.val().amount)
+        totalAmount = totalAmount + amt
+      })
+      setPartnerAmount(totalAmount.toFixed(2))
+    })
+  }, [])
+
+  useEffect(() => {
+    const ref = firebase.database().ref("appconfig/fee_amount")
+    ref.once("value", (snapshot) => {
+      const feeAmount = parseFloat(snapshot.val()).toFixed(2)
+      setFeeAmount(feeAmount)
+
+      const netTotalAmt = parseInt(partnerAmount)+parseInt(feeAmount)
+      setNetTotalAmount(netTotalAmt.toFixed(2))
+    })
+  }, [])
 
   useEffect(() => {
     ;(async () => {
@@ -30,7 +58,10 @@ const PaymentForm = ({ navigation, route }) => {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync()
         if (status !== "granted") {
-          Alert.alert("แจ้งเตือน", "ขออภัย, กรุณาให้สิทธิืการเข้าถึงรูปภาพของท่าน!")
+          Alert.alert(
+            "แจ้งเตือน",
+            "ขออภัย, กรุณาให้สิทธิืการเข้าถึงรูปภาพของท่าน!"
+          )
         }
       }
     })()
@@ -49,150 +80,144 @@ const PaymentForm = ({ navigation, route }) => {
     }
   }
 
-  const filterList = getPostToPayment(item.id)[0].listPartnerSelect
-
-  const renderItem = ({ item }) => (
-    <View style={{ padding: 5 }}>
-      <Image source={item.image} style={{ width: 128, height: 128 }} />
-      <Text
-        style={{
-          position: "absolute",
-          bottom: 10,
-          right: 0,
-          color: "white",
-          backgroundColor: "chocolate",
-          opacity: 0.75
-        }}
-      >
-        {item.name}
-      </Text>
-      <Text
-        style={{
-          position: "absolute",
-          top: 20,
-          left: 0,
-          color: "white",
-          backgroundColor: "blue",
-          fontWeight: 'bold',
-          fontSize: 22,
-          opacity: 0.5
-        }}
-      >
-        {item.price}
-      </Text>
-    </View>
-  )
-
-  const handleRefresh = () => {
-  }
-
   return (
-    <>
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <Text>รายชื่อ Partner ที่เลือก</Text>
-        <FlatList
-          keyExtractor={(item) => item.id.toString()}
-          data={filterList}
-          renderItem={renderItem}
-          horizontal
-          style={{
-            borderWidth: 1,
-            borderColor: "#eee",
-            padding: 5,
-            margin: 5,
-          }}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => handleRefresh()}
-            />
-          }
-        />
-      </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Input
-          name="bank"
-          placeholder="ยอดชำระสำหรับ Partner (0.00)"
-          leftIcon={{ type: "font-awesome", name: "dollar" }}
-          onChangeText={(value) => setBank(value)}
-          value={bank}
-          disabled
-        />
-        <Input
-          name="bank"
-          placeholder="ค่าธรรมเนียม (0.00)"
-          leftIcon={{ type: "font-awesome", name: "dollar" }}
-          onChangeText={(value) => setBank(value)}
-          value={bank}
-          disabled
-        />
-        <Input
-          name="bank"
-          placeholder="รวมยอดชำระทั้งหมด"
-          leftIcon={{ type: "font-awesome", name: "dollar" }}
-          onChangeText={(value) => setBank(value)}
-          value={bank}
-          disabled
-        />
-        <Text style={styles.optionsNameDetail}>ยืนยันข้อมูลการโอนเงิน</Text>
-        <Input
-          name="bank"
-          placeholder="ธนาคารที่โอนเงิน"
-          leftIcon={{ type: "font-awesome", name: "bank" }}
-          onChangeText={(value) => setBank(value)}
-          value={bank}
-        />
-        <Input
-          name="amount"
-          placeholder="ยอดเงินโอน 0.00"
-          leftIcon={{ type: "font-awesome", name: "dollar" }}
-          onChangeText={(value) => setAmount(value)}
-          value={amount}
-        />
-        <Input
-          name="datetime"
-          placeholder="เวลาที่โอนเงิน (dd/MM/yyyy)"
-          leftIcon={{ type: "font-awesome", name: "calendar" }}
-          onChangeText={(value) => setDateTime(value)}
-          value={datetime}
-        />
-        <Button
-          icon={
-            <Icon
-              name="file"
-              size={15}
-              color="white"
-              style={{ marginRight: 5 }}
-            />
-          }
-          title="เลือกไฟล์...สลิปสำหรับการโอนเงิน"
-          onPress={pickImage}
-        />
-        {image && (
-          <View style={{ flex: 1, justifyContent: "space-around" }}>
-            <Image source={{ uri: image }} style={{ width: 200, height: 250 }} />
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={{ height: "100%" }}>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Text style={styles.topic}>โอนเงิน เพื่อชำระค่าบริการ</Text>
+        </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ marginTop: 20 }}
+        >
+          <View style={{ width: "90%", alignSelf: "center" }}>
+            <Text style={{ fontSize: 16, padding: 5 }}>
+              ยอดชำระสำหรับ Partner (0.00)
+            </Text>
+            <View style={styles.formControl}>
+              <GetIcon type="fa" name="dollar" />
+              <TextInput
+                style={styles.textInput}
+                placeholder="ยอดชำระสำหรับ Partner (0.00)"
+                value={partnerAmount}
+                onChangeText={(value) => setPartnerAmount(value)}
+                editable={false}
+              />
+            </View>
+            <Text style={{ fontSize: 16, padding: 5 }}>
+              ค่าธรรมเนียม (0.00)
+            </Text>
+            <View style={styles.formControl}>
+              <GetIcon type="fa" name="dollar" />
+              <TextInput
+                style={styles.textInput}
+                placeholder="ค่าธรรมเนียม (0.00)"
+                value={feeAmount}
+                onChangeText={(value) => setFeeAmount(value)}
+                editable={false}
+              />
+            </View>
+            <Text style={{ fontSize: 16, padding: 5 }}>รวมยอดชำระทั้งหมด</Text>
+            <View style={styles.formControl}>
+              <GetIcon type="fa" name="dollar" />
+              <TextInput
+                style={styles.textInput}
+                placeholder="รวมยอดชำระทั้งหมด"
+                value={netTotalAmount}
+                onChangeText={(value) => setNetTotalAmount(value)}
+                editable={false}
+              />
+            </View>
+          </View>
+          <View style={{ margin: 5, alignSelf: "center", width: "90%" }}>
+            <Text style={styles.optionsNameDetail}>ยืนยันข้อมูลการโอนเงิน</Text>
+
+            <Text style={{ fontSize: 16, padding: 5 }}>ธนาคารที่โอนเงิน</Text>
+            <View style={styles.formControl}>
+              <GetIcon type="fa" name="bank" />
+              <TextInput
+                style={styles.textInput}
+                placeholder="ธนาคารที่โอนเงิน"
+                value={bank}
+                onChangeText={(value) => setBank(value)}
+              />
+            </View>
+            <Text style={{ fontSize: 16, padding: 5 }}>ยอดเงินโอน 0.00</Text>
+            <View style={styles.formControl}>
+              <GetIcon type="fa" name="dollar" />
+              <TextInput
+                style={styles.textInput}
+                placeholder="ยอดเงินโอน 0.00"
+                value={transferAmount}
+                onChangeText={(value) => setTransferAmount(value)}
+              />
+            </View>
+            <Text style={{ fontSize: 16, padding: 5 }}>
+              เวลาที่โอนเงิน (dd/MM/yyyy)
+            </Text>
+            <View style={styles.formControl}>
+              <GetIcon type="mi" name="date-range" />
+              <TextInput
+                style={styles.textInput}
+                placeholder="เวลาที่โอนเงิน (dd/MM/yyyy)"
+                value={datetime}
+                onChangeText={(value) => setDateTime(value)}
+              />
+            </View>
             <Button
               icon={
                 <Icon
-                  name="save"
-                  size={20}
+                  name="file"
+                  size={15}
                   color="white"
                   style={{ marginRight: 5 }}
                 />
               }
-              buttonStyle={styles.buttonConfirm}
-              title="ยืนยันข้อมูลการโอนเงิน ไปยัง Admin"
+              buttonStyle={{ marginTop: 10 }}
+              title="เลือกไฟล์...สลิปสำหรับการโอนเงิน"
+              onPress={pickImage}
             />
           </View>
-        )}
-      </ScrollView>
-    </>
+          {image && (
+            <View style={{ alignContent: "center" }}>
+              <View style={{ alignSelf: "center", marginTop: 10 }}>
+                <Image
+                  source={{ uri: image }}
+                  style={{ width: 200, height: 250 }}
+                />
+              </View>
+              <View
+                style={{ alignSelf: "center", padding: 5, marginBottom: 10 }}
+              >
+                <Button
+                  icon={
+                    <Icon
+                      name="save"
+                      size={20}
+                      color="white"
+                      style={{ marginRight: 5 }}
+                    />
+                  }
+                  buttonStyle={styles.buttonConfirm}
+                  title="ยืนยันข้อมูลการโอนเงิน"
+                />
+              </View>
+            </View>
+          )}
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   buttonConfirm: {
     backgroundColor: "green",
+    marginTop: 10,
   },
   optionsNameDetail: {
     fontSize: 18,
@@ -201,6 +226,33 @@ const styles = StyleSheet.create({
     color: "blue",
     marginBottom: 15,
     marginTop: 10,
+  },
+  formControl: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 0.5,
+    paddingHorizontal: 10,
+    borderColor: "#00716F",
+    backgroundColor: "white",
+    marginTop: 5,
+    height: 40,
+    borderRadius: 10,
+  },
+  textInput: {
+    backgroundColor: "white",
+    width: 250,
+    textAlign: "center",
+    fontSize: 16,
+    marginVertical: 5,
+  },
+  topic: {
+    marginTop: 20,
+    fontSize: 20,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

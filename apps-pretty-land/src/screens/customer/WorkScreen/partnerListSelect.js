@@ -182,7 +182,7 @@ const PartnerListSelect = ({ navigation, route }) => {
                   />
                 }
                 onPress={() =>
-                  navigation.navigate("Payment-Form", { item: data })
+                  navigation.navigate("Payment-Form", { item: postItem })
                 }
                 buttonStyle={{ width: 200 }}
               />
