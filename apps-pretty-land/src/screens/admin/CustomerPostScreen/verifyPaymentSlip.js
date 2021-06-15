@@ -1,93 +1,91 @@
 import React from "react"
-import { View, StyleSheet } from "react-native"
+import {
+  ScrollView,
+  Image,
+  View,
+  StyleSheet,
+  ImageBackground,
+  SafeAreaView,
+} from "react-native"
 import { Button, Text } from "react-native-elements"
-import { AntDesign, FontAwesome, Fontisto } from "react-native-vector-icons"
+import { AntDesign } from "react-native-vector-icons"
 
-const VerifyPaymentSlip = ({ navigation }) => {
+import bgImage from "../../../../assets/bg.png"
+import firebase from "../../../../util/firebase"
 
-  const RenderLabel = ({ icon, label, value, type = "A" }) => {
-    return (
-      <>
-        {type === "A" && (
-          <AntDesign name={icon} size={20} style={{ margin: 5 }} />
-        )}
-        {type === "F" && (
-          <FontAwesome name={icon} size={20} style={{ margin: 5 }} />
-        )}
-        {type === "F2" && (
-          <Fontisto name={icon} size={20} style={{ margin: 5 }} />
-        )}
-        <Text>{label}</Text>
-        <Text style={{ fontSize: 18, textDecorationLine: 'underline' }}>{value}</Text>
-      </>
-    )
+const VerifyPaymentSlip = ({ navigation, route }) => {
+  const { navigate } = navigation
+  const { item } = route.params
+
+  const saveConfirmPayment = () => {
+    // save to firebase
+    firebase.database().ref(`posts/${item.id}`).update({
+      status: "admin_confirm_payment",
+      statusText: "ชำระเงินเรียบร้อยแล้ว",
+      sys_update_date: new Date().toUTCString()
+    })
+
+    // to all list
+    navigate("Post-List-All")
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "white",
-      }}
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
     >
-      <Text style={styles.optionsNameDetail}>ตรวจสอบข้อมูลการโอนเงิน</Text>
-      <View
-        style={{
-          width: "100%",
-          alignItems: "center",
-          margin: 20,
-          backgroundColor: "snow",
-          borderWidth: 0,
-          borderColor: "pink",
-          padding: 5,
-        }}
-      >
-        <RenderLabel
-          label="ชื่อผู้โอนเงิน"
-          value="นายทดสอบ รอบจัด"
-          icon="user"
-        />
-        <RenderLabel
-          label="ธนาคารที่โอนเงิน"
-          value="ธนาคารไทยพานิชย์"
-          icon="bank"
-        />
-        <RenderLabel
-          label="ยอดเงินโอน"
-          value="5,000 บาท"
-          icon="money"
-          type="F"
-        />
-        <RenderLabel
-          label="เวลาที่โอนเงิน"
-          value="16/05/2021 เวลา 11.00.00"
-          icon="date"
-          type="F2"
-        />
-      </View>
-      <Button
-        icon={
-          <AntDesign
-            name="checksquareo"
-            size={20}
-            color="white"
-            style={{ marginRight: 5 }}
+      <SafeAreaView style={{ height: "100%" }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ marginTop: 20 }}
+        >
+          <Text style={styles.optionsNameDetail}>ตรวจสอบข้อมูลการโอนเงิน</Text>
+          <View style={{ alignSelf: "center" }}>
+            <Image
+              source={{ uri: item.slip_image }}
+              style={{ width: 200, height: 250 }}
+            />
+          </View>
+          <View
+            style={{
+              padding: 10,
+              alignSelf: "center",
+              borderWidth: 1.5,
+              margin: 10,
+              borderColor: "pink",
+            }}
+          >
+            <Text>ชื่อผู้โอนเงิน: {item.customerName}</Text>
+            <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
+            <Text>ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}</Text>
+            <Text>เวลาที่โอนเงิน: {item.transferTime}</Text>
+          </View>
+          <Button
+            icon={
+              <AntDesign
+                name="checksquareo"
+                size={20}
+                color="white"
+                style={{ marginRight: 5 }}
+              />
+            }
+            buttonStyle={styles.buttonConfirm}
+            title="ยืนยันข้อมูลถูกต้อง"
+            onPress={()=>saveConfirmPayment()}
           />
-        }
-        buttonStyle={styles.buttonConfirm}
-        title="ยืนยันข้อมูลถูกต้อง"
-      />
-    </View>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   buttonConfirm: {
     backgroundColor: "green",
-    borderRadius: 25,
-    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignSelf: "center",
+    width: 250,
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -96,6 +94,11 @@ const styles = StyleSheet.create({
     color: "blue",
     marginBottom: 15,
     marginTop: 10,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

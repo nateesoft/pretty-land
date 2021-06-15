@@ -201,7 +201,7 @@ export const customerPostList = [
   //   image: require("../../assets/img_example/img2.png"),
   //   subtitle: "นครราชสีมา จำนวน 5 คน",
   //   place: "ซอยลาดพร้าว 71",
-  //   status: "customer_with_partner",
+  //   status: "admin_confirm_payment",
   //   statusText: "อยู่ระหว่างภารกิจ",
   //   textToPartner: "อยู่ระหว่างภารกิจ",
   //   textToAdmin: "อยู่ระหว่างภารกิจ",

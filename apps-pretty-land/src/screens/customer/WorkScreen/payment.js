@@ -17,7 +17,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import DropDownPicker from "react-native-dropdown-picker"
 import { TextInputMask } from "react-native-masked-text"
 
-import { getBankList } from "../../../data/apis"
+import { getBankList, getBankName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
@@ -59,7 +59,7 @@ const PaymentForm = ({ navigation, route }) => {
 
   useEffect(() => {
     const ref = firebase.database().ref(`posts/${item.id}/partnerSelect`)
-    ref.on("value", async (snapshot) => {
+    const listener = ref.on("value", async (snapshot) => {
       const pAmount = await computeAmount(snapshot)
       const fAmount = await getFeeAmountFromFirebase()
       const netTotalAmt = parseInt(pAmount) + parseInt(fAmount)
@@ -68,6 +68,8 @@ const PaymentForm = ({ navigation, route }) => {
       setFeeAmount(fAmount.toFixed(2))
       setNetTotalAmount(netTotalAmt.toFixed(2))
     })
+
+    return () => ref.off("value", listener)
   }, [])
 
   useEffect(() => {
@@ -110,6 +112,51 @@ const PaymentForm = ({ navigation, route }) => {
       Alert.alert("แจ้งเตือน", "กรุณาระบุวันที่ และเวลาที่โอนเงิน")
       return
     }
+
+    // upload slip image
+    if (image) {
+      uploadImageAsync(image)
+    } else {
+      Alert.alert("แจ้งเตือน", "กรุณาเลือกสลิปการโอนเงิน !")
+      return
+    }
+  }
+
+  async function uploadImageAsync(imageSource) {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+      xhr.onload = function () {
+        resolve(xhr.response)
+      }
+      xhr.onerror = function (e) {
+        reject(new TypeError("Network request failed"))
+      }
+      xhr.responseType = "blob"
+      xhr.open("GET", imageSource, true)
+      xhr.send(null)
+    })
+
+    const ref = firebase
+      .storage()
+      .ref("images/member/customer/payment_slip")
+      .child(item.id)
+    const snapshot = await ref.put(blob)
+
+    // We're done with the blob, close and release it
+    blob.close()
+
+    const url = await snapshot.ref.getDownloadURL()
+
+    // save to firebase
+    firebase.database().ref(`posts/${item.id}`).update({
+      slip_image: url,
+      status: "wait_admin_confirm_payment",
+      statusText: "รอ admin ตรวจสอบการชำระเงิน",
+      bank: getBankName(bank),
+      transferTime: datetime,
+      transferAmount: transferAmount,
+      sys_update_date: new Date().toUTCString()
+    })
 
     navigate("Post-List")
   }

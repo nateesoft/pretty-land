@@ -14,7 +14,7 @@ import { getPartnerGroup } from "../../../data/apis"
 
 import bgImage from "../../../../assets/bg.png"
 
-const widthFix = (Dimensions.get("window").width * 70) / 100
+const widthFix = (Dimensions.get("window").width * 70) / 120
 
 const PartnerCategory = ({ navigation, route }) => {
   const [items, setItems] = useState(getPartnerGroup)

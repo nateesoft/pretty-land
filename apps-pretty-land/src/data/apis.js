@@ -147,3 +147,7 @@ export const getProvinceName = (provinceIndex) => {
       return obj.label
     })
 }
+
+export const getBankName = (bankId) => {
+  return banks.filter((item, index) => item.value === bankId)
+}

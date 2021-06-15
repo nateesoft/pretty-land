@@ -30,7 +30,7 @@ const PostListAllScreen = ({ navigation, route }) => {
 
   const onPressOptions = (item, status) => {
     if (status === "wait_admin_confirm_payment") {
-      navigation.navigate("Verify-Payment-Slip")
+      navigation.navigate("Verify-Payment-Slip", { item })
     } else {
       navigation.navigate("Detail-Task", { item })
     }
