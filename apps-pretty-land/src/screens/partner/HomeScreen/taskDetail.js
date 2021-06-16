@@ -19,8 +19,6 @@ import firebase from "../../../../util/firebase"
 const ConfirmTaskScreen = ({ navigation, route }) => {
   const { profile, item } = route.params
   const [amount, setAmount] = useState("")
-  const [place, setPlace] = useState("")
-  const [phone, setPhone] = useState("")
   const [workStatus, setWorkStatus] = useState("")
 
   const [getWork, setGetWork] = useState(false)
@@ -34,22 +32,9 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       Alert.alert("แจ้งเตือน", "กรุณาระบุจำนวนเงินที่ต้องการ")
       return
     }
-    if (!place) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุสถานที่")
-      return
-    }
-    if (!phone) {
-      Alert.alert(
-        "แจ้งเตือน",
-        "กรุณาระบุเบอร์ติดต่อ (แสดงเฉพาะผุ้ดูแลระบบเท่านั้น)"
-      )
-      return
-    }
     partnerAcceptJobWaitCustomerReview(item, {
       ...profile,
       amount,
-      place,
-      phone,
     })
     navigation.navigate("All-Task-List")
   }
@@ -63,8 +48,6 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       const acceptAlready = checkItem.partnerId === profile.id
       if (acceptAlready) {
         setAmount(checkItem.amount)
-        setPlace(checkItem.place)
-        setPhone(checkItem.phone)
         setWorkStatus(checkItem.selectStatus)
       }
       setGetWork(acceptAlready)
@@ -122,27 +105,6 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               >
                 โหมดงาน: {item.partnerRequest}
               </Text>
-              <Text
-                style={{
-                  marginBottom: 15,
-                  fontSize: 18,
-                  borderWidth: 2,
-                  padding: 10,
-                }}
-              >
-                รับจำนวน {item.partnerQty} คน ขาดอีก{" "}
-                {item.partnerQty -
-                  (item.partnerSelect
-                    ? Object.keys(item.partnerSelect).length
-                    : 0)}{" "}
-                คน
-              </Text>
-              <Text style={{ marginBottom: 15 }}>
-                สถานที่: {item.placeMeeting}
-              </Text>
-              <Text style={{ marginBottom: 15 }}>
-                เบอร์ติดต่อลูกค้า: {item.customerPhone}
-              </Text>
               {!workHide && (
                 <View
                   style={{
@@ -158,19 +120,6 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                     style={styles.textInput}
                     keyboardType="number-pad"
                     onChangeText={(value) => setAmount(value)}
-                  />
-                  <TextInput
-                    value={place}
-                    placeholder="ระบุสถานที่"
-                    style={styles.textInput}
-                    onChangeText={(value) => setPlace(value)}
-                  />
-                  <TextInput
-                    value={phone}
-                    placeholder="เบอร์ติดต่อ"
-                    style={styles.textInput}
-                    keyboardType="number-pad"
-                    onChangeText={(value) => setPhone(value)}
                   />
                 </View>
               )}

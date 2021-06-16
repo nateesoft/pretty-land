@@ -19,7 +19,6 @@ import { snapshotToArray } from "../../../../util"
 const PartnerListSelect = ({ navigation, route }) => {
   const { postItem } = route.params
   const [listSelect, setListSelect] = useState([])
-  const [qtySelect, setQtySelect] = useState(0)
   const [paymentActive, setPaymentActive] = useState(false)
 
   const onPressShowPartnerDetail = (item) => {
@@ -104,7 +103,9 @@ const PartnerListSelect = ({ navigation, route }) => {
         <Text style={{ color: "blue", fontSize: 22, fontWeight: "bold" }}>
           {data.partnerName}
         </Text>
-        <Text style={{ fontSize: 14 }}>นัดเจอ: {data.place}</Text>
+        {data.selectStatus === "customer_confirm" && (
+          <Text style={{ color: "blue" }}>เลือกสมาชิกคนนี้แล้ว</Text>
+        )}
       </View>
     </ImageBackground>
   )
@@ -126,8 +127,9 @@ const PartnerListSelect = ({ navigation, route }) => {
       .equalTo("customer_confirm")
     const listener = ref.on("value", (snapshot) => {
       const sizePartner = snapshotToArray(snapshot)
-      setQtySelect(sizePartner.length)
-      setPaymentActive(sizePartner.length - postItem.partnerQty === 0)
+      if (sizePartner.length > 0) {
+        setPaymentActive(true)
+      }
     })
 
     return () => ref.off("value", listener)
@@ -163,11 +165,6 @@ const PartnerListSelect = ({ navigation, route }) => {
                 <DisplayCard data={item} />
               </TouchableHighlight>
             ))}
-          </View>
-          <View style={{ alignSelf: "center", marginVertical: 20 }}>
-            <Text style={{ fontSize: 20 }}>
-              จำนวนที่ท่านต้องการ {qtySelect}/{postItem.partnerQty}
-            </Text>
           </View>
           {paymentActive && (
             <View style={{ alignItems: "center" }}>

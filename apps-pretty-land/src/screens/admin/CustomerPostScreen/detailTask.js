@@ -22,7 +22,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
         provinceName: item.provinceName,
         partnerType: item.partnerRequest,
       },
-      item.partnerQty
+      1
     )
     Alert.alert("บันทึกข้อมูลเรียบร้อย")
     navigation.navigate("Post-List-All")
@@ -56,7 +56,6 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               ประเภทที่ต้องการ: {item.partnerRequest}
             </Text>
             <Text style={{ fontSize: 16 }}>จังหวัด: {item.provinceName}</Text>
-            <Text style={{ fontSize: 16 }}>จำนวน: {item.partnerQty} คน</Text>
           </View>
         </View>
         <View style={styles.viewCard}>

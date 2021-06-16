@@ -38,7 +38,6 @@ const CreatePostForm = (props) => {
   const [phone, setPhone] = useState("")
   const [place, setPlace] = useState("")
   const [remark, setRemark] = useState("")
-  const [qty, setQty] = useState("")
 
   const createNewPost = () => {
     if (!customerName) {
@@ -53,10 +52,6 @@ const CreatePostForm = (props) => {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ สถานที่นัดพบ")
       return
     }
-    if (!qty) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุ จำนวน")
-      return
-    }
     saveNewPosts(
       {
         customerId,
@@ -65,8 +60,7 @@ const CreatePostForm = (props) => {
         partnerImage: item.img,
         customerPhone: phone,
         placeMeeting: place,
-        partnerQty: qty,
-        subtitle: `${partnerRequest} จำนวน ${qty}`,
+        subtitle: `${partnerRequest}`,
         status: "customer_new_post_done",
         statusText: "โพสท์ใหม่",
         province,
@@ -174,24 +168,6 @@ const CreatePostForm = (props) => {
                 style={styles.textInput}
                 value={place}
                 onChangeText={(value) => setPlace(value)}
-              />
-            </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>
-              จำนวนคนที่ต้องการ (Person Qty)
-            </Text>
-            {!qty && (
-              <Text style={{ color: "red", marginLeft: 5 }}>
-                จะต้องระบุข้อมูล จำนวนคนที่ต้องการ (Person Qty)
-              </Text>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="fa" name="users" />
-              <TextInput
-                placeholder="จำนวนคนที่ต้องการ (Person Qty)"
-                style={styles.textInput}
-                value={qty}
-                onChangeText={(value) => setQty(value)}
-                keyboardType="numeric"
               />
             </View>
             <Text style={{ fontSize: 16, padding: 5 }}>

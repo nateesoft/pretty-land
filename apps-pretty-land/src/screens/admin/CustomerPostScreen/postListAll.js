@@ -52,7 +52,6 @@ const PostListAllScreen = ({ navigation, route }) => {
         <ListItem.Subtitle>
           ประเภทที่ต้องการ: {item.partnerRequest}
         </ListItem.Subtitle>
-        <ListItem.Subtitle>จำนวน: {item.partnerQty}</ListItem.Subtitle>
         <ListItem.Subtitle>Status: {item.statusText}</ListItem.Subtitle>
       </ListItem.Content>
       <ProgressCircle

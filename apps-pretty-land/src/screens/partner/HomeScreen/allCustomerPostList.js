@@ -54,20 +54,6 @@ const AllCustomerPostList = ({ navigation, route }) => {
             marginBottom: 5,
           }}
         >
-          จำนวนที่ต้องการ: {item.partnerQty} คน
-        </ListItem.Title>
-        <ListItem.Title
-          style={{
-            marginBottom: 5,
-          }}
-        >
-          สถานที่: {item.placeMeeting}
-        </ListItem.Title>
-        <ListItem.Title
-          style={{
-            marginBottom: 5,
-          }}
-        >
           จังหวัด: {item.provinceName}
         </ListItem.Title>
         <ListItem.Title

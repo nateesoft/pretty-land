@@ -92,12 +92,7 @@ export const saveProvincesGroupPostPartner = (data, addNumber) => {
 }
 
 export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
-  const {
-    id: postId,
-    province,
-    provinceName,
-    partnerRequest: partnerType,
-  } = item
+  const { id: postId } = item
 
   // update post status
   updatePosts(postId, {
@@ -110,8 +105,6 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
     partnerId: profile.id,
     partnerName: profile.name,
     amount: profile.amount,
-    place: profile.place,
-    phone: profile.phone,
     age: profile.age,
     image: profile.image || null,
     sex: profile.sex,
@@ -123,5 +116,4 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
     .database()
     .ref(`posts/${postId}/partnerSelect/${profile.id}`)
     .update(data)
-  saveProvincesGroupPostPartner({ province, provinceName, partnerType }, -1)
 }

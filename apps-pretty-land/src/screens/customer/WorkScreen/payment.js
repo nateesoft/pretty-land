@@ -22,6 +22,8 @@ import { GetIcon } from "../../../components/GetIcons"
 import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
 
+import { saveProvincesGroupPostPartner } from "../../../apis"
+
 const PaymentForm = ({ navigation, route }) => {
   const { navigate } = navigation
   const { item } = route.params
@@ -113,6 +115,11 @@ const PaymentForm = ({ navigation, route }) => {
       return
     }
 
+    if (parseInt(transferAmount) < parseInt(netTotalAmount)) {
+      Alert.alert("แจ้งเตือน", "จำนวนเงินรับชำระไม่ถูกต้อง !")
+      return
+    }
+
     // upload slip image
     if (image) {
       uploadImageAsync(image)
@@ -147,17 +154,28 @@ const PaymentForm = ({ navigation, route }) => {
 
     const url = await snapshot.ref.getDownloadURL()
 
+    const getBank = getBankName(bank)
+    const bankData = { ...getBank[0] }
+
     // save to firebase
-    firebase.database().ref(`posts/${item.id}`).update({
+    const dataPayment = {
       slip_image: url,
       status: "wait_admin_confirm_payment",
       statusText: "รอ admin ตรวจสอบการชำระเงิน",
-      bank: getBankName(bank),
+      bankId: bankData.value,
+      bankName: bankData.label,
       transferTime: datetime,
       transferAmount: transferAmount,
-      sys_update_date: new Date().toUTCString()
-    })
+      sys_update_date: new Date().toUTCString(),
+    }
+    firebase.database().ref(`posts/${item.id}`).update(dataPayment)
 
+    saveProvincesGroupPostPartner({
+      province: item.province,
+      provinceName: item.provinceName,
+      partnerType: item.partnerRequest,
+    }, -1)
+    
     navigate("Post-List")
   }
 
@@ -181,13 +199,13 @@ const PaymentForm = ({ navigation, route }) => {
           >
             <View style={{ width: "90%", alignSelf: "center" }}>
               <Text style={{ fontSize: 16, padding: 5 }}>
-                ยอดชำระสำหรับ Partner (บาท)
+                จำนวนเงินทีต้องชำระ (บาท)
               </Text>
               <View style={styles.formControl}>
                 <GetIcon type="fa" name="dollar" />
                 <TextInput
                   style={styles.textInput}
-                  placeholder="ยอดชำระสำหรับ Partner (บาท)"
+                  placeholder="จำนวนเงินทีต้องชำระ (บาท)"
                   value={partnerAmount}
                   onChangeText={(value) => setPartnerAmount(value)}
                   editable={false}

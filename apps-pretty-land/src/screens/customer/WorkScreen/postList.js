@@ -46,9 +46,6 @@ const PostListScreen = ({ navigation, route }) => {
       <ListItem.Content style={{ marginLeft: 10 }}>
         <ListItem.Subtitle>ประเภท: {item.partnerRequest}</ListItem.Subtitle>
         <ListItem.Subtitle>จังหวัด: {item.provinceName}</ListItem.Subtitle>
-        <ListItem.Subtitle>
-          จำนวนที่ต้องการ: {item.partnerQty} คน
-        </ListItem.Subtitle>
         <ListItem.Subtitle style={{ backgroundColor: "pink", padding: 5 }}>
           Status: {item.statusText}
         </ListItem.Subtitle>
