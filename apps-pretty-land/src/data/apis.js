@@ -3,7 +3,6 @@ import * as mockup from "./mockup"
 import { provinces } from "./province"
 import { districts } from "./district"
 import { banks } from "./bank"
-import { PARTNER_TYPE } from "./master_data"
 
 import { AppConfig } from "../Constants"
 
@@ -105,13 +104,21 @@ export const allGroupContryWork = () => {
   const data = []
   mockup.customerPostList.forEach((item, index) => {
     const pretty =
-      item.partnerRequest === PARTNER_TYPE[0] ? item.partnerQtyRequest : 0
+      item.partnerRequest === AppConfig.PartnerType.type1
+        ? item.partnerQtyRequest
+        : 0
     const prettyEntertain =
-      item.partnerRequest === PARTNER_TYPE[1] ? item.partnerQtyRequest : 0
+      item.partnerRequest === AppConfig.PartnerType.type2
+        ? item.partnerQtyRequest
+        : 0
     const coyote =
-      item.partnerRequest === PARTNER_TYPE[2] ? item.partnerQtyRequest : 0
+      item.partnerRequest === AppConfig.PartnerType.type3
+        ? item.partnerQtyRequest
+        : 0
     const prettyMassage =
-      item.partnerRequest === PARTNER_TYPE[3] ? item.partnerQtyRequest : 0
+      item.partnerRequest === AppConfig.PartnerType.type4
+        ? item.partnerQtyRequest
+        : 0
     data.push({
       id: index,
       provinceId: item.provinceId,

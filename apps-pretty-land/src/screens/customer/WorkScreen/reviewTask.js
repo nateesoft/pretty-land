@@ -39,7 +39,6 @@ const ReviewTaskScreen = ({ navigation, route }) => {
   }
 
   const updateMember = (workIn = 0, workPoint = 0, partnerId) => {
-    console.log("udpateMember:", workIn, workPoint, partnerId)
     return new Promise((resolve, reject) => {
       firebase
         .database()

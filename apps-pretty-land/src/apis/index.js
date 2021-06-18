@@ -3,6 +3,7 @@ import { Alert } from "react-native"
 
 import firebase from "../../util/firebase"
 import { snapshotToArray } from "../../util"
+import { AppConfig } from "../Constants"
 
 export const saveMemberRegister = (member, navigation) => {
   firebase
@@ -58,10 +59,10 @@ export const saveProvincesGroupPostPartner = (data, addNumber) => {
   const newUpdateData = {
     provinceId: province,
     provinceName: provinceName,
-    partner1: partnerType === "pretty-mc" ? addNumber : 0,
-    partner2: partnerType === "coyote" ? addNumber : 0,
-    partner3: partnerType === "pretty-entertain" ? addNumber : 0,
-    partner4: partnerType === "pretty-massage" ? addNumber : 0,
+    partner1: partnerType === AppConfig.PartnerType.type1 ? addNumber : 0,
+    partner2: partnerType === AppConfig.PartnerType.type2 ? addNumber : 0,
+    partner3: partnerType === AppConfig.PartnerType.type3 ? addNumber : 0,
+    partner4: partnerType === AppConfig.PartnerType.type4 ? addNumber : 0,
   }
   firebase
     .database()
@@ -69,16 +70,16 @@ export const saveProvincesGroupPostPartner = (data, addNumber) => {
     .once("value", (data) => {
       if (data.numChildren() > 0) {
         const updateData = {}
-        if (partnerType === "pretty-mc") {
+        if (partnerType === AppConfig.PartnerType.type1) {
           updateData.partner1 = parseInt(data.val().partner1) + addNumber
         }
-        if (partnerType === "coyote") {
+        if (partnerType === AppConfig.PartnerType.type2) {
           updateData.partner2 = parseInt(data.val().partner2) + addNumber
         }
-        if (partnerType === "pretty-entertain") {
+        if (partnerType === AppConfig.PartnerType.type3) {
           updateData.partner3 = parseInt(data.val().partner3) + addNumber
         }
-        if (partnerType === "pretty-massage") {
+        if (partnerType === AppConfig.PartnerType.type4) {
           updateData.partner4 = parseInt(data.val().partner4) + addNumber
         }
         firebase.database().ref(`group_posts/${province}`).update(updateData)
