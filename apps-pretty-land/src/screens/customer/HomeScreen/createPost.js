@@ -12,22 +12,18 @@ import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 import DropDownPicker from "react-native-dropdown-picker"
 
-import {
-  getPartnerGroup,
-  getCountryList,
-  getProvinceName,
-} from "../../../data/apis"
+import { getCountryList, getProvinceName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import bgImage from "../../../../assets/bg.png"
 import { saveNewPosts } from "../../../apis"
 
 const CreatePostForm = (props) => {
   const { navigation, route } = props
-  const { item, userId } = route.params
+  const { item, userId, partnerGroup } = route.params
 
   const [openSelectPartner, setOpenSelectPartner] = useState(false)
   const [partnerRequest, setPartnerRequest] = useState("")
-  const [partnerList, setPartnerList] = useState(getPartnerGroup())
+  const [partnerList, setPartnerList] = useState(partnerGroup)
 
   const [openSelectCountry, setOpenSelectCountry] = useState(false)
   const [province, setProvince] = useState("")
@@ -57,7 +53,7 @@ const CreatePostForm = (props) => {
         customerId,
         customerName,
         partnerRequest,
-        partnerImage: item.img,
+        partnerImage: item.image_url,
         customerPhone: phone,
         placeMeeting: place,
         subtitle: `${partnerRequest}`,
@@ -73,7 +69,7 @@ const CreatePostForm = (props) => {
   }
 
   useEffect(() => {
-    setPartnerRequest(item.value)
+    setPartnerRequest(item.name)
     setCustomerId(userId)
   }, [])
 
