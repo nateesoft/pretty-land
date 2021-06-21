@@ -93,7 +93,7 @@ const AdminAllListScreen = ({ navigation, route }) => {
     >
       <SafeAreaView style={{ height: "100%" }}>
         <View style={styles.container}>
-          <Text style={styles.textTopic}>สมาชิกในระบบทั้งหมด</Text>
+          <Text style={styles.textTopic}>Admin ในระบบทั้งหมด</Text>
           <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
             <DropDownPicker
               placeholder="เลือกประเภทสมาชิก"

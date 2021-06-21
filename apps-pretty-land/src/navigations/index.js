@@ -65,11 +65,12 @@ const AppNavigation = () => {
   )
 
   const lineLogin = (data) => {
-    firebase.database().ref(`customers/${data.id}`).set({
+    firebase.database().ref(`members/${data.id}`).set({
       id: data.id,
       profile: data.name,
-      profile_image: data.picture,
+      image: data.picture,
       customerType: "line",
+      memberType: "customer",
       status: "active",
       loginDate: new Date().toUTCString(),
       customerLevel: 0,
@@ -83,11 +84,12 @@ const AppNavigation = () => {
 
   const appleLogin = ({ userId, email, fullName }) => {
     const id = base64.encode(email)
-    firebase.database().ref(`customers/${id}`).set({
+    firebase.database().ref(`members/${id}`).set({
       id,
       userId,
       email: email.toString().toLowerCase(),
       customerType: "apple",
+      memberType: "customer",
       status: "active",
       loginDate: new Date().toUTCString(),
       customerLevel: 0,
@@ -114,10 +116,11 @@ const AppNavigation = () => {
           `https://graph.facebook.com/me?access_token=${token}`
         )
         const fbProfile = await response.json()
-        firebase.database().ref(`customers/${fbProfile.id}`).set({
+        firebase.database().ref(`members/${fbProfile.id}`).set({
           id: fbProfile.id,
           profile: fbProfile.name,
           customerType: "facebook",
+          memberType: "customer",
           status: "active",
           loginDate: new Date().toUTCString(),
           customerLevel: 0,

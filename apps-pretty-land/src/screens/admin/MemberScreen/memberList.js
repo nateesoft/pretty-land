@@ -129,23 +129,58 @@ const MemberAllListScreen = ({ navigation, route }) => {
             marginVertical: 5,
           }}
         >
-          <View
-            style={{
-              width: 130,
-              height: 130,
-              borderWidth: 1,
-              padding: 10,
-              borderColor: "#aaa",
-            }}
-          >
-            <Text style={{ alignSelf: "center" }}>No Image</Text>
-          </View>
+          {item.image ? (
+            <Avatar source={{ uri: item.image }} size={128} />
+          ) : (
+            <View
+              style={{
+                width: 130,
+                height: 130,
+                borderWidth: 1,
+                padding: 10,
+                borderColor: "#aaa",
+              }}
+            >
+              <Text style={{ alignSelf: "center" }}>No Image</Text>
+            </View>
+          )}
           <ListItem.Content style={{ marginLeft: 10 }}>
             <ListItem.Title>
-              ชื่อสมาชิก: {item.name || item.username}
+              ชื่อ: {item.name || item.username || item.profile || item.email}
             </ListItem.Title>
-            <ListItem.Subtitle style={{ fontSize: 20, fontWeight: "bold" }}>
-              ผู้ดูแลระบบ
+            <ListItem.Subtitle style={{ fontSize: 16, fontWeight: "bold" }}>
+              {item.memberType === "customer" ? (
+                <View style={{ marginBottom: 5 }}>
+                  <Text>ลูกค้าใช้งาน</Text>
+                </View>
+              ) : (
+                <View style={{ marginBottom: 5 }}>
+                  <Text>ผู้ดูแลระบบ</Text>
+                </View>
+              )}
+            </ListItem.Subtitle>
+            <ListItem.Subtitle style={{ fontSize: 16, fontWeight: "bold" }}>
+              {item.memberType === "customer" ? (
+                item.customerType === "facebook" ? (
+                  <View style={styles.tagFacebookLabel}>
+                    <Text style={{ color: "white" }}>
+                      เข้าระบบด้วย: {item.customerType}
+                    </Text>
+                  </View>
+                ) : item.customerType === "line" ? (
+                  <View style={styles.tagLineLabel}>
+                    <Text>เข้าระบบด้วย: {item.customerType}</Text>
+                  </View>
+                ) : item.customerType === "apple" ? (
+                  <View style={styles.tagAppleLabel}>
+                    <Text>เข้าระบบด้วย: {item.customerType}</Text>
+                  </View>
+                ) : (
+                  <Text>ทาง: อื่น ๆ</Text>
+                )
+              ) : (
+                <Text></Text>
+              )}
             </ListItem.Subtitle>
           </ListItem.Content>
           <ProgressCircle
@@ -247,6 +282,21 @@ const styles = StyleSheet.create({
     bottom: 10,
     backgroundColor: "orange",
     padding: 5,
+  },
+  tagLineLabel: {
+    backgroundColor: "#35d00D",
+    marginTop: 5,
+    paddingHorizontal: 5,
+  },
+  tagFacebookLabel: {
+    backgroundColor: "blue",
+    marginTop: 5,
+    paddingHorizontal: 5,
+  },
+  tagAppleLabel: {
+    backgroundColor: "white",
+    marginTop: 5,
+    paddingHorizontal: 5,
   },
 })
 
