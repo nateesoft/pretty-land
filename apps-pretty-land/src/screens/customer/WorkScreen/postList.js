@@ -64,7 +64,7 @@ const PostListScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase.database().ref(`posts`).orderByChild(userId)
+    const ref = firebase.database().ref(`posts`).orderByChild("customerId").equalTo(userId)
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
       setFilterList(postsList)
