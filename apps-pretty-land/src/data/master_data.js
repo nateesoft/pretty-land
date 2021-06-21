@@ -8,9 +8,12 @@ export const memberStatus = [
 ]
 
 export const memberGroup = [
-  { value: 1, label: "Customer" },
-  { value: 2, label: "Partner" },
-  { value: 3, label: "Admin" },
+  { value: 1, label: "customer" },
+  { value: 2, label: "partner" },
+  { value: 3, label: "superadmin" },
+  { value: 4, label: "admin" },
+  { value: 5, label: "manager" },
+  { value: 6, label: "demo" },
 ]
 
 export const postStatus = [

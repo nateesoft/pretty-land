@@ -60,6 +60,16 @@ export const getProvinceName = (provinceIndex) => {
     })
 }
 
+export const getDistrictName = (districtIndex) => {
+  return districts
+    .filter(function (obj) {
+      return obj.value === districtIndex
+    })
+    .map(function (obj) {
+      return obj.label
+    })
+}
+
 export const getBankName = (bankId) => {
   return banks.filter((item, index) => item.value === bankId)
 }

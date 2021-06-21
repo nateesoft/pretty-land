@@ -12,7 +12,12 @@ import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 import DropDownPicker from "react-native-dropdown-picker"
 
-import { getCountryList, getProvinceName } from "../../../data/apis"
+import {
+  getCountryList,
+  getProvinceName,
+  getDistrictList,
+  getDistrictName,
+} from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import bgImage from "../../../../assets/bg.png"
 import { saveNewPosts } from "../../../apis"
@@ -28,6 +33,10 @@ const CreatePostForm = (props) => {
   const [openSelectCountry, setOpenSelectCountry] = useState(false)
   const [province, setProvince] = useState("")
   const [countryList, setCountryList] = useState(getCountryList())
+  const [district, setDistrict] = useState("")
+
+  const [openSelectDistrict, setOpenSelectDistrict] = useState(false)
+  const [districtList, setDistrictList] = useState([])
 
   const [customerId, setCustomerId] = useState("")
   const [customerName, setCustomerName] = useState("")
@@ -38,6 +47,14 @@ const CreatePostForm = (props) => {
   const createNewPost = () => {
     if (!customerName) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ ชื่อผู้โพสท์รายการ")
+      return
+    }
+    if (!province) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ จังหวัด")
+      return
+    }
+    if (!district) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ อำเภอ/เขต")
       return
     }
     if (!phone) {
@@ -61,6 +78,8 @@ const CreatePostForm = (props) => {
         statusText: "โพสท์ใหม่",
         province,
         provinceName: getProvinceName(province)[0],
+        district,
+        districtName: getDistrictName(district)[0],
         customerRemark: remark,
         customerLevel: 0,
       },
@@ -81,7 +100,7 @@ const CreatePostForm = (props) => {
     >
       <SafeAreaView style={{ flex: 1, height: "100%" }}>
         <View style={styles.cardDetail}>
-          <Text style={styles.optionsNameDetail}>โพสทข้อมูลที่ต้องการ</Text>
+          <Text style={styles.optionsNameDetail}>โพสท์ข้อมูลที่ต้องการ</Text>
           <Text style={styles.optionsNameDetail2}>{item.name}</Text>
           <DropDownPicker
             placeholder="เลือก Partner"
@@ -93,12 +112,12 @@ const CreatePostForm = (props) => {
             setItems={setPartnerList}
             style={styles.dropdownStyle}
             textStyle={{ fontSize: 18 }}
-            zIndex={2}
+            zIndex={3}
             searchable={false}
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
           />
           <DropDownPicker
-            placeholder="เลือกจังหวัด"
+            placeholder="-- เลือกจังหวัด --"
             open={openSelectCountry}
             setOpen={setOpenSelectCountry}
             value={province}
@@ -107,8 +126,21 @@ const CreatePostForm = (props) => {
             setItems={setCountryList}
             style={styles.dropdownStyle}
             textStyle={{ fontSize: 18 }}
-            zIndex={1}
+            zIndex={2}
             searchable={false}
+            selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+          />
+          <DropDownPicker
+            placeholder="-- เลือก เขต/อำเภอ --"
+            open={openSelectDistrict}
+            setOpen={setOpenSelectDistrict}
+            value={district}
+            setValue={setDistrict}
+            items={getDistrictList(province)}
+            setItems={setDistrictList}
+            searchable={false}
+            textStyle={{ fontSize: 18 }}
+            zIndex={1}
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
           />
         </View>
@@ -169,8 +201,7 @@ const CreatePostForm = (props) => {
             <Text style={{ fontSize: 16, padding: 5 }}>
               รายละเอียดเพิ่มเติม (Remark)
             </Text>
-            <View style={[styles.formControl, { height: 100 }]}>
-              <GetIcon type="fa" name="comment" />
+            <View style={[styles.formControl, { height: 100, width: '100%' }]}>
               <TextInput
                 placeholder="รายละเอียดเพิ่มเติม (Remark)"
                 style={[styles.textInput, { height: 90 }]}
