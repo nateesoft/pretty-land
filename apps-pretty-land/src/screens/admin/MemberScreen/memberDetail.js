@@ -105,7 +105,10 @@ const MemberDetailScreen = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <ScrollView style={{ height: "100%" }} showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        style={{ height: "100%" }}
+        showsHorizontalScrollIndicator={false}
+      >
         <View style={styles.viewCard}>
           <View
             style={{ alignSelf: "center", marginTop: 20, marginBottom: 10 }}
@@ -242,9 +245,14 @@ const MemberDetailScreen = ({ navigation, route }) => {
               }}
             >
               <Text style={{ fontSize: 22 }}>
-                ชื่อ: {item.name || item.username}
+                ชื่อ: {item.name || item.username || item.profile}
               </Text>
-              <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ผู้ดูแลระบบ</Text>
+              {item.customerType && (
+                <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ลูกค้า</Text>
+              )}
+              {!item.customerType && (
+                <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ผู้ดูแลระบบ</Text>
+              )}
             </View>
           )}
         </View>

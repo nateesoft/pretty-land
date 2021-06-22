@@ -10,15 +10,14 @@ export const memberStatus = [
 export const memberGroup = [
   { value: 1, label: "customer" },
   { value: 2, label: "partner" },
-  { value: 3, label: "superadmin" },
-  { value: 4, label: "admin" },
-  { value: 5, label: "manager" },
-  { value: 6, label: "demo" },
+  { value: 2, label: "demo" },
 ]
 
 export const postStatus = [
-  { value: 1, label: "โพสท์ใหม่" },
-  { value: 2, label: "ตรวจสอบแล้ว" },
-  { value: 3, label: "รอตรวจสอบสลิปโอนเงิน" },
-  { value: 4, label: "ปิดงานเรียบร้อย" },
+  { value: AppConfig.PostsStatus.customerNewPostDone, label: "โพสท์ใหม่ (new)" },
+  { value: AppConfig.PostsStatus.customerCancelPost, label: "ลูกค้ายกเลิก (cancel)" },
+  { value: AppConfig.PostsStatus.adminConfirmNewPost, label: "อนุมัติ (approve)" },
+  { value: AppConfig.PostsStatus.notApprove, label: "ไม่อนุมัติ (not approve)" },
+  { value: AppConfig.PostsStatus.adminConfirmPayment, label: "รอตรวจสอบสลิปโอนเงิน (verify)" },
+  { value: AppConfig.PostsStatus.closeJob, label: "ปิดงานเรียบร้อย (close)" },
 ]

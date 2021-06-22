@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { StyleSheet, View, ImageBackground } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
-import { AntDesign } from "react-native-vector-icons"
+import { AntDesign, Ionicons } from "react-native-vector-icons"
 
 import firebase from "../../../../util/firebase"
-import bgImage from '../../../../assets/bg.png'
+import bgImage from "../../../../assets/bg.png"
 
 const WorkDetailScreen = ({ navigation, route }) => {
   const { userId, item } = route.params
@@ -29,7 +29,9 @@ const WorkDetailScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <View style={styles.cardDetail}>
-        <Text style={styles.optionsNameDetail2}>รายละเอียดงานที่แจ้งลูกค้า</Text>
+        <Text style={styles.optionsNameDetail2}>
+          รายละเอียดงานที่แจ้งลูกค้า
+        </Text>
         <View style={styles.viewCard}>
           <Text
             style={{
@@ -42,7 +44,6 @@ const WorkDetailScreen = ({ navigation, route }) => {
           >
             ลูกค้า: {item.customerName}
           </Text>
-          <Text style={{ marginBottom: 5 }}>ชื่องาน: {item.name}</Text>
           <Text
             style={{
               marginBottom: 5,
@@ -52,12 +53,6 @@ const WorkDetailScreen = ({ navigation, route }) => {
             }}
           >
             โหมดงาน: {item.partnerRequest}
-          </Text>
-          <Text style={{ marginBottom: 5 }}>
-            สถานะที่จัดงาน: {item.placeMeeting}
-          </Text>
-          <Text style={{ marginBottom: 15 }}>
-            เบอร์ติดต่อลูกค้า: {item.customerPhone}
           </Text>
           <View
             style={{
@@ -71,20 +66,26 @@ const WorkDetailScreen = ({ navigation, route }) => {
               placeholder="เสนอราคา (บาท)"
               value={`ราคาที่เสนอ ${partner.amount} บาท`}
             />
-            <Input
-              placeholder="ระบุสถานที่"
-              value={`จังหวัดที่นัดพบ ${item.provinceName}`}
-            />
-            <Input
-              placeholder="เบอร์ติดต่อ"
-              value={`เบอร์โทรลูกค้า ${item.customerPhone}`}
-            />
           </View>
         </View>
         <View>
           <Text style={{ fontSize: 20, backgroundColor: "yellow" }}>
-            สถานะ {partner.selectStatusText}
+            สถานะลูกค้า {item.statusText}
           </Text>
+          {item.status === "close_job" && (
+            <Button
+              icon={
+                <Ionicons
+                  name="happy-outline"
+                  size={24}
+                  color="pink"
+                  style={{ marginRight: 5 }}
+                />
+              }
+              buttonStyle={{ marginTop: 10, borderRadius: 5 }}
+              title="Partner แจ้งปิดงาน"
+            />
+          )}
         </View>
         {partner.selectStatus === "customer_payment" && (
           <Button

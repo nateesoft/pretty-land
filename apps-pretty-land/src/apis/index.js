@@ -118,3 +118,7 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
     .ref(`posts/${postId}/partnerSelect/${profile.id}`)
     .update(data)
 }
+
+export const movePostToTransactionNotApprove = (item) => {
+  firebase.database().ref(`post_trans_timeout/${item.id}`).set(item)
+}

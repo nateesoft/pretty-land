@@ -9,6 +9,7 @@ import {
 } from "react-native"
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
+import Moment from "moment"
 
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
@@ -64,10 +65,25 @@ const PostListScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase.database().ref(`posts`).orderByChild("customerId").equalTo(userId)
+    const ref = firebase
+      .database()
+      .ref(`posts`)
+      .orderByChild("customerId")
+      .equalTo(userId)
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
-      setFilterList(postsList)
+      setFilterList(
+        postsList.filter((item, index) => {
+          if (item.status !== "not_approve") {
+            const date1 = Moment()
+            const date2 = Moment(item.sys_create_date)
+            const diffHours = date1.diff(date2, "hours")
+            if (diffHours <= 2) {
+              return item
+            }
+          }
+        })
+      )
     })
     return () => ref.off("value", listener)
   }, [])

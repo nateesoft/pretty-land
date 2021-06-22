@@ -18,6 +18,7 @@ import { getPostStatus } from "../../../data/apis"
 
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
+import { AppConfig } from "../../../Constants"
 
 const PostListAllScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false)
@@ -34,6 +35,15 @@ const PostListAllScreen = ({ navigation, route }) => {
     } else {
       navigation.navigate("Detail-Task", { item })
     }
+  }
+
+  const updatePartnerList = (value) => {
+    const ref = firebase.database().ref(`posts`)
+    const listener = ref.on("value", (snapshot) => {
+      const postsList = snapshotToArray(snapshot)
+      setPosts(postsList.filter((item, index) => item.status === value))
+    })
+    ref.off("value", listener)
   }
 
   const renderItem = ({ item }) => (
@@ -71,7 +81,11 @@ const PostListAllScreen = ({ navigation, route }) => {
     const ref = firebase.database().ref(`posts`)
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
-      setPosts(postsList)
+      if (partner) {
+        setPosts(postsList.filter((item, index) => item.status === partner))
+      } else {
+        setPosts(postsList)
+      }
     })
     return () => ref.off("value", listener)
   }, [])
@@ -98,6 +112,7 @@ const PostListAllScreen = ({ navigation, route }) => {
               zIndex={2}
               searchable={false}
               selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+              onChangeValue={(e) => updatePartnerList(e)}
             />
           </View>
           {posts.length === 0 && <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />}

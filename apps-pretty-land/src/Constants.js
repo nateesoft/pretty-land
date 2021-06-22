@@ -19,5 +19,19 @@ export const AppConfig = {
         type2: "โคโยตี้ / งานเต้น",
         type3: "พริตตี้ En / Env",
         type4: "พริตตี้ นวดแผนไทย",
-    }
+    },
+    PostsStatus: {
+        customerNewPostDone: "customer_new_post_done",
+        customerCancelPost: "customer_cancel_post",
+        adminConfirmNewPost: "admin_confirm_new_post",
+        waitCustomerSelectPartner: "wait_customer_select_partner",
+        waitAdminConfirmPayment: "wait_admin_confirm_payment",
+        notApprove: "not_approve",
+        customerConfirm: "customer_confirm",
+        waitCustomerSelect: "wait_customer_select",
+        adminConfirmPayment: "admin_confirm_payment",
+        closeJob: "close_job",
+        customerPayment: "customer_payment",
+        customerMeet: "customer_meet",
+    },
 }

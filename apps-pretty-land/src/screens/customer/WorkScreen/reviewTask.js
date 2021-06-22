@@ -31,7 +31,7 @@ const ReviewTaskScreen = ({ navigation, route }) => {
 
   const cancelThisPosts = () => {
     updatePosts(item.id, {
-      status: "cancel",
+      status: "customer_cancel_post",
       statusText: "ยกเลิกโพสท์นี้แล้ว",
       sys_update_date: new Date().toUTCString(),
     })
