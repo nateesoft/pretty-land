@@ -15,6 +15,7 @@ import bgImage from "../../../../assets/bg.png"
 import { partnerAcceptJobWaitCustomerReview } from "../../../apis"
 
 import firebase from "../../../../util/firebase"
+import { AppConfig } from "../../../Constants"
 
 const ConfirmTaskScreen = ({ navigation, route }) => {
   const { profile, item } = route.params
@@ -147,7 +148,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 />
               </View>
             )}
-            {getWork && workStatus === "customer_confirm" && (
+            {getWork && workStatus === AppConfig.PostsStatus.customerConfirm && (
               <Text
                 style={{
                   color: "white",
@@ -160,7 +161,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 ได้งานแล้ว รอลูกค้าชำระเงิน
               </Text>
             )}
-            {getWork && workStatus === "wait_customer_select" && (
+            {getWork && workStatus === AppConfig.PostsStatus.waitCustomerSelectPartner && (
               <Text
                 style={{
                   color: "white",

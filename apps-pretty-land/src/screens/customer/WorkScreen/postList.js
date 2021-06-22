@@ -13,8 +13,9 @@ import Moment from "moment"
 
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
-
+import { AppConfig } from "../../../Constants"
 import bgImage from "../../../../assets/bg.png"
+import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
 
 const PostListScreen = ({ navigation, route }) => {
   const { userId } = route.params
@@ -24,9 +25,9 @@ const PostListScreen = ({ navigation, route }) => {
   const handleRefresh = () => {}
 
   const onPressOptions = (item, status) => {
-    if (status === "wait_customer_select_partner") {
+    if (status === AppConfig.PostsStatus.waitCustomerSelectPartner) {
       navigation.navigate("Partner-List-Select", { postItem: item, userId })
-    } else if (status === "wait_customer_payment") {
+    } else if (status === AppConfig.PostsStatus.waitCustomerPayment) {
       navigation.navigate("Payment-Form", { item, userId })
     } else {
       navigation.navigate("Review-Task", { item, userId })
@@ -74,11 +75,46 @@ const PostListScreen = ({ navigation, route }) => {
       const postsList = snapshotToArray(snapshot)
       setFilterList(
         postsList.filter((item, index) => {
-          if (item.status !== "not_approve") {
+          if (
+            item.status !== AppConfig.PostsStatus.notApprove &&
+            item.status !== AppConfig.PostsStatus.customerCancelPost &&
+            item.status !== AppConfig.PostsStatus.postTimeout
+          ) {
             const date1 = Moment()
-            const date2 = Moment(item.sys_create_date)
+            const date2 = Moment(item.sys_update_date)
             const diffHours = date1.diff(date2, "hours")
-            if (diffHours <= 2) {
+
+            if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
+              if (diffHours <= 24) {
+                return item
+              } else {
+                // update timeout
+                updatePosts(item.id, {
+                  status: AppConfig.PostsStatus.postTimeout,
+                  statusText: "ข้อมูลการโพสท์ใหม่หมดอายุ",
+                  sys_update_date: new Date().toUTCString(),
+                })
+              }
+            } else if (
+              item.status === AppConfig.PostsStatus.adminConfirmNewPost
+            ) {
+              if (diffHours <= 2) {
+                return item
+              } else {
+                // update timeout
+                updatePosts(item.id, {
+                  status: AppConfig.PostsStatus.postTimeout,
+                  statusText: "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
+                  sys_update_date: new Date().toUTCString(),
+                })
+                // remove from group partner request
+                saveProvincesGroupPostPartner({
+                  province: item.province,
+                  provinceName: item.provinceName,
+                  partnerType: item.partnerRequest,
+                }, -1)
+              }
+            } else {
               return item
             }
           }

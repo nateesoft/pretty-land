@@ -5,10 +5,81 @@ import { AntDesign, Ionicons } from "react-native-vector-icons"
 
 import firebase from "../../../../util/firebase"
 import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from "../../../Constants"
 
 const WorkDetailScreen = ({ navigation, route }) => {
   const { userId, item } = route.params
   const [partner, setPartner] = useState({})
+  const rate = 5 // default rate
+
+  const saveHistoryStar = (partnerId) => {
+    return new Promise((resolve, reject) => {
+      firebase
+        .database()
+        .ref(`partner_star/${partnerId}/${item.id}`)
+        .update({
+          star: rate,
+          sys_date: new Date().toUTCString(),
+        })
+        .then((result) => {
+          resolve("success")
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
+  }
+
+  const updateMember = (workIn = 0, partnerId) => {
+    return new Promise((resolve, reject) => {
+      firebase
+        .database()
+        .ref(`members/${partnerId}`)
+        .update({
+          workIn: parseInt(workIn) + 1,
+        })
+        .then((result) => {
+          resolve(result)
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
+  }
+  const partnerCloseJob = () => {
+    // update customer level
+    const ref1 = firebase.database().ref(`members/${item.customerId}`)
+    ref1.once("value", (snapshot) => {
+      const custData = { ...snapshot.val() }
+      if (item.status !== AppConfig.PostsStatus.customerCloseJob) {
+        firebase
+          .database()
+          .ref(`members/${item.customerId}`)
+          .update({
+            customerLevel: custData.customerLevel + 10,
+          })
+      }
+    })
+
+    // update status post (for partner)
+    firebase.database().ref(`posts/${item.id}`).update({
+      status: AppConfig.PostsStatus.partnerCloseJob,
+      statusText: "Parnter ปิดงานเรียบร้อย",
+      sys_update_date: new Date().toUTCString(),
+    })
+
+    Object.keys(item.partnerSelect).forEach((partnerId) => {
+      const ref = firebase.database().ref(`members/${partnerId}`)
+      ref.once("value", (snapshot) => {
+        const pData = { ...snapshot.val() }
+        updateMember(pData.workIn, partnerId).then((result) => {
+          saveHistoryStar(partnerId).then((result) => {
+            navigation.navigate("List-My-Work")
+          })
+        })
+      })
+    })
+  }
 
   useEffect(() => {
     const ref = firebase
@@ -69,10 +140,17 @@ const WorkDetailScreen = ({ navigation, route }) => {
           </View>
         </View>
         <View>
-          <Text style={{ fontSize: 20, backgroundColor: "yellow" }}>
-            สถานะลูกค้า {item.statusText}
-          </Text>
-          {item.status === "close_job" && (
+          {item.status === AppConfig.PostsStatus.customerCloseJob && (
+            <Text style={{ fontSize: 20, backgroundColor: "yellow" }}>
+              สถานะลูกค้า: แจ้งปิดงานแล้ว
+            </Text>
+          )}
+          {item.status === AppConfig.PostsStatus.partnerCloseJob && (
+            <Text style={{ fontSize: 20, backgroundColor: "yellow" }}>
+              สถานะ Parnter: แจ้งปิดงานแล้ว
+            </Text>
+          )}
+          {item.status === AppConfig.PostsStatus.customerCloseJob && (
             <Button
               icon={
                 <Ionicons
@@ -84,10 +162,11 @@ const WorkDetailScreen = ({ navigation, route }) => {
               }
               buttonStyle={{ marginTop: 10, borderRadius: 5 }}
               title="Partner แจ้งปิดงาน"
+              onPress={() => partnerCloseJob()}
             />
           )}
         </View>
-        {partner.selectStatus === "customer_payment" && (
+        {partner.selectStatus === AppConfig.PostsStatus.customerPayment && (
           <Button
             icon={
               <AntDesign
@@ -108,7 +187,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
             onPress={() => navigation.navigate("List-My-Work")}
           />
         )}
-        {partner.selectStatus === "customer_meet" && (
+        {partner.selectStatus === AppConfig.PostsStatus.customerMeet && (
           <Button
             icon={
               <AntDesign

@@ -97,7 +97,7 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
 
   // update post status
   updatePosts(postId, {
-    status: "wait_customer_select_partner",
+    status: AppConfig.PostsStatus.waitCustomerSelectPartner,
     statusText: "รอลูกค้าเลือกผู้ร่วมงาน",
   })
 
@@ -110,15 +110,11 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
     image: profile.image || null,
     sex: profile.sex,
     character: profile.character,
-    selectStatus: "wait_customer_select",
+    selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
     selectStatusText: "รอลูกค้าเลือกผู้ร่วมงาน",
   }
   firebase
     .database()
     .ref(`posts/${postId}/partnerSelect/${profile.id}`)
     .update(data)
-}
-
-export const movePostToTransactionNotApprove = (item) => {
-  firebase.database().ref(`post_trans_timeout/${item.id}`).set(item)
 }

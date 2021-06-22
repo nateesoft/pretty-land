@@ -7,15 +7,17 @@ import {
   Image,
   RefreshControl,
   ImageBackground,
+  Alert,
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import DropDownPicker from "react-native-dropdown-picker"
+import Moment from "moment"
 
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import { getPostStatus } from "../../../data/apis"
-
+import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import { AppConfig } from "../../../Constants"
@@ -24,13 +26,15 @@ const PostListAllScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false)
   const [posts, setPosts] = useState([])
   const [openSelectPartner, setOpenSelectPartner] = useState(false)
-  const [partner, setPartner] = useState("")
+  const [partner, setPartner] = useState(
+    AppConfig.PostsStatus.customerNewPostDone
+  )
   const [partnerList, setPartnerList] = useState(getPostStatus())
 
   const handleRefresh = () => {}
 
   const onPressOptions = (item, status) => {
-    if (status === "wait_admin_confirm_payment") {
+    if (status === AppConfig.PostsStatus.waitAdminConfirmPayment) {
       navigation.navigate("Verify-Payment-Slip", { item })
     } else {
       navigation.navigate("Detail-Task", { item })
@@ -38,12 +42,19 @@ const PostListAllScreen = ({ navigation, route }) => {
   }
 
   const updatePartnerList = (value) => {
-    const ref = firebase.database().ref(`posts`)
-    const listener = ref.on("value", (snapshot) => {
+    console.log('updatePartnerList', value)
+    setPosts([])
+    let ref = firebase.database().ref(`posts`)
+    if (value) {
+      setPartner(value)
+      ref = ref.orderByChild("status").equalTo(value)
+    }
+    ref.once("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
+      console.log('postsList=>', postsList)
       setPosts(postsList.filter((item, index) => item.status === value))
     })
-    ref.off("value", listener)
+    // ref.off("value", listener)
   }
 
   const renderItem = ({ item }) => (
@@ -78,14 +89,58 @@ const PostListAllScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase.database().ref(`posts`)
+    let ref = firebase.database().ref(`posts`)
+    console.log("partner:", partner)
+    if (partner) {
+      ref = ref.orderByChild("status").equalTo(partner)
+    }
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
-      if (partner) {
-        setPosts(postsList.filter((item, index) => item.status === partner))
-      } else {
-        setPosts(postsList)
-      }
+      setPosts(
+        postsList.filter((item, index) => {
+          console.log(item)
+          const date1 = Moment()
+          const date2 = Moment(item.sys_update_date)
+          const diffHours = date1.diff(date2, "hours")
+          if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
+            if (diffHours <= 24) {
+              return item
+            } else {
+              // update timeout
+              updatePosts(item.id, {
+                status: AppConfig.PostsStatus.postTimeout,
+                statusText: "ข้อมูลการโพสท์ใหม่หมดอายุ",
+                sys_update_date: new Date().toUTCString(),
+              })
+            }
+          } else if (
+            item.status === AppConfig.PostsStatus.adminConfirmNewPost
+          ) {
+            if (diffHours <= 2) {
+              return item
+            } else {
+              // update timeout
+              updatePosts(item.id, {
+                status: AppConfig.PostsStatus.postTimeout,
+                statusText:
+                  "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
+                sys_update_date: new Date().toUTCString(),
+              })
+              // remove from group partner request
+              saveProvincesGroupPostPartner(
+                {
+                  province: item.province,
+                  provinceName: item.provinceName,
+                  partnerType: item.partnerRequest,
+                },
+                -1
+              )
+            }
+          } else {
+            return item
+          }
+        })
+      )
     })
     return () => ref.off("value", listener)
   }, [])

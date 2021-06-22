@@ -15,6 +15,7 @@ import bgImage from "../../../../assets/bg.png"
 
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
+import { AppConfig } from "../../../Constants"
 
 const PartnerListSelect = ({ navigation, route }) => {
   const { postItem } = route.params
@@ -103,7 +104,7 @@ const PartnerListSelect = ({ navigation, route }) => {
         <Text style={{ color: "blue", fontSize: 22, fontWeight: "bold" }}>
           {data.partnerName}
         </Text>
-        {data.selectStatus === "customer_confirm" && (
+        {data.selectStatus === AppConfig.PostsStatus.customerConfirm && (
           <Text style={{ color: "blue" }}>เลือกสมาชิกคนนี้แล้ว</Text>
         )}
       </View>
@@ -124,7 +125,7 @@ const PartnerListSelect = ({ navigation, route }) => {
       .database()
       .ref(`posts/${postItem.id}/partnerSelect`)
       .orderByChild("selectStatus")
-      .equalTo("customer_confirm")
+      .equalTo(AppConfig.PostsStatus.customerConfirm)
     const listener = ref.on("value", (snapshot) => {
       const sizePartner = snapshotToArray(snapshot)
       if (sizePartner.length > 0) {

@@ -21,6 +21,7 @@ import {
 import { GetIcon } from "../../../components/GetIcons"
 import bgImage from "../../../../assets/bg.png"
 import { saveNewPosts } from "../../../apis"
+import { AppConfig } from "../../../Constants"
 
 const CreatePostForm = (props) => {
   const { navigation, route } = props
@@ -74,7 +75,7 @@ const CreatePostForm = (props) => {
         customerPhone: phone,
         placeMeeting: place,
         subtitle: `${partnerRequest}`,
-        status: "customer_new_post_done",
+        status: AppConfig.PostsStatus.customerNewPostDone,
         statusText: "โพสท์ใหม่",
         province,
         provinceName: getProvinceName(province)[0],

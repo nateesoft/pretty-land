@@ -12,6 +12,7 @@ import { AntDesign } from "react-native-vector-icons"
 
 import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
+import { AppConfig } from "../../../Constants"
 
 const VerifyPaymentSlip = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -20,7 +21,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
   const saveConfirmPayment = () => {
     // save to firebase
     firebase.database().ref(`posts/${item.id}`).update({
-      status: "admin_confirm_payment",
+      status: AppConfig.PostsStatus.adminConfirmPayment,
       statusText: "ชำระเงินเรียบร้อยแล้ว",
       sys_update_date: new Date().toUTCString()
     })

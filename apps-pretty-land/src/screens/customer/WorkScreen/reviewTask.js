@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import { updatePosts } from "../../../apis"
 import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
+import { AppConfig } from "../../../Constants"
 
 const ReviewTaskScreen = ({ navigation, route }) => {
   const { userId, item } = route.params
@@ -31,21 +32,20 @@ const ReviewTaskScreen = ({ navigation, route }) => {
 
   const cancelThisPosts = () => {
     updatePosts(item.id, {
-      status: "customer_cancel_post",
+      status: AppConfig.PostsStatus.customerCancelPost,
       statusText: "ยกเลิกโพสท์นี้แล้ว",
       sys_update_date: new Date().toUTCString(),
     })
     navigation.navigate("Post-List")
   }
 
-  const updateMember = (workIn = 0, workPoint = 0, partnerId) => {
+  const updateMember = (workIn = 0, partnerId) => {
     return new Promise((resolve, reject) => {
       firebase
         .database()
         .ref(`members/${partnerId}`)
         .update({
           workIn: parseInt(workIn) + 1,
-          workPoint: parseInt(workPoint) + 10,
         })
         .then((result) => {
           resolve(result)
@@ -61,7 +61,7 @@ const ReviewTaskScreen = ({ navigation, route }) => {
       firebase
         .database()
         .ref(`partner_star/${partnerId}/${item.id}`)
-        .set({
+        .update({
           star: rate,
           sys_date: new Date().toUTCString(),
         })
@@ -75,9 +75,24 @@ const ReviewTaskScreen = ({ navigation, route }) => {
   }
 
   const saveToCloseJob = () => {
+    // update customer level
+    const ref1 = firebase.database().ref(`members/${item.customerId}`)
+    ref1.once("value", (snapshot) => {
+      const custData = { ...snapshot.val() }
+      if (item.status !== AppConfig.PostsStatus.partnerCloseJob) {
+        firebase
+          .database()
+          .ref(`members/${item.customerId}`)
+          .update({
+            customerLevel: custData.customerLevel + 10,
+          })
+      }
+    })
+
+    // update status post (for customer)
     firebase.database().ref(`posts/${item.id}`).update({
-      status: "close_job",
-      statusText: "ปิดงานเรียบร้อย",
+      status: AppConfig.PostsStatus.customerCloseJob,
+      statusText: "Customer ปิดงานเรียบร้อย",
       sys_update_date: new Date().toUTCString(),
     })
 
@@ -85,13 +100,11 @@ const ReviewTaskScreen = ({ navigation, route }) => {
       const ref = firebase.database().ref(`members/${partnerId}`)
       ref.once("value", (snapshot) => {
         const pData = { ...snapshot.val() }
-        updateMember(pData.workIn, pData.workPoint, partnerId).then(
-          (result) => {
-            saveHistoryStar(partnerId).then((result) => {
-              navigation.navigate("Post-List")
-            })
-          }
-        )
+        updateMember(pData.workIn, partnerId).then((result) => {
+          saveHistoryStar(partnerId).then((result) => {
+            navigation.navigate("Post-List")
+          })
+        })
       })
     })
   }
@@ -103,6 +116,9 @@ const ReviewTaskScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <View style={styles.cardDetail}>
+        <Text style={{ fontSize: 20, color: "black", fontWeight: "bold" }}>
+          รายละเอียด
+        </Text>
         <View
           style={{
             width: "100%",
@@ -113,38 +129,124 @@ const ReviewTaskScreen = ({ navigation, route }) => {
             margin: 5,
           }}
         >
-          {item.status === "customer_new_post_done" && (
-            <Text style={{ fontSize: 18 }}>
+          <Text style={styles.textDetail}>ไอดี: {item.customerId}</Text>
+          <Text style={styles.textDetail}>
+            ระดับ Level: {item.customerLevel}
+          </Text>
+          <Text style={styles.textDetail}>
+            ชื่อผู้โพสท์: {item.customerName}
+          </Text>
+          <Text style={styles.textDetail}>
+            เบอร์โทรศัพท์: {item.customerPhone}
+          </Text>
+          <Text style={styles.textDetail}>
+            เพิ่มเติม: {item.customerRemark}
+          </Text>
+          <Text style={styles.textDetail}>
+            ประเภท Partner: {item.partnerRequest}
+          </Text>
+          <Text style={styles.textDetail}>สถานที่: {item.placeMeeting}</Text>
+          <Text style={styles.textDetail}>จังหวัด: {item.provinceName}</Text>
+          <Text style={styles.textDetail}>อำเภอ: {item.districtName}</Text>
+          {item.status === AppConfig.PostsStatus.customerNewPostDone && (
+            <Text
+              style={{
+                fontSize: 18,
+                color: "blue",
+                alignSelf: "center",
+                padding: 20,
+              }}
+            >
               โพสท์ใหม่ รอตรวจสอบจาก admin...
             </Text>
           )}
-          {item.status === "wait_admin_confirm_payment" && (
-            <Text style={{ fontSize: 18 }}>รอตรวจสอบ หลักฐานการโอนเงิน...</Text>
+          {item.status === AppConfig.PostsStatus.adminConfirmNewPost && (
+            <View>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: "blue",
+                  alignSelf: "center",
+                  marginTop: 10,
+                }}
+              >
+                ได้รับการอนุมัติจาก admin แล้ว
+              </Text>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: "red",
+                  alignSelf: "center",
+                }}
+              >
+                (รอ Partner รับงาน)
+              </Text>
+            </View>
           )}
-          {item.status === "admin_confirm_payment" && (
+          {item.status === AppConfig.PostsStatus.waitAdminConfirmPayment && (
+            <Text
+              style={{
+                fontSize: 18,
+                color: "blue",
+                alignSelf: "center",
+                padding: 20,
+              }}
+            >
+              รอตรวจสอบ หลักฐานการโอนเงิน...
+            </Text>
+          )}
+          {item.status === AppConfig.PostsStatus.adminConfirmPayment && (
             <>
-              <Text style={{ fontSize: 18 }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: "blue",
+                  alignSelf: "center",
+                  padding: 20,
+                }}
+              >
                 รอลูกค้า และ partner ยืนยันปิดงาน...
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "blue",
+                  alignSelf: "center",
+                  padding: 20,
+                }}
+              >
                 ...หลังจากใช้บริการเรียบร้อยแล้ว กรุณาให้คะแนนความพึงพอใจ
                 เพื่อเป็นประโยชน์ในการพัฒนาต่อไป...
               </Text>
             </>
           )}
-          {item.status === "close_job" && (
+          {item.status === AppConfig.PostsStatus.closeJob && (
             <>
-              <Text style={{ fontSize: 18 }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: "blue",
+                  alignSelf: "center",
+                  padding: 20,
+                }}
+              >
                 ปิดงานเรียบร้อยแล้ว Happy ending
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "blue",
+                  alignSelf: "center",
+                  padding: 20,
+                }}
+              >
                 แสดงคะแนนที่ให้ไปสำหรับ partner
               </Text>
             </>
           )}
         </View>
-        {item.status !== "admin_confirm_payment" &&
-          item.status !== "close_job" && (
+        {item.status !== AppConfig.PostsStatus.adminConfirmPayment &&
+          item.status !== AppConfig.PostsStatus.closeJob && (
             <Button
               icon={
                 <Icon
@@ -160,7 +262,7 @@ const ReviewTaskScreen = ({ navigation, route }) => {
               onPress={() => cancelThisPosts()}
             />
           )}
-        {item.status === "admin_confirm_payment" && (
+        {item.status === AppConfig.PostsStatus.adminConfirmPayment && (
           <View>
             <Text>ให้คะแนน Partner เพื่อพัฒนาต่อไปค่ะ</Text>
             <ComponentRating disabled={false} />
@@ -185,7 +287,9 @@ const ReviewTaskScreen = ({ navigation, route }) => {
             />
           </View>
         )}
-        {item.status === "close_job" && <ComponentRating disabled={true} />}
+        {item.status === AppConfig.PostsStatus.closeJob && (
+          <ComponentRating disabled={true} />
+        )}
       </View>
     </ImageBackground>
   )
@@ -223,6 +327,10 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
+  },
+  textDetail: {
+    fontSize: 14,
+    padding: 5,
   },
 })
 

@@ -18,6 +18,6 @@ export const postStatus = [
   { value: AppConfig.PostsStatus.customerCancelPost, label: "ลูกค้ายกเลิก (cancel)" },
   { value: AppConfig.PostsStatus.adminConfirmNewPost, label: "อนุมัติ (approve)" },
   { value: AppConfig.PostsStatus.notApprove, label: "ไม่อนุมัติ (not approve)" },
-  { value: AppConfig.PostsStatus.adminConfirmPayment, label: "รอตรวจสอบสลิปโอนเงิน (verify)" },
+  { value: AppConfig.PostsStatus.waitAdminConfirmPayment, label: "รอตรวจสอบสลิปโอนเงิน (verify)" },
   { value: AppConfig.PostsStatus.closeJob, label: "ปิดงานเรียบร้อย (close)" },
 ]

@@ -16,6 +16,8 @@ import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from "../../../Constants"
+import { updatePosts, saveProvincesGroupPostPartner } from '../../../apis'
 
 const AllCustomerPostList = ({ navigation, route }) => {
   const { profile, item } = route.params
@@ -88,17 +90,49 @@ const AllCustomerPostList = ({ navigation, route }) => {
       const postsList = snapshotToArray(snapshot)
       setFilterList(
         postsList.filter((item, index) => {
-          if (item.partnerRequest === "pretty-mc" && profile.type1) {
-            return item
-          }
-          if (item.partnerRequest === "coyote" && profile.type2) {
-            return item
-          }
-          if (item.partnerRequest === "pretty-entertain" && profile.type3) {
-            return item
-          }
-          if (item.partnerRequest === "pretty-massage" && profile.type4) {
-            return item
+          if (item.status === AppConfig.PostsStatus.adminConfirmNewPost) {
+            const date1 = Moment()
+            const date2 = Moment(item.sys_update_date)
+            const diffHours = date1.diff(date2, "hours")
+            if (diffHours <= 2) {
+              if (
+                item.partnerRequest === AppConfig.PartnerType.type1 &&
+                profile.type1
+              ) {
+                return item
+              }
+              if (
+                item.partnerRequest === AppConfig.PartnerType.type2 &&
+                profile.type2
+              ) {
+                return item
+              }
+              if (
+                item.partnerRequest === AppConfig.PartnerType.type3 &&
+                profile.type3
+              ) {
+                return item
+              }
+              if (
+                item.partnerRequest === AppConfig.PartnerType.type4 &&
+                profile.type4
+              ) {
+                return item
+              }
+            } else {
+              // update timeout
+              updatePosts(item.id, {
+                status: AppConfig.PostsStatus.postTimeout,
+                statusText: "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
+                sys_update_date: new Date().toUTCString(),
+              })
+              // remove from group partner request
+              saveProvincesGroupPostPartner({
+                province: item.province,
+                provinceName: item.provinceName,
+                partnerType: item.partnerRequest,
+              }, -1)
+            }
           }
         })
       )

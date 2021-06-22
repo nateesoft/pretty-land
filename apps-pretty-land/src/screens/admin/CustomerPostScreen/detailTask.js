@@ -1,10 +1,11 @@
 import React from "react"
 import { Alert, StyleSheet, View, ImageBackground } from "react-native"
-import { Button, Text, Input } from "react-native-elements"
+import { Button, Text } from "react-native-elements"
 import { AntDesign, Ionicons } from "react-native-vector-icons"
 import Moment from "moment"
 
 import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
+import { AppConfig } from '../../../Constants'
 import bgImage from '../../../../assets/bg.png'
 
 const ConfirmTaskScreen = ({ navigation, route }) => {
@@ -12,7 +13,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
 
   const updateToApprove = () => {
     updatePosts(item.id, {
-      status: "admin_confirm_new_post",
+      status: AppConfig.PostsStatus.adminConfirmNewPost,
       statusText: "อนุมัติโพสท์",
       sys_update_date: new Date().toUTCString(),
     })
@@ -30,7 +31,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
 
   const updateNotApprove = () => {
     updatePosts(item.id, {
-      status: "not_approve",
+      status: AppConfig.PostsStatus.notApprove,
       statusText: "ไม่อนุมัติโพสท์",
       sys_update_date: new Date().toUTCString(),
     })
@@ -80,7 +81,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
             </Text>
           </View>
         </View>
-        {item.status === "customer_new_post_done" && (
+        {item.status === AppConfig.PostsStatus.customerNewPostDone && (
           <View>
             <Button
               icon={

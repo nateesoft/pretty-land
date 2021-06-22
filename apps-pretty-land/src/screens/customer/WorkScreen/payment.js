@@ -23,6 +23,7 @@ import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
 
 import { saveProvincesGroupPostPartner } from "../../../apis"
+import { AppConfig } from "../../../Constants"
 
 const PaymentForm = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -160,7 +161,7 @@ const PaymentForm = ({ navigation, route }) => {
     // save to firebase
     const dataPayment = {
       slip_image: url,
-      status: "wait_admin_confirm_payment",
+      status: AppConfig.PostsStatus.waitAdminConfirmPayment,
       statusText: "รอ admin ตรวจสอบการชำระเงิน",
       bankId: bankData.value,
       bankName: bankData.label,

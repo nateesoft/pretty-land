@@ -15,7 +15,7 @@ import * as Progress from "react-native-progress"
 import { AirbnbRating } from "react-native-elements"
 
 import firebase from "../../../../util/firebase"
-
+import { AppConfig } from '../../../Constants'
 import bgImage from "../../../../assets/bg.png"
 
 export default function PartnerImage({ navigation, route }) {
@@ -32,7 +32,7 @@ export default function PartnerImage({ navigation, route }) {
       .database()
       .ref(`posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`)
       .update({
-        selectStatus: "customer_confirm",
+        selectStatus: AppConfig.PostsStatus.customerConfirm,
         selectStatusText: "ลูกค้าคอนเฟิร์ม รอชำระเงิน",
         sys_create_date: new Date().toUTCString(),
       })
@@ -153,7 +153,7 @@ export default function PartnerImage({ navigation, route }) {
               </View>
             </View>
           </View>
-          {selectStatus !== "customer_confirm" ? (
+          {selectStatus !== AppConfig.PostsStatus.customerConfirm ? (
             <Button
               title="เลือก Partner คนนี้"
               icon={
