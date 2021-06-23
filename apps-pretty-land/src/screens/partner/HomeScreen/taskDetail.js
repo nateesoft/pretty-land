@@ -46,7 +46,6 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       .ref(`posts/${item.id}/partnerSelect/${profile.id}`)
     const listener = ref.on("value", (snapshot) => {
       const checkItem = { ...snapshot.val() }
-      console.log('checkItem:', checkItem)
       const acceptAlready = checkItem.partnerId === profile.id
       if (acceptAlready) {
         setAmount(checkItem.amount)

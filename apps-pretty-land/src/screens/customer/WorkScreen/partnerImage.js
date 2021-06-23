@@ -15,7 +15,7 @@ import * as Progress from "react-native-progress"
 import { AirbnbRating } from "react-native-elements"
 
 import firebase from "../../../../util/firebase"
-import { AppConfig } from '../../../Constants'
+import { AppConfig } from "../../../Constants"
 import bgImage from "../../../../assets/bg.png"
 
 export default function PartnerImage({ navigation, route }) {
@@ -26,6 +26,13 @@ export default function PartnerImage({ navigation, route }) {
   const [partnerProfile, setPartnerProfile] = useState({})
   const [selectStatus, setSelectStatus] = useState("")
   const [images, setImages] = useState([])
+
+  const [starCount, setStarCount] = useState(0)
+  const [rate5, setRate5] = useState(0)
+  const [rate4, setRate4] = useState(0)
+  const [rate3, setRate3] = useState(0)
+  const [rate2, setRate2] = useState(0)
+  const [rate1, setRate1] = useState(0)
 
   const onPressSelectPartner = () => {
     firebase
@@ -57,9 +64,52 @@ export default function PartnerImage({ navigation, route }) {
     )
   }
 
+  const getStarFromPosts = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      let star = 0
+      let count = 0
+      let point = 0
+
+      let r5 = 0
+      let r4 = 0
+      let r3 = 0
+      let r2 = 0
+      let r1 = 0
+
+      snapshot.forEach((item) => {
+        count = count + 1
+        const data = item.val()
+        if (data.star === 5) {
+          r5 = r5 + 1
+        }
+        if (data.star === 4) {
+          r4 = r4 + 1
+        }
+        if (data.star === 3) {
+          r3 = r3 + 1
+        }
+        if (data.star === 2) {
+          r2 = r2 + 1
+        }
+        if (data.star === 1) {
+          r1 = r1 + 1
+        }
+        point = point + item.val().star
+      })
+      setStarCount(point / count)
+      setRate5((r5 / count))
+      setRate4((r4 / count))
+      setRate3((r3 / count))
+      setRate2((r2 / count))
+      setRate1((r1 / count))
+
+      resolve(true)
+    })
+  }
+
   useEffect(() => {
     const ref = firebase.database().ref(`members/${partnerItem.partnerId}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setPartnerProfile(data)
       setImages([
@@ -70,18 +120,25 @@ export default function PartnerImage({ navigation, route }) {
         { url: data.imageUrl5 || null },
       ])
     })
-    return () => ref.off("value", listener)
   }, [])
 
   useEffect(() => {
     const ref = firebase
       .database()
       .ref(`posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const partnerStatusSelect = { ...snapshot.val() }
       setSelectStatus(partnerStatusSelect.selectStatus)
     })
-    return () => ref.off("value", listener)
+  }, [])
+
+  useEffect(() => {
+    const ref = firebase.database().ref(`partner_star/${partnerItem.partnerId}`)
+    ref.once("value", (snapshot) => {
+      getStarFromPosts(snapshot).then((result) => {
+        console.log(result)
+      })
+    })
   }, [])
 
   return (
@@ -115,6 +172,9 @@ export default function PartnerImage({ navigation, route }) {
             <Text style={{ fontSize: 16 }}>
               ราคาที่เสนอ: {partnerItem.amount} บาท
             </Text>
+            <Text style={{ fontSize: 12, color: "blue" }}>
+              (* ราคาที่เสนอยังไม่รวมค่าดำเนินการ)
+            </Text>
           </View>
           <View
             style={{
@@ -133,23 +193,23 @@ export default function PartnerImage({ navigation, route }) {
                 <Text
                   style={{ color: "white", fontSize: 36, fontWeight: "bold" }}
                 >
-                  4.2
+                  {starCount.toFixed(1)}
                 </Text>
                 <AirbnbRating
                   count={5}
                   isDisabled={true}
-                  defaultRating={4}
+                  defaultRating={starCount.toFixed(0)}
                   reviews={["แย่", "พอใช้", "ดี", "ดีมาก", "ประทับใจ"]}
                   size={12}
                   reviewSize={14}
                 />
               </View>
               <View style={{ width: "70%" }}>
-                <ProgressBar title="5" rate={0.45} />
-                <ProgressBar title="4" rate={0.75} />
-                <ProgressBar title="3" rate={0.3} />
-                <ProgressBar title="2" rate={0.15} />
-                <ProgressBar title="1" rate={0.1} />
+                <ProgressBar title="5" rate={rate5} />
+                <ProgressBar title="4" rate={rate4} />
+                <ProgressBar title="3" rate={rate3} />
+                <ProgressBar title="2" rate={rate2} />
+                <ProgressBar title="1" rate={rate1} />
               </View>
             </View>
           </View>
