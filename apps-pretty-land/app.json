@@ -31,11 +31,15 @@
       "bundleIdentifier": "com.thailand.prettyland",
       "buildNumber": "1.1.0",
       "infoPlist": {
-       "LSApplicationQueriesSchemes": [
-         "fbapi","fb-messenger-share-api", "fbauth","fbauth2","fbshareextension"
-       ],
-       "CFBundleAllowMixedLocalizations": true
-     }
+        "LSApplicationQueriesSchemes": [
+          "fbapi",
+          "fb-messenger-share-api",
+          "fbauth",
+          "fbauth2",
+          "fbshareextension"
+        ],
+        "CFBundleAllowMixedLocalizations": true
+      }
     },
     "android": {
       "package": "com.thailand.prettyland",
