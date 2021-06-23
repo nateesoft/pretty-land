@@ -41,21 +41,20 @@ const PostListAllScreen = ({ navigation, route }) => {
     }
   }
 
-  const updatePartnerList = (value) => {
-    console.log('updatePartnerList', value)
-    setPosts([])
-    let ref = firebase.database().ref(`posts`)
-    if (value) {
-      setPartner(value)
-      ref = ref.orderByChild("status").equalTo(value)
-    }
-    ref.once("value", (snapshot) => {
-      const postsList = snapshotToArray(snapshot)
-      console.log('postsList=>', postsList)
-      setPosts(postsList.filter((item, index) => item.status === value))
-    })
-    // ref.off("value", listener)
-  }
+  // const updatePartnerList = (value) => {
+  //   console.log('updatePartnerList', value)
+  //   setPosts([])
+  //   let ref = firebase.database().ref(`posts`)
+  //   if (value) {
+  //     setPartner(value)
+  //     ref = ref.orderByChild("status").equalTo(value)
+  //   }
+  //   ref.once("value", (snapshot) => {
+  //     const postsList = snapshotToArray(snapshot)
+  //     console.log('postsList=>', postsList)
+  //     setPosts(postsList.filter((item, index) => item.status === value))
+  //   })
+  // }
 
   const renderItem = ({ item }) => (
     <ListItem
@@ -90,10 +89,10 @@ const PostListAllScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     let ref = firebase.database().ref(`posts`)
-    console.log("partner:", partner)
-    if (partner) {
-      ref = ref.orderByChild("status").equalTo(partner)
-    }
+    // console.log("partner:", partner)
+    // if (partner) {
+    //   ref = ref.orderByChild("status").equalTo(partner)
+    // }
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
       setPosts(
@@ -154,7 +153,7 @@ const PostListAllScreen = ({ navigation, route }) => {
       <SafeAreaView style={{ height: "100%" }}>
         <View style={styles.container}>
           <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
-          <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
+          {/* <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
             <DropDownPicker
               placeholder="เลือกประเภทโพสท์"
               open={openSelectPartner}
@@ -169,7 +168,7 @@ const PostListAllScreen = ({ navigation, route }) => {
               selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
               onChangeValue={(e) => updatePartnerList(e)}
             />
-          </View>
+          </View> */}
           {posts.length === 0 && <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />}
           {posts.length > 0 && (
             <FlatList

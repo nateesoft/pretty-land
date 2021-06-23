@@ -206,7 +206,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
       <SafeAreaView style={{ height: "100%" }}>
         <View style={styles.container}>
           <Text style={styles.textTopic}>สมาชิกในระบบทั้งหมด</Text>
-          <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
+          {/* <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
             <DropDownPicker
               placeholder="เลือกประเภทสมาชิก"
               open={openSelectPartner}
@@ -220,7 +220,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
               searchable={false}
               selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             />
-          </View>
+          </View> */}
           {members.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลสมาชิกในระบบ" />
           )}

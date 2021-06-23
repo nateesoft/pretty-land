@@ -122,10 +122,9 @@ const AllTaskListScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       setProfile({ ...snapshot.val() })
     })
-    return () => ref.off("value", listener)
   }, [])
 
   useEffect(() => {
@@ -148,7 +147,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
         <View style={styles.container}>
           <Text style={styles.textTopic}>งานว่าจ้างทั้งหมดในระบบ</Text>
           <Text style={styles.textTopicDetail}>ที่ตรงกับความต้องการ</Text>
-          <DropDownPicker
+          {/* <DropDownPicker
             placeholder="เลือกจังหวัด"
             open={openSelectCountry}
             setOpen={setOpenSelectCountry}
@@ -160,7 +159,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
             zIndex={20}
             searchable={false}
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-          />
+          /> */}
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
           )}

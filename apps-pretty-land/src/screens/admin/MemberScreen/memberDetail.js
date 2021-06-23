@@ -247,10 +247,13 @@ const MemberDetailScreen = ({ navigation, route }) => {
               <Text style={{ fontSize: 22 }}>
                 ชื่อ: {item.name || item.username || item.profile}
               </Text>
-              {item.customerType && (
-                <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ลูกค้า</Text>
+              {item.memberType === 'customer' && (
+                <View>
+                  <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ลูกค้า</Text>
+                  <Text style={{ fontSize: 22 }}>ระดับ Level: {item.customerLevel}</Text>
+                </View>
               )}
-              {!item.customerType && (
+              {item.customerType === 'admin' && (
                 <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ผู้ดูแลระบบ</Text>
               )}
             </View>

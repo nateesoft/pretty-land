@@ -172,19 +172,6 @@ const AllCustomerPostList = ({ navigation, route }) => {
               }
             />
           )}
-          {filterList.length === 0 && (
-            <View
-              style={{
-                alignItems: "center",
-                height: 65,
-                borderWidth: 1,
-                borderColor: "#aaa",
-                padding: 20,
-              }}
-            >
-              <Text>ไม่พบข้อมูลโพสท์</Text>
-            </View>
-          )}
         </View>
       </SafeAreaView>
     </ImageBackground>

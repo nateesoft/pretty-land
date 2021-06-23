@@ -22,6 +22,7 @@ import { GetIcon } from "../../../components/GetIcons"
 import bgImage from "../../../../assets/bg.png"
 import { saveNewPosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
+import firebase from "../../../../util/firebase"
 
 const CreatePostForm = (props) => {
   const { navigation, route } = props
@@ -44,6 +45,8 @@ const CreatePostForm = (props) => {
   const [phone, setPhone] = useState("")
   const [place, setPlace] = useState("")
   const [remark, setRemark] = useState("")
+
+  const [customerLevel, setCustomerLevel] = useState(0)
 
   const createNewPost = () => {
     if (!customerName) {
@@ -82,7 +85,7 @@ const CreatePostForm = (props) => {
         district,
         districtName: getDistrictName(district)[0],
         customerRemark: remark,
-        customerLevel: 0,
+        customerLevel,
       },
       navigation
     )
@@ -91,6 +94,14 @@ const CreatePostForm = (props) => {
   useEffect(() => {
     setPartnerRequest(item.name)
     setCustomerId(userId)
+  }, [])
+
+  useEffect(() => {
+    const ref = firebase.database().ref(`members/${userId}`)
+    ref.once("value", (snapshot) => {
+      const customer = { ...snapshot.val() }
+      setCustomerLevel(customer.customerLevel)
+    })
   }, [])
 
   return (
@@ -202,7 +213,7 @@ const CreatePostForm = (props) => {
             <Text style={{ fontSize: 16, padding: 5 }}>
               รายละเอียดเพิ่มเติม (Remark)
             </Text>
-            <View style={[styles.formControl, { height: 100, width: '100%' }]}>
+            <View style={[styles.formControl, { height: 100, width: "100%" }]}>
               <TextInput
                 placeholder="รายละเอียดเพิ่มเติม (Remark)"
                 style={[styles.textInput, { height: 90 }]}

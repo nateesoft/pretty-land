@@ -75,20 +75,6 @@ const ReviewTaskScreen = ({ navigation, route }) => {
   }
 
   const saveToCloseJob = () => {
-    // update customer level
-    const ref1 = firebase.database().ref(`members/${item.customerId}`)
-    ref1.once("value", (snapshot) => {
-      const custData = { ...snapshot.val() }
-      if (item.status !== AppConfig.PostsStatus.partnerCloseJob) {
-        firebase
-          .database()
-          .ref(`members/${item.customerId}`)
-          .update({
-            customerLevel: custData.customerLevel + 10,
-          })
-      }
-    })
-
     // update status post (for customer)
     firebase.database().ref(`posts/${item.id}`).update({
       status: AppConfig.PostsStatus.customerCloseJob,
@@ -282,7 +268,7 @@ const ReviewTaskScreen = ({ navigation, route }) => {
                 borderRadius: 5,
                 padding: 10,
               }}
-              title="บันทึกข้อมูลปิดงานเรียบร้อย"
+              title="บันทึกข้อมูลปิดงาน"
               onPress={() => saveToCloseJob()}
             />
           </View>

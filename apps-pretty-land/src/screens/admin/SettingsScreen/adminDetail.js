@@ -77,7 +77,7 @@ const AdminDetailScreen = ({ navigation, route }) => {
           <View
             style={{ alignSelf: "center", marginTop: 20, marginBottom: 10 }}
           >
-            <Text style={{ fontSize: 22 }}>แสดงรายละเอียดสมาชิก</Text>
+            <Text style={{ fontSize: 22 }}>แสดงรายละเอียดผู้ดูแลระบบ</Text>
           </View>
           <View
             style={{

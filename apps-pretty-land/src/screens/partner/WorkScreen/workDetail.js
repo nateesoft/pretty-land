@@ -47,26 +47,22 @@ const WorkDetailScreen = ({ navigation, route }) => {
     })
   }
   const partnerCloseJob = () => {
-    // update customer level
-    const ref1 = firebase.database().ref(`members/${item.customerId}`)
-    ref1.once("value", (snapshot) => {
-      const custData = { ...snapshot.val() }
-      if (item.status !== AppConfig.PostsStatus.customerCloseJob) {
-        firebase
-          .database()
-          .ref(`members/${item.customerId}`)
-          .update({
-            customerLevel: custData.customerLevel + 10,
-          })
-      }
-    })
-
     // update status post (for partner)
     firebase.database().ref(`posts/${item.id}`).update({
       status: AppConfig.PostsStatus.partnerCloseJob,
       statusText: "Parnter ปิดงานเรียบร้อย",
       sys_update_date: new Date().toUTCString(),
     })
+
+    // update partner close job
+    firebase
+      .database()
+      .ref(`posts/${item.id}/partnerSelect/${userId}`)
+      .update({
+        selectStatus: AppConfig.PostsStatus.closeJob,
+        selectStatusText: "ปิดงานเรียบร้อย",
+        sys_update_date: new Date().toUTCString(),
+      })
 
     Object.keys(item.partnerSelect).forEach((partnerId) => {
       const ref = firebase.database().ref(`members/${partnerId}`)
@@ -79,6 +75,19 @@ const WorkDetailScreen = ({ navigation, route }) => {
         })
       })
     })
+  }
+
+  const partnerMeetingCustomer = () => {
+    firebase
+      .database()
+      .ref(`posts/${item.id}/partnerSelect/${userId}`)
+      .update({
+        selectStatus: AppConfig.PostsStatus.customerMeet,
+        selectStatusText: "Partner พบลูกค้าแล้ว",
+        sys_update_date: new Date().toUTCString(),
+      })
+
+    navigation.navigate("List-My-Work")
   }
 
   useEffect(() => {
@@ -166,7 +175,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
             />
           )}
         </View>
-        {partner.selectStatus === AppConfig.PostsStatus.customerPayment && (
+        {partner.selectStatus === AppConfig.PostsStatus.customerConfirm && (
           <Button
             icon={
               <AntDesign
@@ -184,7 +193,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
               borderRadius: 25,
             }}
             title="บันทึกเจอลูกค้าแล้ว"
-            onPress={() => navigation.navigate("List-My-Work")}
+            onPress={() => partnerMeetingCustomer()}
           />
         )}
         {partner.selectStatus === AppConfig.PostsStatus.customerMeet && (
@@ -205,7 +214,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
               borderRadius: 25,
             }}
             title="บันทึกปิดงาน"
-            onPress={() => navigation.navigate("List-My-Work")}
+            onPress={() => partnerCloseJob()}
           />
         )}
       </View>

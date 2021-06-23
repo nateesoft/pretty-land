@@ -23,7 +23,19 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
     firebase.database().ref(`posts/${item.id}`).update({
       status: AppConfig.PostsStatus.adminConfirmPayment,
       statusText: "ชำระเงินเรียบร้อยแล้ว",
-      sys_update_date: new Date().toUTCString()
+      sys_update_date: new Date().toUTCString(),
+    })
+
+    const ref = firebase.database().ref(`members/${item.customerId}`)
+    ref.once("value", (snapshot) => {
+      const customerData = { ...snapshot.val() }
+      // update level to customer
+      firebase
+        .database()
+        .ref(`members/${item.customerId}`)
+        .update({
+          customerLevel: customerData.customerLevel + 1,
+        })
     })
 
     // to all list
@@ -59,7 +71,9 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
           >
             <Text>ชื่อผู้โอนเงิน: {item.customerName}</Text>
             <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
-            <Text>ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}</Text>
+            <Text>
+              ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}
+            </Text>
             <Text>เวลาที่โอนเงิน: {item.transferTime}</Text>
           </View>
           <Button
@@ -73,7 +87,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
             }
             buttonStyle={styles.buttonConfirm}
             title="ยืนยันข้อมูลถูกต้อง"
-            onPress={()=>saveConfirmPayment()}
+            onPress={() => saveConfirmPayment()}
           />
         </ScrollView>
       </SafeAreaView>
