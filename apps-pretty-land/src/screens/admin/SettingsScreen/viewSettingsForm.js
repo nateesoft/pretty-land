@@ -44,8 +44,8 @@ const ViewSettingForm = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
+      <Text style={styles.textTopic}>จัดการข้อมูลระบบ</Text>
       <View style={styles.cardDetail}>
-        <Text style={styles.textTopic}>จัดการข้อมูลระบบ</Text>
         <View style={styles.viewCard}>
           <Text style={{ fontSize: 18 }}>ค่าธรรมเนียม ดำเนินการ</Text>
           <Input
@@ -151,9 +151,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
   imageBg: {
     flex: 1,

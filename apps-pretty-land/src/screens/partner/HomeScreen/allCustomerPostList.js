@@ -17,7 +17,7 @@ import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
-import { updatePosts, saveProvincesGroupPostPartner } from '../../../apis'
+import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
 
 const AllCustomerPostList = ({ navigation, route }) => {
   const { profile, item } = route.params
@@ -130,15 +130,19 @@ const AllCustomerPostList = ({ navigation, route }) => {
               // update timeout
               updatePosts(item.id, {
                 status: AppConfig.PostsStatus.postTimeout,
-                statusText: "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
+                statusText:
+                  "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
                 sys_update_date: new Date().toUTCString(),
               })
               // remove from group partner request
-              saveProvincesGroupPostPartner({
-                province: item.province,
-                provinceName: item.provinceName,
-                partnerType: item.partnerRequest,
-              }, -1)
+              saveProvincesGroupPostPartner(
+                {
+                  province: item.province,
+                  provinceName: item.provinceName,
+                  partnerType: item.partnerRequest,
+                },
+                -1
+              )
             }
           }
         })
@@ -154,11 +158,9 @@ const AllCustomerPostList = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
+        <Text style={styles.textTopic}>งานว่าจ้างทั้งหมดในระบบ</Text>
+        <Text style={styles.textDetail}>จังหวัด {item.provinceName}</Text>
         <View style={styles.container}>
-          <Text style={styles.textTopic}>งานว่าจ้างทั้งหมดในระบบ</Text>
-          <Text style={styles.textTopicDetail}>
-            จังหวัด {item.provinceName}
-          </Text>
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
           )}
@@ -189,21 +191,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 5,
   },
-  textTopic: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "blue",
-    marginTop: 10,
-  },
-  textTopicDetail: {
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
-  },
   btnNewPost: {
     margin: 5,
     borderRadius: 75,
@@ -214,6 +201,22 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
+  },
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
+  },
+  textDetail: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
 })
 

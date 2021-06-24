@@ -11,6 +11,7 @@ import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import Moment from "moment"
 
+import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import { AppConfig } from "../../../Constants"
@@ -104,15 +105,19 @@ const PostListScreen = ({ navigation, route }) => {
                 // update timeout
                 updatePosts(item.id, {
                   status: AppConfig.PostsStatus.postTimeout,
-                  statusText: "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
+                  statusText:
+                    "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
                   sys_update_date: new Date().toUTCString(),
                 })
                 // remove from group partner request
-                saveProvincesGroupPostPartner({
-                  province: item.province,
-                  provinceName: item.provinceName,
-                  partnerType: item.partnerRequest,
-                }, -1)
+                saveProvincesGroupPostPartner(
+                  {
+                    province: item.province,
+                    provinceName: item.provinceName,
+                    partnerType: item.partnerRequest,
+                  },
+                  -1
+                )
               }
             } else {
               return item
@@ -130,8 +135,11 @@ const PostListScreen = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
+      <Text style={styles.textTopic}>แสดงรายการที่โพสท์</Text>
       <View style={styles.container}>
-        <Text style={styles.textTopic}>แสดงรายการที่โพสท์</Text>
+        {filterList.length === 0 && (
+          <CardNotfound text="ไม่พบข้อมูลการโพสท์" />
+        )}
         {filterList.length > 0 && (
           <FlatList
             keyExtractor={(item) => item.id.toString()}
@@ -149,15 +157,6 @@ const PostListScreen = ({ navigation, route }) => {
             }
           />
         )}
-        {filterList.length === 0 && (
-          <Text
-            style={{
-              textAlign: "center",
-            }}
-          >
-            ไม่พบข้อมูลการโพสท์
-          </Text>
-        )}
       </View>
     </ImageBackground>
   )
@@ -172,9 +171,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: "#ff2fe6",
+    padding: 10,
   },
   btnNewPost: {
     margin: 5,

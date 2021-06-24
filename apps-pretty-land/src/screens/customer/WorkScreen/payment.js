@@ -171,12 +171,15 @@ const PaymentForm = ({ navigation, route }) => {
     }
     firebase.database().ref(`posts/${item.id}`).update(dataPayment)
 
-    saveProvincesGroupPostPartner({
-      province: item.province,
-      provinceName: item.provinceName,
-      partnerType: item.partnerRequest,
-    }, -1)
-    
+    saveProvincesGroupPostPartner(
+      {
+        province: item.province,
+        provinceName: item.provinceName,
+        partnerType: item.partnerRequest,
+      },
+      -1
+    )
+
     navigate("Post-List")
   }
 
@@ -191,9 +194,7 @@ const PaymentForm = ({ navigation, route }) => {
           behavior="position"
           keyboardVerticalOffset={Platform.OS === "ios" ? 120 : 0}
         >
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <Text style={styles.topic}>โอนเงิน เพื่อชำระค่าบริการ</Text>
-          </View>
+          <Text style={styles.textTopic}>โอนเงิน เพื่อชำระค่าบริการ</Text>
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={{ marginTop: 20 }}
@@ -376,6 +377,14 @@ const styles = StyleSheet.create({
     width: "100%",
     fontSize: 18,
     marginLeft: 10,
+  },
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: "#ff2fe6",
+    padding: 10,
   },
 })
 

@@ -144,9 +144,9 @@ const AllTaskListScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
+        <Text style={styles.textTopic}>งานว่าจ้างทั้งหมดในระบบ</Text>
+        <Text style={styles.textTopicDetail}>( ผ่านการอนุมัติจาก Admin )</Text>
         <View style={styles.container}>
-          <Text style={styles.textTopic}>งานว่าจ้างทั้งหมดในระบบ</Text>
-          <Text style={styles.textTopicDetail}>ที่ตรงกับความต้องการ</Text>
           {/* <DropDownPicker
             placeholder="เลือกจังหวัด"
             open={openSelectCountry}
@@ -193,19 +193,20 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   textTopic: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginTop: 10,
+    color: "white",
+    backgroundColor: "#ff2fe6",
+    padding: 10,
   },
   textTopicDetail: {
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: "#ff2fe6",
+    padding: 10,
   },
   btnNewPost: {
     backgroundColor: "#35D00D",

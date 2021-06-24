@@ -151,8 +151,8 @@ const PostListAllScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
+        <Text style={styles.textTopic}>รายการโพสท์</Text>
         <View style={styles.container}>
-          <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
           {/* <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
             <DropDownPicker
               placeholder="เลือกประเภทโพสท์"
@@ -203,9 +203,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
   btnNewPost: {
     backgroundColor: "#35D00D",

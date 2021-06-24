@@ -55,14 +55,11 @@ const WorkDetailScreen = ({ navigation, route }) => {
     })
 
     // update partner close job
-    firebase
-      .database()
-      .ref(`posts/${item.id}/partnerSelect/${userId}`)
-      .update({
-        selectStatus: AppConfig.PostsStatus.closeJob,
-        selectStatusText: "ปิดงานเรียบร้อย",
-        sys_update_date: new Date().toUTCString(),
-      })
+    firebase.database().ref(`posts/${item.id}/partnerSelect/${userId}`).update({
+      selectStatus: AppConfig.PostsStatus.closeJob,
+      selectStatusText: "ปิดงานเรียบร้อย",
+      sys_update_date: new Date().toUTCString(),
+    })
 
     Object.keys(item.partnerSelect).forEach((partnerId) => {
       const ref = firebase.database().ref(`members/${partnerId}`)
@@ -78,14 +75,11 @@ const WorkDetailScreen = ({ navigation, route }) => {
   }
 
   const partnerMeetingCustomer = () => {
-    firebase
-      .database()
-      .ref(`posts/${item.id}/partnerSelect/${userId}`)
-      .update({
-        selectStatus: AppConfig.PostsStatus.customerMeet,
-        selectStatusText: "Partner พบลูกค้าแล้ว",
-        sys_update_date: new Date().toUTCString(),
-      })
+    firebase.database().ref(`posts/${item.id}/partnerSelect/${userId}`).update({
+      selectStatus: AppConfig.PostsStatus.customerMeet,
+      selectStatusText: "Partner พบลูกค้าแล้ว",
+      sys_update_date: new Date().toUTCString(),
+    })
 
     navigation.navigate("List-My-Work")
   }
@@ -108,10 +102,8 @@ const WorkDetailScreen = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
+      <Text style={styles.textTopic}>รายละเอียดงานที่แจ้งลูกค้า</Text>
       <View style={styles.cardDetail}>
-        <Text style={styles.optionsNameDetail2}>
-          รายละเอียดงานที่แจ้งลูกค้า
-        </Text>
         <View style={styles.viewCard}>
           <Text
             style={{
@@ -158,21 +150,6 @@ const WorkDetailScreen = ({ navigation, route }) => {
             <Text style={{ fontSize: 20, backgroundColor: "yellow" }}>
               สถานะ Parnter: แจ้งปิดงานแล้ว
             </Text>
-          )}
-          {item.status === AppConfig.PostsStatus.customerCloseJob && (
-            <Button
-              icon={
-                <Ionicons
-                  name="happy-outline"
-                  size={24}
-                  color="pink"
-                  style={{ marginRight: 5 }}
-                />
-              }
-              buttonStyle={{ marginTop: 10, borderRadius: 5 }}
-              title="Partner แจ้งปิดงาน"
-              onPress={() => partnerCloseJob()}
-            />
           )}
         </View>
         {partner.selectStatus === AppConfig.PostsStatus.customerConfirm && (
@@ -254,6 +231,14 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
+  },
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: "#ff2fe6",
+    padding: 10,
   },
 })
 

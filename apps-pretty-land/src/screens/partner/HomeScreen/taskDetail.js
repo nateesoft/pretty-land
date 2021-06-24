@@ -65,10 +65,8 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
     >
       <SafeAreaView style={{ height: "100%" }}>
         <ScrollView showsVerticalScrollIndicator={false}>
+          <Text style={styles.textTopic}>รายละเอียดลูกค้าจ้างงาน</Text>
           <View style={styles.cardDetail}>
-            <Text style={styles.optionsNameDetail2}>
-              รายละเอียดลูกค้าจ้างงาน
-            </Text>
             <View style={styles.viewCard}>
               <Text
                 style={{
@@ -172,19 +170,21 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 ได้งานแล้ว รอลูกค้าชำระเงิน
               </Text>
             )}
-            {getWork && workStatus === AppConfig.PostsStatus.waitCustomerSelectPartner && (
-              <Text
-                style={{
-                  color: "white",
-                  backgroundColor: "blue",
-                  padding: 20,
-                  fontSize: 20,
-                  fontWeight: "bold",
-                }}
-              >
-                รอลูกค้ารับงาน
-              </Text>
-            )}
+            {getWork &&
+              workStatus ===
+                AppConfig.PostsStatus.waitCustomerSelectPartner && (
+                <Text
+                  style={{
+                    color: "white",
+                    backgroundColor: "blue",
+                    padding: 20,
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
+                >
+                  รอลูกค้ารับงาน
+                </Text>
+              )}
             {!getWork && workHide && (
               <Text
                 style={{
@@ -245,6 +245,14 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
+  },
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
 })
 

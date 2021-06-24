@@ -144,11 +144,9 @@ const PartnerListSelect = ({ navigation, route }) => {
     >
       <SafeAreaView style={{ height: "100%" }}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.cardContainer1}>
-            <Text style={{ fontSize: 20, color: "blue", fontWeight: "bold" }}>
-              แสดงรายชื่อ Partner พร้อมรับงาน
-            </Text>
-          </View>
+          <Text style={styles.textTopic}>
+            แสดงรายชื่อ Partner พร้อมรับงาน
+          </Text>
           <View
             style={{
               padding: 5,
@@ -243,6 +241,14 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
+  },
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
 })
 

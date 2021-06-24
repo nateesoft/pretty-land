@@ -109,12 +109,8 @@ const MemberDetailScreen = ({ navigation, route }) => {
         style={{ height: "100%" }}
         showsHorizontalScrollIndicator={false}
       >
+        <Text style={styles.textTopic}>แสดงรายละเอียดสมาชิก</Text>
         <View style={styles.viewCard}>
-          <View
-            style={{ alignSelf: "center", marginTop: 20, marginBottom: 10 }}
-          >
-            <Text style={{ fontSize: 22 }}>แสดงรายละเอียดสมาชิก</Text>
-          </View>
           {item.image && (
             <View style={{ alignItems: "center" }}>
               <ScrollView
@@ -247,13 +243,15 @@ const MemberDetailScreen = ({ navigation, route }) => {
               <Text style={{ fontSize: 22 }}>
                 ชื่อ: {item.name || item.username || item.profile}
               </Text>
-              {item.memberType === 'customer' && (
+              {item.memberType === "customer" && (
                 <View>
                   <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ลูกค้า</Text>
-                  <Text style={{ fontSize: 22 }}>ระดับ Level: {item.customerLevel}</Text>
+                  <Text style={{ fontSize: 22 }}>
+                    ระดับ Level: {item.customerLevel}
+                  </Text>
                 </View>
               )}
-              {item.customerType === 'admin' && (
+              {item.customerType === "admin" && (
                 <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ผู้ดูแลระบบ</Text>
               )}
             </View>
@@ -399,6 +397,14 @@ const styles = StyleSheet.create({
     width: 350,
     height: 300,
     borderRadius: 25,
+  },
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
 })
 

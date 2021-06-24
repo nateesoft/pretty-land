@@ -101,10 +101,8 @@ const ReviewTaskScreen = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
+      <Text style={styles.textTopic}>รายละเอียดโพสท์</Text>
       <View style={styles.cardDetail}>
-        <Text style={{ fontSize: 20, color: "black", fontWeight: "bold" }}>
-          รายละเอียด
-        </Text>
         <View
           style={{
             width: "100%",
@@ -232,22 +230,24 @@ const ReviewTaskScreen = ({ navigation, route }) => {
           )}
         </View>
         {item.status !== AppConfig.PostsStatus.adminConfirmPayment &&
-          item.status !== AppConfig.PostsStatus.closeJob && (
-            <Button
-              icon={
-                <Icon
-                  name="close"
-                  size={15}
-                  color="white"
-                  style={{ marginRight: 5 }}
-                />
-              }
-              iconLeft
-              buttonStyle={{ margin: 5, backgroundColor: "red" }}
-              title="ยกเลิกโพสท์นี้"
-              onPress={() => cancelThisPosts()}
-            />
-          )}
+          item.status !== AppConfig.PostsStatus.closeJob &&
+          item.status !==
+            AppConfig.PostsStatus.customerCloseJob && (
+              <Button
+                icon={
+                  <Icon
+                    name="close"
+                    size={15}
+                    color="white"
+                    style={{ marginRight: 5 }}
+                  />
+                }
+                iconLeft
+                buttonStyle={{ margin: 5, backgroundColor: "red" }}
+                title="ยกเลิกโพสท์นี้"
+                onPress={() => cancelThisPosts()}
+              />
+            )}
         {item.status === AppConfig.PostsStatus.adminConfirmPayment && (
           <View>
             <Text>ให้คะแนน Partner เพื่อพัฒนาต่อไปค่ะ</Text>
@@ -282,6 +282,14 @@ const ReviewTaskScreen = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: "#ff2fe6",
+    padding: 10,
+  },
   cardDetail: {
     flex: 1,
     alignItems: "center",

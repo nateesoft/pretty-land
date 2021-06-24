@@ -67,8 +67,8 @@ const ViewProfileScreen = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
+      <Text style={styles.textTopic}>เปลี่ยนรหัสผ่าน</Text>
       <View style={styles.cardDetail}>
-        <Text style={styles.textTopic}>เปลี่ยนรหัสผ่าน</Text>
         <View style={styles.viewCard}>
           <Text style={{ fontSize: 18 }}>ชื่อผู้ใช้งาน</Text>
           <Input
@@ -170,9 +170,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
   textSubTopic: {
     fontSize: 18,

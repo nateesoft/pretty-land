@@ -5,8 +5,8 @@ import { AntDesign, Ionicons } from "react-native-vector-icons"
 import Moment from "moment"
 
 import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
-import { AppConfig } from '../../../Constants'
-import bgImage from '../../../../assets/bg.png'
+import { AppConfig } from "../../../Constants"
+import bgImage from "../../../../assets/bg.png"
 
 const ConfirmTaskScreen = ({ navigation, route }) => {
   const { item } = route.params
@@ -44,14 +44,16 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
+      <Text style={styles.textTopic}>รายละเอียด</Text>
+      <Text style={styles.textDetail}>
+        ( สถานะ {item.statusText} )
+      </Text>
       <View style={styles.cardDetail}>
-        <Text style={{ fontSize: 22 }}>รายละเอียด</Text>
-        <Text style={{ fontSize: 16, marginVertical: 10, color: "blue" }}>
-          ( สถานะ {item.statusText} )
-        </Text>
         <View style={styles.viewCard}>
           <View style={{ marginLeft: 10, padding: 20 }}>
-            <Text style={{ fontSize: 16 }}>ชื่อลูกค้า: {item.customerName}</Text>
+            <Text style={{ fontSize: 16 }}>
+              ชื่อลูกค้า: {item.customerName}
+            </Text>
             <Text style={{ fontSize: 16 }}>Level: {item.customerLevel}</Text>
             <Text style={{ fontSize: 16 }}>
               ประเภทที่ต้องการ: {item.partnerRequest}
@@ -163,6 +165,22 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
+  },
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
+  },
+  textDetail: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
 })
 

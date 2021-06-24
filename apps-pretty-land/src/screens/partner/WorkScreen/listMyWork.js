@@ -91,9 +91,9 @@ const ListMyWorkScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
+        <Text style={styles.textTopic}>งานที่สนใจ / รอลูกค้าตกลง</Text>
+        <Text style={styles.textTopicDetail}>รอดำเนินการ</Text>
         <View style={styles.container}>
-          <Text style={styles.textTopic}>งานที่สนใจ / รอลูกค้าตกลง</Text>
-          <Text style={styles.textTopicDetail}>รอดำเนินการ</Text>
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
           )}
@@ -125,19 +125,20 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   textTopic: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginTop: 10,
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
   textTopicDetail: {
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
   btnNewPost: {
     backgroundColor: "#35D00D",

@@ -49,11 +49,11 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
+        <Text style={styles.textTopic}>ตรวจสอบข้อมูลการโอนเงิน</Text>
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ marginTop: 20 }}
         >
-          <Text style={styles.optionsNameDetail}>ตรวจสอบข้อมูลการโอนเงิน</Text>
           <View style={{ alignSelf: "center" }}>
             <Image
               source={{ uri: item.slip_image }}
@@ -114,6 +114,14 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
+  },
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: "#ff2fe6",
+    padding: 10,
   },
 })
 

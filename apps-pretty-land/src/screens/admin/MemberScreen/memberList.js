@@ -41,7 +41,9 @@ const MemberAllListScreen = ({ navigation, route }) => {
       setMembers(
         memberInCloud.filter(
           (item, index) =>
-            item.memberType !== "superadmin" && item.memberType !== "admin"
+            item.memberType !== "superadmin" &&
+            item.memberType !== "admin" &&
+            item.memberType !== "demo"
         )
       )
     })
@@ -204,8 +206,8 @@ const MemberAllListScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
+        <Text style={styles.textTopic}>รายชื่อสมาชิก</Text>
         <View style={styles.container}>
-          <Text style={styles.textTopic}>สมาชิกในระบบทั้งหมด</Text>
           {/* <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
             <DropDownPicker
               placeholder="เลือกประเภทสมาชิก"
@@ -255,9 +257,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
   btnNewPost: {
     backgroundColor: "#35D00D",

@@ -97,11 +97,11 @@ export default function PartnerImage({ navigation, route }) {
         point = point + item.val().star
       })
       setStarCount(point / count)
-      setRate5((r5 / count))
-      setRate4((r4 / count))
-      setRate3((r3 / count))
-      setRate2((r2 / count))
-      setRate1((r1 / count))
+      setRate5(r5 / count)
+      setRate4(r4 / count)
+      setRate3(r3 / count)
+      setRate2(r2 / count)
+      setRate1(r1 / count)
 
       resolve(true)
     })
@@ -134,7 +134,7 @@ export default function PartnerImage({ navigation, route }) {
 
   useEffect(() => {
     const ref = firebase.database().ref(`partner_star/${partnerItem.partnerId}`)
-    ref.once("value", (snapshot) => {
+    ref.once("child_added", (snapshot) => {
       getStarFromPosts(snapshot).then((result) => {
         console.log(result)
       })
