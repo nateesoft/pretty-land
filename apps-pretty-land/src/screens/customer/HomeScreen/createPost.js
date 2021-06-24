@@ -47,6 +47,7 @@ const CreatePostForm = (props) => {
   const [remark, setRemark] = useState("")
 
   const [customerLevel, setCustomerLevel] = useState(0)
+  const [partnerQty, setPartnerQty] = useState(0)
 
   const createNewPost = () => {
     if (!customerName) {
@@ -91,6 +92,39 @@ const CreatePostForm = (props) => {
     )
   }
 
+  const getPartnerQty = (value) => {
+    return new Promise((resolve, reject) => {
+      const ref = firebase.database().ref(`members`)
+      ref.once("value", (snapshot) => {
+        let count = 0
+        snapshot.forEach((item) => {
+          const data = { ...item.val() }
+          const type1 = AppConfig.PartnerType.type1 === partnerRequest
+          const type2 = AppConfig.PartnerType.type2 === partnerRequest
+          const type3 = AppConfig.PartnerType.type3 === partnerRequest
+          const type4 = AppConfig.PartnerType.type4 === partnerRequest
+          if (data.province === value && data.memberType === "partner") {
+            if (
+              (data.type1 && type1) ||
+              (data.type2 && type2) ||
+              (data.type3 && type3) ||
+              (data.type4 && type4)
+            ) {
+              count = count + 1
+            }
+          }
+        })
+
+        setPartnerQty(count)
+        resolve(true)
+      })
+    })
+  }
+
+  const onChangeProvinceSelect = (value) => {
+    getPartnerQty(value).then((data) => console.log(data))
+  }
+
   useEffect(() => {
     setPartnerRequest(item.name)
     setCustomerId(userId)
@@ -112,8 +146,9 @@ const CreatePostForm = (props) => {
     >
       <SafeAreaView style={{ flex: 1, height: "100%" }}>
         <View style={styles.cardDetail}>
-          <Text style={styles.optionsNameDetail}>โพสท์ข้อมูลที่ต้องการ</Text>
-          <Text style={styles.optionsNameDetail2}>{item.name}</Text>
+          <Text style={[styles.optionsNameDetail, { marginBottom: 10 }]}>
+            โพสท์ข้อมูลที่ต้องการ
+          </Text>
           <DropDownPicker
             placeholder="เลือก Partner"
             open={openSelectPartner}
@@ -141,7 +176,23 @@ const CreatePostForm = (props) => {
             zIndex={2}
             searchable={false}
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+            onChangeValue={(e) => onChangeProvinceSelect(e)}
           />
+          {province !== "" && (
+            <View
+              style={{
+                marginBottom: 10,
+                backgroundColor: "pink",
+                alignSelf: "flex-start",
+                padding: 5,
+              }}
+            >
+              <Text style={{ fontSize: 16 }}>
+                จำนวน Partner: {partnerQty} คน
+              </Text>
+            </View>
+          )}
+
           <DropDownPicker
             placeholder="-- เลือก เขต/อำเภอ --"
             open={openSelectDistrict}

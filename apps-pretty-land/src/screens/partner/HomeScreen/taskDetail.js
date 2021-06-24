@@ -90,6 +90,17 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                   height: 30,
                 }}
               >
+                เขต/อำเภอ: {item.districtName}
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 5,
+                  backgroundColor: "#123456",
+                  color: "white",
+                  paddingHorizontal: 5,
+                  height: 30,
+                }}
+              >
                 ลูกค้า: คุณ{item.customerName}
               </Text>
               <Text style={{ marginBottom: 5, height: 30 }}>

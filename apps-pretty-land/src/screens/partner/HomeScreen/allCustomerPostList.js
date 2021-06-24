@@ -63,6 +63,13 @@ const AllCustomerPostList = ({ navigation, route }) => {
             marginBottom: 5,
           }}
         >
+          เขต/อำเภอ: {item.districtName}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+          }}
+        >
           วันที่โพสท์:{" "}
           {Moment(item.sys_create_date).format("D MMM YYYY HH:mm:ss")}
         </ListItem.Title>
