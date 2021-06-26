@@ -151,8 +151,13 @@ const WorkDetailScreen = ({ navigation, route }) => {
               สถานะ Parnter: แจ้งปิดงานแล้ว
             </Text>
           )}
+          {partner.selectStatus === AppConfig.PostsStatus.customerConfirm && (
+            <Text style={{ fontSize: 20, backgroundColor: "yellow" }}>
+              สถานะ รอลูกค้าชำระเงิน
+            </Text>
+          )}
         </View>
-        {partner.selectStatus === AppConfig.PostsStatus.customerConfirm && (
+        {partner.selectStatus === AppConfig.PostsStatus.customerPayment && (
           <Button
             icon={
               <AntDesign

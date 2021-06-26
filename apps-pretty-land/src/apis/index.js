@@ -110,6 +110,7 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
     image: profile.image || null,
     sex: profile.sex,
     character: profile.character,
+    telephone: profile.mobile,
     selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
     selectStatusText: "รอลูกค้าเลือกผู้ร่วมงาน",
   }

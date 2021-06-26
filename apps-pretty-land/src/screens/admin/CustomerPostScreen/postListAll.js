@@ -97,7 +97,6 @@ const PostListAllScreen = ({ navigation, route }) => {
       const postsList = snapshotToArray(snapshot)
       setPosts(
         postsList.filter((item, index) => {
-          console.log(item)
           const date1 = Moment()
           const date2 = Moment(item.sys_update_date)
           const diffHours = date1.diff(date2, "hours")

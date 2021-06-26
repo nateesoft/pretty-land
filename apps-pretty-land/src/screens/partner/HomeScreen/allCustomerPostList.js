@@ -158,7 +158,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>งานว่าจ้างทั้งหมดในระบบ</Text>
+        <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
         <Text style={styles.textDetail}>จังหวัด {item.provinceName}</Text>
         <View style={styles.container}>
           {filterList.length === 0 && (

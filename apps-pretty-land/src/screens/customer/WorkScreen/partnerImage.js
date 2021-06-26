@@ -66,7 +66,6 @@ export default function PartnerImage({ navigation, route }) {
 
   const getStarFromPosts = (snapshot) => {
     return new Promise((resolve, reject) => {
-      let star = 0
       let count = 0
       let point = 0
 
@@ -94,7 +93,9 @@ export default function PartnerImage({ navigation, route }) {
         if (data.star === 1) {
           r1 = r1 + 1
         }
-        point = point + item.val().star
+        if (item.val().star) {
+          point = point + item.val().star
+        }
       })
       setStarCount(point / count)
       setRate5(r5 / count)

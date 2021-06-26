@@ -144,8 +144,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>งานว่าจ้างทั้งหมดในระบบ</Text>
-        <Text style={styles.textTopicDetail}>( ผ่านการอนุมัติจาก Admin )</Text>
+        <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
         <View style={styles.container}>
           {/* <DropDownPicker
             placeholder="เลือกจังหวัด"

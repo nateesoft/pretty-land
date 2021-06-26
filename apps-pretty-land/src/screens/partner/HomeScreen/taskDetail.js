@@ -65,15 +65,28 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
     >
       <SafeAreaView style={{ height: "100%" }}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.textTopic}>รายละเอียดลูกค้าจ้างงาน</Text>
+          <Text style={styles.textTopic}>รายละเอียดโพสท์</Text>
           <View style={styles.cardDetail}>
-            <View style={styles.viewCard}>
+            <View style={{alignSelf: 'flex-start', padding: 20, borderWidth: 2, borderColor: 'gray', borderRadius: 10, width: '100%'}}>
               <Text
                 style={{
                   marginBottom: 5,
-                  backgroundColor: "#123456",
-                  color: "white",
-                  paddingHorizontal: 5,
+                  height: 30,
+                }}
+              >
+                โหมดงาน: {item.partnerRequest}
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 5,
+                  height: 30,
+                }}
+              >
+                ชื่อลูกค้า: คุณ{item.customerName}
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 5,
                   height: 30,
                 }}
               >
@@ -82,39 +95,20 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               <Text
                 style={{
                   marginBottom: 5,
-                  backgroundColor: "#123456",
-                  color: "white",
-                  paddingHorizontal: 5,
                   height: 30,
                 }}
               >
                 เขต/อำเภอ: {item.districtName}
               </Text>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  backgroundColor: "#123456",
-                  color: "white",
-                  paddingHorizontal: 5,
-                  height: 30,
-                }}
-              >
-                ลูกค้า: คุณ{item.customerName}
-              </Text>
-              <Text style={{ marginBottom: 5, height: 30 }}>
+
+              <Text style={{ marginBottom: 5, height: 30, fontSize: 16 }}>
                 ระดับลูกค้า level: {item.customerLevel}
               </Text>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  backgroundColor: "chocolate",
-                  color: "white",
-                  paddingHorizontal: 5,
-                  height: 30,
-                }}
-              >
-                โหมดงาน: {item.partnerRequest}
+              <Text style={{ marginBottom: 5, height: 30, fontSize: 16 }}>
+                เพิ่มเติม: {item.customerRemark}
               </Text>
+            </View>
+            <View style={styles.viewCard}>
               {!workHide && (
                 <View
                   style={{
@@ -251,7 +245,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
 })

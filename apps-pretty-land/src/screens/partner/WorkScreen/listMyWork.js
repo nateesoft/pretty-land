@@ -92,7 +92,6 @@ const ListMyWorkScreen = ({ navigation, route }) => {
     >
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>งานที่สนใจ / รอลูกค้าตกลง</Text>
-        <Text style={styles.textTopicDetail}>รอดำเนินการ</Text>
         <View style={styles.container}>
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
