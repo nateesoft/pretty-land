@@ -262,11 +262,11 @@ const CreatePostForm = (props) => {
               />
             </View>
             <Text style={{ fontSize: 16, padding: 5 }}>
-              รายละเอียดเพิ่มเติม (Remark)
+              หมายเหตุเพิ่มเติม (Remark)
             </Text>
             <View style={[styles.formControl, { height: 100, width: "100%" }]}>
               <TextInput
-                placeholder="รายละเอียดเพิ่มเติม (Remark)"
+                placeholder="หมายเหตุเพิ่มเติม (Remark)"
                 style={[styles.textInput, { height: 90 }]}
                 value={remark}
                 onChangeText={(value) => setRemark(value)}
