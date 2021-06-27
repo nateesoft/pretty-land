@@ -39,13 +39,14 @@ const ReviewTaskScreen = ({ navigation, route }) => {
     navigation.navigate("Post-List")
   }
 
-  const updateMember = (workIn = 0, partnerId) => {
+  const updateMember = (workIn = 0, workPoint = 0, partnerId) => {
     return new Promise((resolve, reject) => {
       firebase
         .database()
         .ref(`members/${partnerId}`)
         .update({
           workIn: parseInt(workIn) + 1,
+          workPoint: parseInt(workPoint) + 10,
         })
         .then((result) => {
           resolve(result)
@@ -86,7 +87,7 @@ const ReviewTaskScreen = ({ navigation, route }) => {
       const ref = firebase.database().ref(`members/${partnerId}`)
       ref.once("value", (snapshot) => {
         const pData = { ...snapshot.val() }
-        updateMember(pData.workIn, partnerId).then((result) => {
+        updateMember(pData.workIn, pData.workPoint, partnerId).then((result) => {
           saveHistoryStar(partnerId).then((result) => {
             navigation.navigate("Post-List")
           })
