@@ -112,7 +112,7 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
     character: profile.character,
     telephone: profile.mobile,
     selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
-    selectStatusText: "รอลูกค้าเลือกผู้ร่วมงาน",
+    selectStatusText: "เสนอรับงาน",
   }
   firebase
     .database()
