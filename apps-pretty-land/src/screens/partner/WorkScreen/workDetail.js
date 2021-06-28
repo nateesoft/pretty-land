@@ -32,13 +32,14 @@ const WorkDetailScreen = ({ navigation, route }) => {
     })
   }
 
-  const updateMember = (workIn = 0, partnerId) => {
+  const updateMember = (workIn = 0, workPoint = 0, partnerId) => {
     return new Promise((resolve, reject) => {
       firebase
         .database()
         .ref(`members/${partnerId}`)
         .update({
           workIn: parseInt(workIn) + 1,
+          workPoint: parseInt(workPoint) + 10,
         })
         .then((result) => {
           resolve(result)
@@ -48,41 +49,55 @@ const WorkDetailScreen = ({ navigation, route }) => {
         })
     })
   }
-  const partnerCloseJob = () => {
+
+  const partnerCloseJob = (partnerId) => {
     // update status post (for partner)
-    firebase.database().ref(`posts/${item.id}`).update({
-      status: AppConfig.PostsStatus.partnerCloseJob,
-      statusText: "Parnter ปิดงานเรียบร้อย",
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(`posts/${item.id}/partnerSelect/${partnerId}`)
+      .update({
+        selectStatus: AppConfig.PostsStatus.closeJob,
+        selectStatusText: "ปิดงานเรียบร้อย",
+        partnerStatus: AppConfig.PostsStatus.partnerCloseJob,
+        partnerStatusText: "Partner ปิดงาน",
+        partner_close_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString(),
+      })
 
     // update partner close job
-    firebase.database().ref(`posts/${item.id}/partnerSelect/${userId}`).update({
-      selectStatus: AppConfig.PostsStatus.closeJob,
-      selectStatusText: "ปิดงานเรียบร้อย",
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(`posts/${item.id}/partnerSelect/${partnerId}`)
+      .update({
+        selectStatus: AppConfig.PostsStatus.closeJob,
+        selectStatusText: "ปิดงานเรียบร้อย",
+        sys_update_date: new Date().toUTCString(),
+      })
 
-    Object.keys(item.partnerSelect).forEach((partnerId) => {
-      const ref = firebase.database().ref(`members/${partnerId}`)
-      ref.once("value", (snapshot) => {
-        const pData = { ...snapshot.val() }
-        updateMember(pData.workIn, partnerId).then((result) => {
-          saveHistoryStar(partnerId).then((result) => {
-            navigation.navigate("List-My-Work")
-          })
+    const ref = firebase.database().ref(`members/${partnerId}`)
+    ref.once("value", (snapshot) => {
+      const pData = { ...snapshot.val() }
+      updateMember(pData.workIn, pData.workPoint, partnerId).then((result) => {
+        saveHistoryStar(partnerId).then((result) => {
+          navigation.navigate("List-My-Work")
         })
       })
     })
   }
 
-  const partnerMeetingCustomer = () => {
-    firebase.database().ref(`posts/${item.id}/partnerSelect/${userId}`).update({
-      selectStatus: AppConfig.PostsStatus.customerMeet,
-      selectStatusText: "ปฏิบัติงาน",
-      sys_update_date: new Date().toUTCString(),
-      start_work_date: new Date().toUTCString(),
-    })
+  const partnerMeetingCustomer = (partnerId) => {
+    firebase
+      .database()
+      .ref(`posts/${item.id}/partnerSelect/${partnerId}`)
+      .update({
+        selectStatus: AppConfig.PostsStatus.customerMeet,
+        selectStatusText: "ปฏิบัติงาน",
+        partnerStatus: AppConfig.PostsStatus.partnerStartWork,
+        partnerStatusText: "Partner กดเริ่มงาน",
+        partnerStart: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString(),
+        start_work_date: new Date().toUTCString(),
+      })
 
     navigation.navigate("List-My-Work")
   }
@@ -154,8 +169,9 @@ const WorkDetailScreen = ({ navigation, route }) => {
             />
           </View>
         </View>
-        {item.status === AppConfig.PostsStatus.adminConfirmPayment &&
-          partner.selectStatus !== AppConfig.PostsStatus.customerMeet && (
+        {partner.partnerStatus !== AppConfig.PostsStatus.partnerStartWork &&
+          partner.partnerStatus !== AppConfig.PostsStatus.partnerCloseJob &&
+          item.status === AppConfig.PostsStatus.adminConfirmPayment && (
             <Button
               icon={
                 <MaterialIcons
@@ -173,10 +189,10 @@ const WorkDetailScreen = ({ navigation, route }) => {
                 borderRadius: 25,
               }}
               title="เริ่มทำงาน"
-              onPress={() => partnerMeetingCustomer()}
+              onPress={() => partnerMeetingCustomer(userId)}
             />
           )}
-        {partner.selectStatus === AppConfig.PostsStatus.customerMeet && (
+        {partner.partnerStatus === AppConfig.PostsStatus.partnerStartWork && (
           <Button
             icon={
               <AntDesign
@@ -194,8 +210,12 @@ const WorkDetailScreen = ({ navigation, route }) => {
               borderRadius: 25,
             }}
             title="บันทึกปิดงาน"
-            onPress={() => partnerCloseJob()}
+            onPress={() => partnerCloseJob(userId)}
           />
+        )}
+        {(partner.partnerStatus === AppConfig.PostsStatus.partnerCloseJob ||
+          item.status === AppConfig.PostsStatus.closeJob) && (
+          <Text style={{ fontSize: 20, color: 'blue' }}>ปิดงานเรียบร้อยแล้ว</Text>
         )}
       </View>
     </ImageBackground>

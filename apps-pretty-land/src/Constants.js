@@ -32,6 +32,8 @@ export const AppConfig = {
         waitAdminConfirmPayment: "wait_admin_confirm_payment",
         adminConfirmPayment: "admin_confirm_payment",
         customerMeet: "customer_meet",
+        customerStartWork: "customer_start_work",
+        partnerStartWork: "partner_start_work",
         postTimeout: "post_timeout",
         customerCloseJob: "customer_close_job",
         partnerCloseJob: "partner_close_job",

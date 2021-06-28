@@ -50,7 +50,6 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       },
       1
     )
-    Alert.alert("บันทึกข้อมูลเรียบร้อย")
     navigation.navigate("Post-List-All")
   }
 
@@ -74,7 +73,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
         <Text style={styles.textDetail}>( สถานะ {item.statusText} )</Text>
         <View style={styles.cardDetail}>
           <View style={styles.viewCard}>
-            <View style={{ marginLeft: 10, padding: 20 }}>
+            <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>
                 ชื่อลูกค้า: {item.customerName}
               </Text>
@@ -89,7 +88,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
             </View>
           </View>
           <View style={styles.viewCard}>
-            <View style={{ marginLeft: 10, padding: 20 }}>
+            <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>
                 สถานะที่นัดพบ: {item.placeMeeting}
               </Text>
@@ -102,7 +101,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
             </View>
           </View>
           <View style={styles.viewCard}>
-            <View style={{ marginLeft: 10, padding: 20 }}>
+            <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>
                 วันที่สร้างข้อมูล:{" "}
                 {Moment(item.sys_create_date).format("D MMM YYYY HH:mm:ss")}
@@ -180,7 +179,29 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                     <Text>ชื่อ Partner: {pObj.partnerName}</Text>
                     <Text>เบอร์โทรศัพท์: {pObj.telephone}</Text>
                     <Text>ราคาที่เสนอ: {pObj.amount}</Text>
-                    <Text>สถานะ: {pObj.selectStatusText}</Text>
+
+                    <View style={{ alignItems: "center" }}>
+                      <Text
+                        style={{
+                          backgroundColor: "gray",
+                          color: "white",
+                          width: "100%",
+                          alignSelf: "center",
+                        }}
+                      >
+                        Log...
+                      </Text>
+                      {pObj.customerStatusText && (
+                        <Text style={{ color: "blue" }}>
+                          {pObj.customerStatusText}
+                        </Text>
+                      )}
+                      {pObj.partnerStatusText && (
+                        <Text style={{ color: "blue" }}>
+                          {pObj.partnerStatusText}
+                        </Text>
+                      )}
+                    </View>
                   </View>
                 ))}
               </ScrollView>
@@ -220,7 +241,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: "#eee",
-    padding: 5,
     marginVertical: 5,
   },
   imageBg: {
