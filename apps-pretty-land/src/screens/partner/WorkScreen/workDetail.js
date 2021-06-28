@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { StyleSheet, View, ImageBackground } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
-import { AntDesign, Ionicons } from "react-native-vector-icons"
+import { AntDesign } from "react-native-vector-icons"
+import { MaterialIcons } from "@expo/vector-icons"
+import moment from "moment"
 
 import firebase from "../../../../util/firebase"
 import bgImage from "../../../../assets/bg.png"
@@ -77,8 +79,9 @@ const WorkDetailScreen = ({ navigation, route }) => {
   const partnerMeetingCustomer = () => {
     firebase.database().ref(`posts/${item.id}/partnerSelect/${userId}`).update({
       selectStatus: AppConfig.PostsStatus.customerMeet,
-      selectStatusText: "Partner พบลูกค้าแล้ว",
+      selectStatusText: "ปฏิบัติงาน",
       sys_update_date: new Date().toUTCString(),
+      start_work_date: new Date().toUTCString(),
     })
 
     navigation.navigate("List-My-Work")
@@ -116,6 +119,17 @@ const WorkDetailScreen = ({ navigation, route }) => {
           >
             ลูกค้า: {item.customerName}
           </Text>
+          <View>
+            <Text>โหมดงาน: {item.partnerRequest}</Text>
+            <Text>จังหวัด: {item.provinceName}</Text>
+            <Text>เขต/อำเภอ: {item.districtName}</Text>
+            <Text>
+              วันที่แจ้งรับงาน:{" "}
+              {moment(item.sys_create_date).format("D MMM YYYY")}
+            </Text>
+            <Text>Lv.ลูกค้า: {item.customerLevel}</Text>
+            <Text>เบอร์ติดต่อ: {item.customerPhone}</Text>
+          </View>
           <Text
             style={{
               marginBottom: 5,
@@ -140,44 +154,28 @@ const WorkDetailScreen = ({ navigation, route }) => {
             />
           </View>
         </View>
-        <View>
-          {item.status === AppConfig.PostsStatus.customerCloseJob && (
-            <Text style={{ fontSize: 20, backgroundColor: "yellow" }}>
-              สถานะลูกค้า: แจ้งปิดงานแล้ว
-            </Text>
+        {item.status === AppConfig.PostsStatus.adminConfirmPayment &&
+          partner.selectStatus !== AppConfig.PostsStatus.customerMeet && (
+            <Button
+              icon={
+                <MaterialIcons
+                  name="meeting-room"
+                  size={24}
+                  color="white"
+                  style={{ marginRight: 5 }}
+                />
+              }
+              iconLeft
+              buttonStyle={{
+                margin: 5,
+                backgroundColor: "green",
+                paddingHorizontal: 20,
+                borderRadius: 25,
+              }}
+              title="เริ่มทำงาน"
+              onPress={() => partnerMeetingCustomer()}
+            />
           )}
-          {item.status === AppConfig.PostsStatus.partnerCloseJob && (
-            <Text style={{ fontSize: 20, backgroundColor: "yellow" }}>
-              สถานะ Parnter: แจ้งปิดงานแล้ว
-            </Text>
-          )}
-          {partner.selectStatus === AppConfig.PostsStatus.customerConfirm && (
-            <Text style={{ fontSize: 20, backgroundColor: "yellow" }}>
-              สถานะ รอลูกค้าชำระเงิน
-            </Text>
-          )}
-        </View>
-        {partner.selectStatus === AppConfig.PostsStatus.customerPayment && (
-          <Button
-            icon={
-              <AntDesign
-                name="team"
-                size={15}
-                color="white"
-                style={{ marginRight: 5 }}
-              />
-            }
-            iconLeft
-            buttonStyle={{
-              margin: 5,
-              backgroundColor: "green",
-              paddingHorizontal: 20,
-              borderRadius: 25,
-            }}
-            title="บันทึกเจอลูกค้าแล้ว"
-            onPress={() => partnerMeetingCustomer()}
-          />
-        )}
         {partner.selectStatus === AppConfig.PostsStatus.customerMeet && (
           <Button
             icon={

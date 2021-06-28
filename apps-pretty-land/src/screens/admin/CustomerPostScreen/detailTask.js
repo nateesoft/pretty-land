@@ -155,35 +155,37 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               />
             </View>
           )}
-          <View>
-            <Text>แสดงรายชื่อ Partner ที่เลือกแล้ว</Text>
-            <ScrollView horizontals showsHorizontalScrollIndicator={false}>
-              {partnerList.map((pObj, index) => (
-                <View
-                  key={pObj.id}
-                  style={{
-                    padding: 10,
-                    borderWidth: 1,
-                    marginTop: 10,
-                    alignSelf: "center",
-                    borderColor: "gray",
-                  }}
-                >
-                  <Image
-                    source={{
-                      uri: pObj.image,
-                      width: 150,
-                      height: 150,
+          {partnerList.length > 0 && (
+            <View>
+              <Text>แสดงรายชื่อ Partner ที่เลือกแล้ว</Text>
+              <ScrollView horizontals showsHorizontalScrollIndicator={false}>
+                {partnerList.map((pObj, index) => (
+                  <View
+                    key={pObj.id}
+                    style={{
+                      padding: 10,
+                      borderWidth: 1,
+                      marginTop: 10,
+                      alignSelf: "center",
+                      borderColor: "gray",
                     }}
-                  />
-                  <Text>ชื่อ Partner: {pObj.partnerName}</Text>
-                  <Text>เบอร์โทรศัพท์: {pObj.telephone}</Text>
-                  <Text>ราคาที่เสนอ: {pObj.amount}</Text>
-                  <Text>สถานะ: {pObj.selectStatusText}</Text>
-                </View>
-              ))}
-            </ScrollView>
-          </View>
+                  >
+                    <Image
+                      source={{
+                        uri: pObj.image,
+                        width: 150,
+                        height: 150,
+                      }}
+                    />
+                    <Text>ชื่อ Partner: {pObj.partnerName}</Text>
+                    <Text>เบอร์โทรศัพท์: {pObj.telephone}</Text>
+                    <Text>ราคาที่เสนอ: {pObj.amount}</Text>
+                    <Text>สถานะ: {pObj.selectStatusText}</Text>
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+          )}
         </View>
       </ScrollView>
     </ImageBackground>

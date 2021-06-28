@@ -232,6 +232,7 @@ const ReviewTaskScreen = ({ navigation, route }) => {
         </View>
         {item.status !== AppConfig.PostsStatus.adminConfirmPayment &&
           item.status !== AppConfig.PostsStatus.closeJob &&
+          item.status !== AppConfig.PostsStatus.adminConfirmNewPost &&
           item.status !==
             AppConfig.PostsStatus.customerCloseJob && (
               <Button

@@ -17,6 +17,7 @@ import CardNotfound from "../../../components/CardNotfound"
 
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
+import { AppConfig } from "../../../Constants"
 
 const ListMyWorkScreen = ({ navigation, route }) => {
   const { userId } = route.params
@@ -26,7 +27,9 @@ const ListMyWorkScreen = ({ navigation, route }) => {
   const handleRefresh = () => {}
 
   const onPressOptions = (item) => {
-    navigation.navigate("Work-Detail", { item })
+    if (item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment) {
+      navigation.navigate("Work-Detail", { item })
+    }
   }
 
   const renderItem = ({ item }) => (
@@ -40,15 +43,44 @@ const ListMyWorkScreen = ({ navigation, route }) => {
       }}
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
-        <ListItem.Title>
-          วันที่แจ้งรับงาน: {moment(item.sys_create_date).format("D MMM YYYY")}
-        </ListItem.Title>
-        <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
-        <Text>---------------------------------------</Text>
-        <ListItem.Subtitle>ลูกค้า: {item.customerName}</ListItem.Subtitle>
-        <ListItem.Subtitle>เบอร์ติดต่อ: {item.customerPhone}</ListItem.Subtitle>
-        <Text>---------------------------------------</Text>
+        {item.status !== AppConfig.PostsStatus.adminConfirmPayment && (
+          <View style={{marginBottom: 10}}>
+            <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
+            <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
+            <ListItem.Title>เขต/อำเภอ: {item.districtName}</ListItem.Title>
+            <ListItem.Title>
+              วันที่แจ้งรับงาน:{" "}
+              {moment(item.sys_create_date).format("D MMM YYYY")}
+            </ListItem.Title>
+            <Text>---------------------------------------</Text>
+            <ListItem.Subtitle>ลูกค้า: {item.customerName}</ListItem.Subtitle>
+            <ListItem.Subtitle>
+              Lv.ลูกค้า: {item.customerLevel}
+            </ListItem.Subtitle>
+            <Text>---------------------------------------</Text>
+            <ListItem.Title>หมายเหตุ: {item.customerRemark}</ListItem.Title>
+          </View>
+        )}
+        {item.status === AppConfig.PostsStatus.adminConfirmPayment && (
+          <View>
+            <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
+            <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
+            <ListItem.Title>เขต/อำเภอ: {item.districtName}</ListItem.Title>
+            <ListItem.Title>
+              วันที่แจ้งรับงาน:{" "}
+              {moment(item.sys_create_date).format("D MMM YYYY")}
+            </ListItem.Title>
+            <Text>---------------------------------------</Text>
+            <ListItem.Subtitle>ลูกค้า: {item.customerName}</ListItem.Subtitle>
+            <ListItem.Subtitle>
+              Lv.ลูกค้า: {item.customerLevel}
+            </ListItem.Subtitle>
+            <ListItem.Subtitle>
+              เบอร์ติดต่อ: {item.customerPhone}
+            </ListItem.Subtitle>
+            <Text>---------------------------------------</Text>
+          </View>
+        )}
         <ListItem.Title
           style={{
             backgroundColor: "blue",
@@ -128,7 +160,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
   textTopicDetail: {
@@ -136,7 +168,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
   btnNewPost: {
