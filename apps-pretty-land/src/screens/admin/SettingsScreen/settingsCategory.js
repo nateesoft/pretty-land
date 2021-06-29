@@ -71,9 +71,24 @@ const ViewProfileScreen = ({ navigation, route }) => {
           }
           titleStyle={{ fontSize: 22 }}
           iconLeft
-          buttonStyle={styles.btnRegisterReport}
+          buttonStyle={styles.btnMemberReport}
           title="รายงานการสมัครสมาชิก"
           onPress={() => navigation.navigate("Member-Register-Lists")}
+        />
+        <Button
+          icon={
+            <Ionicons
+              name="newspaper-sharp"
+              size={24}
+              color="white"
+              style={{ marginRight: 5 }}
+            />
+          }
+          titleStyle={{ fontSize: 22 }}
+          iconLeft
+          buttonStyle={styles.btnPartnerReport}
+          title="รายงานสมัคร Partner"
+          onPress={() => navigation.navigate("Partner-Register-Lists")}
         />
       </View>
     </ImageBackground>
@@ -91,7 +106,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#ff2fe6",
     opacity: 0.65,
   },
-  btnRegisterReport: {
+  btnMemberReport: {
+    margin: 5,
+    paddingHorizontal: 50,
+    borderRadius: 5,
+    width: 350,
+    height: 75,
+    justifyContent: "flex-start",
+    backgroundColor: "#ff2fe6",
+    opacity: 0.65,
+  },
+  btnPartnerReport: {
     margin: 5,
     paddingHorizontal: 50,
     borderRadius: 5,

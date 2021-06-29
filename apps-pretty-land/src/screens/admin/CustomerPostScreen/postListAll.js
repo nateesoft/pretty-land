@@ -89,7 +89,6 @@ const PostListAllScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     let ref = firebase.database().ref(`posts`)
-    // console.log("partner:", partner)
     // if (partner) {
     //   ref = ref.orderByChild("status").equalTo(partner)
     // }

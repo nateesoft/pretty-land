@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react"
 import {
-  StyleSheet,
   View,
   ImageBackground,
   TextInput,
   SafeAreaView,
   ScrollView,
   Alert,
+  StyleSheet,
+  Image,
+  TouchableNativeFeedback,
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -48,6 +50,9 @@ const CreatePostForm = (props) => {
 
   const [customerLevel, setCustomerLevel] = useState(0)
   const [partnerQty, setPartnerQty] = useState(0)
+  const [isType4, setIsType4] = useState(false)
+
+  const [listMassage, setListMassage] = useState([])
 
   const createNewPost = () => {
     if (!customerName) {
@@ -92,6 +97,135 @@ const CreatePostForm = (props) => {
     )
   }
 
+  const massageDetail = (item) => {
+    console.log("show massage detail:", item.name)
+  }
+
+  const CustomerForm = () => {
+    return (
+      <View>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ zIndex: -1 }}>
+          <View style={styles.container}>
+            <Text style={{ fontSize: 16, padding: 5 }}>
+              ชื่อเจ้าของโพสท์ (Name)
+            </Text>
+            {!customerName && (
+              <Text style={{ color: "red", marginLeft: 5 }}>
+                จะต้องระบุข้อมูล ชื่อเจ้าของโพสท์ (Name)
+              </Text>
+            )}
+            <View style={styles.formControl}>
+              <GetIcon type="fa" name="address-book" />
+              <TextInput
+                placeholder="ชื่อเจ้าของโพสท์ (Name)"
+                style={styles.textInput}
+                value={customerName}
+                onChangeText={(value) => setCustomerName(value)}
+              />
+            </View>
+            <Text style={{ fontSize: 16, padding: 5 }}>
+              เบอร์ติดต่อ (Telephone)
+            </Text>
+            {!phone && (
+              <Text style={{ color: "red", marginLeft: 5 }}>
+                จะต้องระบุข้อมูล เบอร์ติดต่อ (Telephone)
+              </Text>
+            )}
+            <View style={styles.formControl}>
+              <GetIcon type="fa" name="phone" />
+              <TextInput
+                placeholder="เบอร์ติดต่อ (Telephone)"
+                style={styles.textInput}
+                value={phone}
+                onChangeText={(value) => setPhone(value)}
+                keyboardType="number-pad"
+              />
+            </View>
+            {!isType4 && (
+              <View>
+                <Text style={{ fontSize: 16, padding: 5 }}>
+                  สถานที่นัดพบ (Meeting Place)
+                </Text>
+                {!place && (
+                  <Text style={{ color: "red", marginLeft: 5 }}>
+                    จะต้องระบุข้อมูล สถานที่นัดพบ (Meeting Place)
+                  </Text>
+                )}
+                <View style={styles.formControl}>
+                  <GetIcon type="fa" name="home" />
+                  <TextInput
+                    placeholder="สถานที่นัดพบ (Meeting Place)"
+                    style={styles.textInput}
+                    value={place}
+                    onChangeText={(value) => setPlace(value)}
+                  />
+                </View>
+                <Text style={{ fontSize: 16, padding: 5 }}>
+                  หมายเหตุเพิ่มเติม (Remark)
+                </Text>
+                <View
+                  style={[styles.formControl, { height: 100, width: "100%" }]}
+                >
+                  <TextInput
+                    placeholder="หมายเหตุเพิ่มเติม (Remark)"
+                    style={[styles.textInput, { height: 90 }]}
+                    value={remark}
+                    onChangeText={(value) => setRemark(value)}
+                    multiline={true}
+                    numberOfLines={4}
+                  />
+                </View>
+                <View style={styles.buttonFooter}>
+                  <Button
+                    icon={
+                      <Icon
+                        name="save"
+                        size={20}
+                        color="white"
+                        style={{ marginHorizontal: 8 }}
+                      />
+                    }
+                    iconLeft
+                    buttonStyle={{
+                      backgroundColor: "#ff2fe6",
+                      marginTop: 20,
+                      borderRadius: 25,
+                      width: 250,
+                      paddingHorizontal: 15,
+                      height: 45,
+                      borderWidth: 0.5,
+                    }}
+                    title="บันทึกข้อมูล"
+                    onPress={() => createNewPost()}
+                  />
+                </View>
+              </View>
+            )}
+          </View>
+        </ScrollView>
+        {isType4 && (
+          <View style={{ alignItems: "center" }}>
+            <Text>แสดงรายชื่อพนักงานนวดแผนไทย</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {listMassage.map((item, index) => (
+                <TouchableNativeFeedback onPress={() => massageDetail(item)}>
+                  <View style={styles.panelPartner} id={item.id}>
+                    {item.image && (
+                      <Image
+                        source={{ uri: item.image }}
+                        style={{ width: 150, height: 180, margin: 5 }}
+                      />
+                    )}
+                  </View>
+                </TouchableNativeFeedback>
+              ))}
+            </ScrollView>
+          </View>
+        )}
+      </View>
+    )
+  }
+
   const getPartnerQty = (value) => {
     return new Promise((resolve, reject) => {
       const ref = firebase.database().ref(`members`)
@@ -128,6 +262,25 @@ const CreatePostForm = (props) => {
   useEffect(() => {
     setPartnerRequest(item.name)
     setCustomerId(userId)
+    setIsType4(AppConfig.PartnerType.type4 === item.name)
+
+    const ref = firebase
+      .database()
+      .ref(`members`)
+      .orderByChild("memberType")
+      .equalTo("partner")
+    const listener = ref.on("value", (snapshot) => {
+      const list = []
+      snapshot.forEach((item) => {
+        const partner = { ...item.val() }
+        if (partner.type4) {
+          list.push(partner)
+        }
+      })
+      setListMassage(list)
+    })
+
+    return () => ref.off("value", listener)
   }, [])
 
   useEffect(() => {
@@ -207,99 +360,7 @@ const CreatePostForm = (props) => {
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
           />
         </View>
-        <ScrollView showsVerticalScrollIndicator={false} style={{ zIndex: -1 }}>
-          <View style={styles.container}>
-            <Text style={{ fontSize: 16, padding: 5 }}>
-              ชื่อเจ้าของโพสท์ (Name)
-            </Text>
-            {!customerName && (
-              <Text style={{ color: "red", marginLeft: 5 }}>
-                จะต้องระบุข้อมูล ชื่อเจ้าของโพสท์ (Name)
-              </Text>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="fa" name="address-book" />
-              <TextInput
-                placeholder="ชื่อเจ้าของโพสท์ (Name)"
-                style={styles.textInput}
-                value={customerName}
-                onChangeText={(value) => setCustomerName(value)}
-              />
-            </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>
-              เบอร์ติดต่อ (Telephone)
-            </Text>
-            {!phone && (
-              <Text style={{ color: "red", marginLeft: 5 }}>
-                จะต้องระบุข้อมูล เบอร์ติดต่อ (Telephone)
-              </Text>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="fa" name="phone" />
-              <TextInput
-                placeholder="เบอร์ติดต่อ (Telephone)"
-                style={styles.textInput}
-                value={phone}
-                onChangeText={(value) => setPhone(value)}
-                keyboardType="number-pad"
-              />
-            </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>
-              สถานที่นัดพบ (Meeting Place)
-            </Text>
-            {!place && (
-              <Text style={{ color: "red", marginLeft: 5 }}>
-                จะต้องระบุข้อมูล สถานที่นัดพบ (Meeting Place)
-              </Text>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="fa" name="home" />
-              <TextInput
-                placeholder="สถานที่นัดพบ (Meeting Place)"
-                style={styles.textInput}
-                value={place}
-                onChangeText={(value) => setPlace(value)}
-              />
-            </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>
-              หมายเหตุเพิ่มเติม (Remark)
-            </Text>
-            <View style={[styles.formControl, { height: 100, width: "100%" }]}>
-              <TextInput
-                placeholder="หมายเหตุเพิ่มเติม (Remark)"
-                style={[styles.textInput, { height: 90 }]}
-                value={remark}
-                onChangeText={(value) => setRemark(value)}
-                multiline={true}
-                numberOfLines={4}
-              />
-            </View>
-          </View>
-        </ScrollView>
-        <View style={styles.buttonFooter}>
-          <Button
-            icon={
-              <Icon
-                name="save"
-                size={20}
-                color="white"
-                style={{ marginHorizontal: 8 }}
-              />
-            }
-            iconLeft
-            buttonStyle={{
-              backgroundColor: "#ff2fe6",
-              marginTop: 20,
-              borderRadius: 25,
-              width: 250,
-              paddingHorizontal: 15,
-              height: 45,
-              borderWidth: 0.5,
-            }}
-            title="บันทึกข้อมูล"
-            onPress={() => createNewPost()}
-          />
-        </View>
+        <CustomerForm />
       </SafeAreaView>
     </ImageBackground>
   )
@@ -362,7 +423,19 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 10,
+    marginBottom: 50,
+  },
+  panelPartner: {
+    padding: 20,
+    borderWidth: 1,
+    margin: 10,
+    width: 200,
+    height: 220,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#bbb",
+    borderRadius: 5,
+    position: "relative",
   },
 })
 

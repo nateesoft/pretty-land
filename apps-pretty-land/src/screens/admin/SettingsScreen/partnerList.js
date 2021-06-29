@@ -16,6 +16,8 @@ import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
+import { AppConfig } from "../../../Constants"
+import { getProvinceName } from "../../../data/apis"
 
 import NoImage from "../../../../assets/avatar/1.png"
 
@@ -31,7 +33,7 @@ const AdminAllListScreen = ({ navigation, route }) => {
     const listener = ref.on("value", (snapshot) => {
       const memberInCloud = snapshotToArray(snapshot)
       setMembers(
-        memberInCloud.filter((item, index) => item.memberType === "customer")
+        memberInCloud.filter((item, index) => item.memberType === "partner")
       )
     })
 
@@ -55,10 +57,41 @@ const AdminAllListScreen = ({ navigation, route }) => {
             source={item.image ? { uri: item.image } : NoImage}
             style={{ width: 100, height: 100 }}
           />
-          <ListItem.Title>ชื่อสมาชิก: {item.profile}</ListItem.Title>
-          <ListItem.Title>ประเภท: {item.customerType}</ListItem.Title>
-          <ListItem.Title>Level: {item.customerLevel}</ListItem.Title>
-          <ListItem.Title>สถานะ: {item.status}</ListItem.Title>
+          <ListItem.Title>ชื่อสมาชิก: {item.name}</ListItem.Title>
+          <ListItem.Title>เบอร์ติดต่อ: {item.mobile}</ListItem.Title>
+          {item.type1 && (
+            <ListItem.Title>
+              โหมดงาน: {AppConfig.PartnerType.type1}
+            </ListItem.Title>
+          )}
+          {item.type2 && (
+            <ListItem.Title>
+              โหมดงาน: {AppConfig.PartnerType.type2}
+            </ListItem.Title>
+          )}
+          {item.type3 && (
+            <ListItem.Title>
+              โหมดงาน: {AppConfig.PartnerType.type3}
+            </ListItem.Title>
+          )}
+          {item.type4 && (
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: "#bbb",
+                padding: 5,
+                marginVertical: 5,
+              }}
+            >
+              <ListItem.Title>
+                โหมดงาน: {AppConfig.PartnerType.type4}
+              </ListItem.Title>
+              <ListItem.Title>ราคา: {item.price4}</ListItem.Title>
+            </View>
+          )}
+          <ListItem.Title>
+            พื้นที่รับงาน: {getProvinceName(item.province)}
+          </ListItem.Title>
           <View
             style={{
               padding: 5,
@@ -88,10 +121,10 @@ const AdminAllListScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>รายงานการสมัครสมาชิก</Text>
+        <Text style={styles.textTopic}>รายงานสมัคร Partner</Text>
         <View style={styles.container}>
           {members.length === 0 && (
-            <CardNotfound text="ไม่พบข้อมูลสมาชิกในระบบ" />
+            <CardNotfound text="ไม่พบข้อมูล Partner ในระบบ" />
           )}
           {members.length > 0 && (
             <FlatList
