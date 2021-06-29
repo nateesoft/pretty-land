@@ -2,6 +2,7 @@ import React from "react"
 import { StyleSheet, View, ImageBackground } from "react-native"
 import { Button, Text } from "react-native-elements"
 import { FontAwesome, MaterialIcons } from "react-native-vector-icons"
+import { Ionicons } from "@expo/vector-icons"
 
 import bgImage from "../../../../assets/bg.png"
 
@@ -12,8 +13,8 @@ const ViewProfileScreen = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <Text style={styles.textTopic}>ตั้งค่าระบบ Settings</Text>
-      <View style={[styles.cardDetail, { marginTop: "50%" }]}>
+      <Text style={styles.textTopic}>ตั้งค่าระบบ / รายงาน</Text>
+      <View style={[styles.cardDetail, { marginTop: "40%" }]}>
         <Button
           icon={
             <FontAwesome
@@ -23,6 +24,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
               style={{ marginRight: 5 }}
             />
           }
+          titleStyle={{ fontSize: 22 }}
           iconLeft
           buttonStyle={styles.btnNewAdmin}
           title="เพิ่มข้อมูลผู้ใช้งาน"
@@ -37,6 +39,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
               style={{ marginRight: 5 }}
             />
           }
+          titleStyle={{ fontSize: 22 }}
           iconLeft
           buttonStyle={styles.btnPostConfig}
           title="จัดการข้อมูลระบบ"
@@ -51,10 +54,26 @@ const ViewProfileScreen = ({ navigation, route }) => {
               style={{ marginRight: 5 }}
             />
           }
+          titleStyle={{ fontSize: 22 }}
           iconLeft
           buttonStyle={styles.btnListAdmin}
           title="ข้อมูล admin"
           onPress={() => navigation.navigate("Admin-Lists")}
+        />
+        <Button
+          icon={
+            <Ionicons
+              name="newspaper-sharp"
+              size={24}
+              color="white"
+              style={{ marginRight: 5 }}
+            />
+          }
+          titleStyle={{ fontSize: 22 }}
+          iconLeft
+          buttonStyle={styles.btnRegisterReport}
+          title="รายงานการสมัครสมาชิก"
+          onPress={() => navigation.navigate("Member-Register-Lists")}
         />
       </View>
     </ImageBackground>
@@ -65,23 +84,38 @@ const styles = StyleSheet.create({
   btnListAdmin: {
     margin: 5,
     paddingHorizontal: 50,
-    borderRadius: 55,
-    backgroundColor: "blue",
-    width: 250,
+    borderRadius: 5,
+    width: 350,
+    height: 75,
+    justifyContent: "flex-start",
+    backgroundColor: "#ff2fe6",
+  },
+  btnRegisterReport: {
+    margin: 5,
+    paddingHorizontal: 50,
+    borderRadius: 5,
+    width: 350,
+    height: 75,
+    justifyContent: "flex-start",
+    backgroundColor: "#ff2fe6",
   },
   btnPostConfig: {
     margin: 5,
     paddingHorizontal: 50,
-    borderRadius: 55,
-    backgroundColor: "chocolate",
-    width: 250,
+    borderRadius: 5,
+    width: 350,
+    height: 75,
+    justifyContent: "flex-start",
+    backgroundColor: "#ff2fe6",
   },
   btnNewAdmin: {
     margin: 5,
     paddingHorizontal: 50,
-    borderRadius: 55,
-    backgroundColor: "green",
-    width: 250,
+    borderRadius: 5,
+    width: 350,
+    height: 75,
+    justifyContent: "flex-start",
+    backgroundColor: "#ff2fe6",
   },
   cardDetail: {
     flex: 1,
