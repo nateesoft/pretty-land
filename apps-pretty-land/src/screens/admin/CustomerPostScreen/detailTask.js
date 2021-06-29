@@ -156,7 +156,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           )}
           {partnerList.length > 0 && (
             <View>
-              <Text>แสดงรายชื่อ Partner ที่เลือกแล้ว</Text>
+              <Text>แสดงรายชื่อ Partner</Text>
               <ScrollView horizontals showsHorizontalScrollIndicator={false}>
                 {partnerList.map((pObj, index) => (
                   <View
