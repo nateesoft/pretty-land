@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { View, Text, ScrollView, StyleSheet, Image } from "react-native"
 import { Button, Rating } from "react-native-elements"
 
@@ -15,10 +15,30 @@ const getListItem = (items) => {
 }
 
 export default function PartnerListItem(props) {
-  const { items: data, status, postId, navigation } = props
+  const { items: data, status, postId, post, navigation } = props
   const [items, setItems] = useState(getListItem(data))
   const [showButton, setShowButton] = useState("show")
   const [rate, setRate] = useState(5)
+
+  const showButtonStartWork = (item) => {
+    if (item.selectStatus === AppConfig.PostsStatus.closeJob || status === AppConfig.PostsStatus.closeJob) {
+      return false
+    }
+    if (item.selectStatus === AppConfig.PostsStatus.customerConfirm) {
+      return true
+    } else if (
+      item.partnerStatus === AppConfig.PostsStatus.partnerStartWork &&
+      item.customerStatus !== AppConfig.PostsStatus.customerStartWork
+    ) {
+      return true
+    } else if (status !== AppConfig.PostsStatus.closeJob) {
+      return true
+    } else if (showButton !== "process") {
+      return true
+    }
+
+    return false
+  }
 
   const saveStartWork = (partnerId) => {
     firebase
@@ -32,6 +52,15 @@ export default function PartnerListItem(props) {
         customerStart: new Date().toUTCString(),
         sys_update_date: new Date().toUTCString(),
       })
+
+    if (post.partnerRequest === AppConfig.PartnerType.type4) {
+      // save all job
+      firebase.database().ref(`posts/${item.id}`).update({
+        status: AppConfig.PostsStatus.closeJob,
+        statusText: "ปิดงาน Post นี้เรียบร้อย",
+        sys_update_date: new Date().toUTCString(),
+      })
+    }
     setShowButton("process")
   }
 
@@ -132,15 +161,13 @@ export default function PartnerListItem(props) {
                   }
                 />
               )}
-              {item.selectStatus === AppConfig.PostsStatus.customerConfirm &&
-                item.customerStatus !==
-                  AppConfig.PostsStatus.customerStartWork && showButton !== "process" && (
-                  <Button
-                    title="กดเริ่มงาน"
-                    style={styles.button}
-                    onPress={() => saveStartWork(item.partnerId)}
-                  />
-                )}
+              {showButtonStartWork(item) && (
+                <Button
+                  title="กดเริ่มงาน"
+                  style={styles.button}
+                  onPress={() => saveStartWork(item.partnerId)}
+                />
+              )}
               {item.customerStatus ===
                 AppConfig.PostsStatus.customerStartWork && (
                 <Button

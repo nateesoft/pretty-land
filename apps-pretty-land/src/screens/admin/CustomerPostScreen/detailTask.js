@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import {
-  Alert,
   StyleSheet,
   View,
   ImageBackground,
@@ -37,19 +36,27 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
   }, [])
 
   const updateToApprove = () => {
-    updatePosts(item.id, {
-      status: AppConfig.PostsStatus.adminConfirmNewPost,
-      statusText: "อนุมัติโพสท์",
-      sys_update_date: new Date().toUTCString(),
-    })
-    saveProvincesGroupPostPartner(
-      {
-        province: item.province,
-        provinceName: item.provinceName,
-        partnerType: item.partnerRequest,
-      },
-      1
-    )
+    if(item.status === AppConfig.PostsStatus.waitAdminApprovePost){
+      updatePosts(item.id, {
+        status: AppConfig.PostsStatus.waitCustomerPayment,
+        statusText: "รอลูกค้าชำระเงิน",
+        sys_update_date: new Date().toUTCString(),
+      })
+    }else{
+      updatePosts(item.id, {
+        status: AppConfig.PostsStatus.adminConfirmNewPost,
+        statusText: "อนุมัติโพสท์",
+        sys_update_date: new Date().toUTCString(),
+      })
+      saveProvincesGroupPostPartner(
+        {
+          province: item.province,
+          provinceName: item.provinceName,
+          partnerType: item.partnerRequest,
+        },
+        1
+      )
+    }
     navigation.navigate("Post-List-All")
   }
 
@@ -112,7 +119,8 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               </Text>
             </View>
           </View>
-          {item.status === AppConfig.PostsStatus.customerNewPostDone && (
+          {(item.status === AppConfig.PostsStatus.customerNewPostDone ||
+            item.status === AppConfig.PostsStatus.waitAdminApprovePost) && (
             <View>
               <Button
                 icon={

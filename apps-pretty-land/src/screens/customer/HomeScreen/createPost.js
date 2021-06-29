@@ -8,7 +8,6 @@ import {
   Alert,
   StyleSheet,
   Image,
-  TouchableNativeFeedback,
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -97,132 +96,56 @@ const CreatePostForm = (props) => {
     )
   }
 
-  const massageDetail = (item) => {
-    console.log("show massage detail:", item.name)
+  const onChangePartnerType = (v) => {
+    if (v === AppConfig.PartnerType.type4) {
+      setIsType4(true)
+    } else {
+      setIsType4(false)
+    }
   }
 
-  const CustomerForm = () => {
-    return (
-      <View>
-        <ScrollView showsVerticalScrollIndicator={false} style={{ zIndex: -1 }}>
-          <View style={styles.container}>
-            <Text style={{ fontSize: 16, padding: 5 }}>
-              ชื่อเจ้าของโพสท์ (Name)
-            </Text>
-            {!customerName && (
-              <Text style={{ color: "red", marginLeft: 5 }}>
-                จะต้องระบุข้อมูล ชื่อเจ้าของโพสท์ (Name)
-              </Text>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="fa" name="address-book" />
-              <TextInput
-                placeholder="ชื่อเจ้าของโพสท์ (Name)"
-                style={styles.textInput}
-                value={customerName}
-                onChangeText={(value) => setCustomerName(value)}
-              />
-            </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>
-              เบอร์ติดต่อ (Telephone)
-            </Text>
-            {!phone && (
-              <Text style={{ color: "red", marginLeft: 5 }}>
-                จะต้องระบุข้อมูล เบอร์ติดต่อ (Telephone)
-              </Text>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="fa" name="phone" />
-              <TextInput
-                placeholder="เบอร์ติดต่อ (Telephone)"
-                style={styles.textInput}
-                value={phone}
-                onChangeText={(value) => setPhone(value)}
-                keyboardType="number-pad"
-              />
-            </View>
-            {!isType4 && (
-              <View>
-                <Text style={{ fontSize: 16, padding: 5 }}>
-                  สถานที่นัดพบ (Meeting Place)
-                </Text>
-                {!place && (
-                  <Text style={{ color: "red", marginLeft: 5 }}>
-                    จะต้องระบุข้อมูล สถานที่นัดพบ (Meeting Place)
-                  </Text>
-                )}
-                <View style={styles.formControl}>
-                  <GetIcon type="fa" name="home" />
-                  <TextInput
-                    placeholder="สถานที่นัดพบ (Meeting Place)"
-                    style={styles.textInput}
-                    value={place}
-                    onChangeText={(value) => setPlace(value)}
-                  />
-                </View>
-                <Text style={{ fontSize: 16, padding: 5 }}>
-                  หมายเหตุเพิ่มเติม (Remark)
-                </Text>
-                <View
-                  style={[styles.formControl, { height: 100, width: "100%" }]}
-                >
-                  <TextInput
-                    placeholder="หมายเหตุเพิ่มเติม (Remark)"
-                    style={[styles.textInput, { height: 90 }]}
-                    value={remark}
-                    onChangeText={(value) => setRemark(value)}
-                    multiline={true}
-                    numberOfLines={4}
-                  />
-                </View>
-                <View style={styles.buttonFooter}>
-                  <Button
-                    icon={
-                      <Icon
-                        name="save"
-                        size={20}
-                        color="white"
-                        style={{ marginHorizontal: 8 }}
-                      />
-                    }
-                    iconLeft
-                    buttonStyle={{
-                      backgroundColor: "#ff2fe6",
-                      marginTop: 20,
-                      borderRadius: 25,
-                      width: 250,
-                      paddingHorizontal: 15,
-                      height: 45,
-                      borderWidth: 0.5,
-                    }}
-                    title="บันทึกข้อมูล"
-                    onPress={() => createNewPost()}
-                  />
-                </View>
-              </View>
-            )}
-          </View>
-        </ScrollView>
-        {isType4 && (
-          <View style={{ alignItems: "center" }}>
-            <Text>แสดงรายชื่อพนักงานนวดแผนไทย</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {listMassage.map((item, index) => (
-                <TouchableNativeFeedback onPress={() => massageDetail(item)}>
-                  <View style={styles.panelPartner} id={item.id}>
-                    {item.image && (
-                      <Image
-                        source={{ uri: item.image }}
-                        style={{ width: 150, height: 180, margin: 5 }}
-                      />
-                    )}
-                  </View>
-                </TouchableNativeFeedback>
-              ))}
-            </ScrollView>
-          </View>
-        )}
-      </View>
+  const sendToMassagePartner = (data) => {
+    if (!province) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ จังหวัด")
+      return
+    }
+    if (!customerName) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ ชื่อผู้โพสท์รายการ")
+      return
+    }
+    if (!phone) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ โทรศัพท์มือถือ")
+      return
+    }
+    saveNewPosts(
+      {
+        customerId,
+        customerName,
+        partnerRequest,
+        customerPhone: phone,
+        partnerImage: item.image_url,
+        subtitle: `${partnerRequest}`,
+        status: AppConfig.PostsStatus.waitPartnerConfrimWork,
+        statusText: "รอ Partner แจ้งรับงาน",
+        province,
+        provinceName: getProvinceName(province)[0],
+        district: district ? district : "",
+        districtName: district ? getDistrictName(district)[0] : "",
+        customerLevel,
+        partnerSelect: {
+          [data.id]: {
+            partnerId: data.id,
+            telephone: data.mobile,
+            sex: data.sex,
+            amount: data.price4,
+            image: data.image,
+            sys_create_date: new Date().toUTCString(),
+            age: data.age,
+            name: data.name,
+          },
+        },
+      },
+      navigation
     )
   }
 
@@ -315,6 +238,7 @@ const CreatePostForm = (props) => {
             zIndex={3}
             searchable={false}
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+            onChangeValue={(v) => onChangePartnerType(v)}
           />
           <DropDownPicker
             placeholder="-- เลือกจังหวัด --"
@@ -360,7 +284,130 @@ const CreatePostForm = (props) => {
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
           />
         </View>
-        <CustomerForm />
+        <View style={{ zIndex: -1 }}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.container}>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                ชื่อเจ้าของโพสท์ (Name)
+              </Text>
+              {!customerName && (
+                <Text style={{ color: "red", marginLeft: 5 }}>
+                  จะต้องระบุข้อมูล ชื่อเจ้าของโพสท์ (Name)
+                </Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="fa" name="address-book" />
+                <TextInput
+                  placeholder="ชื่อเจ้าของโพสท์ (Name)"
+                  style={styles.textInput}
+                  value={customerName}
+                  onChangeText={(value) => setCustomerName(value)}
+                />
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                เบอร์ติดต่อ (Telephone)
+              </Text>
+              {!phone && (
+                <Text style={{ color: "red", marginLeft: 5 }}>
+                  จะต้องระบุข้อมูล เบอร์ติดต่อ (Telephone)
+                </Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="fa" name="phone" />
+                <TextInput
+                  placeholder="เบอร์ติดต่อ (Telephone)"
+                  style={styles.textInput}
+                  value={phone}
+                  onChangeText={(value) => setPhone(value)}
+                  keyboardType="number-pad"
+                />
+              </View>
+              {!isType4 && (
+                <View>
+                  <Text style={{ fontSize: 16, padding: 5 }}>
+                    สถานที่นัดพบ (Meeting Place)
+                  </Text>
+                  {!place && (
+                    <Text style={{ color: "red", marginLeft: 5 }}>
+                      จะต้องระบุข้อมูล สถานที่นัดพบ (Meeting Place)
+                    </Text>
+                  )}
+                  <View style={styles.formControl}>
+                    <GetIcon type="fa" name="home" />
+                    <TextInput
+                      placeholder="สถานที่นัดพบ (Meeting Place)"
+                      style={styles.textInput}
+                      value={place}
+                      onChangeText={(value) => setPlace(value)}
+                    />
+                  </View>
+                  <Text style={{ fontSize: 16, padding: 5 }}>
+                    หมายเหตุเพิ่มเติม (Remark)
+                  </Text>
+                  <View
+                    style={[styles.formControl, { height: 100, width: "100%" }]}
+                  >
+                    <TextInput
+                      placeholder="หมายเหตุเพิ่มเติม (Remark)"
+                      style={[styles.textInput, { height: 90 }]}
+                      value={remark}
+                      onChangeText={(value) => setRemark(value)}
+                      multiline={true}
+                      numberOfLines={4}
+                    />
+                  </View>
+                  <View style={styles.buttonFooter}>
+                    <Button
+                      icon={
+                        <Icon
+                          name="save"
+                          size={20}
+                          color="white"
+                          style={{ marginHorizontal: 8 }}
+                        />
+                      }
+                      iconLeft
+                      buttonStyle={{
+                        backgroundColor: "#ff2fe6",
+                        marginTop: 20,
+                        borderRadius: 25,
+                        width: 250,
+                        paddingHorizontal: 15,
+                        height: 45,
+                        borderWidth: 0.5,
+                      }}
+                      title="บันทึกข้อมูล"
+                      onPress={() => createNewPost()}
+                    />
+                  </View>
+                </View>
+              )}
+            </View>
+          </ScrollView>
+          {isType4 && (
+            <View style={{ alignItems: "center" }}>
+              <Text>แสดงรายชื่อพนักงานนวดแผนไทย</Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {listMassage.map((item, index) => (
+                  <View style={styles.panelPartner} id={item.id}>
+                    {item.image && (
+                      <View>
+                        <Image
+                          source={{ uri: item.image }}
+                          style={{ width: 100, height: 135, margin: 5 }}
+                        />
+                        <Button
+                          title="จ้างงาน"
+                          onPress={() => sendToMassagePartner(item)}
+                        />
+                      </View>
+                    )}
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+          )}
+        </View>
       </SafeAreaView>
     </ImageBackground>
   )
@@ -429,8 +476,8 @@ const styles = StyleSheet.create({
     padding: 20,
     borderWidth: 1,
     margin: 10,
-    width: 200,
-    height: 220,
+    width: 150,
+    height: 200,
     justifyContent: "center",
     alignItems: "center",
     borderColor: "#bbb",

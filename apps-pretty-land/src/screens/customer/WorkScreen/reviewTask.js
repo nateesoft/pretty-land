@@ -132,11 +132,12 @@ const ReviewTaskScreen = (props) => {
               </>
             )}
           </View>
-          {(item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment) && (
+          {item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment && (
             <PartnerListItem
               items={item.partnerSelect}
               status={item.status}
               postId={item.id}
+              post={item}
               {...props}
             />
           )}
@@ -160,29 +161,30 @@ const ReviewTaskScreen = (props) => {
               />
             )}
         </View>
-        {item.status === AppConfig.PostsStatus.adminConfirmPayment && (
-          <View style={{ alignItems: "center", marginTop: 10 }}>
-            <Button
-              icon={
-                <Icon
-                  name="save"
-                  size={24}
-                  color="white"
-                  style={{ marginRight: 10 }}
-                />
-              }
-              title={`บันทึกปิดงานทั้งหมด (${
-                Object.keys(item.partnerSelect || {}).length
-              })`}
-              buttonStyle={{
-                marginVertical: 10,
-                width: "80%",
-                borderRadius: 5,
-              }}
-              onPress={() => saveToCloseJob()}
-            />
-          </View>
-        )}
+        {item.status === AppConfig.PostsStatus.adminConfirmPayment &&
+          item.partnerRequest !== AppConfig.PartnerType.type4 && (
+            <View style={{ alignItems: "center", marginTop: 10 }}>
+              <Button
+                icon={
+                  <Icon
+                    name="save"
+                    size={24}
+                    color="white"
+                    style={{ marginRight: 10 }}
+                  />
+                }
+                title={`บันทึกปิดงานทั้งหมด (${
+                  Object.keys(item.partnerSelect || {}).length
+                })`}
+                buttonStyle={{
+                  marginVertical: 10,
+                  width: "80%",
+                  borderRadius: 5,
+                }}
+                onPress={() => saveToCloseJob()}
+              />
+            </View>
+          )}
       </ScrollView>
     </ImageBackground>
   )

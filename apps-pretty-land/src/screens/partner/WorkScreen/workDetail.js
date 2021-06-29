@@ -64,15 +64,14 @@ const WorkDetailScreen = ({ navigation, route }) => {
         sys_update_date: new Date().toUTCString(),
       })
 
-    // update partner close job
-    firebase
-      .database()
-      .ref(`posts/${item.id}/partnerSelect/${partnerId}`)
-      .update({
+    if (item.partnerRequest === AppConfig.PartnerType.type4) {
+      // update partner close job
+      firebase.database().ref(`posts/${item.id}`).update({
         selectStatus: AppConfig.PostsStatus.closeJob,
         selectStatusText: "ปิดงานเรียบร้อย",
         sys_update_date: new Date().toUTCString(),
       })
+    }
 
     const ref = firebase.database().ref(`members/${partnerId}`)
     ref.once("value", (snapshot) => {
@@ -98,6 +97,48 @@ const WorkDetailScreen = ({ navigation, route }) => {
         sys_update_date: new Date().toUTCString(),
         start_work_date: new Date().toUTCString(),
       })
+
+    navigation.navigate("List-My-Work")
+  }
+
+  const partnerMassageCancel = (partnerId) => {
+    firebase
+      .database()
+      .ref(`posts/${item.id}/partnerSelect/${partnerId}`)
+      .update({
+        partnerStatus: AppConfig.PostsStatus.partnerCancelWork,
+        partnerStatusText: "Partner แจ้งไม่รับงาน",
+        partnerStart: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString(),
+        start_work_date: new Date().toUTCString(),
+      })
+
+    firebase.database().ref(`posts/${item.id}`).update({
+      status: AppConfig.PostsStatus.postCancel,
+      statusText: "Partner แจ้งไม่รับงาน",
+      sys_update_date: new Date().toUTCString(),
+    })
+
+    navigation.navigate("List-My-Work")
+  }
+
+  const partnerMassageAccept = (partnerId) => {
+    firebase
+      .database()
+      .ref(`posts/${item.id}/partnerSelect/${partnerId}`)
+      .update({
+        partnerStatus: AppConfig.PostsStatus.partnerAcceptWork,
+        partnerStatusText: "Partner แจ้งรับงาน",
+        partnerStart: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString(),
+        start_work_date: new Date().toUTCString(),
+      })
+
+    firebase.database().ref(`posts/${item.id}`).update({
+      status: AppConfig.PostsStatus.waitAdminApprovePost,
+      statusText: "รอ Admin อนุมัติโพสท์",
+      sys_update_date: new Date().toUTCString(),
+    })
 
     navigation.navigate("List-My-Work")
   }
@@ -215,7 +256,51 @@ const WorkDetailScreen = ({ navigation, route }) => {
         )}
         {(partner.partnerStatus === AppConfig.PostsStatus.partnerCloseJob ||
           item.status === AppConfig.PostsStatus.closeJob) && (
-          <Text style={{ fontSize: 20, color: 'blue' }}>ปิดงานเรียบร้อยแล้ว</Text>
+          <Text style={{ fontSize: 20, color: "blue" }}>
+            ปิดงานเรียบร้อยแล้ว
+          </Text>
+        )}
+        {item.status === AppConfig.PostsStatus.waitPartnerConfrimWork && (
+          <View>
+            <Button
+              icon={
+                <MaterialIcons
+                  name="cancel"
+                  size={24}
+                  color="white"
+                  style={{ marginRight: 5 }}
+                />
+              }
+              iconLeft
+              buttonStyle={{
+                margin: 5,
+                backgroundColor: "red",
+                borderRadius: 5,
+                width: 200,
+              }}
+              title="ปฏิเสธงาน"
+              onPress={() => partnerMassageCancel(userId)}
+            />
+            <Button
+              icon={
+                <AntDesign
+                  name="checkcircleo"
+                  size={24}
+                  color="white"
+                  style={{ marginRight: 5 }}
+                />
+              }
+              iconLeft
+              buttonStyle={{
+                margin: 5,
+                backgroundColor: "#ff2fe6",
+                borderRadius: 5,
+                width: 200,
+              }}
+              title="แจ้งรับงาน"
+              onPress={() => partnerMassageAccept(userId)}
+            />
+          </View>
         )}
       </View>
     </ImageBackground>
