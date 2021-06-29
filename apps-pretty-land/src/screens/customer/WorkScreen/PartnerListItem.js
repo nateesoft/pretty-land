@@ -21,23 +21,22 @@ export default function PartnerListItem(props) {
   const [rate, setRate] = useState(5)
 
   const showButtonStartWork = (item) => {
-    if (item.selectStatus === AppConfig.PostsStatus.closeJob || status === AppConfig.PostsStatus.closeJob) {
+    if (status === AppConfig.PostsStatus.waitAdminApprovePost) {
+      return false
+    } else if (
+      item.customerStatus === AppConfig.PostsStatus.customerStartWork
+    ) {
+      return false
+    } else if (
+      item.selectStatus === AppConfig.PostsStatus.closeJob ||
+      status === AppConfig.PostsStatus.closeJob
+    ) {
+      return false
+    } else if (showButton === "process") {
       return false
     }
-    if (item.selectStatus === AppConfig.PostsStatus.customerConfirm) {
-      return true
-    } else if (
-      item.partnerStatus === AppConfig.PostsStatus.partnerStartWork &&
-      item.customerStatus !== AppConfig.PostsStatus.customerStartWork
-    ) {
-      return true
-    } else if (status !== AppConfig.PostsStatus.closeJob) {
-      return true
-    } else if (showButton !== "process") {
-      return true
-    }
 
-    return false
+    return true
   }
 
   const saveStartWork = (partnerId) => {
@@ -52,15 +51,6 @@ export default function PartnerListItem(props) {
         customerStart: new Date().toUTCString(),
         sys_update_date: new Date().toUTCString(),
       })
-
-    if (post.partnerRequest === AppConfig.PartnerType.type4) {
-      // save all job
-      firebase.database().ref(`posts/${item.id}`).update({
-        status: AppConfig.PostsStatus.closeJob,
-        statusText: "ปิดงาน Post นี้เรียบร้อย",
-        sys_update_date: new Date().toUTCString(),
-      })
-    }
     setShowButton("process")
   }
 
@@ -137,6 +127,15 @@ export default function PartnerListItem(props) {
         })
       })
     })
+
+    if (post.partnerRequest === AppConfig.PartnerType.type4) {
+      // save all job
+      firebase.database().ref(`posts/${postId}`).update({
+        status: AppConfig.PostsStatus.closeJob,
+        statusText: "ปิดงาน Post นี้เรียบร้อย",
+        sys_update_date: new Date().toUTCString(),
+      })
+    }
   }
 
   return (

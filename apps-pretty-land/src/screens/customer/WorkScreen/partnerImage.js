@@ -77,7 +77,8 @@ export default function PartnerImage({ navigation, route }) {
 
       snapshot.forEach((item) => {
         count = count + 1
-        const data = item.val()
+        const data = { ...item.val() }
+        console.log(data)
         if (data.star === 5) {
           r5 = r5 + 1
         }
@@ -93,8 +94,8 @@ export default function PartnerImage({ navigation, route }) {
         if (data.star === 1) {
           r1 = r1 + 1
         }
-        if (item.val().star) {
-          point = point + item.val().star
+        if (data.star) {
+          point = point + data.star
         }
       })
       setStarCount(point / count)
@@ -135,10 +136,12 @@ export default function PartnerImage({ navigation, route }) {
 
   useEffect(() => {
     const ref = firebase.database().ref(`partner_star/${partnerItem.partnerId}`)
-    ref.once("child_added", (snapshot) => {
-      getStarFromPosts(snapshot).then((result) => {
-        console.log(result)
-      })
+    ref.once("value", (snapshot) => {
+      if (snapshot.numChildren()) {
+        getStarFromPosts(snapshot).then((result) => {
+          console.log(result)
+        })
+      }
     })
   }, [])
 
