@@ -240,6 +240,7 @@ const CreatePostForm = (props) => {
               searchable={false}
               selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
               onChangeValue={(v) => onChangePartnerType(v)}
+              listMode="SCROLLVIEW"
             />
             <DropDownPicker
               placeholder="-- เลือกจังหวัด --"
@@ -255,6 +256,7 @@ const CreatePostForm = (props) => {
               searchable={false}
               selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
               onChangeValue={(e) => onChangeProvinceSelect(e)}
+              listMode="SCROLLVIEW"
             />
             {province !== "" && (
               <View
@@ -283,6 +285,7 @@ const CreatePostForm = (props) => {
               textStyle={{ fontSize: 18 }}
               zIndex={1}
               selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+              listMode="SCROLLVIEW"
             />
           </View>
           <View style={{ zIndex: -1 }}>
