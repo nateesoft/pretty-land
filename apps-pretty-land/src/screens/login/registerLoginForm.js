@@ -7,24 +7,41 @@ import {
   TextInput,
   Alert,
   ImageBackground,
+  ScrollView,
+  SafeAreaView,
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
 import base64 from "react-native-base64"
-import uuid from "react-native-uuid"
+import RadioButtonRN from "radio-buttons-react-native"
+import { FontAwesome } from "react-native-vector-icons"
 
 import { AppConfig } from "../../Constants"
-import { snapshotToArray } from "../../../util"
-import firebase from "../../../util/firebase"
 import { GetIcon } from "../../components/GetIcons"
 import bg from "../../../assets/login.png"
 import bgImage from "../../../assets/bg.png"
 
+import { saveMemberRegister } from "../../apis"
+
+const sexData = [
+  { label: "หญิง (Female)", value: "female" },
+  { label: "ชาย (Male)", value: "male" },
+  { label: "อื่น ๆ (Other)", value: "other" },
+]
+
 const RegisterLoginForm = ({ navigation, route }) => {
   const { navigate } = navigation
+
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [rePassword, setRePassword] = useState("")
+
+  const [sex, setSex] = useState("female")
+  const [name, setName] = useState("")
+  const [age, setAge] = useState("")
+  const [height, setHeight] = useState("")
+  const [weight, setWeight] = useState("")
+  const [stature, setStature] = useState("")
 
   const encryptPassword = (password) => {
     return base64.encode(password)
@@ -39,6 +56,10 @@ const RegisterLoginForm = ({ navigation, route }) => {
       Alert.alert("แจ้งเตือน", "กรุณาระบุรหัสผ่าน เพื่อเข้าใช้งาน")
       return
     }
+    if (password.length < 8) {
+      Alert.alert("แจ้งเตือน", "จำนวนรหัสผ่านต้องไม่น้อยกว่า 8 หลัก")
+      return
+    }
     if (!rePassword) {
       Alert.alert("แจ้งเตือน", "กรุณายืนยันรหัสผ่าน")
       return
@@ -47,40 +68,44 @@ const RegisterLoginForm = ({ navigation, route }) => {
       Alert.alert("แจ้งเตือน", "รหัสผ่าน และรหัสยืนยันจะต้องตรงกัน !!!")
       return
     }
+    if (!name) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
+      return
+    }
+    if (!age) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุอายุ")
+      return
+    }
+    if (!height) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุส่วนสูง")
+      return
+    }
+    if (!weight) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุน้ำหนัก")
+      return
+    }
+    if (!stature) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุสัดส่วน")
+      return
+    }
 
-    firebase
-      .database()
-      .ref(`members`)
-      .orderByChild("username")
-      .equalTo(username)
-      .once("value", (snapshot) => {
-        const data = snapshotToArray(snapshot)
-        if (data.length === 0) {
-          const newId = uuid.v4()
-          const saveData = {
-            id: newId,
-            username,
-            password: encryptPassword(password),
-            memberType: "partner",
-            status: AppConfig.MemberStatus.newRegister,
-            statusText: AppConfig.MemberStatus.newRegisterMessage,
-            status_priority: AppConfig.MemberStatus.newRegisterPriority,
-            sys_create_date: new Date().toUTCString(),
-            sys_update_date: new Date().toUTCString(),
-          }
-          firebase.database().ref(`members/${newId}`).set(saveData)
-          Alert.alert("กระบวนการสมบูรณ์", "บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้")
-          navigation.popToTop()
-          navigate("Login-Form")
-        } else {
-          const user = data[0]
-          Alert.alert(
-            "แจ้งเตือน",
-            `ข้อมูลผู้ใช้งาน: ${user.username} มีอยู่แล้ว`,
-            [{ text: "OK" }]
-          )
-        }
-      })
+    saveMemberRegister(
+      {
+        username,
+        password: encryptPassword(password),
+        memberType: "partner",
+        status: AppConfig.MemberStatus.newRegister,
+        statusText: AppConfig.MemberStatus.newRegisterMessage,
+        status_priority: AppConfig.MemberStatus.newRegisterPriority,
+        sex,
+        name,
+        age,
+        height,
+        stature,
+        weight,
+      },
+      navigation
+    )
   }
 
   return (
@@ -89,73 +114,204 @@ const RegisterLoginForm = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <View style={styles.container}>
-        <Image style={styles.image} source={bg} />
-        <Text style={styles.textLogo}>PRETTY LAND</Text>
-        <Text style={styles.textFormInfo}>ข้อมูลสำหรับเข้าใช้งานระบบ</Text>
-        <View style={styles.formControl}>
-          <GetIcon type="ad" name="user" />
-          <TextInput
-            style={styles.textInput}
-            placeholder="ข้อมูลผู้ใช้งาน"
-            value={username}
-            onChangeText={(value) => setUsername(value)}
+      <SafeAreaView style={{ height: "100%" }}>
+        <View style={styles.topicHeader}>
+          <Image style={styles.image} source={bg} />
+          <Text style={styles.textFormInfo}>ลงทะเบียนผู้ร่วมงาน</Text>
+          <Text style={{ marginBottom: 10, fontWeight: "bold" }}>
+            (Register)
+          </Text>
+        </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.container}>
+            <View style={{ width: "80%", alignSelf: "center" }}>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                ข้อมูลผู้ใช้งาน (Username)
+              </Text>
+              {!username && (
+                <Text style={{ color: "red" }}>ระบุชื่อเข้าใช้งาน</Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="ad" name="user" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="ข้อมูลผู้ใช้งาน"
+                  value={username}
+                  onChangeText={(value) => setUsername(value)}
+                />
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                ข้อมูลรหัสผ่าน (Password)
+              </Text>
+              {!password && (
+                <Text style={{ color: "red" }}>
+                  ระบุรหัสผ่าน เพื่อเข้าใช้งาน
+                </Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="mci" name="form-textbox-password" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="กำหนดรหัสผ่าน"
+                  secureTextEntry={true}
+                  value={password}
+                  onChangeText={(value) => setPassword(value)}
+                />
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                ยืนยันข้อมูลรหัสผ่าน (Re-Password)
+              </Text>
+              {!rePassword && (
+                <Text style={{ color: "red" }}>ยืนยันรหัสผ่านอีกครั้ง</Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="mci" name="form-textbox-password" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="ยืนยันรหัสผ่านอีกครั้ง"
+                  secureTextEntry={true}
+                  value={rePassword}
+                  onChangeText={(value) => setRePassword(value)}
+                />
+              </View>
+            </View>
+            <View style={{ width: "80%", alignSelf: "center" }}>
+              <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
+                เพศ
+              </Text>
+              <View style={{ marginBottom: 20 }}>
+                <RadioButtonRN
+                  box={false}
+                  animationTypes={["shake"]}
+                  data={sexData}
+                  selectedBtn={(e) => setSex(e.value)}
+                  icon={
+                    <FontAwesome
+                      name="check-circle"
+                      size={25}
+                      color="#2c9dd1"
+                    />
+                  }
+                  initial={sex === "female" ? 1 : sex === "male" ? 2 : 3}
+                />
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                ชื่อ/ ชื่อเล่น (Name/ Nickname)
+              </Text>
+              {!name && (
+                <Text style={{ color: "red" }}>
+                  ระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก
+                </Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="mci" name="card-account-details" />
+                <TextInput
+                  value={`${name}`}
+                  onChangeText={(value) => setName(value)}
+                  style={styles.textInput}
+                  placeholder="ชื่อ/ ชื่อเล่น (Nickname)"
+                />
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>อายุ (age)</Text>
+              {!age && <Text style={{ color: "red" }}>ระบุอายุ</Text>}
+              <View style={styles.formControl}>
+                <GetIcon type="mci" name="timeline-clock" />
+                <TextInput
+                  value={`${age}`}
+                  onChangeText={(value) => setAge(value)}
+                  style={styles.textInput}
+                  placeholder="อายุ (Age)"
+                  keyboardType="numeric"
+                />
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>ส่วนสูง (Tall)</Text>
+              {!height && (
+                <Text style={{ color: "red" }}>ระบุข้อมูลส่วนสูง</Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="mci" name="human-male-height" />
+                <TextInput
+                  value={`${height}`}
+                  onChangeText={(value) => setHeight(value)}
+                  style={styles.textInput}
+                  placeholder="ส่วนสูง (Tall)"
+                  keyboardType="numeric"
+                />
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                สัดส่วน 32-24-35 (Stature)
+              </Text>
+              {!stature && (
+                <Text style={{ color: "red" }}>ระบุข้อมูลสัดส่วน</Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="ii" name="md-woman-outline" />
+                <TextInput
+                  value={stature}
+                  onChangeText={(value) => setStature(value)}
+                  style={styles.textInput}
+                  placeholder="สัดส่วน 32-24-35 (Stature)"
+                />
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                น้ำหนัก (Weight)
+              </Text>
+              {!weight && (
+                <Text style={{ color: "red" }}>ระบุข้อมูลน้ำหนัก</Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="fa5" name="weight" />
+                <TextInput
+                  value={weight}
+                  onChangeText={(value) => setWeight(value)}
+                  style={styles.textInput}
+                  placeholder="น้ำหนัก (Weight)"
+                  keyboardType="numeric"
+                />
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+        <View style={styles.buttonFooter}>
+          <Button
+            title="บันทึกข้อมูล"
+            iconLeft
+            icon={
+              <AntDesign
+                name="save"
+                color="white"
+                size={24}
+                style={{ marginHorizontal: 8 }}
+              />
+            }
+            buttonStyle={{
+              backgroundColor: "#ff2fe6",
+              marginTop: 20,
+              borderRadius: 25,
+              width: 250,
+              paddingHorizontal: 15,
+              height: 45,
+              borderWidth: 0.5,
+            }}
+            onPress={() => saveAndGoLoginForm()}
           />
         </View>
-        <View style={styles.formControl}>
-          <GetIcon type="mci" name="form-textbox-password" />
-          <TextInput
-            style={styles.textInput}
-            placeholder="กำหนดรหัสผ่าน"
-            secureTextEntry={true}
-            value={password}
-            onChangeText={(value) => setPassword(value)}
-          />
-        </View>
-        <View style={styles.formControl}>
-          <GetIcon type="mci" name="form-textbox-password" />
-          <TextInput
-            style={styles.textInput}
-            placeholder="ยืนยันรหัสผ่านอีกครั้ง"
-            secureTextEntry={true}
-            value={rePassword}
-            onChangeText={(value) => setRePassword(value)}
-          />
-        </View>
-        <Button
-          title="บันทึกข้อมูล"
-          iconLeft
-          icon={
-            <AntDesign
-              name="save"
-              color="white"
-              size={24}
-              style={{ marginHorizontal: 8 }}
-            />
-          }
-          buttonStyle={{
-            backgroundColor: "#ff2fe6",
-            marginTop: 20,
-            borderRadius: 25,
-            width: 250,
-            paddingHorizontal: 15,
-            height: 45,
-            borderWidth: 0.5,
-          }}
-          onPress={() => saveAndGoLoginForm()}
-        />
-      </View>
+      </SafeAreaView>
     </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  topicHeader: {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: -120,
+  },
+  container: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 10,
   },
   image: {
     height: 100,
@@ -168,26 +324,6 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     color: "purple",
   },
-  textDetail: {
-    fontSize: 12,
-    fontWeight: "bold",
-    color: "gray",
-    marginBottom: 20,
-  },
-  btnFacebook: {
-    marginHorizontal: 55,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 5,
-    backgroundColor: "blue",
-    paddingVertical: 2,
-    borderRadius: 23,
-  },
-  textOr: {
-    fontSize: 14,
-    color: "gray",
-    marginTop: 50,
-  },
   textInput: {
     backgroundColor: "white",
     width: 250,
@@ -195,25 +331,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical: 5,
   },
-  textRegister: {
-    color: "purple",
-    marginTop: 20,
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  textFooter: {
-    position: "absolute",
-    bottom: 80,
-    width: "90%",
-    textAlign: "center",
-    flexWrap: "wrap",
-    fontSize: 12,
-    color: "gray",
-  },
   textFormInfo: {
     fontSize: 22,
     fontWeight: "bold",
-    marginTop: 20,
     marginBottom: 8,
   },
   formControl: {
@@ -225,11 +345,43 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 5,
     height: 40,
-    borderRadius: 50,
+    borderRadius: 10,
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
+    justifyContent: "center",
+  },
+  textFooter1: {
+    textAlign: "center",
+    flexWrap: "wrap",
+    fontSize: 12,
+    color: "gray",
+    position: "absolute",
+    bottom: 135,
+    color: "red",
+  },
+  textFooter2: {
+    textAlign: "center",
+    flexWrap: "wrap",
+    fontSize: 12,
+    color: "gray",
+    position: "absolute",
+    bottom: 85,
+    color: "black",
+  },
+  textFooter3: {
+    textAlign: "center",
+    flexWrap: "wrap",
+    fontSize: 12,
+    color: "gray",
+    position: "absolute",
+    bottom: 60,
+    color: "green",
+  },
+  buttonFooter: {
+    flexDirection: "column",
+    alignItems: "center",
     justifyContent: "center",
   },
 })

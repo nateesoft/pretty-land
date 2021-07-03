@@ -4,25 +4,76 @@ import {
   View,
   Platform,
   StyleSheet,
-  FlatList,
-  RefreshControl,
   ScrollView,
   Alert,
+  TextInput,
+  ImageBackground,
+  SafeAreaView,
+  KeyboardAvoidingView,
 } from "react-native"
 import * as ImagePicker from "expo-image-picker"
-import { Button, Text, Input } from "react-native-elements"
+import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
+import DropDownPicker from "react-native-dropdown-picker"
+import { TextInputMask } from "react-native-masked-text"
 
-import { getPostToPayment } from "../../../data/apis"
+import { getBankList, getBankName } from "../../../data/apis"
+import { GetIcon } from "../../../components/GetIcons"
+import bgImage from "../../../../assets/bg.png"
+import firebase from "../../../../util/firebase"
+
+import { saveProvincesGroupPostPartner } from "../../../apis"
+import { AppConfig } from "../../../Constants"
 
 const PaymentForm = ({ navigation, route }) => {
+  const { navigate } = navigation
+  const { item } = route.params
+  const [partnerAmount, setPartnerAmount] = useState("")
+  const [feeAmount, setFeeAmount] = useState("")
+  const [netTotalAmount, setNetTotalAmount] = useState("")
+
   const [image, setImage] = useState(null)
   const [bank, setBank] = useState("")
-  const [amount, setAmount] = useState("")
+  const [bankList, setBankList] = useState(getBankList())
+  const [transferAmount, setTransferAmount] = useState("")
   const [datetime, setDateTime] = useState("")
-  const [refreshing, setRefreshing] = React.useState(false)
+  const [openSelectBank, setOpenSelectBank] = useState(false)
 
-  const { item } = route.params
+  const computeAmount = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      let totalAmount = 0
+      snapshot.forEach((item, index) => {
+        const amt = parseInt(item.val().amount)
+        totalAmount = totalAmount + amt
+      })
+      resolve(totalAmount)
+    })
+  }
+
+  const getFeeAmountFromFirebase = () => {
+    return new Promise((resolve, reject) => {
+      const ref = firebase.database().ref("appconfig/fee_amount")
+      ref.once("value", (snapshot) => {
+        const feeAmt = parseInt(snapshot.val())
+        resolve(feeAmt)
+      })
+    })
+  }
+
+  useEffect(() => {
+    const ref = firebase.database().ref(`posts/${item.id}/partnerSelect`)
+    const listener = ref.on("value", async (snapshot) => {
+      const pAmount = await computeAmount(snapshot)
+      const fAmount = await getFeeAmountFromFirebase()
+      const netTotalAmt = parseInt(pAmount) + parseInt(fAmount)
+
+      setPartnerAmount(pAmount.toFixed(2))
+      setFeeAmount(fAmount.toFixed(2))
+      setNetTotalAmount(netTotalAmt.toFixed(2))
+    })
+
+    return () => ref.off("value", listener)
+  }, [])
 
   useEffect(() => {
     ;(async () => {
@@ -30,18 +81,18 @@ const PaymentForm = ({ navigation, route }) => {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync()
         if (status !== "granted") {
-          Alert.alert("แจ้งเตือน", "ขออภัย, กรุณาให้สิทธิืการเข้าถึงรูปภาพของท่าน!")
+          Alert.alert(
+            "แจ้งเตือน",
+            "ขออภัย, กรุณาให้สิทธิืการเข้าถึงรูปภาพของท่าน!"
+          )
         }
       }
     })()
   }, [])
 
-  const keyExtractor = (item, index) => index.toString()
-
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     })
@@ -51,150 +102,240 @@ const PaymentForm = ({ navigation, route }) => {
     }
   }
 
-  const filterList = getPostToPayment(item.id)[0].listPartnerSelect
+  const saveCustomerPayment = () => {
+    if (!bank) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุธนาคารที่ท่านโอนเงิน")
+      return
+    }
+    if (!transferAmount) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุยอดเงินที่ท่านโอน")
+      return
+    }
+    if (!datetime) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุวันที่ และเวลาที่โอนเงิน")
+      return
+    }
 
-  const renderItem = ({ item }) => (
-    <View style={{ padding: 5 }}>
-      <Image source={item.image} style={{ width: 128, height: 128 }} />
-      <Text
-        style={{
-          position: "absolute",
-          bottom: 10,
-          right: 0,
-          color: "white",
-          backgroundColor: "chocolate",
-          opacity: 0.75
-        }}
-      >
-        {item.name}
-      </Text>
-      <Text
-        style={{
-          position: "absolute",
-          top: 20,
-          left: 0,
-          color: "white",
-          backgroundColor: "blue",
-          fontWeight: 'bold',
-          fontSize: 22,
-          opacity: 0.5
-        }}
-      >
-        {item.price}
-      </Text>
-    </View>
-  )
+    if (parseInt(transferAmount) < parseInt(netTotalAmount)) {
+      Alert.alert("แจ้งเตือน", "จำนวนเงินรับชำระไม่ถูกต้อง !")
+      return
+    }
 
-  const handleRefresh = () => {
+    // upload slip image
+    if (image) {
+      uploadImageAsync(image)
+    } else {
+      Alert.alert("แจ้งเตือน", "กรุณาเลือกสลิปการโอนเงิน !")
+      return
+    }
+  }
+
+  async function uploadImageAsync(imageSource) {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+      xhr.onload = function () {
+        resolve(xhr.response)
+      }
+      xhr.onerror = function (e) {
+        reject(new TypeError("Network request failed"))
+      }
+      xhr.responseType = "blob"
+      xhr.open("GET", imageSource, true)
+      xhr.send(null)
+    })
+
+    const ref = firebase
+      .storage()
+      .ref("images/member/customer/payment_slip")
+      .child(item.id)
+    const snapshot = await ref.put(blob)
+
+    // We're done with the blob, close and release it
+    blob.close()
+
+    const url = await snapshot.ref.getDownloadURL()
+
+    const getBank = getBankName(bank)
+    const bankData = { ...getBank[0] }
+
+    // save to firebase
+    const dataPayment = {
+      slip_image: url,
+      status: AppConfig.PostsStatus.waitAdminConfirmPayment,
+      statusText: "รอ admin ตรวจสอบการชำระเงิน",
+      bankId: bankData.value,
+      bankName: bankData.label,
+      transferTime: datetime,
+      transferAmount: transferAmount,
+      sys_update_date: new Date().toUTCString(),
+    }
+    firebase.database().ref(`posts/${item.id}`).update(dataPayment)
+
+    saveProvincesGroupPostPartner(
+      {
+        province: item.province,
+        provinceName: item.provinceName,
+        partnerType: item.partnerRequest,
+      },
+      -1
+    )
+
+    navigate("Post-List")
   }
 
   return (
-    <>
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <Text>รายชื่อ Partner ที่เลือก</Text>
-        <FlatList
-          keyExtractor={keyExtractor}
-          data={filterList}
-          renderItem={renderItem}
-          horizontal
-          style={{
-            borderWidth: 1,
-            borderColor: "#eee",
-            padding: 5,
-            margin: 5,
-          }}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => handleRefresh()}
-            />
-          }
-        />
-      </View>
-      <ScrollView>
-        <Input
-          name="bank"
-          placeholder="ยอดชำระสำหรับ Partner (0.00)"
-          leftIcon={{ type: "font-awesome", name: "dollar" }}
-          onChangeText={(value) => setBank(value)}
-          value={bank}
-          disabled
-        />
-        <Input
-          name="bank"
-          placeholder="ค่าธรรมเนียม (0.00)"
-          leftIcon={{ type: "font-awesome", name: "dollar" }}
-          onChangeText={(value) => setBank(value)}
-          value={bank}
-          disabled
-        />
-        <Input
-          name="bank"
-          placeholder="รวมยอดชำระทั้งหมด"
-          leftIcon={{ type: "font-awesome", name: "dollar" }}
-          onChangeText={(value) => setBank(value)}
-          value={bank}
-          disabled
-        />
-        <Text style={styles.optionsNameDetail}>ยืนยันข้อมูลการโอนเงิน</Text>
-        <Input
-          name="bank"
-          placeholder="ธนาคารที่โอนเงิน"
-          leftIcon={{ type: "font-awesome", name: "bank" }}
-          onChangeText={(value) => setBank(value)}
-          value={bank}
-        />
-        <Input
-          name="amount"
-          placeholder="ยอดเงินโอน 0.00"
-          leftIcon={{ type: "font-awesome", name: "dollar" }}
-          onChangeText={(value) => setAmount(value)}
-          value={amount}
-        />
-        <Input
-          name="datetime"
-          placeholder="เวลาที่โอนเงิน (dd/MM/yyyy)"
-          leftIcon={{ type: "font-awesome", name: "calendar" }}
-          onChangeText={(value) => setDateTime(value)}
-          value={datetime}
-        />
-        <Button
-          icon={
-            <Icon
-              name="file"
-              size={15}
-              color="white"
-              style={{ marginRight: 5 }}
-            />
-          }
-          title="เลือกไฟล์...สลิปสำหรับการโอนเงิน"
-          onPress={pickImage}
-        />
-        {image && (
-          <View style={{ flex: 1, justifyContent: "space-around" }}>
-            <Image source={{ uri: image }} style={{ width: 200, height: 250 }} />
-            <Button
-              icon={
-                <Icon
-                  name="save"
-                  size={20}
-                  color="white"
-                  style={{ marginRight: 5 }}
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={{ height: "100%" }}>
+        <KeyboardAvoidingView
+          behavior="position"
+          keyboardVerticalOffset={Platform.OS === "ios" ? 120 : 0}
+        >
+          <Text style={styles.textTopic}>โอนเงิน เพื่อชำระค่าบริการ</Text>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ marginTop: 20 }}
+          >
+            <View style={{ width: "90%", alignSelf: "center" }}>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                จำนวนเงินทีต้องชำระ (บาท)
+              </Text>
+              <View style={styles.formControl}>
+                <GetIcon type="fa" name="dollar" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="จำนวนเงินทีต้องชำระ (บาท)"
+                  value={partnerAmount}
+                  onChangeText={(value) => setPartnerAmount(value)}
+                  editable={false}
                 />
-              }
-              buttonStyle={styles.buttonConfirm}
-              title="ยืนยันข้อมูลการโอนเงิน ไปยัง Admin"
-            />
-          </View>
-        )}
-      </ScrollView>
-    </>
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                ค่าธรรมเนียม (บาท)
+              </Text>
+              <View style={styles.formControl}>
+                <GetIcon type="fa" name="dollar" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="ค่าธรรมเนียม (บาท)"
+                  value={feeAmount}
+                  onChangeText={(value) => setFeeAmount(value)}
+                  editable={false}
+                />
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                รวมยอดชำระทั้งหมด
+              </Text>
+              <View style={styles.formControl}>
+                <GetIcon type="fa" name="dollar" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="รวมยอดชำระทั้งหมด"
+                  value={netTotalAmount}
+                  onChangeText={(value) => setNetTotalAmount(value)}
+                  editable={false}
+                />
+              </View>
+            </View>
+            <View style={{ margin: 5, alignSelf: "center", width: "90%" }}>
+              <Text style={styles.optionsNameDetail}>
+                ยืนยันข้อมูลการโอนเงิน
+              </Text>
+
+              <Text style={{ fontSize: 16, padding: 5 }}>ธนาคารที่โอนเงิน</Text>
+              <DropDownPicker
+                placeholder="-- เลือกธนาคาร --"
+                open={openSelectBank}
+                setOpen={setOpenSelectBank}
+                value={bank}
+                setValue={setBank}
+                items={bankList}
+                setItems={setBankList}
+                textStyle={{ fontSize: 18 }}
+                searchable={false}
+                selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+                listMode="SCROLLVIEW"
+              />
+              <Text style={{ fontSize: 16, padding: 5 }}>ยอดเงินโอน (บาท)</Text>
+              <View style={styles.formControl}>
+                <GetIcon type="fa" name="dollar" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="ยอดเงินโอน (บาท)"
+                  value={transferAmount}
+                  onChangeText={(value) => setTransferAmount(value)}
+                  keyboardType="number-pad"
+                />
+              </View>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                เวลาที่โอนเงิน (dd/MM/yyyy HH:mm:ss)
+              </Text>
+              <View style={styles.formControl}>
+                <GetIcon type="mi" name="date-range" />
+                <TextInputMask
+                  type={"datetime"}
+                  options={{
+                    format: "DD/MM/YYYY HH:mm:ss",
+                  }}
+                  value={datetime}
+                  onChangeText={(text) => setDateTime(text)}
+                  style={styles.textInputStype}
+                />
+              </View>
+              <Button
+                icon={
+                  <Icon
+                    name="file"
+                    size={15}
+                    color="white"
+                    style={{ marginRight: 5 }}
+                  />
+                }
+                buttonStyle={{ marginTop: 10 }}
+                title="เลือกไฟล์...สลิปสำหรับการโอนเงิน"
+                onPress={pickImage}
+              />
+            </View>
+            {image && (
+              <View style={{ alignContent: "center", height: 450 }}>
+                <View style={{ alignSelf: "center", marginTop: 10 }}>
+                  <Image
+                    source={{ uri: image }}
+                    style={{ width: 200, height: 250 }}
+                  />
+                </View>
+                <View style={{ alignSelf: "center", padding: 5 }}>
+                  <Button
+                    icon={
+                      <Icon
+                        name="save"
+                        size={20}
+                        color="white"
+                        style={{ marginRight: 5 }}
+                      />
+                    }
+                    buttonStyle={styles.buttonConfirm}
+                    title="ยืนยันข้อมูลการโอนเงิน"
+                    onPress={() => saveCustomerPayment()}
+                  />
+                </View>
+              </View>
+            )}
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   buttonConfirm: {
     backgroundColor: "green",
+    marginTop: 10,
+    width: "100%",
   },
   optionsNameDetail: {
     fontSize: 18,
@@ -203,6 +344,47 @@ const styles = StyleSheet.create({
     color: "blue",
     marginBottom: 15,
     marginTop: 10,
+  },
+  formControl: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 0.5,
+    paddingHorizontal: 10,
+    borderColor: "#00716F",
+    backgroundColor: "white",
+    marginTop: 5,
+    height: 40,
+    borderRadius: 10,
+  },
+  textInput: {
+    backgroundColor: "white",
+    width: 250,
+    fontSize: 16,
+    marginVertical: 5,
+    marginLeft: 10,
+  },
+  topic: {
+    marginTop: 20,
+    fontSize: 20,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+  },
+  textInputStype: {
+    height: 40,
+    width: "100%",
+    fontSize: 18,
+    marginLeft: 10,
+  },
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: "#ff2fe6",
+    padding: 10,
   },
 })
 

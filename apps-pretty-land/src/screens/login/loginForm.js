@@ -7,6 +7,7 @@ import {
   TextInput,
   Alert,
   ImageBackground,
+  SafeAreaView,
 } from "react-native"
 import Icon from "@expo/vector-icons/AntDesign"
 import { Button } from "react-native-elements/dist/buttons/Button"
@@ -16,6 +17,7 @@ import bgImage from "../../../assets/bg.png"
 import { Context as AuthContext } from "../../context/AuthContext"
 
 const LoginForm = ({ navigation, route }) => {
+  const { navigate } = navigation
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
@@ -25,7 +27,10 @@ const LoginForm = ({ navigation, route }) => {
     if (username && password) {
       signIn({ username, password, screen: "admin" })
     } else {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุข้อมูลผู้ใช้งาน และรหัสผ่านให้ครบถ้วน !!!")
+      Alert.alert(
+        "แจ้งเตือน",
+        "กรุณาระบุข้อมูลผู้ใช้งาน และรหัสผ่านให้ครบถ้วน !!!"
+      )
     }
   }
 
@@ -35,66 +40,101 @@ const LoginForm = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <View style={styles.container}>
-        <Image style={styles.image} source={bg} />
-        <Text style={styles.textLogo}>PRETTY LAND</Text>
-        <Text style={styles.textDetail}>Love Your Moments</Text>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            borderWidth: 0.5,
-            paddingHorizontal: 10,
-            borderColor: "#00716F",
-            backgroundColor: "white",
-            height: 40,
-            borderRadius: 10,
-          }}
-        >
-          <Icon name="user" color="#00716F" size={20} />
-          <TextInput
-            style={styles.textInput}
-            placeholder="ข้อมูลผู้ใช้งาน"
-            value={username}
-            onChangeText={(value) => setUsername(value)}
+      <SafeAreaView style={{ height: "100%" }}>
+        <View style={styles.container}>
+          <Image style={styles.image} source={bg} />
+          <Text style={styles.textLogo}>PRETTY LAND</Text>
+          <Text style={styles.textDetail}>Love Your Moments</Text>
+
+          <View style={{ width: "80%", alignSelf: "center" }}>
+            <Text style={{ fontSize: 16, padding: 5 }}>
+              ข้อมูลผู้ใช้งาน (Username)
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                borderWidth: 0.5,
+                paddingHorizontal: 10,
+                borderColor: "#00716F",
+                backgroundColor: "white",
+                height: 40,
+                borderRadius: 10,
+              }}
+            >
+              <Icon name="user" color="#00716F" size={20} />
+              <TextInput
+                style={styles.textInput}
+                placeholder="ข้อมูลผู้ใช้งาน (Username)"
+                value={username}
+                onChangeText={(value) => setUsername(value)}
+              />
+            </View>
+            <Text style={{ fontSize: 16, padding: 5 }}>
+              ข้อมูลรหัสผ่าน (Password)
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                borderWidth: 0.5,
+                paddingHorizontal: 10,
+                borderColor: "#00716F",
+                backgroundColor: "white",
+                marginTop: 5,
+                height: 40,
+                borderRadius: 10,
+              }}
+            >
+              <Icon name="lock" color="#00716F" size={20} />
+              <TextInput
+                secureTextEntry={true}
+                style={styles.textInput}
+                placeholder="รหัสผาน (Password)"
+                value={password}
+                onChangeText={(value) => setPassword(value)}
+              />
+            </View>
+          </View>
+          <Button
+            title="LOGIN"
+            buttonStyle={{
+              backgroundColor: "#ff2fe6",
+              marginTop: 20,
+              borderRadius: 25,
+              width: 250,
+              paddingHorizontal: 15,
+              height: 45,
+              borderWidth: 0.5,
+            }}
+            onPress={() => validateLogin()}
+          />
+          <Button
+            title="ลงทะเบียนผู้ร่วมงาน (Register)"
+            titleStyle={{
+              color: "blue",
+              fontSize: 14,
+              textDecorationLine: "underline",
+            }}
+            buttonStyle={{
+              borderRadius: 25,
+              width: 250,
+              height: 45,
+            }}
+            onPress={() => navigate("Partner-Login-Form")}
           />
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            borderWidth: 0.5,
-            paddingHorizontal: 10,
-            borderColor: "#00716F",
-            backgroundColor: "white",
-            marginTop: 5,
-            height: 40,
-            borderRadius: 10,
-          }}
-        >
-          <Icon name="lock" color="#00716F" size={20} />
-          <TextInput
-            secureTextEntry={true}
-            style={styles.textInput}
-            placeholder="รหัสผาน"
-            value={password}
-            onChangeText={(value) => setPassword(value)}
-          />
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.textFooter1}>Contact Us</Text>
+          <Text style={styles.textFooter2}>
+            Tel : 09-7874-7874 (24Hr) / Line : @Prettylandthailand / Fb:
+            PrettyLand - Thailand / Email : Prettylandthailand@gmail.com
+          </Text>
+          <Text style={styles.textFooter3}>
+            คุณเห็นด้วยกับเงื่อนไขการให้บริการ และ นโยบายความเป็นส่วนตัว
+          </Text>
         </View>
-        <Button
-          title="LOGIN"
-          buttonStyle={{
-            backgroundColor: "#ff2fe6",
-            marginTop: 20,
-            borderRadius: 25,
-            width: 250,
-            paddingHorizontal: 15,
-            height: 45,
-            borderWidth: 0.5,
-          }}
-          onPress={() => validateLogin()}
-        />
-      </View>
+      </SafeAreaView>
     </ImageBackground>
   )
 }
@@ -164,6 +204,33 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
+  },
+  textFooter1: {
+    textAlign: "center",
+    flexWrap: "wrap",
+    fontSize: 12,
+    color: "gray",
+    position: "absolute",
+    bottom: 135,
+    color: "red",
+  },
+  textFooter2: {
+    textAlign: "center",
+    flexWrap: "wrap",
+    fontSize: 12,
+    color: "gray",
+    position: "absolute",
+    bottom: 85,
+    color: "black",
+  },
+  textFooter3: {
+    textAlign: "center",
+    flexWrap: "wrap",
+    fontSize: 12,
+    color: "gray",
+    position: "absolute",
+    bottom: 60,
+    color: "green",
   },
 })
 

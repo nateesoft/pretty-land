@@ -25,7 +25,6 @@ const MemberDetailScreen = ({ navigation, route }) => {
   const { item } = route.params
   const video = useRef(null)
   const [status, setStatus] = useState({})
-  const [images, setImages] = useState([])
 
   const confirmRemovePermanent = () => {
     firebase.database().ref(`members/${item.id}`).remove()
@@ -106,13 +105,12 @@ const MemberDetailScreen = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <SafeAreaView style={{ height: "100%" }}>
+      <ScrollView
+        style={{ height: "100%" }}
+        showsHorizontalScrollIndicator={false}
+      >
+        <Text style={styles.textTopic}>แสดงรายละเอียดสมาชิก</Text>
         <View style={styles.viewCard}>
-          <View
-            style={{ alignSelf: "center", marginTop: 20, marginBottom: 10 }}
-          >
-            <Text style={{ fontSize: 22 }}>แสดงรายละเอียดสมาชิก</Text>
-          </View>
           {item.image && (
             <View style={{ alignItems: "center" }}>
               <ScrollView
@@ -216,9 +214,18 @@ const MemberDetailScreen = ({ navigation, route }) => {
                   ? Moment(item.member_register_date).format("D MMM YYYY")
                   : "[ รออนุมัติ ]"}
               </Text>
-              <Text style={{ fontSize: 16 }}>
-                ระดับ Level: {item.customerLevel || 0}
-              </Text>
+              {item.memberType === "admin" && (
+                <Text style={{ fontSize: 16 }}>
+                  ระดับ Level: {item.customerLevel || 0}
+                </Text>
+              )}
+              {item.memberType === "partner" && (
+                <View>
+                  <Text style={{ fontSize: 16 }}>
+                    คะแนน: {item.point || 0} คะแนน
+                  </Text>
+                </View>
+              )}
               <Text style={{ fontSize: 16 }}>
                 เบอร์ติดต่อ: {item.mobile || "[ ไม่พบข้อมูล ]"}
               </Text>
@@ -234,9 +241,19 @@ const MemberDetailScreen = ({ navigation, route }) => {
               }}
             >
               <Text style={{ fontSize: 22 }}>
-                ชื่อ: {item.name || item.username}
+                ชื่อ: {item.name || item.username || item.profile}
               </Text>
-              <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ผู้ดูแลระบบ</Text>
+              {item.memberType === "customer" && (
+                <View>
+                  <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ลูกค้า</Text>
+                  <Text style={{ fontSize: 22 }}>
+                    ระดับ Level: {item.customerLevel}
+                  </Text>
+                </View>
+              )}
+              {item.customerType === "admin" && (
+                <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ผู้ดูแลระบบ</Text>
+              )}
             </View>
           )}
         </View>
@@ -326,7 +343,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
             onPress={() => handleRemovePermanent()}
           />
         </View>
-      </SafeAreaView>
+      </ScrollView>
     </ImageBackground>
   )
 }
@@ -365,7 +382,7 @@ const styles = StyleSheet.create({
   },
   mediaImageContainer: {
     width: 250,
-    height: 350,
+    height: 300,
     borderRadius: 12,
     overflow: "hidden",
     marginHorizontal: 10,
@@ -380,6 +397,14 @@ const styles = StyleSheet.create({
     width: 350,
     height: 300,
     borderRadius: 25,
+  },
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
 })
 

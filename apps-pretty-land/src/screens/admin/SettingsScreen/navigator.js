@@ -5,6 +5,8 @@ import SettingsCategoryScreen from "./settingsCategory"
 import ViewSettingsForm from "./viewSettingsForm"
 import NewAdminFormScreen from "./addNewAdmin"
 import AdminListScreen from './adminList'
+import MemberListScreen from './memberList'
+import PartnerListScreen from './partnerList'
 import AdminDetailScreen from './adminDetail'
 
 import { LogoTitle } from "../../../components/Header"
@@ -58,6 +60,30 @@ const AdminSettingsNavigator = ({ navigation, route }) => {
       <Stack.Screen
         name="Admin-Lists"
         component={AdminListScreen}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+      />
+      <Stack.Screen
+        name="Member-Register-Lists"
+        component={MemberListScreen}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+      />
+      <Stack.Screen
+        name="Partner-Register-Lists"
+        component={PartnerListScreen}
         options={{
           title: "Back",
           headerStyle: {

@@ -70,20 +70,17 @@ const RegisterPartnerForm = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const onChangeValue = firebase
-      .database()
-      .ref(`members/${userId}`)
-      .on("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        setLineId(data.lineId || "")
-        setMobile(data.mobile || "")
-        setProvince(data.province || "")
-        setDistrict(data.district || "")
-        setAddress(data.address || "")
-      })
+    const ref = firebase.database().ref(`members/${userId}`)
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setLineId(data.lineId || "")
+      setMobile(data.mobile || "")
+      setProvince(data.province || "")
+      setDistrict(data.district || "")
+      setAddress(data.address || "")
+    })
 
-    return () =>
-      firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   return (
@@ -92,16 +89,13 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <SafeAreaView style={{ height: "100%" }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.textFormInfo}>รายละเอียดการรับงาน</Text>
+          <Text style={styles.textFormInfo}>จังหวัดที่รับงาน</Text>
+          <Text style={{ marginBottom: 5 }}>(Ways to get a job)</Text>
         </View>
         <View style={{ width: "80%", alignSelf: "center" }}>
-          <Text
-            style={{ fontSize: 16, padding: 5, textTransform: "uppercase" }}
-          >
-            Line Id
-          </Text>
+          <Text style={{ fontSize: 16, padding: 5 }}>Line Id (optional)</Text>
           <View style={styles.formControl}>
             <GetIcon type="fa5" name="line" />
             <TextInput
@@ -121,6 +115,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
               onChangeText={(value) => setMobile(value)}
               style={styles.textInput}
               placeholder="เบอร์โทรศัพท์"
+              keyboardType="numeric"
             />
           </View>
           <Text style={{ color: "#123456", marginTop: 5 }}>
@@ -161,18 +156,23 @@ const RegisterPartnerForm = ({ navigation, route }) => {
               selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             />
             {type4 && (
-              <View style={styles.formControl}>
-                <GetIcon type="mi" name="home-work" />
-                <TextInput
-                  value={`${address}`}
-                  onChangeText={(value) => setAddress(value)}
-                  style={styles.textInput}
-                  placeholder="คอนโด/ตึก/หมู่บ้าน"
-                />
+              <View>
+                <View style={styles.formControl}>
+                  <GetIcon type="mi" name="home-work" />
+                  <TextInput
+                    value={`${address}`}
+                    onChangeText={(value) => setAddress(value)}
+                    style={styles.textInput}
+                    placeholder="คอนโด/ตึก/หมู่บ้าน"
+                  />
+                </View>
+                <Text style={{ color: "#123456", marginVertical: 5 }}>
+                  * สำหรับประเภทนวดแผนไทย
+                </Text>
               </View>
             )}
             <Button
-              title="บันทึก/ถัดไป"
+              title="ถัดไป"
               iconLeft
               icon={
                 <AntDesign

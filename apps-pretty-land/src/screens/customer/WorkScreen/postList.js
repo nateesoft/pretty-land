@@ -1,74 +1,55 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import {
-  SafeAreaView,
   FlatList,
   View,
   StyleSheet,
   Image,
   RefreshControl,
+  ImageBackground,
 } from "react-native"
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
+import Moment from "moment"
 
-import { getPostList } from "../../../data/apis"
+import CardNotfound from "../../../components/CardNotfound"
+import firebase from "../../../../util/firebase"
+import { snapshotToArray } from "../../../../util"
+import { AppConfig } from "../../../Constants"
+import bgImage from "../../../../assets/bg.png"
+import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
 
 const PostListScreen = ({ navigation, route }) => {
-  const [refreshing, setRefreshing] = React.useState(false)
+  const { userId } = route.params
+  const [refreshing, setRefreshing] = useState(false)
+  const [filterList, setFilterList] = useState([])
 
-  const filterList = getPostList().filter((item) => {
-    return item.customer === "A"
-  })
-
-  const handleRefresh = () => {
-  }
+  const handleRefresh = () => {}
 
   const onPressOptions = (item, status) => {
-    if (status === "wait_customer_select_partner") {
-      navigation.navigate("Partner-List-Select", { item })
-    } else if (status === "wait_customer_payment") {
-      navigation.navigate("Payment-Form", { item })
+    if (status === AppConfig.PostsStatus.waitCustomerSelectPartner) {
+      navigation.navigate("Partner-List-Select", { postItem: item, userId })
+    } else if (status === AppConfig.PostsStatus.waitCustomerPayment) {
+      navigation.navigate("Payment-Form", { item, userId })
     } else {
-      navigation.navigate("Review-Task", { item })
+      navigation.navigate("Review-Task", { item, userId })
     }
   }
-
-  const getBgColor = (status) => {
-    if (status === "customer_new_post_done") {
-      return "#fdddf3"
-    } else if (status === "admin_confirm_new_post") {
-      return "#fef8e3"
-    } else if (status === "wait_customer_select_partner") {
-      return "#fcf2ff"
-    } else if (status === "wait_customer_payment") {
-      return "#fff0ee"
-    } else if (status === "wait_admin_confirm_payment") {
-      return "#fdddf3"
-    } else if (status === "customer_with_partner") {
-      return "#fef8e3"
-    }
-    return "#fcf2ff"
-  }
-
-  const keyExtractor = (item, index) => index.toString()
 
   const renderItem = ({ item }) => (
     <ListItem
       bottomDivider
       onPress={() => onPressOptions(item, item.status)}
       containerStyle={{
-        backgroundColor: getBgColor(item.status),
+        backgroundColor: null,
         borderRadius: 8,
         marginVertical: 5,
       }}
     >
-      <Avatar source={item.image} size={128} />
+      <Avatar source={{ uri: item.partnerImage }} size={128} />
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>ชื่อโพสท์: {item.name}</ListItem.Title>
-        <ListItem.Subtitle>ประเภท: {item.partnerRequest}</ListItem.Subtitle>
-        <ListItem.Subtitle>จังหวัด: {item.province}</ListItem.Subtitle>
-        <ListItem.Subtitle>
-          จำนวนที่ต้องการ: {item.partnerQtyRequest} คน
-        </ListItem.Subtitle>
+        <ListItem.Subtitle>ชื่อ: {item.customerName}</ListItem.Subtitle>
+        <ListItem.Subtitle>{item.partnerRequest}</ListItem.Subtitle>
+        <ListItem.Subtitle>จังหวัด: {item.provinceName}</ListItem.Subtitle>
         <ListItem.Subtitle style={{ backgroundColor: "pink", padding: 5 }}>
           Status: {item.statusText}
         </ListItem.Subtitle>
@@ -86,19 +67,87 @@ const PostListScreen = ({ navigation, route }) => {
     </ListItem>
   )
 
+  useEffect(() => {
+    const ref = firebase
+      .database()
+      .ref(`posts`)
+      .orderByChild("customerId")
+      .equalTo(userId)
+    const listener = ref.on("value", (snapshot) => {
+      const postsList = snapshotToArray(snapshot)
+      setFilterList(
+        postsList.filter((item, index) => {
+          if (
+            item.status !== AppConfig.PostsStatus.notApprove &&
+            item.status !== AppConfig.PostsStatus.customerCancelPost &&
+            item.status !== AppConfig.PostsStatus.postTimeout
+          ) {
+            const date1 = Moment()
+            const date2 = Moment(item.sys_update_date)
+            const diffHours = date1.diff(date2, "hours")
+
+            if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
+              if (diffHours <= 24) {
+                return item
+              } else {
+                // update timeout
+                updatePosts(item.id, {
+                  status: AppConfig.PostsStatus.postTimeout,
+                  statusText: "ข้อมูลการโพสท์ใหม่หมดอายุ",
+                  sys_update_date: new Date().toUTCString(),
+                })
+              }
+            } else if (
+              item.status === AppConfig.PostsStatus.adminConfirmNewPost
+            ) {
+              if (diffHours <= 2) {
+                return item
+              } else {
+                // update timeout
+                updatePosts(item.id, {
+                  status: AppConfig.PostsStatus.postTimeout,
+                  statusText:
+                    "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
+                  sys_update_date: new Date().toUTCString(),
+                })
+                // remove from group partner request
+                saveProvincesGroupPostPartner(
+                  {
+                    province: item.province,
+                    provinceName: item.provinceName,
+                    partnerType: item.partnerRequest,
+                  },
+                  -1
+                )
+              }
+            } else {
+              return item
+            }
+          }
+        })
+      )
+    })
+    return () => ref.off("value", listener)
+  }, [])
+
   return (
-    <SafeAreaView>
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <Text style={styles.textTopic}>แสดงรายการที่โพสท์</Text>
       <View style={styles.container}>
-        <Text style={styles.textTopic}>แสดงรายการที่โพสท์</Text>
+        {filterList.length === 0 && (
+          <CardNotfound text="ไม่พบข้อมูลการโพสท์" />
+        )}
         {filterList.length > 0 && (
           <FlatList
-            keyExtractor={keyExtractor}
+            keyExtractor={(item) => item.id.toString()}
             data={filterList}
             renderItem={renderItem}
             style={{
               height: 600,
-              borderWidth: 1,
-              borderColor: "#eee",
               padding: 5,
             }}
             refreshControl={
@@ -109,42 +158,34 @@ const PostListScreen = ({ navigation, route }) => {
             }
           />
         )}
-        {filterList.length === 0 && (
-          <Text
-            style={{
-              fontSize: 28,
-              textAlign: "center",
-              paddingVertical: 100,
-              backgroundColor: "white",
-            }}
-          >
-            ไม่พบข้อมูลการโพสท์
-          </Text>
-        )}
       </View>
-    </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 5,
-    backgroundColor: "white",
   },
   textTopic: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: "#ff2fe6",
+    padding: 10,
   },
   btnNewPost: {
-    backgroundColor: "#35D00D",
     margin: 5,
     borderRadius: 75,
     height: 45,
     width: 250,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

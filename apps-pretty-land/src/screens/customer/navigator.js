@@ -45,7 +45,6 @@ const CustomerNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="post" color="white" size={size} />
           ),
-          tabBarBadge: 3,
         }}
         initialParams={{ userId, status }}
       />
@@ -55,11 +54,7 @@ const CustomerNavigator = ({ navigation, route }) => {
         options={{
           tabBarLabel: "ติดต่อ Admin",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons
-              name="contact-phone"
-              color="green"
-              size={size}
-            />
+            <MaterialIcons name="contact-phone" color="white" size={size} />
           ),
         }}
         initialParams={{ userId, status }}

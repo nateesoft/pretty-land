@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -6,70 +6,41 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
+  ImageBackground,
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
+import Moment from "moment"
 
 import CardNotfound from "../../../components/CardNotfound"
-import { getPostToPartnerList } from "../../../data/apis"
+import firebase from "../../../../util/firebase"
+import { snapshotToArray } from "../../../../util"
+import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from "../../../Constants"
+import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
 
 const AllCustomerPostList = ({ navigation, route }) => {
-  const { item } = route.params
-  const [refreshing, setRefreshing] = React.useState(false)
+  const { profile, item } = route.params
+  const [refreshing, setRefreshing] = useState(false)
+  const [filterList, setFilterList] = useState([])
 
-  const filterList = getPostToPartnerList(item.provinceId)
-
-  const handleRefresh = () => {
-  }
+  const handleRefresh = () => {}
 
   const onPressOptions = (item) => {
-    navigation.navigate("Task-Detail", { item })
+    navigation.navigate("Task-Detail", { profile, item })
   }
-
-  const getBgColor = (status) => {
-    if (status === "customer_new_post_done") {
-      return "#fdddf3"
-    } else if (status === "admin_confirm_new_post") {
-      return "#fef8e3"
-    } else if (status === "wait_customer_select_partner") {
-      return "#fcf2ff"
-    } else if (status === "wait_customer_payment") {
-      return "#fff0ee"
-    } else if (status === "wait_admin_confirm_payment") {
-      return "#fdddf3"
-    } else if (status === "customer_with_partner") {
-      return "#fef8e3"
-    }
-    return "#fcf2ff"
-  }
-
-  const keyExtractor = (item, index) => index.toString()
 
   const renderItem = ({ item }) => (
     <ListItem
       bottomDivider
       onPress={() => onPressOptions(item)}
       containerStyle={{
-        backgroundColor: getBgColor(item.status),
+        backgroundColor: null,
         borderRadius: 8,
         marginVertical: 5,
       }}
     >
       <ListItem.Content style={{ margin: 10 }}>
-        <ListItem.Title
-          style={{
-            fontSize: 20,
-            marginBottom: 5,
-          }}
-        >
-          ลูกค้า: {item.customer}
-        </ListItem.Title>
-        <ListItem.Title style={{ marginBottom: 5 }}>
-          ชื่องาน: {item.name}
-        </ListItem.Title>
-        <ListItem.Title style={{ marginBottom: 5 }}>
-          level: {item.customerLevel}
-        </ListItem.Title>
         <ListItem.Title
           style={{
             marginBottom: 5,
@@ -79,6 +50,28 @@ const AllCustomerPostList = ({ navigation, route }) => {
           }}
         >
           โหมดงาน: {item.partnerRequest}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+          }}
+        >
+          จังหวัด: {item.provinceName}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+          }}
+        >
+          เขต/อำเภอ: {item.districtName}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+          }}
+        >
+          วันที่โพสท์:{" "}
+          {Moment(item.sys_create_date).format("D MMM YYYY HH:mm:ss")}
         </ListItem.Title>
       </ListItem.Content>
       <ProgressCircle
@@ -94,77 +87,136 @@ const AllCustomerPostList = ({ navigation, route }) => {
     </ListItem>
   )
 
-  return (
-    <SafeAreaView style={{ height: "100%", backgroundColor: "white" }}>
-      <View style={styles.container}>
-        <Text style={styles.textTopic}>งานว่าจ้างทั้งหมดในระบบ</Text>
-        <Text style={styles.textTopicDetail}>จังหวัด {item.province}</Text>
-        {filterList.length === 0 && (
-          <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
-        )}
-        {filterList.length > 0 && (
-          <FlatList
-            keyExtractor={keyExtractor}
-            data={filterList}
-            renderItem={renderItem}
-            style={{
-              height: 600,
-              borderWidth: 1,
-              borderColor: "#eee",
-              padding: 5,
-            }}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={() => handleRefresh()}
-              />
+  useEffect(() => {
+    const ref = firebase
+      .database()
+      .ref(`posts`)
+      .orderByChild("province")
+      .equalTo(item.provinceId)
+    const listener = ref.on("value", (snapshot) => {
+      const postsList = snapshotToArray(snapshot)
+      setFilterList(
+        postsList.filter((item, index) => {
+          if (item.status === AppConfig.PostsStatus.adminConfirmNewPost) {
+            const date1 = Moment()
+            const date2 = Moment(item.sys_update_date)
+            const diffHours = date1.diff(date2, "hours")
+            if (diffHours <= 2) {
+              if (
+                item.partnerRequest === AppConfig.PartnerType.type1 &&
+                profile.type1
+              ) {
+                return item
+              }
+              if (
+                item.partnerRequest === AppConfig.PartnerType.type2 &&
+                profile.type2
+              ) {
+                return item
+              }
+              if (
+                item.partnerRequest === AppConfig.PartnerType.type3 &&
+                profile.type3
+              ) {
+                return item
+              }
+              if (
+                item.partnerRequest === AppConfig.PartnerType.type4 &&
+                profile.type4
+              ) {
+                return item
+              }
+            } else {
+              // update timeout
+              updatePosts(item.id, {
+                status: AppConfig.PostsStatus.postTimeout,
+                statusText:
+                  "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
+                sys_update_date: new Date().toUTCString(),
+              })
+              // remove from group partner request
+              saveProvincesGroupPostPartner(
+                {
+                  province: item.province,
+                  provinceName: item.provinceName,
+                  partnerType: item.partnerRequest,
+                },
+                -1
+              )
             }
-          />
-        )}
-        {filterList.length === 0 && (
-          <View
-            style={{
-              alignItems: "center",
-              height: 65,
-              borderWidth: 1,
-              borderColor: "#aaa",
-              padding: 20,
-            }}
-          >
-            <Text>ไม่พบข้อมูลโพสท์</Text>
-          </View>
-        )}
-      </View>
-    </SafeAreaView>
+          }
+        })
+      )
+    })
+    return () => ref.off("value", listener)
+  }, [])
+
+  return (
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <SafeAreaView style={{ height: "100%" }}>
+        <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
+        <Text style={styles.textDetail}>จังหวัด {item.provinceName}</Text>
+        <View style={styles.container}>
+          {filterList.length === 0 && (
+            <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
+          )}
+          {filterList.length > 0 && (
+            <FlatList
+              keyExtractor={(item) => item.id.toString()}
+              data={filterList}
+              renderItem={renderItem}
+              style={{
+                height: 600,
+                padding: 5,
+              }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={() => handleRefresh()}
+                />
+              }
+            />
+          )}
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 5,
-    backgroundColor: "white",
-  },
-  textTopic: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "blue",
-    marginTop: 10,
-  },
-  textTopicDetail: {
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
   },
   btnNewPost: {
-    backgroundColor: "#35D00D",
     margin: 5,
     borderRadius: 75,
     height: 45,
     width: 250,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+  },
+  textTopic: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
+  },
+  textDetail: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
 })
 

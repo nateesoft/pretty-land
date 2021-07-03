@@ -1,55 +1,53 @@
 import React from "react"
-import { StyleSheet, View } from "react-native"
-import { Button, Text, Input } from "react-native-elements"
-import { MaterialIcons } from "react-native-vector-icons"
+import { StyleSheet, View, ImageBackground, Image, Linking } from "react-native"
+import { Button, Text } from "react-native-elements"
+
+import bgImage from "../../../../assets/bg.png"
+import lineLogo from "../../../../assets/icons/LINE_APP.png"
 
 const ViewContact = ({ navigation, route }) => {
-  const [textMsg, setTextMsg] = React.useState("")
+
+  const LinkToLineContact = () => {
+    Linking.openURL(lineContact)
+  }
 
   return (
-    <View style={styles.cardDetail}>
-      <Text style={styles.textTopic}>ส่งข้อความหา Admin</Text>
-      <View style={styles.viewCard}>
-        <Input
-          name="textMsg"
-          placeholder="ข้อความที่ต้องการส่ง"
-          leftIcon={{ type: "font-awesome", name: "address-book" }}
-          style={styles.inputForm}
-          onChangeText={(value) => setTextMsg(value)}
-          value={textMsg}
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      <View style={styles.cardDetail}>
+        <Text style={styles.textTopic}>ติดต่อ Admin</Text>
+        <Button
+          icon={
+            <Image
+              source={lineLogo}
+              style={{ width: 24, height: 24, marginRight: 10 }}
+            />
+          }
+          iconLeft
+          buttonStyle={styles.btnContactLineButton}
+          title="LINE CONNECT"
+          onPress={() => LinkToLineContact()}
         />
       </View>
-      <Button
-        icon={
-          <MaterialIcons
-            name="email"
-            size={20}
-            color="white"
-            style={{ marginRight: 5 }}
-          />
-        }
-        iconLeft
-        buttonStyle={styles.btnSave}
-        title="ส่งข้อมูล"
-        onPress={() => navigation.navigate("Partner-Category")}
-      />
-    </View>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
-  btnSave: {
+  btnContactLineButton: {
     margin: 15,
     paddingHorizontal: 50,
-    borderRadius: 55,
-    backgroundColor: "orange",
+    borderRadius: 5,
+    backgroundColor: "#35D00D",
   },
   cardDetail: {
     flex: 1,
     alignItems: "center",
     padding: 5,
     margin: 10,
-    backgroundColor: "white",
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -79,6 +77,11 @@ const styles = StyleSheet.create({
     color: "blue",
     marginBottom: 15,
     marginTop: 10,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 

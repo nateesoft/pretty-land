@@ -9,7 +9,9 @@ import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const TabNavigator = ({ navigation, route }) => {
+const CustomerHomeTabNavigator = ({ navigation, route }) => {
+  const { userId, status } = route.params
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -24,10 +26,12 @@ const TabNavigator = ({ navigation, route }) => {
             <LogoTitle title="แสดงกลุ่มพาทเนอร์" {...props} />
           ),
         }}
+        initialParams={{ userId, status }}
       />
       <Stack.Screen
         name="Partner-List-Country"
         component={PartnerListCountryScreen}
+        initialParams={{ userId, status }}
       />
       <Stack.Screen
         name="Create-Post-Form"
@@ -42,10 +46,12 @@ const TabNavigator = ({ navigation, route }) => {
         }}
         initialParams={{
           pageFrom: "Partner-Category",
+          userId,
+          status,
         }}
       />
     </Stack.Navigator>
   )
 }
 
-export default TabNavigator
+export default CustomerHomeTabNavigator

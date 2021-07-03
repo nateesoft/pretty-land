@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef, useContext } from "react"
 import {
   View,
   StyleSheet,
@@ -18,16 +18,16 @@ import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import uuid from "react-native-uuid"
 
-import {AppConfig} from '../../../Constants'
+import { AppConfig } from "../../../Constants"
 import bgImage from "../../../../assets/bg.png"
 import { Context as AuthContext } from "../../../context/AuthContext"
 import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterImageUpload = ({ navigation, route }) => {
-  const { signOut } = React.useContext(AuthContext)
-  const { userId, status, bankData } = route.params
-  const video = React.useRef(null)
+  const { signOut } = useContext(AuthContext)
+  const { userId, bankData } = route.params
+  const video = useRef(null)
 
   const [uploadFinish, setUploadFinish] = useState("none")
   const [hideButtonUpload, setHideButtonUpload] = useState(false)
@@ -53,7 +53,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
   const saveProfileData = () => {
     const dataUpdate = {
       ...bankData,
-      image: image ? image: imageUrl1,
+      image: image ? image : imageUrl1,
       imageUrl1,
       imageUrl2,
       imageUrl3,
@@ -66,7 +66,10 @@ const RegisterImageUpload = ({ navigation, route }) => {
       statusText: AppConfig.MemberStatus.newRegisterMessage,
     }
     firebase.database().ref(`members/${userId}`).update(dataUpdate)
-    Alert.alert("กระบวนการเสร็จสมบูรณ์", "อัพเดตข้อมูลเรียบร้อยแล้ว รอ Admin อนุมัติข้อมูล")
+    Alert.alert(
+      "กระบวนการเสร็จสมบูรณ์",
+      "อัพเดตข้อมูลเรียบร้อยแล้ว รอ Admin อนุมัติข้อมูล"
+    )
     signOut()
   }
 
@@ -74,7 +77,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      videoExportPreset: ImagePicker.VideoExportPreset.LowQuality
+      videoExportPreset: ImagePicker.VideoExportPreset.MediumQuality,
     })
     if (!result.cancelled) {
       handleImg(result.uri)
@@ -92,7 +95,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       allowsEditing: false,
-      videoExportPreset: ImagePicker.VideoExportPreset.LowQuality
+      videoExportPreset: ImagePicker.VideoExportPreset.LowQuality,
     })
 
     if (!result.cancelled) {
@@ -101,24 +104,21 @@ const RegisterImageUpload = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const onChangeValue = firebase
-      .database()
-      .ref(`members/${userId}`)
-      .on("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        setUsername(data.username)
-        setPassword(data.password)
+    const ref = firebase.database().ref(`members/${userId}`)
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setUsername(data.username)
+      setPassword(data.password)
 
-        setImageUrl1(data.imageUrl1 || null)
-        setImageUrl2(data.imageUrl2 || null)
-        setImageUrl3(data.imageUrl3 || null)
-        setImageUrl4(data.imageUrl4 || null)
-        setImageUrl5(data.imageUrl5 || null)
-        setImageUrl6(data.videoUrl || null)
-      })
+      setImageUrl1(data.imageUrl1 || null)
+      setImageUrl2(data.imageUrl2 || null)
+      setImageUrl3(data.imageUrl3 || null)
+      setImageUrl4(data.imageUrl4 || null)
+      setImageUrl5(data.imageUrl5 || null)
+      setImageUrl6(data.videoUrl || null)
+    })
 
-    return () =>
-      firebase.database().ref(`members/${userId}`).off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   const uploadAllImageVideo = () => {
@@ -240,6 +240,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     >
       <SafeAreaView style={styles.container}>
         <Text style={styles.textFormInfo}>เพิ่ม/แก้ไข รูปภาพ และวิดีโอ</Text>
+        <Text>Insert an image/ Video</Text>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.formControl, { marginTop: 20 }]}>
             <GetIcon type="ad" name="picture" />

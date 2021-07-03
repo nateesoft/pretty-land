@@ -13,7 +13,9 @@ import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const TabNavigator = ({ navigation, route }) => {
+const CustomerWorkTabNavigator = ({ navigation, route }) => {
+  const { userId, status } = route.params
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -27,7 +29,7 @@ const TabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
-        initialParams={{ partnerType: "all" }}
+        initialParams={{ partnerType: "all", userId }}
       />
       <Stack.Screen
         name="Partner-List-Select"
@@ -40,6 +42,7 @@ const TabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{ userId }}
       />
       <Stack.Screen
         name="Partner-Image"
@@ -52,6 +55,7 @@ const TabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{ userId }}
       />
       <Stack.Screen
         name="Image-Preview"
@@ -64,6 +68,7 @@ const TabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{ userId }}
       />
       <Stack.Screen
         name="Payment-Form"
@@ -76,6 +81,7 @@ const TabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{ userId }}
       />
       <Stack.Screen
         name="Review-Task"
@@ -88,6 +94,7 @@ const TabNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{ userId }}
       />
       <Stack.Screen
         name="Create-New-Post"
@@ -102,10 +109,11 @@ const TabNavigator = ({ navigation, route }) => {
         }}
         initialParams={{
           pageFrom: "Post-List",
+          userId,
         }}
       />
     </Stack.Navigator>
   )
 }
 
-export default TabNavigator
+export default CustomerWorkTabNavigator

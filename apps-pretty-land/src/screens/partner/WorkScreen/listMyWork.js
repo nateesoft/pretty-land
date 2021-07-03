@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -10,55 +10,77 @@ import {
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
+import moment from "moment"
 
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
-import { getDataForPartnerWork } from "../../../data/apis"
+
+import firebase from "../../../../util/firebase"
+import { snapshotToArray } from "../../../../util"
+import { AppConfig } from "../../../Constants"
 
 const ListMyWorkScreen = ({ navigation, route }) => {
-  const { partnerType } = route.params
-  const [refreshing, setRefreshing] = React.useState(false)
+  const { userId } = route.params
+  const [refreshing, setRefreshing] = useState(false)
+  const [filterList, setFilterList] = useState([])
 
-  const filterList = getDataForPartnerWork(1).filter((item) => {
-    return item
-  })
-
-  const handleRefresh = () => {
-  }
+  const handleRefresh = () => {}
 
   const onPressOptions = (item) => {
-    navigation.navigate("Work-Detail", { item })
+    if (item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment) {
+      navigation.navigate("Work-Detail", { item })
+    }
   }
-
-  const getBgColor = (status) => {
-    return "#fcf2ff"
-  }
-
-  const keyExtractor = (item, index) => index.toString()
 
   const renderItem = ({ item }) => (
     <ListItem
       bottomDivider
       onPress={() => onPressOptions(item)}
       containerStyle={{
-        backgroundColor: getBgColor(item.status),
+        backgroundColor: null,
         borderRadius: 8,
         marginVertical: 5,
       }}
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>โหมดงาน: {item.partnerType}</ListItem.Title>
-        <ListItem.Title>วันที่แจ้งรับงาน: {item.jobDateRequest}</ListItem.Title>
-        <ListItem.Title>สถานที่แจ้งรับงาน: {item.place}</ListItem.Title>
-        <ListItem.Title>จังหวัด: {item.province}</ListItem.Title>
-        <ListItem.Title>ราคาที่เสนอ: {item.priceRequest}</ListItem.Title>
-        <Text>---------------------------------------</Text>
-        <ListItem.Title>ชื่องาน: {item.name}</ListItem.Title>
-        <ListItem.Subtitle>ลูกค้า: {item.customer}</ListItem.Subtitle>
-        <ListItem.Subtitle>
-          เบอร์ติดต่อ: {item.customerContact}
-        </ListItem.Subtitle>
-        <Text>---------------------------------------</Text>
+        {item.status !== AppConfig.PostsStatus.adminConfirmPayment && (
+          <View style={{marginBottom: 10}}>
+            <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
+            <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
+            <ListItem.Title>เขต/อำเภอ: {item.districtName}</ListItem.Title>
+            <ListItem.Title>
+              วันที่แจ้งรับงาน:{" "}
+              {moment(item.sys_create_date).format("D MMM YYYY")}
+            </ListItem.Title>
+            <Text>---------------------------------------</Text>
+            <ListItem.Subtitle>ลูกค้า: {item.customerName}</ListItem.Subtitle>
+            <ListItem.Subtitle>
+              Lv.ลูกค้า: {item.customerLevel}
+            </ListItem.Subtitle>
+            <Text>---------------------------------------</Text>
+            <ListItem.Title>หมายเหตุ: {item.customerRemark}</ListItem.Title>
+          </View>
+        )}
+        {item.status === AppConfig.PostsStatus.adminConfirmPayment && (
+          <View>
+            <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
+            <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
+            <ListItem.Title>เขต/อำเภอ: {item.districtName}</ListItem.Title>
+            <ListItem.Title>
+              วันที่แจ้งรับงาน:{" "}
+              {moment(item.sys_create_date).format("D MMM YYYY")}
+            </ListItem.Title>
+            <Text>---------------------------------------</Text>
+            <ListItem.Subtitle>ลูกค้า: {item.customerName}</ListItem.Subtitle>
+            <ListItem.Subtitle>
+              Lv.ลูกค้า: {item.customerLevel}
+            </ListItem.Subtitle>
+            <ListItem.Subtitle>
+              เบอร์ติดต่อ: {item.customerPhone}
+            </ListItem.Subtitle>
+            <Text>---------------------------------------</Text>
+          </View>
+        )}
         <ListItem.Title
           style={{
             backgroundColor: "blue",
@@ -66,7 +88,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
             paddingHorizontal: 5,
           }}
         >
-          สถานะ: {item.jobStatusDesc}
+          สถานะ: {item.statusText}
         </ListItem.Title>
       </ListItem.Content>
       <ProgressCircle
@@ -74,13 +96,25 @@ const ListMyWorkScreen = ({ navigation, route }) => {
         radius={17}
         borderWidth={1.5}
         color="f580084"
-        shadowColor="#FFF"
-        bgColor="#FFF"
       >
         <Image source={require("../../../../assets/icons/pl.png")} />
       </ProgressCircle>
     </ListItem>
   )
+
+  useEffect(() => {
+    const ref = firebase
+      .database()
+      .ref("posts")
+      .orderByChild(`partnerSelect/${userId}/partnerId`)
+      .equalTo(userId)
+    const listener = ref.on("value", (snapshot) => {
+      const posts = snapshotToArray(snapshot)
+      setFilterList(posts)
+    })
+
+    return () => ref.off("value", listener)
+  }, [])
 
   return (
     <ImageBackground
@@ -89,21 +123,18 @@ const ListMyWorkScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
+        <Text style={styles.textTopic}>งานที่สนใจ / รอลูกค้าตกลง</Text>
         <View style={styles.container}>
-          <Text style={styles.textTopic}>งานที่สนใจ / รอลูกค้าตกลง</Text>
-          <Text style={styles.textTopicDetail}>รอดำเนินการ</Text>
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
           )}
           {filterList.length > 0 && (
             <FlatList
-              keyExtractor={keyExtractor}
+              keyExtractor={(item) => item.id.toString()}
               data={filterList}
               renderItem={renderItem}
               style={{
                 height: 600,
-                borderWidth: 1,
-                borderColor: "#eee",
                 padding: 5,
               }}
               refreshControl={
@@ -125,19 +156,20 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   textTopic: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginTop: 10,
+    color: "white",
+    backgroundColor: "#ff2fe6",
+    padding: 10,
   },
   textTopicDetail: {
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: "#ff2fe6",
+    padding: 10,
   },
   btnNewPost: {
     backgroundColor: "#35D00D",

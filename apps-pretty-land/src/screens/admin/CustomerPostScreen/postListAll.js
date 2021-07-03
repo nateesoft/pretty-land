@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -7,62 +7,54 @@ import {
   Image,
   RefreshControl,
   ImageBackground,
+  Alert,
 } from "react-native"
-import { ListItem, Avatar, Text } from "react-native-elements"
+import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import DropDownPicker from "react-native-dropdown-picker"
+import Moment from "moment"
 
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
+import { getPostStatus } from "../../../data/apis"
+import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
-import { getPostList, getPostStatus, getPartnerGroupByType } from "../../../data/apis"
+import { AppConfig } from "../../../Constants"
 
 const PostListAllScreen = ({ navigation, route }) => {
-  const [refreshing, setRefreshing] = React.useState(false)
-  const [posts, setPosts] = React.useState([])
-  const [openSelectPartner, setOpenSelectPartner] = React.useState(false)
-  const [partner, setPartner] = React.useState("")
-  const [partnerList, setPartnerList] = React.useState(getPostStatus())
+  const [refreshing, setRefreshing] = useState(false)
+  const [posts, setPosts] = useState([])
+  const [openSelectPartner, setOpenSelectPartner] = useState(false)
+  const [partner, setPartner] = useState(
+    AppConfig.PostsStatus.customerNewPostDone
+  )
+  const [partnerList, setPartnerList] = useState(getPostStatus())
 
-  // useEffect(() => {
-  //   const onChangeValue = firebase
-  //     .database()
-  //     .ref("posts")
-  //     .on("value", (snapshot) => {
-  //       setPosts(snapshotToArray(snapshot))
-  //     })
-
-  //   return () => firebase.database().ref("posts").off("value", onChangeValue)
-  // }, [])
-
-  const handleRefresh = () => {
-  }
+  const handleRefresh = () => {}
 
   const onPressOptions = (item, status) => {
-    if (status === "wait_admin_confirm_payment") {
-      navigation.navigate("Verify-Payment-Slip")
+    if (status === AppConfig.PostsStatus.waitAdminConfirmPayment) {
+      navigation.navigate("Verify-Payment-Slip", { item })
     } else {
       navigation.navigate("Detail-Task", { item })
     }
   }
 
-  const getBgColor = (status) => {
-    if (status === "customer_new_post_done") {
-      return "#fdddf3"
-    } else if (status === "admin_confirm_new_post") {
-      return "#fef8e3"
-    } else if (status === "wait_customer_select_partner") {
-      return "#fcf2ff"
-    } else if (status === "wait_customer_payment") {
-      return "#fff0ee"
-    } else if (status === "wait_admin_confirm_payment") {
-      return "#fdddf3"
-    } else if (status === "customer_with_partner") {
-      return "#fef8e3"
-    }
-    return "#fcf2ff"
-  }
+  // const updatePartnerList = (value) => {
+  //   console.log('updatePartnerList', value)
+  //   setPosts([])
+  //   let ref = firebase.database().ref(`posts`)
+  //   if (value) {
+  //     setPartner(value)
+  //     ref = ref.orderByChild("status").equalTo(value)
+  //   }
+  //   ref.once("value", (snapshot) => {
+  //     const postsList = snapshotToArray(snapshot)
+  //     console.log('postsList=>', postsList)
+  //     setPosts(postsList.filter((item, index) => item.status === value))
+  //   })
+  // }
 
   const renderItem = ({ item }) => (
     <ListItem
@@ -75,13 +67,11 @@ const PostListAllScreen = ({ navigation, route }) => {
       }}
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>ชื่อลูกค้า: {item.customer}</ListItem.Title>
+        <ListItem.Title>ชื่อลูกค้า: {item.customerName}</ListItem.Title>
         <ListItem.Title>Level: {item.customerLevel}</ListItem.Title>
-        <ListItem.Subtitle>ชื่อโพสท์: {item.name}</ListItem.Subtitle>
         <ListItem.Subtitle>
           ประเภทที่ต้องการ: {item.partnerRequest}
         </ListItem.Subtitle>
-        <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
         <ListItem.Subtitle>Status: {item.statusText}</ListItem.Subtitle>
       </ListItem.Content>
       <ProgressCircle
@@ -97,6 +87,61 @@ const PostListAllScreen = ({ navigation, route }) => {
     </ListItem>
   )
 
+  useEffect(() => {
+    let ref = firebase.database().ref(`posts`)
+    // if (partner) {
+    //   ref = ref.orderByChild("status").equalTo(partner)
+    // }
+    const listener = ref.on("value", (snapshot) => {
+      const postsList = snapshotToArray(snapshot)
+      setPosts(
+        postsList.filter((item, index) => {
+          const date1 = Moment()
+          const date2 = Moment(item.sys_update_date)
+          const diffHours = date1.diff(date2, "hours")
+          if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
+            if (diffHours <= 24) {
+              return item
+            } else {
+              // update timeout
+              updatePosts(item.id, {
+                status: AppConfig.PostsStatus.postTimeout,
+                statusText: "ข้อมูลการโพสท์ใหม่หมดอายุ",
+                sys_update_date: new Date().toUTCString(),
+              })
+            }
+          } else if (
+            item.status === AppConfig.PostsStatus.adminConfirmNewPost
+          ) {
+            if (diffHours <= 2) {
+              return item
+            } else {
+              // update timeout
+              updatePosts(item.id, {
+                status: AppConfig.PostsStatus.postTimeout,
+                statusText:
+                  "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
+                sys_update_date: new Date().toUTCString(),
+              })
+              // remove from group partner request
+              saveProvincesGroupPostPartner(
+                {
+                  province: item.province,
+                  provinceName: item.provinceName,
+                  partnerType: item.partnerRequest,
+                },
+                -1
+              )
+            }
+          } else {
+            return item
+          }
+        })
+      )
+    })
+    return () => ref.off("value", listener)
+  }, [])
+
   return (
     <ImageBackground
       source={bgImage}
@@ -104,9 +149,9 @@ const PostListAllScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
+        <Text style={styles.textTopic}>รายการโพสท์</Text>
         <View style={styles.container}>
-          <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
-          <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
+          {/* <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
             <DropDownPicker
               placeholder="เลือกประเภทโพสท์"
               open={openSelectPartner}
@@ -115,12 +160,13 @@ const PostListAllScreen = ({ navigation, route }) => {
               setValue={setPartner}
               items={partnerList}
               setItems={setPartnerList}
-              style={styles.dropdownStyle}
               textStyle={{ fontSize: 18 }}
               zIndex={2}
               searchable={false}
+              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+              onChangeValue={(e) => updatePartnerList(e)}
             />
-          </View>
+          </View> */}
           {posts.length === 0 && <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />}
           {posts.length > 0 && (
             <FlatList
@@ -155,9 +201,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
   btnNewPost: {
     backgroundColor: "#35D00D",

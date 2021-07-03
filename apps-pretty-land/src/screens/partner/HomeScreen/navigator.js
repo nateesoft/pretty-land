@@ -10,6 +10,8 @@ import { LogoTitle } from "../../../components/Header"
 const Stack = createStackNavigator()
 
 const StackNavigator = ({ navigation, route }) => {
+  const { userId } = route.params
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -23,7 +25,7 @@ const StackNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
-        initialParams={{ partnerType: "all" }}
+        initialParams={{ partnerType: "all", userId }}
       />
       <Stack.Screen
         name="All-Customer-Post-List"
@@ -36,7 +38,7 @@ const StackNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
-        initialParams={{ partnerType: "all" }}
+        initialParams={{ partnerType: "all", userId }}
       />
       <Stack.Screen
         name="Task-Detail"
@@ -49,7 +51,7 @@ const StackNavigator = ({ navigation, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
-        initialParams={{ partnerType: "all" }}
+        initialParams={{ partnerType: "all", userId }}
       />
     </Stack.Navigator>
   )

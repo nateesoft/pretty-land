@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { StyleSheet, View, ImageBackground } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
-import { FontAwesome, FontAwesome5 } from "react-native-vector-icons"
+import { FontAwesome } from "react-native-vector-icons"
 
 import firebase from "../../../../util/firebase"
 import bgImage from "../../../../assets/bg.png"
@@ -14,19 +14,16 @@ const ViewSettingForm = ({ navigation, route }) => {
   const [lineContact, setLineContact] = useState("")
 
   useEffect(() => {
-    const onChangeValue = firebase
-      .database()
-      .ref("appconfig")
-      .on("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        setFeeAmount(data.fee_amount || null)
-        setLineContact(data.line_contact_admin || "")
-        setImageQuality(data.quality_image_upload || "default")
-        setVideoQuality(data.quality_video_upload || "default")
-      })
+    const ref = firebase.database().ref("appconfig")
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setFeeAmount(data.fee_amount || null)
+      setLineContact(data.line_contact_admin || "")
+      setImageQuality(data.quality_image_upload || "default")
+      setVideoQuality(data.quality_video_upload || "default")
+    })
 
-    return () =>
-      firebase.database().ref("appconfig").off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   const updateAppConfigSetting = () => {
@@ -47,8 +44,8 @@ const ViewSettingForm = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
+      <Text style={styles.textTopic}>จัดการข้อมูลระบบ</Text>
       <View style={styles.cardDetail}>
-        <Text style={styles.textTopic}>จัดการข้อมูลระบบ</Text>
         <View style={styles.viewCard}>
           <Text style={{ fontSize: 18 }}>ค่าธรรมเนียม ดำเนินการ</Text>
           <Input
@@ -154,9 +151,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
   imageBg: {
     flex: 1,

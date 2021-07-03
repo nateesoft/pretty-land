@@ -1,21 +1,48 @@
 import React, { useState } from "react"
-import { StyleSheet, View, ImageBackground, Alert } from "react-native"
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  Alert,
+  TextInput,
+} from "react-native"
 import { Button, Text, Input, CheckBox } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 import base64 from "react-native-base64"
 import uuid from "react-native-uuid"
+import DropDownPicker from "react-native-dropdown-picker"
 
+import { GetIcon } from "../../../components/GetIcons"
 import { snapshotToArray } from "../../../../util"
 import firebase from "../../../../util/firebase"
 import bgImage from "../../../../assets/bg.png"
 
 const AddNewAdminForm = ({ navigation, route }) => {
+  const [name, setName] = useState("")
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [rePassword, setRePassword] = useState("")
-  const [isSuperAdmin, setSuperAdmin] = useState(false)
+
+  const [openMemberType, setOpenMemberType] = useState(false)
+  const [memberType, setMemberType] = useState("")
+  const [memberTypesLists, setMemberTypeList] = useState([
+    { label: "superadmin", value: "superadmin" },
+    { label: "admin", value: "admin" },
+    { label: "manager", value: "manager" },
+    { label: "customer", value: "customer" },
+    { label: "partner", value: "partner" },
+    { label: "demo", value: "demo" },
+  ])
 
   const saveNewAdmin = () => {
+    if (!name) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุข้อมูลชื่อ")
+      return
+    }
+    if (!username) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุข้อมูลผู้ใช้งาน")
+      return
+    }
     if (!password) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุข้อมูลรหัสผ่านเดิม")
       return
@@ -28,14 +55,38 @@ const AddNewAdminForm = ({ navigation, route }) => {
       Alert.alert("แจ้งเตือน", "รหัสผ่านใหม่ และรหัสผ่านใหม่่ไม่ตรงกัน")
       return
     }
+    if (!memberType) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุประเภทสมาชิก")
+      return
+    }
 
-    const dataNewAdmin = {
+    let dataNewAdmin = {
       id: uuid.v4(),
+      profile: name,
       username,
       password: base64.encode(password),
-      memberType: isSuperAdmin ? "superadmin" : "admin",
+      memberType,
       status_priority: 10,
+      status: "active",
     }
+
+    if (
+      memberType !== "admin" &&
+      memberType !== "superadmin" &&
+      memberType !== "manager"
+    ) {
+      dataNewAdmin = {
+        id: uuid.v4(),
+        profile: name,
+        username,
+        password: base64.encode(password),
+        memberType,
+        status: "active",
+        customerLevel: 0,
+        status_priority: 1,
+      }
+    }
+
     firebase
       .database()
       .ref(`members`)
@@ -44,12 +95,16 @@ const AddNewAdminForm = ({ navigation, route }) => {
       .once("value", (snapshot) => {
         const data = snapshotToArray(snapshot)
         if (data.length === 0) {
-          firebase.database().ref(`members/${dataNewAdmin.id}`).set(dataNewAdmin)
+          firebase
+            .database()
+            .ref(`members/${dataNewAdmin.id}`)
+            .set(dataNewAdmin)
           Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว")
+          setName("")
           setUsername("")
           setPassword("")
           setRePassword("")
-          setSuperAdmin(false)
+          setMemberType("")
         } else {
           const user = data[0]
           Alert.alert(
@@ -67,41 +122,74 @@ const AddNewAdminForm = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
+      <Text style={styles.textTopic}>เพิ่มข้อมูล Admin</Text>
       <View style={styles.cardDetail}>
-        <Text style={styles.textTopic}>เพิ่มข้อมูล Admin</Text>
         <View style={styles.viewCard}>
-          <Text style={{ fontSize: 18 }}>ข้อมูลชื่อผู้ใช้งาน (admin) ในระบบ</Text>
-          <Input
-            placeholder="ข้อมูลผู้ใช้งานใหม่"
-            leftIcon={{ type: "font-awesome", name: "address-book" }}
-            style={styles.inputForm}
-            onChangeText={(value) => setUsername(value)}
-            value={username}
-          />
-          <Text style={{ fontSize: 18 }}>กำหนดรหัสผ่าน</Text>
-          <Input
-            placeholder="รหัสผ่าน"
-            leftIcon={{ type: "font-awesome", name: "lock" }}
-            style={styles.inputForm}
-            onChangeText={(value) => setPassword(value)}
-            value={password}
-            secureTextEntry={true}
-          />
-          <Text style={{ fontSize: 18 }}>ยืนยันรหัสผ่านใหม่</Text>
-          <Input
-            placeholder="ยืนยันรหัสผ่าน"
-            leftIcon={{ type: "font-awesome", name: "lock" }}
-            style={styles.inputForm}
-            onChangeText={(value) => setRePassword(value)}
-            value={rePassword}
-            secureTextEntry={true}
-          />
-          <CheckBox
-            title="กำหนดเป็นผู้ดูแลระบบหลัก"
-            checked={isSuperAdmin}
-            onPress={() => setSuperAdmin(!isSuperAdmin)}
-            textStyle={{ fontSize: 16 }}
-            containerStyle={{ backgroundColor: null, borderColor: "#ff2fe6" }}
+          <Text style={{ fontSize: 18 }}>ชื่อผู้ใช้งาน (name)</Text>
+          <View style={styles.formControl}>
+            <GetIcon type="ad" name="idcard" />
+            <TextInput
+              leftIcon={{ type: "ant-design", name: "idcard" }}
+              style={styles.textInput}
+              onChangeText={(value) => setName(value)}
+              value={name}
+              placeholder="ชื่อผู้ใช้งาน (name)"
+            />
+          </View>
+          <Text style={{ fontSize: 18 }}>
+            ข้อมูลชื่อผู้ใช้งาน (username) ในระบบ
+          </Text>
+          <View style={styles.formControl}>
+            <GetIcon type="fa" name="address-book" />
+            <TextInput
+              leftIcon={{ type: "font-awesome", name: "address-book" }}
+              style={styles.textInput}
+              onChangeText={(value) => setUsername(value)}
+              value={username}
+              placeholder="ข้อมูลชื่อผู้ใช้งาน"
+            />
+          </View>
+          <Text style={{ fontSize: 18 }}>กำหนดรหัสผ่าน (password)</Text>
+          <View style={styles.formControl}>
+            <GetIcon type="fa" name="lock" />
+            <TextInput
+              leftIcon={{ type: "font-awesome", name: "lock" }}
+              style={styles.inputForm}
+              onChangeText={(value) => setPassword(value)}
+              value={password}
+              secureTextEntry={true}
+              placeholder="กำหนดรหัสผ่าน (password)"
+            />
+          </View>
+          <Text style={{ fontSize: 18 }}>ยืนยันรหัสผ่านใหม่ (re-password)</Text>
+          <View style={styles.formControl}>
+            <GetIcon type="fa" name="lock" />
+            <TextInput
+              leftIcon={{ type: "font-awesome", name: "lock" }}
+              style={styles.inputForm}
+              onChangeText={(value) => setRePassword(value)}
+              value={rePassword}
+              secureTextEntry={true}
+              placeholder="ยืนยันรหัสผ่านใหม่"
+            />
+          </View>
+        </View>
+        <View style={{ alignSelf: "center", zIndex: 1 }}>
+          <Text style={{ fontSize: 18, marginBottom: 10 }}>
+            ประเภทผู้ใช้งาน
+          </Text>
+          <DropDownPicker
+            placeholder="ประเภทผู้ใช้งาน"
+            open={openMemberType}
+            setOpen={setOpenMemberType}
+            value={memberType}
+            setValue={setMemberType}
+            items={memberTypesLists}
+            setItems={setMemberTypeList}
+            textStyle={{ fontSize: 18 }}
+            zIndex={2}
+            searchable={false}
+            selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
           />
         </View>
         <Button
@@ -127,7 +215,7 @@ const styles = StyleSheet.create({
   btnSave: {
     margin: 15,
     paddingHorizontal: 50,
-    borderRadius: 55,
+    borderRadius: 5,
     backgroundColor: "#ff2fe6",
   },
   cardDetail: {
@@ -161,9 +249,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: "#ff2fe6",
+    padding: 10,
   },
   imageBg: {
     flex: 1,
@@ -172,6 +260,22 @@ const styles = StyleSheet.create({
   },
   inputForm: {
     marginLeft: 10,
+  },
+  formControl: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 0.5,
+    paddingHorizontal: 10,
+    borderColor: "#ff2fe6",
+    marginTop: 5,
+    height: 50,
+    borderRadius: 10,
+  },
+  textInput: {
+    width: 250,
+    textAlign: "center",
+    fontSize: 16,
+    marginVertical: 5,
   },
 })
 

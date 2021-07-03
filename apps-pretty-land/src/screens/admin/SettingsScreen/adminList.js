@@ -9,7 +9,7 @@ import {
   ImageBackground,
   TouchableNativeFeedback,
 } from "react-native"
-import { ListItem, Avatar, Text } from "react-native-elements"
+import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import DropDownPicker from "react-native-dropdown-picker"
 
@@ -20,33 +20,28 @@ import { snapshotToArray } from "../../../../util"
 import { getMemberCategory } from "../../../data/apis"
 
 const AdminAllListScreen = ({ navigation, route }) => {
-  const [refreshing, setRefreshing] = React.useState(false)
-  const [openSelectPartner, setOpenSelectPartner] = React.useState(false)
-  const [partner, setPartner] = React.useState("")
-  const [partnerList, setPartnerList] = React.useState(getMemberCategory())
+  const [refreshing, setRefreshing] = useState(false)
+  const [openSelectPartner, setOpenSelectPartner] = useState(false)
+  const [partner, setPartner] = useState("")
+  const [partnerList, setPartnerList] = useState(getMemberCategory())
   const [members, setMembers] = useState([])
 
   useEffect(() => {
-    const onChangeValue = firebase
+    const ref = firebase
       .database()
       .ref("members")
       .orderByChild("status_priority")
-      .on("value", (snapshot) => {
-        const memberInCloud = snapshotToArray(snapshot)
-        setMembers(
-          memberInCloud.filter(
-            (item, index) =>
-              item.memberType === "superadmin" || item.memberType === "admin"
-          )
+    const listener = ref.on("value", (snapshot) => {
+      const memberInCloud = snapshotToArray(snapshot)
+      setMembers(
+        memberInCloud.filter(
+          (item, index) =>
+            item.memberType === "superadmin" || item.memberType === "admin"
         )
-      })
+      )
+    })
 
-    return () =>
-      firebase
-        .database()
-        .ref("members")
-        .orderByChild("status_priority")
-        .off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   const handleRefresh = () => {}
@@ -97,9 +92,9 @@ const AdminAllListScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
+        <Text style={styles.textTopic}>Admin ในระบบทั้งหมด</Text>
         <View style={styles.container}>
-          <Text style={styles.textTopic}>สมาชิกในระบบทั้งหมด</Text>
-          <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
+          {/* <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
             <DropDownPicker
               placeholder="เลือกประเภทสมาชิก"
               open={openSelectPartner}
@@ -111,8 +106,9 @@ const AdminAllListScreen = ({ navigation, route }) => {
               style={styles.dropdownStyle}
               textStyle={{ fontSize: 18 }}
               searchable={false}
+              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             />
-          </View>
+          </View> */}
           {members.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลสมาชิกในระบบ" />
           )}
@@ -147,9 +143,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    color: "white",
+    backgroundColor: '#ff2fe6',
+    padding: 10,
   },
   btnNewPost: {
     backgroundColor: "#35D00D",

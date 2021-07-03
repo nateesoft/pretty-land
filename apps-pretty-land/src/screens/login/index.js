@@ -7,10 +7,13 @@ import {
   ImageBackground,
   TouchableHighlight,
   Linking,
+  Alert,
 } from "react-native"
+import jwtDecode from "jwt-decode"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
 import { TouchableNativeFeedback } from "react-native"
+import * as AppleAuthentication from "expo-apple-authentication"
 
 import firebase from "../../../util/firebase"
 import { Context as AuthContext } from "../../context/AuthContext"
@@ -21,20 +24,17 @@ import facebookLogo from "../../../assets/icons/f_logo_RGB-Blue_58.png"
 
 const LoginScreen = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { signInCustomer } = useContext(AuthContext)
+  const { signInFacebook, signInApple } = useContext(AuthContext)
   const [lineContact, setLineContact] = useState("")
 
   useEffect(() => {
-    const onChangeValue = firebase
-      .database()
-      .ref("appconfig")
-      .once("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        setLineContact(data.line_contact_admin || "https://lin.ee/DgRh5Mw")
-      })
+    const ref = firebase.database().ref("appconfig")
+    const listener = ref.on("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setLineContact(data.line_contact_admin || "https://lin.ee/DgRh5Mw")
+    })
 
-    return () =>
-      firebase.database().ref('appconfig').off("value", onChangeValue)
+    return () => ref.off("value", listener)
   }, [])
 
   const LinkToLineContact = () => {
@@ -53,11 +53,7 @@ const LoginScreen = ({ navigation, route }) => {
         <Text style={styles.textDetail}>Love Your Moments</Text>
         <TouchableHighlight
           style={styles.btnLineClickContain}
-          onPress={() =>
-            signInCustomer({
-              loginType: "line",
-            })
-          }
+          onPress={() => navigate("Line-Login-Form")}
         >
           <View style={styles.btnContainer}>
             <Image source={lineLogo} style={{ width: 24, height: 24 }} />
@@ -74,27 +70,59 @@ const LoginScreen = ({ navigation, route }) => {
           </View>
         </TouchableHighlight>
         <TouchableHighlight
-          style={styles.btnClickContain}
-          onPress={() =>
-            signInCustomer({
-              loginType: "facebook",
-            })
-          }
+          style={[styles.btnClickContain, { marginBottom: 20 }]}
+          onPress={() => signInFacebook()}
         >
           <View style={styles.btnContainer}>
             <Image source={facebookLogo} style={{ width: 24, height: 24 }} />
             <Text
               style={{
-                marginLeft: 10,
+                marginTop: 2,
+                marginLeft: 5,
                 color: "white",
                 fontWeight: "bold",
-                fontSize: 16,
+                fontSize: 14,
               }}
             >
               เข้าสู่ระบบด้วย facebook
             </Text>
           </View>
         </TouchableHighlight>
+        <AppleAuthentication.AppleAuthenticationButton
+          buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+          buttonStyle={
+            AppleAuthentication.AppleAuthenticationButtonStyle.WHITE_OUTLINE
+          }
+          cornerRadius={5}
+          style={{ width: 200, height: 44 }}
+          onPress={async () => {
+            try {
+              const credential = await AppleAuthentication.signInAsync({
+                requestedScopes: [
+                  AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                  AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                ],
+              })
+              Alert.alert("Connect Apple authentication")
+              const decodeData = jwtDecode(credential["identityToken"])
+              // signed in
+              signInApple({
+                userId: credential["user"],
+                email: decodeData.email,
+                fullName: decodeData.email,
+              })
+            } catch (e) {
+              if (e.code === "ERR_CANCELED") {
+                // handle that the user canceled the sign-in flow
+                console.log("apple login cancel")
+              } else {
+                // handle other errors
+                console.log("error apple login:", e)
+                Alert.alert(`Apple Auth Error: ${e}`)
+              }
+            }
+          }}
+        />
         <Text style={styles.textOr}>------ OR ------</Text>
         <Button
           icon={
@@ -114,8 +142,8 @@ const LoginScreen = ({ navigation, route }) => {
           buttonStyle={{
             backgroundColor: "#ff2fe6",
             marginTop: 5,
-            borderRadius: 25,
-            width: 250,
+            borderRadius: 5,
+            width: 200,
             paddingHorizontal: 15,
             height: 45,
             borderWidth: 1,
@@ -124,7 +152,7 @@ const LoginScreen = ({ navigation, route }) => {
           onPress={() => navigate("Login-Form")}
         />
         <Button
-          title="ลงทะเบียนผู้ร่วมงาน"
+          title="ลงทะเบียนผู้ร่วมงาน (Register)"
           titleStyle={{
             color: "blue",
             fontSize: 14,
@@ -161,8 +189,8 @@ const styles = StyleSheet.create({
     marginTop: -120,
   },
   image: {
-    height: 100,
-    width: 100,
+    height: 85,
+    width: 85,
     marginBottom: 10,
   },
   textLogo: {
@@ -189,7 +217,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     textAlignVertical: "center",
-    paddingLeft: 10,
   },
   textOr: {
     marginVertical: 15,
@@ -250,9 +277,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom: 5,
     backgroundColor: "#0A69D6",
-    marginTop: 5,
-    borderRadius: 25,
-    width: 250,
+    borderRadius: 5,
+    width: 200,
     height: 45,
   },
   btnLineClickContain: {
@@ -261,8 +287,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     backgroundColor: "#35D00D",
     marginTop: 45,
-    borderRadius: 25,
-    width: 250,
+    borderRadius: 5,
+    width: 200,
     height: 45,
   },
 })

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import {
   StyleSheet,
   TouchableHighlight,
@@ -6,17 +6,36 @@ import {
   Text,
   Image,
   Dimensions,
+  ImageBackground,
 } from "react-native"
 
 /* import data */
-import { getPartnerGroup } from "../../../data/apis"
+import firebase from "../../../../util/firebase"
+import bgImage from "../../../../assets/bg.png"
 
-const widthFix = Dimensions.get("window").width * 70/100
+const widthFix = (Dimensions.get("window").width * 70) / 120
 
-const PartnerCategory = ({ navigation }) => {
-  const [items, setItems] = React.useState(getPartnerGroup)
+const PartnerCategory = ({ navigation, route }) => {
+  const [items, setItems] = useState([])
+
+  useEffect(() => {
+    const ref = firebase.database().ref(`appconfig`)
+    const listener = ref.on("value", (snapshot) => {
+      const dataItems = []
+      const appconfig = snapshot.val()
+      dataItems.push({ ...appconfig.partner1 })
+      dataItems.push({ ...appconfig.partner2 })
+      dataItems.push({ ...appconfig.partner3 })
+      dataItems.push({ ...appconfig.partner4 })
+      
+      setItems(dataItems)
+    })
+
+    return () => ref.off("value", listener)
+  }, [])
+
   const onPressOptions = (item) => {
-    navigation.navigate("Create-Post-Form", { item })
+    navigation.navigate("Create-Post-Form", { item, partnerGroup: items })
   }
 
   const DisplayCard = ({ data }) => (
@@ -27,20 +46,28 @@ const PartnerCategory = ({ navigation }) => {
     >
       <View style={styles.inner}>
         <Image
-          source={data.img}
+          source={{ uri: data.image_url }}
           style={{ height: widthFix, width: "90%", margin: 5 }}
         />
-        <Text style={styles.optionsName}>{data.label}</Text>
+        <Text style={styles.optionsName}>{data.name}</Text>
       </View>
     </TouchableHighlight>
   )
   return (
-    <View style={styles.container}>
-      <DisplayCard data={items[0]} />
-      <DisplayCard data={items[1]} />
-      <DisplayCard data={items[2]} />
-      <DisplayCard data={items[3]} />
-    </View>
+    <ImageBackground
+      source={bgImage}
+      style={styles.imageBg}
+      resizeMode="stretch"
+    >
+      {items.length > 0 && (
+        <View style={styles.container}>
+          <DisplayCard data={items[0]} />
+          <DisplayCard data={items[1]} />
+          <DisplayCard data={items[2]} />
+          <DisplayCard data={items[3]} />
+        </View>
+      )}
+    </ImageBackground>
   )
 }
 
@@ -73,6 +100,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     color: "white",
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 })
 
