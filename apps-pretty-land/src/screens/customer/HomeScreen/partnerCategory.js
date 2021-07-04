@@ -11,13 +11,14 @@ import {
 
 /* import data */
 import firebase from "../../../../util/firebase"
-import {snapshotToArray} from "../../../../util"
+import { snapshotToArray } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 
 const widthFix = (Dimensions.get("window").width * 70) / 120
 
 const PartnerCategory = ({ navigation, route }) => {
+  const { userId } = route.params
   const [items, setItems] = useState([])
 
   const [sumType1, setSumType1] = useState("0")
@@ -46,12 +47,12 @@ const PartnerCategory = ({ navigation, route }) => {
           type4 = type4 + 1
         }
       })
-      resolve({
-        type1,
-        type2,
-        type3,
-        type4,
-      })
+      setSumType1(type1)
+      setSumType2(type2)
+      setSumType3(type3)
+      setSumType4(type4)
+
+      resolve(true)
     })
   }
 
@@ -64,7 +65,7 @@ const PartnerCategory = ({ navigation, route }) => {
       dataItems.push({ ...appconfig.partner2 })
       dataItems.push({ ...appconfig.partner3 })
       dataItems.push({ ...appconfig.partner4 })
-      
+
       setItems(dataItems)
     })
 
@@ -93,21 +94,21 @@ const PartnerCategory = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase.database().ref(`posts`)
+    const ref = firebase
+      .database()
+      .ref(`posts`)
+      .orderByChild("customerId")
+      .equalTo(userId)
     const listener = ref.on("value", (snapshot) => {
       getComputeGroup(snapshot).then((res) => {
-        const data = { ...res }
-        setSumType1(data.type1)
-        setSumType2(data.type2)
-        setSumType3(data.type3)
-        setSumType4(data.type4)
+        console.log("result:", res)
       })
     })
     return () => {
       ref.off("value", listener)
     }
   }, [])
-  
+
   return (
     <ImageBackground
       source={bgImage}
