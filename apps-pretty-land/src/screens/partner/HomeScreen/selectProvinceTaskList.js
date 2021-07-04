@@ -11,7 +11,9 @@ import {
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import Moment from "moment"
+import DropDownPicker from "react-native-dropdown-picker"
 
+import { getCountryList, getProvinceName } from "../../../data/apis"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
@@ -19,10 +21,15 @@ import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
 
-const AllCustomerPostList = ({ navigation, route }) => {
-  const { profile, province, provinceName } = route.params
+const SelectProvinceTaskList = ({ navigation, route }) => {
+  const { item, profile, partnerType, userId } = route.params
+
   const [refreshing, setRefreshing] = useState(false)
   const [filterList, setFilterList] = useState([])
+
+  const [openSelectCountry, setOpenSelectCountry] = useState(false)
+  const [province, setProvince] = useState("")
+  const [countryList, setCountryList] = useState(getCountryList())
 
   const handleRefresh = () => {}
 
@@ -44,20 +51,9 @@ const AllCustomerPostList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
-            backgroundColor: "chocolate",
-            color: "white",
-            paddingHorizontal: 5,
           }}
         >
-          โหมดงาน: {item.partnerRequest}
-        </ListItem.Title>
-        <ListItem.Title
-          style={{
-            marginBottom: 5,
-            paddingHorizontal: 5,
-          }}
-        >
-          จำนวนPartner ที่ต้องการ: {item.partnerWantQty||0} คน
+          จำนวนPartner ที่ต้องการ: {item.partnerWantQty || 0} คน
         </ListItem.Title>
         <ListItem.Title
           style={{
@@ -178,7 +174,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
       )
     })
     return () => ref.off("value", listener)
-  }, [])
+  }, [province])
 
   return (
     <ImageBackground
@@ -188,7 +184,34 @@ const AllCustomerPostList = ({ navigation, route }) => {
     >
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
-        <Text style={styles.textDetail}>จังหวัด {provinceName}</Text>
+        <View
+          style={{
+            backgroundColor: "chocolate",
+            alignItems: "center",
+            width: "100%",
+            height: 30,
+            justifyContent: "center",
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 20 }}>
+            โหมด: {item.name}
+          </Text>
+        </View>
+        <View style={{ margin: 10, zIndex: 1 }}>
+          <DropDownPicker
+            placeholder="-- เลือกจังหวัด --"
+            open={openSelectCountry}
+            setOpen={setOpenSelectCountry}
+            value={province}
+            setValue={setProvince}
+            items={countryList}
+            setItems={setCountryList}
+            textStyle={{ fontSize: 18 }}
+            searchable={false}
+            selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+            listMode="SCROLLVIEW"
+          />
+        </View>
         <View style={styles.container}>
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
@@ -236,7 +259,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
   textDetail: {
@@ -244,9 +267,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
 })
 
-export default AllCustomerPostList
+export default SelectProvinceTaskList

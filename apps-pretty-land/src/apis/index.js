@@ -62,7 +62,6 @@ export const saveProvincesGroupPostPartner = (data, addNumber) => {
     partner1: partnerType === AppConfig.PartnerType.type1 ? addNumber : 0,
     partner2: partnerType === AppConfig.PartnerType.type2 ? addNumber : 0,
     partner3: partnerType === AppConfig.PartnerType.type3 ? addNumber : 0,
-    // partner4: partnerType === AppConfig.PartnerType.type4 ? addNumber : 0,
   }
   firebase
     .database()
@@ -79,9 +78,6 @@ export const saveProvincesGroupPostPartner = (data, addNumber) => {
         if (partnerType === AppConfig.PartnerType.type3) {
           updateData.partner3 = parseInt(data.val().partner3) + addNumber
         }
-        // if (partnerType === AppConfig.PartnerType.type4) {
-        //   updateData.partner4 = parseInt(data.val().partner4) + addNumber
-        // }
         firebase.database().ref(`group_posts/${province}`).update(updateData)
       } else {
         firebase

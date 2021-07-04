@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
   ScrollView,
   Image,
@@ -17,6 +17,18 @@ import { AppConfig } from "../../../Constants"
 const VerifyPaymentSlip = ({ navigation, route }) => {
   const { navigate } = navigation
   const { item } = route.params
+
+  const [listPartner, setListPartner] = useState([])
+
+  const getPartnerList = (item) => {
+    return new Promise((resolve, reject) => {
+      let list = []
+      for (let key in item) {
+        list.push(item[key])
+      }
+      resolve(list)
+    })
+  }
 
   const saveConfirmPayment = () => {
     // save to firebase
@@ -41,6 +53,12 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
     // to all list
     navigate("Post-List-All")
   }
+
+  useEffect(() => {
+    getPartnerList(item.partnerSelect).then((res) => {
+      setListPartner(res)
+    })
+  }, [])
 
   return (
     <ImageBackground
@@ -67,14 +85,39 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
               borderWidth: 1.5,
               margin: 10,
               borderColor: "pink",
+              width: "85%",
             }}
           >
-            <Text>ชื่อผู้โอนเงิน: {item.customerName}</Text>
+            <Text>ชื่อลูกค้า: {item.customerName}</Text>
+            <Text>Level: {item.customerLevel}</Text>
+            <Text>สถานที่นัดหมาย: {item.placeMeeting}</Text>
+            <Text>
+              เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
+            </Text>
+            <Text>เบอร์ติดต่อ: {item.customerPhone}</Text>
+            <Text>รายละเอียดเพิ่มเติม: {item.customerRemark}</Text>
             <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
             <Text>
               ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}
             </Text>
             <Text>เวลาที่โอนเงิน: {item.transferTime}</Text>
+          </View>
+          <View style={{ width: "80%", alignItems: "center", margin: 10 }}>
+            <Text style={{ marginBottom: 5 }}>
+              จำนวนรายชื่อ Partner ที่รับชำระ {listPartner.length} คน
+            </Text>
+            {listPartner &&
+              listPartner.map((item, index) => (
+                <View>
+                  <Image
+                    source={{ uri: item.image }}
+                    style={{ width: 100, height: 100 }}
+                  />
+                  <Text style={{ marginTop: 5 }} key={item.partnerId}>
+                    {item.partnerName}
+                  </Text>
+                </View>
+              ))}
           </View>
           <Button
             icon={
@@ -86,7 +129,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
               />
             }
             buttonStyle={styles.buttonConfirm}
-            title="ยืนยันข้อมูลถูกต้อง"
+            title="ยืนยันการโอนเงิน"
             onPress={() => saveConfirmPayment()}
           />
         </ScrollView>

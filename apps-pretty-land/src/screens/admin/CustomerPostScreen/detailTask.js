@@ -36,13 +36,13 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
   }, [])
 
   const updateToApprove = () => {
-    if(item.status === AppConfig.PostsStatus.waitAdminApprovePost){
+    if (item.status === AppConfig.PostsStatus.waitAdminApprovePost) {
       updatePosts(item.id, {
         status: AppConfig.PostsStatus.waitCustomerPayment,
         statusText: "รอลูกค้าชำระเงิน",
         sys_update_date: new Date().toUTCString(),
       })
-    }else{
+    } else {
       updatePosts(item.id, {
         status: AppConfig.PostsStatus.adminConfirmNewPost,
         statusText: "อนุมัติโพสท์",
@@ -82,28 +82,38 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>
+                โหมดงาน: {item.partnerRequest}
+              </Text>
+              <Text style={{ fontSize: 16 }}>
+                จำนวน Partner ที่ต้องการ: {item.partnerWantQty || 0} คน
+              </Text>
+              <Text style={{ fontSize: 16 }}>
                 ชื่อลูกค้า: {item.customerName}
               </Text>
               <Text style={{ fontSize: 16 }}>Level: {item.customerLevel}</Text>
-              <Text style={{ fontSize: 16 }}>
-                ประเภทที่ต้องการ: {item.partnerRequest}
-              </Text>
               <Text style={{ fontSize: 16 }}>จังหวัด: {item.provinceName}</Text>
               <Text style={{ fontSize: 16 }}>
-                เขต/อำเภอ: {item.districtName}
+                เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
               </Text>
             </View>
           </View>
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>
-                สถานะที่นัดพบ: {item.placeMeeting}
+                สถานะที่นัดหมาย: {item.placeMeeting}
               </Text>
               <Text style={{ fontSize: 16 }}>
-                เบอร์ติดต่อ: {item.customerPhone}
+                เบอร์โทร: {item.customerPhone}
               </Text>
               <Text style={{ fontSize: 16 }}>
-                หมายเหตุ: {item.customerRemark}
+                รายละเอียดเพิ่มเติม: {item.customerRemark}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.viewCard}>
+            <View style={{ marginLeft: 10 }}>
+              <Text style={{ fontSize: 16 }}>
+                เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
               </Text>
             </View>
           </View>
@@ -187,6 +197,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                     <Text>ชื่อ Partner: {pObj.partnerName}</Text>
                     <Text>เบอร์โทรศัพท์: {pObj.telephone}</Text>
                     <Text>ราคาที่เสนอ: {pObj.amount}</Text>
+                    <Text>สถานะ: {pObj.selectStatusText}</Text>
 
                     <View style={{ alignItems: "center" }}>
                       <Text

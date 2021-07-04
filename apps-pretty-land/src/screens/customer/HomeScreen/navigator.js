@@ -4,6 +4,8 @@ import { createStackNavigator } from "@react-navigation/stack"
 import PartnerCategoryScreen from "./partnerCategory"
 import PartnerListCountryScreen from "./partnerListCountry"
 import CreatePostForm from "./createPost"
+import SelectProvinceForm from "./selectProvince"
+import PlaceForm from "./placeForm"
 
 import { LogoTitle } from "../../../components/Header"
 
@@ -46,6 +48,40 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         }}
         initialParams={{
           pageFrom: "Partner-Category",
+          userId,
+          status,
+        }}
+      />
+      <Stack.Screen
+        name="Select-Province-Form"
+        component={SelectProvinceForm}
+        options={{
+          title: "เลือกจังหวัด",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+        initialParams={{
+          pageFrom: "Select-Province-Form",
+          userId,
+          status,
+        }}
+      />
+      <Stack.Screen
+        name="Place-Form"
+        component={PlaceForm}
+        options={{
+          title: "ข้อมูลสถานที่",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+        initialParams={{
+          pageFrom: "Select-Province-Form",
           userId,
           status,
         }}

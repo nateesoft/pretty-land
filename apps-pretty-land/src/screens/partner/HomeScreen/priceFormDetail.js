@@ -2,20 +2,24 @@ import React, { useState, useEffect } from "react"
 import {
   StyleSheet,
   View,
-  Text,
+  TextInput,
+  Alert,
+  ScrollView,
   SafeAreaView,
   ImageBackground,
 } from "react-native"
-import { Button } from "react-native-elements"
-import Moment from "moment"
+import { Button, Text } from "react-native-elements"
 
 import bgImage from "../../../../assets/bg.png"
+import { partnerAcceptJobWaitCustomerReview } from "../../../apis"
 
 import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../Constants"
 
-const ConfirmTaskScreen = ({ navigation, route }) => {
+const PriceFormDetail = ({ navigation, route }) => {
   const { profile, item } = route.params
+  console.log('item:', item)
+  const [amount, setAmount] = useState("")
   const [workStatus, setWorkStatus] = useState("")
 
   const [getWork, setGetWork] = useState(false)
@@ -24,8 +28,16 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       (item.partnerSelect ? Object.keys(item.partnerSelect).length : 0) ===
     0
 
-  const nextPriceForm = () => {
-    navigation.navigate("Price-Form-Detail", { profile, item })
+  const partnerQuatation = () => {
+    if (!amount) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุจำนวนเงินที่ต้องการ")
+      return
+    }
+    partnerAcceptJobWaitCustomerReview(item, {
+      ...profile,
+      amount,
+    })
+    navigation.navigate("Category-Group")
   }
 
   useEffect(() => {
@@ -36,6 +48,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       const checkItem = { ...snapshot.val() }
       const acceptAlready = checkItem.partnerId === profile.id
       if (acceptAlready) {
+        setAmount(checkItem.amount)
         setWorkStatus(checkItem.selectStatus)
       }
       setGetWork(acceptAlready)
@@ -51,68 +64,36 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>รายละเอียดโพสท์ของลูกค้า</Text>
+        <Text style={styles.textTopic}>รายละเอียดโพสท์</Text>
         <View style={styles.cardDetail}>
-          <View>
-            <Text
-              style={{
-                marginBottom: 5,
-              }}
-            >
-              จำนวนPartner ที่ต้องการ: {item.partnerWantQty || 0} คน
-            </Text>
-            <Text
-              style={{
-                marginBottom: 5,
-              }}
-            >
-              ลูกค้า: {item.customerName}
-            </Text>
-            <Text
-              style={{
-                marginBottom: 5,
-              }}
-            >
-              ระดับ: {item.customerLevel}
-            </Text>
-            <Text
-              style={{
-                marginBottom: 5,
-              }}
-            >
-              สถานที่: {item.placeMeeting}
-            </Text>
-            <Text
-              style={{
-                marginBottom: 5,
-              }}
-            >
-              เริ่ม: {item.startTime}, เลิก: {item.stopTime}
-            </Text>
-            <Text
-              style={{
-                marginBottom: 5,
-              }}
-            >
-              รายละเอียดเพิ่มเติม: {item.customerRemark}
-            </Text>
-            <Text
-              style={{
-                marginBottom: 5,
-              }}
-            >
-              วันที่โพสท์:{" "}
-              {Moment(item.sys_create_date).format("D MMM YYYY HH:mm:ss")}
-            </Text>
-          </View>
           <View style={styles.viewCard}>
-            <View style={{ marginVertical: 10 }}>
-              <Button
-                title="ถัดไป"
-                buttonStyle={{ borderRadius: 5 }}
-                onPress={() => nextPriceForm()}
-              />
-            </View>
+            {!workHide && (
+              <View>
+                <View
+                  style={{
+                    borderWidth: 1.5,
+                    borderRadius: 10,
+                    borderColor: "gray",
+                    padding: 10,
+                  }}
+                >
+                  <TextInput
+                    value={amount}
+                    placeholder="เสนอราคา (บาท)"
+                    style={styles.textInput}
+                    keyboardType="number-pad"
+                    onChangeText={(value) => setAmount(value)}
+                  />
+                </View>
+                <View style={{ marginVertical: 10 }}>
+                  <Button
+                    title="ยืนยันราคา"
+                    buttonStyle={{ borderRadius: 5 }}
+                    onPress={() => partnerQuatation()}
+                  />
+                </View>
+              </View>
+            )}
           </View>
           {getWork && workStatus === AppConfig.PostsStatus.customerConfirm && (
             <Text
@@ -211,4 +192,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ConfirmTaskScreen
+export default PriceFormDetail

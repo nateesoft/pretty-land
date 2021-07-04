@@ -10,11 +10,9 @@ import {
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
-import DropDownPicker from "react-native-dropdown-picker"
 
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
-import { getCountryList } from "../../../data/apis"
 
 import firebase from "../../../../util/firebase"
 import { snapshotToArrayProvinceGroup } from "../../../../util"
@@ -24,10 +22,6 @@ const AllTaskListScreen = ({ navigation, route }) => {
   const { userId } = route.params
   const [refreshing, setRefreshing] = useState(false)
   const [filterList, setFilterList] = useState([])
-
-  const [openSelectCountry, setOpenSelectCountry] = useState(false)
-  const [country, setCountry] = useState("")
-  const [countryList, setCountryList] = useState(getCountryList())
   const [profile, setProfile] = useState({})
 
   const handleRefresh = () => {

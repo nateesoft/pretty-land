@@ -44,7 +44,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
         {item.status !== AppConfig.PostsStatus.adminConfirmPayment && (
-          <View style={{marginBottom: 10}}>
+          <View style={{ marginBottom: 10 }}>
             <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
             <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
             <ListItem.Title>เขต/อำเภอ: {item.districtName}</ListItem.Title>
@@ -110,7 +110,13 @@ const ListMyWorkScreen = ({ navigation, route }) => {
       .equalTo(userId)
     const listener = ref.on("value", (snapshot) => {
       const posts = snapshotToArray(snapshot)
-      setFilterList(posts)
+      setFilterList(
+        posts.filter((item, index) => {
+          if (item.status === AppConfig.PostsStatus.adminConfirmPayment) {
+            return item
+          }
+        })
+      )
     })
 
     return () => ref.off("value", listener)

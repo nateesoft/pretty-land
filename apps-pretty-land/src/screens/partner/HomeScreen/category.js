@@ -15,8 +15,17 @@ import bgImage from "../../../../assets/bg.png"
 
 const widthFix = (Dimensions.get("window").width * 70) / 120
 
-const PartnerCategory = ({ navigation, route }) => {
+const Category = ({ navigation, route }) => {
+  const { userId } = route.params
   const [items, setItems] = useState([])
+  const [profile, setProfile] = useState({})
+
+  useEffect(() => {
+    const ref = firebase.database().ref(`members/${userId}`)
+    ref.once("value", (snapshot) => {
+      setProfile({ ...snapshot.val() })
+    })
+  }, [])
 
   useEffect(() => {
     const ref = firebase.database().ref(`appconfig`)
@@ -35,7 +44,7 @@ const PartnerCategory = ({ navigation, route }) => {
   }, [])
 
   const onPressOptions = (item) => {
-    navigation.navigate("Select-Province-Form", { item, partnerGroup: items })
+    navigation.navigate("Select-Province-Task-List", { profile, item })
   }
 
   const DisplayCard = ({ data }) => (
@@ -50,7 +59,7 @@ const PartnerCategory = ({ navigation, route }) => {
           style={{ height: widthFix, width: "90%", margin: 5 }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text>จำนวนเด็ก 0 คน</Text>
+        <Text>จำนวนโพสท์ 0 รายการ</Text>
       </View>
     </TouchableHighlight>
   )
@@ -62,10 +71,10 @@ const PartnerCategory = ({ navigation, route }) => {
     >
       {items.length > 0 && (
         <View style={styles.container}>
-          <DisplayCard data={items[0]} />
-          <DisplayCard data={items[1]} />
-          <DisplayCard data={items[2]} />
-          <DisplayCard data={items[3]} />
+          {profile.type1 && <DisplayCard data={items[0]} />}
+          {profile.type2 && <DisplayCard data={items[1]} />}
+          {profile.type3 && <DisplayCard data={items[2]} />}
+          {profile.type4 && <DisplayCard data={items[3]} />}
         </View>
       )}
     </ImageBackground>
@@ -109,4 +118,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PartnerCategory
+export default Category

@@ -78,7 +78,6 @@ export default function PartnerImage({ navigation, route }) {
       snapshot.forEach((item) => {
         count = count + 1
         const data = { ...item.val() }
-        console.log(data)
         if (data.star === 5) {
           r5 = r5 + 1
         }
@@ -139,7 +138,7 @@ export default function PartnerImage({ navigation, route }) {
     ref.once("value", (snapshot) => {
       if (snapshot.numChildren()) {
         getStarFromPosts(snapshot).then((result) => {
-          console.log(result)
+          // console.log(result)
         })
       }
     })
