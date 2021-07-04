@@ -11,25 +11,19 @@ import {
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
-import DropDownPicker from "react-native-dropdown-picker"
 import Moment from "moment"
 
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
-import { getPostStatus } from "../../../data/apis"
 import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const PostListAllScreen = ({ navigation, route }) => {
+  const { partnerRequest } = route.params
   const [refreshing, setRefreshing] = useState(false)
   const [posts, setPosts] = useState([])
-  const [openSelectPartner, setOpenSelectPartner] = useState(false)
-  const [partner, setPartner] = useState(
-    AppConfig.PostsStatus.customerNewPostDone
-  )
-  const [partnerList, setPartnerList] = useState(getPostStatus())
 
   const handleRefresh = () => {}
 
@@ -40,21 +34,6 @@ const PostListAllScreen = ({ navigation, route }) => {
       navigation.navigate("Detail-Task", { item })
     }
   }
-
-  // const updatePartnerList = (value) => {
-  //   console.log('updatePartnerList', value)
-  //   setPosts([])
-  //   let ref = firebase.database().ref(`posts`)
-  //   if (value) {
-  //     setPartner(value)
-  //     ref = ref.orderByChild("status").equalTo(value)
-  //   }
-  //   ref.once("value", (snapshot) => {
-  //     const postsList = snapshotToArray(snapshot)
-  //     console.log('postsList=>', postsList)
-  //     setPosts(postsList.filter((item, index) => item.status === value))
-  //   })
-  // }
 
   const renderItem = ({ item }) => (
     <ListItem
@@ -88,10 +67,7 @@ const PostListAllScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    let ref = firebase.database().ref(`posts`)
-    // if (partner) {
-    //   ref = ref.orderByChild("status").equalTo(partner)
-    // }
+    let ref = firebase.database().ref(`posts`).orderByChild("partnerRequest").equalTo(partnerRequest)
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
       setPosts(

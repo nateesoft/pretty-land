@@ -11,12 +11,49 @@ import {
 
 /* import data */
 import firebase from "../../../../util/firebase"
+import {snapshotToArray} from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from "../../../Constants"
 
 const widthFix = (Dimensions.get("window").width * 70) / 120
 
 const PartnerCategory = ({ navigation, route }) => {
   const [items, setItems] = useState([])
+
+  const [sumType1, setSumType1] = useState("0")
+  const [sumType2, setSumType2] = useState("0")
+  const [sumType3, setSumType3] = useState("0")
+  const [sumType4, setSumType4] = useState("0")
+
+  const getComputeGroup = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const arr = snapshotToArray(snapshot)
+      let type1 = 0,
+        type2 = 0,
+        type3 = 0,
+        type4 = 0
+      arr.forEach((item) => {
+        if (item.partnerRequest === AppConfig.PartnerType.type1) {
+          type1 = type1 + 1
+        }
+        if (item.partnerRequest === AppConfig.PartnerType.type2) {
+          type2 = type2 + 1
+        }
+        if (item.partnerRequest === AppConfig.PartnerType.type3) {
+          type3 = type3 + 1
+        }
+        if (item.partnerRequest === AppConfig.PartnerType.type4) {
+          type4 = type4 + 1
+        }
+      })
+      resolve({
+        type1,
+        type2,
+        type3,
+        type4,
+      })
+    })
+  }
 
   useEffect(() => {
     const ref = firebase.database().ref(`appconfig`)
@@ -38,7 +75,7 @@ const PartnerCategory = ({ navigation, route }) => {
     navigation.navigate("Select-Province-Form", { item, partnerGroup: items })
   }
 
-  const DisplayCard = ({ data }) => (
+  const DisplayCard = ({ data, count }) => (
     <TouchableHighlight
       underlayColor="pink"
       onPress={() => onPressOptions(data)}
@@ -50,10 +87,27 @@ const PartnerCategory = ({ navigation, route }) => {
           style={{ height: widthFix, width: "90%", margin: 5 }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text>จำนวนเด็ก 0 คน</Text>
+        <Text>จำนวนเด็ก {count} คน</Text>
       </View>
     </TouchableHighlight>
   )
+
+  useEffect(() => {
+    const ref = firebase.database().ref(`posts`)
+    const listener = ref.on("value", (snapshot) => {
+      getComputeGroup(snapshot).then((res) => {
+        const data = { ...res }
+        setSumType1(data.type1)
+        setSumType2(data.type2)
+        setSumType3(data.type3)
+        setSumType4(data.type4)
+      })
+    })
+    return () => {
+      ref.off("value", listener)
+    }
+  }, [])
+  
   return (
     <ImageBackground
       source={bgImage}
@@ -62,10 +116,10 @@ const PartnerCategory = ({ navigation, route }) => {
     >
       {items.length > 0 && (
         <View style={styles.container}>
-          <DisplayCard data={items[0]} />
-          <DisplayCard data={items[1]} />
-          <DisplayCard data={items[2]} />
-          <DisplayCard data={items[3]} />
+          <DisplayCard data={items[0]} count={sumType1} />
+          <DisplayCard data={items[1]} count={sumType2} />
+          <DisplayCard data={items[2]} count={sumType3} />
+          <DisplayCard data={items[3]} count={sumType4} />
         </View>
       )}
     </ImageBackground>

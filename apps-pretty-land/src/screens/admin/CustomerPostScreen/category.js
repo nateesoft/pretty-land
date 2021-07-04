@@ -18,9 +18,7 @@ import { AppConfig } from "../../../Constants"
 const widthFix = (Dimensions.get("window").width * 70) / 120
 
 const Category = ({ navigation, route }) => {
-  const { userId } = route.params
   const [items, setItems] = useState([])
-  const [profile, setProfile] = useState({})
   const [sumType1, setSumType1] = useState("0")
   const [sumType2, setSumType2] = useState("0")
   const [sumType3, setSumType3] = useState("0")
@@ -57,13 +55,6 @@ const Category = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
-    ref.once("value", (snapshot) => {
-      setProfile({ ...snapshot.val() })
-    })
-  }, [])
-
-  useEffect(() => {
     const ref = firebase.database().ref(`appconfig`)
     const listener = ref.on("value", (snapshot) => {
       const dataItems = []
@@ -74,6 +65,10 @@ const Category = ({ navigation, route }) => {
       dataItems.push({ ...appconfig.partner4 })
 
       setItems(dataItems)
+
+      return () => {
+        ref.off("value", listener)
+      }
     })
 
     return () => ref.off("value", listener)
@@ -96,7 +91,7 @@ const Category = ({ navigation, route }) => {
   }, [])
 
   const onPressOptions = (item) => {
-    navigation.navigate("Select-Province-Task-List", { profile, item })
+    navigation.navigate("Post-List-All", { partnerRequest: item.value })
   }
 
   const DisplayCard = ({ data, count }) => (
@@ -123,10 +118,10 @@ const Category = ({ navigation, route }) => {
     >
       {items.length > 0 && (
         <View style={styles.container}>
-          {profile.type1 && <DisplayCard data={items[0]} count={sumType1} />}
-          {profile.type2 && <DisplayCard data={items[1]} count={sumType2} />}
-          {profile.type3 && <DisplayCard data={items[2]} count={sumType3} />}
-          {profile.type4 && <DisplayCard data={items[3]} count={sumType4} />}
+          <DisplayCard data={items[0]} count={sumType1} />
+          <DisplayCard data={items[1]} count={sumType2} />
+          <DisplayCard data={items[2]} count={sumType3} />
+          <DisplayCard data={items[3]} count={sumType4} />
         </View>
       )}
     </ImageBackground>
