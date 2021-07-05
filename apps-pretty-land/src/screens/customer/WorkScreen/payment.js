@@ -21,8 +21,6 @@ import { getBankList, getBankName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
-
-import { saveProvincesGroupPostPartner } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
 const PaymentForm = ({ navigation, route }) => {
@@ -170,16 +168,6 @@ const PaymentForm = ({ navigation, route }) => {
       sys_update_date: new Date().toUTCString(),
     }
     firebase.database().ref(`posts/${item.id}`).update(dataPayment)
-
-    saveProvincesGroupPostPartner(
-      {
-        province: item.province,
-        provinceName: item.provinceName,
-        partnerType: item.partnerRequest,
-      },
-      -1
-    )
-
     navigate("Post-List")
   }
 

@@ -10,7 +10,7 @@ import { Button, Text } from "react-native-elements"
 import { AntDesign, Ionicons } from "react-native-vector-icons"
 import Moment from "moment"
 
-import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
+import { updatePosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 import bgImage from "../../../../assets/bg.png"
 
@@ -48,14 +48,6 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
         statusText: "อนุมัติโพสท์",
         sys_update_date: new Date().toUTCString(),
       })
-      saveProvincesGroupPostPartner(
-        {
-          province: item.province,
-          provinceName: item.provinceName,
-          partnerType: item.partnerRequest,
-        },
-        1
-      )
     }
     navigation.navigate("Post-List-All")
   }
@@ -197,8 +189,6 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                     <Text>ชื่อ Partner: {pObj.partnerName}</Text>
                     <Text>เบอร์โทรศัพท์: {pObj.telephone}</Text>
                     <Text>ราคาที่เสนอ: {pObj.amount}</Text>
-                    <Text>สถานะ: {pObj.selectStatusText}</Text>
-
                     <View style={{ alignItems: "center" }}>
                       <Text
                         style={{

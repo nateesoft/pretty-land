@@ -100,9 +100,7 @@ const PartnerCategory = ({ navigation, route }) => {
       .orderByChild("customerId")
       .equalTo(userId)
     const listener = ref.on("value", (snapshot) => {
-      getComputeGroup(snapshot).then((res) => {
-        console.log("result:", res)
-      })
+      getComputeGroup(snapshot).catch((err) => Alert.alert(err))
     })
     return () => {
       ref.off("value", listener)
@@ -148,7 +146,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   optionsName: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
     color: "white",
   },

@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Alert,
   StyleSheet,
+  ScrollView,
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -19,7 +20,8 @@ import { AppConfig } from "../../../Constants"
 
 const PlaceForm = (props) => {
   const { navigation, route } = props
-  const { item, userId, partnerRequest, province, partnerWantQty } = route.params
+  const { item, userId, partnerRequest, province, partnerWantQty } =
+    route.params
 
   const [phone, setPhone] = useState("")
   const [place, setPlace] = useState("")
@@ -59,6 +61,7 @@ const PlaceForm = (props) => {
       },
       navigation
     )
+    navigation.navigate("Customer-Dashboard")
   }
 
   useEffect(() => {
@@ -77,115 +80,117 @@ const PlaceForm = (props) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ flex: 1, height: "100%" }}>
-        <View style={styles.container}>
-          <View>
-            <Text style={{ fontSize: 16, padding: 5 }}>สถานที่นัดหมาย</Text>
-            {!place && (
-              <Text style={{ color: "red", marginLeft: 5 }}>
-                จะต้องระบุข้อมูล สถานที่นัดหมาย
-              </Text>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="fa" name="home" />
-              <TextInput
-                placeholder="สถานที่นัดหมาย"
-                style={styles.textInput}
-                value={place}
-                onChangeText={(value) => setPlace(value)}
-              />
-            </View>
-          </View>
-          <View>
-            <Text style={{ fontSize: 16, padding: 5 }}>เวลาเริ่ม</Text>
-            {!startTime && (
-              <Text style={{ color: "red", marginLeft: 5 }}>
-                จะต้องระบุข้อมูล เวลาเริ่ม
-              </Text>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="ii" name="time-outline" />
-              <TextInput
-                placeholder="เวลาเริ่ม"
-                style={styles.textInput}
-                value={startTime}
-                onChangeText={(value) => setStartTime(value)}
-              />
-            </View>
-          </View>
-          <View>
-            <Text style={{ fontSize: 16, padding: 5 }}>เวลาเลิก</Text>
-            {!stopTime && (
-              <Text style={{ color: "red", marginLeft: 5 }}>
-                จะต้องระบุข้อมูล เวลาเลิก
-              </Text>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="mi" name="timer-off" />
-              <TextInput
-                placeholder="เวลาเลิก"
-                style={styles.textInput}
-                value={stopTime}
-                onChangeText={(value) => setStopTime(value)}
-              />
-            </View>
-          </View>
-          <View>
-            <Text style={{ fontSize: 16, padding: 5 }}>เบอร์โทร</Text>
-            {!phone && (
-              <Text style={{ color: "red", marginLeft: 5 }}>
-                จะต้องระบุข้อมูล เบอร์โทร
-              </Text>
-            )}
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="phone" />
-              <TextInput
-                placeholder="เบอร์โทร"
-                style={styles.textInput}
-                value={phone}
-                onChangeText={(value) => setPhone(value)}
-              />
-            </View>
-          </View>
-          <View>
-            <Text style={{ fontSize: 16, padding: 5 }}>
-              รายละเอียดเพิ่มเติม
-            </Text>
-          </View>
-          <View style={[styles.formControl, { height: 100, width: "100%" }]}>
-            <TextInput
-              placeholder="รายละเอียดเพิ่มเติม"
-              style={[styles.textInput, { height: 90 }]}
-              value={remark}
-              onChangeText={(value) => setRemark(value)}
-              multiline={true}
-              numberOfLines={4}
-            />
-          </View>
-          <View style={styles.buttonFooter}>
-            <Button
-              icon={
-                <Icon
-                  name="save"
-                  size={20}
-                  color="white"
-                  style={{ marginHorizontal: 8 }}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.container}>
+            <View>
+              <Text style={{ fontSize: 16, padding: 5 }}>สถานที่นัดหมาย</Text>
+              {!place && (
+                <Text style={{ color: "red", marginLeft: 5 }}>
+                  จะต้องระบุข้อมูล สถานที่นัดหมาย
+                </Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="fa" name="home" />
+                <TextInput
+                  placeholder="สถานที่นัดหมาย"
+                  style={styles.textInput}
+                  value={place}
+                  onChangeText={(value) => setPlace(value)}
                 />
-              }
-              iconLeft
-              buttonStyle={{
-                backgroundColor: "#ff2fe6",
-                marginTop: 20,
-                borderRadius: 5,
-                width: 250,
-                paddingHorizontal: 15,
-                height: 45,
-                borderWidth: 0.5,
-              }}
-              title="บันทึกโพสท์"
-              onPress={() => createNewPost()}
-            />
+              </View>
+            </View>
+            <View>
+              <Text style={{ fontSize: 16, padding: 5 }}>เวลาเริ่ม</Text>
+              {!startTime && (
+                <Text style={{ color: "red", marginLeft: 5 }}>
+                  จะต้องระบุข้อมูล เวลาเริ่ม
+                </Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="ii" name="time-outline" />
+                <TextInput
+                  placeholder="เวลาเริ่ม"
+                  style={styles.textInput}
+                  value={startTime}
+                  onChangeText={(value) => setStartTime(value)}
+                />
+              </View>
+            </View>
+            <View>
+              <Text style={{ fontSize: 16, padding: 5 }}>เวลาเลิก</Text>
+              {!stopTime && (
+                <Text style={{ color: "red", marginLeft: 5 }}>
+                  จะต้องระบุข้อมูล เวลาเลิก
+                </Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="mi" name="timer-off" />
+                <TextInput
+                  placeholder="เวลาเลิก"
+                  style={styles.textInput}
+                  value={stopTime}
+                  onChangeText={(value) => setStopTime(value)}
+                />
+              </View>
+            </View>
+            <View>
+              <Text style={{ fontSize: 16, padding: 5 }}>เบอร์โทร</Text>
+              {!phone && (
+                <Text style={{ color: "red", marginLeft: 5 }}>
+                  จะต้องระบุข้อมูล เบอร์โทร
+                </Text>
+              )}
+              <View style={styles.formControl}>
+                <GetIcon type="ad" name="phone" />
+                <TextInput
+                  placeholder="เบอร์โทร"
+                  style={styles.textInput}
+                  value={phone}
+                  onChangeText={(value) => setPhone(value)}
+                />
+              </View>
+            </View>
+            <View>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                รายละเอียดเพิ่มเติม
+              </Text>
+            </View>
+            <View style={[styles.formControl, { height: 100, width: "100%" }]}>
+              <TextInput
+                placeholder="รายละเอียดเพิ่มเติม"
+                style={[styles.textInput, { height: 90 }]}
+                value={remark}
+                onChangeText={(value) => setRemark(value)}
+                multiline={true}
+                numberOfLines={4}
+              />
+            </View>
+            <View style={styles.buttonFooter}>
+              <Button
+                icon={
+                  <Icon
+                    name="save"
+                    size={20}
+                    color="white"
+                    style={{ marginHorizontal: 8 }}
+                  />
+                }
+                iconLeft
+                buttonStyle={{
+                  backgroundColor: "#ff2fe6",
+                  marginTop: 20,
+                  borderRadius: 5,
+                  width: 250,
+                  paddingHorizontal: 15,
+                  height: 45,
+                  borderWidth: 0.5,
+                }}
+                title="บันทึกโพสท์"
+                onPress={() => createNewPost()}
+              />
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </ImageBackground>
   )

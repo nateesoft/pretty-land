@@ -15,7 +15,6 @@ import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 
 import firebase from "../../../../util/firebase"
-import { snapshotToArrayProvinceGroup } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const AllTaskListScreen = ({ navigation, route }) => {
@@ -119,16 +118,6 @@ const AllTaskListScreen = ({ navigation, route }) => {
     ref.once("value", (snapshot) => {
       setProfile({ ...snapshot.val() })
     })
-  }, [])
-
-  useEffect(() => {
-    const ref = firebase.database().ref(`group_posts`)
-    const listener = ref.on("value", (snapshot) => {
-      const postsList = snapshotToArrayProvinceGroup(snapshot)
-      setFilterList(postsList)
-    })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (

@@ -17,7 +17,7 @@ import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
-import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
+import { updatePosts } from "../../../apis"
 
 const AllCustomerPostList = ({ navigation, route }) => {
   const { profile, province, provinceName } = route.params
@@ -163,15 +163,6 @@ const AllCustomerPostList = ({ navigation, route }) => {
                   "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
                 sys_update_date: new Date().toUTCString(),
               })
-              // remove from group partner request
-              saveProvincesGroupPostPartner(
-                {
-                  province: item.province,
-                  provinceName: item.provinceName,
-                  partnerType: item.partnerRequest,
-                },
-                -1
-              )
             }
           }
         })

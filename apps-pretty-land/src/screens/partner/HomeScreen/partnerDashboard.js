@@ -14,6 +14,7 @@ import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
+import { Alert } from "react-native"
 
 const widthFix = (Dimensions.get("window").width * 70) / 120
 
@@ -47,12 +48,12 @@ const Category = ({ navigation, route }) => {
           type4 = type4 + 1
         }
       })
-      resolve({
-        type1,
-        type2,
-        type3,
-        type4,
-      })
+      setSumType1(type1)
+      setSumType2(type2)
+      setSumType3(type3)
+      setSumType4(type4)
+
+      resolve(true)
     })
   }
 
@@ -80,15 +81,13 @@ const Category = ({ navigation, route }) => {
   }, [])
 
   useEffect(() => {
-    const ref = firebase.database().ref(`posts`)
+    const ref = firebase
+      .database()
+      .ref(`posts`)
+      .orderByChild("status")
+      .equalTo(AppConfig.PostsStatus.adminConfirmNewPost)
     const listener = ref.on("value", (snapshot) => {
-      getComputeGroup(snapshot).then((res) => {
-        const data = { ...res }
-        setSumType1(data.type1)
-        setSumType2(data.type2)
-        setSumType3(data.type3)
-        setSumType4(data.type4)
-      })
+      getComputeGroup(snapshot).catch((err) => Alert.alert(err))
     })
     return () => {
       ref.off("value", listener)
@@ -154,7 +153,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   optionsName: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
     color: "white",
   },

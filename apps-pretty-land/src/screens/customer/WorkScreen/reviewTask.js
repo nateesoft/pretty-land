@@ -168,10 +168,7 @@ const ReviewTaskScreen = (props) => {
                 {...props}
               />
             )}
-            {item.status !== AppConfig.PostsStatus.adminConfirmPayment &&
-              item.status !== AppConfig.PostsStatus.closeJob &&
-              item.status !== AppConfig.PostsStatus.adminConfirmNewPost &&
-              item.status !== AppConfig.PostsStatus.customerCloseJob && (
+            {item.status === AppConfig.PostsStatus.customerNewPostDone && (
                 <Button
                   icon={
                     <Icon
@@ -188,30 +185,33 @@ const ReviewTaskScreen = (props) => {
                 />
               )}
           </View>
-          <View style={{ justifyContent: "center", marginTop: 10 }}>
-            <ComponentRating
-              disabled={item.status === AppConfig.PostsStatus.customerCloseJob}
-            />
-          </View>
-          <Button
-            icon={
-              <Icon
-                name="save"
-                size={24}
-                color="white"
-                style={{ marginRight: 10 }}
+          {item.status === AppConfig.PostsStatus.startWork && (
+            <View style={{ justifyContent: "center", marginTop: 10 }}>
+              <ComponentRating
+                disabled={
+                  item.status === AppConfig.PostsStatus.customerCloseJob
+                }
               />
-            }
-            title={`บันทึกปิดงานทั้งหมด (${
-              Object.keys(item.partnerSelect || {}).length
-            })`}
-            buttonStyle={{
-              marginVertical: 10,
-              width: "80%",
-              borderRadius: 5,
-            }}
-            onPress={() => saveToCloseJob()}
-          />
+              <Button
+                icon={
+                  <Icon
+                    name="save"
+                    size={24}
+                    color="white"
+                    style={{ marginRight: 10 }}
+                  />
+                }
+                title={`บันทึกปิดงานทั้งหมด (${
+                  Object.keys(item.partnerSelect || {}).length
+                })`}
+                buttonStyle={{
+                  marginVertical: 10,
+                  borderRadius: 5,
+                }}
+                onPress={() => saveToCloseJob()}
+              />
+            </View>
+          )}
         </ScrollView>
       </SafeAreaView>
     </ImageBackground>

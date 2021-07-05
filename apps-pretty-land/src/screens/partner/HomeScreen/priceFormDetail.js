@@ -37,7 +37,7 @@ const PriceFormDetail = ({ navigation, route }) => {
       ...profile,
       amount,
     })
-    navigation.navigate("Category-Group")
+    navigation.navigate("Partner-Dashboard")
   }
 
   useEffect(() => {
