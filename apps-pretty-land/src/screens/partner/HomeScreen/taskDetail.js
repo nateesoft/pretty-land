@@ -105,26 +105,26 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               {Moment(item.sys_create_date).format("D MMM YYYY HH:mm:ss")}
             </Text>
           </View>
-          <View style={styles.viewCard}>
-            <View style={{ marginVertical: 10 }}>
-              <Button
-                title="ถัดไป"
-                buttonStyle={{ borderRadius: 5 }}
-                onPress={() => nextPriceForm()}
-              />
+          {workStatus !== AppConfig.PostsStatus.customerConfirm && (
+            <View style={styles.viewCard}>
+              <View style={{ marginVertical: 10 }}>
+                <Button
+                  title="ถัดไป"
+                  buttonStyle={{ borderRadius: 5 }}
+                  onPress={() => nextPriceForm()}
+                />
+              </View>
             </View>
-          </View>
+          )}
           {getWork && workStatus === AppConfig.PostsStatus.customerConfirm && (
             <Text
               style={{
-                color: "white",
-                backgroundColor: "blue",
-                padding: 20,
-                fontSize: 20,
+                backgroundColor: "orange",
                 fontWeight: "bold",
+                padding: 5,
               }}
             >
-              ได้งานแล้ว รอลูกค้าชำระเงิน
+              Status: ได้งานแล้ว รอลูกค้าชำระเงิน
             </Text>
           )}
           {getWork &&

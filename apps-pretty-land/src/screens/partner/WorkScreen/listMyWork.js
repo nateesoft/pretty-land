@@ -18,6 +18,7 @@ import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import { AppConfig } from "../../../Constants"
+import { Alert } from "react-native"
 
 const ListMyWorkScreen = ({ navigation, route }) => {
   const { userId } = route.params
@@ -30,6 +31,28 @@ const ListMyWorkScreen = ({ navigation, route }) => {
     if (item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment) {
       navigation.navigate("Work-Detail", { item })
     }
+  }
+
+  const getListMyWork = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const posts = snapshotToArray(snapshot)
+      let myWorkList = []
+      posts.forEach((item) => {
+        const data = item.partnerSelect
+        for (let key in data) {
+          const obj = data[key]
+          if (
+            obj.selectStatus === AppConfig.PostsStatus.customerPayment &&
+            item.status === AppConfig.PostsStatus.adminConfirmPayment &&
+            obj.partnerId === userId
+          ) {
+            myWorkList.push(item)
+          }
+        }
+      })
+      setFilterList(myWorkList)
+      resolve(true)
+    })
   }
 
   const renderItem = ({ item }) => (
@@ -103,20 +126,9 @@ const ListMyWorkScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref("posts")
-      .orderByChild(`partnerSelect/${userId}/partnerId`)
-      .equalTo(userId)
+    const ref = firebase.database().ref("posts")
     const listener = ref.on("value", (snapshot) => {
-      const posts = snapshotToArray(snapshot)
-      setFilterList(
-        posts.filter((item, index) => {
-          if (item.status === AppConfig.PostsStatus.adminConfirmPayment) {
-            return item
-          }
-        })
-      )
+      getListMyWork(snapshot).catch((err) => Alert.alert(err))
     })
 
     return () => ref.off("value", listener)

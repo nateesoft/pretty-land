@@ -13,6 +13,7 @@ import Moment from "moment"
 import { updatePosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 import bgImage from "../../../../assets/bg.png"
+import { Alert } from "react-native"
 
 const ConfirmTaskScreen = ({ navigation, route }) => {
   const { item } = route.params
@@ -24,15 +25,18 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       let pList = []
       for (let key in partnerSelect) {
         const obj = partnerSelect[key]
-        pList.push(obj)
+        if (obj.selectStatus === AppConfig.PostsStatus.customerConfirm) {
+          pList.push(obj)
+        }
       }
 
-      resolve(pList)
+      setPartnerList(pList)
+      resolve(true)
     })
   }
 
   useEffect(() => {
-    getPartnerList().then((res) => setPartnerList(res))
+    getPartnerList().catch((err) => Alert.alert(err))
   }, [])
 
   const updateToApprove = () => {
@@ -166,7 +170,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           )}
           {partnerList.length > 0 && (
             <View>
-              <Text>แสดงรายชื่อ Partner</Text>
+              <Text>แสดงรายชื่อ Partner ที่ลูกค้าเลือก</Text>
               <ScrollView horizontals showsHorizontalScrollIndicator={false}>
                 {partnerList.map((pObj, index) => (
                   <View
@@ -189,6 +193,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                     <Text>ชื่อ Partner: {pObj.partnerName}</Text>
                     <Text>เบอร์โทรศัพท์: {pObj.telephone}</Text>
                     <Text>ราคาที่เสนอ: {pObj.amount}</Text>
+                    <Text>สถานะ: {pObj.selectStatusText}</Text>
                     <View style={{ alignItems: "center" }}>
                       <Text
                         style={{

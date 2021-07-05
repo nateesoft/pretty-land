@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import {
   SafeAreaView,
   FlatList,
@@ -11,25 +11,15 @@ import {
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import Moment from "moment"
-import DropDownPicker from "react-native-dropdown-picker"
 
-import { getCountryList, getProvinceName } from "../../../data/apis"
+import { getProvinceName } from "../../../data/apis"
 import CardNotfound from "../../../components/CardNotfound"
-import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
-import { AppConfig } from "../../../Constants"
-import { updatePosts } from "../../../apis"
 
 const SelectProvinceTaskList = ({ navigation, route }) => {
-  const { item, profile, partnerType, userId } = route.params
+  const { item, profile, taskList } = route.params
 
   const [refreshing, setRefreshing] = useState(false)
-  const [filterList, setFilterList] = useState([])
-
-  const [openSelectCountry, setOpenSelectCountry] = useState(false)
-  const [province, setProvince] = useState("")
-  const [countryList, setCountryList] = useState(getCountryList())
 
   const handleRefresh = () => {}
 
@@ -112,61 +102,6 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
     </ListItem>
   )
 
-  useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref(`posts`)
-      .orderByChild("province")
-      .equalTo(province)
-    const listener = ref.on("value", (snapshot) => {
-      const postsList = snapshotToArray(snapshot)
-      setFilterList(
-        postsList.filter((item, index) => {
-          if (item.status === AppConfig.PostsStatus.adminConfirmNewPost) {
-            const date1 = Moment()
-            const date2 = Moment(item.sys_update_date)
-            const diffHours = date1.diff(date2, "hours")
-            if (diffHours <= 2) {
-              if (
-                item.partnerRequest === AppConfig.PartnerType.type1 &&
-                profile.type1
-              ) {
-                return item
-              }
-              if (
-                item.partnerRequest === AppConfig.PartnerType.type2 &&
-                profile.type2
-              ) {
-                return item
-              }
-              if (
-                item.partnerRequest === AppConfig.PartnerType.type3 &&
-                profile.type3
-              ) {
-                return item
-              }
-              if (
-                item.partnerRequest === AppConfig.PartnerType.type4 &&
-                profile.type4
-              ) {
-                return item
-              }
-            } else {
-              // update timeout
-              updatePosts(item.id, {
-                status: AppConfig.PostsStatus.postTimeout,
-                statusText:
-                  "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
-                sys_update_date: new Date().toUTCString(),
-              })
-            }
-          }
-        })
-      )
-    })
-    return () => ref.off("value", listener)
-  }, [province])
-
   return (
     <ImageBackground
       source={bgImage}
@@ -188,29 +123,19 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
             โหมด: {item.name}
           </Text>
         </View>
-        <View style={{ margin: 10, zIndex: 1 }}>
-          <DropDownPicker
-            placeholder="-- เลือกจังหวัด --"
-            open={openSelectCountry}
-            setOpen={setOpenSelectCountry}
-            value={province}
-            setValue={setProvince}
-            items={countryList}
-            setItems={setCountryList}
-            textStyle={{ fontSize: 18 }}
-            searchable={false}
-            selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-            listMode="SCROLLVIEW"
-          />
+        <View style={{ alignItems: "center" }}>
+          <Text style={{ fontSize: 20 }}>
+            จังหวัด: {getProvinceName(profile.province)}
+          </Text>
         </View>
         <View style={styles.container}>
-          {filterList.length === 0 && (
+          {taskList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
           )}
-          {filterList.length > 0 && (
+          {taskList.length > 0 && (
             <FlatList
               keyExtractor={(item) => item.id.toString()}
-              data={filterList}
+              data={taskList}
               renderItem={renderItem}
               style={{
                 height: 600,
@@ -232,7 +157,6 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 5,
   },
   btnNewPost: {
     margin: 5,

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { Alert } from "react-native"
 import {
   ScrollView,
   Image,
@@ -24,9 +25,13 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
     return new Promise((resolve, reject) => {
       let list = []
       for (let key in item) {
-        list.push(item[key])
+        const data = item[key]
+        if (data.selectStatus === AppConfig.PostsStatus.customerConfirm) {
+          list.push(data)
+        }
       }
-      resolve(list)
+      setListPartner(list)
+      resolve(true)
     })
   }
 
@@ -36,6 +41,18 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
       status: AppConfig.PostsStatus.adminConfirmPayment,
       statusText: "ชำระเงินเรียบร้อยแล้ว",
       sys_update_date: new Date().toUTCString(),
+    })
+
+    // update status partner in list
+    listPartner.forEach((obj) => {
+      firebase
+        .database()
+        .ref(`posts/${item.id}/partnerSelect/${obj.partnerId}`)
+        .update({
+          status: AppConfig.PostsStatus.customerPayment,
+          statusText: "ชำระเงินเรียบร้อยแล้ว",
+          sys_update_date: new Date().toUTCString(),
+        })
     })
 
     const ref = firebase.database().ref(`members/${item.customerId}`)
@@ -55,9 +72,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    getPartnerList(item.partnerSelect).then((res) => {
-      setListPartner(res)
-    })
+    getPartnerList(item.partnerSelect).catch((err) => Alert.alert(err))
   }, [])
 
   return (
@@ -104,7 +119,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
           </View>
           <View style={{ width: "80%", alignItems: "center", margin: 10 }}>
             <Text style={{ marginBottom: 5 }}>
-              จำนวนรายชื่อ Partner ที่รับชำระ {listPartner.length} คน
+              ยอดรับชำระสำหรับ Partner {listPartner.length} คน
             </Text>
             {listPartner &&
               listPartner.map((item, index) => (

@@ -22,6 +22,7 @@ const Category = ({ navigation, route }) => {
   const { userId } = route.params
   const [items, setItems] = useState([])
   const [profile, setProfile] = useState({})
+  const [taskList, setTaskList] = useState([])
   const [sumType1, setSumType1] = useState("0")
   const [sumType2, setSumType2] = useState("0")
   const [sumType3, setSumType3] = useState("0")
@@ -29,29 +30,38 @@ const Category = ({ navigation, route }) => {
 
   const getComputeGroup = (snapshot) => {
     return new Promise((resolve, reject) => {
+      const listTrue = []
       const arr = snapshotToArray(snapshot)
       let type1 = 0,
         type2 = 0,
         type3 = 0,
         type4 = 0
       arr.forEach((item) => {
-        if (item.partnerRequest === AppConfig.PartnerType.type1) {
-          type1 = type1 + 1
-        }
-        if (item.partnerRequest === AppConfig.PartnerType.type2) {
-          type2 = type2 + 1
-        }
-        if (item.partnerRequest === AppConfig.PartnerType.type3) {
-          type3 = type3 + 1
-        }
-        if (item.partnerRequest === AppConfig.PartnerType.type4) {
-          type4 = type4 + 1
+        if (
+          item.status === AppConfig.PostsStatus.adminConfirmNewPost ||
+          item.status === AppConfig.PostsStatus.waitCustomerSelectPartner
+        ) {
+          if (item.partnerRequest === AppConfig.PartnerType.type1) {
+            type1 = type1 + 1
+          }
+          if (item.partnerRequest === AppConfig.PartnerType.type2) {
+            type2 = type2 + 1
+          }
+          if (item.partnerRequest === AppConfig.PartnerType.type3) {
+            type3 = type3 + 1
+          }
+          if (item.partnerRequest === AppConfig.PartnerType.type4) {
+            type4 = type4 + 1
+          }
+          listTrue.push(item)
         }
       })
       setSumType1(type1)
       setSumType2(type2)
       setSumType3(type3)
       setSumType4(type4)
+
+      setTaskList(listTrue)
 
       resolve(true)
     })
@@ -84,8 +94,6 @@ const Category = ({ navigation, route }) => {
     const ref = firebase
       .database()
       .ref(`posts`)
-      .orderByChild("status")
-      .equalTo(AppConfig.PostsStatus.adminConfirmNewPost)
     const listener = ref.on("value", (snapshot) => {
       getComputeGroup(snapshot).catch((err) => Alert.alert(err))
     })
@@ -95,7 +103,7 @@ const Category = ({ navigation, route }) => {
   }, [])
 
   const onPressOptions = (item) => {
-    navigation.navigate("Select-Province-Task-List", { profile, item })
+    navigation.navigate("Select-Province-Task-List", { profile, item, taskList })
   }
 
   const DisplayCard = ({ data, count }) => (

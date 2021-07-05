@@ -41,8 +41,11 @@ const PaymentForm = ({ navigation, route }) => {
     return new Promise((resolve, reject) => {
       let totalAmount = 0
       snapshot.forEach((item, index) => {
-        const amt = parseInt(item.val().amount)
-        totalAmount = totalAmount + amt
+        const data = item.val()
+        if (data.selectStatus === AppConfig.PostsStatus.customerConfirm) {
+          const amt = parseInt(data.amount)
+          totalAmount = totalAmount + amt
+        }
       })
       resolve(totalAmount)
     })
