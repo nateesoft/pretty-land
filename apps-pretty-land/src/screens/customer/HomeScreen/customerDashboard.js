@@ -17,8 +17,10 @@ import { AppConfig } from "../../../Constants"
 
 const widthFix = (Dimensions.get("window").width * 70) / 120
 
-const Category = ({ navigation, route }) => {
+const PartnerCategory = ({ navigation, route }) => {
+  const { userId } = route.params
   const [items, setItems] = useState([])
+
   const [sumType1, setSumType1] = useState("0")
   const [sumType2, setSumType2] = useState("0")
   const [sumType3, setSumType3] = useState("0")
@@ -45,12 +47,12 @@ const Category = ({ navigation, route }) => {
           type4 = type4 + 1
         }
       })
-      resolve({
-        type1,
-        type2,
-        type3,
-        type4,
-      })
+      setSumType1(type1)
+      setSumType2(type2)
+      setSumType3(type3)
+      setSumType4(type4)
+
+      resolve(true)
     })
   }
 
@@ -65,33 +67,13 @@ const Category = ({ navigation, route }) => {
       dataItems.push({ ...appconfig.partner4 })
 
       setItems(dataItems)
-
-      return () => {
-        ref.off("value", listener)
-      }
     })
 
     return () => ref.off("value", listener)
   }, [])
 
-  useEffect(() => {
-    const ref = firebase.database().ref(`posts`)
-    const listener = ref.on("value", (snapshot) => {
-      getComputeGroup(snapshot).then((res) => {
-        const data = { ...res }
-        setSumType1(data.type1)
-        setSumType2(data.type2)
-        setSumType3(data.type3)
-        setSumType4(data.type4)
-      })
-    })
-    return () => {
-      ref.off("value", listener)
-    }
-  }, [])
-
   const onPressOptions = (item) => {
-    navigation.navigate("Post-List-All", { partnerRequest: item.value })
+    navigation.navigate("Select-Province-Form", { item, partnerGroup: items })
   }
 
   const DisplayCard = ({ data, count }) => (
@@ -106,10 +88,27 @@ const Category = ({ navigation, route }) => {
           style={{ height: widthFix, width: "90%", margin: 5 }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text>จำนวนโพสท์ {count} รายการ</Text>
+        <Text>จำนวน {count} โพสท์</Text>
       </View>
     </TouchableHighlight>
   )
+
+  useEffect(() => {
+    const ref = firebase
+      .database()
+      .ref(`posts`)
+      .orderByChild("customerId")
+      .equalTo(userId)
+    const listener = ref.on("value", (snapshot) => {
+      getComputeGroup(snapshot).then((res) => {
+        console.log("result:", res)
+      })
+    })
+    return () => {
+      ref.off("value", listener)
+    }
+  }, [])
+
   return (
     <ImageBackground
       source={bgImage}
@@ -165,4 +164,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Category
+export default PartnerCategory

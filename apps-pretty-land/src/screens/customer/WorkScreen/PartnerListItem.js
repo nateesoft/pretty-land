@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { View, Text, ScrollView, StyleSheet, Image } from "react-native"
-import { Button, Rating } from "react-native-elements"
+import { Button } from "react-native-elements"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
@@ -18,55 +18,39 @@ export default function PartnerListItem(props) {
   const { items: data, status, postId, post, navigation } = props
   const [items, setItems] = useState(getListItem(data))
   const [showButton, setShowButton] = useState("show")
-  const [rate, setRate] = useState(5)
 
-  const showButtonStartWork = (item) => {
-    if (status === AppConfig.PostsStatus.waitAdminApprovePost) {
-      return false
-    } else if (
-      item.customerStatus === AppConfig.PostsStatus.customerStartWork
-    ) {
-      return false
-    } else if (
-      item.selectStatus === AppConfig.PostsStatus.closeJob ||
-      status === AppConfig.PostsStatus.closeJob
-    ) {
-      return false
-    } else if (showButton === "process") {
-      return false
-    }
-
-    return true
+  const showButtonStartWork = () => {
+    // if (status === AppConfig.PostsStatus.waitAdminApprovePost) {
+    //   return false
+    // } else if (
+    //   item.customerStatus === AppConfig.PostsStatus.customerStartWork
+    // ) {
+    //   return false
+    // } else if (
+    //   item.selectStatus === AppConfig.PostsStatus.closeJob ||
+    //   status === AppConfig.PostsStatus.closeJob
+    // ) {
+    //   return false
+    // } else if (showButton === "process") {
+    //   return false
+    // }
+    // return true
   }
 
-  const saveStartWork = (partnerId) => {
-    firebase
-      .database()
-      .ref(`posts/${postId}/partnerSelect/${partnerId}`)
-      .update({
-        selectStatus: AppConfig.PostsStatus.customerStartWork,
-        selectStatusText: "เริ่มปฏิบัติงาน",
-        customerStatus: AppConfig.PostsStatus.customerStartWork,
-        customerStatusText: "Customer กดเริ่มงาน",
-        customerStart: new Date().toUTCString(),
-        sys_update_date: new Date().toUTCString(),
-      })
-    setShowButton("process")
+  const saveStartWork = () => {
+    // firebase
+    //   .database()
+    //   .ref(`posts/${postId}/partnerSelect/${partnerId}`)
+    //   .update({
+    //     selectStatus: AppConfig.PostsStatus.customerStartWork,
+    //     selectStatusText: "เริ่มปฏิบัติงาน",
+    //     customerStatus: AppConfig.PostsStatus.customerStartWork,
+    //     customerStatusText: "Customer กดเริ่มงาน",
+    //     customerStart: new Date().toUTCString(),
+    //     sys_update_date: new Date().toUTCString(),
+    //   })
+    // setShowButton("process")
   }
-
-  const ComponentRating = ({ disabled }) => (
-    <View pointerEvents={disabled ? "none" : ""}>
-      <Rating
-        type="star"
-        ratingCount={rate}
-        startingValue={5}
-        onFinishRating={(r) => setRate(r)}
-        style={{ paddingVertical: 10 }}
-        ratingBackgroundColor="transparent"
-        imageSize={32}
-      />
-    </View>
-  )
 
   const updateMember = (workIn = 0, workPoint = 0, partnerId) => {
     return new Promise((resolve, reject) => {
@@ -104,38 +88,36 @@ export default function PartnerListItem(props) {
     })
   }
 
-  const saveToCloseJob = (partnerId) => {
-    firebase
-      .database()
-      .ref(`posts/${postId}/partnerSelect/${partnerId}`)
-      .update({
-        selectStatus: AppConfig.PostsStatus.closeJob,
-        selectStatusText: "ปฏิบัติงานเสร็จแล้ว",
-        customerStatus: AppConfig.PostsStatus.customerCloseJob,
-        customerStatusText: "Customer ปิดงาน",
-        customer_close_date: new Date().toUTCString(),
-        sys_update_date: new Date().toUTCString(),
-        star: rate,
-      })
-
-    const ref = firebase.database().ref(`members/${partnerId}`)
-    ref.once("value", (snapshot) => {
-      const pData = { ...snapshot.val() }
-      updateMember(pData.workIn, pData.workPoint, partnerId).then((result) => {
-        saveHistoryStar(partnerId, postId, rate).then((result) => {
-          navigation.navigate("Post-List")
-        })
-      })
-    })
-
-    if (post.partnerRequest === AppConfig.PartnerType.type4) {
-      // save all job
-      firebase.database().ref(`posts/${postId}`).update({
-        status: AppConfig.PostsStatus.closeJob,
-        statusText: "ปิดงาน Post นี้เรียบร้อย",
-        sys_update_date: new Date().toUTCString(),
-      })
-    }
+  const saveToCloseJob = () => {
+    // firebase
+    //   .database()
+    //   .ref(`posts/${postId}/partnerSelect/${partnerId}`)
+    //   .update({
+    //     selectStatus: AppConfig.PostsStatus.closeJob,
+    //     selectStatusText: "ปฏิบัติงานเสร็จแล้ว",
+    //     customerStatus: AppConfig.PostsStatus.customerCloseJob,
+    //     customerStatusText: "Customer ปิดงาน",
+    //     customer_close_date: new Date().toUTCString(),
+    //     sys_update_date: new Date().toUTCString(),
+    //     star: rate,
+    //   })
+    // const ref = firebase.database().ref(`members/${partnerId}`)
+    // ref.once("value", (snapshot) => {
+    //   const pData = { ...snapshot.val() }
+    //   updateMember(pData.workIn, pData.workPoint, partnerId).then((result) => {
+    //     saveHistoryStar(partnerId, postId, rate).then((result) => {
+    //       navigation.navigate("Post-List")
+    //     })
+    //   })
+    // })
+    // if (post.partnerRequest === AppConfig.PartnerType.type4) {
+    //   // save all job
+    //   firebase.database().ref(`posts/${postId}`).update({
+    //     status: AppConfig.PostsStatus.closeJob,
+    //     statusText: "ปิดงาน Post นี้เรียบร้อย",
+    //     sys_update_date: new Date().toUTCString(),
+    //   })
+    // }
   }
 
   return (
@@ -143,51 +125,38 @@ export default function PartnerListItem(props) {
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {items.map((item, index) => (
           <View id={item.id} style={styles.card}>
-            <View>
-              <Text>{item.partnerName}</Text>
-              <Text>ราคา: {item.amount}</Text>
-              <Image
-                key={`img_${item.id}`}
-                source={{ uri: item.image }}
-                style={styles.image}
-              />
-              {item.customerStatus ===
-                AppConfig.PostsStatus.customerStartWork && (
-                <ComponentRating
-                  disabled={
-                    item.customerStatus ===
-                    AppConfig.PostsStatus.customerCloseJob
-                  }
-                />
-              )}
-              {showButtonStartWork(item) && (
-                <Button
-                  title="กดเริ่มงาน"
-                  style={styles.button}
-                  onPress={() => saveStartWork(item.partnerId)}
-                />
-              )}
-              {item.customerStatus ===
-                AppConfig.PostsStatus.customerStartWork && (
-                <Button
-                  title="ให้คะแนน Partner"
-                  style={styles.button}
-                  onPress={() => saveToCloseJob(item.partnerId)}
-                />
-              )}
-              {item.customerStatus ===
-                AppConfig.PostsStatus.customerCloseJob && (
-                <View>
-                  <Text>สถานะ: {item.selectStatusText}</Text>
-                  <Text>คะแนนที่ได้รับ: {item.star}</Text>
-                </View>
-              )}
-              {showButton === "process" && (
-                <Text style={{ color: "blue" }}>บันทึกข้อมูลเรียบร้อย</Text>
-              )}
-            </View>
+            <Text>{item.partnerName}</Text>
+            <Text>ราคา: {item.amount}</Text>
+            <Image
+              key={`img_${item.id}`}
+              source={{ uri: item.image }}
+              style={styles.image}
+            />
           </View>
         ))}
+        {showButtonStartWork() && (
+          <Button
+            title="กดเริ่มงาน"
+            style={styles.button}
+            onPress={() => saveStartWork()}
+          />
+        )}
+        {status === AppConfig.PostsStatus.customerStartWork && (
+          <Button
+            title="ให้คะแนน Partner"
+            style={styles.button}
+            onPress={() => saveToCloseJob()}
+          />
+        )}
+        {status === AppConfig.PostsStatus.customerCloseJob && (
+          <View>
+            <Text>สถานะ: </Text>
+            <Text>คะแนนที่ได้รับ: </Text>
+          </View>
+        )}
+        {showButton === "process" && (
+          <Text style={{ color: "blue" }}>บันทึกข้อมูลเรียบร้อย</Text>
+        )}
       </ScrollView>
     </View>
   )
@@ -201,7 +170,7 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     backgroundColor: "white",
-    height: 350,
+    height: 250,
     width: 200,
     alignItems: "center",
   },

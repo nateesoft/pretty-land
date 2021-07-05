@@ -17,10 +17,10 @@ import { AppConfig } from "../../../Constants"
 
 const widthFix = (Dimensions.get("window").width * 70) / 120
 
-const PartnerCategory = ({ navigation, route }) => {
+const Category = ({ navigation, route }) => {
   const { userId } = route.params
   const [items, setItems] = useState([])
-
+  const [profile, setProfile] = useState({})
   const [sumType1, setSumType1] = useState("0")
   const [sumType2, setSumType2] = useState("0")
   const [sumType3, setSumType3] = useState("0")
@@ -47,14 +47,21 @@ const PartnerCategory = ({ navigation, route }) => {
           type4 = type4 + 1
         }
       })
-      setSumType1(type1)
-      setSumType2(type2)
-      setSumType3(type3)
-      setSumType4(type4)
-
-      resolve(true)
+      resolve({
+        type1,
+        type2,
+        type3,
+        type4,
+      })
     })
   }
+
+  useEffect(() => {
+    const ref = firebase.database().ref(`members/${userId}`)
+    ref.once("value", (snapshot) => {
+      setProfile({ ...snapshot.val() })
+    })
+  }, [])
 
   useEffect(() => {
     const ref = firebase.database().ref(`appconfig`)
@@ -72,8 +79,24 @@ const PartnerCategory = ({ navigation, route }) => {
     return () => ref.off("value", listener)
   }, [])
 
+  useEffect(() => {
+    const ref = firebase.database().ref(`posts`)
+    const listener = ref.on("value", (snapshot) => {
+      getComputeGroup(snapshot).then((res) => {
+        const data = { ...res }
+        setSumType1(data.type1)
+        setSumType2(data.type2)
+        setSumType3(data.type3)
+        setSumType4(data.type4)
+      })
+    })
+    return () => {
+      ref.off("value", listener)
+    }
+  }, [])
+
   const onPressOptions = (item) => {
-    navigation.navigate("Select-Province-Form", { item, partnerGroup: items })
+    navigation.navigate("Select-Province-Task-List", { profile, item })
   }
 
   const DisplayCard = ({ data, count }) => (
@@ -88,27 +111,10 @@ const PartnerCategory = ({ navigation, route }) => {
           style={{ height: widthFix, width: "90%", margin: 5 }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text>จำนวนเด็ก {count} คน</Text>
+        <Text>จำนวน {count} โพสท์</Text>
       </View>
     </TouchableHighlight>
   )
-
-  useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref(`posts`)
-      .orderByChild("customerId")
-      .equalTo(userId)
-    const listener = ref.on("value", (snapshot) => {
-      getComputeGroup(snapshot).then((res) => {
-        console.log("result:", res)
-      })
-    })
-    return () => {
-      ref.off("value", listener)
-    }
-  }, [])
-
   return (
     <ImageBackground
       source={bgImage}
@@ -117,10 +123,10 @@ const PartnerCategory = ({ navigation, route }) => {
     >
       {items.length > 0 && (
         <View style={styles.container}>
-          <DisplayCard data={items[0]} count={sumType1} />
-          <DisplayCard data={items[1]} count={sumType2} />
-          <DisplayCard data={items[2]} count={sumType3} />
-          <DisplayCard data={items[3]} count={sumType4} />
+          {profile.type1 && <DisplayCard data={items[0]} count={sumType1} />}
+          {profile.type2 && <DisplayCard data={items[1]} count={sumType2} />}
+          {profile.type3 && <DisplayCard data={items[2]} count={sumType3} />}
+          {profile.type4 && <DisplayCard data={items[3]} count={sumType4} />}
         </View>
       )}
     </ImageBackground>
@@ -164,4 +170,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PartnerCategory
+export default Category

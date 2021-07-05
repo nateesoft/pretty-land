@@ -2,7 +2,7 @@ import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
 import PostListAllScreen from "./postListAll"
-import PartnerGroup from "./category"
+import AdminDashboard from "./adminDashboard"
 import DetailTaskScreen from "./detailTask"
 import VerifyPaymentSlipScreen from "./verifyPaymentSlip"
 
@@ -14,15 +14,15 @@ const AdminTaskNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Partner-Group"
-        component={PartnerGroup}
+        name="Admin-Dashboard"
+        component={AdminDashboard}
         options={{
           title: "Back",
           headerStyle: {
             backgroundColor: "#ff2fe6",
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="โพสท์ของลูกค้าทั้งหมด" {...props} />,
         }}
         initialParams={{ partnerType: "all" }}
       />

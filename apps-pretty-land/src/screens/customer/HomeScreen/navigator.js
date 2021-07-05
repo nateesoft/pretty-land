@@ -1,7 +1,7 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
-import PartnerCategoryScreen from "./partnerCategory"
+import CustomerDashboard from "./customerDashboard"
 import PartnerListCountryScreen from "./partnerListCountry"
 import CreatePostForm from "./createPost"
 import SelectProvinceForm from "./selectProvince"
@@ -17,15 +17,15 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Partner-Category"
-        component={PartnerCategoryScreen}
+        name="Customer-Dashboard"
+        component={CustomerDashboard}
         options={{
           title: "Back",
           headerStyle: {
             backgroundColor: "#ff2fe6",
           },
           headerTitle: (props) => (
-            <LogoTitle title="แสดงกลุ่มพาทเนอร์" {...props} />
+            <LogoTitle title="โหมดงานในระบบ" {...props} />
           ),
         }}
         initialParams={{ userId, status }}

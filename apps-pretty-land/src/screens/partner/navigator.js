@@ -33,7 +33,7 @@ const PartnerNavigator = ({ navigation, route }) => {
         name="p-Home"
         component={HomeNavigator}
         options={{
-          title: "งานจ้างทั้งหมด",
+          title: "โหมดงาน",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="kiss-wink-heart" color="white" size={size} />
           ),

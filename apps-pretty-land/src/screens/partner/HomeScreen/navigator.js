@@ -1,7 +1,7 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
-import CategoryGroup from "./category"
+import PartnerDashboard from "./partnerDashboard"
 import AllTaskListScreen from "./allTaskList"
 import AllCustomerPostListScreen from "./allCustomerPostList"
 import TaskDetail from "./taskDetail"
@@ -19,15 +19,15 @@ const StackNavigator = ({ navigation, route }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Category-Group"
-        component={CategoryGroup}
+        name="Partner-Dashboard"
+        component={PartnerDashboard}
         options={{
           title: "Back",
           headerStyle: {
             backgroundColor: "#ff2fe6",
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="โหมดงานที่ลงทะเบียนไว้" {...props} />,
         }}
         initialParams={{ userId }}
       />
