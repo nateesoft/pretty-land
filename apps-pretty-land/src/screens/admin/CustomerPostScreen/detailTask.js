@@ -109,13 +109,6 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>
-                เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
-              </Text>
-            </View>
-          </View>
-          <View style={styles.viewCard}>
-            <View style={{ marginLeft: 10 }}>
-              <Text style={{ fontSize: 16 }}>
                 วันที่สร้างข้อมูล:{" "}
                 {Moment(item.sys_create_date).format("D MMM YYYY HH:mm:ss")}
               </Text>

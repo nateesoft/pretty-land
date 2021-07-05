@@ -49,8 +49,8 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
         .database()
         .ref(`posts/${item.id}/partnerSelect/${obj.partnerId}`)
         .update({
-          status: AppConfig.PostsStatus.customerPayment,
-          statusText: "ชำระเงินเรียบร้อยแล้ว",
+          selectStatus: AppConfig.PostsStatus.customerPayment,
+          selectStatusText: "ชำระเงินเรียบร้อยแล้ว",
           sys_update_date: new Date().toUTCString(),
         })
     })

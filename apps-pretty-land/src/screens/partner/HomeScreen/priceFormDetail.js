@@ -17,15 +17,14 @@ import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../Constants"
 
 const PriceFormDetail = ({ navigation, route }) => {
-  const { profile, item } = route.params
-  console.log('item:', item)
+  const { profile, postDetail } = route.params
   const [amount, setAmount] = useState("")
   const [workStatus, setWorkStatus] = useState("")
 
   const [getWork, setGetWork] = useState(false)
   const workHide =
-    item.partnerQty -
-      (item.partnerSelect ? Object.keys(item.partnerSelect).length : 0) ===
+  postDetail.partnerQty -
+      (postDetail.partnerSelect ? Object.keys(postDetail.partnerSelect).length : 0) ===
     0
 
   const partnerQuatation = () => {
@@ -33,7 +32,7 @@ const PriceFormDetail = ({ navigation, route }) => {
       Alert.alert("แจ้งเตือน", "กรุณาระบุจำนวนเงินที่ต้องการ")
       return
     }
-    partnerAcceptJobWaitCustomerReview(item, {
+    partnerAcceptJobWaitCustomerReview(postDetail, {
       ...profile,
       amount,
     })
@@ -43,7 +42,7 @@ const PriceFormDetail = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts/${item.id}/partnerSelect/${profile.id}`)
+      .ref(`posts/${postDetail.id}/partnerSelect/${profile.id}`)
     const listener = ref.on("value", (snapshot) => {
       const checkItem = { ...snapshot.val() }
       const acceptAlready = checkItem.partnerId === profile.id
@@ -147,22 +146,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     margin: 10,
-  },
-  optionsNameDetail: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
-  },
-  optionsNameDetail2: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
   },
   viewCard: {
     width: "100%",

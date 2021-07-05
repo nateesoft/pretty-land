@@ -13,32 +13,39 @@ import bgImage from "../../../../assets/bg.png"
 
 import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../Constants"
+import { Alert } from "react-native"
 
 const ConfirmTaskScreen = ({ navigation, route }) => {
-  const { profile, item } = route.params
+  const { profile, postDetail } = route.params
   const [workStatus, setWorkStatus] = useState("")
-
+  const [profileSelect, setProfileSelect] = useState("")
   const [getWork, setGetWork] = useState(false)
   const workHide =
-    item.partnerQty -
-      (item.partnerSelect ? Object.keys(item.partnerSelect).length : 0) ===
+    postDetail.partnerQty -
+      (postDetail.partnerSelect
+        ? Object.keys(postDetail.partnerSelect).length
+        : 0) ===
     0
 
   const nextPriceForm = () => {
-    navigation.navigate("Price-Form-Detail", { profile, item })
+    navigation.navigate("Price-Form-Detail", { profile, postDetail })
+  }
+
+  const getProfileSelectObject = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const checkItem = { ...snapshot.val() }
+      console.log("checkItem:", Object.keys(checkItem).length)
+      setProfileSelect(checkItem)
+      resolve(true)
+    })
   }
 
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts/${item.id}/partnerSelect/${profile.id}`)
+      .ref(`posts/${postDetail.id}/partnerSelect/${profile.id}`)
     const listener = ref.on("value", (snapshot) => {
-      const checkItem = { ...snapshot.val() }
-      const acceptAlready = checkItem.partnerId === profile.id
-      if (acceptAlready) {
-        setWorkStatus(checkItem.selectStatus)
-      }
-      setGetWork(acceptAlready)
+      getProfileSelectObject(snapshot).catch((err) => Alert.alert(err))
     })
 
     return () => ref.off("value", listener)
@@ -59,42 +66,42 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 marginBottom: 5,
               }}
             >
-              จำนวนPartner ที่ต้องการ: {item.partnerWantQty || 0} คน
+              จำนวนPartner ที่ต้องการ: {postDetail.partnerWantQty || 0} คน
             </Text>
             <Text
               style={{
                 marginBottom: 5,
               }}
             >
-              ลูกค้า: {item.customerName}
+              ลูกค้า: {postDetail.customerName}
             </Text>
             <Text
               style={{
                 marginBottom: 5,
               }}
             >
-              ระดับ: {item.customerLevel}
+              ระดับ: {postDetail.customerLevel}
             </Text>
             <Text
               style={{
                 marginBottom: 5,
               }}
             >
-              สถานที่: {item.placeMeeting}
+              สถานที่: {postDetail.placeMeeting}
             </Text>
             <Text
               style={{
                 marginBottom: 5,
               }}
             >
-              เริ่ม: {item.startTime}, เลิก: {item.stopTime}
+              เริ่ม: {postDetail.startTime}, เลิก: {postDetail.stopTime}
             </Text>
             <Text
               style={{
                 marginBottom: 5,
               }}
             >
-              รายละเอียดเพิ่มเติม: {item.customerRemark}
+              รายละเอียดเพิ่มเติม: {postDetail.customerRemark}
             </Text>
             <Text
               style={{
@@ -102,10 +109,10 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               }}
             >
               วันที่โพสท์:{" "}
-              {Moment(item.sys_create_date).format("D MMM YYYY HH:mm:ss")}
+              {Moment(postDetail.sys_create_date).format("D MMM YYYY HH:mm:ss")}
             </Text>
           </View>
-          {workStatus !== AppConfig.PostsStatus.customerConfirm && (
+          {Object.keys(profileSelect).length === 0 && (
             <View style={styles.viewCard}>
               <View style={{ marginVertical: 10 }}>
                 <Button
@@ -116,42 +123,29 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               </View>
             </View>
           )}
-          {getWork && workStatus === AppConfig.PostsStatus.customerConfirm && (
+          {profileSelect.selectStatus ===
+            AppConfig.PostsStatus.customerConfirm && (
             <Text
               style={{
-                backgroundColor: "orange",
                 fontWeight: "bold",
-                padding: 5,
+                backgroundColor: "blue",
+                color: "white",
+                paddingHorizontal: 10,
               }}
             >
               Status: ได้งานแล้ว รอลูกค้าชำระเงิน
             </Text>
           )}
-          {getWork &&
-            workStatus === AppConfig.PostsStatus.waitCustomerSelectPartner && (
-              <Text
-                style={{
-                  color: "white",
-                  backgroundColor: "blue",
-                  padding: 20,
-                  fontSize: 20,
-                  fontWeight: "bold",
-                }}
-              >
-                รอลูกค้ารับงาน
-              </Text>
-            )}
-          {!getWork && workHide && (
+          {profileSelect.selectStatus ===
+            AppConfig.PostsStatus.waitCustomerSelectPartner && (
             <Text
               style={{
-                color: "black",
-                backgroundColor: "red",
-                padding: 20,
-                fontSize: 20,
                 fontWeight: "bold",
+                backgroundColor: "orange",
+                paddingHorizontal: 10,
               }}
             >
-              งานนี้ถูกรับงานไปเต็มแล้ว
+              Status: เสนอราคาไปแล้ว รอลูกค้าตอบรับ
             </Text>
           )}
         </View>

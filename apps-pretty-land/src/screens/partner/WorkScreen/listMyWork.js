@@ -43,7 +43,8 @@ const ListMyWorkScreen = ({ navigation, route }) => {
           const obj = data[key]
           if (
             obj.selectStatus === AppConfig.PostsStatus.customerPayment &&
-            item.status === AppConfig.PostsStatus.adminConfirmPayment &&
+            (item.status === AppConfig.PostsStatus.adminConfirmPayment ||
+              item.status === AppConfig.PostsStatus.startWork) &&
             obj.partnerId === userId
           ) {
             myWorkList.push(item)

@@ -1,22 +1,19 @@
-import React, { useState } from "react"
-import { View, Text, ScrollView, StyleSheet, Image } from "react-native"
+import React, { useState, useEffect } from "react"
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Image,
+  SafeAreaView,
+} from "react-native"
 import { Button } from "react-native-elements"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
 
-const getListItem = (items) => {
-  const datas = []
-  for (let key in items) {
-    const obj = items[key]
-    datas.push(obj)
-  }
-  return datas
-}
-
 export default function PartnerListItem(props) {
-  const { items: data, status, postId, post, navigation } = props
-  const [items, setItems] = useState(getListItem(data))
+  const { items, status, postId, post, navigation } = props
   const [showButton, setShowButton] = useState("show")
 
   const showButtonStartWork = () => {
@@ -38,18 +35,13 @@ export default function PartnerListItem(props) {
   }
 
   const saveStartWork = () => {
-    // firebase
-    //   .database()
-    //   .ref(`posts/${postId}/partnerSelect/${partnerId}`)
-    //   .update({
-    //     selectStatus: AppConfig.PostsStatus.customerStartWork,
-    //     selectStatusText: "เริ่มปฏิบัติงาน",
-    //     customerStatus: AppConfig.PostsStatus.customerStartWork,
-    //     customerStatusText: "Customer กดเริ่มงาน",
-    //     customerStart: new Date().toUTCString(),
-    //     sys_update_date: new Date().toUTCString(),
-    //   })
-    // setShowButton("process")
+    firebase.database().ref(`posts/${postId}`).update({
+      status: AppConfig.PostsStatus.startWork,
+      statusText: "เริ่มปฏิบัติงาน",
+      sys_update_date: new Date().toUTCString(),
+      start_work_date: new Date().toUTCString(),
+    })
+    setShowButton("process")
   }
 
   const updateMember = (workIn = 0, workPoint = 0, partnerId) => {
@@ -121,20 +113,9 @@ export default function PartnerListItem(props) {
   }
 
   return (
-    <View style={styles.containers}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {items.map((item, index) => (
-          <View id={item.id} style={styles.card}>
-            <Text>{item.partnerName}</Text>
-            <Text>ราคา: {item.amount}</Text>
-            <Image
-              key={`img_${item.id}`}
-              source={{ uri: item.image }}
-              style={styles.image}
-            />
-          </View>
-        ))}
-        {showButtonStartWork() && (
+    <SafeAreaView>
+      <View>
+        {status === AppConfig.PostsStatus.adminConfirmPayment && (
           <Button
             title="กดเริ่มงาน"
             style={styles.button}
@@ -157,28 +138,32 @@ export default function PartnerListItem(props) {
         {showButton === "process" && (
           <Text style={{ color: "blue" }}>บันทึกข้อมูลเรียบร้อย</Text>
         )}
+      </View>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {items.map((item, index) => (
+          <View id={item.partnerId}>
+            <Text>{item.partnerName}</Text>
+            <Text>ราคา: {item.amount}</Text>
+            <Image
+              key={`img_${item.id}`}
+              source={{ uri: item.image }}
+              style={styles.image}
+            />
+            <Text>เบอร์โทร: {item.telephone}</Text>
+            <Text>เพศ: {item.sex}</Text>
+            <Text>บุคลิค: {item.character}</Text>
+          </View>
+        ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  containers: {
-    padding: 10,
-  },
-  card: {
-    padding: 10,
-    margin: 5,
-    backgroundColor: "white",
-    height: 250,
-    width: 200,
-    alignItems: "center",
-  },
   image: {
     height: 150,
     width: 130,
     margin: 5,
-    padding: 10,
     borderWidth: 1.5,
     borderRadius: 25,
     borderColor: "#ff2fe6",

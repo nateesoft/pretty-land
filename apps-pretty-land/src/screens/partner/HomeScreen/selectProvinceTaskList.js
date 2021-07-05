@@ -23,8 +23,8 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
 
   const handleRefresh = () => {}
 
-  const onPressOptions = (item) => {
-    navigation.navigate("Task-Detail", { profile, item })
+  const onPressOptions = (postDetail) => {
+    navigation.navigate("Task-Detail", { profile, postDetail })
   }
 
   const renderItem = ({ item }) => (

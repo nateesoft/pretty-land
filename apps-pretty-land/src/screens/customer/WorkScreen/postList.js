@@ -31,7 +31,7 @@ const PostListScreen = ({ navigation, route }) => {
     } else if (status === AppConfig.PostsStatus.waitCustomerPayment) {
       navigation.navigate("Payment-Form", { item, userId })
     } else {
-      navigation.navigate("Review-Task", { item, userId })
+      navigation.navigate("Review-Task", { postDetail: item, userId })
     }
   }
 
@@ -166,12 +166,6 @@ const styles = StyleSheet.create({
     color: "white",
     backgroundColor: "#ff2fe6",
     padding: 10,
-  },
-  btnNewPost: {
-    margin: 5,
-    borderRadius: 75,
-    height: 45,
-    width: 250,
   },
   imageBg: {
     flex: 1,

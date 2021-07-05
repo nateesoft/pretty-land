@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
   StyleSheet,
   View,
@@ -6,8 +6,9 @@ import {
   ScrollView,
   SafeAreaView,
 } from "react-native"
-import { Button, Text, Rating } from "react-native-elements"
+import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
+import StarRating from "react-native-star-rating"
 
 import { updatePosts } from "../../../apis"
 import bgImage from "../../../../assets/bg.png"
@@ -15,29 +16,31 @@ import { AppConfig } from "../../../Constants"
 
 import firebase from "../../../../util/firebase"
 import PartnerListItem from "./PartnerListItem"
+import { Alert } from "react-native"
 
 const ReviewTaskScreen = (props) => {
   const { navigation, route } = props
-  const { userId, item } = route.params
+  const { userId, postDetail } = route.params
 
   const [rate, setRate] = useState(5)
+  const [showPartnerList, setShowPartnerList] = useState([])
 
-  const ComponentRating = ({ disabled }) => (
-    <View pointerEvents={disabled ? "none" : ""}>
-      <Rating
-        type="star"
-        ratingCount={rate}
-        startingValue={5}
-        onFinishRating={(r) => setRate(r)}
-        style={{ paddingVertical: 10 }}
-        ratingBackgroundColor="transparent"
-        imageSize={32}
-      />
-    </View>
-  )
+  const generatePartnerList = () => {
+    return new Promise((resolve, reject) => {
+      let list = []
+      for (let key in postDetail.partnerSelect) {
+        const data = postDetail.partnerSelect[key]
+        if (data.selectStatus === AppConfig.PostsStatus.customerPayment) {
+          list.push(data)
+        }
+      }
+      setShowPartnerList(list)
+      resolve(true)
+    })
+  }
 
   const cancelThisPosts = () => {
-    updatePosts(item.id, {
+    updatePosts(postDetail.id, {
       status: AppConfig.PostsStatus.customerCancelPost,
       statusText: "ยกเลิกโพสท์นี้แล้ว",
       sys_update_date: new Date().toUTCString(),
@@ -46,13 +49,18 @@ const ReviewTaskScreen = (props) => {
   }
 
   const saveToCloseJob = () => {
-    firebase.database().ref(`posts/${item.id}`).update({
+    firebase.database().ref(`posts/${postDetail.id}`).update({
       status: AppConfig.PostsStatus.closeJob,
       statusText: "ปิดงาน Post นี้เรียบร้อย",
+      rate,
       sys_update_date: new Date().toUTCString(),
     })
     navigation.navigate("Post-List")
   }
+
+  useEffect(() => {
+    generatePartnerList().catch((err) => Alert.alert(err))
+  }, [])
 
   return (
     <ImageBackground
@@ -74,29 +82,29 @@ const ReviewTaskScreen = (props) => {
                 margin: 5,
               }}
             >
-              <Text style={styles.textDetail}>ไอดี: {item.customerId}</Text>
+              <Text style={styles.textDetail}>ไอดี: {postDetail.customerId}</Text>
               <Text style={styles.textDetail}>
-                ระดับ Level: {item.customerLevel}
+                ระดับ Level: {postDetail.customerLevel}
               </Text>
               <Text style={styles.textDetail}>
-                ชื่อผู้โพสท์: {item.customerName}
+                ชื่อผู้โพสท์: {postDetail.customerName}
               </Text>
               <Text style={styles.textDetail}>
-                เบอร์โทรศัพท์: {item.customerPhone}
+                เบอร์โทรศัพท์: {postDetail.customerPhone}
               </Text>
               <Text style={styles.textDetail}>
-                เพิ่มเติม: {item.customerRemark}
+                เพิ่มเติม: {postDetail.customerRemark}
               </Text>
               <Text style={styles.textDetail}>
-                ประเภท Partner: {item.partnerRequest}
+                ประเภท Partner: {postDetail.partnerRequest}
               </Text>
               <Text style={styles.textDetail}>
-                สถานที่: {item.placeMeeting}
+                สถานที่: {postDetail.placeMeeting}
               </Text>
               <Text style={styles.textDetail}>
-                จังหวัด: {item.provinceName}
+                จังหวัด: {postDetail.provinceName}
               </Text>
-              {item.status === AppConfig.PostsStatus.customerNewPostDone && (
+              {postDetail.status === AppConfig.PostsStatus.customerNewPostDone && (
                 <Text
                   style={{
                     fontSize: 18,
@@ -108,7 +116,7 @@ const ReviewTaskScreen = (props) => {
                   โพสท์ใหม่ รอตรวจสอบจาก admin...
                 </Text>
               )}
-              {item.status === AppConfig.PostsStatus.adminConfirmNewPost && (
+              {postDetail.status === AppConfig.PostsStatus.adminConfirmNewPost && (
                 <View>
                   <Text
                     style={{
@@ -131,7 +139,7 @@ const ReviewTaskScreen = (props) => {
                   </Text>
                 </View>
               )}
-              {item.status ===
+              {postDetail.status ===
                 AppConfig.PostsStatus.waitAdminConfirmPayment && (
                 <Text
                   style={{
@@ -144,54 +152,60 @@ const ReviewTaskScreen = (props) => {
                   รอตรวจสอบ หลักฐานการโอนเงิน...
                 </Text>
               )}
-              {item.status === AppConfig.PostsStatus.closeJob && (
+              {postDetail.status === AppConfig.PostsStatus.closeJob && (
                 <>
                   <Text
                     style={{
                       fontSize: 18,
-                      color: "blue",
+                      color: "red",
                       alignSelf: "center",
                       padding: 20,
                     }}
                   >
                     ปิดงานเรียบร้อยแล้ว
                   </Text>
+                  <Text style={{ alignSelf: "center" }}>
+                    คะแนนที่ได้รับ {postDetail.rate || 0} คะแนน
+                  </Text>
                 </>
               )}
             </View>
-            {item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment && (
+            {postDetail.status !== AppConfig.PostsStatus.waitAdminConfirmPayment && (
               <PartnerListItem
-                items={item.partnerSelect}
-                status={item.status}
-                postId={item.id}
-                post={item}
+                items={showPartnerList}
+                status={postDetail.status}
+                postId={postDetail.id}
+                post={postDetail}
                 {...props}
               />
             )}
-            {item.status === AppConfig.PostsStatus.customerNewPostDone && (
-                <Button
-                  icon={
-                    <Icon
-                      name="close"
-                      size={15}
-                      color="white"
-                      style={{ marginRight: 5 }}
-                    />
-                  }
-                  iconLeft
-                  buttonStyle={{ margin: 5, backgroundColor: "red" }}
-                  title="ยกเลิกโพสท์นี้"
-                  onPress={() => cancelThisPosts()}
-                />
-              )}
-          </View>
-          {item.status === AppConfig.PostsStatus.startWork && (
-            <View style={{ justifyContent: "center", marginTop: 10 }}>
-              <ComponentRating
-                disabled={
-                  item.status === AppConfig.PostsStatus.customerCloseJob
+            {postDetail.status === AppConfig.PostsStatus.customerNewPostDone && (
+              <Button
+                icon={
+                  <Icon
+                    name="close"
+                    size={15}
+                    color="white"
+                    style={{ marginRight: 5 }}
+                  />
                 }
+                iconLeft
+                buttonStyle={{ margin: 5, backgroundColor: "red" }}
+                title="ยกเลิกโพสท์นี้"
+                onPress={() => cancelThisPosts()}
               />
+            )}
+          </View>
+          {postDetail.status === AppConfig.PostsStatus.startWork && (
+            <View style={{ alignItems: "center" }}>
+              <StarRating
+                disabled={false}
+                maxStars={5}
+                rating={rate}
+                fullStarColor="orange"
+                selectedStar={(rating) => setRate(rating)}
+              />
+              <Text>ให้ {rate} คะแนน</Text>
               <Button
                 icon={
                   <Icon
@@ -201,12 +215,11 @@ const ReviewTaskScreen = (props) => {
                     style={{ marginRight: 10 }}
                   />
                 }
-                title={`บันทึกปิดงานทั้งหมด (${
-                  Object.keys(item.partnerSelect || {}).length
-                })`}
+                title="บันทึกปิดงาน"
                 buttonStyle={{
                   marginVertical: 10,
                   borderRadius: 5,
+                  width: 150,
                 }}
                 onPress={() => saveToCloseJob()}
               />
@@ -232,27 +245,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     margin: 10,
-  },
-  optionsNameDetail: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
-  },
-  optionsNameDetail2: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
-  },
-  viewCard: {
-    width: "100%",
-    borderRadius: 20,
-    padding: 5,
   },
   imageBg: {
     flex: 1,
