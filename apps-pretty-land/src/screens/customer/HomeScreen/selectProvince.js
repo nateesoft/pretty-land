@@ -54,7 +54,13 @@ const SelectProvince = (props) => {
           const type2 = AppConfig.PartnerType.type2 === partnerRequest
           const type3 = AppConfig.PartnerType.type3 === partnerRequest
           const type4 = AppConfig.PartnerType.type4 === partnerRequest
-          if (data.province === value && data.memberType === "partner") {
+          if (
+            data.province === value &&
+            data.memberType === "partner" &&
+            data.status !== AppConfig.MemberStatus.newRegister &&
+            data.status !== AppConfig.MemberStatus.notApprove &&
+            data.status !== AppConfig.MemberStatus.suspend
+          ) {
             if (
               (data.type1 && type1) ||
               (data.type2 && type2) ||

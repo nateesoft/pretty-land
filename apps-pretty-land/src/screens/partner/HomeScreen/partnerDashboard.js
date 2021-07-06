@@ -118,7 +118,7 @@ const Category = ({ navigation, route }) => {
       <View style={styles.inner}>
         <Image
           source={{ uri: data.image_url }}
-          style={{ height: widthFix, width: "90%", margin: 5 }}
+          style={{ height: 200, width: 150, margin: 5 }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
         <Text>จำนวน {count} โพสท์</Text>

@@ -54,7 +54,13 @@ const SelectProvinceType4 = (props) => {
         snapshot.forEach((item) => {
           const data = { ...item.val() }
           const type4 = AppConfig.PartnerType.type4 === partnerRequest
-          if (data.province === value && data.memberType === "partner") {
+          if (
+            data.province === value &&
+            data.memberType === "partner" &&
+            data.status !== AppConfig.MemberStatus.newRegister &&
+            data.status !== AppConfig.MemberStatus.notApprove &&
+            data.status !== AppConfig.MemberStatus.suspend
+          ) {
             if (data.type4 && type4) {
               count = count + 1
               list.push(data)
