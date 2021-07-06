@@ -122,6 +122,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
       setType2(data.type2 || false)
       setType3(data.type3 || false)
       setType4(data.type4 || false)
+      setPrice4(data.price4 || "")
       setSex(data.sex || "female")
       setCharacter(data.character || "")
     })

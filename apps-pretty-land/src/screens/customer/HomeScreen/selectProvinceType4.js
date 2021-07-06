@@ -9,11 +9,10 @@ import {
   Image,
   TouchableHighlight,
 } from "react-native"
-import { Button, Text } from "react-native-elements"
+import { Text } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
 
-import { getCountryList } from "../../../data/apis"
+import { getCountryList, getDistrictList, getDistrictName } from "../../../data/apis"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
@@ -31,6 +30,11 @@ const SelectProvinceType4 = (props) => {
   const [partnerQty, setPartnerQty] = useState("")
   const [partnerList, setPartnerList] = useState([])
 
+  // อำเภอ/เขต
+  const [openSelectDistrict, setOpenSelectDistrict] = useState(false)
+  const [district, setDistrict] = useState("")
+  const [districtList, setDistrictList] = useState([])
+
   const nextStep = (partnerProfile) => {
     if (!province) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ จังหวัด", { props })
@@ -45,7 +49,7 @@ const SelectProvinceType4 = (props) => {
     })
   }
 
-  const getPartnerQty = (value) => {
+  const getPartnerQty = () => {
     return new Promise((resolve, reject) => {
       const ref = firebase.database().ref(`members`)
       ref.once("value", (snapshot) => {
@@ -54,8 +58,13 @@ const SelectProvinceType4 = (props) => {
         snapshot.forEach((item) => {
           const data = { ...item.val() }
           const type4 = AppConfig.PartnerType.type4 === partnerRequest
+          let isDistrict = true
+          if (district) {
+            isDistrict = data.district === district
+          }
           if (
-            data.province === value &&
+            data.province === province &&
+            isDistrict &&
             data.memberType === "partner" &&
             data.status !== AppConfig.MemberStatus.newRegister &&
             data.status !== AppConfig.MemberStatus.notApprove &&
@@ -75,8 +84,8 @@ const SelectProvinceType4 = (props) => {
     })
   }
 
-  const onChangeProvinceSelect = (value) => {
-    getPartnerQty(value).then((data) => console.log(data))
+  const onChangeProvinceSelect = () => {
+    getPartnerQty().catch((err) => Alert.alert(err))
   }
 
   return (
@@ -103,7 +112,22 @@ const SelectProvinceType4 = (props) => {
             zIndex={2}
             searchable={false}
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-            onChangeValue={(e) => onChangeProvinceSelect(e)}
+            onChangeValue={(e) => onChangeProvinceSelect()}
+            listMode="SCROLLVIEW"
+          />
+          <DropDownPicker
+            placeholder="-- เลือก เขต/อำเภอ --"
+            open={openSelectDistrict}
+            setOpen={setOpenSelectDistrict}
+            value={district}
+            setValue={setDistrict}
+            items={getDistrictList(province)}
+            setItems={setDistrictList}
+            searchable={false}
+            textStyle={{ fontSize: 18 }}
+            zIndex={1}
+            selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+            onChangeValue={(e) => onChangeProvinceSelect()}
             listMode="SCROLLVIEW"
           />
           {province !== "" && (
@@ -113,6 +137,7 @@ const SelectProvinceType4 = (props) => {
                 backgroundColor: "pink",
                 alignSelf: "flex-start",
                 padding: 5,
+                marginTop: 10,
               }}
             >
               <Text style={{ fontSize: 16 }}>
@@ -146,6 +171,7 @@ const SelectProvinceType4 = (props) => {
                 >
                   <Text>ชื่อ: {item.name}</Text>
                   <Text>ราคา: {item.price4}</Text>
+                  <Text>เขต: {getDistrictName(item.district)[0]}</Text>
                   <Image
                     source={{ uri: item.image }}
                     style={{ width: 250, height: 300 }}
