@@ -80,6 +80,7 @@ const PostListScreen = ({ navigation, route }) => {
           if (
             item.status !== AppConfig.PostsStatus.notApprove &&
             item.status !== AppConfig.PostsStatus.customerCancelPost &&
+            item.status !== AppConfig.PostsStatus.closeJob &&
             item.status !== AppConfig.PostsStatus.postTimeout
           ) {
             const date1 = Moment()

@@ -73,7 +73,14 @@ const PartnerCategory = ({ navigation, route }) => {
   }, [])
 
   const onPressOptions = (item) => {
-    navigation.navigate("Select-Province-Form", { item, partnerGroup: items })
+    if (item.name === AppConfig.PartnerType.type4) {
+      navigation.navigate("Select-Province-Form-Type4", {
+        item,
+        partnerGroup: items,
+      })
+    } else {
+      navigation.navigate("Select-Province-Form", { item, partnerGroup: items })
+    }
   }
 
   const DisplayCard = ({ data, count }) => (

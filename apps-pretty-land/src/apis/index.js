@@ -38,7 +38,7 @@ export const saveMemberRegister = (member, navigation) => {
     })
 }
 
-export const saveNewPosts = (postData, navigation) => {
+export const saveNewPosts = (postData) => {
   const newId = uuid.v4()
   const saveData = {
     id: newId,

@@ -93,46 +93,82 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
               style={{ width: 200, height: 250 }}
             />
           </View>
-          <View
-            style={{
-              padding: 10,
-              alignSelf: "center",
-              borderWidth: 1.5,
-              margin: 10,
-              borderColor: "pink",
-              width: "85%",
-            }}
-          >
-            <Text>ชื่อลูกค้า: {item.customerName}</Text>
-            <Text>Level: {item.customerLevel}</Text>
-            <Text>สถานที่นัดหมาย: {item.placeMeeting}</Text>
-            <Text>
-              เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
-            </Text>
-            <Text>เบอร์ติดต่อ: {item.customerPhone}</Text>
-            <Text>รายละเอียดเพิ่มเติม: {item.customerRemark}</Text>
-            <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
-            <Text>
-              ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}
-            </Text>
-            <Text>เวลาที่โอนเงิน: {item.transferTime}</Text>
-          </View>
-          <View style={{ width: "80%", alignItems: "center", margin: 10 }}>
+          {item.partnerRequest !== AppConfig.PartnerType.type4 && (
+            <View
+              style={{
+                padding: 10,
+                alignSelf: "center",
+                borderWidth: 1.5,
+                margin: 10,
+                borderColor: "pink",
+                width: "85%",
+              }}
+            >
+              <Text>ชื่อลูกค้า: {item.customerName}</Text>
+              <Text>Level: {item.customerLevel}</Text>
+              <Text>สถานที่นัดหมาย: {item.placeMeeting}</Text>
+              <Text>
+                เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
+              </Text>
+              <Text>เบอร์ติดต่อ: {item.customerPhone}</Text>
+              <Text>รายละเอียดเพิ่มเติม: {item.customerRemark}</Text>
+              <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
+              <Text>
+                ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}
+              </Text>
+              <Text>เวลาที่โอนเงิน: {item.transferTime}</Text>
+            </View>
+          )}
+          {item.partnerRequest === AppConfig.PartnerType.type4 && (
+            <View
+              style={{
+                padding: 10,
+                alignSelf: "center",
+                borderWidth: 1.5,
+                margin: 10,
+                borderColor: "pink",
+                width: "85%",
+              }}
+            >
+              <Text>ชื่อลูกค้า: {item.customerName}</Text>
+              <Text>Level: {item.customerLevel}</Text>
+              <Text>เบอร์ติดต่อลูกค้า: {item.customerPhone}</Text>
+              <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
+              <Text>
+                ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}
+              </Text>
+              <Text>เวลาที่โอนเงิน: {item.transferTime}</Text>
+            </View>
+          )}
+          <View style={{ alignItems: "center", margin: 10 }}>
             <Text style={{ marginBottom: 5 }}>
               ยอดรับชำระสำหรับ Partner {listPartner.length} คน
             </Text>
-            {listPartner &&
-              listPartner.map((item, index) => (
-                <View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {listPartner.map((obj, index) => (
+                <View key={obj.partnerId} style={{ alignItems: "center", margin: 10 }}>
                   <Image
-                    source={{ uri: item.image }}
+                    source={{ uri: obj.image }}
                     style={{ width: 100, height: 100 }}
                   />
-                  <Text style={{ marginTop: 5 }} key={item.partnerId}>
-                    {item.partnerName}
-                  </Text>
+                  <Text style={{ marginTop: 5 }}>ชื่อ: {obj.partnerName}</Text>
+                  {item.partnerRequest === AppConfig.PartnerType.type4 && (
+                    <View
+                      style={{
+                        backgroundColor: "pink",
+                        padding: 5,
+                        marginTop: 5,
+                      }}
+                    >
+                      <Text style={{ marginTop: 5 }}>สถานที่: {obj.place}</Text>
+                      <Text style={{ marginTop: 5 }}>
+                        เวลาที่จะไป: {item.timeMeeting}
+                      </Text>
+                    </View>
+                  )}
                 </View>
               ))}
+            </ScrollView>
           </View>
           <Button
             icon={

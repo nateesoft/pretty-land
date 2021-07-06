@@ -52,6 +52,7 @@ const LoginScreen = ({ navigation, route }) => {
         <Text style={styles.textLogo}>PRETTY LAND</Text>
         <Text style={styles.textDetail}>Love Your Moments</Text>
         <TouchableHighlight
+          underlayColor="pink"
           style={styles.btnLineClickContain}
           onPress={() => navigate("Line-Login-Form")}
         >
@@ -70,6 +71,7 @@ const LoginScreen = ({ navigation, route }) => {
           </View>
         </TouchableHighlight>
         <TouchableHighlight
+          underlayColor="pink"
           style={[styles.btnClickContain, { marginBottom: 20 }]}
           onPress={() => signInFacebook()}
         >

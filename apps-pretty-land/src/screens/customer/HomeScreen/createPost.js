@@ -91,8 +91,7 @@ const CreatePostForm = (props) => {
         districtName: getDistrictName(district)[0],
         customerRemark: remark,
         customerLevel,
-      },
-      navigation
+      }
     )
   }
 
@@ -145,7 +144,6 @@ const CreatePostForm = (props) => {
           },
         },
       },
-      navigation
     )
   }
 

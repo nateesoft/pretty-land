@@ -5,7 +5,9 @@ import CustomerDashboard from "./customerDashboard"
 import PartnerListCountryScreen from "./partnerListCountry"
 import CreatePostForm from "./createPost"
 import SelectProvinceForm from "./selectProvince"
+import SelectProvinceFormType4 from "./selectProvinceType4"
 import PlaceForm from "./placeForm"
+import TimePriceForm from "./timePriceForm"
 
 import { LogoTitle } from "../../../components/Header"
 
@@ -70,10 +72,44 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         }}
       />
       <Stack.Screen
+        name="Select-Province-Form-Type4"
+        component={SelectProvinceFormType4}
+        options={{
+          title: "เลือกจังหวัด",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+        initialParams={{
+          pageFrom: "Select-Province-Form",
+          userId,
+          status,
+        }}
+      />
+      <Stack.Screen
         name="Place-Form"
         component={PlaceForm}
         options={{
           title: "ข้อมูลสถานที่",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+        initialParams={{
+          pageFrom: "Select-Province-Form",
+          userId,
+          status,
+        }}
+      />
+      <Stack.Screen
+        name="Time-Price-Form"
+        component={TimePriceForm}
+        options={{
+          title: "เวลาที่นัดหมาย",
           headerStyle: {
             backgroundColor: "#ff2fe6",
           },

@@ -18,57 +18,65 @@ import bgImage from "../../../../assets/bg.png"
 import { saveNewPosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
-const PlaceForm = (props) => {
+const TimePriceForm = (props) => {
   const { navigation, route } = props
-  const { item, userId, partnerRequest, province, partnerWantQty } =
-    route.params
+  const { item, userId, partnerRequest, province, partnerProfile } = route.params
 
   const [phone, setPhone] = useState("")
-  const [place, setPlace] = useState("")
-  const [remark, setRemark] = useState("")
-  const [startTime, setStartTime] = useState("")
-  const [stopTime, setStopTime] = useState("")
+  const [timeMeeting, setTimeMeeting] = useState("")
 
-  const [customerName, setCustomerName] = useState("")
-  const [customerLevel, setCustomerLevel] = useState("")
+  const [customer, setCustomer] = useState("")
 
-  const createNewPost = () => {
+  const mappingCustomerProfile = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const cust = { ...snapshot.val() }
+      setCustomer(cust)
+      resolve(true)
+    })
+  }
+
+  const sendToMassagePartner = (data) => {
+    if (!timeMeeting) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ เวลาที่จะไป")
+      return
+    }
     if (!phone) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ โทรศัพท์มือถือ")
       return
     }
-    if (!place) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุ สถานที่นัดพบ")
-      return
+    const dataToSave = {
+      customerId: customer.id,
+      customerName: customer.profile,
+      partnerRequest,
+      customerPhone: phone,
+      partnerImage: item.image_url,
+      status: AppConfig.PostsStatus.waitPartnerConfrimWork,
+      statusText: "รอ Partner แจ้งรับงาน",
+      province,
+      provinceName: getProvinceName(province)[0],
+      customerLevel: customer.customerLevel,
+      timeMeeting,
+      partnerSelect: {
+        [data.id]: {
+          partnerId: data.id,
+          telephone: data.mobile,
+          sex: data.sex,
+          amount: data.price4,
+          image: data.image,
+          sys_create_date: new Date().toUTCString(),
+          age: data.age,
+          name: data.name,
+        },
+      },
     }
-    saveNewPosts(
-      {
-        customerId: userId,
-        partnerRequest,
-        partnerImage: item.image_url,
-        customerPhone: phone,
-        placeMeeting: place,
-        status: AppConfig.PostsStatus.customerNewPostDone,
-        statusText: "โพสท์ใหม่",
-        province,
-        provinceName: getProvinceName(province)[0],
-        customerRemark: remark,
-        customerLevel,
-        customerName,
-        startTime,
-        stopTime,
-        partnerWantQty,
-      }
-    )
-    navigation.navigate("Customer-Dashboard")
+    saveNewPosts(dataToSave)
+    navigation.navigate("Select-Province-Form-Type4")
   }
 
   useEffect(() => {
     const ref = firebase.database().ref(`members/${userId}`)
     ref.once("value", (snapshot) => {
-      const customer = { ...snapshot.val() }
-      setCustomerLevel(customer.customerLevel)
-      setCustomerName(customer.profile)
+      mappingCustomerProfile(snapshot).catch((err) => Alert.alert(err))
     })
   }, [])
 
@@ -82,53 +90,19 @@ const PlaceForm = (props) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
-              <Text style={{ fontSize: 16, padding: 5 }}>สถานที่นัดหมาย</Text>
-              {!place && (
-                <Text style={{ color: "red", marginLeft: 5 }}>
-                  จะต้องระบุข้อมูล สถานที่นัดหมาย
-                </Text>
-              )}
-              <View style={styles.formControl}>
-                <GetIcon type="fa" name="home" />
-                <TextInput
-                  placeholder="สถานที่นัดหมาย"
-                  style={styles.textInput}
-                  value={place}
-                  onChangeText={(value) => setPlace(value)}
-                />
-              </View>
-            </View>
-            <View>
               <Text style={{ fontSize: 16, padding: 5 }}>เวลาเริ่ม</Text>
-              {!startTime && (
+              {!timeMeeting && (
                 <Text style={{ color: "red", marginLeft: 5 }}>
-                  จะต้องระบุข้อมูล เวลาเริ่ม
+                  จะต้องระบุข้อมูล เวลาที่จะไป
                 </Text>
               )}
               <View style={styles.formControl}>
                 <GetIcon type="ii" name="time-outline" />
                 <TextInput
-                  placeholder="เวลาเริ่ม"
+                  placeholder="เวลาที่จะไป"
                   style={styles.textInput}
-                  value={startTime}
-                  onChangeText={(value) => setStartTime(value)}
-                />
-              </View>
-            </View>
-            <View>
-              <Text style={{ fontSize: 16, padding: 5 }}>เวลาเลิก</Text>
-              {!stopTime && (
-                <Text style={{ color: "red", marginLeft: 5 }}>
-                  จะต้องระบุข้อมูล เวลาเลิก
-                </Text>
-              )}
-              <View style={styles.formControl}>
-                <GetIcon type="mi" name="timer-off" />
-                <TextInput
-                  placeholder="เวลาเลิก"
-                  style={styles.textInput}
-                  value={stopTime}
-                  onChangeText={(value) => setStopTime(value)}
+                  value={timeMeeting}
+                  onChangeText={(value) => setTimeMeeting(value)}
                 />
               </View>
             </View>
@@ -149,26 +123,11 @@ const PlaceForm = (props) => {
                 />
               </View>
             </View>
-            <View>
-              <Text style={{ fontSize: 16, padding: 5 }}>
-                รายละเอียดเพิ่มเติม
-              </Text>
-            </View>
-            <View style={[styles.formControl, { height: 100, width: "100%" }]}>
-              <TextInput
-                placeholder="รายละเอียดเพิ่มเติม"
-                style={[styles.textInput, { height: 90 }]}
-                value={remark}
-                onChangeText={(value) => setRemark(value)}
-                multiline={true}
-                numberOfLines={4}
-              />
-            </View>
             <View style={styles.buttonFooter}>
               <Button
                 icon={
                   <Icon
-                    name="save"
+                    name="send"
                     size={20}
                     color="white"
                     style={{ marginHorizontal: 8 }}
@@ -184,8 +143,8 @@ const PlaceForm = (props) => {
                   height: 45,
                   borderWidth: 0.5,
                 }}
-                title="บันทึกโพสท์"
-                onPress={() => createNewPost()}
+                title="ส่งไปยัง Partner"
+                onPress={() => sendToMassagePartner(partnerProfile)}
               />
             </View>
           </View>
@@ -268,4 +227,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PlaceForm
+export default TimePriceForm

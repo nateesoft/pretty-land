@@ -24,7 +24,6 @@ const AllTaskListScreen = ({ navigation, route }) => {
   const [profile, setProfile] = useState({})
 
   const handleRefresh = () => {
-    console.log("handleRefresh")
   }
 
   const onPressOptions = (item) => {

@@ -91,7 +91,9 @@ const Category = ({ navigation, route }) => {
   const DisplayCard = ({ data, count }) => (
     <TouchableHighlight
       underlayColor="pink"
-      onPress={() => onPressOptions(data)}
+      onPress={() =>
+        count > 0 ? onPressOptions(data) : console.log("count:0")
+      }
       style={styles.box}
     >
       <View style={styles.inner}>

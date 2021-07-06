@@ -17,15 +17,7 @@ import { Alert } from "react-native"
 
 const ConfirmTaskScreen = ({ navigation, route }) => {
   const { profile, postDetail } = route.params
-  const [workStatus, setWorkStatus] = useState("")
   const [profileSelect, setProfileSelect] = useState("")
-  const [getWork, setGetWork] = useState(false)
-  const workHide =
-    postDetail.partnerQty -
-      (postDetail.partnerSelect
-        ? Object.keys(postDetail.partnerSelect).length
-        : 0) ===
-    0
 
   const nextPriceForm = () => {
     navigation.navigate("Price-Form-Detail", { profile, postDetail })
@@ -34,7 +26,6 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
   const getProfileSelectObject = (snapshot) => {
     return new Promise((resolve, reject) => {
       const checkItem = { ...snapshot.val() }
-      console.log("checkItem:", Object.keys(checkItem).length)
       setProfileSelect(checkItem)
       resolve(true)
     })

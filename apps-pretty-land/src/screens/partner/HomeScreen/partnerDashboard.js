@@ -39,7 +39,8 @@ const Category = ({ navigation, route }) => {
       arr.forEach((item) => {
         if (
           item.status === AppConfig.PostsStatus.adminConfirmNewPost ||
-          item.status === AppConfig.PostsStatus.waitCustomerSelectPartner
+          item.status === AppConfig.PostsStatus.waitCustomerSelectPartner ||
+          item.status === AppConfig.PostsStatus.waitPartnerConfrimWork
         ) {
           if (item.partnerRequest === AppConfig.PartnerType.type1) {
             type1 = type1 + 1
@@ -91,9 +92,7 @@ const Category = ({ navigation, route }) => {
   }, [])
 
   useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref(`posts`)
+    const ref = firebase.database().ref(`posts`)
     const listener = ref.on("value", (snapshot) => {
       getComputeGroup(snapshot).catch((err) => Alert.alert(err))
     })
@@ -103,13 +102,17 @@ const Category = ({ navigation, route }) => {
   }, [])
 
   const onPressOptions = (item) => {
-    navigation.navigate("Select-Province-Task-List", { profile, item, taskList })
+    navigation.navigate("Select-Province-Task-List", {
+      profile,
+      item,
+      taskList,
+    })
   }
 
   const DisplayCard = ({ data, count }) => (
     <TouchableHighlight
       underlayColor="pink"
-      onPress={() => onPressOptions(data)}
+      onPress={() => (count > 0 ? onPressOptions(data) : console.log("count:0"))}
       style={styles.box}
     >
       <View style={styles.inner}>

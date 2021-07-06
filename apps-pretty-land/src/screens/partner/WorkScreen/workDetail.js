@@ -175,7 +175,6 @@ const WorkDetailScreen = ({ navigation, route }) => {
           <View>
             <Text>โหมดงาน: {item.partnerRequest}</Text>
             <Text>จังหวัด: {item.provinceName}</Text>
-            <Text>เขต/อำเภอ: {item.districtName}</Text>
             <Text>
               วันที่แจ้งรับงาน:{" "}
               {moment(item.sys_create_date).format("D MMM YYYY")}

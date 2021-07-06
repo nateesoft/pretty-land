@@ -3,25 +3,62 @@ import {
   SafeAreaView,
   FlatList,
   View,
-  StyleSheet,
   Image,
   RefreshControl,
   ImageBackground,
+  StyleSheet,
 } from "react-native"
-import { ListItem, Text } from "react-native-elements"
+import { ListItem, Text, Button } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import Moment from "moment"
 
 import { getProvinceName } from "../../../data/apis"
 import CardNotfound from "../../../components/CardNotfound"
 import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from "../../../Constants"
+import firebase from "../../../../util/firebase"
 
 const SelectProvinceTaskList = ({ navigation, route }) => {
   const { item, profile, taskList } = route.params
-
   const [refreshing, setRefreshing] = useState(false)
 
   const handleRefresh = () => {}
+
+  const partnerConfrim = (posts) => {
+    firebase
+      .database()
+      .ref(`posts/${posts.id}/partnerSelect/${profile.id}`)
+      .update({
+        selectStatus: AppConfig.PostsStatus.customerConfirm,
+        selectStatusText: "Partner แจ้งรับงาน รอลูกค้าขำระเงิน",
+        sys_update_date: new Date().toUTCString(),
+        place: profile.address,
+        character: profile.character,
+      })
+
+    firebase.database().ref(`posts/${posts.id}`).update({
+      status: AppConfig.PostsStatus.waitCustomerPayment,
+      statusText: "รอลูกค้าชำระค่าบริการ",
+      sys_update_date: new Date().toUTCString(),
+    })
+  }
+
+  const partnerReject = (posts) => {
+    firebase
+      .database()
+      .ref(`posts/${posts.id}/partnerSelect/${profile.id}`)
+      .update({
+        selectStatus: AppConfig.PostsStatus.partnerCancelWork,
+        selectStatusText: "Partner ปฏิเสธงาน",
+        sys_update_date: new Date().toUTCString(),
+      })
+
+    firebase.database().ref(`posts/${posts.id}`).update({
+      status: AppConfig.PostsStatus.closeJob,
+      statusText: "Partner ปฏิเสธงาน",
+      sys_update_date: new Date().toUTCString(),
+    })
+  }
 
   const onPressOptions = (postDetail) => {
     navigation.navigate("Task-Detail", { profile, postDetail })
@@ -102,6 +139,75 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
     </ListItem>
   )
 
+  const renderItemType4 = ({ item }) => (
+    <ListItem
+      bottomDivider
+      containerStyle={{
+        backgroundColor: null,
+        borderRadius: 8,
+        marginVertical: 5,
+      }}
+    >
+      <ListItem.Content style={{ margin: 10 }}>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+            backgroundColor: "pink",
+          }}
+        >
+          ref: {item.id}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+          }}
+        >
+          ลูกค้า: {item.customerName}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+          }}
+        >
+          ระดับ: {item.customerLevel}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+          }}
+        >
+          เวลาที่จะไป: {item.timeMeeting}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+          }}
+        >
+          วันที่โพสท์:{" "}
+          {Moment(item.sys_create_date).format("D MMM YYYY HH:mm:ss")}
+        </ListItem.Title>
+        {item.selectStatus !== AppConfig.PostsStatus.customerConfirm && (
+          <View style={{ alignSelf: "center" }}>
+            <Button
+              title="แจ้งรับงาน"
+              buttonStyle={{
+                backgroundColor: "blue",
+                margin: 5,
+                width: "100%",
+              }}
+              onPress={() => partnerConfrim(item)}
+            />
+            <Button
+              title="ปฏิเสธงาน"
+              buttonStyle={{ backgroundColor: "red", margin: 5, width: "100%" }}
+              onPress={() => partnerReject(item)}
+            />
+          </View>
+        )}
+      </ListItem.Content>
+    </ListItem>
+  )
+
   return (
     <ImageBackground
       source={bgImage}
@@ -136,7 +242,11 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
             <FlatList
               keyExtractor={(item) => item.id.toString()}
               data={taskList}
-              renderItem={renderItem}
+              renderItem={
+                item.name === AppConfig.PartnerType.type4
+                  ? renderItemType4
+                  : renderItem
+              }
               style={{
                 height: 600,
                 padding: 5,
@@ -156,8 +266,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-  },
+  container: {},
   btnNewPost: {
     margin: 5,
     borderRadius: 75,

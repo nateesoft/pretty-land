@@ -21,7 +21,6 @@ const PartnerListCountryScreen = ({ navigation, route }) => {
       >
         <Text style={styles.headingText}>ค้นหาจังหวัด</Text>
         <SearchableDropdown
-          onTextChange={(text) => console.log(text)}
           onItemSelect={(item) => alert(JSON.stringify(item))}
           containerStyle={{ padding: 5 }}
           textInputStyle={{

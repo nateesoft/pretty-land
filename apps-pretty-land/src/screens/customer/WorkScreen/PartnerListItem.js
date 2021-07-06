@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import {
   View,
   Text,
@@ -13,26 +13,8 @@ import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
 
 export default function PartnerListItem(props) {
-  const { items, status, postId, post, navigation } = props
+  const { items, status, postId, navigation } = props
   const [showButton, setShowButton] = useState("show")
-
-  const showButtonStartWork = () => {
-    // if (status === AppConfig.PostsStatus.waitAdminApprovePost) {
-    //   return false
-    // } else if (
-    //   item.customerStatus === AppConfig.PostsStatus.customerStartWork
-    // ) {
-    //   return false
-    // } else if (
-    //   item.selectStatus === AppConfig.PostsStatus.closeJob ||
-    //   status === AppConfig.PostsStatus.closeJob
-    // ) {
-    //   return false
-    // } else if (showButton === "process") {
-    //   return false
-    // }
-    // return true
-  }
 
   const saveStartWork = () => {
     firebase.database().ref(`posts/${postId}`).update({
@@ -41,7 +23,7 @@ export default function PartnerListItem(props) {
       sys_update_date: new Date().toUTCString(),
       start_work_date: new Date().toUTCString(),
     })
-    setShowButton("process")
+    navigation.navigate("Post-List")
   }
 
   const updateMember = (workIn = 0, workPoint = 0, partnerId) => {
@@ -141,17 +123,41 @@ export default function PartnerListItem(props) {
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {items.map((item, index) => (
-          <View id={item.partnerId}>
-            <Text>{item.partnerName}</Text>
-            <Text>ราคา: {item.amount}</Text>
+          <View
+            id={item.partnerId}
+            key={item.id}
+            style={{
+              margin: 5,
+              padding: 10,
+              backgroundColor: "red",
+              height: 300,
+              borderRadius: 15,
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "#eee",
+                padding: 5,
+                marginLeft: -10,
+                marginTop: -10,
+                borderBottomRightRadius: 15,
+              }}
+            >
+              <Text style={{ color: "black" }}>ชื่อ: {item.partnerName}</Text>
+              <Text
+                style={{ color: "black", fontWeight: "bold", color: "blue" }}
+              >
+                ราคา: {item.amount}
+              </Text>
+            </View>
             <Image
               key={`img_${item.id}`}
               source={{ uri: item.image }}
               style={styles.image}
             />
-            <Text>เบอร์โทร: {item.telephone}</Text>
-            <Text>เพศ: {item.sex}</Text>
-            <Text>บุคลิค: {item.character}</Text>
+            <Text style={{ color: "white" }}>เบอร์โทร: {item.telephone}</Text>
+            <Text style={{ color: "white" }}>เพศ: {item.sex}</Text>
+            <Text style={{ color: "white" }}>บุคลิค: {item.character}</Text>
           </View>
         ))}
       </ScrollView>
@@ -165,10 +171,10 @@ const styles = StyleSheet.create({
     width: 130,
     margin: 5,
     borderWidth: 1.5,
-    borderRadius: 25,
-    borderColor: "#ff2fe6",
+    borderRadius: 15,
   },
   button: {
     margin: 10,
+    borderRadius: 5,
   },
 })
