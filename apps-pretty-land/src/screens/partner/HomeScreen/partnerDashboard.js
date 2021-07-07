@@ -112,16 +112,25 @@ const Category = ({ navigation, route }) => {
   const DisplayCard = ({ data, count }) => (
     <TouchableHighlight
       underlayColor="pink"
-      onPress={() => (count > 0 ? onPressOptions(data) : console.log("count:0"))}
+      onPress={() =>
+        count > 0 ? onPressOptions(data) : console.log("count:0")
+      }
       style={styles.box}
     >
       <View style={styles.inner}>
         <Image
           source={{ uri: data.image_url }}
-          style={{ height: 200, width: 150, margin: 5 }}
+          style={{
+            height: "80%",
+            width: "90%",
+            margin: 5,
+            borderRadius: 5,
+            borderColor: "white",
+            borderWidth: 3,
+          }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text>จำนวน {count} โพสท์</Text>
+        <Text style={{ fontWeight: "bold", color: "pink" }}>จำนวน {count} โพสท์</Text>
       </View>
     </TouchableHighlight>
   )

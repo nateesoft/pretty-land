@@ -15,8 +15,6 @@ import { snapshotToArray } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 
-const widthFix = (Dimensions.get("window").width * 70) / 120
-
 const Category = ({ navigation, route }) => {
   const [items, setItems] = useState([])
   const [sumType1, setSumType1] = useState("0")
@@ -99,10 +97,17 @@ const Category = ({ navigation, route }) => {
       <View style={styles.inner}>
         <Image
           source={{ uri: data.image_url }}
-          style={{ height: widthFix, width: "90%", margin: 5 }}
+          style={{
+            height: "80%",
+            width: "90%",
+            margin: 5,
+            borderRadius: 5,
+            borderColor: "white",
+            borderWidth: 3,
+          }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text>จำนวน {count} โพสท์</Text>
+        <Text style={{ fontWeight: "bold", color: "blue" }}>จำนวน {count} โพสท์</Text>
       </View>
     </TouchableHighlight>
   )

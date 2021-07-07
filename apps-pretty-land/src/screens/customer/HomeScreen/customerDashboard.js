@@ -15,8 +15,6 @@ import { snapshotToArray } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 
-const widthFix = (Dimensions.get("window").width * 70) / 120
-
 const PartnerCategory = ({ navigation, route }) => {
   const { userId } = route.params
   const [items, setItems] = useState([])
@@ -92,10 +90,17 @@ const PartnerCategory = ({ navigation, route }) => {
       <View style={styles.inner}>
         <Image
           source={{ uri: data.image_url }}
-          style={{ height: widthFix, width: "90%", margin: 5 }}
+          style={{
+            height: "80%",
+            width: "90%",
+            margin: 5,
+            borderRadius: 5,
+            borderColor: "white",
+            borderWidth: 3,
+          }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text>จำนวน {count} โพสท์</Text>
+        <Text style={{ fontWeight: "bold" }}>จำนวน {count} โพสท์</Text>
       </View>
     </TouchableHighlight>
   )
