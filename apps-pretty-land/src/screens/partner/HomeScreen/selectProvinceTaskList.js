@@ -41,6 +41,8 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
       statusText: "รอลูกค้าชำระค่าบริการ",
       sys_update_date: new Date().toUTCString(),
     })
+
+    navigation.navigate("Partner-Dashboard")
   }
 
   const partnerReject = (posts) => {
@@ -58,6 +60,8 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
       statusText: "Partner ปฏิเสธงาน",
       sys_update_date: new Date().toUTCString(),
     })
+
+    navigation.navigate("Partner-Dashboard")
   }
 
   const onPressOptions = (postDetail) => {

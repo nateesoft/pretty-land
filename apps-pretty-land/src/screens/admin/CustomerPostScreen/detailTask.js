@@ -174,6 +174,8 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                       marginTop: 10,
                       alignSelf: "center",
                       borderColor: "gray",
+                      alignContent: "center",
+                      alignItems: "center",
                     }}
                   >
                     <Image
@@ -182,11 +184,14 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                         width: 150,
                         height: 150,
                       }}
+                      key={`img_${pObj.id}`}
                     />
-                    <Text>ชื่อ Partner: {pObj.partnerName}</Text>
-                    <Text>เบอร์โทรศัพท์: {pObj.telephone}</Text>
-                    <Text>ราคาที่เสนอ: {pObj.amount}</Text>
-                    <Text>สถานะ: {pObj.selectStatusText}</Text>
+                    <View style={{ alignSelf: "center" }}>
+                      <Text>ชื่อ Partner: {pObj.partnerName}</Text>
+                      <Text>เบอร์โทรศัพท์: {pObj.telephone}</Text>
+                      <Text>ราคาที่เสนอ: {pObj.amount}</Text>
+                      <Text>สถานะ: {pObj.selectStatusText}</Text>
+                    </View>
                     <View style={{ alignItems: "center" }}>
                       <Text
                         style={{

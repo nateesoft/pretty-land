@@ -55,6 +55,15 @@ const ReviewTaskScreen = (props) => {
       rate,
       sys_update_date: new Date().toUTCString(),
     })
+
+    // save list star partner
+    showPartnerList.map((item, index) => {
+      firebase.database().ref(`partner_star/${item.partnerId}/${postDetail.id}`).update({
+        star: rate,
+        sys_date: new Date().toUTCString(),
+      })
+    })
+
     navigation.navigate("Post-List")
   }
 
@@ -82,7 +91,9 @@ const ReviewTaskScreen = (props) => {
                 margin: 5,
               }}
             >
-              <Text style={styles.textDetail}>ไอดี: {postDetail.customerId}</Text>
+              <Text style={styles.textDetail}>
+                ไอดี: {postDetail.customerId}
+              </Text>
               <Text style={styles.textDetail}>
                 ระดับ Level: {postDetail.customerLevel}
               </Text>
@@ -104,7 +115,8 @@ const ReviewTaskScreen = (props) => {
               <Text style={styles.textDetail}>
                 จังหวัด: {postDetail.provinceName}
               </Text>
-              {postDetail.status === AppConfig.PostsStatus.customerNewPostDone && (
+              {postDetail.status ===
+                AppConfig.PostsStatus.customerNewPostDone && (
                 <Text
                   style={{
                     fontSize: 18,
@@ -116,7 +128,8 @@ const ReviewTaskScreen = (props) => {
                   โพสท์ใหม่ รอตรวจสอบจาก admin...
                 </Text>
               )}
-              {postDetail.status === AppConfig.PostsStatus.adminConfirmNewPost && (
+              {postDetail.status ===
+                AppConfig.PostsStatus.adminConfirmNewPost && (
                 <View>
                   <Text
                     style={{
@@ -170,7 +183,8 @@ const ReviewTaskScreen = (props) => {
                 </>
               )}
             </View>
-            {postDetail.status !== AppConfig.PostsStatus.waitAdminConfirmPayment && (
+            {postDetail.status !==
+              AppConfig.PostsStatus.waitAdminConfirmPayment && (
               <PartnerListItem
                 items={showPartnerList}
                 status={postDetail.status}
@@ -179,7 +193,8 @@ const ReviewTaskScreen = (props) => {
                 {...props}
               />
             )}
-            {postDetail.status === AppConfig.PostsStatus.customerNewPostDone && (
+            {postDetail.status ===
+              AppConfig.PostsStatus.customerNewPostDone && (
               <Button
                 icon={
                   <Icon

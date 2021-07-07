@@ -70,7 +70,7 @@ const TimePriceForm = (props) => {
       },
     }
     saveNewPosts(dataToSave)
-    navigation.navigate("Select-Province-Form-Type4")
+    navigation.navigate("Customer-Dashboard")
   }
 
   useEffect(() => {

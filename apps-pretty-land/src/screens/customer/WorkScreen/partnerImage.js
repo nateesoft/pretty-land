@@ -270,7 +270,7 @@ export default function PartnerImage({ navigation, route }) {
               item.url ? (
                 <TouchableNativeFeedback
                   onPress={() => onPreviewImageList(index)}
-                  key={item.partnerId}
+                  key={`t_${item.partnerId}_${index}`}
                 >
                   <View
                     style={{
@@ -281,7 +281,7 @@ export default function PartnerImage({ navigation, route }) {
                     }}
                   >
                     <Image
-                      key={item + index}
+                      key={`img_${item.partnerId}_${index}`}
                       source={{ uri: item.url }}
                       style={styles.image}
                     />

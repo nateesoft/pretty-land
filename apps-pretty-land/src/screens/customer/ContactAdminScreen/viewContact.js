@@ -1,15 +1,34 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+import { Alert } from "react-native"
 import { StyleSheet, View, ImageBackground, Image, Linking } from "react-native"
 import { Button, Text } from "react-native-elements"
 
 import bgImage from "../../../../assets/bg.png"
 import lineLogo from "../../../../assets/icons/LINE_APP.png"
+import firebase from "../../../../util/firebase"
 
 const ViewContact = ({ navigation, route }) => {
+  const { userId } = route.params
+  const [profile, setProfile] = useState({})
 
   const LinkToLineContact = () => {
     Linking.openURL(lineContact)
   }
+
+  const getProfileFromDB = (userId) => {
+    return new Promise((resolve, reject) => {
+      const ref = firebase.database().ref(`members/${userId}`)
+      ref.once("value", (snapshot) => {
+        const data = { ...snapshot.val() }
+        setProfile(data)
+      })
+      resolve(true)
+    })
+  }
+
+  useEffect(() => {
+    getProfileFromDB(userId).catch((err) => Alert.alert(err))
+  }, [])
 
   return (
     <ImageBackground
@@ -17,6 +36,24 @@ const ViewContact = ({ navigation, route }) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
+      <View style={{ alignItems: "center", margin: 10 }}>
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>ข้อมูลสมาชิก</Text>
+      </View>
+      <View
+        style={{
+          borderWidth: 2,
+          borderRadius: 15,
+          padding: 10,
+          margin: 10,
+          borderColor: "pink",
+        }}
+      >
+        <Text style={{ fontSize: 14 }}>Id: {profile.id}</Text>
+        <Text style={{ fontSize: 14 }}>ชื่อสมาชิก: {profile.profile}</Text>
+        <Text style={{ fontSize: 14 }}>
+          ระดับ Level: {profile.customerLevel}
+        </Text>
+      </View>
       <View style={styles.cardDetail}>
         <Text style={styles.textTopic}>ติดต่อ Admin</Text>
         <Button

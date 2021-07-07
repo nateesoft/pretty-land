@@ -35,6 +35,16 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
     })
   }
 
+  const getMemberProfile = () => {
+    return new Promise((resolve, reject) => {
+      const ref = firebase.database().ref(`members/${item.customerId}`)
+      ref.once("value", (snapshot) => {
+        const customerData = { ...snapshot.val() }
+        resolve(customerData)
+      })
+    })
+  }
+
   const saveConfirmPayment = () => {
     // save to firebase
     firebase.database().ref(`posts/${item.id}`).update({
@@ -55,15 +65,13 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
         })
     })
 
-    const ref = firebase.database().ref(`members/${item.customerId}`)
-    ref.once("value", (snapshot) => {
-      const customerData = { ...snapshot.val() }
+    getMemberProfile().then((cust) => {
       // update level to customer
       firebase
         .database()
         .ref(`members/${item.customerId}`)
         .update({
-          customerLevel: customerData.customerLevel + 1,
+          customerLevel: cust.customerLevel + 1,
         })
     })
 
@@ -146,7 +154,10 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
             </Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {listPartner.map((obj, index) => (
-                <View key={obj.partnerId} style={{ alignItems: "center", margin: 10 }}>
+                <View
+                  key={obj.partnerId}
+                  style={{ alignItems: "center", margin: 10 }}
+                >
                   <Image
                     source={{ uri: obj.image }}
                     style={{ width: 100, height: 100 }}
@@ -180,7 +191,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
               />
             }
             buttonStyle={styles.buttonConfirm}
-            title="ยืนยันการโอนเงิน"
+            title="ยืนยันข้อมูลการโอนเงิน"
             onPress={() => saveConfirmPayment()}
           />
         </ScrollView>

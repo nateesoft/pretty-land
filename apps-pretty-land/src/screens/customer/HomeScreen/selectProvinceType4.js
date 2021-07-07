@@ -9,10 +9,14 @@ import {
   Image,
   TouchableHighlight,
 } from "react-native"
-import { Text } from "react-native-elements"
+import { Text, Button } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
 
-import { getCountryList, getDistrictList, getDistrictName } from "../../../data/apis"
+import {
+  getCountryList,
+  getDistrictList,
+  getDistrictName,
+} from "../../../data/apis"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
@@ -135,7 +139,7 @@ const SelectProvinceType4 = (props) => {
               style={{
                 marginBottom: 10,
                 backgroundColor: "pink",
-                alignSelf: "flex-start",
+                alignSelf: "center",
                 padding: 5,
                 marginTop: 10,
               }}
@@ -157,24 +161,61 @@ const SelectProvinceType4 = (props) => {
               <TouchableHighlight
                 underlayColor="pink"
                 onPress={() => nextStep(item)}
-                style={styles.box}
                 key={item.id}
               >
                 <View
                   style={{
                     padding: 10,
                     borderWidth: 2,
-                    borderColor: "white",
+                    borderColor: "gray",
                     alignItems: "center",
+                    backgroundColor: "red",
                     margin: 5,
+                    borderRadius: 15,
                   }}
                 >
-                  <Text>ชื่อ: {item.name}</Text>
-                  <Text>ราคา: {item.price4}</Text>
-                  <Text>เขต: {getDistrictName(item.district)[0]}</Text>
+                  <View style={{ padding: 10 }}>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      ชื่อ: {item.name}
+                    </Text>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      ราคา: {item.price4}
+                    </Text>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      เขต: {getDistrictName(item.district)[0]}
+                    </Text>
+                  </View>
                   <Image
                     source={{ uri: item.image }}
-                    style={{ width: 250, height: 300 }}
+                    style={{ width: 250, height: 300, borderRadius: 15 }}
+                  />
+                  <Button
+                    title="เลือก Partner"
+                    buttonStyle={{
+                      marginTop: 10,
+                      borderRadius: 5,
+                      width: 150,
+                      backgroundColor: "orange",
+                    }}
+                    onPress={() => nextStep(item)}
                   />
                 </View>
               </TouchableHighlight>

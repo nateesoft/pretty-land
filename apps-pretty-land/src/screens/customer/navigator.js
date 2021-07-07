@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator()
 
 const CustomerNavigator = ({ navigation, route }) => {
   const { userId, status } = route.params
-
+  
   return (
     <Tab.Navigator
       tabBarOptions={{

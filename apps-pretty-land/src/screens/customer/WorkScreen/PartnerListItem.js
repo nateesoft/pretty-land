@@ -44,24 +44,6 @@ export default function PartnerListItem(props) {
     })
   }
 
-  const saveHistoryStar = (partnerId, postId, rate) => {
-    return new Promise((resolve, reject) => {
-      firebase
-        .database()
-        .ref(`partner_star/${partnerId}/${postId}`)
-        .update({
-          star: rate,
-          sys_date: new Date().toUTCString(),
-        })
-        .then((result) => {
-          resolve("success")
-        })
-        .catch((err) => {
-          reject(err)
-        })
-    })
-  }
-
   const saveToCloseJob = () => {
     // firebase
     //   .database()
@@ -125,7 +107,7 @@ export default function PartnerListItem(props) {
         {items.map((item, index) => (
           <View
             id={item.partnerId}
-            key={item.id}
+            key={`v_${item.id}_${index}`}
             style={{
               margin: 5,
               padding: 10,
@@ -151,7 +133,7 @@ export default function PartnerListItem(props) {
               </Text>
             </View>
             <Image
-              key={`img_${item.id}`}
+              key={`img_${item.id}_${index}`}
               source={{ uri: item.image }}
               style={styles.image}
             />
