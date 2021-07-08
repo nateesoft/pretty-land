@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { StyleSheet, Alert, View, Text, ImageBackground } from "react-native"
+import { StyleSheet, Alert, View, Text, ImageBackground, LogBox } from "react-native"
 import { Button } from "react-native-elements"
 import { MaterialIcons } from "@expo/vector-icons"
 
@@ -8,6 +8,8 @@ import bgImage from "../../../assets/bg.png"
 
 const LogoutScreen = ({ navigation, route }) => {
   const { signOut } = useContext(AuthContext)
+
+  LogBox.ignoreLogs(["Setting a timer"])
 
   const handleLogoutConfirm = () => {
     Alert.alert(
