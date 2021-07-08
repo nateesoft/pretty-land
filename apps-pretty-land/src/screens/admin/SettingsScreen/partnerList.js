@@ -6,7 +6,6 @@ import {
   StyleSheet,
   RefreshControl,
   ImageBackground,
-  TouchableNativeFeedback,
   Image,
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
@@ -43,75 +42,74 @@ const AdminAllListScreen = ({ navigation, route }) => {
   const handleRefresh = () => {}
 
   const renderItem = ({ item }) => (
-    <TouchableNativeFeedback style={{ backgroundColor: "red" }}>
-      <ListItem
-        bottomDivider
-        containerStyle={{
-          backgroundColor: null,
-          borderRadius: 8,
-          marginVertical: 5,
-        }}
-      >
-        <ListItem.Content style={{ marginLeft: 10 }}>
-          <Image
-            source={item.image ? { uri: item.image } : NoImage}
-            style={{ width: 100, height: 100 }}
-          />
-          <ListItem.Title>ชื่อสมาชิก: {item.name}</ListItem.Title>
-          <ListItem.Title>เบอร์ติดต่อ: {item.mobile}</ListItem.Title>
-          {item.type1 && (
-            <ListItem.Title>
-              โหมดงาน: {AppConfig.PartnerType.type1}
-            </ListItem.Title>
-          )}
-          {item.type2 && (
-            <ListItem.Title>
-              โหมดงาน: {AppConfig.PartnerType.type2}
-            </ListItem.Title>
-          )}
-          {item.type3 && (
-            <ListItem.Title>
-              โหมดงาน: {AppConfig.PartnerType.type3}
-            </ListItem.Title>
-          )}
-          {item.type4 && (
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: "#bbb",
-                padding: 5,
-                marginVertical: 5,
-              }}
-            >
-              <ListItem.Title>
-                โหมดงาน: {AppConfig.PartnerType.type4}
-              </ListItem.Title>
-              <ListItem.Title>ราคา: {item.price4}</ListItem.Title>
-            </View>
-          )}
+    <ListItem
+      bottomDivider
+      containerStyle={{
+        backgroundColor: null,
+        borderRadius: 8,
+        marginVertical: 5,
+      }}
+      underlayColor="pink"
+    >
+      <ListItem.Content style={{ marginLeft: 10 }}>
+        <Image
+          source={item.image ? { uri: item.image } : NoImage}
+          style={{ width: 100, height: 100 }}
+        />
+        <ListItem.Title>ชื่อสมาชิก: {item.name}</ListItem.Title>
+        <ListItem.Title>เบอร์ติดต่อ: {item.mobile}</ListItem.Title>
+        {item.type1 && (
           <ListItem.Title>
-            พื้นที่รับงาน: {getProvinceName(item.province)}
+            โหมดงาน: {AppConfig.PartnerType.type1}
           </ListItem.Title>
+        )}
+        {item.type2 && (
+          <ListItem.Title>
+            โหมดงาน: {AppConfig.PartnerType.type2}
+          </ListItem.Title>
+        )}
+        {item.type3 && (
+          <ListItem.Title>
+            โหมดงาน: {AppConfig.PartnerType.type3}
+          </ListItem.Title>
+        )}
+        {item.type4 && (
           <View
             style={{
-              padding: 5,
               borderWidth: 1,
+              borderColor: "#bbb",
+              padding: 5,
               marginVertical: 5,
-              borderColor: "#aaa",
             }}
           >
             <ListItem.Title>
-              วันที่สมัคร:{" "}
-              {Moment(item.sys_create_date).format("D/MM/YYYY HH:mm:ss")}
+              โหมดงาน: {AppConfig.PartnerType.type4}
             </ListItem.Title>
-            <ListItem.Title>
-              ข้อมูลล่าสุด:{" "}
-              {Moment(item.sys_update_date).format("D/MM/YYYY HH:mm:ss")}
-            </ListItem.Title>
+            <ListItem.Title>ราคา: {item.price4}</ListItem.Title>
           </View>
-        </ListItem.Content>
-      </ListItem>
-    </TouchableNativeFeedback>
+        )}
+        <ListItem.Title>
+          พื้นที่รับงาน: {getProvinceName(item.province)}
+        </ListItem.Title>
+        <View
+          style={{
+            padding: 5,
+            borderWidth: 1,
+            marginVertical: 5,
+            borderColor: "#aaa",
+          }}
+        >
+          <ListItem.Title>
+            วันที่สมัคร:{" "}
+            {Moment(item.sys_create_date).format("D/MM/YYYY HH:mm:ss")}
+          </ListItem.Title>
+          <ListItem.Title>
+            ข้อมูลล่าสุด:{" "}
+            {Moment(item.sys_update_date).format("D/MM/YYYY HH:mm:ss")}
+          </ListItem.Title>
+        </View>
+      </ListItem.Content>
+    </ListItem>
   )
 
   return (

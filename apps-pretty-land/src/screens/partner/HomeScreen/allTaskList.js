@@ -42,6 +42,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
         marginVertical: 5,
         backgroundColor: null,
       }}
+      underlayColor="pink"
     >
       <ListItem.Content style={{ margin: 10 }}>
         <ListItem.Title

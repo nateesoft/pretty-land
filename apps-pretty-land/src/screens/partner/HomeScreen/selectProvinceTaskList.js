@@ -20,7 +20,6 @@ import firebase from "../../../../util/firebase"
 
 const SelectProvinceTaskList = ({ navigation, route }) => {
   const { item, profile, taskList } = route.params
-  console.log('taskList:', taskList)
   const [refreshing, setRefreshing] = useState(false)
 
   const handleRefresh = () => {}
@@ -78,6 +77,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         borderRadius: 8,
         marginVertical: 5,
       }}
+      underlayColor="pink"
     >
       <ListItem.Content style={{ margin: 10 }}>
         <ListItem.Title
@@ -152,6 +152,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         borderRadius: 8,
         marginVertical: 5,
       }}
+      underlayColor="pink"
     >
       <ListItem.Content style={{ margin: 10 }}>
         <ListItem.Title

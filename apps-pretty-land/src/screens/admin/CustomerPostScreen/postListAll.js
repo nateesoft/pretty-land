@@ -43,6 +43,7 @@ const PostListAllScreen = ({ navigation, route }) => {
         borderRadius: 8,
         marginVertical: 5,
       }}
+      underlayColor="pink"
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
         <ListItem.Title>ชื่อลูกค้า: {item.customerName}</ListItem.Title>
@@ -143,22 +144,6 @@ const PostListAllScreen = ({ navigation, route }) => {
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>รายการโพสท์</Text>
         <View style={styles.container}>
-          {/* <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
-            <DropDownPicker
-              placeholder="เลือกประเภทโพสท์"
-              open={openSelectPartner}
-              setOpen={setOpenSelectPartner}
-              value={partner}
-              setValue={setPartner}
-              items={partnerList}
-              setItems={setPartnerList}
-              textStyle={{ fontSize: 18 }}
-              zIndex={2}
-              searchable={false}
-              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-              onChangeValue={(e) => updatePartnerList(e)}
-            />
-          </View> */}
           {posts.length === 0 && <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />}
           {posts.length > 0 && (
             <FlatList
@@ -187,6 +172,7 @@ const PostListAllScreen = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 5,
   },
   textTopic: {

@@ -44,6 +44,7 @@ const PostListScreen = ({ navigation, route }) => {
         borderRadius: 8,
         marginVertical: 5,
       }}
+      underlayColor="pink"
     >
       <Avatar source={{ uri: item.partnerImage }} size={128} />
       <ListItem.Content style={{ marginLeft: 10 }}>
@@ -130,9 +131,7 @@ const PostListScreen = ({ navigation, route }) => {
     >
       <Text style={styles.textTopic}>แสดงรายการที่โพสท์</Text>
       <View style={styles.container}>
-        {filterList.length === 0 && (
-          <CardNotfound text="ไม่พบข้อมูลการโพสท์" />
-        )}
+        {filterList.length === 0 && <CardNotfound text="ไม่พบข้อมูลการโพสท์" />}
         {filterList.length > 0 && (
           <FlatList
             keyExtractor={(item) => item.id.toString()}

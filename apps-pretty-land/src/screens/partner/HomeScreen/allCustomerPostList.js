@@ -39,6 +39,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
         borderRadius: 8,
         marginVertical: 5,
       }}
+      underlayColor="pink"
     >
       <ListItem.Content style={{ margin: 10 }}>
         <ListItem.Title

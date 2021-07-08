@@ -3,11 +3,10 @@ import {
   StyleSheet,
   View,
   Image,
-  SafeAreaView,
+  TouchableNativeFeedback,
   Alert,
   ImageBackground,
   ScrollView,
-  TouchableNativeFeedback,
 } from "react-native"
 import { Video } from "expo-av"
 import { Button, Text } from "react-native-elements"

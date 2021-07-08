@@ -7,17 +7,15 @@ import {
   Image,
   RefreshControl,
   ImageBackground,
-  TouchableNativeFeedback,
 } from "react-native"
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
-import DropDownPicker from "react-native-dropdown-picker"
 
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
-import { getMemberCategory, getPartnerGroupByType } from "../../../data/apis"
+import { getPartnerGroupByType } from "../../../data/apis"
 
 import FemaleSimple from "../../../../assets/avatar/1.png"
 import MaleSimple from "../../../../assets/avatar/2.png"
@@ -25,11 +23,7 @@ import OtherSimple from "../../../../assets/avatar/3.png"
 
 const MemberAllListScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false)
-  const [openSelectPartner, setOpenSelectPartner] = useState(false)
-  const [partner, setPartner] = useState("")
-  const [partnerList, setPartnerList] = useState(getMemberCategory())
   const [members, setMembers] = useState([])
-  const [imageProfile, setImageProfile] = useState(null)
 
   useEffect(() => {
     const ref = firebase
@@ -59,144 +53,138 @@ const MemberAllListScreen = ({ navigation, route }) => {
 
   const renderItem = ({ item }) =>
     item.memberType === "partner" ? (
-      <TouchableNativeFeedback
+      <ListItem
+        bottomDivider
+        containerStyle={{
+          backgroundColor: null,
+          borderRadius: 8,
+          marginVertical: 5,
+        }}
         onPress={() => onPressOptions(item)}
-        style={{ backgroundColor: "red" }}
+        underlayColor="pink"
       >
-        <ListItem
-          bottomDivider
-          containerStyle={{
-            backgroundColor: null,
-            borderRadius: 8,
-            marginVertical: 5,
-          }}
-        >
-          {item.image ? (
-            <Avatar source={{ uri: item.image }} size={128} />
-          ) : (
-            <View>
-              <Image
-                source={
-                  item.sex === "female"
-                    ? FemaleSimple
-                    : item.sex === "male"
-                    ? MaleSimple
-                    : OtherSimple
-                }
-                style={styles.images}
-                resizeMode="cover"
-              />
-              <Text style={styles.noImageText}>No Image</Text>
-            </View>
-          )}
-          <ListItem.Content style={{ marginLeft: 10 }}>
-            <ListItem.Title>
-              ชื่อสมาชิก: {item.name || item.username}
-            </ListItem.Title>
-            <ListItem.Subtitle
-              style={{
-                borderWidth: 1,
-                padding: 5,
-                borderRadius: 10,
-                borderColor: "#aaa",
-                marginVertical: 5,
-              }}
-            >
-              รับงาน: {getPartnerGroupByType(item)}
-            </ListItem.Subtitle>
-            <ListItem.Subtitle>สถานะ: {item.statusText}</ListItem.Subtitle>
-          </ListItem.Content>
-          <ProgressCircle
-            percent={30}
-            radius={17}
-            borderWidth={1.5}
-            color="f580084"
-            shadowColor="#FFF"
-            bgColor="#FFF"
+        {item.image ? (
+          <Avatar source={{ uri: item.image }} size={128} />
+        ) : (
+          <View>
+            <Image
+              source={
+                item.sex === "female"
+                  ? FemaleSimple
+                  : item.sex === "male"
+                  ? MaleSimple
+                  : OtherSimple
+              }
+              style={styles.images}
+              resizeMode="cover"
+            />
+            <Text style={styles.noImageText}>No Image</Text>
+          </View>
+        )}
+        <ListItem.Content style={{ marginLeft: 10 }}>
+          <ListItem.Title>
+            ชื่อสมาชิก: {item.name || item.username}
+          </ListItem.Title>
+          <ListItem.Subtitle
+            style={{
+              borderWidth: 1,
+              padding: 5,
+              borderRadius: 10,
+              borderColor: "#aaa",
+              marginVertical: 5,
+            }}
           >
-            <Image source={require("../../../../assets/icons/pl.png")} />
-          </ProgressCircle>
-        </ListItem>
-      </TouchableNativeFeedback>
+            รับงาน: {getPartnerGroupByType(item)}
+          </ListItem.Subtitle>
+          <ListItem.Subtitle>สถานะ: {item.statusText}</ListItem.Subtitle>
+        </ListItem.Content>
+        <ProgressCircle
+          percent={30}
+          radius={17}
+          borderWidth={1.5}
+          color="f580084"
+          shadowColor="#FFF"
+          bgColor="#FFF"
+        >
+          <Image source={require("../../../../assets/icons/pl.png")} />
+        </ProgressCircle>
+      </ListItem>
     ) : (
-      <TouchableNativeFeedback
+      <ListItem
+        bottomDivider
+        containerStyle={{
+          backgroundColor: null,
+          borderRadius: 8,
+          marginVertical: 5,
+        }}
         onPress={() => onPressOptions(item)}
-        style={{ backgroundColor: "red" }}
+        underlayColor="pink"
       >
-        <ListItem
-          bottomDivider
-          containerStyle={{
-            backgroundColor: null,
-            borderRadius: 8,
-            marginVertical: 5,
-          }}
-        >
-          {item.image ? (
-            <Avatar source={{ uri: item.image }} size={128} />
-          ) : (
-            <View
-              style={{
-                width: 130,
-                height: 130,
-                borderWidth: 1,
-                padding: 10,
-                borderColor: "#aaa",
-              }}
-            >
-              <Text style={{ alignSelf: "center" }}>No Image</Text>
-            </View>
-          )}
-          <ListItem.Content style={{ marginLeft: 10 }}>
-            <ListItem.Title>
-              ชื่อ: {item.name || item.username || item.profile || item.email}
-            </ListItem.Title>
-            <ListItem.Subtitle style={{ fontSize: 16, fontWeight: "bold" }}>
-              {item.memberType === "customer" ? (
-                <View style={{ marginBottom: 5 }}>
-                  <Text>ลูกค้าใช้งาน</Text>
-                </View>
-              ) : (
-                <View style={{ marginBottom: 5 }}>
-                  <Text>ผู้ดูแลระบบ</Text>
-                </View>
-              )}
-            </ListItem.Subtitle>
-            <ListItem.Subtitle style={{ fontSize: 16, fontWeight: "bold" }}>
-              {item.memberType === "customer" ? (
-                item.customerType === "facebook" ? (
-                  <View style={styles.tagFacebookLabel}>
-                    <Text style={{ color: "white" }}>
-                      เข้าระบบด้วย: {item.customerType}
-                    </Text>
-                  </View>
-                ) : item.customerType === "line" ? (
-                  <View style={styles.tagLineLabel}>
-                    <Text>เข้าระบบด้วย: {item.customerType}</Text>
-                  </View>
-                ) : item.customerType === "apple" ? (
-                  <View style={styles.tagAppleLabel}>
-                    <Text>เข้าระบบด้วย: {item.customerType}</Text>
-                  </View>
-                ) : (
-                  <Text>ทาง: อื่น ๆ</Text>
-                )
-              ) : (
-                <Text></Text>
-              )}
-            </ListItem.Subtitle>
-          </ListItem.Content>
-          <ProgressCircle
-            percent={30}
-            radius={17}
-            borderWidth={1.5}
-            color="f580084"
-            shadowColor="#FFF"
-            bgColor="#FFF"
+        {item.image ? (
+          <Avatar source={{ uri: item.image }} size={128} />
+        ) : (
+          <View
+            style={{
+              width: 130,
+              height: 130,
+              borderWidth: 1,
+              padding: 10,
+              borderColor: "#aaa",
+            }}
           >
-            <Image source={require("../../../../assets/icons/pl.png")} />
-          </ProgressCircle>
-        </ListItem>
-      </TouchableNativeFeedback>
+            <Text style={{ alignSelf: "center" }}>No Image</Text>
+          </View>
+        )}
+        <ListItem.Content style={{ marginLeft: 10 }}>
+          <ListItem.Title>
+            ชื่อ: {item.name || item.username || item.profile || item.email}
+          </ListItem.Title>
+          <ListItem.Subtitle style={{ fontSize: 16, fontWeight: "bold" }}>
+            {item.memberType === "customer" ? (
+              <View style={{ marginBottom: 5 }}>
+                <Text>ลูกค้าใช้งาน</Text>
+              </View>
+            ) : (
+              <View style={{ marginBottom: 5 }}>
+                <Text>ผู้ดูแลระบบ</Text>
+              </View>
+            )}
+          </ListItem.Subtitle>
+          <ListItem.Subtitle style={{ fontSize: 16, fontWeight: "bold" }}>
+            {item.memberType === "customer" ? (
+              item.customerType === "facebook" ? (
+                <View style={styles.tagFacebookLabel}>
+                  <Text style={{ color: "white" }}>
+                    เข้าระบบด้วย: {item.customerType}
+                  </Text>
+                </View>
+              ) : item.customerType === "line" ? (
+                <View style={styles.tagLineLabel}>
+                  <Text>เข้าระบบด้วย: {item.customerType}</Text>
+                </View>
+              ) : item.customerType === "apple" ? (
+                <View style={styles.tagAppleLabel}>
+                  <Text>เข้าระบบด้วย: {item.customerType}</Text>
+                </View>
+              ) : (
+                <Text>ทาง: อื่น ๆ</Text>
+              )
+            ) : (
+              <Text></Text>
+            )}
+          </ListItem.Subtitle>
+        </ListItem.Content>
+        <ProgressCircle
+          percent={30}
+          radius={17}
+          borderWidth={1.5}
+          color="f580084"
+          shadowColor="#FFF"
+          bgColor="#FFF"
+        >
+          <Image source={require("../../../../assets/icons/pl.png")} />
+        </ProgressCircle>
+      </ListItem>
     )
 
   return (
@@ -208,21 +196,6 @@ const MemberAllListScreen = ({ navigation, route }) => {
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>รายชื่อสมาชิก</Text>
         <View style={styles.container}>
-          {/* <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
-            <DropDownPicker
-              placeholder="เลือกประเภทสมาชิก"
-              open={openSelectPartner}
-              setOpen={setOpenSelectPartner}
-              value={partner}
-              setValue={setPartner}
-              items={partnerList}
-              setItems={setPartnerList}
-              style={styles.dropdownStyle}
-              textStyle={{ fontSize: 18 }}
-              searchable={false}
-              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-            />
-          </View> */}
           {members.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลสมาชิกในระบบ" />
           )}
@@ -251,6 +224,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 5,
   },
   textTopic: {
@@ -258,7 +232,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
   btnNewPost: {

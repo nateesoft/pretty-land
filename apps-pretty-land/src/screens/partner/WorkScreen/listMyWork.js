@@ -65,6 +65,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
         borderRadius: 8,
         marginVertical: 5,
       }}
+      underlayColor="pink"
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
         {item.status !== AppConfig.PostsStatus.adminConfirmPayment && (
