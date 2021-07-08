@@ -294,17 +294,6 @@ export default function PartnerImage({ navigation, route }) {
             )}
           </ScrollView>
         </View>
-        {/* <View style={styles.container}>
-          <Video
-            ref={video}
-            style={styles.video}
-            source={ImgVideo}
-            useNativeControls
-            resizeMode="contain"
-            isLooping
-            onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-          />
-        </View> */}
       </ScrollView>
     </ImageBackground>
   )

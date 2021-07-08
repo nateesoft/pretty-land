@@ -8,6 +8,8 @@ import {
   ScrollView,
   Image,
   TouchableHighlight,
+  Dimensions,
+  FlatList,
 } from "react-native"
 import { Text, Button } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
@@ -25,6 +27,8 @@ import CardNotfound from "../../../components/CardNotfound"
 const SelectProvinceType4 = (props) => {
   const { navigation, route } = props
   const { item, userId } = route.params
+
+  const { height, width } = Dimensions.get("window")
 
   const [partnerRequest, setPartnerRequest] = useState(item.name)
 
@@ -92,13 +96,101 @@ const SelectProvinceType4 = (props) => {
     getPartnerQty().catch((err) => Alert.alert(err))
   }
 
+  const renderItem = ({ item }) => {
+    return (
+      <ImageBackground
+        source={{ uri: item.image }}
+        style={{
+          width: 200,
+          height: 280,
+          margin: 15,
+          padding: 15,
+        }}
+        resizeMode="stretch"
+      >
+        <TouchableHighlight onPress={() => nextStep(item)} underlayColor={null}>
+          <View
+            style={{
+              alignItems: "center",
+              borderRadius: 5,
+              height: "100%",
+              width: "100%",
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 20,
+                fontWeight: "bold",
+                backgroundColor: "red",
+                position: "absolute",
+                bottom: 25,
+                left: -5,
+                opacity: 0.65,
+              }}
+            >
+              ชื่อ: {item.name} อายุ: {item.age}
+            </Text>
+            <Text
+              style={{
+                color: "white",
+                fontSize: 22,
+                fontWeight: "bold",
+                backgroundColor: "purple",
+                position: "absolute",
+                left: -10,
+                top: -15,
+                opacity: 0.8,
+              }}
+            >
+              ราคา: {item.price4}
+            </Text>
+            <Text
+              style={{
+                color: "white",
+                fontSize: 16,
+                fontWeight: "bold",
+                backgroundColor: "black",
+                position: "absolute",
+                left: -10,
+                top: 20,
+                opacity: 0.5,
+              }}
+            >
+              เพศ: {item.sex}
+            </Text>
+            <Text
+              style={{
+                color: "white",
+                fontSize: 18,
+                fontWeight: "bold",
+                backgroundColor: "green",
+                position: "absolute",
+                bottom: 0,
+                width: "100%",
+                textAlign: "center",
+                alignContent: "center",
+                padding: 5,
+                opacity: 0.6,
+                left: -5,
+                bottom: -15,
+              }}
+            >
+              สถานที่: {item.address}
+            </Text>
+          </View>
+        </TouchableHighlight>
+      </ImageBackground>
+    )
+  }
+
   return (
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <SafeAreaView style={{ flex: 1, height: "100%" }}>
+      <SafeAreaView style={{ height: "100%" }}>
         <View style={styles.cardDetail}>
           <Text style={[styles.optionsNameDetail, { marginBottom: 10 }]}>
             {partnerRequest}
@@ -152,75 +244,14 @@ const SelectProvinceType4 = (props) => {
           {partnerList.length === 0 && (
             <CardNotfound text={`ไม่พบข้อมูล ${AppConfig.PartnerType.type4}`} />
           )}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{ width: "80%" }}
-          >
-            {partnerList.map((item, index) => (
-              <TouchableHighlight
-                underlayColor="pink"
-                onPress={() => nextStep(item)}
-                key={item.id}
-              >
-                <View
-                  style={{
-                    padding: 10,
-                    borderWidth: 2,
-                    borderColor: "gray",
-                    alignItems: "center",
-                    backgroundColor: "red",
-                    margin: 5,
-                    borderRadius: 15,
-                  }}
-                >
-                  <View style={{ padding: 10 }}>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 16,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      ชื่อ: {item.name}
-                    </Text>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 16,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      ราคา: {item.price4}
-                    </Text>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 16,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      เขต: {getDistrictName(item.district)[0]}
-                    </Text>
-                  </View>
-                  <Image
-                    source={{ uri: item.image }}
-                    style={{ width: 250, height: 300, borderRadius: 15 }}
-                  />
-                  <Button
-                    title="เลือก Partner"
-                    buttonStyle={{
-                      marginTop: 10,
-                      borderRadius: 5,
-                      width: 150,
-                      backgroundColor: "orange",
-                    }}
-                    onPress={() => nextStep(item)}
-                  />
-                </View>
-              </TouchableHighlight>
-            ))}
-          </ScrollView>
+          <FlatList
+            style={{ margin: 5 }}
+            numColumns={2}
+            columnWrapperStyle={{ flex: 1, justifyContent: "space-evenly" }}
+            data={partnerList}
+            keyExtractor={(item, index) => item.id}
+            renderItem={renderItem}
+          />
         </View>
       </SafeAreaView>
     </ImageBackground>
@@ -231,6 +262,7 @@ const styles = StyleSheet.create({
   cardDetail: {
     alignItems: "center",
     padding: 5,
+    width: "100%",
   },
   optionsNameDetail: {
     fontSize: 24,
