@@ -7,7 +7,6 @@ import {
   Image,
   RefreshControl,
   ImageBackground,
-  Alert,
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
@@ -17,7 +16,7 @@ import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import { updatePosts } from "../../../apis"
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDiffHours } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const PostListAllScreen = ({ navigation, route }) => {
@@ -67,16 +66,17 @@ const PostListAllScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    let ref = firebase.database().ref(`posts`).orderByChild("partnerRequest").equalTo(partnerRequest)
+    let ref = firebase
+      .database()
+      .ref(`posts`)
+      .orderByChild("partnerRequest")
+      .equalTo(partnerRequest)
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
       setPosts(
         postsList.filter((item, index) => {
-          const date1 = Moment()
-          const date2 = Moment(item.sys_update_date)
-          const diffHours = date1.diff(date2, "hours")
           if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
-            if (diffHours <= 24) {
+            if (getDiffHours(item.sys_update_date) <= 24) {
               return item
             } else {
               // update timeout
@@ -86,10 +86,10 @@ const PostListAllScreen = ({ navigation, route }) => {
                 sys_update_date: new Date().toUTCString(),
               })
             }
-          } else if (
-            item.status === AppConfig.PostsStatus.adminConfirmNewPost
-          ) {
-            if (diffHours <= 2) {
+          }
+
+          if (item.status === AppConfig.PostsStatus.adminConfirmNewPost) {
+            if (getDiffHours(item.sys_update_date) <= 2) {
               return item
             } else {
               // update timeout
@@ -99,6 +99,31 @@ const PostListAllScreen = ({ navigation, route }) => {
                   "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
                 sys_update_date: new Date().toUTCString(),
               })
+            }
+          }
+
+          if (item.status === AppConfig.PostsStatus.startWork) {
+            if (getDiffHours(item.sys_update_date) <= 2) {
+              return item
+            } else {
+              // update timeout
+              updatePosts(item.id, {
+                status: AppConfig.PostsStatus.closeJob,
+                statusText: "ระบบปิดโพสท์อัตโนมัติ หลังจาก 2 ชั่วโมง",
+                sys_update_date: new Date().toUTCString(),
+              })
+
+              // ให้ star/rate สำหรับ partner โพสท์นั้นๆ (เต็ม 5 ดาว)
+              for (let key in item.partnerSelect) {
+                const partnerData = item.partnerSelect[key]
+                firebase
+                  .database()
+                  .ref(`partner_star/${partnerData.partnerId}/${item.id}`)
+                  .update({
+                    star: 5,
+                    sys_date: new Date().toUTCString(),
+                  })
+              }
             }
           } else {
             return item
@@ -169,7 +194,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
   btnNewPost: {

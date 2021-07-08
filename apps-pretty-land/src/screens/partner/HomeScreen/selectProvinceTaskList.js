@@ -20,6 +20,7 @@ import firebase from "../../../../util/firebase"
 
 const SelectProvinceTaskList = ({ navigation, route }) => {
   const { item, profile, taskList } = route.params
+  console.log('taskList:', taskList)
   const [refreshing, setRefreshing] = useState(false)
 
   const handleRefresh = () => {}

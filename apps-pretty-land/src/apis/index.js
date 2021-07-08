@@ -60,6 +60,7 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
   updatePosts(postId, {
     status: AppConfig.PostsStatus.waitCustomerSelectPartner,
     statusText: "รอลูกค้าเลือกผู้ร่วมงาน",
+    sys_update_date: new Date().toUTCString(),
   })
 
   // update partnerSelect

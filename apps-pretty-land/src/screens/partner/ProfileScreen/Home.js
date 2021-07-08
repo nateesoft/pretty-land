@@ -60,7 +60,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       if (!data.image) {
         if (data.sex === "female") {
@@ -91,8 +91,6 @@ const ProfileHomeScreen = ({ navigation, route }) => {
           : "รออนุมัติข้อมูล"
       )
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (

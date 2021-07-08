@@ -16,8 +16,6 @@ import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import { Alert } from "react-native"
 
-const widthFix = (Dimensions.get("window").width * 70) / 120
-
 const Category = ({ navigation, route }) => {
   const { userId } = route.params
   const [items, setItems] = useState([])
@@ -101,19 +99,20 @@ const Category = ({ navigation, route }) => {
     }
   }, [])
 
-  const onPressOptions = (item) => {
+  const onPressOptions = (item, type) => {
+    let newTaskList = taskList.filter((data) => data.partnerRequest === type)
     navigation.navigate("Select-Province-Task-List", {
       profile,
       item,
-      taskList,
+      taskList: newTaskList,
     })
   }
 
-  const DisplayCard = ({ data, count }) => (
+  const DisplayCard = ({ data, count, type }) => (
     <TouchableHighlight
       underlayColor="pink"
       onPress={() =>
-        count > 0 ? onPressOptions(data) : console.log("count:0")
+        count > 0 ? onPressOptions(data, type) : console.log("count:0")
       }
       style={styles.box}
     >
@@ -130,7 +129,9 @@ const Category = ({ navigation, route }) => {
           }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text style={{ fontWeight: "bold", color: "pink" }}>จำนวน {count} โพสท์</Text>
+        <Text style={{ fontWeight: "bold", color: "pink" }}>
+          จำนวน {count} โพสท์
+        </Text>
       </View>
     </TouchableHighlight>
   )
@@ -142,10 +143,34 @@ const Category = ({ navigation, route }) => {
     >
       {items.length > 0 && (
         <View style={styles.container}>
-          {profile.type1 && <DisplayCard data={items[0]} count={sumType1} />}
-          {profile.type2 && <DisplayCard data={items[1]} count={sumType2} />}
-          {profile.type3 && <DisplayCard data={items[2]} count={sumType3} />}
-          {profile.type4 && <DisplayCard data={items[3]} count={sumType4} />}
+          {profile.type1 && (
+            <DisplayCard
+              data={items[0]}
+              count={sumType1}
+              type={AppConfig.PartnerType.type1}
+            />
+          )}
+          {profile.type2 && (
+            <DisplayCard
+              data={items[1]}
+              count={sumType2}
+              type={AppConfig.PartnerType.type2}
+            />
+          )}
+          {profile.type3 && (
+            <DisplayCard
+              data={items[2]}
+              count={sumType3}
+              type={AppConfig.PartnerType.type3}
+            />
+          )}
+          {profile.type4 && (
+            <DisplayCard
+              data={items[3]}
+              count={sumType4}
+              type={AppConfig.PartnerType.type4}
+            />
+          )}
         </View>
       )}
     </ImageBackground>
