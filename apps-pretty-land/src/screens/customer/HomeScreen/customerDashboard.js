@@ -24,7 +24,7 @@ const PartnerCategory = ({ navigation, route }) => {
   const [sumType3, setSumType3] = useState("0")
   const [sumType4, setSumType4] = useState("0")
 
-  const getComputeGroup = (snapshot) => {
+  const getAllPartnerList = (snapshot) => {
     return new Promise((resolve, reject) => {
       const arr = snapshotToArray(snapshot)
       let type1 = 0,
@@ -32,16 +32,16 @@ const PartnerCategory = ({ navigation, route }) => {
         type3 = 0,
         type4 = 0
       arr.forEach((item) => {
-        if (item.partnerRequest === AppConfig.PartnerType.type1) {
+        if (item.type1) {
           type1 = type1 + 1
         }
-        if (item.partnerRequest === AppConfig.PartnerType.type2) {
+        if (item.type2) {
           type2 = type2 + 1
         }
-        if (item.partnerRequest === AppConfig.PartnerType.type3) {
+        if (item.type3) {
           type3 = type3 + 1
         }
-        if (item.partnerRequest === AppConfig.PartnerType.type4) {
+        if (item.type4) {
           type4 = type4 + 1
         }
       })
@@ -100,7 +100,7 @@ const PartnerCategory = ({ navigation, route }) => {
           }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text style={{ fontWeight: "bold" }}>จำนวน {count} โพสท์</Text>
+        <Text style={{ fontWeight: "bold" }}>จำนวน {count} คน</Text>
       </View>
     </TouchableHighlight>
   )
@@ -108,11 +108,11 @@ const PartnerCategory = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts`)
-      .orderByChild("customerId")
-      .equalTo(userId)
+      .ref(`members`)
+      .orderByChild("memberType")
+      .equalTo("partner")
     const listener = ref.on("value", (snapshot) => {
-      getComputeGroup(snapshot).catch((err) => Alert.alert(err))
+      getAllPartnerList(snapshot).catch((err) => Alert.alert(err))
     })
     return () => {
       ref.off("value", listener)
