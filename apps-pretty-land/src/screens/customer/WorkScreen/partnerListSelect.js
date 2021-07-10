@@ -143,48 +143,40 @@ const PartnerListSelect = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.textTopic}>
-            แสดงรายชื่อ Partner พร้อมรับงาน
-          </Text>
-          <View
-            style={{
-              padding: 5,
-              alignContent: "space-between",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          >
+        <Text style={styles.textTopic}>แสดงพร้อมรับงาน</Text>
+        <View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {listSelect.map((item, index) => (
               <TouchableHighlight
                 key={index}
                 onPress={() => onPressShowPartnerDetail(item)}
+                underlayColor="pink"
+                style={{ height: 310 }}
               >
                 <DisplayCard data={item} />
               </TouchableHighlight>
             ))}
+          </ScrollView>
+        </View>
+        {paymentActive && (
+          <View style={{ alignItems: "center" }}>
+            <Button
+              title="เข้าหน้ารับชำระ"
+              icon={
+                <MaterialIcons
+                  name="attach-money"
+                  size={20}
+                  color="white"
+                  style={{ marginRight: 10 }}
+                />
+              }
+              onPress={() =>
+                navigation.navigate("Payment-Form", { item: postItem })
+              }
+              buttonStyle={{ width: 200, borderRadius: 5, marginTop: 10 }}
+            />
           </View>
-          {paymentActive && (
-            <View style={{ alignItems: "center" }}>
-              <Button
-                title="เข้าหน้ารับชำระ"
-                icon={
-                  <MaterialIcons
-                    name="attach-money"
-                    size={20}
-                    color="white"
-                    style={{ marginRight: 10 }}
-                  />
-                }
-                onPress={() =>
-                  navigation.navigate("Payment-Form", { item: postItem })
-                }
-                buttonStyle={{ width: 200 }}
-              />
-            </View>
-          )}
-        </ScrollView>
+        )}
       </SafeAreaView>
     </ImageBackground>
   )
@@ -247,7 +239,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
 })

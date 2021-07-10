@@ -7,23 +7,17 @@ import {
   Image,
   RefreshControl,
   ImageBackground,
-  TouchableNativeFeedback,
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
-import DropDownPicker from "react-native-dropdown-picker"
 
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
-import { getMemberCategory } from "../../../data/apis"
 
 const AdminAllListScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false)
-  const [openSelectPartner, setOpenSelectPartner] = useState(false)
-  const [partner, setPartner] = useState("")
-  const [partnerList, setPartnerList] = useState(getMemberCategory())
   const [members, setMembers] = useState([])
 
   useEffect(() => {
@@ -51,38 +45,35 @@ const AdminAllListScreen = ({ navigation, route }) => {
   }
 
   const renderItem = ({ item }) => (
-    <TouchableNativeFeedback
+    <ListItem
+      bottomDivider
+      containerStyle={{
+        backgroundColor: null,
+        borderRadius: 8,
+        marginVertical: 5,
+      }}
       onPress={() => onPressOptions(item)}
-      style={{ backgroundColor: "red" }}
+      underlayColor="pink"
     >
-      <ListItem
-        bottomDivider
-        containerStyle={{
-          backgroundColor: null,
-          borderRadius: 8,
-          marginVertical: 5,
-        }}
+      <ListItem.Content style={{ marginLeft: 10 }}>
+        <ListItem.Title>
+          ชื่อสมาชิก: {item.name || item.username}
+        </ListItem.Title>
+        <ListItem.Subtitle style={{ fontSize: 20, fontWeight: "bold" }}>
+          ผู้ดูแลระบบ
+        </ListItem.Subtitle>
+      </ListItem.Content>
+      <ProgressCircle
+        percent={30}
+        radius={17}
+        borderWidth={1.5}
+        color="f580084"
+        shadowColor="#FFF"
+        bgColor="#FFF"
       >
-        <ListItem.Content style={{ marginLeft: 10 }}>
-          <ListItem.Title>
-            ชื่อสมาชิก: {item.name || item.username}
-          </ListItem.Title>
-          <ListItem.Subtitle style={{ fontSize: 20, fontWeight: "bold" }}>
-            ผู้ดูแลระบบ
-          </ListItem.Subtitle>
-        </ListItem.Content>
-        <ProgressCircle
-          percent={30}
-          radius={17}
-          borderWidth={1.5}
-          color="f580084"
-          shadowColor="#FFF"
-          bgColor="#FFF"
-        >
-          <Image source={require("../../../../assets/icons/pl.png")} />
-        </ProgressCircle>
-      </ListItem>
-    </TouchableNativeFeedback>
+        <Image source={require("../../../../assets/icons/pl.png")} />
+      </ProgressCircle>
+    </ListItem>
   )
 
   return (
@@ -144,7 +135,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
   btnNewPost: {

@@ -21,8 +21,6 @@ import { getBankList, getBankName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
-
-import { saveProvincesGroupPostPartner } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
 const PaymentForm = ({ navigation, route }) => {
@@ -39,13 +37,21 @@ const PaymentForm = ({ navigation, route }) => {
   const [datetime, setDateTime] = useState("")
   const [openSelectBank, setOpenSelectBank] = useState(false)
 
+  const [listPartner, setListPartner] = useState([])
+
   const computeAmount = (snapshot) => {
     return new Promise((resolve, reject) => {
       let totalAmount = 0
+      let list = []
       snapshot.forEach((item, index) => {
-        const amt = parseInt(item.val().amount)
-        totalAmount = totalAmount + amt
+        const data = item.val()
+        if (data.selectStatus === AppConfig.PostsStatus.customerConfirm) {
+          const amt = parseInt(data.amount)
+          totalAmount = totalAmount + amt
+          list.push(data)
+        }
       })
+      setListPartner(list)
       resolve(totalAmount)
     })
   }
@@ -170,16 +176,6 @@ const PaymentForm = ({ navigation, route }) => {
       sys_update_date: new Date().toUTCString(),
     }
     firebase.database().ref(`posts/${item.id}`).update(dataPayment)
-
-    saveProvincesGroupPostPartner(
-      {
-        province: item.province,
-        provinceName: item.provinceName,
-        partnerType: item.partnerRequest,
-      },
-      -1
-    )
-
     navigate("Post-List")
   }
 
@@ -195,10 +191,34 @@ const PaymentForm = ({ navigation, route }) => {
           keyboardVerticalOffset={Platform.OS === "ios" ? 120 : 0}
         >
           <Text style={styles.textTopic}>โอนเงิน เพื่อชำระค่าบริการ</Text>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{ marginTop: 20 }}
-          >
+          <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: 100}}>
+            <View
+              style={{
+                alignItems: "center",
+                padding: 5,
+                backgroundColor: "green",
+              }}
+            >
+              <Text
+                style={{ fontSize: 20, fontWeight: "bold", color: "white" }}
+              >
+                โหมด: {item.partnerRequest}
+              </Text>
+            </View>
+            <View style={{ alignItems: "center" }}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {listPartner.map((item, index) => (
+                  <View key={`v_${item.id}`}>
+                    <Text>ชื่อ: {item.partnerName}</Text>
+                    <Text>ราคา: {item.amount}</Text>
+                    <Image
+                      source={{ uri: item.image }}
+                      style={{ width: 100, height: 100 }}
+                    />
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
             <View style={{ width: "90%", alignSelf: "center" }}>
               <Text style={{ fontSize: 16, padding: 5 }}>
                 จำนวนเงินทีต้องชำระ (บาท)

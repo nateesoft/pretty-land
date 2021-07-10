@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   Linking,
   Alert,
+  Platform,
 } from "react-native"
 import jwtDecode from "jwt-decode"
 import { AntDesign } from "@expo/vector-icons"
@@ -29,12 +30,10 @@ const LoginScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     const ref = firebase.database().ref("appconfig")
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setLineContact(data.line_contact_admin || "https://lin.ee/DgRh5Mw")
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   const LinkToLineContact = () => {
@@ -52,6 +51,7 @@ const LoginScreen = ({ navigation, route }) => {
         <Text style={styles.textLogo}>PRETTY LAND</Text>
         <Text style={styles.textDetail}>Love Your Moments</Text>
         <TouchableHighlight
+          underlayColor="pink"
           style={styles.btnLineClickContain}
           onPress={() => navigate("Line-Login-Form")}
         >
@@ -70,6 +70,7 @@ const LoginScreen = ({ navigation, route }) => {
           </View>
         </TouchableHighlight>
         <TouchableHighlight
+          underlayColor="pink"
           style={[styles.btnClickContain, { marginBottom: 20 }]}
           onPress={() => signInFacebook()}
         >
@@ -88,41 +89,45 @@ const LoginScreen = ({ navigation, route }) => {
             </Text>
           </View>
         </TouchableHighlight>
-        <AppleAuthentication.AppleAuthenticationButton
-          buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-          buttonStyle={
-            AppleAuthentication.AppleAuthenticationButtonStyle.WHITE_OUTLINE
-          }
-          cornerRadius={5}
-          style={{ width: 200, height: 44 }}
-          onPress={async () => {
-            try {
-              const credential = await AppleAuthentication.signInAsync({
-                requestedScopes: [
-                  AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-                  AppleAuthentication.AppleAuthenticationScope.EMAIL,
-                ],
-              })
-              Alert.alert("Connect Apple authentication")
-              const decodeData = jwtDecode(credential["identityToken"])
-              // signed in
-              signInApple({
-                userId: credential["user"],
-                email: decodeData.email,
-                fullName: decodeData.email,
-              })
-            } catch (e) {
-              if (e.code === "ERR_CANCELED") {
-                // handle that the user canceled the sign-in flow
-                console.log("apple login cancel")
-              } else {
-                // handle other errors
-                console.log("error apple login:", e)
-                Alert.alert(`Apple Auth Error: ${e}`)
-              }
+        {Platform.OS === "ios" && (
+          <AppleAuthentication.AppleAuthenticationButton
+            buttonType={
+              AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
             }
-          }}
-        />
+            buttonStyle={
+              AppleAuthentication.AppleAuthenticationButtonStyle.WHITE_OUTLINE
+            }
+            cornerRadius={5}
+            style={{ width: 200, height: 44 }}
+            onPress={async () => {
+              try {
+                const credential = await AppleAuthentication.signInAsync({
+                  requestedScopes: [
+                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                    AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                  ],
+                })
+                Alert.alert("Connect Apple authentication")
+                const decodeData = jwtDecode(credential["identityToken"])
+                // signed in
+                signInApple({
+                  userId: credential["user"],
+                  email: decodeData.email,
+                  fullName: decodeData.email,
+                })
+              } catch (e) {
+                if (e.code === "ERR_CANCELED") {
+                  // handle that the user canceled the sign-in flow
+                  console.log("apple login cancel")
+                } else {
+                  // handle other errors
+                  console.log("error apple login:", e)
+                  Alert.alert(`Apple Auth Error: ${e}`)
+                }
+              }
+            }}
+          />
+        )}
         <Text style={styles.textOr}>------ OR ------</Text>
         <Button
           icon={

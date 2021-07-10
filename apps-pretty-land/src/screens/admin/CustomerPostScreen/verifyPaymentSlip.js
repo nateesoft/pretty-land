@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+import { Alert } from "react-native"
 import {
   ScrollView,
   Image,
@@ -18,6 +19,32 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
   const { navigate } = navigation
   const { item } = route.params
 
+  const [listPartner, setListPartner] = useState([])
+
+  const getPartnerList = (item) => {
+    return new Promise((resolve, reject) => {
+      let list = []
+      for (let key in item) {
+        const data = item[key]
+        if (data.selectStatus === AppConfig.PostsStatus.customerConfirm) {
+          list.push(data)
+        }
+      }
+      setListPartner(list)
+      resolve(true)
+    })
+  }
+
+  const getMemberProfile = () => {
+    return new Promise((resolve, reject) => {
+      const ref = firebase.database().ref(`members/${item.customerId}`)
+      ref.once("value", (snapshot) => {
+        const customerData = { ...snapshot.val() }
+        resolve(customerData)
+      })
+    })
+  }
+
   const saveConfirmPayment = () => {
     // save to firebase
     firebase.database().ref(`posts/${item.id}`).update({
@@ -26,21 +53,35 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
       sys_update_date: new Date().toUTCString(),
     })
 
-    const ref = firebase.database().ref(`members/${item.customerId}`)
-    ref.once("value", (snapshot) => {
-      const customerData = { ...snapshot.val() }
+    // update status partner in list
+    listPartner.forEach((obj) => {
+      firebase
+        .database()
+        .ref(`posts/${item.id}/partnerSelect/${obj.partnerId}`)
+        .update({
+          selectStatus: AppConfig.PostsStatus.customerPayment,
+          selectStatusText: "ชำระเงินเรียบร้อยแล้ว",
+          sys_update_date: new Date().toUTCString(),
+        })
+    })
+
+    getMemberProfile().then((cust) => {
       // update level to customer
       firebase
         .database()
         .ref(`members/${item.customerId}`)
         .update({
-          customerLevel: customerData.customerLevel + 1,
+          customerLevel: cust.customerLevel + 1,
         })
     })
 
     // to all list
     navigate("Post-List-All")
   }
+
+  useEffect(() => {
+    getPartnerList(item.partnerSelect).catch((err) => Alert.alert(err))
+  }, [])
 
   return (
     <ImageBackground
@@ -60,21 +101,85 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
               style={{ width: 200, height: 250 }}
             />
           </View>
-          <View
-            style={{
-              padding: 10,
-              alignSelf: "center",
-              borderWidth: 1.5,
-              margin: 10,
-              borderColor: "pink",
-            }}
-          >
-            <Text>ชื่อผู้โอนเงิน: {item.customerName}</Text>
-            <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
-            <Text>
-              ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}
+          {item.partnerRequest !== AppConfig.PartnerType.type4 && (
+            <View
+              style={{
+                padding: 10,
+                alignSelf: "center",
+                borderWidth: 1.5,
+                margin: 10,
+                borderColor: "pink",
+                width: "85%",
+              }}
+            >
+              <Text>ชื่อลูกค้า: {item.customerName}</Text>
+              <Text>Level: {item.customerLevel}</Text>
+              <Text>สถานที่นัดหมาย: {item.placeMeeting}</Text>
+              <Text>
+                เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
+              </Text>
+              <Text>เบอร์ติดต่อ: {item.customerPhone}</Text>
+              <Text>รายละเอียดเพิ่มเติม: {item.customerRemark}</Text>
+              <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
+              <Text>
+                ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}
+              </Text>
+              <Text>เวลาที่โอนเงิน: {item.transferTime}</Text>
+            </View>
+          )}
+          {item.partnerRequest === AppConfig.PartnerType.type4 && (
+            <View
+              style={{
+                padding: 10,
+                alignSelf: "center",
+                borderWidth: 1.5,
+                margin: 10,
+                borderColor: "pink",
+                width: "85%",
+              }}
+            >
+              <Text>ชื่อลูกค้า: {item.customerName}</Text>
+              <Text>Level: {item.customerLevel}</Text>
+              <Text>เบอร์ติดต่อลูกค้า: {item.customerPhone}</Text>
+              <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
+              <Text>
+                ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}
+              </Text>
+              <Text>เวลาที่โอนเงิน: {item.transferTime}</Text>
+            </View>
+          )}
+          <View style={{ alignItems: "center", margin: 10 }}>
+            <Text style={{ marginBottom: 5 }}>
+              ยอดรับชำระสำหรับ Partner {listPartner.length} คน
             </Text>
-            <Text>เวลาที่โอนเงิน: {item.transferTime}</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {listPartner.map((obj, index) => (
+                <View
+                  key={obj.partnerId}
+                  style={{ alignItems: "center", margin: 10 }}
+                >
+                  <Image
+                    source={{ uri: obj.image }}
+                    style={{ width: 100, height: 100 }}
+                  />
+                  <Text style={{ marginTop: 5 }}>ชื่อ: {obj.partnerName}</Text>
+                  {item.partnerRequest === AppConfig.PartnerType.type4 && (
+                    <View
+                      style={{
+                        backgroundColor: "pink",
+                        padding: 5,
+                        marginTop: 5,
+                      }}
+                    >
+                      <Text style={{ marginTop: 5 }}>สถานที่: {obj.place}</Text>
+                      <Text style={{ marginTop: 5 }}>
+                        เวลาที่จะไป: {item.timeMeeting}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              ))}
+            </ScrollView>
           </View>
           <Button
             icon={
@@ -86,7 +191,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
               />
             }
             buttonStyle={styles.buttonConfirm}
-            title="ยืนยันข้อมูลถูกต้อง"
+            title="ยืนยันข้อมูลการโอนเงิน"
             onPress={() => saveConfirmPayment()}
           />
         </ScrollView>

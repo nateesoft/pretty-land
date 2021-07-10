@@ -17,10 +17,10 @@ import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
-import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
+import { updatePosts } from "../../../apis"
 
 const AllCustomerPostList = ({ navigation, route }) => {
-  const { profile, item } = route.params
+  const { profile, province, provinceName } = route.params
   const [refreshing, setRefreshing] = useState(false)
   const [filterList, setFilterList] = useState([])
 
@@ -39,6 +39,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
         borderRadius: 8,
         marginVertical: 5,
       }}
+      underlayColor="pink"
     >
       <ListItem.Content style={{ margin: 10 }}>
         <ListItem.Title
@@ -54,16 +55,45 @@ const AllCustomerPostList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            paddingHorizontal: 5,
           }}
         >
-          จังหวัด: {item.provinceName}
+          จำนวนPartner ที่ต้องการ: {item.partnerWantQty||0} คน
         </ListItem.Title>
         <ListItem.Title
           style={{
             marginBottom: 5,
           }}
         >
-          เขต/อำเภอ: {item.districtName}
+          ลูกค้า: {item.customerName}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+          }}
+        >
+          ระดับ: {item.customerLevel}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+          }}
+        >
+          สถานที่: {item.placeMeeting}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+          }}
+        >
+          เริ่ม: {item.startTime}, เลิก: {item.stopTime}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{
+            marginBottom: 5,
+          }}
+        >
+          รายละเอียดเพิ่มเติม: {item.customerRemark}
         </ListItem.Title>
         <ListItem.Title
           style={{
@@ -92,7 +122,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
       .database()
       .ref(`posts`)
       .orderByChild("province")
-      .equalTo(item.provinceId)
+      .equalTo(province)
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
       setFilterList(
@@ -134,15 +164,6 @@ const AllCustomerPostList = ({ navigation, route }) => {
                   "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
                 sys_update_date: new Date().toUTCString(),
               })
-              // remove from group partner request
-              saveProvincesGroupPostPartner(
-                {
-                  province: item.province,
-                  provinceName: item.provinceName,
-                  partnerType: item.partnerRequest,
-                },
-                -1
-              )
             }
           }
         })
@@ -159,7 +180,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
     >
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
-        <Text style={styles.textDetail}>จังหวัด {item.provinceName}</Text>
+        <Text style={styles.textDetail}>จังหวัด {provinceName}</Text>
         <View style={styles.container}>
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />

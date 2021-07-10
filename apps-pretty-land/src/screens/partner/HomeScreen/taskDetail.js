@@ -2,56 +2,41 @@ import React, { useState, useEffect } from "react"
 import {
   StyleSheet,
   View,
-  TextInput,
-  Alert,
-  ScrollView,
+  Text,
   SafeAreaView,
   ImageBackground,
 } from "react-native"
-import { Button, Text } from "react-native-elements"
-import { AntDesign } from "react-native-vector-icons"
+import { Button } from "react-native-elements"
+import Moment from "moment"
 
 import bgImage from "../../../../assets/bg.png"
-import { partnerAcceptJobWaitCustomerReview } from "../../../apis"
 
 import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../Constants"
+import { Alert } from "react-native"
 
 const ConfirmTaskScreen = ({ navigation, route }) => {
-  const { profile, item } = route.params
-  const [amount, setAmount] = useState("")
-  const [workStatus, setWorkStatus] = useState("")
+  const { profile, postDetail } = route.params
+  const [profileSelect, setProfileSelect] = useState("")
 
-  const [getWork, setGetWork] = useState(false)
-  const workHide =
-    item.partnerQty -
-      (item.partnerSelect ? Object.keys(item.partnerSelect).length : 0) ===
-    0
+  const nextPriceForm = () => {
+    navigation.navigate("Price-Form-Detail", { profile, postDetail })
+  }
 
-  const partnerAcceptJob = () => {
-    if (!amount) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุจำนวนเงินที่ต้องการ")
-      return
-    }
-    partnerAcceptJobWaitCustomerReview(item, {
-      ...profile,
-      amount,
+  const getProfileSelectObject = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const checkItem = { ...snapshot.val() }
+      setProfileSelect(checkItem)
+      resolve(true)
     })
-    navigation.navigate("All-Task-List")
   }
 
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts/${item.id}/partnerSelect/${profile.id}`)
+      .ref(`posts/${postDetail.id}/partnerSelect/${profile.id}`)
     const listener = ref.on("value", (snapshot) => {
-      const checkItem = { ...snapshot.val() }
-      const acceptAlready = checkItem.partnerId === profile.id
-      if (acceptAlready) {
-        setAmount(checkItem.amount)
-        setWorkStatus(checkItem.selectStatus)
-      }
-      setGetWork(acceptAlready)
+      getProfileSelectObject(snapshot).catch((err) => Alert.alert(err))
     })
 
     return () => ref.off("value", listener)
@@ -64,136 +49,97 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.textTopic}>รายละเอียดโพสท์</Text>
-          <View style={styles.cardDetail}>
-            <View style={{alignSelf: 'flex-start', padding: 20, borderWidth: 2, borderColor: 'gray', borderRadius: 10, width: '100%'}}>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  height: 30,
-                }}
-              >
-                โหมดงาน: {item.partnerRequest}
-              </Text>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  height: 30,
-                }}
-              >
-                ชื่อลูกค้า: คุณ{item.customerName}
-              </Text>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  height: 30,
-                }}
-              >
-                จังหวัด: {item.provinceName}
-              </Text>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  height: 30,
-                }}
-              >
-                เขต/อำเภอ: {item.districtName}
-              </Text>
-
-              <Text style={{ marginBottom: 5, height: 30, fontSize: 16 }}>
-                ระดับลูกค้า level: {item.customerLevel}
-              </Text>
-              <Text style={{ marginBottom: 5, height: 30, fontSize: 16 }}>
-                เพิ่มเติม: {item.customerRemark}
-              </Text>
-            </View>
+        <Text style={styles.textTopic}>รายละเอียดโพสท์ของลูกค้า</Text>
+        <View style={styles.cardDetail}>
+          <View>
+            <Text
+              style={{
+                marginBottom: 5,
+              }}
+            >
+              จำนวนPartner ที่ต้องการ: {postDetail.partnerWantQty || 0} คน
+            </Text>
+            <Text
+              style={{
+                marginBottom: 5,
+              }}
+            >
+              ลูกค้า: {postDetail.customerName}
+            </Text>
+            <Text
+              style={{
+                marginBottom: 5,
+              }}
+            >
+              ระดับ: {postDetail.customerLevel}
+            </Text>
+            <Text
+              style={{
+                marginBottom: 5,
+              }}
+            >
+              สถานที่: {postDetail.placeMeeting}
+            </Text>
+            <Text
+              style={{
+                marginBottom: 5,
+              }}
+            >
+              เริ่ม: {postDetail.startTime}, เลิก: {postDetail.stopTime}
+            </Text>
+            <Text
+              style={{
+                marginBottom: 5,
+              }}
+            >
+              รายละเอียดเพิ่มเติม: {postDetail.customerRemark}
+            </Text>
+            <Text
+              style={{
+                marginBottom: 5,
+              }}
+            >
+              วันที่โพสท์:{" "}
+              {Moment(postDetail.sys_create_date).format("D MMM YYYY HH:mm:ss")}
+            </Text>
+          </View>
+          {Object.keys(profileSelect).length === 0 && (
             <View style={styles.viewCard}>
-              {!workHide && (
-                <View
-                  style={{
-                    borderWidth: 1.5,
-                    borderRadius: 10,
-                    borderColor: "gray",
-                    padding: 10,
-                  }}
-                >
-                  <TextInput
-                    value={amount}
-                    placeholder="เสนอราคา (บาท)"
-                    style={styles.textInput}
-                    keyboardType="number-pad"
-                    onChangeText={(value) => setAmount(value)}
-                  />
-                </View>
-              )}
-            </View>
-            {!getWork && !workHide && (
-              <View>
+              <View style={{ marginVertical: 10 }}>
                 <Button
-                  icon={
-                    <AntDesign
-                      name="checkcircleo"
-                      size={15}
-                      color="white"
-                      style={{ marginRight: 5 }}
-                    />
-                  }
-                  iconLeft
-                  buttonStyle={{
-                    margin: 5,
-                    backgroundColor: "#ff2fe6",
-                    paddingHorizontal: 20,
-                    borderRadius: 25,
-                  }}
-                  title="บันทึกรับงาน"
-                  onPress={() => partnerAcceptJob()}
+                  title="ถัดไป"
+                  buttonStyle={{ borderRadius: 5 }}
+                  onPress={() => nextPriceForm()}
                 />
               </View>
-            )}
-            {getWork && workStatus === AppConfig.PostsStatus.customerConfirm && (
-              <Text
-                style={{
-                  color: "white",
-                  backgroundColor: "blue",
-                  padding: 20,
-                  fontSize: 20,
-                  fontWeight: "bold",
-                }}
-              >
-                ได้งานแล้ว รอลูกค้าชำระเงิน
-              </Text>
-            )}
-            {getWork &&
-              workStatus ===
-                AppConfig.PostsStatus.waitCustomerSelectPartner && (
-                <Text
-                  style={{
-                    color: "white",
-                    backgroundColor: "blue",
-                    padding: 20,
-                    fontSize: 20,
-                    fontWeight: "bold",
-                  }}
-                >
-                  รอลูกค้ารับงาน
-                </Text>
-              )}
-            {!getWork && workHide && (
-              <Text
-                style={{
-                  color: "black",
-                  backgroundColor: "red",
-                  padding: 20,
-                  fontSize: 20,
-                  fontWeight: "bold",
-                }}
-              >
-                งานนี้ถูกรับงานไปเต็มแล้ว
-              </Text>
-            )}
-          </View>
-        </ScrollView>
+            </View>
+          )}
+          {profileSelect.selectStatus ===
+            AppConfig.PostsStatus.customerConfirm && (
+            <Text
+              style={{
+                fontWeight: "bold",
+                backgroundColor: "blue",
+                color: "white",
+                paddingHorizontal: 10,
+              }}
+            >
+              Status: ได้งานแล้ว รอลูกค้าชำระเงิน
+            </Text>
+          )}
+          {profileSelect.selectStatus ===
+            AppConfig.PostsStatus.waitCustomerSelectPartner && (
+            <Text
+              style={{
+                fontWeight: "bold",
+                backgroundColor: "orange",
+                paddingHorizontal: 10,
+              }}
+            >
+              Status: เสนอราคาไปแล้ว รอลูกค้าตอบรับ
+            </Text>
+          )}
+        </View>
       </SafeAreaView>
     </ImageBackground>
   )

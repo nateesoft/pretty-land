@@ -42,6 +42,7 @@ export const AppConfig = {
         postTimeout: "post_timeout",
         customerCloseJob: "customer_close_job",
         partnerCloseJob: "partner_close_job",
+        startWork: "start_work",
         closeJob: "close_job",
     },
 }

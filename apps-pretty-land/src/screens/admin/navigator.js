@@ -32,23 +32,23 @@ const AdminNavigator = ({ navigation, route }) => {
       }}
     >
       <Tab.Screen
-        name="a-Member"
-        component={MemberNavigator}
-        options={{
-          title: "สมาชิกในระบบ",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="users" color="white" size={size} />
-          ),
-        }}
-        initialParams={{ userId }}
-      />
-      <Tab.Screen
         name="a-Task"
         component={TaskNavigator}
         options={{
           title: "โพสท์ทั้งหมด",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="fact-check" color="white" size={size} />
+          ),
+        }}
+        initialParams={{ userId }}
+      />
+      <Tab.Screen
+        name="a-Member"
+        component={MemberNavigator}
+        options={{
+          title: "สมาชิกในระบบ",
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="users" color="white" size={size} />
           ),
         }}
         initialParams={{ userId }}

@@ -6,7 +6,6 @@ import {
   StyleSheet,
   RefreshControl,
   ImageBackground,
-  TouchableNativeFeedback,
   Image,
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
@@ -41,44 +40,43 @@ const AdminAllListScreen = ({ navigation, route }) => {
   const handleRefresh = () => {}
 
   const renderItem = ({ item }) => (
-    <TouchableNativeFeedback style={{ backgroundColor: "red" }}>
-      <ListItem
-        bottomDivider
-        containerStyle={{
-          backgroundColor: null,
-          borderRadius: 8,
-          marginVertical: 5,
-        }}
-      >
-        <ListItem.Content style={{ marginLeft: 10 }}>
-          <Image
-            source={item.image ? { uri: item.image } : NoImage}
-            style={{ width: 100, height: 100 }}
-          />
-          <ListItem.Title>ชื่อสมาชิก: {item.profile}</ListItem.Title>
-          <ListItem.Title>ประเภท: {item.customerType}</ListItem.Title>
-          <ListItem.Title>Level: {item.customerLevel}</ListItem.Title>
-          <ListItem.Title>สถานะ: {item.status}</ListItem.Title>
-          <View
-            style={{
-              padding: 5,
-              borderWidth: 1,
-              marginVertical: 5,
-              borderColor: "#aaa",
-            }}
-          >
-            <ListItem.Title>
-              วันที่สมัคร:{" "}
-              {Moment(item.sys_create_date).format("D/MM/YYYY HH:mm:ss")}
-            </ListItem.Title>
-            <ListItem.Title>
-              ข้อมูลล่าสุด:{" "}
-              {Moment(item.sys_update_date).format("D/MM/YYYY HH:mm:ss")}
-            </ListItem.Title>
-          </View>
-        </ListItem.Content>
-      </ListItem>
-    </TouchableNativeFeedback>
+    <ListItem
+      bottomDivider
+      containerStyle={{
+        backgroundColor: null,
+        borderRadius: 8,
+        marginVertical: 5,
+      }}
+      underlayColor="pink"
+    >
+      <ListItem.Content style={{ marginLeft: 10 }}>
+        <Image
+          source={item.image ? { uri: item.image } : NoImage}
+          style={{ width: 100, height: 100 }}
+        />
+        <ListItem.Title>ชื่อสมาชิก: {item.profile}</ListItem.Title>
+        <ListItem.Title>ประเภท: {item.customerType}</ListItem.Title>
+        <ListItem.Title>Level: {item.customerLevel}</ListItem.Title>
+        <ListItem.Title>สถานะ: {item.status}</ListItem.Title>
+        <View
+          style={{
+            padding: 5,
+            borderWidth: 1,
+            marginVertical: 5,
+            borderColor: "#aaa",
+          }}
+        >
+          <ListItem.Title>
+            วันที่สมัคร:{" "}
+            {Moment(item.sys_create_date).format("D/MM/YYYY HH:mm:ss")}
+          </ListItem.Title>
+          <ListItem.Title>
+            ข้อมูลล่าสุด:{" "}
+            {Moment(item.sys_update_date).format("D/MM/YYYY HH:mm:ss")}
+          </ListItem.Title>
+        </View>
+      </ListItem.Content>
+    </ListItem>
   )
 
   return (

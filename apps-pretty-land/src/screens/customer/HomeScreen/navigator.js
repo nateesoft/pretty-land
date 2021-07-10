@@ -1,9 +1,13 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
-import PartnerCategoryScreen from "./partnerCategory"
+import CustomerDashboard from "./customerDashboard"
 import PartnerListCountryScreen from "./partnerListCountry"
 import CreatePostForm from "./createPost"
+import SelectProvinceForm from "./selectProvince"
+import SelectProvinceFormType4 from "./selectProvinceType4"
+import PlaceForm from "./placeForm"
+import TimePriceForm from "./timePriceForm"
 
 import { LogoTitle } from "../../../components/Header"
 
@@ -15,15 +19,15 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Partner-Category"
-        component={PartnerCategoryScreen}
+        name="Customer-Dashboard"
+        component={CustomerDashboard}
         options={{
           title: "Back",
           headerStyle: {
             backgroundColor: "#ff2fe6",
           },
           headerTitle: (props) => (
-            <LogoTitle title="แสดงกลุ่มพาทเนอร์" {...props} />
+            <LogoTitle title="โหมดงานในระบบ" {...props} />
           ),
         }}
         initialParams={{ userId, status }}
@@ -46,6 +50,74 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         }}
         initialParams={{
           pageFrom: "Partner-Category",
+          userId,
+          status,
+        }}
+      />
+      <Stack.Screen
+        name="Select-Province-Form"
+        component={SelectProvinceForm}
+        options={{
+          title: "เลือกจังหวัด",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+        initialParams={{
+          pageFrom: "Select-Province-Form",
+          userId,
+          status,
+        }}
+      />
+      <Stack.Screen
+        name="Select-Province-Form-Type4"
+        component={SelectProvinceFormType4}
+        options={{
+          title: "เลือกจังหวัด",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+        initialParams={{
+          pageFrom: "Select-Province-Form",
+          userId,
+          status,
+        }}
+      />
+      <Stack.Screen
+        name="Place-Form"
+        component={PlaceForm}
+        options={{
+          title: "ข้อมูลสถานที่",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+        initialParams={{
+          pageFrom: "Select-Province-Form",
+          userId,
+          status,
+        }}
+      />
+      <Stack.Screen
+        name="Time-Price-Form"
+        component={TimePriceForm}
+        options={{
+          title: "เวลาที่นัดหมาย",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+        }}
+        initialParams={{
+          pageFrom: "Select-Province-Form",
           userId,
           status,
         }}

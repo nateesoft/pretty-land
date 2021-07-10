@@ -1,7 +1,14 @@
-import React from "react"
-import { StyleSheet, View, ImageBackground, ScrollView } from "react-native"
+import React, { useState, useEffect } from "react"
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  ScrollView,
+  SafeAreaView,
+} from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
+import StarRating from "react-native-star-rating"
 
 import { updatePosts } from "../../../apis"
 import bgImage from "../../../../assets/bg.png"
@@ -9,13 +16,31 @@ import { AppConfig } from "../../../Constants"
 
 import firebase from "../../../../util/firebase"
 import PartnerListItem from "./PartnerListItem"
+import { Alert } from "react-native"
 
 const ReviewTaskScreen = (props) => {
   const { navigation, route } = props
-  const { userId, item } = route.params
+  const { userId, postDetail } = route.params
+
+  const [rate, setRate] = useState(5)
+  const [showPartnerList, setShowPartnerList] = useState([])
+
+  const generatePartnerList = () => {
+    return new Promise((resolve, reject) => {
+      let list = []
+      for (let key in postDetail.partnerSelect) {
+        const data = postDetail.partnerSelect[key]
+        if (data.selectStatus === AppConfig.PostsStatus.customerPayment) {
+          list.push(data)
+        }
+      }
+      setShowPartnerList(list)
+      resolve(true)
+    })
+  }
 
   const cancelThisPosts = () => {
-    updatePosts(item.id, {
+    updatePosts(postDetail.id, {
       status: AppConfig.PostsStatus.customerCancelPost,
       statusText: "ยกเลิกโพสท์นี้แล้ว",
       sys_update_date: new Date().toUTCString(),
@@ -24,13 +49,27 @@ const ReviewTaskScreen = (props) => {
   }
 
   const saveToCloseJob = () => {
-    firebase.database().ref(`posts/${item.id}`).update({
+    firebase.database().ref(`posts/${postDetail.id}`).update({
       status: AppConfig.PostsStatus.closeJob,
       statusText: "ปิดงาน Post นี้เรียบร้อย",
+      rate,
       sys_update_date: new Date().toUTCString(),
     })
+
+    // save list star partner
+    showPartnerList.map((item, index) => {
+      firebase.database().ref(`partner_star/${item.partnerId}/${postDetail.id}`).update({
+        star: rate,
+        sys_date: new Date().toUTCString(),
+      })
+    })
+
     navigation.navigate("Post-List")
   }
+
+  useEffect(() => {
+    generatePartnerList().catch((err) => Alert.alert(err))
+  }, [])
 
   return (
     <ImageBackground
@@ -38,87 +77,46 @@ const ReviewTaskScreen = (props) => {
       style={styles.imageBg}
       resizeMode="stretch"
     >
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.textTopic}>รายละเอียดโพสท์</Text>
-        <View style={styles.cardDetail}>
-          <View
-            style={{
-              width: "100%",
-              padding: 10,
-              borderWidth: 1.5,
-              borderColor: "#aaa",
-              borderRadius: 15,
-              margin: 5,
-            }}
-          >
-            <Text style={styles.textDetail}>ไอดี: {item.customerId}</Text>
-            <Text style={styles.textDetail}>
-              ระดับ Level: {item.customerLevel}
-            </Text>
-            <Text style={styles.textDetail}>
-              ชื่อผู้โพสท์: {item.customerName}
-            </Text>
-            <Text style={styles.textDetail}>
-              เบอร์โทรศัพท์: {item.customerPhone}
-            </Text>
-            <Text style={styles.textDetail}>
-              เพิ่มเติม: {item.customerRemark}
-            </Text>
-            <Text style={styles.textDetail}>
-              ประเภท Partner: {item.partnerRequest}
-            </Text>
-            <Text style={styles.textDetail}>สถานที่: {item.placeMeeting}</Text>
-            <Text style={styles.textDetail}>จังหวัด: {item.provinceName}</Text>
-            <Text style={styles.textDetail}>อำเภอ: {item.districtName}</Text>
-            {item.status === AppConfig.PostsStatus.customerNewPostDone && (
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: "blue",
-                  alignSelf: "center",
-                  padding: 20,
-                }}
-              >
-                โพสท์ใหม่ รอตรวจสอบจาก admin...
+      <SafeAreaView style={{ height: "100%" }}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Text style={styles.textTopic}>รายละเอียดโพสท์</Text>
+          <View style={styles.cardDetail}>
+            <View
+              style={{
+                width: "100%",
+                padding: 10,
+                borderWidth: 1.5,
+                borderColor: "#aaa",
+                borderRadius: 15,
+                margin: 5,
+              }}
+            >
+              <Text style={styles.textDetail}>
+                ไอดี: {postDetail.customerId}
               </Text>
-            )}
-            {item.status === AppConfig.PostsStatus.adminConfirmNewPost && (
-              <View>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: "blue",
-                    alignSelf: "center",
-                    marginTop: 10,
-                  }}
-                >
-                  ได้รับการอนุมัติจาก admin แล้ว
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: "red",
-                    alignSelf: "center",
-                  }}
-                >
-                  (รอ Partner รับงาน)
-                </Text>
-              </View>
-            )}
-            {item.status === AppConfig.PostsStatus.waitAdminConfirmPayment && (
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: "blue",
-                  alignSelf: "center",
-                  padding: 20,
-                }}
-              >
-                รอตรวจสอบ หลักฐานการโอนเงิน...
+              <Text style={styles.textDetail}>
+                ระดับ Level: {postDetail.customerLevel}
               </Text>
-            )}
-            {item.status === AppConfig.PostsStatus.closeJob && (
-              <>
+              <Text style={styles.textDetail}>
+                ชื่อผู้โพสท์: {postDetail.customerName}
+              </Text>
+              <Text style={styles.textDetail}>
+                เบอร์โทรศัพท์: {postDetail.customerPhone}
+              </Text>
+              <Text style={styles.textDetail}>
+                เพิ่มเติม: {postDetail.customerRemark}
+              </Text>
+              <Text style={styles.textDetail}>
+                ประเภท Partner: {postDetail.partnerRequest}
+              </Text>
+              <Text style={styles.textDetail}>
+                สถานที่: {postDetail.placeMeeting}
+              </Text>
+              <Text style={styles.textDetail}>
+                จังหวัด: {postDetail.provinceName}
+              </Text>
+              {postDetail.status ===
+                AppConfig.PostsStatus.customerNewPostDone && (
                 <Text
                   style={{
                     fontSize: 18,
@@ -127,24 +125,76 @@ const ReviewTaskScreen = (props) => {
                     padding: 20,
                   }}
                 >
-                  ปิดงานเรียบร้อยแล้ว
+                  โพสท์ใหม่ รอตรวจสอบจาก admin...
                 </Text>
-              </>
+              )}
+              {postDetail.status ===
+                AppConfig.PostsStatus.adminConfirmNewPost && (
+                <View>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: "blue",
+                      alignSelf: "center",
+                      marginTop: 10,
+                    }}
+                  >
+                    ได้รับการอนุมัติจาก admin แล้ว
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: "red",
+                      alignSelf: "center",
+                    }}
+                  >
+                    (รอ Partner รับงาน)
+                  </Text>
+                </View>
+              )}
+              {postDetail.status ===
+                AppConfig.PostsStatus.waitAdminConfirmPayment && (
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: "blue",
+                    alignSelf: "center",
+                    padding: 20,
+                  }}
+                >
+                  รอตรวจสอบ หลักฐานการโอนเงิน...
+                </Text>
+              )}
+              {postDetail.status === AppConfig.PostsStatus.closeJob && (
+                <>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: "red",
+                      alignSelf: "center",
+                      padding: 20,
+                    }}
+                  >
+                    ปิดงานเรียบร้อยแล้ว
+                  </Text>
+                  <Text style={{ alignSelf: "center" }}>
+                    คะแนนที่ได้รับ {postDetail.rate || 0} คะแนน
+                  </Text>
+                </>
+              )}
+            </View>
+            {postDetail.status !==
+              AppConfig.PostsStatus.waitAdminConfirmPayment && (
+              <PartnerListItem
+                items={showPartnerList}
+                status={postDetail.status}
+                postId={postDetail.id}
+                post={postDetail}
+                {...props}
+              />
             )}
-          </View>
-          {item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment && (
-            <PartnerListItem
-              items={item.partnerSelect}
-              status={item.status}
-              postId={item.id}
-              post={item}
-              {...props}
-            />
-          )}
-          {item.status !== AppConfig.PostsStatus.adminConfirmPayment &&
-            item.status !== AppConfig.PostsStatus.closeJob &&
-            item.status !== AppConfig.PostsStatus.adminConfirmNewPost &&
-            item.status !== AppConfig.PostsStatus.customerCloseJob && (
+            {postDetail.status ===
+              AppConfig.PostsStatus.customerNewPostDone && (
               <Button
                 icon={
                   <Icon
@@ -160,10 +210,17 @@ const ReviewTaskScreen = (props) => {
                 onPress={() => cancelThisPosts()}
               />
             )}
-        </View>
-        {item.status === AppConfig.PostsStatus.adminConfirmPayment &&
-          item.partnerRequest !== AppConfig.PartnerType.type4 && (
-            <View style={{ alignItems: "center", marginTop: 10 }}>
+          </View>
+          {postDetail.status === AppConfig.PostsStatus.startWork && (
+            <View style={{ alignItems: "center" }}>
+              <StarRating
+                disabled={false}
+                maxStars={5}
+                rating={rate}
+                fullStarColor="orange"
+                selectedStar={(rating) => setRate(rating)}
+              />
+              <Text>ให้ {rate} คะแนน</Text>
               <Button
                 icon={
                   <Icon
@@ -173,19 +230,18 @@ const ReviewTaskScreen = (props) => {
                     style={{ marginRight: 10 }}
                   />
                 }
-                title={`บันทึกปิดงานทั้งหมด (${
-                  Object.keys(item.partnerSelect || {}).length
-                })`}
+                title="บันทึกปิดงาน"
                 buttonStyle={{
                   marginVertical: 10,
-                  width: "80%",
                   borderRadius: 5,
+                  width: 150,
                 }}
                 onPress={() => saveToCloseJob()}
               />
             </View>
           )}
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
     </ImageBackground>
   )
 }
@@ -204,27 +260,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     margin: 10,
-  },
-  optionsNameDetail: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
-  },
-  optionsNameDetail2: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
-  },
-  viewCard: {
-    width: "100%",
-    borderRadius: 20,
-    padding: 5,
   },
   imageBg: {
     flex: 1,

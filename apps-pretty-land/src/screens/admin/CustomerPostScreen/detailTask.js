@@ -10,9 +10,10 @@ import { Button, Text } from "react-native-elements"
 import { AntDesign, Ionicons } from "react-native-vector-icons"
 import Moment from "moment"
 
-import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
+import { updatePosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 import bgImage from "../../../../assets/bg.png"
+import { Alert } from "react-native"
 
 const ConfirmTaskScreen = ({ navigation, route }) => {
   const { item } = route.params
@@ -24,38 +25,33 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       let pList = []
       for (let key in partnerSelect) {
         const obj = partnerSelect[key]
-        pList.push(obj)
+        if (obj.selectStatus === AppConfig.PostsStatus.customerConfirm) {
+          pList.push(obj)
+        }
       }
 
-      resolve(pList)
+      setPartnerList(pList)
+      resolve(true)
     })
   }
 
   useEffect(() => {
-    getPartnerList().then((res) => setPartnerList(res))
+    getPartnerList().catch((err) => Alert.alert(err))
   }, [])
 
   const updateToApprove = () => {
-    if(item.status === AppConfig.PostsStatus.waitAdminApprovePost){
+    if (item.status === AppConfig.PostsStatus.waitAdminApprovePost) {
       updatePosts(item.id, {
         status: AppConfig.PostsStatus.waitCustomerPayment,
         statusText: "รอลูกค้าชำระเงิน",
         sys_update_date: new Date().toUTCString(),
       })
-    }else{
+    } else {
       updatePosts(item.id, {
         status: AppConfig.PostsStatus.adminConfirmNewPost,
         statusText: "อนุมัติโพสท์",
         sys_update_date: new Date().toUTCString(),
       })
-      saveProvincesGroupPostPartner(
-        {
-          province: item.province,
-          provinceName: item.provinceName,
-          partnerType: item.partnerRequest,
-        },
-        1
-      )
     }
     navigation.navigate("Post-List-All")
   }
@@ -82,28 +78,31 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>
+                โหมดงาน: {item.partnerRequest}
+              </Text>
+              <Text style={{ fontSize: 16 }}>
+                จำนวน Partner ที่ต้องการ: {item.partnerWantQty || 0} คน
+              </Text>
+              <Text style={{ fontSize: 16 }}>
                 ชื่อลูกค้า: {item.customerName}
               </Text>
               <Text style={{ fontSize: 16 }}>Level: {item.customerLevel}</Text>
-              <Text style={{ fontSize: 16 }}>
-                ประเภทที่ต้องการ: {item.partnerRequest}
-              </Text>
               <Text style={{ fontSize: 16 }}>จังหวัด: {item.provinceName}</Text>
               <Text style={{ fontSize: 16 }}>
-                เขต/อำเภอ: {item.districtName}
+                เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
               </Text>
             </View>
           </View>
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>
-                สถานะที่นัดพบ: {item.placeMeeting}
+                สถานะที่นัดหมาย: {item.placeMeeting}
               </Text>
               <Text style={{ fontSize: 16 }}>
-                เบอร์ติดต่อ: {item.customerPhone}
+                เบอร์โทร: {item.customerPhone}
               </Text>
               <Text style={{ fontSize: 16 }}>
-                หมายเหตุ: {item.customerRemark}
+                รายละเอียดเพิ่มเติม: {item.customerRemark}
               </Text>
             </View>
           </View>
@@ -164,7 +163,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           )}
           {partnerList.length > 0 && (
             <View>
-              <Text>แสดงรายชื่อ Partner</Text>
+              <Text>แสดงรายชื่อ Partner ที่ลูกค้าเลือก</Text>
               <ScrollView horizontals showsHorizontalScrollIndicator={false}>
                 {partnerList.map((pObj, index) => (
                   <View
@@ -175,6 +174,8 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                       marginTop: 10,
                       alignSelf: "center",
                       borderColor: "gray",
+                      alignContent: "center",
+                      alignItems: "center",
                     }}
                   >
                     <Image
@@ -183,11 +184,14 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                         width: 150,
                         height: 150,
                       }}
+                      key={`img_${pObj.id}`}
                     />
-                    <Text>ชื่อ Partner: {pObj.partnerName}</Text>
-                    <Text>เบอร์โทรศัพท์: {pObj.telephone}</Text>
-                    <Text>ราคาที่เสนอ: {pObj.amount}</Text>
-
+                    <View style={{ alignSelf: "center" }}>
+                      <Text>ชื่อ Partner: {pObj.partnerName}</Text>
+                      <Text>เบอร์โทรศัพท์: {pObj.telephone}</Text>
+                      <Text>ราคาที่เสนอ: {pObj.amount}</Text>
+                      <Text>สถานะ: {pObj.selectStatusText}</Text>
+                    </View>
                     <View style={{ alignItems: "center" }}>
                       <Text
                         style={{

@@ -2,6 +2,7 @@ import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
 import PostListAllScreen from "./postListAll"
+import AdminDashboard from "./adminDashboard"
 import DetailTaskScreen from "./detailTask"
 import VerifyPaymentSlipScreen from "./verifyPaymentSlip"
 
@@ -12,6 +13,19 @@ const Stack = createStackNavigator()
 const AdminTaskNavigator = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        name="Admin-Dashboard"
+        component={AdminDashboard}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#ff2fe6",
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="โพสท์ของลูกค้าทั้งหมด" {...props} />,
+        }}
+        initialParams={{ partnerType: "all" }}
+      />
       <Stack.Screen
         name="Post-List-All"
         component={PostListAllScreen}

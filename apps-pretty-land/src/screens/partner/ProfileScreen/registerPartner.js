@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Alert,
   ImageBackground,
+  ScrollView,
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
@@ -90,111 +91,115 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ alignItems: "center" }}>
-          <Text style={styles.textFormInfo}>จังหวัดที่รับงาน</Text>
-          <Text style={{ marginBottom: 5 }}>(Ways to get a job)</Text>
-        </View>
-        <View style={{ width: "80%", alignSelf: "center" }}>
-          <Text style={{ fontSize: 16, padding: 5 }}>Line Id (optional)</Text>
-          <View style={styles.formControl}>
-            <GetIcon type="fa5" name="line" />
-            <TextInput
-              value={`${lineId}`}
-              onChangeText={(value) => setLineId(value)}
-              style={styles.textInput}
-              placeholder="LINE ID"
-            />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={{ alignItems: "center" }}>
+            <Text style={styles.textFormInfo}>จังหวัดที่รับงาน</Text>
+            <Text style={{ marginBottom: 5 }}>(Ways to get a job)</Text>
           </View>
-          <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>
-            เบอร์โทรศัพท์
-          </Text>
-          <View style={styles.formControl}>
-            <GetIcon type="fa" name="mobile-phone" />
-            <TextInput
-              value={`${mobile}`}
-              onChangeText={(value) => setMobile(value)}
-              style={styles.textInput}
-              placeholder="เบอร์โทรศัพท์"
-              keyboardType="numeric"
-            />
-          </View>
-          <Text style={{ color: "#123456", marginTop: 5 }}>
-            * เบอร์โทรศัพท์จะไม่แสดงให้ลูกค้าเห็น
-          </Text>
-          <View style={{ alignSelf: "center" }}>
-            <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
-              จังหวัดที่รับงาน
-            </Text>
-            <DropDownPicker
-              placeholder="-- เลือกจังหวัด --"
-              open={openSelectProvince}
-              setOpen={setOpenSelectProvince}
-              value={province}
-              setValue={setProvince}
-              items={provinceList}
-              setItems={setProvinceList}
-              textStyle={{ fontSize: 18 }}
-              searchable={false}
-              zIndex={4}
-              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-            />
-
+          <View style={{ width: "80%", alignSelf: "center" }}>
+            <Text style={{ fontSize: 16, padding: 5 }}>Line Id (optional)</Text>
+            <View style={styles.formControl}>
+              <GetIcon type="fa5" name="line" />
+              <TextInput
+                value={`${lineId}`}
+                onChangeText={(value) => setLineId(value)}
+                style={styles.textInput}
+                placeholder="LINE ID"
+              />
+            </View>
             <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>
-              อำเภอ
+              เบอร์โทรศัพท์
             </Text>
-            <DropDownPicker
-              placeholder="-- เลือก เขต/อำเภอ --"
-              open={openSelectDistrict}
-              setOpen={setOpenSelectDistrict}
-              value={district}
-              setValue={setDistrict}
-              items={getDistrictList(province)}
-              setItems={setDistrictList}
-              searchable={false}
-              textStyle={{ fontSize: 18 }}
-              zIndex={3}
-              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-            />
-            {type4 && (
-              <View>
-                <View style={styles.formControl}>
-                  <GetIcon type="mi" name="home-work" />
-                  <TextInput
-                    value={`${address}`}
-                    onChangeText={(value) => setAddress(value)}
-                    style={styles.textInput}
-                    placeholder="คอนโด/ตึก/หมู่บ้าน"
-                  />
+            <View style={styles.formControl}>
+              <GetIcon type="fa" name="mobile-phone" />
+              <TextInput
+                value={`${mobile}`}
+                onChangeText={(value) => setMobile(value)}
+                style={styles.textInput}
+                placeholder="เบอร์โทรศัพท์"
+                keyboardType="numeric"
+              />
+            </View>
+            <Text style={{ color: "#123456", marginTop: 5 }}>
+              * เบอร์โทรศัพท์จะไม่แสดงให้ลูกค้าเห็น
+            </Text>
+            <View style={{ alignSelf: "center" }}>
+              <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
+                จังหวัดที่รับงาน
+              </Text>
+              <DropDownPicker
+                placeholder="-- เลือกจังหวัด --"
+                open={openSelectProvince}
+                setOpen={setOpenSelectProvince}
+                value={province}
+                setValue={setProvince}
+                items={provinceList}
+                setItems={setProvinceList}
+                textStyle={{ fontSize: 18 }}
+                searchable={false}
+                zIndex={4}
+                selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+                listMode="SCROLLVIEW"
+              />
+
+              <Text style={{ fontSize: 16, padding: 5, marginTop: 5 }}>
+                อำเภอ
+              </Text>
+              <DropDownPicker
+                placeholder="-- เลือก เขต/อำเภอ --"
+                open={openSelectDistrict}
+                setOpen={setOpenSelectDistrict}
+                value={district}
+                setValue={setDistrict}
+                items={getDistrictList(province)}
+                setItems={setDistrictList}
+                searchable={false}
+                textStyle={{ fontSize: 18 }}
+                zIndex={3}
+                selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+                listMode="SCROLLVIEW"
+              />
+              {type4 && (
+                <View>
+                  <View style={styles.formControl}>
+                    <GetIcon type="mi" name="home-work" />
+                    <TextInput
+                      value={`${address}`}
+                      onChangeText={(value) => setAddress(value)}
+                      style={styles.textInput}
+                      placeholder="คอนโด/ตึก/หมู่บ้าน"
+                    />
+                  </View>
+                  <Text style={{ color: "#123456", marginVertical: 5 }}>
+                    * สำหรับประเภทนวดแผนไทย
+                  </Text>
                 </View>
-                <Text style={{ color: "#123456", marginVertical: 5 }}>
-                  * สำหรับประเภทนวดแผนไทย
-                </Text>
-              </View>
-            )}
-            <Button
-              title="ถัดไป"
-              iconLeft
-              icon={
-                <AntDesign
-                  name="bank"
-                  color="white"
-                  size={24}
-                  style={{ marginHorizontal: 15 }}
-                />
-              }
-              buttonStyle={{
-                backgroundColor: "#65A3E1",
-                marginTop: 20,
-                borderRadius: 25,
-                paddingHorizontal: 15,
-                height: 45,
-                borderWidth: 0.5,
-                marginBottom: 20,
-              }}
-              onPress={() => handleNextData()}
-            />
+              )}
+              <Button
+                title="ถัดไป"
+                iconLeft
+                icon={
+                  <AntDesign
+                    name="bank"
+                    color="white"
+                    size={24}
+                    style={{ marginHorizontal: 15 }}
+                  />
+                }
+                buttonStyle={{
+                  backgroundColor: "#65A3E1",
+                  marginTop: 20,
+                  borderRadius: 25,
+                  paddingHorizontal: 15,
+                  height: 45,
+                  borderWidth: 0.5,
+                  marginBottom: 20,
+                }}
+                onPress={() => handleNextData()}
+              />
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </ImageBackground>
   )

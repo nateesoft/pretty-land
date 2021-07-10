@@ -38,7 +38,7 @@ export const saveMemberRegister = (member, navigation) => {
     })
 }
 
-export const saveNewPosts = (postData, navigation) => {
+export const saveNewPosts = (postData) => {
   const newId = uuid.v4()
   const saveData = {
     id: newId,
@@ -47,49 +47,10 @@ export const saveNewPosts = (postData, navigation) => {
     ...postData,
   }
   firebase.database().ref(`posts/${newId}`).set(saveData)
-  navigation.navigate("Partner-Category")
 }
 
 export const updatePosts = (postId, data) => {
   firebase.database().ref(`posts/${postId}`).update(data)
-}
-
-export const saveProvincesGroupPostPartner = (data, addNumber) => {
-  const { province, provinceName, partnerType } = data
-  const newUpdateData = {
-    provinceId: province,
-    provinceName: provinceName,
-    partner1: partnerType === AppConfig.PartnerType.type1 ? addNumber : 0,
-    partner2: partnerType === AppConfig.PartnerType.type2 ? addNumber : 0,
-    partner3: partnerType === AppConfig.PartnerType.type3 ? addNumber : 0,
-    // partner4: partnerType === AppConfig.PartnerType.type4 ? addNumber : 0,
-  }
-  firebase
-    .database()
-    .ref(`group_posts/${province}`)
-    .once("value", (data) => {
-      if (data.numChildren() > 0) {
-        const updateData = {}
-        if (partnerType === AppConfig.PartnerType.type1) {
-          updateData.partner1 = parseInt(data.val().partner1) + addNumber
-        }
-        if (partnerType === AppConfig.PartnerType.type2) {
-          updateData.partner2 = parseInt(data.val().partner2) + addNumber
-        }
-        if (partnerType === AppConfig.PartnerType.type3) {
-          updateData.partner3 = parseInt(data.val().partner3) + addNumber
-        }
-        // if (partnerType === AppConfig.PartnerType.type4) {
-        //   updateData.partner4 = parseInt(data.val().partner4) + addNumber
-        // }
-        firebase.database().ref(`group_posts/${province}`).update(updateData)
-      } else {
-        firebase
-          .database()
-          .ref(`group_posts/${province}`)
-          .set({ ...newUpdateData })
-      }
-    })
 }
 
 export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
@@ -99,6 +60,7 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
   updatePosts(postId, {
     status: AppConfig.PostsStatus.waitCustomerSelectPartner,
     statusText: "รอลูกค้าเลือกผู้ร่วมงาน",
+    sys_update_date: new Date().toUTCString(),
   })
 
   // update partnerSelect

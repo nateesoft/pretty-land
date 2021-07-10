@@ -11,6 +11,7 @@ import {
   ImageBackground,
 } from "react-native"
 import { Video } from "expo-av"
+
 import {
   FontAwesome,
   Feather,
@@ -29,6 +30,7 @@ import FemaleSimple from "../../../../assets/avatar/1.png"
 import MaleSimple from "../../../../assets/avatar/2.png"
 import OtherSimple from "../../../../assets/avatar/3.png"
 import { Button } from "react-native-elements"
+import { Platform } from "react-native"
 
 const ProfileHomeScreen = ({ navigation, route }) => {
   const { signOut } = useContext(AuthContext)
@@ -60,7 +62,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       if (!data.image) {
         if (data.sex === "female") {
@@ -91,8 +93,6 @@ const ProfileHomeScreen = ({ navigation, route }) => {
           : "รออนุมัติข้อมูล"
       )
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (
@@ -210,24 +210,18 @@ const ProfileHomeScreen = ({ navigation, route }) => {
           {videoUrl && (
             <View
               style={{
-                flex: 1,
-                flexDirection: "row",
-                padding: 10,
-                marginTop: 10,
-                alignSelf: "center",
+                marginTop: 5,
+                alignItems: "center",
               }}
             >
               <Video
                 ref={video}
-                style={styles.video}
+                style={{ width: 300, height: 250 }}
                 source={{ uri: videoUrl }}
                 useNativeControls
                 resizeMode="contain"
                 isLooping
-                onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-              >
-                <ActivityIndicator style={styles.video} size="large" />
-              </Video>
+              />
             </View>
           )}
 
@@ -394,12 +388,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 20,
     opacity: 1,
-  },
-  video: {
-    alignSelf: "center",
-    width: 350,
-    height: 300,
-    borderRadius: 25,
   },
   imageBg: {
     flex: 1,

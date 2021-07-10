@@ -7,6 +7,8 @@ import { LogoTitle } from "../../../components/Header"
 const Stack = createStackNavigator()
 
 const ContactAdminNavigator = ({ navigation, route }) => {
+  const { userId } = route.params
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -18,10 +20,9 @@ const ContactAdminNavigator = ({ navigation, route }) => {
             backgroundColor: "#ff2fe6",
           },
           headerTintColor: "white",
-          headerTitle: (props) => (
-            <LogoTitle title="Pretty Land" {...props} />
-          ),
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
+        initialParams={{ userId }}
       />
     </Stack.Navigator>
   )

@@ -84,16 +84,13 @@ const WorkDetailScreen = ({ navigation, route }) => {
     })
   }
 
-  const partnerMeetingCustomer = (partnerId) => {
+  const startWorking = () => {
     firebase
       .database()
-      .ref(`posts/${item.id}/partnerSelect/${partnerId}`)
+      .ref(`posts/${item.id}`)
       .update({
-        selectStatus: AppConfig.PostsStatus.customerMeet,
-        selectStatusText: "ปฏิบัติงาน",
-        partnerStatus: AppConfig.PostsStatus.partnerStartWork,
-        partnerStatusText: "Partner กดเริ่มงาน",
-        partnerStart: new Date().toUTCString(),
+        status: AppConfig.PostsStatus.startWork,
+        statusText: "เริ่มปฏิบัติงาน",
         sys_update_date: new Date().toUTCString(),
         start_work_date: new Date().toUTCString(),
       })
@@ -178,7 +175,6 @@ const WorkDetailScreen = ({ navigation, route }) => {
           <View>
             <Text>โหมดงาน: {item.partnerRequest}</Text>
             <Text>จังหวัด: {item.provinceName}</Text>
-            <Text>เขต/อำเภอ: {item.districtName}</Text>
             <Text>
               วันที่แจ้งรับงาน:{" "}
               {moment(item.sys_create_date).format("D MMM YYYY")}
@@ -227,10 +223,10 @@ const WorkDetailScreen = ({ navigation, route }) => {
                 margin: 5,
                 backgroundColor: "green",
                 paddingHorizontal: 20,
-                borderRadius: 25,
+                borderRadius: 5,
               }}
-              title="เริ่มทำงาน"
-              onPress={() => partnerMeetingCustomer(userId)}
+              title="กดเริ่มงาน"
+              onPress={() => startWorking()}
             />
           )}
         {partner.partnerStatus === AppConfig.PostsStatus.partnerStartWork && (

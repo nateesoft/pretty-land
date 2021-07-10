@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   Text,
-  Image,
   TextInput,
   Alert,
   ImageBackground,
@@ -18,9 +17,7 @@ import { FontAwesome } from "react-native-vector-icons"
 
 import { AppConfig } from "../../Constants"
 import { GetIcon } from "../../components/GetIcons"
-import bg from "../../../assets/login.png"
 import bgImage from "../../../assets/bg.png"
-
 import { saveMemberRegister } from "../../apis"
 
 const sexData = [
@@ -115,13 +112,6 @@ const RegisterLoginForm = ({ navigation, route }) => {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <View style={styles.topicHeader}>
-          <Image style={styles.image} source={bg} />
-          <Text style={styles.textFormInfo}>ลงทะเบียนผู้ร่วมงาน</Text>
-          <Text style={{ marginBottom: 10, fontWeight: "bold" }}>
-            (Register)
-          </Text>
-        </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View style={{ width: "80%", alignSelf: "center" }}>
@@ -253,9 +243,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
                   placeholder="สัดส่วน 32-24-35 (Stature)"
                 />
               </View>
-              <Text style={{ fontSize: 16, padding: 5 }}>
-                น้ำหนัก (Weight)
-              </Text>
+              <Text style={{ fontSize: 16, padding: 5 }}>น้ำหนัก (Weight)</Text>
               {!weight && (
                 <Text style={{ color: "red" }}>ระบุข้อมูลน้ำหนัก</Text>
               )}
@@ -271,31 +259,31 @@ const RegisterLoginForm = ({ navigation, route }) => {
               </View>
             </View>
           </View>
+          <View style={styles.buttonFooter}>
+            <Button
+              title="บันทึกข้อมูล"
+              iconLeft
+              icon={
+                <AntDesign
+                  name="save"
+                  color="white"
+                  size={24}
+                  style={{ marginHorizontal: 8 }}
+                />
+              }
+              buttonStyle={{
+                backgroundColor: "#ff2fe6",
+                marginTop: 20,
+                borderRadius: 25,
+                width: 250,
+                paddingHorizontal: 15,
+                height: 45,
+                borderWidth: 0.5,
+              }}
+              onPress={() => saveAndGoLoginForm()}
+            />
+          </View>
         </ScrollView>
-        <View style={styles.buttonFooter}>
-          <Button
-            title="บันทึกข้อมูล"
-            iconLeft
-            icon={
-              <AntDesign
-                name="save"
-                color="white"
-                size={24}
-                style={{ marginHorizontal: 8 }}
-              />
-            }
-            buttonStyle={{
-              backgroundColor: "#ff2fe6",
-              marginTop: 20,
-              borderRadius: 25,
-              width: 250,
-              paddingHorizontal: 15,
-              height: 45,
-              borderWidth: 0.5,
-            }}
-            onPress={() => saveAndGoLoginForm()}
-          />
-        </View>
       </SafeAreaView>
     </ImageBackground>
   )
@@ -383,6 +371,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 20,
   },
 })
 

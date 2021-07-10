@@ -10,13 +10,14 @@ import {
 } from "react-native"
 // import { Video } from "expo-av"
 import { AntDesign } from "@expo/vector-icons"
-import { Button } from "react-native-elements/dist/buttons/Button"
+import { Button } from "react-native-elements"
 import * as Progress from "react-native-progress"
 import { AirbnbRating } from "react-native-elements"
 
 import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../Constants"
 import bgImage from "../../../../assets/bg.png"
+import { Alert } from "react-native"
 
 export default function PartnerImage({ navigation, route }) {
   const { postItem, partnerItem } = route.params
@@ -42,6 +43,18 @@ export default function PartnerImage({ navigation, route }) {
         selectStatus: AppConfig.PostsStatus.customerConfirm,
         selectStatusText: "ลูกค้าคอนเฟิร์ม รอชำระเงิน",
         sys_create_date: new Date().toUTCString(),
+      })
+    navigation.navigate("Partner-List-Select")
+  }
+
+  const cancelSelectPartner = () => {
+    firebase
+      .database()
+      .ref(`posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`)
+      .update({
+        selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
+        selectStatusText: "เสนอรับงาน",
+        sys_update_date: new Date().toUTCString(),
       })
     navigation.navigate("Partner-List-Select")
   }
@@ -78,7 +91,6 @@ export default function PartnerImage({ navigation, route }) {
       snapshot.forEach((item) => {
         count = count + 1
         const data = { ...item.val() }
-        console.log(data)
         if (data.star === 5) {
           r5 = r5 + 1
         }
@@ -138,9 +150,7 @@ export default function PartnerImage({ navigation, route }) {
     const ref = firebase.database().ref(`partner_star/${partnerItem.partnerId}`)
     ref.once("value", (snapshot) => {
       if (snapshot.numChildren()) {
-        getStarFromPosts(snapshot).then((result) => {
-          console.log(result)
-        })
+        getStarFromPosts(snapshot).catch((err) => Alert.alert(err))
       }
     })
   }, [])
@@ -238,17 +248,29 @@ export default function PartnerImage({ navigation, route }) {
               onPress={() => onPressSelectPartner()}
             />
           ) : (
-            <Text
-              style={{ fontSize: 20, backgroundColor: "yellow", marginTop: 10 }}
-            >
-              status: คุณเลือก Partner คนนี้แล้ว
-            </Text>
+            <View>
+              <Text
+                style={{
+                  fontSize: 20,
+                  backgroundColor: "yellow",
+                  marginTop: 10,
+                }}
+              >
+                status: คุณเลือก Partner คนนี้แล้ว
+              </Text>
+              <Button
+                title="ยกเลิกการเลือก"
+                buttonStyle={{ backgroundColor: "red", borderRadius: 5, margin: 5 }}
+                onPress={()=>cancelSelectPartner()}
+              />
+            </View>
           )}
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {images.map((item, index) =>
               item.url ? (
                 <TouchableNativeFeedback
                   onPress={() => onPreviewImageList(index)}
+                  key={`t_${item.partnerId}_${index}`}
                 >
                   <View
                     style={{
@@ -259,7 +281,7 @@ export default function PartnerImage({ navigation, route }) {
                     }}
                   >
                     <Image
-                      key={item + index}
+                      key={`img_${item.partnerId}_${index}`}
                       source={{ uri: item.url }}
                       style={styles.image}
                     />
@@ -272,17 +294,6 @@ export default function PartnerImage({ navigation, route }) {
             )}
           </ScrollView>
         </View>
-        {/* <View style={styles.container}>
-          <Video
-            ref={video}
-            style={styles.video}
-            source={ImgVideo}
-            useNativeControls
-            resizeMode="contain"
-            isLooping
-            onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-          />
-        </View> */}
       </ScrollView>
     </ImageBackground>
   )

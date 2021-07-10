@@ -16,7 +16,7 @@ import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 import bgImage from "../../../../assets/bg.png"
-import { updatePosts, saveProvincesGroupPostPartner } from "../../../apis"
+import { updatePosts } from "../../../apis"
 
 const PostListScreen = ({ navigation, route }) => {
   const { userId } = route.params
@@ -31,7 +31,7 @@ const PostListScreen = ({ navigation, route }) => {
     } else if (status === AppConfig.PostsStatus.waitCustomerPayment) {
       navigation.navigate("Payment-Form", { item, userId })
     } else {
-      navigation.navigate("Review-Task", { item, userId })
+      navigation.navigate("Review-Task", { postDetail: item, userId })
     }
   }
 
@@ -44,6 +44,7 @@ const PostListScreen = ({ navigation, route }) => {
         borderRadius: 8,
         marginVertical: 5,
       }}
+      underlayColor="pink"
     >
       <Avatar source={{ uri: item.partnerImage }} size={128} />
       <ListItem.Content style={{ marginLeft: 10 }}>
@@ -80,6 +81,7 @@ const PostListScreen = ({ navigation, route }) => {
           if (
             item.status !== AppConfig.PostsStatus.notApprove &&
             item.status !== AppConfig.PostsStatus.customerCancelPost &&
+            item.status !== AppConfig.PostsStatus.closeJob &&
             item.status !== AppConfig.PostsStatus.postTimeout
           ) {
             const date1 = Moment()
@@ -110,15 +112,6 @@ const PostListScreen = ({ navigation, route }) => {
                     "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
                   sys_update_date: new Date().toUTCString(),
                 })
-                // remove from group partner request
-                saveProvincesGroupPostPartner(
-                  {
-                    province: item.province,
-                    provinceName: item.provinceName,
-                    partnerType: item.partnerRequest,
-                  },
-                  -1
-                )
               }
             } else {
               return item
@@ -138,9 +131,7 @@ const PostListScreen = ({ navigation, route }) => {
     >
       <Text style={styles.textTopic}>แสดงรายการที่โพสท์</Text>
       <View style={styles.container}>
-        {filterList.length === 0 && (
-          <CardNotfound text="ไม่พบข้อมูลการโพสท์" />
-        )}
+        {filterList.length === 0 && <CardNotfound text="ไม่พบข้อมูลการโพสท์" />}
         {filterList.length > 0 && (
           <FlatList
             keyExtractor={(item) => item.id.toString()}
@@ -175,12 +166,6 @@ const styles = StyleSheet.create({
     color: "white",
     backgroundColor: "#ff2fe6",
     padding: 10,
-  },
-  btnNewPost: {
-    margin: 5,
-    borderRadius: 75,
-    height: 45,
-    width: 250,
   },
   imageBg: {
     flex: 1,

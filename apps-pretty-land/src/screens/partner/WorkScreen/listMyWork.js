@@ -18,6 +18,7 @@ import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
 import { AppConfig } from "../../../Constants"
+import { Alert } from "react-native"
 
 const ListMyWorkScreen = ({ navigation, route }) => {
   const { userId } = route.params
@@ -32,6 +33,29 @@ const ListMyWorkScreen = ({ navigation, route }) => {
     }
   }
 
+  const getListMyWork = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const posts = snapshotToArray(snapshot)
+      let myWorkList = []
+      posts.forEach((item) => {
+        const data = item.partnerSelect
+        for (let key in data) {
+          const obj = data[key]
+          if (
+            obj.selectStatus === AppConfig.PostsStatus.customerPayment &&
+            (item.status === AppConfig.PostsStatus.adminConfirmPayment ||
+              item.status === AppConfig.PostsStatus.startWork) &&
+            obj.partnerId === userId
+          ) {
+            myWorkList.push(item)
+          }
+        }
+      })
+      setFilterList(myWorkList)
+      resolve(true)
+    })
+  }
+
   const renderItem = ({ item }) => (
     <ListItem
       bottomDivider
@@ -41,13 +65,13 @@ const ListMyWorkScreen = ({ navigation, route }) => {
         borderRadius: 8,
         marginVertical: 5,
       }}
+      underlayColor="pink"
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
         {item.status !== AppConfig.PostsStatus.adminConfirmPayment && (
-          <View style={{marginBottom: 10}}>
+          <View style={{ marginBottom: 10 }}>
             <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
             <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
-            <ListItem.Title>เขต/อำเภอ: {item.districtName}</ListItem.Title>
             <ListItem.Title>
               วันที่แจ้งรับงาน:{" "}
               {moment(item.sys_create_date).format("D MMM YYYY")}
@@ -65,7 +89,6 @@ const ListMyWorkScreen = ({ navigation, route }) => {
           <View>
             <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
             <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
-            <ListItem.Title>เขต/อำเภอ: {item.districtName}</ListItem.Title>
             <ListItem.Title>
               วันที่แจ้งรับงาน:{" "}
               {moment(item.sys_create_date).format("D MMM YYYY")}
@@ -103,14 +126,9 @@ const ListMyWorkScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref("posts")
-      .orderByChild(`partnerSelect/${userId}/partnerId`)
-      .equalTo(userId)
+    const ref = firebase.database().ref("posts")
     const listener = ref.on("value", (snapshot) => {
-      const posts = snapshotToArray(snapshot)
-      setFilterList(posts)
+      getListMyWork(snapshot).catch((err) => Alert.alert(err))
     })
 
     return () => ref.off("value", listener)

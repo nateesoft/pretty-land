@@ -10,28 +10,20 @@ import {
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
-import DropDownPicker from "react-native-dropdown-picker"
 
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
-import { getCountryList } from "../../../data/apis"
 
 import firebase from "../../../../util/firebase"
-import { snapshotToArrayProvinceGroup } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const AllTaskListScreen = ({ navigation, route }) => {
   const { userId } = route.params
   const [refreshing, setRefreshing] = useState(false)
   const [filterList, setFilterList] = useState([])
-
-  const [openSelectCountry, setOpenSelectCountry] = useState(false)
-  const [country, setCountry] = useState("")
-  const [countryList, setCountryList] = useState(getCountryList())
   const [profile, setProfile] = useState({})
 
   const handleRefresh = () => {
-    console.log("handleRefresh")
   }
 
   const onPressOptions = (item) => {
@@ -50,6 +42,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
         marginVertical: 5,
         backgroundColor: null,
       }}
+      underlayColor="pink"
     >
       <ListItem.Content style={{ margin: 10 }}>
         <ListItem.Title
@@ -125,16 +118,6 @@ const AllTaskListScreen = ({ navigation, route }) => {
     ref.once("value", (snapshot) => {
       setProfile({ ...snapshot.val() })
     })
-  }, [])
-
-  useEffect(() => {
-    const ref = firebase.database().ref(`group_posts`)
-    const listener = ref.on("value", (snapshot) => {
-      const postsList = snapshotToArrayProvinceGroup(snapshot)
-      setFilterList(postsList)
-    })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (

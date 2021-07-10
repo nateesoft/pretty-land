@@ -3,11 +3,10 @@ import {
   StyleSheet,
   View,
   Image,
-  SafeAreaView,
+  TouchableNativeFeedback,
   Alert,
   ImageBackground,
   ScrollView,
-  TouchableNativeFeedback,
 } from "react-native"
 import { Video } from "expo-av"
 import { Button, Text } from "react-native-elements"
@@ -170,25 +169,21 @@ const MemberDetailScreen = ({ navigation, route }) => {
                   </TouchableNativeFeedback>
                 )}
                 {item.videoUrl && (
-                  <TouchableNativeFeedback
-                    onPress={() => onPreviewImageList(4)}
-                  >
-                    <View style={styles.mediaImageContainer}>
-                      <Video
-                        ref={video}
-                        style={styles.video}
-                        source={{ uri: item.videoUrl }}
-                        useNativeControls
-                        resizeMode="contain"
-                        isLooping
-                        onPlaybackStatusUpdate={(status) =>
-                          setStatus(() => status)
-                        }
-                      >
-                        <ActivityIndicator style={styles.video} size="large" />
-                      </Video>
-                    </View>
-                  </TouchableNativeFeedback>
+                  <View style={styles.mediaImageContainer}>
+                    <Video
+                      ref={video}
+                      style={styles.video}
+                      source={{ uri: item.videoUrl }}
+                      useNativeControls
+                      resizeMode="contain"
+                      isLooping
+                      onPlaybackStatusUpdate={(status) =>
+                        setStatus(() => status)
+                      }
+                    >
+                      <ActivityIndicator style={styles.video} size="large" />
+                    </Video>
+                  </View>
                 )}
               </ScrollView>
             </View>
@@ -202,6 +197,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
                 margin: 10,
               }}
             >
+              <Text style={{ fontSize: 16 }}>id: {item.id}</Text>
               <Text style={{ fontSize: 16 }}>
                 ชื่อ: {item.name || item.username}
               </Text>
@@ -403,7 +399,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
 })

@@ -124,26 +124,26 @@ const RegisterImageUpload = ({ navigation, route }) => {
   const uploadAllImageVideo = () => {
     setHideButtonUpload(true)
     if (imageFile1) {
-      uploadImageAsync(imageFile1, setImageUrl1, true)
+      uploadImageAsync(imageFile1, setImageUrl1, true, `${userId}_pic1`)
     }
     if (imageFile2) {
-      uploadImageAsync(imageFile2, setImageUrl2, false)
+      uploadImageAsync(imageFile2, setImageUrl2, false, `${userId}_pic2`)
     }
     if (imageFile3) {
-      uploadImageAsync(imageFile3, setImageUrl3, false)
+      uploadImageAsync(imageFile3, setImageUrl3, false, `${userId}_pic3`)
     }
     if (imageFile4) {
-      uploadImageAsync(imageFile4, setImageUrl4, false)
+      uploadImageAsync(imageFile4, setImageUrl4, false, `${userId}_pic4`)
     }
     if (imageFile5) {
-      uploadImageAsync(imageFile5, setImageUrl5, false)
+      uploadImageAsync(imageFile5, setImageUrl5, false, `${userId}_pic5`)
     }
     if (imageFile6) {
-      uploadImageAsync(imageFile6, setImageUrl6, false)
+      uploadImageAsync(imageFile6, setImageUrl6, false, `${userId}_video`)
     }
   }
 
-  async function uploadImageAsync(imageSource, updateUrl, isProfile) {
+  async function uploadImageAsync(imageSource, updateUrl, isProfile, fileName) {
     // Why are we using XMLHttpRequest? See:
     // https://github.com/expo/expo/issues/2402#issuecomment-443726662
     setUploadFinish("in_progress")
@@ -163,22 +163,18 @@ const RegisterImageUpload = ({ navigation, route }) => {
     const uploadToCloud = true // config upload image to cloud
 
     if (uploadToCloud) {
-      // const fileName = imageSource.substring(imageSource.lastIndexOf("/") + 1)
-      const fileName = uuid.v4()
       const ref = firebase
         .storage()
         .ref("images/member/partner")
         .child(fileName)
       const snapshot = await ref.put(blob)
-
-      // We're done with the blob, close and release it
-      blob.close()
-
       const url = await snapshot.ref.getDownloadURL()
       updateUrl(url)
       if (isProfile) {
         setImage(url)
       }
+      // We're done with the blob, close and release it
+      blob.close()
     } else {
       blob.close()
     }
