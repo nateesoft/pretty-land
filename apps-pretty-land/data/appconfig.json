@@ -1,0 +1,34 @@
+{
+  "fee_amount" : "100",
+  "line_contact_admin" : "https://lin.ee/DgRh5Mw",
+  "partner1" : {
+    "image_url" : "https://firebasestorage.googleapis.com/v0/b/pretty-land.appspot.com/o/images%2Fpartner1.jpg?alt=media&token=3133f733-4a8a-4fe0-978f-1df2a7ea84b0",
+    "label" : "พริตตี้ Event / Mc",
+    "name" : "พริตตี้ Event / Mc",
+    "type" : 1,
+    "value" : "พริตตี้ Event / Mc"
+  },
+  "partner2" : {
+    "image_url" : "https://firebasestorage.googleapis.com/v0/b/pretty-land.appspot.com/o/images%2Fpartner2.jpg?alt=media&token=2cc7e943-1d7e-4012-aed2-4e36501129ed",
+    "label" : "โคโยตี้ / งานเต้น",
+    "name" : "โคโยตี้ / งานเต้น",
+    "type" : 2,
+    "value" : "โคโยตี้ / งานเต้น"
+  },
+  "partner3" : {
+    "image_url" : "https://firebasestorage.googleapis.com/v0/b/pretty-land.appspot.com/o/images%2Fpartner3.jpg?alt=media&token=37eb5c37-091f-41dd-bf9f-774ef06184e7",
+    "label" : "พริตตี้ En / Env",
+    "name" : "พริตตี้ En / Env",
+    "type" : 3,
+    "value" : "พริตตี้ En / Env"
+  },
+  "partner4" : {
+    "image_url" : "https://firebasestorage.googleapis.com/v0/b/pretty-land.appspot.com/o/images%2Fpartner4.jpg?alt=media&token=a9f88168-fbe5-437a-a869-4774b5c28059",
+    "label" : "พริตตี้ นวดแผนไทย",
+    "name" : "พริตตี้ นวดแผนไทย",
+    "type" : 4,
+    "value" : "พริตตี้ นวดแผนไทย"
+  },
+  "quality_image_upload" : "default",
+  "quality_video_upload" : "default"
+}
