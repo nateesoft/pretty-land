@@ -10,7 +10,7 @@ import {
 
 /* import data */
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDocument } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 
@@ -52,7 +52,7 @@ const Category = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`appconfig`)
+    const ref = firebase.database().ref(getDocument(`appconfig`))
     ref.once("value", (snapshot) => {
       const dataItems = []
       const appconfig = snapshot.val()
@@ -66,7 +66,7 @@ const Category = ({ navigation, route }) => {
   }, [])
 
   useEffect(() => {
-    const ref = firebase.database().ref(`posts`)
+    const ref = firebase.database().ref(getDocument(`posts`))
     const listener = ref.on("value", (snapshot) => {
       getComputeGroup(snapshot).catch((err) => Alert.alert(err))
     })

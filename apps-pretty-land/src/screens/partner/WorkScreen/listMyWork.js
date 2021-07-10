@@ -7,6 +7,7 @@ import {
   Image,
   RefreshControl,
   ImageBackground,
+  Alert,
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
@@ -15,9 +16,8 @@ import moment from "moment"
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import { Alert } from "react-native"
 
 const ListMyWorkScreen = ({ navigation, route }) => {
   const { userId } = route.params
@@ -125,7 +125,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase.database().ref("posts")
+    const ref = firebase.database().ref(getDocument("posts"))
     const listener = ref.on("value", (snapshot) => {
       getListMyWork(snapshot).catch((err) => Alert.alert(err))
     })

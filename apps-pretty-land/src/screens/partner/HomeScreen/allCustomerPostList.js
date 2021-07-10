@@ -14,7 +14,7 @@ import Moment from "moment"
 
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDocument } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import { updatePosts } from "../../../apis"
@@ -120,7 +120,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts`)
+      .ref(getDocument(`posts`))
       .orderByChild("province")
       .equalTo(province)
     const listener = ref.on("value", (snapshot) => {

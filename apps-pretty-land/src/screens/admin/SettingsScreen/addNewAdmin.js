@@ -13,7 +13,7 @@ import uuid from "react-native-uuid"
 import DropDownPicker from "react-native-dropdown-picker"
 
 import { GetIcon } from "../../../components/GetIcons"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDocument } from "../../../../util"
 import firebase from "../../../../util/firebase"
 import bgImage from "../../../../assets/bg.png"
 
@@ -89,7 +89,7 @@ const AddNewAdminForm = ({ navigation, route }) => {
 
     firebase
       .database()
-      .ref(`members`)
+      .ref(getDocument(`members`))
       .orderByChild("username")
       .equalTo(username)
       .once("value", (snapshot) => {
@@ -97,7 +97,7 @@ const AddNewAdminForm = ({ navigation, route }) => {
         if (data.length === 0) {
           firebase
             .database()
-            .ref(`members/${dataNewAdmin.id}`)
+            .ref(getDocument(`members/${dataNewAdmin.id}`))
             .set(dataNewAdmin)
           Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว")
           setName("")

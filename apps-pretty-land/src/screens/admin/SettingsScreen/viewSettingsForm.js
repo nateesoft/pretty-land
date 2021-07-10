@@ -4,6 +4,7 @@ import { Button, Text, Input } from "react-native-elements"
 import { FontAwesome } from "react-native-vector-icons"
 
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
 import { Alert } from "react-native"
 
@@ -14,7 +15,7 @@ const ViewSettingForm = ({ navigation, route }) => {
   const [lineContact, setLineContact] = useState("")
 
   useEffect(() => {
-    const ref = firebase.database().ref("appconfig")
+    const ref = firebase.database().ref(getDocument("appconfig"))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setFeeAmount(data.fee_amount || null)
@@ -30,7 +31,7 @@ const ViewSettingForm = ({ navigation, route }) => {
       return
     }
 
-    firebase.database().ref("appconfig").update({
+    firebase.database().ref(getDocument("appconfig")).update({
       fee_amount: feeAmount,
     })
     Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว")
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
   imageBg: {

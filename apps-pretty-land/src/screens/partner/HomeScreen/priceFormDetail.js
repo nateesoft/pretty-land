@@ -4,7 +4,6 @@ import {
   View,
   TextInput,
   Alert,
-  ScrollView,
   SafeAreaView,
   ImageBackground,
 } from "react-native"
@@ -13,6 +12,7 @@ import { Button, Text } from "react-native-elements"
 import bgImage from "../../../../assets/bg.png"
 import { partnerAcceptJobWaitCustomerReview } from "../../../apis"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const PriceFormDetail = ({ navigation, route }) => {
@@ -22,8 +22,10 @@ const PriceFormDetail = ({ navigation, route }) => {
 
   const [getWork, setGetWork] = useState(false)
   const workHide =
-  postDetail.partnerQty -
-      (postDetail.partnerSelect ? Object.keys(postDetail.partnerSelect).length : 0) ===
+    postDetail.partnerQty -
+      (postDetail.partnerSelect
+        ? Object.keys(postDetail.partnerSelect).length
+        : 0) ===
     0
 
   const partnerQuatation = () => {
@@ -41,7 +43,7 @@ const PriceFormDetail = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts/${postDetail.id}/partnerSelect/${profile.id}`)
+      .ref(getDocument(`posts/${postDetail.id}/partnerSelect/${profile.id}`))
     ref.once("value", (snapshot) => {
       const checkItem = { ...snapshot.val() }
       const acceptAlready = checkItem.partnerId === profile.id

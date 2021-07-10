@@ -11,13 +11,14 @@ import { Button } from "react-native-elements"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 
 export default function PartnerListItem(props) {
   const { items, status, postId, navigation } = props
   const [showButton, setShowButton] = useState("show")
 
   const saveStartWork = () => {
-    firebase.database().ref(`posts/${postId}`).update({
+    firebase.database().ref(getDocument(`posts/${postId}`)).update({
       status: AppConfig.PostsStatus.startWork,
       statusText: "เริ่มปฏิบัติงาน",
       sys_update_date: new Date().toUTCString(),
@@ -27,35 +28,6 @@ export default function PartnerListItem(props) {
   }
 
   const saveToCloseJob = () => {
-    // firebase
-    //   .database()
-    //   .ref(`posts/${postId}/partnerSelect/${partnerId}`)
-    //   .update({
-    //     selectStatus: AppConfig.PostsStatus.closeJob,
-    //     selectStatusText: "ปฏิบัติงานเสร็จแล้ว",
-    //     customerStatus: AppConfig.PostsStatus.customerCloseJob,
-    //     customerStatusText: "Customer ปิดงาน",
-    //     customer_close_date: new Date().toUTCString(),
-    //     sys_update_date: new Date().toUTCString(),
-    //     star: rate,
-    //   })
-    // const ref = firebase.database().ref(`members/${partnerId}`)
-    // ref.once("value", (snapshot) => {
-    //   const pData = { ...snapshot.val() }
-    //   updateMember(pData.workIn, pData.workPoint, partnerId).then((result) => {
-    //     saveHistoryStar(partnerId, postId, rate).then((result) => {
-    //       navigation.navigate("Post-List")
-    //     })
-    //   })
-    // })
-    // if (post.partnerRequest === AppConfig.PartnerType.type4) {
-    //   // save all job
-    //   firebase.database().ref(`posts/${postId}`).update({
-    //     status: AppConfig.PostsStatus.closeJob,
-    //     statusText: "ปิดงาน Post นี้เรียบร้อย",
-    //     sys_update_date: new Date().toUTCString(),
-    //   })
-    // }
   }
 
   return (

@@ -21,6 +21,7 @@ import { getBankList, getBankName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const PaymentForm = ({ navigation, route }) => {
@@ -58,7 +59,7 @@ const PaymentForm = ({ navigation, route }) => {
 
   const getFeeAmountFromFirebase = () => {
     return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref("appconfig/fee_amount")
+      const ref = firebase.database().ref(getDocument("appconfig/fee_amount"))
       ref.once("value", (snapshot) => {
         const feeAmt = parseInt(snapshot.val())
         resolve(feeAmt)
@@ -67,7 +68,7 @@ const PaymentForm = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`posts/${item.id}/partnerSelect`)
+    const ref = firebase.database().ref(getDocument(`posts/${item.id}/partnerSelect`))
     ref.once("value", async (snapshot) => {
       const pAmount = await computeAmount(snapshot)
       const fAmount = await getFeeAmountFromFirebase()
@@ -150,7 +151,7 @@ const PaymentForm = ({ navigation, route }) => {
 
     const ref = firebase
       .storage()
-      .ref("images/member/customer/payment_slip")
+      .ref(getDocument("images/member/customer/payment_slip"))
       .child(item.id)
     const snapshot = await ref.put(blob)
 
@@ -173,7 +174,8 @@ const PaymentForm = ({ navigation, route }) => {
       transferAmount: transferAmount,
       sys_update_date: new Date().toUTCString(),
     }
-    firebase.database().ref(`posts/${item.id}`).update(dataPayment)
+    firebase.database().ref(getDocument(`posts/${item.id}`)).update(dataPayment)
+    
     navigate("Post-List")
   }
 
@@ -189,7 +191,10 @@ const PaymentForm = ({ navigation, route }) => {
           keyboardVerticalOffset={Platform.OS === "ios" ? 120 : 0}
         >
           <Text style={styles.textTopic}>โอนเงิน เพื่อชำระค่าบริการ</Text>
-          <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: 100}}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ marginBottom: 100 }}
+          >
             <View
               style={{
                 alignItems: "center",

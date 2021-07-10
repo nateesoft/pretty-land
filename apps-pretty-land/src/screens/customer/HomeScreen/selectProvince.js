@@ -15,6 +15,7 @@ import { getCountryList } from "../../../data/apis"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
 
 const SelectProvince = (props) => {
@@ -45,7 +46,7 @@ const SelectProvince = (props) => {
 
   const getPartnerQty = (value) => {
     return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(`members`)
+      const ref = firebase.database().ref(getDocument(`members`))
       ref.once("value", (snapshot) => {
         let count = 0
         snapshot.forEach((item) => {

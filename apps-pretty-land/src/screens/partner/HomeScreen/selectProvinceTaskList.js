@@ -17,6 +17,7 @@ import CardNotfound from "../../../components/CardNotfound"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 
 const SelectProvinceTaskList = ({ navigation, route }) => {
   const { item, profile, taskList } = route.params
@@ -27,7 +28,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
   const partnerConfrim = (posts) => {
     firebase
       .database()
-      .ref(`posts/${posts.id}/partnerSelect/${profile.id}`)
+      .ref(getDocument(`posts/${posts.id}/partnerSelect/${profile.id}`))
       .update({
         selectStatus: AppConfig.PostsStatus.customerConfirm,
         selectStatusText: "Partner แจ้งรับงาน รอลูกค้าขำระเงิน",
@@ -36,7 +37,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         character: profile.character,
       })
 
-    firebase.database().ref(`posts/${posts.id}`).update({
+    firebase.database().ref(getDocument(`posts/${posts.id}`)).update({
       status: AppConfig.PostsStatus.waitCustomerPayment,
       statusText: "รอลูกค้าชำระค่าบริการ",
       sys_update_date: new Date().toUTCString(),
@@ -48,14 +49,14 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
   const partnerReject = (posts) => {
     firebase
       .database()
-      .ref(`posts/${posts.id}/partnerSelect/${profile.id}`)
+      .ref(getDocument(`posts/${posts.id}/partnerSelect/${profile.id}`))
       .update({
         selectStatus: AppConfig.PostsStatus.partnerCancelWork,
         selectStatusText: "Partner ปฏิเสธงาน",
         sys_update_date: new Date().toUTCString(),
       })
 
-    firebase.database().ref(`posts/${posts.id}`).update({
+    firebase.database().ref(getDocument(`posts/${posts.id}`)).update({
       status: AppConfig.PostsStatus.closeJob,
       statusText: "Partner ปฏิเสธงาน",
       sys_update_date: new Date().toUTCString(),

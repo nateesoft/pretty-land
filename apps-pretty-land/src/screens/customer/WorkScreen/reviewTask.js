@@ -5,6 +5,7 @@ import {
   ImageBackground,
   ScrollView,
   SafeAreaView,
+  Alert,
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -15,8 +16,8 @@ import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import PartnerListItem from "./PartnerListItem"
-import { Alert } from "react-native"
 
 const ReviewTaskScreen = (props) => {
   const { navigation, route } = props
@@ -49,19 +50,25 @@ const ReviewTaskScreen = (props) => {
   }
 
   const saveToCloseJob = () => {
-    firebase.database().ref(`posts/${postDetail.id}`).update({
-      status: AppConfig.PostsStatus.closeJob,
-      statusText: "ปิดงาน Post นี้เรียบร้อย",
-      rate,
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`posts/${postDetail.id}`))
+      .update({
+        status: AppConfig.PostsStatus.closeJob,
+        statusText: "ปิดงาน Post นี้เรียบร้อย",
+        rate,
+        sys_update_date: new Date().toUTCString(),
+      })
 
     // save list star partner
     showPartnerList.map((item, index) => {
-      firebase.database().ref(`partner_star/${item.partnerId}/${postDetail.id}`).update({
-        star: rate,
-        sys_date: new Date().toUTCString(),
-      })
+      firebase
+        .database()
+        .ref(getDocument(`partner_star/${item.partnerId}/${postDetail.id}`))
+        .update({
+          star: rate,
+          sys_date: new Date().toUTCString(),
+        })
     })
 
     navigation.navigate("Post-List")

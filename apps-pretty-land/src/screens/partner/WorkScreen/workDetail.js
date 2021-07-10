@@ -6,6 +6,7 @@ import { MaterialIcons } from "@expo/vector-icons"
 import moment from "moment"
 
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 
@@ -18,7 +19,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
     return new Promise((resolve, reject) => {
       firebase
         .database()
-        .ref(`partner_star/${partnerId}/${item.id}`)
+        .ref(getDocument(`partner_star/${partnerId}/${item.id}`))
         .update({
           star: rate,
           sys_date: new Date().toUTCString(),
@@ -36,7 +37,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
     return new Promise((resolve, reject) => {
       firebase
         .database()
-        .ref(`members/${partnerId}`)
+        .ref(getDocument(`members/${partnerId}`))
         .update({
           workIn: parseInt(workIn) + 1,
           workPoint: parseInt(workPoint) + 10,
@@ -54,7 +55,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
     // update status post (for partner)
     firebase
       .database()
-      .ref(`posts/${item.id}/partnerSelect/${partnerId}`)
+      .ref(getDocument(`posts/${item.id}/partnerSelect/${partnerId}`))
       .update({
         selectStatus: AppConfig.PostsStatus.closeJob,
         selectStatusText: "ปิดงานเรียบร้อย",
@@ -66,14 +67,14 @@ const WorkDetailScreen = ({ navigation, route }) => {
 
     if (item.partnerRequest === AppConfig.PartnerType.type4) {
       // update partner close job
-      firebase.database().ref(`posts/${item.id}`).update({
+      firebase.database().ref(getDocument(`posts/${item.id}`)).update({
         selectStatus: AppConfig.PostsStatus.closeJob,
         selectStatusText: "ปิดงานเรียบร้อย",
         sys_update_date: new Date().toUTCString(),
       })
     }
 
-    const ref = firebase.database().ref(`members/${partnerId}`)
+    const ref = firebase.database().ref(getDocument(`members/${partnerId}`))
     ref.once("value", (snapshot) => {
       const pData = { ...snapshot.val() }
       updateMember(pData.workIn, pData.workPoint, partnerId).then((result) => {
@@ -87,7 +88,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
   const startWorking = () => {
     firebase
       .database()
-      .ref(`posts/${item.id}`)
+      .ref(getDocument(`posts/${item.id}`))
       .update({
         status: AppConfig.PostsStatus.startWork,
         statusText: "เริ่มปฏิบัติงาน",
@@ -101,7 +102,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
   const partnerMassageCancel = (partnerId) => {
     firebase
       .database()
-      .ref(`posts/${item.id}/partnerSelect/${partnerId}`)
+      .ref(getDocument(`posts/${item.id}/partnerSelect/${partnerId}`))
       .update({
         partnerStatus: AppConfig.PostsStatus.partnerCancelWork,
         partnerStatusText: "Partner แจ้งไม่รับงาน",
@@ -110,7 +111,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
         start_work_date: new Date().toUTCString(),
       })
 
-    firebase.database().ref(`posts/${item.id}`).update({
+    firebase.database().ref(getDocument(`posts/${item.id}`)).update({
       status: AppConfig.PostsStatus.postCancel,
       statusText: "Partner แจ้งไม่รับงาน",
       sys_update_date: new Date().toUTCString(),
@@ -122,7 +123,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
   const partnerMassageAccept = (partnerId) => {
     firebase
       .database()
-      .ref(`posts/${item.id}/partnerSelect/${partnerId}`)
+      .ref(getDocument(`posts/${item.id}/partnerSelect/${partnerId}`))
       .update({
         partnerStatus: AppConfig.PostsStatus.partnerAcceptWork,
         partnerStatusText: "Partner แจ้งรับงาน",
@@ -131,7 +132,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
         start_work_date: new Date().toUTCString(),
       })
 
-    firebase.database().ref(`posts/${item.id}`).update({
+    firebase.database().ref(getDocument(`posts/${item.id}`)).update({
       status: AppConfig.PostsStatus.waitAdminApprovePost,
       statusText: "รอ Admin อนุมัติโพสท์",
       sys_update_date: new Date().toUTCString(),
@@ -143,7 +144,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts/${item.id}/partnerSelect/${userId}`)
+      .ref(getDocument(`posts/${item.id}/partnerSelect/${userId}`))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setPartner(data)

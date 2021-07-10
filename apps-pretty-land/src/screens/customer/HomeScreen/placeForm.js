@@ -12,6 +12,7 @@ import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { getProvinceName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import bgImage from "../../../../assets/bg.png"
@@ -41,30 +42,28 @@ const PlaceForm = (props) => {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ สถานที่นัดพบ")
       return
     }
-    saveNewPosts(
-      {
-        customerId: userId,
-        partnerRequest,
-        partnerImage: item.image_url,
-        customerPhone: phone,
-        placeMeeting: place,
-        status: AppConfig.PostsStatus.customerNewPostDone,
-        statusText: "โพสท์ใหม่",
-        province,
-        provinceName: getProvinceName(province)[0],
-        customerRemark: remark,
-        customerLevel,
-        customerName,
-        startTime,
-        stopTime,
-        partnerWantQty,
-      }
-    )
+    saveNewPosts({
+      customerId: userId,
+      partnerRequest,
+      partnerImage: item.image_url,
+      customerPhone: phone,
+      placeMeeting: place,
+      status: AppConfig.PostsStatus.customerNewPostDone,
+      statusText: "โพสท์ใหม่",
+      province,
+      provinceName: getProvinceName(province)[0],
+      customerRemark: remark,
+      customerLevel,
+      customerName,
+      startTime,
+      stopTime,
+      partnerWantQty,
+    })
     navigation.navigate("Customer-Dashboard")
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
       const customer = { ...snapshot.val() }
       setCustomerLevel(customer.customerLevel)

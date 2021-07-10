@@ -11,13 +11,11 @@ import {
 import { Text } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
 
-import {
-  getCountryList,
-  getDistrictList,
-} from "../../../data/apis"
+import { getCountryList, getDistrictList } from "../../../data/apis"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import CardNotfound from "../../../components/CardNotfound"
 
 const SelectProvinceType4 = (props) => {
@@ -53,7 +51,7 @@ const SelectProvinceType4 = (props) => {
 
   const getPartnerQty = () => {
     return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(`members`)
+      const ref = firebase.database().ref(getDocument(`members`))
       ref.once("value", (snapshot) => {
         let count = 0
         let list = []

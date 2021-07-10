@@ -16,12 +16,12 @@ import * as ImagePicker from "expo-image-picker"
 import { Video } from "expo-av"
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
-import uuid from "react-native-uuid"
 
 import { AppConfig } from "../../../Constants"
 import bgImage from "../../../../assets/bg.png"
 import { Context as AuthContext } from "../../../context/AuthContext"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterImageUpload = ({ navigation, route }) => {
@@ -65,7 +65,10 @@ const RegisterImageUpload = ({ navigation, route }) => {
       status: AppConfig.MemberStatus.newRegister,
       statusText: AppConfig.MemberStatus.newRegisterMessage,
     }
-    firebase.database().ref(`members/${userId}`).update(dataUpdate)
+    firebase
+      .database()
+      .ref(getDocument(`members/${userId}`))
+      .update(dataUpdate)
     Alert.alert(
       "กระบวนการเสร็จสมบูรณ์",
       "อัพเดตข้อมูลเรียบร้อยแล้ว รอ Admin อนุมัติข้อมูล"
@@ -104,7 +107,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setUsername(data.username)
@@ -163,7 +166,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     if (uploadToCloud) {
       const ref = firebase
         .storage()
-        .ref("images/member/partner")
+        .ref(getDocument("images/member/partner"))
         .child(fileName)
       const snapshot = await ref.put(blob)
       const url = await snapshot.ref.getDownloadURL()

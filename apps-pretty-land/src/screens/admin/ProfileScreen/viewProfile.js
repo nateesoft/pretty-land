@@ -5,6 +5,7 @@ import { FontAwesome } from "react-native-vector-icons"
 import base64 from "react-native-base64"
 
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import bgImage from "../../../../assets/bg.png"
 
 const ViewProfileScreen = ({ navigation, route }) => {
@@ -40,7 +41,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
 
     firebase
       .database()
-      .ref(`members/${userId}`)
+      .ref(getDocument(`members/${userId}`))
       .update({
         password: base64.encode(newPassword),
       })
@@ -51,7 +52,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setUsername(data.username)
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
   textSubTopic: {

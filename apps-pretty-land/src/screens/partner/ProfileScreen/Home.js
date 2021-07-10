@@ -21,6 +21,7 @@ import {
 import Moment from "moment"
 
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { Context as AuthContext } from "../../../context/AuthContext"
 import bgImage from "../../../../assets/bg.png"
 import FemaleSimple from "../../../../assets/avatar/1.png"
@@ -56,7 +57,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       if (!data.image) {

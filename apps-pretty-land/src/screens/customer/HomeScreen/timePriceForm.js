@@ -12,6 +12,7 @@ import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { getProvinceName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import bgImage from "../../../../assets/bg.png"
@@ -20,7 +21,8 @@ import { AppConfig } from "../../../Constants"
 
 const TimePriceForm = (props) => {
   const { navigation, route } = props
-  const { item, userId, partnerRequest, province, partnerProfile } = route.params
+  const { item, userId, partnerRequest, province, partnerProfile } =
+    route.params
 
   const [phone, setPhone] = useState("")
   const [timeMeeting, setTimeMeeting] = useState("")
@@ -74,7 +76,7 @@ const TimePriceForm = (props) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
       mappingCustomerProfile(snapshot).catch((err) => Alert.alert(err))
     })

@@ -16,6 +16,7 @@ import DropDownPicker from "react-native-dropdown-picker"
 import bgImage from "../../../../assets/bg.png"
 import { getCountryList, getDistrictList } from "../../../data/apis"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterPartnerForm = ({ navigation, route }) => {
@@ -65,13 +66,12 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       address,
       lineId,
     }
-    // firebase.database().ref(`members/${userId}`).update(partnerData)
 
     navigate("Partner-Register-Bank-Form", { userId, status, partnerData })
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setLineId(data.lineId || "")

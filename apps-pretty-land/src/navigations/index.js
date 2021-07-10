@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useReducer } from "react"
 import { createStackNavigator } from "@react-navigation/stack"
-import { Alert, Text, View, Linking } from "react-native"
+import { Alert, Text, View } from "react-native"
 import * as Facebook from "expo-facebook"
 import base64 from "react-native-base64"
 
 import { AppConfig } from "../Constants"
-import { snapshotToArray } from "../../util"
+import { snapshotToArray, getDocument } from "../../util"
 import firebase from "../../util/firebase"
 import { facebookConfig } from "../../util/appConfig"
 
@@ -65,7 +65,7 @@ const AppNavigation = () => {
   )
 
   const lineLogin = (data) => {
-    firebase.database().ref(`members/${data.id}`).set({
+    firebase.database().ref(getDocument(`members/${data.id}`)).set({
       id: data.id,
       profile: data.name,
       image: data.picture,
@@ -84,7 +84,7 @@ const AppNavigation = () => {
 
   const appleLogin = ({ userId, email, fullName }) => {
     const id = base64.encode(email)
-    firebase.database().ref(`members/${id}`).set({
+    firebase.database().ref(getDocument(`members/${id}`)).set({
       id,
       userId,
       email: email.toString().toLowerCase(),
@@ -116,7 +116,7 @@ const AppNavigation = () => {
           `https://graph.facebook.com/me?access_token=${token}`
         )
         const fbProfile = await response.json()
-        firebase.database().ref(`members/${fbProfile.id}`).set({
+        firebase.database().ref(getDocument(`members/${fbProfile.id}`)).set({
           id: fbProfile.id,
           profile: fbProfile.name,
           customerType: "facebook",
@@ -151,7 +151,7 @@ const AppNavigation = () => {
         const { username, password } = data
         firebase
           .database()
-          .ref("members")
+          .ref(getDocument("members"))
           .orderByChild("username")
           .equalTo(username)
           .once("value", (snapshot) => {

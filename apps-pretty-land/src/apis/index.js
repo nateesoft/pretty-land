@@ -2,13 +2,13 @@ import uuid from "react-native-uuid"
 import { Alert } from "react-native"
 
 import firebase from "../../util/firebase"
-import { snapshotToArray } from "../../util"
+import { snapshotToArray, getDocument } from "../../util"
 import { AppConfig } from "../Constants"
 
 export const saveMemberRegister = (member, navigation) => {
   firebase
     .database()
-    .ref("members")
+    .ref(getDocument("members"))
     .orderByChild("username")
     .equalTo(member.username)
     .once("value", (snapshot) => {
@@ -21,7 +21,10 @@ export const saveMemberRegister = (member, navigation) => {
           sys_update_date: new Date().toUTCString(),
           ...member,
         }
-        firebase.database().ref(`members/${newId}`).set(saveData)
+        firebase
+          .database()
+          .ref(getDocument(`members/${newId}`))
+          .set(saveData)
         Alert.alert(
           "กระบวนการสมบูรณ์",
           "บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้"
@@ -46,11 +49,17 @@ export const saveNewPosts = (postData) => {
     sys_update_date: new Date().toUTCString(),
     ...postData,
   }
-  firebase.database().ref(`posts/${newId}`).set(saveData)
+  firebase
+    .database()
+    .ref(getDocument(`posts/${newId}`))
+    .set(saveData)
 }
 
 export const updatePosts = (postId, data) => {
-  firebase.database().ref(`posts/${postId}`).update(data)
+  firebase
+    .database()
+    .ref(getDocument(`posts/${postId}`))
+    .update(data)
 }
 
 export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
@@ -78,6 +87,6 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
   }
   firebase
     .database()
-    .ref(`posts/${postId}/partnerSelect/${profile.id}`)
+    .ref(getDocument(`posts/${postId}/partnerSelect/${profile.id}`))
     .update(data)
 }

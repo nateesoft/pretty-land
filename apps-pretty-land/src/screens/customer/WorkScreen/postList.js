@@ -13,7 +13,7 @@ import Moment from "moment"
 
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 import bgImage from "../../../../assets/bg.png"
 import { updatePosts } from "../../../apis"
@@ -71,7 +71,7 @@ const PostListScreen = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts`)
+      .ref(getDocument(`posts`))
       .orderByChild("customerId")
       .equalTo(userId)
     const listener = ref.on("value", (snapshot) => {

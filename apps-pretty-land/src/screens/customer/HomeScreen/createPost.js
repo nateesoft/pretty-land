@@ -24,6 +24,7 @@ import bgImage from "../../../../assets/bg.png"
 import { saveNewPosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 
 const CreatePostForm = (props) => {
   const { navigation, route } = props
@@ -74,25 +75,23 @@ const CreatePostForm = (props) => {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ สถานที่นัดพบ")
       return
     }
-    saveNewPosts(
-      {
-        customerId,
-        customerName,
-        partnerRequest,
-        partnerImage: item.image_url,
-        customerPhone: phone,
-        placeMeeting: place,
-        subtitle: `${partnerRequest}`,
-        status: AppConfig.PostsStatus.customerNewPostDone,
-        statusText: "โพสท์ใหม่",
-        province,
-        provinceName: getProvinceName(province)[0],
-        district,
-        districtName: getDistrictName(district)[0],
-        customerRemark: remark,
-        customerLevel,
-      }
-    )
+    saveNewPosts({
+      customerId,
+      customerName,
+      partnerRequest,
+      partnerImage: item.image_url,
+      customerPhone: phone,
+      placeMeeting: place,
+      subtitle: `${partnerRequest}`,
+      status: AppConfig.PostsStatus.customerNewPostDone,
+      statusText: "โพสท์ใหม่",
+      province,
+      provinceName: getProvinceName(province)[0],
+      district,
+      districtName: getDistrictName(district)[0],
+      customerRemark: remark,
+      customerLevel,
+    })
   }
 
   const onChangePartnerType = (v) => {
@@ -116,40 +115,38 @@ const CreatePostForm = (props) => {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ โทรศัพท์มือถือ")
       return
     }
-    saveNewPosts(
-      {
-        customerId,
-        customerName,
-        partnerRequest,
-        customerPhone: phone,
-        partnerImage: item.image_url,
-        subtitle: `${partnerRequest}`,
-        status: AppConfig.PostsStatus.waitPartnerConfrimWork,
-        statusText: "รอ Partner แจ้งรับงาน",
-        province,
-        provinceName: getProvinceName(province)[0],
-        district: district ? district : "",
-        districtName: district ? getDistrictName(district)[0] : "",
-        customerLevel,
-        partnerSelect: {
-          [data.id]: {
-            partnerId: data.id,
-            telephone: data.mobile,
-            sex: data.sex,
-            amount: data.price4,
-            image: data.image,
-            sys_create_date: new Date().toUTCString(),
-            age: data.age,
-            name: data.name,
-          },
+    saveNewPosts({
+      customerId,
+      customerName,
+      partnerRequest,
+      customerPhone: phone,
+      partnerImage: item.image_url,
+      subtitle: `${partnerRequest}`,
+      status: AppConfig.PostsStatus.waitPartnerConfrimWork,
+      statusText: "รอ Partner แจ้งรับงาน",
+      province,
+      provinceName: getProvinceName(province)[0],
+      district: district ? district : "",
+      districtName: district ? getDistrictName(district)[0] : "",
+      customerLevel,
+      partnerSelect: {
+        [data.id]: {
+          partnerId: data.id,
+          telephone: data.mobile,
+          sex: data.sex,
+          amount: data.price4,
+          image: data.image,
+          sys_create_date: new Date().toUTCString(),
+          age: data.age,
+          name: data.name,
         },
       },
-    )
+    })
   }
 
   const getPartnerQty = (value) => {
     return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(`members`)
+      const ref = firebase.database().ref(getDocument(`members`))
       ref.once("value", (snapshot) => {
         let count = 0
         snapshot.forEach((item) => {
@@ -187,7 +184,7 @@ const CreatePostForm = (props) => {
 
     const ref = firebase
       .database()
-      .ref(`members`)
+      .ref(getDocument(`members`))
       .orderByChild("memberType")
       .equalTo("partner")
     const listener = ref.on("value", (snapshot) => {
@@ -205,7 +202,7 @@ const CreatePostForm = (props) => {
   }, [])
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
       const customer = { ...snapshot.val() }
       setCustomerLevel(customer.customerLevel)
@@ -347,7 +344,10 @@ const CreatePostForm = (props) => {
                       หมายเหตุเพิ่มเติม (Remark)
                     </Text>
                     <View
-                      style={[styles.formControl, { height: 100, width: "100%" }]}
+                      style={[
+                        styles.formControl,
+                        { height: 100, width: "100%" },
+                      ]}
                     >
                       <TextInput
                         placeholder="หมายเหตุเพิ่มเติม (Remark)"

@@ -6,6 +6,7 @@ import { Button, Text } from "react-native-elements"
 import bgImage from "../../../../assets/bg.png"
 import lineLogo from "../../../../assets/icons/LINE_APP.png"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 
 const ViewContact = ({ navigation, route }) => {
   const { userId } = route.params
@@ -17,7 +18,7 @@ const ViewContact = ({ navigation, route }) => {
 
   const getProfileFromDB = (userId) => {
     return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(`members/${userId}`)
+      const ref = firebase.database().ref(getDocument(`members/${userId}`))
       ref.once("value", (snapshot) => {
         const data = { ...snapshot.val() }
         setProfile(data)

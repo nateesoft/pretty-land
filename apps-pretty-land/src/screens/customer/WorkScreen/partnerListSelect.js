@@ -12,9 +12,8 @@ import { Button } from "react-native-elements"
 import { MaterialIcons } from "react-native-vector-icons"
 
 import bgImage from "../../../../assets/bg.png"
-
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const PartnerListSelect = ({ navigation, route }) => {
@@ -112,7 +111,9 @@ const PartnerListSelect = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase.database().ref(`posts/${postItem.id}/partnerSelect`)
+    const ref = firebase
+      .database()
+      .ref(getDocument(`posts/${postItem.id}/partnerSelect`))
     const listener = ref.on("value", (snapshot) => {
       const listData = snapshotToArray(snapshot)
       setListSelect(listData)
@@ -123,7 +124,7 @@ const PartnerListSelect = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts/${postItem.id}/partnerSelect`)
+      .ref(getDocument(`posts/${postItem.id}/partnerSelect`))
       .orderByChild("selectStatus")
       .equalTo(AppConfig.PostsStatus.customerConfirm)
     const listener = ref.on("value", (snapshot) => {

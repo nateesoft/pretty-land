@@ -14,7 +14,7 @@ import ProgressCircle from "react-native-progress-circle"
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDocument } from "../../../../util"
 import { getPartnerGroupByType } from "../../../data/apis"
 
 import FemaleSimple from "../../../../assets/avatar/1.png"
@@ -28,7 +28,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref("members")
+      .ref(getDocument("members"))
       .orderByChild("status_priority")
     ref.once("value", (snapshot) => {
       const memberInCloud = snapshotToArray(snapshot)

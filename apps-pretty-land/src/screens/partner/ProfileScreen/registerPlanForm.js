@@ -17,8 +17,8 @@ import { FontAwesome } from "react-native-vector-icons"
 
 import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
-
 import { AppConfig } from "../../../Constants"
 
 const radioData = [
@@ -107,7 +107,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setName(data.name || "")

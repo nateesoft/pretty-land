@@ -15,7 +15,7 @@ import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import { updatePosts } from "../../../apis"
 import firebase from "../../../../util/firebase"
-import { snapshotToArray, getDiffHours } from "../../../../util"
+import { snapshotToArray, getDiffHours, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const PostListAllScreen = ({ navigation, route }) => {
@@ -68,7 +68,7 @@ const PostListAllScreen = ({ navigation, route }) => {
   useEffect(() => {
     let ref = firebase
       .database()
-      .ref(`posts`)
+      .ref(getDocument(`posts`))
       .orderByChild("partnerRequest")
       .equalTo(partnerRequest)
     const listener = ref.on("value", (snapshot) => {
@@ -118,7 +118,7 @@ const PostListAllScreen = ({ navigation, route }) => {
                 const partnerData = item.partnerSelect[key]
                 firebase
                   .database()
-                  .ref(`partner_star/${partnerData.partnerId}/${item.id}`)
+                  .ref(getDocument(`partner_star/${partnerData.partnerId}/${item.id}`))
                   .update({
                     star: 5,
                     sys_date: new Date().toUTCString(),

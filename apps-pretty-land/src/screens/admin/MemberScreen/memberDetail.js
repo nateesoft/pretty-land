@@ -17,6 +17,7 @@ import { ActivityIndicator } from "react-native-paper"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { getPartnerGroupByType } from "../../../data/apis"
 
 const MemberDetailScreen = ({ navigation, route }) => {
@@ -26,7 +27,10 @@ const MemberDetailScreen = ({ navigation, route }) => {
   const [status, setStatus] = useState({})
 
   const confirmRemovePermanent = () => {
-    firebase.database().ref(`members/${item.id}`).remove()
+    firebase
+      .database()
+      .ref(getDocument(`members/${item.id}`))
+      .remove()
     navigate("List-All-Member")
   }
 
@@ -62,39 +66,48 @@ const MemberDetailScreen = ({ navigation, route }) => {
 
   const approveMember = () => {
     // update status member
-    firebase.database().ref(`members/${item.id}`).update({
-      status: AppConfig.MemberStatus.active,
-      statusText: AppConfig.MemberStatus.activeMessage,
-      status_priority: AppConfig.MemberStatus.activePriority,
-      member_register_date: new Date().toUTCString(),
-      member_update_date: new Date().toUTCString(),
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`members/${item.id}`))
+      .update({
+        status: AppConfig.MemberStatus.active,
+        statusText: AppConfig.MemberStatus.activeMessage,
+        status_priority: AppConfig.MemberStatus.activePriority,
+        member_register_date: new Date().toUTCString(),
+        member_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString(),
+      })
     navigation.navigate("List-All-Member")
   }
 
   const suspendMember = () => {
     // update status member
-    firebase.database().ref(`members/${item.id}`).update({
-      status: AppConfig.MemberStatus.suspend,
-      statusText: AppConfig.MemberStatus.suspendMessage,
-      status_priority: AppConfig.MemberStatus.suspendPriority,
-      member_update_date: new Date().toUTCString(),
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`members/${item.id}`))
+      .update({
+        status: AppConfig.MemberStatus.suspend,
+        statusText: AppConfig.MemberStatus.suspendMessage,
+        status_priority: AppConfig.MemberStatus.suspendPriority,
+        member_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString(),
+      })
     navigation.navigate("List-All-Member")
   }
 
   const cancelSuspendMember = () => {
     // update status member
-    firebase.database().ref(`members/${item.id}`).update({
-      status: AppConfig.MemberStatus.active,
-      statusText: AppConfig.MemberStatus.activeMessage,
-      status_priority: AppConfig.MemberStatus.activePriority,
-      member_register_date: new Date().toUTCString(),
-      member_update_date: new Date().toUTCString(),
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`members/${item.id}`))
+      .update({
+        status: AppConfig.MemberStatus.active,
+        statusText: AppConfig.MemberStatus.activeMessage,
+        status_priority: AppConfig.MemberStatus.activePriority,
+        member_register_date: new Date().toUTCString(),
+        member_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString(),
+      })
     navigation.navigate("List-All-Member")
   }
 

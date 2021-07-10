@@ -17,6 +17,7 @@ import { TouchableNativeFeedback } from "react-native"
 import * as AppleAuthentication from "expo-apple-authentication"
 
 import firebase from "../../../util/firebase"
+import { getDocument } from "../../../util"
 import { Context as AuthContext } from "../../context/AuthContext"
 import bg from "../../../assets/login.png"
 import bgImage from "../../../assets/bg.png"
@@ -29,7 +30,7 @@ const LoginScreen = ({ navigation, route }) => {
   const [lineContact, setLineContact] = useState("")
 
   useEffect(() => {
-    const ref = firebase.database().ref("appconfig")
+    const ref = firebase.database().ref(getDocument("appconfig"))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setLineContact(data.line_contact_admin || "https://lin.ee/DgRh5Mw")

@@ -14,7 +14,7 @@ import Moment from "moment"
 import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDocument } from "../../../../util"
 
 import NoImage from "../../../../assets/avatar/1.png"
 
@@ -25,7 +25,7 @@ const MemberList = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref("members")
+      .ref(getDocument("members"))
       .orderByChild("status_priority")
     ref.once("value", (snapshot) => {
       const memberInCloud = snapshotToArray(snapshot)

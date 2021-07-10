@@ -10,8 +10,8 @@ import { Button } from "react-native-elements"
 import Moment from "moment"
 
 import bgImage from "../../../../assets/bg.png"
-
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 import { Alert } from "react-native"
 
@@ -34,7 +34,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts/${postDetail.id}/partnerSelect/${profile.id}`)
+      .ref(getDocument(`posts/${postDetail.id}/partnerSelect/${profile.id}`))
     ref.once("value", (snapshot) => {
       getProfileSelectObject(snapshot).catch((err) => Alert.alert(err))
     })

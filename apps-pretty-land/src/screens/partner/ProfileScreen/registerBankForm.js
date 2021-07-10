@@ -15,6 +15,7 @@ import DropDownPicker from "react-native-dropdown-picker"
 import { getBankList } from "../../../data/apis"
 import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterPartnerBankForm = ({ navigation, route }) => {
@@ -42,13 +43,12 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
       bank,
       bankNo,
     }
-    // firebase.database().ref(`members/${userId}`).update(bankData)
 
     navigate("Partner-Register-Image-Upload", { userId, status, bankData })
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setBank(data.bank || "")

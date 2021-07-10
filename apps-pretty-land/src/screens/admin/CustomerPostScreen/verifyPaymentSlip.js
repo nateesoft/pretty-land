@@ -13,6 +13,7 @@ import { AntDesign } from "react-native-vector-icons"
 
 import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const VerifyPaymentSlip = ({ navigation, route }) => {
@@ -37,7 +38,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
 
   const getMemberProfile = () => {
     return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(`members/${item.customerId}`)
+      const ref = firebase.database().ref(getDocument(`members/${item.customerId}`))
       ref.once("value", (snapshot) => {
         const customerData = { ...snapshot.val() }
         resolve(customerData)
@@ -47,7 +48,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
 
   const saveConfirmPayment = () => {
     // save to firebase
-    firebase.database().ref(`posts/${item.id}`).update({
+    firebase.database().ref(getDocument(`posts/${item.id}`)).update({
       status: AppConfig.PostsStatus.adminConfirmPayment,
       statusText: "ชำระเงินเรียบร้อยแล้ว",
       sys_update_date: new Date().toUTCString(),
@@ -57,7 +58,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
     listPartner.forEach((obj) => {
       firebase
         .database()
-        .ref(`posts/${item.id}/partnerSelect/${obj.partnerId}`)
+        .ref(getDocument(`posts/${item.id}/partnerSelect/${obj.partnerId}`))
         .update({
           selectStatus: AppConfig.PostsStatus.customerPayment,
           selectStatusText: "ชำระเงินเรียบร้อยแล้ว",
@@ -69,7 +70,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
       // update level to customer
       firebase
         .database()
-        .ref(`members/${item.customerId}`)
+        .ref(getDocument(`members/${item.customerId}`))
         .update({
           customerLevel: cust.customerLevel + 1,
         })

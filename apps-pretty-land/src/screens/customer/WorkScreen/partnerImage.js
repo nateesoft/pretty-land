@@ -15,6 +15,7 @@ import * as Progress from "react-native-progress"
 import { AirbnbRating } from "react-native-elements"
 
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 import bgImage from "../../../../assets/bg.png"
 import { Alert } from "react-native"
@@ -36,7 +37,11 @@ export default function PartnerImage({ navigation, route }) {
   const onPressSelectPartner = () => {
     firebase
       .database()
-      .ref(`posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`)
+      .ref(
+        getDocument(
+          `posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`
+        )
+      )
       .update({
         selectStatus: AppConfig.PostsStatus.customerConfirm,
         selectStatusText: "ลูกค้าคอนเฟิร์ม รอชำระเงิน",
@@ -48,7 +53,11 @@ export default function PartnerImage({ navigation, route }) {
   const cancelSelectPartner = () => {
     firebase
       .database()
-      .ref(`posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`)
+      .ref(
+        getDocument(
+          `posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`
+        )
+      )
       .update({
         selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
         selectStatusText: "เสนอรับงาน",
@@ -120,7 +129,9 @@ export default function PartnerImage({ navigation, route }) {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${partnerItem.partnerId}`)
+    const ref = firebase
+      .database()
+      .ref(getDocument(`members/${partnerItem.partnerId}`))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setPartnerProfile(data)
@@ -137,7 +148,11 @@ export default function PartnerImage({ navigation, route }) {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`)
+      .ref(
+        getDocument(
+          `posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`
+        )
+      )
     ref.once("value", (snapshot) => {
       const partnerStatusSelect = { ...snapshot.val() }
       setSelectStatus(partnerStatusSelect.selectStatus)
@@ -145,7 +160,9 @@ export default function PartnerImage({ navigation, route }) {
   }, [])
 
   useEffect(() => {
-    const ref = firebase.database().ref(`partner_star/${partnerItem.partnerId}`)
+    const ref = firebase
+      .database()
+      .ref(getDocument(`partner_star/${partnerItem.partnerId}`))
     ref.once("value", (snapshot) => {
       if (snapshot.numChildren()) {
         getStarFromPosts(snapshot).catch((err) => Alert.alert(err))
@@ -258,8 +275,12 @@ export default function PartnerImage({ navigation, route }) {
               </Text>
               <Button
                 title="ยกเลิกการเลือก"
-                buttonStyle={{ backgroundColor: "red", borderRadius: 5, margin: 5 }}
-                onPress={()=>cancelSelectPartner()}
+                buttonStyle={{
+                  backgroundColor: "red",
+                  borderRadius: 5,
+                  margin: 5,
+                }}
+                onPress={() => cancelSelectPartner()}
               />
             </View>
           )}
