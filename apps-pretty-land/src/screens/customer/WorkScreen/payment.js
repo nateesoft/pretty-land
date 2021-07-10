@@ -68,7 +68,7 @@ const PaymentForm = ({ navigation, route }) => {
 
   useEffect(() => {
     const ref = firebase.database().ref(`posts/${item.id}/partnerSelect`)
-    const listener = ref.on("value", async (snapshot) => {
+    ref.once("value", async (snapshot) => {
       const pAmount = await computeAmount(snapshot)
       const fAmount = await getFeeAmountFromFirebase()
       const netTotalAmt = parseInt(pAmount) + parseInt(fAmount)
@@ -77,8 +77,6 @@ const PaymentForm = ({ navigation, route }) => {
       setFeeAmount(fAmount.toFixed(2))
       setNetTotalAmount(netTotalAmt.toFixed(2))
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   useEffect(() => {

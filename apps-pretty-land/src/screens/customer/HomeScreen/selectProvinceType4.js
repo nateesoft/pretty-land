@@ -5,19 +5,15 @@ import {
   SafeAreaView,
   Alert,
   StyleSheet,
-  ScrollView,
-  Image,
   TouchableHighlight,
-  Dimensions,
   FlatList,
 } from "react-native"
-import { Text, Button } from "react-native-elements"
+import { Text } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
 
 import {
   getCountryList,
   getDistrictList,
-  getDistrictName,
 } from "../../../data/apis"
 import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
@@ -27,8 +23,6 @@ import CardNotfound from "../../../components/CardNotfound"
 const SelectProvinceType4 = (props) => {
   const { navigation, route } = props
   const { item, userId } = route.params
-
-  const { height, width } = Dimensions.get("window")
 
   const [partnerRequest, setPartnerRequest] = useState(item.name)
 

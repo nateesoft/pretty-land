@@ -105,7 +105,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
 
   useEffect(() => {
     const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setUsername(data.username)
       setPassword(data.password)
@@ -117,8 +117,6 @@ const RegisterImageUpload = ({ navigation, route }) => {
       setImageUrl5(data.imageUrl5 || null)
       setImageUrl6(data.videoUrl || null)
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   const uploadAllImageVideo = () => {

@@ -144,12 +144,10 @@ const WorkDetailScreen = ({ navigation, route }) => {
     const ref = firebase
       .database()
       .ref(`posts/${item.id}/partnerSelect/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setPartner(data)
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (

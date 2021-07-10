@@ -18,19 +18,15 @@ import {
   FontAwesome5,
   MaterialCommunityIcons,
 } from "@expo/vector-icons"
-import { ActivityIndicator } from "react-native-paper"
 import Moment from "moment"
 
-import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
 import { Context as AuthContext } from "../../../context/AuthContext"
-
 import bgImage from "../../../../assets/bg.png"
 import FemaleSimple from "../../../../assets/avatar/1.png"
 import MaleSimple from "../../../../assets/avatar/2.png"
 import OtherSimple from "../../../../assets/avatar/3.png"
 import { Button } from "react-native-elements"
-import { Platform } from "react-native"
 
 const ProfileHomeScreen = ({ navigation, route }) => {
   const { signOut } = useContext(AuthContext)
@@ -38,7 +34,6 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   const { navigate } = navigation
   const { userId } = route.params
   const video = useRef(null)
-  const [status, setStatus] = useState({})
 
   const [userStatus, setUserStatus] = useState("")
   const [imageProfile, setImageProfile] = useState(null)

@@ -35,11 +35,9 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
     const ref = firebase
       .database()
       .ref(`posts/${postDetail.id}/partnerSelect/${profile.id}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       getProfileSelectObject(snapshot).catch((err) => Alert.alert(err))
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (

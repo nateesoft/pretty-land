@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import {
   View,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   TouchableNativeFeedback,
   ImageBackground,
 } from "react-native"
-// import { Video } from "expo-av"
+
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import * as Progress from "react-native-progress"
@@ -22,8 +22,6 @@ import { Alert } from "react-native"
 export default function PartnerImage({ navigation, route }) {
   const { postItem, partnerItem } = route.params
 
-  const video = useRef(null)
-  const [status, setStatus] = useState({})
   const [partnerProfile, setPartnerProfile] = useState({})
   const [selectStatus, setSelectStatus] = useState("")
   const [images, setImages] = useState([])

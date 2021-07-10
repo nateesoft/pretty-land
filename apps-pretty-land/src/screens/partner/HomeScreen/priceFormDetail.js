@@ -12,7 +12,6 @@ import { Button, Text } from "react-native-elements"
 
 import bgImage from "../../../../assets/bg.png"
 import { partnerAcceptJobWaitCustomerReview } from "../../../apis"
-
 import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../Constants"
 
@@ -43,7 +42,7 @@ const PriceFormDetail = ({ navigation, route }) => {
     const ref = firebase
       .database()
       .ref(`posts/${postDetail.id}/partnerSelect/${profile.id}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const checkItem = { ...snapshot.val() }
       const acceptAlready = checkItem.partnerId === profile.id
       if (acceptAlready) {
@@ -52,8 +51,6 @@ const PriceFormDetail = ({ navigation, route }) => {
       }
       setGetWork(acceptAlready)
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (

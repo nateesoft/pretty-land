@@ -18,7 +18,7 @@ import { snapshotToArray } from "../../../../util"
 
 import NoImage from "../../../../assets/avatar/1.png"
 
-const AdminAllListScreen = ({ navigation, route }) => {
+const MemberList = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false)
   const [members, setMembers] = useState([])
 
@@ -27,14 +27,12 @@ const AdminAllListScreen = ({ navigation, route }) => {
       .database()
       .ref("members")
       .orderByChild("status_priority")
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const memberInCloud = snapshotToArray(snapshot)
       setMembers(
         memberInCloud.filter((item, index) => item.memberType === "customer")
       )
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   const handleRefresh = () => {}
@@ -145,4 +143,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default AdminAllListScreen
+export default MemberList

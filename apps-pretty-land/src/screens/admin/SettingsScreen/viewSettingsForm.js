@@ -15,15 +15,13 @@ const ViewSettingForm = ({ navigation, route }) => {
 
   useEffect(() => {
     const ref = firebase.database().ref("appconfig")
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setFeeAmount(data.fee_amount || null)
       setLineContact(data.line_contact_admin || "")
       setImageQuality(data.quality_image_upload || "default")
       setVideoQuality(data.quality_video_upload || "default")
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   const updateAppConfigSetting = () => {

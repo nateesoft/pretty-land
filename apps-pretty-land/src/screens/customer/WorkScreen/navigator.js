@@ -14,7 +14,7 @@ import { LogoTitle } from "../../../components/Header"
 const Stack = createStackNavigator()
 
 const CustomerWorkTabNavigator = ({ navigation, route }) => {
-  const { userId, status } = route.params
+  const { userId } = route.params
 
   return (
     <Stack.Navigator>

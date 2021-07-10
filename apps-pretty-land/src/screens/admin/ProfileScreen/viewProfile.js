@@ -52,13 +52,11 @@ const ViewProfileScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setUsername(data.username)
       setOwnPassword(base64.decode(data.password))
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (

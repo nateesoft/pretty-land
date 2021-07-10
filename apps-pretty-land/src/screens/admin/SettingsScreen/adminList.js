@@ -25,7 +25,7 @@ const AdminAllListScreen = ({ navigation, route }) => {
       .database()
       .ref("members")
       .orderByChild("status_priority")
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const memberInCloud = snapshotToArray(snapshot)
       setMembers(
         memberInCloud.filter(
@@ -34,8 +34,6 @@ const AdminAllListScreen = ({ navigation, route }) => {
         )
       )
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   const handleRefresh = () => {}
@@ -85,21 +83,6 @@ const AdminAllListScreen = ({ navigation, route }) => {
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>Admin ในระบบทั้งหมด</Text>
         <View style={styles.container}>
-          {/* <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
-            <DropDownPicker
-              placeholder="เลือกประเภทสมาชิก"
-              open={openSelectPartner}
-              setOpen={setOpenSelectPartner}
-              value={partner}
-              setValue={setPartner}
-              items={partnerList}
-              setItems={setPartnerList}
-              style={styles.dropdownStyle}
-              textStyle={{ fontSize: 18 }}
-              searchable={false}
-              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-            />
-          </View> */}
           {members.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลสมาชิกในระบบ" />
           )}

@@ -129,19 +129,6 @@ const AllTaskListScreen = ({ navigation, route }) => {
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
         <View style={styles.container}>
-          {/* <DropDownPicker
-            placeholder="เลือกจังหวัด"
-            open={openSelectCountry}
-            setOpen={setOpenSelectCountry}
-            value={country}
-            setValue={setCountry}
-            items={countryList}
-            setItems={setCountryList}
-            textStyle={{ fontSize: 18 }}
-            zIndex={20}
-            searchable={false}
-            selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-          /> */}
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
           )}

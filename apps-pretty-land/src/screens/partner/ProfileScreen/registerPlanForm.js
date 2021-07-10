@@ -102,16 +102,13 @@ const RegisterPlanForm = ({ navigation, route }) => {
       price4: !price4 ? 0 : price4,
       character,
     }
-    // firebase
-    //   .database()
-    //   .ref(`members/${userId}`)
-    //   .update(planData)
+
     navigate("Register-Partner-Form", { userId, status, planData })
   }
 
   useEffect(() => {
     const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setName(data.name || "")
       setAge(data.age || "")
@@ -126,8 +123,6 @@ const RegisterPlanForm = ({ navigation, route }) => {
       setSex(data.sex || "female")
       setCharacter(data.character || "")
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (

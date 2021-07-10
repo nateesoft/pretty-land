@@ -72,7 +72,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
 
   useEffect(() => {
     const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setLineId(data.lineId || "")
       setMobile(data.mobile || "")
@@ -80,8 +80,6 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       setDistrict(data.district || "")
       setAddress(data.address || "")
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (

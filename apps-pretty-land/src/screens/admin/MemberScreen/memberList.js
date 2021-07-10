@@ -30,7 +30,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
       .database()
       .ref("members")
       .orderByChild("status_priority")
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const memberInCloud = snapshotToArray(snapshot)
       setMembers(
         memberInCloud.filter(
@@ -41,8 +41,6 @@ const MemberAllListScreen = ({ navigation, route }) => {
         )
       )
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   const handleRefresh = () => {}

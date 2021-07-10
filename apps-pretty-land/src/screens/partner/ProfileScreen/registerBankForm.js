@@ -49,13 +49,11 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
 
   useEffect(() => {
     const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setBank(data.bank || "")
       setBankNo(data.bankNo || "")
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (

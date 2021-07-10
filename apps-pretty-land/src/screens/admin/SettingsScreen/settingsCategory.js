@@ -6,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons"
 
 import bgImage from "../../../../assets/bg.png"
 
-const ViewProfileScreen = ({ navigation, route }) => {
+const SettingsCategory = ({ navigation, route }) => {
   return (
     <ImageBackground
       source={bgImage}
@@ -190,4 +190,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ViewProfileScreen
+export default SettingsCategory

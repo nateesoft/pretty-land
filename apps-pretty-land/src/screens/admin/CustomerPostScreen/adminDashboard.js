@@ -5,7 +5,6 @@ import {
   View,
   Text,
   Image,
-  Dimensions,
   ImageBackground,
 } from "react-native"
 
@@ -54,7 +53,7 @@ const Category = ({ navigation, route }) => {
 
   useEffect(() => {
     const ref = firebase.database().ref(`appconfig`)
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const dataItems = []
       const appconfig = snapshot.val()
       dataItems.push({ ...appconfig.partner1 })
@@ -63,13 +62,7 @@ const Category = ({ navigation, route }) => {
       dataItems.push({ ...appconfig.partner4 })
 
       setItems(dataItems)
-
-      return () => {
-        ref.off("value", listener)
-      }
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   useEffect(() => {
