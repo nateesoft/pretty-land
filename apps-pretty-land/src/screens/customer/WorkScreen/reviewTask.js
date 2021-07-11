@@ -82,7 +82,7 @@ const ReviewTaskScreen = (props) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
         <ScrollView showsVerticalScrollIndicator={false}>

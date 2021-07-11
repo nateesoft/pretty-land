@@ -69,7 +69,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.textTopic}>รายละเอียดโพสท์</Text>

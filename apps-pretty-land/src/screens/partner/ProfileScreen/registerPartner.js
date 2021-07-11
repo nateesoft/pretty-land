@@ -86,7 +86,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView showsVerticalScrollIndicator={false}>

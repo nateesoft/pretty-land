@@ -127,7 +127,7 @@ const PostListScreen = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <Text style={styles.textTopic}>แสดงรายการที่โพสท์</Text>
       <View style={styles.container}>

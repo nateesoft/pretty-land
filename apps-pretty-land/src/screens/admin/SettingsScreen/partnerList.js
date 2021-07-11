@@ -113,7 +113,7 @@ const PartnerList = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>รายงานสมัคร Partner</Text>

@@ -95,7 +95,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>

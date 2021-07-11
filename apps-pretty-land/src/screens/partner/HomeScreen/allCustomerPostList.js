@@ -176,7 +176,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>

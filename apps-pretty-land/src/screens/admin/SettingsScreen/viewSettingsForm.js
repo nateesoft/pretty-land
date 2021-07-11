@@ -41,7 +41,7 @@ const ViewSettingForm = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <Text style={styles.textTopic}>จัดการข้อมูลระบบ</Text>
       <View style={styles.cardDetail}>

@@ -35,7 +35,7 @@ const ViewContact = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <View style={{ alignItems: "center", margin: 10 }}>
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>ข้อมูลสมาชิก</Text>

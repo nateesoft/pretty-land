@@ -11,7 +11,7 @@ const SettingsCategory = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <Text style={styles.textTopic}>ตั้งค่าระบบ / รายงาน</Text>
       <View style={[styles.cardDetail, { marginTop: "40%" }]}>

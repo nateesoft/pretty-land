@@ -136,7 +136,7 @@ const Category = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       {items.length > 0 && (
         <View style={styles.container}>

@@ -155,7 +155,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <Text style={styles.textTopic}>รายละเอียดงานที่แจ้งลูกค้า</Text>
       <View style={styles.cardDetail}>

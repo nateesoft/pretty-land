@@ -98,7 +98,7 @@ const SelectProvinceType4 = (props) => {
           margin: 15,
           padding: 15,
         }}
-        resizeMode="stretch"
+        resizeMode="contain"
       >
         <TouchableHighlight onPress={() => nextStep(item)} underlayColor={null}>
           <View
@@ -180,7 +180,7 @@ const SelectProvinceType4 = (props) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
         <View style={styles.cardDetail}>

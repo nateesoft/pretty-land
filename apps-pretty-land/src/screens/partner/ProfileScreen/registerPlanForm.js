@@ -61,22 +61,6 @@ const RegisterPlanForm = ({ navigation, route }) => {
       Alert.alert("แจ้งเตือน", "กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
       return
     }
-    if (!age) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุอายุ")
-      return
-    }
-    if (!height) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุส่วนสูง")
-      return
-    }
-    if (!weight) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุน้ำหนัก")
-      return
-    }
-    if (!stature) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุสัดส่วน")
-      return
-    }
     if (type4 && !price4) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุราคา สำหรับประเภทนวดแผนไทย")
       return
@@ -129,7 +113,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -236,8 +220,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 placeholder="ชื่อ/ ชื่อเล่น"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>อายุ (age)</Text>
-            {!age && <Text style={{ color: "red" }}>ระบุอายุ</Text>}
+            <Text style={{ fontSize: 16, padding: 5 }}>อายุ (optional)</Text>
             <View style={styles.formControl}>
               <GetIcon type="mci" name="timeline-clock" />
               <TextInput
@@ -263,8 +246,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 placeholder="นิสัยหรือบุคคลิก (character)"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>ส่วนสูง (Tall)</Text>
-            {!height && <Text style={{ color: "red" }}>ระบุข้อมูลส่วนสูง</Text>}
+            <Text style={{ fontSize: 16, padding: 5 }}>ส่วนสูง (optional)</Text>
             <View style={styles.formControl}>
               <GetIcon type="mci" name="human-male-height" />
               <TextInput
@@ -276,11 +258,8 @@ const RegisterPlanForm = ({ navigation, route }) => {
               />
             </View>
             <Text style={{ fontSize: 16, padding: 5 }}>
-              สัดส่วน 32-24-35 (Stature)
+              สัดส่วน (optional)
             </Text>
-            {!stature && (
-              <Text style={{ color: "red" }}>ระบุข้อมูลสัดส่วน</Text>
-            )}
             <View style={styles.formControl}>
               <GetIcon type="ii" name="md-woman-outline" />
               <TextInput
@@ -290,8 +269,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 placeholder="สัดส่วน 32-24-35"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>น้ำหนัก (Weight)</Text>
-            {!weight && <Text style={{ color: "red" }}>ระบุข้อมูลน้ำหนัก</Text>}
+            <Text style={{ fontSize: 16, padding: 5 }}>น้ำหนัก (optional)</Text>
             <View style={styles.formControl}>
               <GetIcon type="fa5" name="weight" />
               <TextInput

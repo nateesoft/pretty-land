@@ -213,7 +213,7 @@ const CreatePostForm = (props) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ flex: 1, height: "100%" }}>
         <ScrollView showsVerticalScrollIndicator={false}>

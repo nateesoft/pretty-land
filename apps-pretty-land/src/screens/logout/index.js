@@ -34,7 +34,7 @@ const LogoutScreen = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <View
         style={{

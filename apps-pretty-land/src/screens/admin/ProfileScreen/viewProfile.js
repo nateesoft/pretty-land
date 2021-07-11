@@ -64,7 +64,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <Text style={styles.textTopic}>เปลี่ยนรหัสผ่าน</Text>
       <View style={styles.cardDetail}>

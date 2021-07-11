@@ -233,7 +233,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={styles.container}>
         <Text style={styles.textFormInfo}>เพิ่ม/แก้ไข รูปภาพ และวิดีโอ</Text>

@@ -60,7 +60,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ alignItems: "center" }}>

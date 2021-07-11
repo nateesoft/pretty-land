@@ -174,7 +174,7 @@ export default function PartnerImage({ navigation, route }) {
     <ImageBackground
       source={bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>
