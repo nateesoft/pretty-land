@@ -88,7 +88,7 @@ const TimePriceForm = (props) => {
       style={styles.imageBg}
       resizeMode="contain"
     >
-      <SafeAreaView style={{ flex: 1, height: "100%" }}>
+      <SafeAreaView style={{ flex: 1, height: "100%", alignItems: "center" }}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>

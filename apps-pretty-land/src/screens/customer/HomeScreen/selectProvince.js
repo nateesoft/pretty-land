@@ -89,7 +89,7 @@ const SelectProvince = (props) => {
       style={styles.imageBg}
       resizeMode="contain"
     >
-      <SafeAreaView style={{ flex: 1, height: "100%" }}>
+      <SafeAreaView style={{ flex: 1, height: "100%", alignItems: "center" }}>
         <View style={styles.cardDetail}>
           <Text style={[styles.optionsNameDetail, { marginBottom: 10 }]}>
             เลือกจังหวัด
@@ -110,6 +110,7 @@ const SelectProvince = (props) => {
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             onChangeValue={(e) => onChangeProvinceSelect(e)}
             listMode="SCROLLVIEW"
+            containerStyle={{ width: 350 }}
           />
           {province !== "" && (
             <View
@@ -126,7 +127,7 @@ const SelectProvince = (props) => {
             </View>
           )}
           <View>
-            <Text style={{ fontSize: 16, padding: 5 }}>
+            <Text style={{ fontSize: 16, padding: 5, }}>
               จำนวน Partner ที่ต้องการ
             </Text>
             {!partnerWantQty && (
@@ -195,6 +196,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderColor: "#ff2fe6",
     borderWidth: 1.5,
+    width: 350,
+    marginTop: 10,
   },
   imageBg: {
     flex: 1,
@@ -209,7 +212,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: "white",
-    width: 350,
+    width: "80%",
     fontSize: 16,
     marginVertical: 5,
     marginLeft: 15,
@@ -224,6 +227,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     height: 50,
     borderRadius: 10,
+    width: 350,
   },
 })
 

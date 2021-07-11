@@ -182,7 +182,7 @@ const SelectProvinceType4 = (props) => {
       style={styles.imageBg}
       resizeMode="contain"
     >
-      <SafeAreaView style={{ height: "100%" }}>
+      <SafeAreaView style={{ flex: 1, height: "100%", alignItems: "center" }}>
         <View style={styles.cardDetail}>
           <Text style={[styles.optionsNameDetail, { marginBottom: 10 }]}>
             {partnerRequest}
@@ -202,6 +202,7 @@ const SelectProvinceType4 = (props) => {
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             onChangeValue={(e) => onChangeProvinceSelect()}
             listMode="SCROLLVIEW"
+            containerStyle={{ width: 350 }}
           />
           <DropDownPicker
             placeholder="-- เลือก เขต/อำเภอ --"
@@ -211,12 +212,14 @@ const SelectProvinceType4 = (props) => {
             setValue={setDistrict}
             items={getDistrictList(province)}
             setItems={setDistrictList}
+            style={styles.dropdownStyle}
             searchable={false}
             textStyle={{ fontSize: 18 }}
             zIndex={1}
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             onChangeValue={(e) => onChangeProvinceSelect()}
             listMode="SCROLLVIEW"
+            containerStyle={{ width: 350 }}
           />
           {province !== "" && (
             <View
@@ -254,7 +257,6 @@ const styles = StyleSheet.create({
   cardDetail: {
     alignItems: "center",
     padding: 5,
-    width: "100%",
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -273,6 +275,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderColor: "#ff2fe6",
     borderWidth: 1.5,
+    width: 350,
   },
   imageBg: {
     flex: 1,

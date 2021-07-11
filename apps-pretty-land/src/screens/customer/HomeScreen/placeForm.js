@@ -77,7 +77,12 @@ const PlaceForm = (props) => {
       style={styles.imageBg}
       resizeMode="contain"
     >
-      <SafeAreaView style={{ flex: 1, height: "100%" }}>
+      <SafeAreaView
+        style={{
+          height: "100%",
+          alignItems: "center",
+        }}
+      >
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
@@ -153,7 +158,7 @@ const PlaceForm = (props) => {
                 รายละเอียดเพิ่มเติม
               </Text>
             </View>
-            <View style={[styles.formControl, { height: 100, width: "100%" }]}>
+            <View style={[styles.formControl, { height: 100 }]}>
               <TextInput
                 placeholder="รายละเอียดเพิ่มเติม"
                 style={[styles.textInput, { height: 90 }]}
