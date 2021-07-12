@@ -13,7 +13,6 @@ import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import moment from "moment"
 
-import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
@@ -135,7 +134,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

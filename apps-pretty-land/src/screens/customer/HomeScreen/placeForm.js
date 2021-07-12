@@ -15,7 +15,6 @@ import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { getProvinceName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
-import bgImage from "../../../../assets/bg.png"
 import { saveNewPosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
@@ -73,7 +72,7 @@ const PlaceForm = (props) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

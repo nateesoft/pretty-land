@@ -15,7 +15,6 @@ import { Button, CheckBox } from "react-native-elements"
 import RadioButtonRN from "radio-buttons-react-native"
 import { FontAwesome } from "react-native-vector-icons"
 
-import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
@@ -111,7 +110,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

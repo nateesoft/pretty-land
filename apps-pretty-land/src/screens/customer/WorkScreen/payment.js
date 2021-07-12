@@ -19,7 +19,6 @@ import { TextInputMask } from "react-native-masked-text"
 
 import { getBankList, getBankName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
-import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
@@ -181,7 +180,7 @@ const PaymentForm = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

@@ -11,7 +11,7 @@ import DropDownPicker from "react-native-dropdown-picker"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 import { getCountryList, getProvinceName } from "../../../data/apis"
-import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from "../../../Constants"
 
 const SelectProvince = (props) => {
   const { navigation, route } = props
@@ -38,7 +38,7 @@ const SelectProvince = (props) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

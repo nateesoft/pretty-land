@@ -11,7 +11,6 @@ import {
 import { Button, Text } from "react-native-elements"
 import { AntDesign } from "react-native-vector-icons"
 
-import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
@@ -86,7 +85,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

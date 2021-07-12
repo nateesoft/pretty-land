@@ -4,7 +4,7 @@ import { Button } from "react-native-elements"
 import { MaterialIcons } from "@expo/vector-icons"
 
 import { Context as AuthContext } from "../../context/AuthContext"
-import bgImage from "../../../assets/bg.png"
+import { AppConfig } from '../../Constants'
 
 const LogoutScreen = ({ navigation, route }) => {
   const { signOut } = useContext(AuthContext)
@@ -32,7 +32,7 @@ const LogoutScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

@@ -15,7 +15,6 @@ import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import bgImage from "../../../../assets/bg.png"
 import { updatePosts } from "../../../apis"
 
 const PostListScreen = ({ navigation, route }) => {
@@ -125,7 +124,7 @@ const PostListScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

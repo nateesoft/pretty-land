@@ -5,7 +5,7 @@ import { FontAwesome } from "react-native-vector-icons"
 
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
-import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from "../../../Constants"
 import { Alert } from "react-native"
 
 const ViewSettingForm = ({ navigation, route }) => {
@@ -39,7 +39,7 @@ const ViewSettingForm = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

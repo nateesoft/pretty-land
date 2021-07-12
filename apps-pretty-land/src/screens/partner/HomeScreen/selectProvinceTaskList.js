@@ -14,7 +14,6 @@ import Moment from "moment"
 
 import { getProvinceName } from "../../../data/apis"
 import CardNotfound from "../../../components/CardNotfound"
-import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
@@ -217,7 +216,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

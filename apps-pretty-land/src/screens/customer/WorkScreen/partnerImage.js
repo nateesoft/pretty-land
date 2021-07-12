@@ -17,7 +17,6 @@ import { AirbnbRating } from "react-native-elements"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import bgImage from "../../../../assets/bg.png"
 import { Alert } from "react-native"
 
 export default function PartnerImage({ navigation, route }) {
@@ -172,7 +171,7 @@ export default function PartnerImage({ navigation, route }) {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

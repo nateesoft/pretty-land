@@ -23,11 +23,11 @@ import Moment from "moment"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { Context as AuthContext } from "../../../context/AuthContext"
-import bgImage from "../../../../assets/bg.png"
 import FemaleSimple from "../../../../assets/avatar/1.png"
 import MaleSimple from "../../../../assets/avatar/2.png"
 import OtherSimple from "../../../../assets/avatar/3.png"
 import { Button } from "react-native-elements"
+import { AppConfig } from "../../../Constants"
 
 const ProfileHomeScreen = ({ navigation, route }) => {
   const { signOut } = useContext(AuthContext)
@@ -93,7 +93,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

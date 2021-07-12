@@ -16,7 +16,7 @@ import DropDownPicker from "react-native-dropdown-picker"
 import { GetIcon } from "../../../components/GetIcons"
 import { snapshotToArray, getDocument } from "../../../../util"
 import firebase from "../../../../util/firebase"
-import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from '../../../Constants'
 
 const AddNewAdminForm = ({ navigation, route }) => {
   const [name, setName] = useState("")
@@ -119,7 +119,7 @@ const AddNewAdminForm = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

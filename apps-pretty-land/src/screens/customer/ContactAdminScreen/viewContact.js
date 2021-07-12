@@ -3,7 +3,7 @@ import { Alert } from "react-native"
 import { StyleSheet, View, ImageBackground, Image, Linking } from "react-native"
 import { Button, Text } from "react-native-elements"
 
-import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from "../../../Constants"
 import lineLogo from "../../../../assets/icons/LINE_APP.png"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
@@ -33,7 +33,7 @@ const ViewContact = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

@@ -4,12 +4,12 @@ import { Button, Text } from "react-native-elements"
 import { FontAwesome, MaterialIcons } from "react-native-vector-icons"
 import { Ionicons } from "@expo/vector-icons"
 
-import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from "../../../Constants"
 
 const SettingsCategory = ({ navigation, route }) => {
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

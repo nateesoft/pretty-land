@@ -6,7 +6,7 @@ import base64 from "react-native-base64"
 
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
-import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from '../../../Constants'
 
 const ViewProfileScreen = ({ navigation, route }) => {
   const { userId } = route.params
@@ -62,7 +62,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

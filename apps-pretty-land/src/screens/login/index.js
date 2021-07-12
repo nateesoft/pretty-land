@@ -20,9 +20,9 @@ import firebase from "../../../util/firebase"
 import { getDocument } from "../../../util"
 import { Context as AuthContext } from "../../context/AuthContext"
 import bg from "../../../assets/login.png"
-import bgImage from "../../../assets/bg.png"
 import lineLogo from "../../../assets/icons/LINE_APP.png"
 import facebookLogo from "../../../assets/icons/f_logo_RGB-Blue_58.png"
+import { AppConfig } from '../../Constants'
 
 const LoginScreen = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -43,9 +43,9 @@ const LoginScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="contain"
+      resizeMode="stretch"
     >
       <View style={styles.container}>
         <Image style={styles.image} source={bg} />

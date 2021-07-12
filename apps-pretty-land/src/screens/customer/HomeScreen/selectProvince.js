@@ -12,7 +12,6 @@ import DropDownPicker from "react-native-dropdown-picker"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 import { getCountryList } from "../../../data/apis"
-import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
@@ -85,7 +84,7 @@ const SelectProvince = (props) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

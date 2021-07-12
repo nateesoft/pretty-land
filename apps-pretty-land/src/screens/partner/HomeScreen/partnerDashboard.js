@@ -11,7 +11,6 @@ import {
 /* import data */
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
-import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import { Alert } from "react-native"
 
@@ -134,7 +133,7 @@ const Category = ({ navigation, route }) => {
   )
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

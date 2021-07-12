@@ -13,11 +13,11 @@ import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
 
-import bgImage from "../../../../assets/bg.png"
 import { getCountryList, getDistrictList } from "../../../data/apis"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
+import { AppConfig } from '../../../Constants'
 
 const RegisterPartnerForm = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -84,7 +84,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

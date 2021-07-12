@@ -9,7 +9,6 @@ import {
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 
-import bgImage from "../../../../assets/bg.png"
 import { partnerAcceptJobWaitCustomerReview } from "../../../apis"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
@@ -57,7 +56,7 @@ const PriceFormDetail = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

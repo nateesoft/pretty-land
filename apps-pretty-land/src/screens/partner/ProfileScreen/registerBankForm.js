@@ -13,10 +13,10 @@ import { Button } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
 
 import { getBankList } from "../../../data/apis"
-import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
+import { AppConfig } from '../../../Constants'
 
 const RegisterPartnerBankForm = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -58,7 +58,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

@@ -18,7 +18,6 @@ import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 
 import { AppConfig } from "../../../Constants"
-import bgImage from "../../../../assets/bg.png"
 import { Context as AuthContext } from "../../../context/AuthContext"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
@@ -231,7 +230,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

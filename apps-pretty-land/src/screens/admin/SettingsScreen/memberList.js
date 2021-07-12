@@ -11,10 +11,10 @@ import {
 import { ListItem, Text } from "react-native-elements"
 import Moment from "moment"
 
-import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
+import { AppConfig } from '../../../Constants'
 
 import NoImage from "../../../../assets/avatar/1.png"
 
@@ -79,7 +79,7 @@ const MemberList = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

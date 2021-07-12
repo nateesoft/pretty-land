@@ -20,7 +20,6 @@ import {
   getDistrictName,
 } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
-import bgImage from "../../../../assets/bg.png"
 import { saveNewPosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
@@ -211,7 +210,7 @@ const CreatePostForm = (props) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

@@ -12,7 +12,6 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import StarRating from "react-native-star-rating"
 
 import { updatePosts } from "../../../apis"
-import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 
 import firebase from "../../../../util/firebase"
@@ -80,7 +79,7 @@ const ReviewTaskScreen = (props) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

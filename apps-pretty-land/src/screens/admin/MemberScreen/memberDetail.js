@@ -14,7 +14,6 @@ import { Ionicons, Feather, AntDesign } from "react-native-vector-icons"
 import Moment from "moment"
 import { ActivityIndicator } from "react-native-paper"
 
-import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
@@ -113,7 +112,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

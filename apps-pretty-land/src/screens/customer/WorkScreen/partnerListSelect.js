@@ -11,7 +11,6 @@ import { Text } from "react-native"
 import { Button } from "react-native-elements"
 import { MaterialIcons } from "react-native-vector-icons"
 
-import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
@@ -139,7 +138,7 @@ const PartnerListSelect = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

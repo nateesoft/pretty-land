@@ -14,7 +14,7 @@ import Icon from "@expo/vector-icons/AntDesign"
 import { Button } from "react-native-elements/dist/buttons/Button"
 
 import bg from "../../../assets/login.png"
-import bgImage from "../../../assets/bg.png"
+import { AppConfig } from "../../Constants"
 import { Context as AuthContext } from "../../context/AuthContext"
 
 const LoginForm = ({ navigation, route }) => {
@@ -37,7 +37,7 @@ const LoginForm = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

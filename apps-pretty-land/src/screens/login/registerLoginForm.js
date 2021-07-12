@@ -17,7 +17,6 @@ import { FontAwesome } from "react-native-vector-icons"
 
 import { AppConfig } from "../../Constants"
 import { GetIcon } from "../../components/GetIcons"
-import bgImage from "../../../assets/bg.png"
 import { saveMemberRegister } from "../../apis"
 
 const sexData = [
@@ -89,7 +88,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

@@ -15,7 +15,6 @@ import Moment from "moment"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
-import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import { updatePosts } from "../../../apis"
 
@@ -174,7 +173,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >

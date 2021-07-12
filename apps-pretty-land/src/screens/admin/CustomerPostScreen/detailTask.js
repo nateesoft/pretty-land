@@ -12,7 +12,6 @@ import Moment from "moment"
 
 import { updatePosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
-import bgImage from "../../../../assets/bg.png"
 import { Alert } from "react-native"
 
 const ConfirmTaskScreen = ({ navigation, route }) => {
@@ -67,7 +66,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >
