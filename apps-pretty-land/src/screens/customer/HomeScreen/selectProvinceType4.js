@@ -21,7 +21,7 @@ const SelectProvinceType4 = (props) => {
   const { navigation, route } = props
   const { item, userId } = route.params
 
-  const [partnerRequest, setPartnerRequest] = useState(item.name)
+  const [partnerRequest, setPartnerRequest] = useState(item.value)
 
   const [openSelectCountry, setOpenSelectCountry] = useState(false)
   const [province, setProvince] = useState("")
@@ -184,7 +184,7 @@ const SelectProvinceType4 = (props) => {
       <SafeAreaView style={{ flex: 1, height: "100%", alignItems: "center" }}>
         <View style={styles.cardDetail}>
           <Text style={[styles.optionsNameDetail, { marginBottom: 10 }]}>
-            {partnerRequest}
+            {item.name}
           </Text>
           <DropDownPicker
             placeholder="-- เลือกจังหวัด --"

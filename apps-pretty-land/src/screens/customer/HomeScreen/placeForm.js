@@ -33,12 +33,20 @@ const PlaceForm = (props) => {
   const [customerLevel, setCustomerLevel] = useState("")
 
   const createNewPost = () => {
-    if (!phone) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุ โทรศัพท์มือถือ")
-      return
-    }
     if (!place) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ สถานที่นัดพบ")
+      return
+    }
+    if (!startTime) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ เวลาเริ่ม")
+      return
+    }
+    if (!stopTime) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ เวลาหยุด")
+      return
+    }
+    if (!phone) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ โทรศัพท์มือถือ")
       return
     }
     saveNewPosts({
@@ -86,11 +94,6 @@ const PlaceForm = (props) => {
           <View style={styles.container}>
             <View>
               <Text style={{ fontSize: 16, padding: 5 }}>สถานที่นัดหมาย</Text>
-              {!place && (
-                <Text style={{ color: "red", marginLeft: 5 }}>
-                  จะต้องระบุข้อมูล สถานที่นัดหมาย
-                </Text>
-              )}
               <View style={styles.formControl}>
                 <GetIcon type="fa" name="home" />
                 <TextInput
@@ -103,11 +106,6 @@ const PlaceForm = (props) => {
             </View>
             <View>
               <Text style={{ fontSize: 16, padding: 5 }}>เวลาเริ่ม</Text>
-              {!startTime && (
-                <Text style={{ color: "red", marginLeft: 5 }}>
-                  จะต้องระบุข้อมูล เวลาเริ่ม
-                </Text>
-              )}
               <View style={styles.formControl}>
                 <GetIcon type="ii" name="time-outline" />
                 <TextInput
@@ -120,11 +118,6 @@ const PlaceForm = (props) => {
             </View>
             <View>
               <Text style={{ fontSize: 16, padding: 5 }}>เวลาเลิก</Text>
-              {!stopTime && (
-                <Text style={{ color: "red", marginLeft: 5 }}>
-                  จะต้องระบุข้อมูล เวลาเลิก
-                </Text>
-              )}
               <View style={styles.formControl}>
                 <GetIcon type="mi" name="timer-off" />
                 <TextInput
@@ -136,12 +129,7 @@ const PlaceForm = (props) => {
               </View>
             </View>
             <View>
-              <Text style={{ fontSize: 16, padding: 5 }}>เบอร์โทร</Text>
-              {!phone && (
-                <Text style={{ color: "red", marginLeft: 5 }}>
-                  จะต้องระบุข้อมูล เบอร์โทร
-                </Text>
-              )}
+              <Text style={{ fontSize: 16, padding: 5 }}>เบอร์โทร (Optional)</Text>
               <View style={styles.formControl}>
                 <GetIcon type="ad" name="phone" />
                 <TextInput

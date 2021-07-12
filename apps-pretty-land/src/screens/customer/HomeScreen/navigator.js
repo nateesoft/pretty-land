@@ -27,7 +27,7 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
             backgroundColor: "#ff2fe6",
           },
           headerTitle: (props) => (
-            <LogoTitle title="โหมดงานในระบบ" {...props} />
+            <LogoTitle title="กลุ่มสมาชิก" {...props} />
           ),
         }}
         initialParams={{ userId, status }}

@@ -45,7 +45,7 @@ const LoginScreen = ({ navigation, route }) => {
     <ImageBackground
       source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <View style={styles.container}>
         <Image style={styles.image} source={bg} />

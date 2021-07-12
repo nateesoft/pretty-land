@@ -21,7 +21,7 @@ const SelectProvince = (props) => {
   const { navigation, route } = props
   const { item, userId } = route.params
 
-  const [partnerRequest, setPartnerRequest] = useState(item.name)
+  const [partnerRequest, setPartnerRequest] = useState(item.value)
 
   const [openSelectCountry, setOpenSelectCountry] = useState(false)
   const [province, setProvince] = useState("")
@@ -32,6 +32,10 @@ const SelectProvince = (props) => {
   const nextStep = () => {
     if (!province) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ จังหวัด", { props })
+      return
+    }
+    if (!partnerQty) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ จำนวนสมาชิก", { props })
       return
     }
     navigation.navigate("Place-Form", {
@@ -93,7 +97,7 @@ const SelectProvince = (props) => {
           <Text style={[styles.optionsNameDetail, { marginBottom: 10 }]}>
             เลือกจังหวัด
           </Text>
-          <Text> ประเภท: {partnerRequest}</Text>
+          <Text> ประเภท: {item.name}</Text>
           <DropDownPicker
             placeholder="-- เลือกจังหวัด --"
             open={openSelectCountry}
@@ -121,19 +125,14 @@ const SelectProvince = (props) => {
               }}
             >
               <Text style={{ fontSize: 16 }}>
-                จำนวน Partner ในระบบ: {partnerQty} คน
+                จำนวนสมาชิก ในระบบ: {partnerQty} คน
               </Text>
             </View>
           )}
           <View>
             <Text style={{ fontSize: 16, padding: 5, }}>
-              จำนวน Partner ที่ต้องการ
+              จำนวนสมาชิก ที่ต้องการ
             </Text>
-            {!partnerWantQty && (
-              <Text style={{ color: "red", marginLeft: 5 }}>
-                จะต้องระบุข้อมูล จำนวน Partner ที่ต้องการ
-              </Text>
-            )}
             <View style={styles.formControl}>
               <GetIcon type="mci" name="account-multiple-plus" />
               <TextInput

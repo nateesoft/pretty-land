@@ -67,7 +67,7 @@ const PartnerCategory = ({ navigation, route }) => {
   }, [])
 
   const onPressOptions = (item) => {
-    if (item.name === AppConfig.PartnerType.type4) {
+    if (item.value === AppConfig.PartnerType.type4) {
       navigation.navigate("Select-Province-Form-Type4", {
         item,
         partnerGroup: items,
