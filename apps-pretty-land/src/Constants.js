@@ -1,6 +1,6 @@
 export const AppConfig = {
   bgImage: require("../assets/new_bg.png"),
-  iconImage: require("../assets/new_icon.png"),
+  iconImage: require("../assets/icon.png"),
   logoImage: require("../assets/new_logo.png"),
   env: "",
   MemberStatus: {

@@ -2,9 +2,9 @@
   "expo": {
     "name": "Pretty Land",
     "slug": "Pretty-Land",
-    "version": "1.2",
+    "version": "1.3",
     "orientation": "portrait",
-    "icon": "./assets/new_icon.png",
+    "icon": "./assets/icon.png",
     "facebookScheme": "fb507458737111150",
     "facebookAppId": "507458737111150",
     "facebookDisplayName": "pretty-land",
@@ -28,7 +28,7 @@
       "supportsTablet": true,
       "usesAppleSignIn": true,
       "bundleIdentifier": "com.thailand.prettyland",
-      "buildNumber": "1.2",
+      "buildNumber": "1.3",
       "infoPlist": {
         "LSApplicationQueriesSchemes": [
           "fbapi",
@@ -43,13 +43,13 @@
     "android": {
       "package": "com.thailand.prettyland",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/new_icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
       "versionCode": 1
     },
     "web": {
-      "favicon": "./assets/new_icon.png"
+      "favicon": "./assets/icon.png"
     },
     "description": ""
   }

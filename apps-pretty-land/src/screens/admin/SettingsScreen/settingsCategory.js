@@ -14,7 +14,7 @@ const SettingsCategory = ({ navigation, route }) => {
       resizeMode="contain"
     >
       <Text style={styles.textTopic}>ตั้งค่าระบบ / รายงาน</Text>
-      <View style={[styles.cardDetail, { marginTop: "40%" }]}>
+      <View style={[styles.cardDetail, { justifyContent: "center" }]}>
         <Button
           icon={
             <FontAwesome
