@@ -8,6 +8,8 @@ import reportWebVitals from "./reportWebVitals"
 import Profile from "./Profile"
 import Support from "./Support"
 import Privacy from "./Privacy"
+import FacebookForm from "./pages/FacebookLogin"
+import FacebookProfile from "./pages/FacebookProfile"
 
 ReactDOM.render(
   <Router>
@@ -23,6 +25,12 @@ ReactDOM.render(
       </Route>
       <Route path="/privacy">
         <Privacy />
+      </Route>
+      <Route path="/facebook">
+        <FacebookForm />
+      </Route>
+      <Route path="/facebook-profile">
+        <FacebookProfile />
       </Route>
     </Switch>
   </Router>,

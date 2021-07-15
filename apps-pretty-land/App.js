@@ -1,5 +1,4 @@
 import React from "react"
-import * as Font from "expo-font"
 import { NavigationContainer } from "@react-navigation/native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
