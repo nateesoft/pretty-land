@@ -54,7 +54,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 marginBottom: 5,
               }}
             >
-              จำนวนPartner ที่ต้องการ: {postDetail.partnerWantQty || 0} คน
+              จำนวนผู้ร่วมงาน ที่ต้องการ: {postDetail.partnerWantQty || 0} คน
             </Text>
             <Text
               style={{
@@ -133,7 +133,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 paddingHorizontal: 10,
               }}
             >
-              Status: เสนอราคาไปแล้ว รอลูกค้าตอบรับ
+              Status: กำหนดค่าเดินทางไปแล้ว
             </Text>
           )}
         </View>

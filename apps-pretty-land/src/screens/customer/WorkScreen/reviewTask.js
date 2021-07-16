@@ -5,7 +5,7 @@ import {
   ImageBackground,
   ScrollView,
   SafeAreaView,
-  Alert,
+  Alert
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -43,7 +43,7 @@ const ReviewTaskScreen = (props) => {
     updatePosts(postDetail.id, {
       status: AppConfig.PostsStatus.customerCancelPost,
       statusText: "ยกเลิกโพสท์นี้แล้ว",
-      sys_update_date: new Date().toUTCString(),
+      sys_update_date: new Date().toUTCString()
     })
     navigation.navigate("Post-List")
   }
@@ -56,7 +56,7 @@ const ReviewTaskScreen = (props) => {
         status: AppConfig.PostsStatus.closeJob,
         statusText: "ปิดงาน Post นี้เรียบร้อย",
         rate,
-        sys_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString()
       })
 
     // save list star partner
@@ -66,7 +66,7 @@ const ReviewTaskScreen = (props) => {
         .ref(getDocument(`partner_star/${item.partnerId}/${postDetail.id}`))
         .update({
           star: rate,
-          sys_date: new Date().toUTCString(),
+          sys_date: new Date().toUTCString()
         })
     })
 
@@ -94,7 +94,7 @@ const ReviewTaskScreen = (props) => {
                 borderWidth: 1.5,
                 borderColor: "#aaa",
                 borderRadius: 15,
-                margin: 5,
+                margin: 5
               }}
             >
               <Text style={styles.textDetail}>
@@ -109,12 +109,16 @@ const ReviewTaskScreen = (props) => {
               <Text style={styles.textDetail}>
                 เบอร์โทรศัพท์: {postDetail.customerPhone}
               </Text>
-              <Text style={styles.textDetail}>
-                เพิ่มเติม: {postDetail.customerRemark}
-              </Text>
-              <Text style={styles.textDetail}>
-                สถานที่: {postDetail.placeMeeting}
-              </Text>
+              {postDetail.customerRemark && (
+                <Text style={styles.textDetail}>
+                  เพิ่มเติม: {postDetail.customerRemark}
+                </Text>
+              )}
+              {postDetail.placeMeeting && (
+                <Text style={styles.textDetail}>
+                  สถานที่: {postDetail.placeMeeting}
+                </Text>
+              )}
               <Text style={styles.textDetail}>
                 จังหวัด: {postDetail.provinceName}
               </Text>
@@ -125,7 +129,7 @@ const ReviewTaskScreen = (props) => {
                     fontSize: 18,
                     color: "blue",
                     alignSelf: "center",
-                    padding: 20,
+                    padding: 20
                   }}
                 >
                   โพสท์ใหม่ รอตรวจสอบจาก admin...
@@ -139,7 +143,7 @@ const ReviewTaskScreen = (props) => {
                       fontSize: 18,
                       color: "blue",
                       alignSelf: "center",
-                      marginTop: 10,
+                      marginTop: 10
                     }}
                   >
                     ได้รับการอนุมัติจาก admin แล้ว
@@ -148,10 +152,10 @@ const ReviewTaskScreen = (props) => {
                     style={{
                       fontSize: 18,
                       color: "red",
-                      alignSelf: "center",
+                      alignSelf: "center"
                     }}
                   >
-                    (รอ Partner รับงาน)
+                    (รอรับงาน)
                   </Text>
                 </View>
               )}
@@ -162,7 +166,7 @@ const ReviewTaskScreen = (props) => {
                     fontSize: 18,
                     color: "blue",
                     alignSelf: "center",
-                    padding: 20,
+                    padding: 20
                   }}
                 >
                   รอตรวจสอบ หลักฐานการโอนเงิน...
@@ -175,7 +179,7 @@ const ReviewTaskScreen = (props) => {
                       fontSize: 18,
                       color: "red",
                       alignSelf: "center",
-                      padding: 20,
+                      padding: 20
                     }}
                   >
                     ปิดงานเรียบร้อยแล้ว
@@ -237,7 +241,7 @@ const ReviewTaskScreen = (props) => {
                 buttonStyle={{
                   marginVertical: 10,
                   borderRadius: 5,
-                  width: 150,
+                  width: 150
                 }}
                 onPress={() => saveToCloseJob()}
               />
@@ -256,23 +260,23 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
+    padding: 10
   },
   cardDetail: {
     flex: 1,
     alignItems: "center",
     padding: 5,
-    margin: 10,
+    margin: 10
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   textDetail: {
     fontSize: 14,
-    padding: 5,
-  },
+    padding: 5
+  }
 })
 
 export default ReviewTaskScreen

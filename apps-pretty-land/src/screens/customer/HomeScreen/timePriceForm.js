@@ -52,7 +52,7 @@ const TimePriceForm = (props) => {
       customerPhone: phone,
       partnerImage: item.image_url,
       status: AppConfig.PostsStatus.waitPartnerConfrimWork,
-      statusText: "รอ Partner แจ้งรับงาน",
+      statusText: "รอแจ้งรับงาน",
       province,
       provinceName: getProvinceName(province)[0],
       customerLevel: customer.customerLevel,

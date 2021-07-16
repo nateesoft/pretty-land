@@ -80,7 +80,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 โหมดงาน: {topic}
               </Text>
               <Text style={{ fontSize: 16 }}>
-                จำนวน Partner ที่ต้องการ: {item.partnerWantQty || 0} คน
+                จำนวนผู้ร่วมงานที่ต้องการ: {item.partnerWantQty || 0} คน
               </Text>
               <Text style={{ fontSize: 16 }}>
                 ชื่อลูกค้า: {item.customerName}
@@ -95,7 +95,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>
-                สถานะที่นัดหมาย: {item.placeMeeting}
+                สถานะที่: {item.placeMeeting}
               </Text>
               <Text style={{ fontSize: 16 }}>
                 เบอร์โทร: {item.customerPhone}
@@ -162,7 +162,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           )}
           {partnerList.length > 0 && (
             <View>
-              <Text>แสดงรายชื่อ Partner ที่ลูกค้าเลือก</Text>
+              <Text>แสดงรายชื่อที่ลูกค้าเลือก</Text>
               <ScrollView horizontals showsHorizontalScrollIndicator={false}>
                 {partnerList.map((pObj, index) => (
                   <View

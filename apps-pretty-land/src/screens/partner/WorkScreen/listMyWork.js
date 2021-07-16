@@ -71,7 +71,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
             <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
             <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
             <ListItem.Title>
-              วันที่แจ้งรับงาน:{" "}
+              วันที่แจ้ง:{" "}
               {moment(item.sys_create_date).format("D MMM YYYY")}
             </ListItem.Title>
             <Text>---------------------------------------</Text>
@@ -88,7 +88,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
             <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
             <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
             <ListItem.Title>
-              วันที่แจ้งรับงาน:{" "}
+              วันที่แจ้ง:{" "}
               {moment(item.sys_create_date).format("D MMM YYYY")}
             </ListItem.Title>
             <Text>---------------------------------------</Text>

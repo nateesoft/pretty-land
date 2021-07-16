@@ -231,7 +231,7 @@ const SelectProvinceType4 = (props) => {
               }}
             >
               <Text style={{ fontSize: 16 }}>
-                จำนวน Partner ในระบบ: {partnerQty} คน
+                จำนวนพนักงานนวด: {partnerQty} คน
               </Text>
             </View>
           )}

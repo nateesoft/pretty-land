@@ -35,7 +35,7 @@ const sexData = [
 
 const RegisterPlanForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { userId, status } = route.params
+  const { userId, status, appconfig } = route.params
   const [items, setItems] = useState([])
 
   const [type1, setType1] = useState(true)
@@ -87,21 +87,16 @@ const RegisterPlanForm = ({ navigation, route }) => {
       character
     }
 
-    navigate("Register-Partner-Form", { userId, status, planData })
+    navigate("Register-Partner-Form", { userId, status, planData, appconfig })
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`appconfig`))
-    ref.once("value", (snapshot) => {
-      const dataItems = []
-      const appconfig = snapshot.val()
-      dataItems.push({ ...appconfig.partner1 })
-      dataItems.push({ ...appconfig.partner2 })
-      dataItems.push({ ...appconfig.partner3 })
-      dataItems.push({ ...appconfig.partner4 })
-
-      setItems(dataItems)
-    })
+    const dataItems = []
+    dataItems.push({ ...appconfig.partner1 })
+    dataItems.push({ ...appconfig.partner2 })
+    dataItems.push({ ...appconfig.partner3 })
+    dataItems.push({ ...appconfig.partner4 })
+    setItems(dataItems)
   }, [])
 
   useEffect(() => {
@@ -135,7 +130,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{ alignItems: "center" }}>
-            <Text style={styles.textFormInfo}>รายละเอียดงานที่รับ</Text>
+            <Text style={styles.textFormInfo}>รายละเอียดงานที่สมัคร</Text>
             <Text>(Work Details)</Text>
           </View>
 
@@ -186,7 +181,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                     alignSelf: "flex-start"
                   }}
                 >
-                  ค่าเดินทาง สำหรับ{items[3].name}
+                  ค่าเดินทาง สำหรับนวดเพื่อสุขภาพ
                 </Text>
                 <View style={styles.formControlPrice}>
                   <GetIcon type="fa" name="money" />

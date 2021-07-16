@@ -109,7 +109,7 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         name="Time-Price-Form"
         component={TimePriceForm}
         options={{
-          title: "เวลาที่นัดหมาย",
+          title: "เวลาเริ่ม",
           headerStyle: {
             backgroundColor: "#ff2fe6",
           },

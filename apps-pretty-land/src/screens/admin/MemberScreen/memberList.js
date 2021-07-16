@@ -125,7 +125,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
               marginVertical: 5
             }}
           >
-            รับงาน: {getPartnerTypeFromFirebase(item)}
+            งานที่สมัคร: {getPartnerTypeFromFirebase(item)}
           </ListItem.Subtitle>
           <ListItem.Subtitle>สถานะ: {item.statusText}</ListItem.Subtitle>
         </ListItem.Content>

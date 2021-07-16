@@ -65,7 +65,7 @@ const ViewContact = ({ navigation, route }) => {
         </Text>
       </View>
       <View style={styles.cardDetail}>
-        <Text style={styles.textTopic}>ติดต่อ Admin</Text>
+        <Text style={styles.textTopic}>ติดต่อผู้ดูแลระบบ</Text>
         <Button
           icon={
             <Image

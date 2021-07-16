@@ -21,7 +21,7 @@ import { AppConfig } from '../../../Constants'
 
 const RegisterPartnerForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { userId, status, planData } = route.params
+  const { userId, status, planData, appconfig } = route.params
   const { type4 } = planData
   const [mobile, setMobile] = useState("")
   const [province, setProvince] = useState("")
@@ -67,7 +67,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       lineId,
     }
 
-    navigate("Partner-Register-Bank-Form", { userId, status, partnerData })
+    navigate("Partner-Register-Bank-Form", { userId, status, partnerData, appconfig })
   }
 
   useEffect(() => {
@@ -123,7 +123,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             </Text>
             <View style={{ alignSelf: "center" }}>
               <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
-                จังหวัดที่รับงาน
+                จังหวัด
               </Text>
               <DropDownPicker
                 placeholder="-- เลือกจังหวัด --"

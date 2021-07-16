@@ -114,7 +114,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
             >
               <Text>ชื่อลูกค้า: {item.customerName}</Text>
               <Text>Level: {item.customerLevel}</Text>
-              <Text>สถานที่นัดหมาย: {item.placeMeeting}</Text>
+              <Text>ชื่อสถานที่: {item.placeMeeting}</Text>
               <Text>
                 เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
               </Text>
@@ -150,7 +150,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
           )}
           <View style={{ alignItems: "center", margin: 10 }}>
             <Text style={{ marginBottom: 5 }}>
-              ยอดรับชำระสำหรับ Partner {listPartner.length} คน
+              ยอดรับชำระสำหรับ {listPartner.length} คน
             </Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {listPartner.map((obj, index) => (

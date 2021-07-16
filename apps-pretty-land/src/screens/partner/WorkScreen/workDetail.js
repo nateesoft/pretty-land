@@ -174,7 +174,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
             <Text>โหมดงาน: {item.partnerRequest}</Text>
             <Text>จังหวัด: {item.provinceName}</Text>
             <Text>
-              วันที่แจ้งรับงาน:{" "}
+              วันที่แจ้ง:{" "}
               {moment(item.sys_create_date).format("D MMM YYYY")}
             </Text>
             <Text>Lv.ลูกค้า: {item.customerLevel}</Text>
@@ -199,7 +199,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
             }}
           >
             <Input
-              placeholder="เสนอราคา (บาท)"
+              placeholder="ค่าเดินทาง (บาท)"
               value={`ราคาที่เสนอ ${partner.amount} บาท`}
             />
           </View>

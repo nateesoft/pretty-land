@@ -34,7 +34,7 @@ const SelectProvince = (props) => {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ จังหวัด", { props })
       return
     }
-    if (!partnerQty) {
+    if (!partnerWantQty) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ จำนวนสมาชิก", { props })
       return
     }
@@ -131,7 +131,7 @@ const SelectProvince = (props) => {
           )}
           <View>
             <Text style={{ fontSize: 16, padding: 5, }}>
-              จำนวนสมาชิก ที่ต้องการ
+              จำนวนผู้ร่วมงาน ที่ต้องการ
             </Text>
             <View style={styles.formControl}>
               <GetIcon type="mci" name="account-multiple-plus" />

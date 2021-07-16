@@ -71,7 +71,7 @@ const CreatePostForm = (props) => {
       return
     }
     if (!place) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุ สถานที่นัดพบ")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ สถานที่")
       return
     }
     saveNewPosts({
@@ -122,7 +122,7 @@ const CreatePostForm = (props) => {
       partnerImage: item.image_url,
       subtitle: `${partnerRequest}`,
       status: AppConfig.PostsStatus.waitPartnerConfrimWork,
-      statusText: "รอ Partner แจ้งรับงาน",
+      statusText: "รอแจ้งรับงาน",
       province,
       provinceName: getProvinceName(province)[0],
       district: district ? district : "",
@@ -262,7 +262,7 @@ const CreatePostForm = (props) => {
                 }}
               >
                 <Text style={{ fontSize: 16 }}>
-                  จำนวน Partner: {partnerQty} คน
+                  จำนวน: {partnerQty} คน
                 </Text>
               </View>
             )}
@@ -323,17 +323,17 @@ const CreatePostForm = (props) => {
                 {!isType4 && (
                   <View>
                     <Text style={{ fontSize: 16, padding: 5 }}>
-                      สถานที่นัดพบ (Meeting Place)
+                      สถานที่ (Place)
                     </Text>
                     {!place && (
                       <Text style={{ color: "red", marginLeft: 5 }}>
-                        จะต้องระบุข้อมูล สถานที่นัดพบ (Meeting Place)
+                        จะต้องระบุข้อมูล สถานที่ (Place)
                       </Text>
                     )}
                     <View style={styles.formControl}>
                       <GetIcon type="fa" name="home" />
                       <TextInput
-                        placeholder="สถานที่นัดพบ (Meeting Place)"
+                        placeholder="สถานที่ (Place)"
                         style={styles.textInput}
                         value={place}
                         onChangeText={(value) => setPlace(value)}

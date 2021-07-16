@@ -178,7 +178,7 @@ export default function PartnerImage({ navigation, route }) {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>
           <Text style={{ fontSize: 20, color: "green", fontWeight: "bold" }}>
-            รายละเอียด Partner
+            ข้อมูลพนักงาน
           </Text>
           <View
             style={{
@@ -243,7 +243,7 @@ export default function PartnerImage({ navigation, route }) {
           </View>
           {selectStatus !== AppConfig.PostsStatus.customerConfirm ? (
             <Button
-              title="เลือก Partner คนนี้"
+              title="เลือก สมาชิกคนนี้"
               icon={
                 <AntDesign
                   name="checkcircleo"
@@ -270,7 +270,7 @@ export default function PartnerImage({ navigation, route }) {
                   marginTop: 10,
                 }}
               >
-                status: คุณเลือก Partner คนนี้แล้ว
+                status: คุณเลือกสมาชิกคนนี้แล้ว
               </Text>
               <Button
                 title="ยกเลิกการเลือก"

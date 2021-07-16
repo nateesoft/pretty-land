@@ -85,7 +85,7 @@ const PartnerList = ({ navigation, route }) => {
           </View>
         )}
         <ListItem.Title>
-          พื้นที่รับงาน: {getProvinceName(item.province)}
+          พื้นที่: {getProvinceName(item.province)}
         </ListItem.Title>
         <View
           style={{
@@ -118,7 +118,7 @@ const PartnerList = ({ navigation, route }) => {
         <Text style={styles.textTopic}>รายงานสมัครหางาน</Text>
         <View style={styles.container}>
           {members.length === 0 && (
-            <CardNotfound text="ไม่พบข้อมูล Partner ในระบบ" />
+            <CardNotfound text="ไม่พบข้อมูลผู้ใช้ ในระบบ" />
           )}
           {members.length > 0 && (
             <FlatList

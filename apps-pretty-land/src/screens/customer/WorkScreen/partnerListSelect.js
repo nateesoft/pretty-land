@@ -143,7 +143,7 @@ const PartnerListSelect = ({ navigation, route }) => {
       resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>แสดงพร้อมรับงาน</Text>
+        <Text style={styles.textTopic}>แสดงพร้อมทำงาน</Text>
         <View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {listSelect.map((item, index) => (

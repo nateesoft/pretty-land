@@ -76,7 +76,7 @@ const PriceFormDetail = ({ navigation, route }) => {
                 >
                   <TextInput
                     value={amount}
-                    placeholder="เสนอราคา (บาท)"
+                    placeholder="ค่าเดินทาง (บาท)"
                     style={styles.textInput}
                     keyboardType="number-pad"
                     onChangeText={(value) => setAmount(value)}

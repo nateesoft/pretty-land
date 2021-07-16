@@ -34,7 +34,7 @@ const PlaceForm = (props) => {
 
   const createNewPost = () => {
     if (!place) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุ สถานที่นัดพบ")
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ สถานที่")
       return
     }
     if (!startTime) {
@@ -93,11 +93,11 @@ const PlaceForm = (props) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
-              <Text style={{ fontSize: 16, padding: 5 }}>สถานที่นัดหมาย</Text>
+              <Text style={{ fontSize: 16, padding: 5 }}>ชื่อสถานที่</Text>
               <View style={styles.formControl}>
                 <GetIcon type="fa" name="home" />
                 <TextInput
-                  placeholder="สถานที่นัดหมาย"
+                  placeholder="ชื่อสถานที่"
                   style={styles.textInput}
                   value={place}
                   onChangeText={(value) => setPlace(value)}
