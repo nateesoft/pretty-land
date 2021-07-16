@@ -15,7 +15,7 @@ import { AppConfig } from "../../../Constants"
 import { Alert } from "react-native"
 
 const ConfirmTaskScreen = ({ navigation, route }) => {
-  const { item } = route.params
+  const { item, topic } = route.params
   const [partnerList, setPartnerList] = useState([])
 
   const getPartnerList = () => {
@@ -77,7 +77,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>
-                โหมดงาน: {item.partnerRequest}
+                โหมดงาน: {topic}
               </Text>
               <Text style={{ fontSize: 16 }}>
                 จำนวน Partner ที่ต้องการ: {item.partnerWantQty || 0} คน

@@ -115,7 +115,7 @@ const PartnerList = ({ navigation, route }) => {
       resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>รายงานสมัคร Partner</Text>
+        <Text style={styles.textTopic}>รายงานสมัครหางาน</Text>
         <View style={styles.container}>
           {members.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูล Partner ในระบบ" />

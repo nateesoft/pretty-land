@@ -113,9 +113,6 @@ const ReviewTaskScreen = (props) => {
                 เพิ่มเติม: {postDetail.customerRemark}
               </Text>
               <Text style={styles.textDetail}>
-                ประเภท Partner: {postDetail.partnerRequest}
-              </Text>
-              <Text style={styles.textDetail}>
                 สถานที่: {postDetail.placeMeeting}
               </Text>
               <Text style={styles.textDetail}>

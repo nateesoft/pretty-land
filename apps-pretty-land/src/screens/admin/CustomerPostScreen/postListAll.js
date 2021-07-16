@@ -18,7 +18,7 @@ import { snapshotToArray, getDiffHours, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const PostListAllScreen = ({ navigation, route }) => {
-  const { partnerRequest } = route.params
+  const { item: itemData, partnerRequest } = route.params
   const [refreshing, setRefreshing] = useState(false)
   const [posts, setPosts] = useState([])
 
@@ -26,9 +26,9 @@ const PostListAllScreen = ({ navigation, route }) => {
 
   const onPressOptions = (item, status) => {
     if (status === AppConfig.PostsStatus.waitAdminConfirmPayment) {
-      navigation.navigate("Verify-Payment-Slip", { item })
+      navigation.navigate("Verify-Payment-Slip", { item, topic: itemData.name })
     } else {
-      navigation.navigate("Detail-Task", { item })
+      navigation.navigate("Detail-Task", { item, topic: itemData.name })
     }
   }
 
@@ -47,7 +47,7 @@ const PostListAllScreen = ({ navigation, route }) => {
         <ListItem.Title>ชื่อลูกค้า: {item.customerName}</ListItem.Title>
         <ListItem.Title>Level: {item.customerLevel}</ListItem.Title>
         <ListItem.Subtitle>
-          ประเภทที่ต้องการ: {item.partnerRequest}
+          ประเภทงาน: {itemData.name}
         </ListItem.Subtitle>
         <ListItem.Subtitle>Status: {item.statusText}</ListItem.Subtitle>
       </ListItem.Content>
@@ -140,7 +140,7 @@ const PostListAllScreen = ({ navigation, route }) => {
       resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>รายการโพสท์</Text>
+        <Text style={styles.textTopic}>รายการโพสท์หางาน</Text>
         <View style={styles.container}>
           {posts.length === 0 && <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />}
           {posts.length > 0 && (

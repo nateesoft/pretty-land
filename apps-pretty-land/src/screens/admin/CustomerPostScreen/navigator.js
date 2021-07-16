@@ -22,7 +22,7 @@ const AdminTaskNavigator = () => {
             backgroundColor: "#ff2fe6",
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="โพสท์ของลูกค้าทั้งหมด" {...props} />,
+          headerTitle: (props) => <LogoTitle title="โพสท์ทั้งหมด" {...props} />,
         }}
         initialParams={{ partnerType: "all" }}
       />

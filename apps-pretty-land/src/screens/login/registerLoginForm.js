@@ -62,10 +62,10 @@ const RegisterLoginForm = ({ navigation, route }) => {
       Alert.alert("แจ้งเตือน", "รหัสผ่าน และรหัสยืนยันจะต้องตรงกัน !!!")
       return
     }
-    if (!name) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
-      return
-    }
+    // if (!name) {
+    //   Alert.alert("แจ้งเตือน", "กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
+    //   return
+    // }
     
     saveMemberRegister(
       {
@@ -146,7 +146,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
                 />
               </View>
             </View>
-            <View style={{ width: "80%", alignSelf: "center" }}>
+            {/* <View style={{ width: "80%", alignSelf: "center" }}>
               <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
                 เพศ [Optional]
               </Text>
@@ -228,7 +228,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
                   keyboardType="numeric"
                 />
               </View>
-            </View>
+            </View> */}
           </View>
           <View style={styles.buttonFooter}>
             <Button

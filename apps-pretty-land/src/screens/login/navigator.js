@@ -45,7 +45,7 @@ const LoginNavigator = () => {
         name="Partner-Login-Form"
         component={RegisterLoginImageForm}
         options={{
-          title: "ลงทะเบียนผู้ร่วมงาน",
+          title: "ลงทะเบียน",
           headerStyle: {
             backgroundColor: "#ff2fe6",
           },

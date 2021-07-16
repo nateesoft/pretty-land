@@ -43,10 +43,10 @@ const LoginForm = ({ navigation, route }) => {
     >
       <SafeAreaView style={{ height: "100%" }}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{ alignItems: "center", marginTop: '15%' }}>
+          <View style={{ alignItems: "center" }}>
             <Image style={styles.image} source={bg} />
             <Text style={styles.textLogo}>PRETTY LAND</Text>
-            <Text style={styles.textDetail}>Love Your Moments</Text>
+            <Text style={styles.textDetail}>Find Job & Work</Text>
 
             <View style={{ width: "80%", alignSelf: "center" }}>
               <Text style={{ fontSize: 16, padding: 5 }}>
@@ -112,7 +112,7 @@ const LoginForm = ({ navigation, route }) => {
               onPress={() => validateLogin()}
             />
             <Button
-              title="ลงทะเบียนผู้ร่วมงาน (Register)"
+              title="ลงทะเบียน (Register)"
               titleStyle={{
                 color: "blue",
                 fontSize: 14,

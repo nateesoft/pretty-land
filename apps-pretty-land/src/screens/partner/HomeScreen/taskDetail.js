@@ -46,7 +46,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>รายละเอียดโพสท์ของลูกค้า</Text>
+        <Text style={styles.textTopic}>รายละเอียดโพสท์</Text>
         <View style={styles.cardDetail}>
           <View>
             <Text

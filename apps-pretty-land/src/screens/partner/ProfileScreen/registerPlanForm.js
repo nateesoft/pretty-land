@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  ImageBackground,
+  ImageBackground
 } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
 import { Button, CheckBox } from "react-native-elements"
@@ -24,18 +24,19 @@ const radioData = [
   { label: AppConfig.PartnerType.type1, value: "1" },
   { label: AppConfig.PartnerType.type2, value: "2" },
   { label: AppConfig.PartnerType.type3, value: "3" },
-  { label: AppConfig.PartnerType.type4, value: "4" },
+  { label: AppConfig.PartnerType.type4, value: "4" }
 ]
 
 const sexData = [
   { label: "หญิง (Female)", value: "female" },
   { label: "ชาย (Male)", value: "male" },
-  { label: "อื่น ๆ (Other)", value: "other" },
+  { label: "อื่น ๆ (Other)", value: "other" }
 ]
 
 const RegisterPlanForm = ({ navigation, route }) => {
   const { navigate } = navigation
   const { userId, status } = route.params
+  const [items, setItems] = useState([])
 
   const [type1, setType1] = useState(true)
   const [type2, setType2] = useState(false)
@@ -83,11 +84,25 @@ const RegisterPlanForm = ({ navigation, route }) => {
       stature,
       weight,
       price4: !price4 ? 0 : price4,
-      character,
+      character
     }
 
     navigate("Register-Partner-Form", { userId, status, planData })
   }
+
+  useEffect(() => {
+    const ref = firebase.database().ref(getDocument(`appconfig`))
+    ref.once("value", (snapshot) => {
+      const dataItems = []
+      const appconfig = snapshot.val()
+      dataItems.push({ ...appconfig.partner1 })
+      dataItems.push({ ...appconfig.partner2 })
+      dataItems.push({ ...appconfig.partner3 })
+      dataItems.push({ ...appconfig.partner4 })
+
+      setItems(dataItems)
+    })
+  }, [])
 
   useEffect(() => {
     const ref = firebase.database().ref(getDocument(`members/${userId}`))
@@ -132,32 +147,32 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 fontSize: 16,
                 padding: 5,
                 marginTop: 10,
-                alignSelf: "flex-start",
+                alignSelf: "flex-start"
               }}
             >
-              ประเภทงาน
+              หมวดหมู่งาน
             </Text>
             <CheckBox
               containerStyle={styles.checkbox}
-              title={radioData[0].label}
+              title={(items[0] && items[0].name) || ""}
               checked={type1}
               onPress={() => setType1(!type1)}
             />
             <CheckBox
               containerStyle={styles.checkbox}
-              title={radioData[1].label}
+              title={(items[1] && items[1].name) || ""}
               checked={type2}
               onPress={() => setType2(!type2)}
             />
             <CheckBox
               containerStyle={styles.checkbox}
-              title={radioData[2].label}
+              title={(items[2] && items[2].name) || ""}
               checked={type3}
               onPress={() => setType3(!type3)}
             />
             <CheckBox
               containerStyle={styles.checkbox}
-              title={radioData[3].label}
+              title={(items[3] && items[3].name) || ""}
               checked={type4}
               onPress={() => setType4(!type4)}
             />
@@ -168,10 +183,10 @@ const RegisterPlanForm = ({ navigation, route }) => {
                     fontSize: 16,
                     padding: 5,
                     marginTop: 10,
-                    alignSelf: "flex-start",
+                    alignSelf: "flex-start"
                   }}
                 >
-                  ค่าบริการ สำหรับนวดแผนไทย
+                  ค่าเดินทาง สำหรับ{items[3].name}
                 </Text>
                 <View style={styles.formControlPrice}>
                   <GetIcon type="fa" name="money" />
@@ -256,9 +271,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 keyboardType="numeric"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>
-              สัดส่วน (optional)
-            </Text>
+            <Text style={{ fontSize: 16, padding: 5 }}>สัดส่วน (optional)</Text>
             <View style={styles.formControl}>
               <GetIcon type="ii" name="md-woman-outline" />
               <TextInput
@@ -297,7 +310,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 paddingHorizontal: 15,
                 height: 45,
                 borderWidth: 0.5,
-                marginBottom: 20,
+                marginBottom: 20
               }}
               onPress={() => handleNexData()}
             />
@@ -312,23 +325,23 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   image: {
     height: 100,
-    width: 100,
+    width: 100
   },
   textLogo: {
     fontSize: 24,
     fontWeight: "bold",
     fontStyle: "italic",
-    color: "purple",
+    color: "purple"
   },
   textDetail: {
     fontSize: 12,
     fontWeight: "bold",
     color: "gray",
-    marginBottom: 20,
+    marginBottom: 20
   },
   btnFacebook: {
     marginHorizontal: 55,
@@ -337,24 +350,24 @@ const styles = StyleSheet.create({
     marginTop: 5,
     backgroundColor: "blue",
     paddingVertical: 2,
-    borderRadius: 23,
+    borderRadius: 23
   },
   textOr: {
     fontSize: 14,
     color: "gray",
-    marginTop: 50,
+    marginTop: 50
   },
   textInput: {
     width: 250,
     textAlign: "center",
     fontSize: 16,
-    marginVertical: 5,
+    marginVertical: 5
   },
   textRegister: {
     color: "purple",
     marginTop: 20,
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   textFooter: {
     position: "absolute",
@@ -363,13 +376,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flexWrap: "wrap",
     fontSize: 12,
-    color: "gray",
+    color: "gray"
   },
   textFormInfo: {
     fontSize: 22,
     fontWeight: "bold",
     marginTop: 20,
-    marginBottom: 8,
+    marginBottom: 8
   },
   formControl: {
     flexDirection: "row",
@@ -379,7 +392,7 @@ const styles = StyleSheet.create({
     borderColor: "#ff2fe6",
     marginTop: 5,
     height: 50,
-    borderRadius: 5,
+    borderRadius: 5
   },
   formControlPrice: {
     flexDirection: "row",
@@ -389,14 +402,14 @@ const styles = StyleSheet.create({
     borderColor: "#ff2fe6",
     marginTop: 5,
     height: 50,
-    borderRadius: 5,
+    borderRadius: 5
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
-  checkbox: { width: "100%", backgroundColor: null, borderColor: "#ff2fe6" },
+  checkbox: { width: "100%", backgroundColor: null, borderColor: "#ff2fe6" }
 })
 
 export default RegisterPlanForm

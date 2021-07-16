@@ -97,7 +97,7 @@ const SelectProvince = (props) => {
           <Text style={[styles.optionsNameDetail, { marginBottom: 10 }]}>
             เลือกจังหวัด
           </Text>
-          <Text> ประเภท: {item.name}</Text>
+          <Text> โหมดงาน: {item.name}</Text>
           <DropDownPicker
             placeholder="-- เลือกจังหวัด --"
             open={openSelectCountry}

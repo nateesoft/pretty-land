@@ -11,6 +11,15 @@ import { getDocument } from "../../../../util"
 const ViewContact = ({ navigation, route }) => {
   const { userId } = route.params
   const [profile, setProfile] = useState({})
+  const [lineContact, setLineContact] = useState("")
+
+  useEffect(() => {
+    const ref = firebase.database().ref(getDocument("appconfig"))
+    ref.once("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setLineContact(data.line_contact_admin || "https://lin.ee/DgRh5Mw")
+    })
+  }, [])
 
   const LinkToLineContact = () => {
     Linking.openURL(lineContact)

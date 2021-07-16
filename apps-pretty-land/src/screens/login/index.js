@@ -50,7 +50,7 @@ const LoginScreen = ({ navigation, route }) => {
       <View style={styles.container}>
         <Image style={styles.image} source={bg} />
         <Text style={styles.textLogo}>PRETTY LAND</Text>
-        <Text style={styles.textDetail}>Love Your Moments</Text>
+        <Text style={styles.textDetail}>Find Job & Work</Text>
         <TouchableHighlight
           underlayColor="pink"
           style={styles.btnLineClickContain}
@@ -70,7 +70,7 @@ const LoginScreen = ({ navigation, route }) => {
             </Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight
+        {/* <TouchableHighlight
           underlayColor="pink"
           style={[styles.btnClickContain, { marginBottom: 20 }]}
           onPress={() => signInFacebook()}
@@ -89,7 +89,7 @@ const LoginScreen = ({ navigation, route }) => {
               เข้าสู่ระบบด้วย facebook
             </Text>
           </View>
-        </TouchableHighlight>
+        </TouchableHighlight> */}
         {Platform.OS === "ios" && (
           <AppleAuthentication.AppleAuthenticationButton
             buttonType={
@@ -158,7 +158,7 @@ const LoginScreen = ({ navigation, route }) => {
           onPress={() => navigate("Login-Form")}
         />
         <Button
-          title="ลงทะเบียนผู้ร่วมงาน (Register)"
+          title="ลงทะเบียน (Register)"
           titleStyle={{
             color: "blue",
             fontSize: 14,

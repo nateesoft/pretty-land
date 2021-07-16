@@ -87,7 +87,7 @@ const SettingsCategory = ({ navigation, route }) => {
           titleStyle={{ fontSize: 22 }}
           iconLeft
           buttonStyle={styles.btnPartnerReport}
-          title="รายงานสมัคร Partner"
+          title="รายงานสมัครหางาน"
           onPress={() => navigation.navigate("Partner-Register-Lists")}
         />
       </View>

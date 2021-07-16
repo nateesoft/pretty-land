@@ -38,7 +38,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
 
     firebase.database().ref(getDocument(`posts/${posts.id}`)).update({
       status: AppConfig.PostsStatus.waitCustomerPayment,
-      statusText: "รอลูกค้าชำระค่าบริการ",
+      statusText: "รอลูกค้าชำระค่าดำเนินการ",
       sys_update_date: new Date().toUTCString(),
     })
 

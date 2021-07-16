@@ -75,7 +75,7 @@ const Category = ({ navigation, route }) => {
   }, [])
 
   const onPressOptions = (item) => {
-    navigation.navigate("Post-List-All", { partnerRequest: item.value })
+    navigation.navigate("Post-List-All", { item, partnerRequest: item.value })
   }
 
   const DisplayCard = ({ data, count }) => (

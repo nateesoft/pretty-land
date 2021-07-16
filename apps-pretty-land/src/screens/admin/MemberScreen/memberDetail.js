@@ -17,11 +17,10 @@ import { ActivityIndicator } from "react-native-paper"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
-import { getPartnerGroupByType } from "../../../data/apis"
 
 const MemberDetailScreen = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { item } = route.params
+  const { item, topic } = route.params
   const video = useRef(null)
   const [status, setStatus] = useState({})
 
@@ -214,7 +213,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
                 ชื่อ: {item.name || item.username}
               </Text>
               <Text style={{ fontSize: 16 }}>
-                รับงาน: {getPartnerGroupByType(item)}
+                โหมดงาน: {topic}
               </Text>
               <Text style={{ fontSize: 16 }}>
                 วันที่เป็นสมาชิก:{" "}

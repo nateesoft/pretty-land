@@ -125,16 +125,16 @@ const SelectProvinceType4 = (props) => {
             <Text
               style={{
                 color: "white",
-                fontSize: 22,
+                fontSize: 16,
                 fontWeight: "bold",
                 backgroundColor: "purple",
                 position: "absolute",
                 left: -10,
-                top: -15,
+                top: -6,
                 opacity: 0.8,
               }}
             >
-              ราคา: {item.price4}
+              ค่านวดแผนไทย: {item.price4}
             </Text>
             <Text
               style={{
@@ -236,7 +236,7 @@ const SelectProvinceType4 = (props) => {
             </View>
           )}
           {partnerList.length === 0 && (
-            <CardNotfound text={`ไม่พบข้อมูล ${AppConfig.PartnerType.type4}`} />
+            <CardNotfound text={`ไม่พบข้อมูล ${item.name}`} />
           )}
           <FlatList
             style={{ margin: 5 }}
