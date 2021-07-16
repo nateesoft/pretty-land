@@ -6,7 +6,7 @@ import {
   Alert,
   StyleSheet,
   TouchableHighlight,
-  FlatList,
+  FlatList
 } from "react-native"
 import { Text } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
@@ -19,7 +19,7 @@ import CardNotfound from "../../../components/CardNotfound"
 
 const SelectProvinceType4 = (props) => {
   const { navigation, route } = props
-  const { item, userId } = route.params
+  const { item, userId, appconfig } = route.params
 
   const [partnerRequest, setPartnerRequest] = useState(item.value)
 
@@ -44,7 +44,7 @@ const SelectProvinceType4 = (props) => {
       province,
       userId,
       partnerRequest,
-      partnerProfile,
+      partnerProfile
     })
   }
 
@@ -95,7 +95,7 @@ const SelectProvinceType4 = (props) => {
           width: 200,
           height: 280,
           margin: 15,
-          padding: 15,
+          padding: 15
         }}
         resizeMode="contain"
       >
@@ -105,37 +105,39 @@ const SelectProvinceType4 = (props) => {
               alignItems: "center",
               borderRadius: 5,
               height: "100%",
-              width: "100%",
+              width: "100%"
             }}
           >
             <Text
               style={{
                 color: "white",
-                fontSize: 20,
+                fontSize: 14,
                 fontWeight: "bold",
                 backgroundColor: "red",
                 position: "absolute",
                 bottom: 25,
                 left: -5,
-                opacity: 0.65,
+                opacity: 0.65
               }}
             >
               ชื่อ: {item.name} อายุ: {item.age}
             </Text>
-            <Text
-              style={{
-                color: "white",
-                fontSize: 16,
-                fontWeight: "bold",
-                backgroundColor: "purple",
-                position: "absolute",
-                left: -10,
-                top: -6,
-                opacity: 0.8,
-              }}
-            >
-              ค่านวดแผนไทย: {item.price4}
-            </Text>
+            {appconfig.show_price && (
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  backgroundColor: "purple",
+                  position: "absolute",
+                  left: -10,
+                  top: -6,
+                  opacity: 0.8
+                }}
+              >
+                ค่านวดแผนไทย: {item.price4}
+              </Text>
+            )}
             <Text
               style={{
                 color: "white",
@@ -145,7 +147,7 @@ const SelectProvinceType4 = (props) => {
                 position: "absolute",
                 left: -10,
                 top: 20,
-                opacity: 0.5,
+                opacity: 0.5
               }}
             >
               เพศ: {item.sex}
@@ -164,7 +166,7 @@ const SelectProvinceType4 = (props) => {
                 padding: 5,
                 opacity: 0.6,
                 left: -5,
-                bottom: -15,
+                bottom: -35
               }}
             >
               สถานที่: {item.address}
@@ -227,7 +229,7 @@ const SelectProvinceType4 = (props) => {
                 backgroundColor: "pink",
                 alignSelf: "center",
                 padding: 5,
-                marginTop: 10,
+                marginTop: 10
               }}
             >
               <Text style={{ fontSize: 16 }}>
@@ -255,44 +257,44 @@ const SelectProvinceType4 = (props) => {
 const styles = StyleSheet.create({
   cardDetail: {
     alignItems: "center",
-    padding: 5,
+    padding: 5
   },
   optionsNameDetail: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     color: "blue",
-    marginTop: 10,
+    marginTop: 10
   },
   container: {
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "center",
-    margin: 10,
+    margin: 10
   },
   dropdownStyle: {
     marginBottom: 10,
     borderColor: "#ff2fe6",
     borderWidth: 1.5,
-    width: 350,
+    width: 350
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   buttonFooter: {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 50,
+    marginBottom: 50
   },
   textInput: {
     backgroundColor: "white",
     width: 350,
     fontSize: 16,
     marginVertical: 5,
-    marginLeft: 15,
+    marginLeft: 15
   },
   formControl: {
     flexDirection: "row",
@@ -303,8 +305,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 5,
     height: 50,
-    borderRadius: 10,
-  },
+    borderRadius: 10
+  }
 })
 
 export default SelectProvinceType4

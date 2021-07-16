@@ -5,7 +5,7 @@ import {
   View,
   Text,
   Image,
-  ImageBackground,
+  ImageBackground
 } from "react-native"
 
 /* import data */
@@ -16,6 +16,7 @@ import { AppConfig } from "../../../Constants"
 const PartnerCategory = ({ navigation, route }) => {
   const { userId } = route.params
   const [items, setItems] = useState([])
+  const [appconfigMaster, setAppConfigMaster] = useState({})
 
   const [sumType1, setSumType1] = useState("0")
   const [sumType2, setSumType2] = useState("0")
@@ -62,6 +63,7 @@ const PartnerCategory = ({ navigation, route }) => {
       dataItems.push({ ...appconfig.partner3 })
       dataItems.push({ ...appconfig.partner4 })
 
+      setAppConfigMaster(appconfig)
       setItems(dataItems)
     })
   }, [])
@@ -71,9 +73,10 @@ const PartnerCategory = ({ navigation, route }) => {
       navigation.navigate("Select-Province-Form-Type4", {
         item,
         partnerGroup: items,
+        appconfig: appconfigMaster
       })
     } else {
-      navigation.navigate("Select-Province-Form", { item, partnerGroup: items })
+      navigation.navigate("Select-Province-Form", { item, partnerGroup: items, appconfig: appconfigMaster })
     }
   }
 
@@ -92,7 +95,7 @@ const PartnerCategory = ({ navigation, route }) => {
             margin: 5,
             borderRadius: 5,
             borderColor: "white",
-            borderWidth: 3,
+            borderWidth: 3
           }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
@@ -139,35 +142,35 @@ const styles = StyleSheet.create({
     height: "100%",
     padding: 5,
     flexDirection: "row",
-    flexWrap: "wrap",
+    flexWrap: "wrap"
   },
   box: {
     width: "50%",
     height: "50%",
-    padding: 5,
+    padding: 5
   },
   inner: {
     flex: 1,
     backgroundColor: "red",
     borderRadius: 5,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   optionsName: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "white",
+    color: "white"
   },
   optionsInfo: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "white",
+    color: "white"
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })
 
 export default PartnerCategory
