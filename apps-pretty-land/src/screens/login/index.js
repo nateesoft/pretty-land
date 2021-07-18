@@ -54,7 +54,7 @@ const LoginScreen = ({ navigation, route }) => {
       <View style={styles.container}>
         <Image style={styles.image} source={bg} />
         <Text style={styles.textLogo}>PRETTY LAND</Text>
-        <Text style={styles.textDetail}>Find Job & Work</Text>
+        <Text style={styles.textDetail}>Version 1.0</Text>
         <TouchableHighlight
           underlayColor="pink"
           style={styles.btnLineClickContain}
