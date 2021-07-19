@@ -12,6 +12,7 @@ import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 import RadioButtonRN from "radio-buttons-react-native"
 import { FontAwesome } from "react-native-vector-icons"
+import { TextInputMask } from "react-native-masked-text"
 
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
@@ -71,7 +72,8 @@ const PlaceForm = (props) => {
       customerName,
       startTime,
       stopTime,
-      partnerWantQty
+      partnerWantQty,
+      sexTarget: sex,
     })
     navigation.navigate("Customer-Dashboard")
   }
@@ -136,11 +138,14 @@ const PlaceForm = (props) => {
               <Text style={{ fontSize: 16, padding: 5 }}>เวลาเริ่ม</Text>
               <View style={styles.formControl}>
                 <GetIcon type="ii" name="time-outline" />
-                <TextInput
-                  placeholder="เวลาเริ่ม"
-                  style={styles.textInput}
+                <TextInputMask
+                  type="custom"
+                  options={{
+                    mask: "99:99"
+                  }}
                   value={startTime}
-                  onChangeText={(value) => setStartTime(value)}
+                  onChangeText={(text) => setStartTime(text)}
+                  style={styles.textInput}
                 />
               </View>
             </View>
@@ -148,25 +153,31 @@ const PlaceForm = (props) => {
               <Text style={{ fontSize: 16, padding: 5 }}>เวลาเลิก</Text>
               <View style={styles.formControl}>
                 <GetIcon type="mi" name="timer-off" />
-                <TextInput
-                  placeholder="เวลาเลิก"
-                  style={styles.textInput}
+                <TextInputMask
+                  type="custom"
+                  options={{
+                    mask: "99:99"
+                  }}
                   value={stopTime}
-                  onChangeText={(value) => setStopTime(value)}
+                  onChangeText={(text) => setStopTime(text)}
+                  style={styles.textInput}
                 />
               </View>
             </View>
             <View>
               <Text style={{ fontSize: 16, padding: 5 }}>
-                เบอร์โทร (Optional)
+                เบอร์โทร
               </Text>
               <View style={styles.formControl}>
                 <GetIcon type="ad" name="phone" />
-                <TextInput
-                  placeholder="เบอร์โทร"
-                  style={styles.textInput}
+                <TextInputMask
+                  type="custom"
+                  options={{
+                    mask: "(999)-999-9999"
+                  }}
                   value={phone}
-                  onChangeText={(value) => setPhone(value)}
+                  onChangeText={(text) => setPhone(text)}
+                  style={styles.textInput}
                 />
               </View>
             </View>

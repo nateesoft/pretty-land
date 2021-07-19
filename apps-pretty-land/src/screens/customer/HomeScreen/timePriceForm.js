@@ -10,6 +10,7 @@ import {
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
+import { TextInputMask } from "react-native-masked-text"
 
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
@@ -25,7 +26,6 @@ const TimePriceForm = (props) => {
 
   const [phone, setPhone] = useState("")
   const [timeMeeting, setTimeMeeting] = useState("")
-  const [sex, setSex] = useState("female")
   const [customer, setCustomer] = useState("")
 
   const mappingCustomerProfile = (snapshot) => {
@@ -99,11 +99,14 @@ const TimePriceForm = (props) => {
               )}
               <View style={styles.formControl}>
                 <GetIcon type="ii" name="time-outline" />
-                <TextInput
-                  placeholder="เวลาที่จะไป"
-                  style={styles.textInput}
+                <TextInputMask
+                  type="custom"
+                  options={{
+                    mask: "99:99"
+                  }}
                   value={timeMeeting}
-                  onChangeText={(value) => setTimeMeeting(value)}
+                  onChangeText={(text) => setTimeMeeting(text)}
+                  style={styles.textInput}
                 />
               </View>
             </View>
@@ -116,11 +119,14 @@ const TimePriceForm = (props) => {
               )}
               <View style={styles.formControl}>
                 <GetIcon type="ad" name="phone" />
-                <TextInput
-                  placeholder="เบอร์โทร"
-                  style={styles.textInput}
+                <TextInputMask
+                  type="custom"
+                  options={{
+                    mask: "(999)-999-9999"
+                  }}
                   value={phone}
-                  onChangeText={(value) => setPhone(value)}
+                  onChangeText={(text) => setPhone(text)}
+                  style={styles.textInput}
                 />
               </View>
             </View>

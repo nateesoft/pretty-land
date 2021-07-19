@@ -20,13 +20,6 @@ import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
 import { AppConfig } from "../../../Constants"
 
-const radioData = [
-  { label: AppConfig.PartnerType.type1, value: "1" },
-  { label: AppConfig.PartnerType.type2, value: "2" },
-  { label: AppConfig.PartnerType.type3, value: "3" },
-  { label: AppConfig.PartnerType.type4, value: "4" }
-]
-
 const sexData = [
   { label: "หญิง (Female)", value: "female" },
   { label: "ชาย (Male)", value: "male" },
