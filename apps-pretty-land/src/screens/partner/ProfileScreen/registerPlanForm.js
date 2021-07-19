@@ -37,7 +37,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
   const [type4, setType4] = useState(false)
   const [price4, setPrice4] = useState("")
 
-  const [sex, setSex] = useState("female")
+  const [sex, setSex] = useState("male")
   const [name, setName] = useState("")
   const [age, setAge] = useState("")
   const [character, setCharacter] = useState("")

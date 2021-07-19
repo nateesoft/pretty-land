@@ -12,30 +12,17 @@ import {
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
 import base64 from "react-native-base64"
-import RadioButtonRN from "radio-buttons-react-native"
-import { FontAwesome } from "react-native-vector-icons"
-import { TextInputMask } from "react-native-masked-text"
+import uuid from "react-native-uuid"
 
 import { AppConfig } from "../../Constants"
 import { GetIcon } from "../../components/GetIcons"
-
-const sexData = [
-  { label: "ชาย (Male)", value: "male" },
-  { label: "หญิง (Female)", value: "female" },
-  { label: "อื่น ๆ (Other)", value: "other" }
-]
+import firebase from "../../../util/firebase"
+import { getDocument, snapshotToArray } from "../../../util"
 
 const RegisterLoginForm = ({ navigation, route }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [rePassword, setRePassword] = useState("")
-
-  const [sex, setSex] = useState("male")
-  const [name, setName] = useState("")
-  const [age, setAge] = useState("")
-  const [height, setHeight] = useState("")
-  const [weight, setWeight] = useState("")
-  const [stature, setStature] = useState("")
 
   const encryptPassword = (password) => {
     return base64.encode(password)
@@ -75,47 +62,20 @@ const RegisterLoginForm = ({ navigation, route }) => {
       Alert.alert("แจ้งเตือน", "รหัสผ่าน และรหัสยืนยันจะต้องตรงกัน !!!")
       return
     }
-    if (!name) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
-      return
-    }
-    if (!age) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุอายุ")
-      return
-    }
-    if (!height) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุส่วนสูง")
-      return
-    }
-    if (!weight) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุน้ำหนัก")
-      return
-    }
-    if (!stature) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุสัดส่วน")
-      return
-    }
-
     const memberData = {
       username,
       password: encryptPassword(password),
       memberType: "partner",
       status: AppConfig.MemberStatus.newRegister,
       statusText: AppConfig.MemberStatus.newRegisterMessage,
-      status_priority: AppConfig.MemberStatus.newRegisterPriority,
-      sex,
-      name,
-      age,
-      height,
-      stature,
-      weight
+      status_priority: AppConfig.MemberStatus.newRegisterPriority
     }
 
     firebase
       .database()
       .ref(getDocument("members"))
       .orderByChild("username")
-      .equalTo(member.username)
+      .equalTo(username)
       .once("value", (snapshot) => {
         const data = snapshotToArray(snapshot)
         if (data.length === 0) {
@@ -141,11 +101,9 @@ const RegisterLoginForm = ({ navigation, route }) => {
               Alert.alert(err)
             })
         } else {
-          Alert.alert(
-            "แจ้งเตือน",
-            `ข้อมูลผู้ใช้งาน: ${member.username} มีอยู่แล้ว`,
-            [{ text: "OK" }]
-          )
+          Alert.alert("แจ้งเตือน", `ข้อมูลผู้ใช้งาน: ${username} มีอยู่แล้ว`, [
+            { text: "OK" }
+          ])
         }
       })
       .catch((err) => {
@@ -213,90 +171,6 @@ const RegisterLoginForm = ({ navigation, route }) => {
                 />
               </View>
             </View>
-            <View style={{ width: "80%", alignSelf: "center" }}>
-              <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
-                เพศ
-              </Text>
-              <View style={{ marginBottom: 20 }}>
-                <RadioButtonRN
-                  box={false}
-                  animationTypes={["shake"]}
-                  data={sexData}
-                  selectedBtn={(e) => setSex(e.value)}
-                  icon={
-                    <FontAwesome
-                      name="check-circle"
-                      size={25}
-                      color="#2c9dd1"
-                    />
-                  }
-                  initial={sex === "male" ? 1 : sex === "female" ? 2 : 3}
-                />
-              </View>
-              <Text style={{ fontSize: 16, padding: 5 }}>
-                ชื่อ/ ชื่อเล่น (Name/ Nickname)
-              </Text>
-              {!name && (
-                <Text style={{ color: "red" }}>
-                  ระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก
-                </Text>
-              )}
-              <View style={styles.formControl}>
-                <GetIcon type="mci" name="card-account-details" />
-                <TextInput
-                  value={`${name}`}
-                  onChangeText={(value) => setName(value)}
-                  style={styles.textInput}
-                  placeholder="ชื่อ/ ชื่อเล่น (Nickname)"
-                />
-              </View>
-              <Text style={{ fontSize: 16, padding: 5 }}>อายุ</Text>
-              <View style={styles.formControl}>
-                <GetIcon type="mci" name="timeline-clock" />
-                <TextInput
-                  value={`${age}`}
-                  onChangeText={(value) => setAge(value)}
-                  style={styles.textInput}
-                  placeholder="อายุ (Age)"
-                  keyboardType="numeric"
-                />
-              </View>
-              <Text style={{ fontSize: 16, padding: 5 }}>ส่วนสูง</Text>
-              <View style={styles.formControl}>
-                <GetIcon type="mci" name="human-male-height" />
-                <TextInput
-                  value={`${height}`}
-                  onChangeText={(value) => setHeight(value)}
-                  style={styles.textInput}
-                  placeholder="ส่วนสูง (Tall)"
-                  keyboardType="numeric"
-                />
-              </View>
-              <Text style={{ fontSize: 16, padding: 5 }}>สัดส่วน</Text>
-              <View style={styles.formControl}>
-                <GetIcon type="ii" name="md-woman-outline" />
-                <TextInputMask
-                  type="custom"
-                  options={{
-                    mask: "99-99-99"
-                  }}
-                  value={stature}
-                  onChangeText={(text) => setStature(text)}
-                  style={styles.textInput}
-                />
-              </View>
-              <Text style={{ fontSize: 16, padding: 5 }}>น้ำหนัก</Text>
-              <View style={styles.formControl}>
-                <GetIcon type="fa5" name="weight" />
-                <TextInput
-                  value={weight}
-                  onChangeText={(value) => setWeight(value)}
-                  style={styles.textInput}
-                  placeholder="น้ำหนัก (Weight)"
-                  keyboardType="numeric"
-                />
-              </View>
-            </View>
           </View>
           <View style={styles.buttonFooter}>
             <Button
@@ -313,7 +187,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
               buttonStyle={{
                 backgroundColor: "#ff2fe6",
                 marginTop: 20,
-                borderRadius: 25,
+                borderRadius: 5,
                 width: 250,
                 paddingHorizontal: 15,
                 height: 45,
@@ -338,7 +212,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    margin: 10
+    marginTop: "35%"
   },
   image: {
     height: 100,
