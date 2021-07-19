@@ -54,7 +54,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 marginBottom: 5,
               }}
             >
-              จำนวนผู้ร่วมงาน ที่ต้องการ: {postDetail.partnerWantQty || 0} คน
+              จำนวนเด็กที่ต้องการ: {postDetail.partnerWantQty || 0} คน
             </Text>
             <Text
               style={{

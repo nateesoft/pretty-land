@@ -4,7 +4,7 @@ import {
   View,
   ImageBackground,
   ScrollView,
-  Image,
+  Image
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import { AntDesign, Ionicons } from "react-native-vector-icons"
@@ -43,13 +43,13 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       updatePosts(item.id, {
         status: AppConfig.PostsStatus.waitCustomerPayment,
         statusText: "รอลูกค้าชำระเงิน",
-        sys_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString()
       })
     } else {
       updatePosts(item.id, {
         status: AppConfig.PostsStatus.adminConfirmNewPost,
         statusText: "อนุมัติโพสท์",
-        sys_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString()
       })
     }
     navigation.navigate("Post-List-All")
@@ -59,7 +59,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
     updatePosts(item.id, {
       status: AppConfig.PostsStatus.notApprove,
       statusText: "ไม่อนุมัติโพสท์",
-      sys_update_date: new Date().toUTCString(),
+      sys_update_date: new Date().toUTCString()
     })
     navigation.navigate("Post-List-All")
   }
@@ -76,11 +76,9 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
         <View style={styles.cardDetail}>
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
+              <Text style={{ fontSize: 16 }}>โหมดงาน: {topic}</Text>
               <Text style={{ fontSize: 16 }}>
-                โหมดงาน: {topic}
-              </Text>
-              <Text style={{ fontSize: 16 }}>
-                จำนวนผู้ร่วมงานที่ต้องการ: {item.partnerWantQty || 0} คน
+                จำนวนเด็กที่ต้องการ: {item.partnerWantQty || 0} คน
               </Text>
               <Text style={{ fontSize: 16 }}>
                 ชื่อลูกค้า: {item.customerName}
@@ -134,7 +132,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                   margin: 5,
                   backgroundColor: "#ff2fe6",
                   paddingHorizontal: 20,
-                  borderRadius: 25,
+                  borderRadius: 25
                 }}
                 title="อนุมัติโพสท์"
                 onPress={() => updateToApprove()}
@@ -153,7 +151,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                   margin: 5,
                   backgroundColor: "red",
                   borderRadius: 25,
-                  paddingHorizontal: 20,
+                  paddingHorizontal: 20
                 }}
                 title="ไม่อนุมัติโพสท์"
                 onPress={() => updateNotApprove()}
@@ -174,14 +172,14 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                       alignSelf: "center",
                       borderColor: "gray",
                       alignContent: "center",
-                      alignItems: "center",
+                      alignItems: "center"
                     }}
                   >
                     <Image
                       source={{
                         uri: pObj.image,
                         width: 150,
-                        height: 150,
+                        height: 150
                       }}
                       key={`img_${pObj.id}`}
                     />
@@ -197,7 +195,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                           backgroundColor: "gray",
                           color: "white",
                           width: "100%",
-                          alignSelf: "center",
+                          alignSelf: "center"
                         }}
                       >
                         Log...
@@ -229,7 +227,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 5,
-    margin: 10,
+    margin: 10
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -237,7 +235,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   optionsNameDetail2: {
     fontSize: 18,
@@ -245,19 +243,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   viewCard: {
     width: "100%",
     borderRadius: 20,
     borderWidth: 1,
     borderColor: "#eee",
-    marginVertical: 5,
+    marginVertical: 5
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   textTopic: {
     fontSize: 24,
@@ -265,7 +263,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
+    padding: 10
   },
   textDetail: {
     fontSize: 16,
@@ -273,8 +271,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
-  },
+    padding: 10
+  }
 })
 
 export default ConfirmTaskScreen

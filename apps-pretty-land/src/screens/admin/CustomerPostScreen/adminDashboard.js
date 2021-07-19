@@ -99,7 +99,7 @@ const Category = ({ navigation, route }) => {
           }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text style={{ fontWeight: "bold", color: "blue" }}>จำนวน {count} โพสท์</Text>
+        <Text style={{ fontWeight: "bold", color: "blue" }}>จำนวน {count} งาน</Text>
       </View>
     </TouchableHighlight>
   )

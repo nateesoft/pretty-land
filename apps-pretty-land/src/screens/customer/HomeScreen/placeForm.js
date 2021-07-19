@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   Alert,
   StyleSheet,
-  ScrollView,
+  ScrollView
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -64,7 +64,7 @@ const PlaceForm = (props) => {
       customerName,
       startTime,
       stopTime,
-      partnerWantQty,
+      partnerWantQty
     })
     navigation.navigate("Customer-Dashboard")
   }
@@ -87,17 +87,17 @@ const PlaceForm = (props) => {
       <SafeAreaView
         style={{
           height: "100%",
-          alignItems: "center",
+          alignItems: "center"
         }}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
-              <Text style={{ fontSize: 16, padding: 5 }}>ชื่อสถานที่</Text>
+              <Text style={{ fontSize: 16, padding: 5 }}>สถานที่นัดหมาย</Text>
               <View style={styles.formControl}>
                 <GetIcon type="fa" name="home" />
                 <TextInput
-                  placeholder="ชื่อสถานที่"
+                  placeholder="สถานที่นัดหมาย"
                   style={styles.textInput}
                   value={place}
                   onChangeText={(value) => setPlace(value)}
@@ -129,7 +129,9 @@ const PlaceForm = (props) => {
               </View>
             </View>
             <View>
-              <Text style={{ fontSize: 16, padding: 5 }}>เบอร์โทร (Optional)</Text>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                เบอร์โทร (Optional)
+              </Text>
               <View style={styles.formControl}>
                 <GetIcon type="ad" name="phone" />
                 <TextInput
@@ -141,13 +143,11 @@ const PlaceForm = (props) => {
               </View>
             </View>
             <View>
-              <Text style={{ fontSize: 16, padding: 5 }}>
-                รายละเอียดเพิ่มเติม
-              </Text>
+              <Text style={{ fontSize: 16, padding: 5 }}>รายละเอียดงาน</Text>
             </View>
             <View style={[styles.formControl, { height: 100 }]}>
               <TextInput
-                placeholder="รายละเอียดเพิ่มเติม"
+                placeholder="รายละเอียดงาน"
                 style={[styles.textInput, { height: 90 }]}
                 value={remark}
                 onChangeText={(value) => setRemark(value)}
@@ -173,7 +173,7 @@ const PlaceForm = (props) => {
                   width: 250,
                   paddingHorizontal: 15,
                   height: 45,
-                  borderWidth: 0.5,
+                  borderWidth: 0.5
                 }}
                 title="บันทึกโพสท์"
                 onPress={() => createNewPost()}
@@ -189,37 +189,37 @@ const PlaceForm = (props) => {
 const styles = StyleSheet.create({
   cardDetail: {
     alignItems: "center",
-    padding: 5,
+    padding: 5
   },
   optionsNameDetail: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     color: "blue",
-    marginTop: 10,
+    marginTop: 10
   },
   optionsNameDetail2: {
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
     color: "blue",
-    marginTop: 10,
+    marginTop: 10
   },
   container: {
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "center",
-    margin: 10,
+    margin: 10
   },
   dropdownStyle: {
     marginBottom: 10,
     borderColor: "#ff2fe6",
-    borderWidth: 1.5,
+    borderWidth: 1.5
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   formControl: {
     flexDirection: "row",
@@ -230,20 +230,20 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 5,
     height: 50,
-    borderRadius: 10,
+    borderRadius: 10
   },
   textInput: {
     backgroundColor: "white",
     width: 350,
     fontSize: 16,
     marginVertical: 5,
-    marginLeft: 15,
+    marginLeft: 15
   },
   buttonFooter: {
     flexDirection: "column",
     alignSelf: "center",
     justifyContent: "center",
-    marginBottom: 50,
+    marginBottom: 50
   },
   panelPartner: {
     padding: 20,
@@ -255,8 +255,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#bbb",
     borderRadius: 5,
-    position: "relative",
-  },
+    position: "relative"
+  }
 })
 
 export default PlaceForm

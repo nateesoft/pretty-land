@@ -7,22 +7,22 @@ import {
   Alert,
   ImageBackground,
   ScrollView,
-  SafeAreaView,
+  SafeAreaView
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements/dist/buttons/Button"
 import base64 from "react-native-base64"
 import RadioButtonRN from "radio-buttons-react-native"
 import { FontAwesome } from "react-native-vector-icons"
+import { TextInputMask } from "react-native-masked-text"
 
 import { AppConfig } from "../../Constants"
 import { GetIcon } from "../../components/GetIcons"
-import { saveMemberRegister } from "../../apis"
 
 const sexData = [
   { label: "หญิง (Female)", value: "female" },
   { label: "ชาย (Male)", value: "male" },
-  { label: "อื่น ๆ (Other)", value: "other" },
+  { label: "อื่น ๆ (Other)", value: "other" }
 ]
 
 const RegisterLoginForm = ({ navigation, route }) => {
@@ -41,12 +41,25 @@ const RegisterLoginForm = ({ navigation, route }) => {
     return base64.encode(password)
   }
 
+  const saveMemberDb = (id, data) => {
+    return new Promise((resolve, reject) => {
+      firebase
+        .database()
+        .ref(getDocument(`members/${id}`))
+        .set(data)
+        .catch((err) => {
+          reject(err)
+        })
+      resolve(true)
+    })
+  }
+
   const saveAndGoLoginForm = () => {
     if (!username) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุชื่อเข้าใช้งาน")
       return
     }
-    if (!password) {
+    if (password.length <= 0) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุรหัสผ่าน เพื่อเข้าใช้งาน")
       return
     }
@@ -62,28 +75,82 @@ const RegisterLoginForm = ({ navigation, route }) => {
       Alert.alert("แจ้งเตือน", "รหัสผ่าน และรหัสยืนยันจะต้องตรงกัน !!!")
       return
     }
-    // if (!name) {
-    //   Alert.alert("แจ้งเตือน", "กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
-    //   return
-    // }
-    
-    saveMemberRegister(
-      {
-        username,
-        password: encryptPassword(password),
-        memberType: "partner",
-        status: AppConfig.MemberStatus.newRegister,
-        statusText: AppConfig.MemberStatus.newRegisterMessage,
-        status_priority: AppConfig.MemberStatus.newRegisterPriority,
-        sex,
-        name,
-        age,
-        height,
-        stature,
-        weight,
-      },
-      navigation
-    )
+    if (!name) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
+      return
+    }
+    if (!age) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุอายุ")
+      return
+    }
+    if (!height) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุส่วนสูง")
+      return
+    }
+    if (!weight) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุน้ำหนัก")
+      return
+    }
+    if (!stature) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุสัดส่วน")
+      return
+    }
+
+    const memberData = {
+      username,
+      password: encryptPassword(password),
+      memberType: "partner",
+      status: AppConfig.MemberStatus.newRegister,
+      statusText: AppConfig.MemberStatus.newRegisterMessage,
+      status_priority: AppConfig.MemberStatus.newRegisterPriority,
+      sex,
+      name,
+      age,
+      height,
+      stature,
+      weight
+    }
+
+    firebase
+      .database()
+      .ref(getDocument("members"))
+      .orderByChild("username")
+      .equalTo(member.username)
+      .once("value", (snapshot) => {
+        const data = snapshotToArray(snapshot)
+        if (data.length === 0) {
+          const newId = uuid.v4()
+          const saveData = {
+            id: newId,
+            sys_create_date: new Date().toUTCString(),
+            sys_update_date: new Date().toUTCString(),
+            ...memberData
+          }
+          saveMemberDb(newId, saveData)
+            .then((res) => {
+              if (res) {
+                Alert.alert(
+                  "กระบวนการสมบูรณ์",
+                  "บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้"
+                )
+                navigation.popToTop()
+                navigation.navigate("Login-Form")
+              }
+            })
+            .catch((err) => {
+              Alert.alert(err)
+            })
+        } else {
+          Alert.alert(
+            "แจ้งเตือน",
+            `ข้อมูลผู้ใช้งาน: ${member.username} มีอยู่แล้ว`,
+            [{ text: "OK" }]
+          )
+        }
+      })
+      .catch((err) => {
+        Alert.alert(err)
+      })
   }
 
   return (
@@ -146,9 +213,9 @@ const RegisterLoginForm = ({ navigation, route }) => {
                 />
               </View>
             </View>
-            {/* <View style={{ width: "80%", alignSelf: "center" }}>
+            <View style={{ width: "80%", alignSelf: "center" }}>
               <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
-                เพศ [Optional]
+                เพศ
               </Text>
               <View style={{ marginBottom: 20 }}>
                 <RadioButtonRN
@@ -183,7 +250,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
                   placeholder="ชื่อ/ ชื่อเล่น (Nickname)"
                 />
               </View>
-              <Text style={{ fontSize: 16, padding: 5 }}>อายุ [Optional]</Text>
+              <Text style={{ fontSize: 16, padding: 5 }}>อายุ</Text>
               <View style={styles.formControl}>
                 <GetIcon type="mci" name="timeline-clock" />
                 <TextInput
@@ -194,7 +261,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
                   keyboardType="numeric"
                 />
               </View>
-              <Text style={{ fontSize: 16, padding: 5 }}>ส่วนสูง [Optional]</Text>
+              <Text style={{ fontSize: 16, padding: 5 }}>ส่วนสูง</Text>
               <View style={styles.formControl}>
                 <GetIcon type="mci" name="human-male-height" />
                 <TextInput
@@ -205,19 +272,20 @@ const RegisterLoginForm = ({ navigation, route }) => {
                   keyboardType="numeric"
                 />
               </View>
-              <Text style={{ fontSize: 16, padding: 5 }}>
-                สัดส่วน [Optional]
-              </Text>
+              <Text style={{ fontSize: 16, padding: 5 }}>สัดส่วน</Text>
               <View style={styles.formControl}>
                 <GetIcon type="ii" name="md-woman-outline" />
-                <TextInput
+                <TextInputMask
+                  type="custom"
+                  options={{
+                    mask: "99-99-99"
+                  }}
                   value={stature}
-                  onChangeText={(value) => setStature(value)}
+                  onChangeText={(text) => setStature(text)}
                   style={styles.textInput}
-                  placeholder="สัดส่วน 32-24-35 (Stature)"
                 />
               </View>
-              <Text style={{ fontSize: 16, padding: 5 }}>น้ำหนัก [Optional]</Text>
+              <Text style={{ fontSize: 16, padding: 5 }}>น้ำหนัก</Text>
               <View style={styles.formControl}>
                 <GetIcon type="fa5" name="weight" />
                 <TextInput
@@ -228,7 +296,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
                   keyboardType="numeric"
                 />
               </View>
-            </View> */}
+            </View>
           </View>
           <View style={styles.buttonFooter}>
             <Button
@@ -249,7 +317,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
                 width: 250,
                 paddingHorizontal: 15,
                 height: 45,
-                borderWidth: 0.5,
+                borderWidth: 0.5
               }}
               onPress={() => saveAndGoLoginForm()}
             />
@@ -264,36 +332,36 @@ const styles = StyleSheet.create({
   topicHeader: {
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   container: {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    margin: 10,
+    margin: 10
   },
   image: {
     height: 100,
     width: 100,
-    marginBottom: 10,
+    marginBottom: 10
   },
   textLogo: {
     fontSize: 24,
     fontWeight: "bold",
     fontStyle: "italic",
-    color: "purple",
+    color: "purple"
   },
   textInput: {
     backgroundColor: "white",
     width: 250,
     textAlign: "center",
     fontSize: 16,
-    marginVertical: 5,
+    marginVertical: 5
   },
   textFormInfo: {
     fontSize: 22,
     fontWeight: "bold",
-    marginBottom: 8,
+    marginBottom: 8
   },
   formControl: {
     flexDirection: "row",
@@ -304,13 +372,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 5,
     height: 40,
-    borderRadius: 10,
+    borderRadius: 10
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
-    backgroundColor: "white",
+    backgroundColor: "white"
   },
   textFooter1: {
     textAlign: "center",
@@ -319,7 +387,7 @@ const styles = StyleSheet.create({
     color: "gray",
     position: "absolute",
     bottom: 135,
-    color: "red",
+    color: "red"
   },
   textFooter2: {
     textAlign: "center",
@@ -328,7 +396,7 @@ const styles = StyleSheet.create({
     color: "gray",
     position: "absolute",
     bottom: 85,
-    color: "black",
+    color: "black"
   },
   textFooter3: {
     textAlign: "center",
@@ -337,14 +405,14 @@ const styles = StyleSheet.create({
     color: "gray",
     position: "absolute",
     bottom: 60,
-    color: "green",
+    color: "green"
   },
   buttonFooter: {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
-  },
+    marginBottom: 20
+  }
 })
 
 export default RegisterLoginForm

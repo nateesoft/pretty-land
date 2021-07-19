@@ -131,7 +131,7 @@ const SelectProvince = (props) => {
           )}
           <View>
             <Text style={{ fontSize: 16, padding: 5, }}>
-              จำนวนผู้ร่วมงาน ที่ต้องการ
+              จำนวนเด็กที่ต้องการ
             </Text>
             <View style={styles.formControl}>
               <GetIcon type="mci" name="account-multiple-plus" />

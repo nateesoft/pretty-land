@@ -99,7 +99,7 @@ const PartnerCategory = ({ navigation, route }) => {
           }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text style={{ fontWeight: "bold" }}>จำนวน {count} คน</Text>
+        <Text style={{ fontWeight: "bold" }}>Boy/Girl {count} คน</Text>
       </View>
     </TouchableHighlight>
   )

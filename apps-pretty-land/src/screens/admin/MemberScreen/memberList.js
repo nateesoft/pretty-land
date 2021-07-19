@@ -31,12 +31,16 @@ const MemberAllListScreen = ({ navigation, route }) => {
         .database()
         .ref(getDocument("members"))
         .orderByChild("status_priority")
-      ref.once("value", (snapshot) => {
+      const litener = ref.on("value", (snapshot) => {
         const memberInCloud = snapshotToArray(snapshot)
         setMembers(
           memberInCloud.filter((item, index) => item.memberType === "partner")
         )
       })
+
+      return () => {
+        ref.off('value', listener)
+      }
     })
   }, [])
 
