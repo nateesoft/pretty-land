@@ -3,7 +3,6 @@ import { createStackNavigator } from "@react-navigation/stack"
 
 import CustomerDashboard from "./customerDashboard"
 import PartnerListCountryScreen from "./partnerListCountry"
-import CreatePostForm from "./createPost"
 import SelectProvinceForm from "./selectProvince"
 import SelectProvinceFormType4 from "./selectProvinceType4"
 import PlaceForm from "./placeForm"
@@ -36,23 +35,6 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         name="Partner-List-Country"
         component={PartnerListCountryScreen}
         initialParams={{ userId, status }}
-      />
-      <Stack.Screen
-        name="Create-Post-Form"
-        component={CreatePostForm}
-        options={{
-          title: "สร้างโพสท์ใหม่",
-          headerStyle: {
-            backgroundColor: "#ff2fe6",
-          },
-          headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
-        }}
-        initialParams={{
-          pageFrom: "Partner-Category",
-          userId,
-          status,
-        }}
       />
       <Stack.Screen
         name="Select-Province-Form"

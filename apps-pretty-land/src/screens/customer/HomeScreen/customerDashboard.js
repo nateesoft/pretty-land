@@ -18,36 +18,70 @@ const PartnerCategory = ({ navigation, route }) => {
   const [items, setItems] = useState([])
   const [appconfigMaster, setAppConfigMaster] = useState({})
 
-  const [sumType1, setSumType1] = useState("0")
-  const [sumType2, setSumType2] = useState("0")
-  const [sumType3, setSumType3] = useState("0")
-  const [sumType4, setSumType4] = useState("0")
+  const [sumGirl1, setSumGirl1] = useState("0")
+  const [sumGirl2, setSumGirl2] = useState("0")
+  const [sumGirl3, setSumGirl3] = useState("0")
+  const [sumGirl4, setSumGirl4] = useState("0")
+
+  const [sumBoy1, setSumBoy1] = useState("0")
+  const [sumBoy2, setSumBoy2] = useState("0")
+  const [sumBoy3, setSumBoy3] = useState("0")
+  const [sumBoy4, setSumBoy4] = useState("0")
 
   const getAllPartnerList = (snapshot) => {
     return new Promise((resolve, reject) => {
       const arr = snapshotToArray(snapshot)
-      let type1 = 0,
-        type2 = 0,
-        type3 = 0,
-        type4 = 0
+      let typeGirl1 = 0,
+        typeBoy1 = 0,
+        typeGirl2 = 0,
+        typeBoy2 = 0,
+        typeGirl3 = 0,
+        typeBoy3 = 0,
+        typeGirl4 = 0,
+        typeBoy4 = 0
       arr.forEach((item) => {
         if (item.type1) {
-          type1 = type1 + 1
+          if (item.sex === "female") {
+            typeGirl1 = typeGirl1 + 1
+          }
+          if (item.sex === "male") {
+            typeBoy1 = typeBoy1 + 1
+          }
         }
         if (item.type2) {
-          type2 = type2 + 1
+          if (item.sex === "female") {
+            typeGirl2 = typeGirl2 + 1
+          }
+          if (item.sex === "male") {
+            typeBoy2 = typeBoy2 + 1
+          }
         }
         if (item.type3) {
-          type3 = type3 + 1
+          if (item.sex === "female") {
+            typeGirl3 = typeGirl3 + 1
+          }
+          if (item.sex === "male") {
+            typeBoy3 = typeBoy3 + 1
+          }
         }
         if (item.type4) {
-          type4 = type4 + 1
+          if (item.sex === "female") {
+            typeGirl4 = typeGirl4 + 1
+          }
+          if (item.sex === "male") {
+            typeBoy4 = typeBoy4 + 1
+          }
         }
       })
-      setSumType1(type1)
-      setSumType2(type2)
-      setSumType3(type3)
-      setSumType4(type4)
+      setSumGirl1(typeGirl1)
+      setSumGirl2(typeGirl2)
+      setSumGirl3(typeGirl3)
+      setSumGirl4(typeGirl4)
+
+      setSumBoy1(typeBoy1)
+      setSumBoy2(typeBoy2)
+      setSumBoy3(typeBoy3)
+      setSumBoy4(typeBoy4)
 
       resolve(true)
     })
@@ -76,11 +110,15 @@ const PartnerCategory = ({ navigation, route }) => {
         appconfig: appconfigMaster
       })
     } else {
-      navigation.navigate("Select-Province-Form", { item, partnerGroup: items, appconfig: appconfigMaster })
+      navigation.navigate("Select-Province-Form", {
+        item,
+        partnerGroup: items,
+        appconfig: appconfigMaster
+      })
     }
   }
 
-  const DisplayCard = ({ data, count }) => (
+  const DisplayCard = ({ data, countGirl, countBoy }) => (
     <TouchableHighlight
       underlayColor="pink"
       onPress={() => onPressOptions(data)}
@@ -99,7 +137,9 @@ const PartnerCategory = ({ navigation, route }) => {
           }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text style={{ fontWeight: "bold" }}>Boy/Girl {count} คน</Text>
+        <Text style={{ fontWeight: "bold" }}>
+          ( Boy : {countBoy} Girl : {countGirl} )
+        </Text>
       </View>
     </TouchableHighlight>
   )
@@ -126,10 +166,26 @@ const PartnerCategory = ({ navigation, route }) => {
     >
       {items.length > 0 && (
         <View style={styles.container}>
-          <DisplayCard data={items[0]} count={sumType1} />
-          <DisplayCard data={items[1]} count={sumType2} />
-          <DisplayCard data={items[2]} count={sumType3} />
-          <DisplayCard data={items[3]} count={sumType4} />
+          <DisplayCard
+            data={items[0]}
+            countGirl={sumGirl1}
+            countBoy={sumBoy1}
+          />
+          <DisplayCard
+            data={items[1]}
+            countGirl={sumGirl2}
+            countBoy={sumBoy2}
+          />
+          <DisplayCard
+            data={items[2]}
+            countGirl={sumGirl3}
+            countBoy={sumBoy3}
+          />
+          <DisplayCard
+            data={items[3]}
+            countGirl={sumGirl4}
+            countBoy={sumBoy4}
+          />
         </View>
       )}
     </ImageBackground>

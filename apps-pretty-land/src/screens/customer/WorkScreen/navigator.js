@@ -7,7 +7,6 @@ import PartnerImageScreen from "./partnerImage"
 import ImagePreviewScreen from "./imagePreview"
 import PaymentForm from "./payment"
 import ReviewTaskScreen from "./reviewTask"
-import CreateNewPostForm from "../HomeScreen/createPost"
 
 import { LogoTitle } from "../../../components/Header"
 
@@ -95,22 +94,6 @@ const CustomerWorkTabNavigator = ({ navigation, route }) => {
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
         }}
         initialParams={{ userId }}
-      />
-      <Stack.Screen
-        name="Create-New-Post"
-        component={CreateNewPostForm}
-        options={{
-          title: "Back",
-          headerStyle: {
-            backgroundColor: "#ff2fe6",
-          },
-          headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
-        }}
-        initialParams={{
-          pageFrom: "Post-List",
-          userId,
-        }}
       />
     </Stack.Navigator>
   )

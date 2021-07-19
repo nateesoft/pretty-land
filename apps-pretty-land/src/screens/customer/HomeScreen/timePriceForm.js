@@ -25,7 +25,7 @@ const TimePriceForm = (props) => {
 
   const [phone, setPhone] = useState("")
   const [timeMeeting, setTimeMeeting] = useState("")
-
+  const [sex, setSex] = useState("female")
   const [customer, setCustomer] = useState("")
 
   const mappingCustomerProfile = (snapshot) => {

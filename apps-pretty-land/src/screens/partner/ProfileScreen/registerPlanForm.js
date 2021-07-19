@@ -166,7 +166,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
               onPress={() => setType3(!type3)}
             />
             <CheckBox
-              containerStyle={styles.checkbox}
+              containerStyle={[styles.checkbox, { marginTop: 50 }]}
               title={(items[3] && items[3].name) || ""}
               checked={type4}
               onPress={() => setType4(!type4)}
@@ -181,7 +181,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                     alignSelf: "flex-start"
                   }}
                 >
-                  ค่าเดินทาง สำหรับนวดเพื่อสุขภาพ
+                  ราคาสำหรับการนวดแผนไทยต่อ 1 ครั้ง
                 </Text>
                 <View style={styles.formControlPrice}>
                   <GetIcon type="fa" name="money" />

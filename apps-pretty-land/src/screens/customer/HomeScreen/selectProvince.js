@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   Alert,
   StyleSheet,
-  TextInput,
+  TextInput
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
@@ -22,7 +22,6 @@ const SelectProvince = (props) => {
   const { item, userId } = route.params
 
   const [partnerRequest, setPartnerRequest] = useState(item.value)
-
   const [openSelectCountry, setOpenSelectCountry] = useState(false)
   const [province, setProvince] = useState("")
   const [countryList, setCountryList] = useState(getCountryList())
@@ -43,7 +42,7 @@ const SelectProvince = (props) => {
       province,
       userId,
       partnerRequest,
-      partnerWantQty,
+      partnerWantQty
     })
   }
 
@@ -93,11 +92,18 @@ const SelectProvince = (props) => {
       resizeMode="contain"
     >
       <SafeAreaView style={{ flex: 1, height: "100%", alignItems: "center" }}>
-        <View style={styles.cardDetail}>
-          <Text style={[styles.optionsNameDetail, { marginBottom: 10 }]}>
+        <View>
+          <Text
+            style={[
+              styles.optionsNameDetail,
+              { marginBottom: 10, fontSize: 20 }
+            ]}
+          >
             เลือกจังหวัด
           </Text>
-          <Text> โหมดงาน: {item.name}</Text>
+          <Text style={{ fontSize: 16 }}> โหมดงาน: {item.name}</Text>
+        </View>
+        <View style={{ zIndex: 1 }}>
           <DropDownPicker
             placeholder="-- เลือกจังหวัด --"
             open={openSelectCountry}
@@ -121,7 +127,7 @@ const SelectProvince = (props) => {
                 marginBottom: 10,
                 backgroundColor: "pink",
                 alignSelf: "flex-start",
-                padding: 5,
+                padding: 5
               }}
             >
               <Text style={{ fontSize: 16 }}>
@@ -129,43 +135,41 @@ const SelectProvince = (props) => {
               </Text>
             </View>
           )}
-          <View>
-            <Text style={{ fontSize: 16, padding: 5, }}>
-              จำนวนเด็กที่ต้องการ
-            </Text>
-            <View style={styles.formControl}>
-              <GetIcon type="mci" name="account-multiple-plus" />
-              <TextInput
-                style={styles.textInput}
-                value={partnerWantQty}
-                onChangeText={(value) => setPartnerWantQty(value)}
-              />
-            </View>
-          </View>
-          <View style={styles.buttonFooter}>
-            <Button
-              icon={
-                <MaterialCommunityIcons
-                  name="page-next-outline"
-                  size={20}
-                  color="white"
-                  style={{ marginHorizontal: 8 }}
-                />
-              }
-              iconLeft
-              buttonStyle={{
-                backgroundColor: "#ff2fe6",
-                marginTop: 20,
-                borderRadius: 5,
-                width: 250,
-                paddingHorizontal: 15,
-                height: 45,
-                borderWidth: 0.5,
-              }}
-              title="ถัดไป"
-              onPress={() => nextStep()}
+        </View>
+        <View>
+          <Text style={{ fontSize: 16, padding: 5 }}>จำนวนเด็กที่ต้องการ</Text>
+          <View style={styles.formControl}>
+            <GetIcon type="mci" name="account-multiple-plus" />
+            <TextInput
+              style={styles.textInput}
+              value={partnerWantQty}
+              onChangeText={(value) => setPartnerWantQty(value)}
             />
           </View>
+        </View>
+        <View style={styles.buttonFooter}>
+          <Button
+            icon={
+              <MaterialCommunityIcons
+                name="page-next-outline"
+                size={20}
+                color="white"
+                style={{ marginHorizontal: 8 }}
+              />
+            }
+            iconLeft
+            buttonStyle={{
+              backgroundColor: "#ff2fe6",
+              marginTop: 20,
+              borderRadius: 5,
+              width: 250,
+              paddingHorizontal: 15,
+              height: 45,
+              borderWidth: 0.5
+            }}
+            title="ถัดไป"
+            onPress={() => nextStep()}
+          />
         </View>
       </SafeAreaView>
     </ImageBackground>
@@ -173,47 +177,43 @@ const SelectProvince = (props) => {
 }
 
 const styles = StyleSheet.create({
-  cardDetail: {
-    alignItems: "center",
-    padding: 5,
-  },
   optionsNameDetail: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     color: "blue",
-    marginTop: 10,
+    marginTop: 10
   },
   container: {
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "center",
-    margin: 10,
+    margin: 10
   },
   dropdownStyle: {
     marginBottom: 10,
     borderColor: "#ff2fe6",
     borderWidth: 1.5,
     width: 350,
-    marginTop: 10,
+    marginTop: 10
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   buttonFooter: {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 50,
+    marginBottom: 50
   },
   textInput: {
     backgroundColor: "white",
     width: "80%",
     fontSize: 16,
     marginVertical: 5,
-    marginLeft: 15,
+    marginLeft: 15
   },
   formControl: {
     flexDirection: "row",
@@ -225,8 +225,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
     height: 50,
     borderRadius: 10,
-    width: 350,
-  },
+    width: 350
+  }
 })
 
 export default SelectProvince

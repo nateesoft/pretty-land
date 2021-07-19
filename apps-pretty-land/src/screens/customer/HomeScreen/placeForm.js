@@ -10,6 +10,8 @@ import {
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
+import RadioButtonRN from "radio-buttons-react-native"
+import { FontAwesome } from "react-native-vector-icons"
 
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
@@ -18,11 +20,16 @@ import { GetIcon } from "../../../components/GetIcons"
 import { saveNewPosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
+const sexData = [
+  { label: "หญิง (Female)", value: "female" },
+  { label: "ชาย (Male)", value: "male" }
+]
+
 const PlaceForm = (props) => {
   const { navigation, route } = props
   const { item, userId, partnerRequest, province, partnerWantQty } =
     route.params
-
+  const [sex, setSex] = useState("female")
   const [phone, setPhone] = useState("")
   const [place, setPlace] = useState("")
   const [remark, setRemark] = useState("")
@@ -92,6 +99,27 @@ const PlaceForm = (props) => {
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
+            <View
+              style={{
+                borderWidth: 1,
+                width: "100%",
+                borderRadius: 10,
+                borderColor: "#ff2fe6",
+                marginTop: 10
+              }}
+            >
+              <RadioButtonRN
+                box={false}
+                animationTypes={["shake"]}
+                data={sexData}
+                selectedBtn={(e) => setSex(e.value)}
+                icon={
+                  <FontAwesome name="check-circle" size={25} color="#2c9dd1" />
+                }
+                initial={sex === "female" ? 1 : sex === "male" ? 2 : 3}
+                style={{ padding: 10 }}
+              />
+            </View>
             <View>
               <Text style={{ fontSize: 16, padding: 5 }}>สถานที่นัดหมาย</Text>
               <View style={styles.formControl}>

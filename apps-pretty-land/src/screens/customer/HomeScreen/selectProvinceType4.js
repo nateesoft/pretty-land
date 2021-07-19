@@ -10,6 +10,8 @@ import {
 } from "react-native"
 import { Text } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
+import RadioButtonRN from "radio-buttons-react-native"
+import { FontAwesome } from "react-native-vector-icons"
 
 import { getCountryList, getDistrictList } from "../../../data/apis"
 import { AppConfig } from "../../../Constants"
@@ -17,12 +19,18 @@ import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import CardNotfound from "../../../components/CardNotfound"
 
+const sexData = [
+  { label: "หญิง (Female)", value: "female" },
+  { label: "ชาย (Male)", value: "male" },
+  { label: "อื่น ๆ (Other)", value: "other" }
+]
+
 const SelectProvinceType4 = (props) => {
   const { navigation, route } = props
   const { item, userId, appconfig } = route.params
 
   const [partnerRequest, setPartnerRequest] = useState(item.value)
-
+  const [sex, setSex] = useState("female")
   const [openSelectCountry, setOpenSelectCountry] = useState(false)
   const [province, setProvince] = useState("")
   const [countryList, setCountryList] = useState(getCountryList())
@@ -70,8 +78,10 @@ const SelectProvinceType4 = (props) => {
             data.status !== AppConfig.MemberStatus.suspend
           ) {
             if (data.type4 && type4) {
-              count = count + 1
-              list.push(data)
+              if (data.sex === sex) {
+                count = count + 1
+                list.push(data)
+              }
             }
           }
         })
@@ -97,7 +107,7 @@ const SelectProvinceType4 = (props) => {
           margin: 15,
           padding: 15
         }}
-        resizeMode="contain"
+        resizeMode="cover"
       >
         <TouchableHighlight onPress={() => nextStep(item)} underlayColor={null}>
           <View
@@ -115,7 +125,7 @@ const SelectProvinceType4 = (props) => {
                 fontWeight: "bold",
                 backgroundColor: "red",
                 position: "absolute",
-                bottom: 25,
+                bottom: 38,
                 left: -5,
                 opacity: 0.65
               }}
@@ -131,7 +141,6 @@ const SelectProvinceType4 = (props) => {
                   backgroundColor: "purple",
                   position: "absolute",
                   left: -10,
-                  top: -6,
                   opacity: 0.8
                 }}
               >
@@ -146,7 +155,7 @@ const SelectProvinceType4 = (props) => {
                 backgroundColor: "black",
                 position: "absolute",
                 left: -10,
-                top: 20,
+                top: 25,
                 opacity: 0.5
               }}
             >
@@ -166,7 +175,6 @@ const SelectProvinceType4 = (props) => {
                 padding: 5,
                 opacity: 0.6,
                 left: -5,
-                bottom: -35
               }}
             >
               สถานที่: {item.address}
@@ -184,10 +192,31 @@ const SelectProvinceType4 = (props) => {
       resizeMode="contain"
     >
       <SafeAreaView style={{ flex: 1, height: "100%", alignItems: "center" }}>
-        <View style={styles.cardDetail}>
+        <View>
           <Text style={[styles.optionsNameDetail, { marginBottom: 10 }]}>
             {item.name}
           </Text>
+        </View>
+        <View
+          style={{
+            borderWidth: 1,
+            width: "80%",
+            borderRadius: 10,
+            borderColor: "#ff2fe6",
+            marginTop: 10
+          }}
+        >
+          <RadioButtonRN
+            box={false}
+            animationTypes={["shake"]}
+            data={sexData}
+            selectedBtn={(e) => setSex(e.value)}
+            icon={<FontAwesome name="check-circle" size={25} color="#2c9dd1" />}
+            initial={sex === "female" ? 1 : sex === "male" ? 2 : 3}
+            style={{ padding: 10 }}
+          />
+        </View>
+        <View style={{ marginTop: 10, zIndex: 2 }}>
           <DropDownPicker
             placeholder="-- เลือกจังหวัด --"
             open={openSelectCountry}
@@ -198,13 +227,14 @@ const SelectProvinceType4 = (props) => {
             setItems={setCountryList}
             style={styles.dropdownStyle}
             textStyle={{ fontSize: 18 }}
-            zIndex={2}
             searchable={false}
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             onChangeValue={(e) => onChangeProvinceSelect()}
             listMode="SCROLLVIEW"
             containerStyle={{ width: 350 }}
           />
+        </View>
+        <View style={{ zIndex: 1 }}>
           <DropDownPicker
             placeholder="-- เลือก เขต/อำเภอ --"
             open={openSelectDistrict}
@@ -216,7 +246,6 @@ const SelectProvinceType4 = (props) => {
             style={styles.dropdownStyle}
             searchable={false}
             textStyle={{ fontSize: 18 }}
-            zIndex={1}
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
             onChangeValue={(e) => onChangeProvinceSelect()}
             listMode="SCROLLVIEW"
@@ -237,18 +266,18 @@ const SelectProvinceType4 = (props) => {
               </Text>
             </View>
           )}
-          {partnerList.length === 0 && (
-            <CardNotfound text={`ไม่พบข้อมูล ${item.name}`} />
-          )}
-          <FlatList
-            style={{ margin: 5 }}
-            numColumns={2}
-            columnWrapperStyle={{ flex: 1, justifyContent: "space-evenly" }}
-            data={partnerList}
-            keyExtractor={(item, index) => item.id}
-            renderItem={renderItem}
-          />
         </View>
+        {partnerList.length === 0 && (
+          <CardNotfound text={`ไม่พบข้อมูล ${item.name}`} />
+        )}
+        <FlatList
+          style={{ margin: 5 }}
+          numColumns={2}
+          columnWrapperStyle={{ flex: 1, justifyContent: "space-evenly" }}
+          data={partnerList}
+          keyExtractor={(item, index) => item.id}
+          renderItem={renderItem}
+        />
       </SafeAreaView>
     </ImageBackground>
   )
