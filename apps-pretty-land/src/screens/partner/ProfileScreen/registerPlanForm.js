@@ -21,8 +21,8 @@ import { GetIcon } from "../../../components/GetIcons"
 import { AppConfig } from "../../../Constants"
 
 const sexData = [
-  { label: "หญิง (Female)", value: "female" },
   { label: "ชาย (Male)", value: "male" },
+  { label: "หญิง (Female)", value: "female" },
   { label: "อื่น ๆ (Other)", value: "other" }
 ]
 
@@ -106,7 +106,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
       setType3(data.type3 || false)
       setType4(data.type4 || false)
       setPrice4(data.price4 || "")
-      setSex(data.sex || "female")
+      setSex(data.sex || "male")
       setCharacter(data.character || "")
     })
   }, [])
@@ -202,7 +202,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 icon={
                   <FontAwesome name="check-circle" size={25} color="#2c9dd1" />
                 }
-                initial={sex === "female" ? 1 : sex === "male" ? 2 : 3}
+                initial={sex === "male" ? 1 : sex === "female" ? 2 : 3}
               />
             </View>
             <Text style={{ fontSize: 16, padding: 5 }}>

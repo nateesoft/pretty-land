@@ -20,8 +20,8 @@ import { getDocument } from "../../../../util"
 import CardNotfound from "../../../components/CardNotfound"
 
 const sexData = [
-  { label: "หญิง (Female)", value: "female" },
   { label: "ชาย (Male)", value: "male" },
+  { label: "หญิง (Female)", value: "female" },
   { label: "อื่น ๆ (Other)", value: "other" }
 ]
 
@@ -30,7 +30,7 @@ const SelectProvinceType4 = (props) => {
   const { item, userId, appconfig } = route.params
 
   const [partnerRequest, setPartnerRequest] = useState(item.value)
-  const [sex, setSex] = useState("female")
+  const [sex, setSex] = useState("male")
   const [openSelectCountry, setOpenSelectCountry] = useState(false)
   const [province, setProvince] = useState("")
   const [countryList, setCountryList] = useState(getCountryList())
@@ -212,7 +212,7 @@ const SelectProvinceType4 = (props) => {
             data={sexData}
             selectedBtn={(e) => setSex(e.value)}
             icon={<FontAwesome name="check-circle" size={25} color="#2c9dd1" />}
-            initial={sex === "female" ? 1 : sex === "male" ? 2 : 3}
+            initial={sex === "male" ? 1 : sex === "female" ? 2 : 3}
             style={{ padding: 10 }}
           />
         </View>

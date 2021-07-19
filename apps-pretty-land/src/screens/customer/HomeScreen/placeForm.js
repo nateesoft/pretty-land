@@ -22,15 +22,15 @@ import { saveNewPosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
 const sexData = [
-  { label: "หญิง (Female)", value: "female" },
-  { label: "ชาย (Male)", value: "male" }
+  { label: "ชาย (Male)", value: "male" },
+  { label: "หญิง (Female)", value: "female" }
 ]
 
 const PlaceForm = (props) => {
   const { navigation, route } = props
   const { item, userId, partnerRequest, province, partnerWantQty } =
     route.params
-  const [sex, setSex] = useState("female")
+  const [sex, setSex] = useState("male")
   const [phone, setPhone] = useState("")
   const [place, setPlace] = useState("")
   const [remark, setRemark] = useState("")
@@ -118,7 +118,7 @@ const PlaceForm = (props) => {
                 icon={
                   <FontAwesome name="check-circle" size={25} color="#2c9dd1" />
                 }
-                initial={sex === "female" ? 1 : sex === "male" ? 2 : 3}
+                initial={sex === "male" ? 1 : sex === "female" ? 2 : 3}
                 style={{ padding: 10 }}
               />
             </View>

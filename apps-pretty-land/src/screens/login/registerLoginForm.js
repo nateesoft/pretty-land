@@ -20,8 +20,8 @@ import { AppConfig } from "../../Constants"
 import { GetIcon } from "../../components/GetIcons"
 
 const sexData = [
-  { label: "หญิง (Female)", value: "female" },
   { label: "ชาย (Male)", value: "male" },
+  { label: "หญิง (Female)", value: "female" },
   { label: "อื่น ๆ (Other)", value: "other" }
 ]
 
@@ -30,7 +30,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
   const [password, setPassword] = useState("")
   const [rePassword, setRePassword] = useState("")
 
-  const [sex, setSex] = useState("female")
+  const [sex, setSex] = useState("male")
   const [name, setName] = useState("")
   const [age, setAge] = useState("")
   const [height, setHeight] = useState("")
@@ -230,7 +230,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
                       color="#2c9dd1"
                     />
                   }
-                  initial={sex === "female" ? 1 : sex === "male" ? 2 : 3}
+                  initial={sex === "male" ? 1 : sex === "female" ? 2 : 3}
                 />
               </View>
               <Text style={{ fontSize: 16, padding: 5 }}>
