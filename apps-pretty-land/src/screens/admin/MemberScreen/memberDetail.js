@@ -282,7 +282,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
                 width: 250,
                 borderRadius: 10,
               }}
-              title="อนุมัติเป็น Partner"
+              title="อนุมัติข้อมูล"
               onPress={() => approveMember()}
             />
           )}

@@ -112,7 +112,7 @@ const PostListAllScreen = ({ navigation, route }) => {
                 sys_update_date: new Date().toUTCString(),
               })
 
-              // ให้ star/rate สำหรับ partner โพสท์นั้นๆ (เต็ม 5 ดาว)
+              // ให้ star/rate สำหรับเด็ก โพสท์นั้นๆ (เต็ม 5 ดาว)
               for (let key in item.partnerSelect) {
                 const partnerData = item.partnerSelect[key]
                 firebase

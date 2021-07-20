@@ -113,10 +113,10 @@ const ProfileHomeScreen = ({ navigation, route }) => {
               <Text
                 style={[
                   styles.text,
-                  { color: "red", fontSize: 14, fontWeight: "bold" }
+                  { color: "blue", fontSize: 18, fontWeight: "bold" }
                 ]}
               >
-                LOGGOUT
+                กลับสู่หน้าหลัก
               </Text>
             </View>
           </TouchableNativeFeedback>

@@ -57,7 +57,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
             paddingHorizontal: 5,
           }}
         >
-          จำนวนPartner ที่ต้องการ: {item.partnerWantQty||0} คน
+          จำนวนเด็ก ที่ต้องการ: {item.partnerWantQty||0} คน
         </ListItem.Title>
         <ListItem.Title
           style={{

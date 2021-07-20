@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import {
   View,
   StyleSheet,
@@ -14,12 +14,14 @@ import { Button } from "react-native-elements/dist/buttons/Button"
 import base64 from "react-native-base64"
 import uuid from "react-native-uuid"
 
+import { Context as AuthContext } from "../../context/AuthContext"
 import { AppConfig } from "../../Constants"
 import { GetIcon } from "../../components/GetIcons"
 import firebase from "../../../util/firebase"
 import { getDocument, snapshotToArray } from "../../../util"
 
 const RegisterLoginForm = ({ navigation, route }) => {
+  const { signIn } = useContext(AuthContext)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [rePassword, setRePassword] = useState("")
@@ -89,12 +91,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
           saveMemberDb(newId, saveData)
             .then((res) => {
               if (res) {
-                Alert.alert(
-                  "กระบวนการสมบูรณ์",
-                  "บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้"
-                )
-                navigation.popToTop()
-                navigation.navigate("Login-Form")
+                signIn({ username, password, screen: "admin" })
               }
             })
             .catch((err) => {
