@@ -78,7 +78,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
             <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>โหมดงาน: {topic}</Text>
               <Text style={{ fontSize: 16 }}>
-                จำนวนเด็กที่ต้องการ: {item.partnerWantQty || 0} คน
+                จำนวนน้องๆที่ต้องการ: {item.partnerWantQty || 0} คน
               </Text>
               <Text style={{ fontSize: 16 }}>
                 ชื่อลูกค้า: {item.customerName}
@@ -184,7 +184,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                       key={`img_${pObj.id}`}
                     />
                     <View style={{ alignSelf: "center" }}>
-                      <Text>ชื่อเด็ก: {pObj.partnerName}</Text>
+                      <Text>ชื่อน้องๆ: {pObj.partnerName}</Text>
                       <Text>เบอร์โทรศัพท์: {pObj.telephone}</Text>
                       <Text>ราคาที่เสนอ: {pObj.amount}</Text>
                       <Text>สถานะ: {pObj.selectStatusText}</Text>

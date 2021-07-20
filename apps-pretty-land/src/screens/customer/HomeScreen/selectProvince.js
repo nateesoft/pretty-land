@@ -137,7 +137,7 @@ const SelectProvince = (props) => {
           )}
         </View>
         <View>
-          <Text style={{ fontSize: 16, padding: 5 }}>จำนวนเด็กที่ต้องการ</Text>
+          <Text style={{ fontSize: 16, padding: 5 }}>จำนวนน้องๆที่ต้องการ</Text>
           <View style={styles.formControl}>
             <GetIcon type="mci" name="account-multiple-plus" />
             <TextInput

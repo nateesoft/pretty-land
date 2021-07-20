@@ -42,21 +42,30 @@ const SelectProvinceType4 = (props) => {
   const [district, setDistrict] = useState("")
   const [districtList, setDistrictList] = useState([])
 
+  const handleChangeSex = (value) => {
+    setSex(value)
+    onChangeProvinceSelect(value)
+  }
+
   const nextStep = (partnerProfile) => {
     if (!province) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ จังหวัด", { props })
       return
     }
-    navigation.navigate("Time-Price-Form", {
-      item,
-      province,
-      userId,
-      partnerRequest,
-      partnerProfile
+    const data = { item, province, userId, partnerRequest, partnerProfile, sex }
+    navigation.navigate("Partner-Image", {
+      data
     })
+    // navigation.navigate("Time-Price-Form", {
+    //   item,
+    //   province,
+    //   userId,
+    //   partnerRequest,
+    //   partnerProfile
+    // })
   }
 
-  const getPartnerQty = () => {
+  const getPartnerQty = (sexType) => {
     return new Promise((resolve, reject) => {
       const ref = firebase.database().ref(getDocument(`members`))
       ref.once("value", (snapshot) => {
@@ -78,7 +87,7 @@ const SelectProvinceType4 = (props) => {
             data.status !== AppConfig.MemberStatus.suspend
           ) {
             if (data.type4 && type4) {
-              if (data.sex === sex) {
+              if (data.sex === sexType) {
                 count = count + 1
                 list.push(data)
               }
@@ -93,8 +102,8 @@ const SelectProvinceType4 = (props) => {
     })
   }
 
-  const onChangeProvinceSelect = () => {
-    getPartnerQty().catch((err) => Alert.alert(err))
+  const onChangeProvinceSelect = (sexType) => {
+    getPartnerQty(sexType).catch((err) => Alert.alert(err))
   }
 
   const renderItem = ({ item }) => {
@@ -174,7 +183,7 @@ const SelectProvinceType4 = (props) => {
                 alignContent: "center",
                 padding: 5,
                 opacity: 0.6,
-                left: -5,
+                left: -5
               }}
             >
               สถานที่: {item.address}
@@ -210,7 +219,7 @@ const SelectProvinceType4 = (props) => {
             box={false}
             animationTypes={["shake"]}
             data={sexData}
-            selectedBtn={(e) => setSex(e.value)}
+            selectedBtn={(e) => handleChangeSex(e.value)}
             icon={<FontAwesome name="check-circle" size={25} color="#2c9dd1" />}
             initial={sex === "male" ? 1 : sex === "female" ? 2 : 3}
             style={{ padding: 10 }}
@@ -229,7 +238,7 @@ const SelectProvinceType4 = (props) => {
             textStyle={{ fontSize: 18 }}
             searchable={false}
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-            onChangeValue={(e) => onChangeProvinceSelect()}
+            onChangeValue={(e) => onChangeProvinceSelect(sex)}
             listMode="SCROLLVIEW"
             containerStyle={{ width: 350 }}
           />
@@ -247,7 +256,7 @@ const SelectProvinceType4 = (props) => {
             searchable={false}
             textStyle={{ fontSize: 18 }}
             selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-            onChangeValue={(e) => onChangeProvinceSelect()}
+            onChangeValue={(e) => onChangeProvinceSelect(sex)}
             listMode="SCROLLVIEW"
             containerStyle={{ width: 350 }}
           />

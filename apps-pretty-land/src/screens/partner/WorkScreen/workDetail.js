@@ -59,7 +59,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
         selectStatus: AppConfig.PostsStatus.closeJob,
         selectStatusText: "ปิดงานเรียบร้อย",
         partnerStatus: AppConfig.PostsStatus.partnerCloseJob,
-        partnerStatusText: "เด็กแจ้งปิดงาน",
+        partnerStatusText: "น้องๆแจ้งปิดงาน",
         partner_close_date: new Date().toUTCString(),
         sys_update_date: new Date().toUTCString(),
       })
@@ -104,7 +104,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
       .ref(getDocument(`posts/${item.id}/partnerSelect/${partnerId}`))
       .update({
         partnerStatus: AppConfig.PostsStatus.partnerCancelWork,
-        partnerStatusText: "เด็กแจ้งไม่รับงาน",
+        partnerStatusText: "น้องๆแจ้งไม่รับงาน",
         partnerStart: new Date().toUTCString(),
         sys_update_date: new Date().toUTCString(),
         start_work_date: new Date().toUTCString(),
@@ -112,7 +112,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
 
     firebase.database().ref(getDocument(`posts/${item.id}`)).update({
       status: AppConfig.PostsStatus.postCancel,
-      statusText: "เด็กแจ้งไม่รับงาน",
+      statusText: "น้องๆแจ้งไม่รับงาน",
       sys_update_date: new Date().toUTCString(),
     })
 
@@ -125,7 +125,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
       .ref(getDocument(`posts/${item.id}/partnerSelect/${partnerId}`))
       .update({
         partnerStatus: AppConfig.PostsStatus.partnerAcceptWork,
-        partnerStatusText: "เด็กแจ้งรับงาน",
+        partnerStatusText: "น้องๆแจ้งรับงาน",
         partnerStart: new Date().toUTCString(),
         sys_update_date: new Date().toUTCString(),
         start_work_date: new Date().toUTCString(),

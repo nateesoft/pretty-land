@@ -42,7 +42,7 @@ export default function PartnerListItem(props) {
         )}
         {status === AppConfig.PostsStatus.customerStartWork && (
           <Button
-            title="ให้คะแนนเด็ก"
+            title="ให้คะแนนน้องๆ"
             style={styles.button}
             onPress={() => saveToCloseJob()}
           />

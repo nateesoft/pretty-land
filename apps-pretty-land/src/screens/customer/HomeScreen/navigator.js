@@ -7,8 +7,9 @@ import SelectProvinceForm from "./selectProvince"
 import SelectProvinceFormType4 from "./selectProvinceType4"
 import PlaceForm from "./placeForm"
 import TimePriceForm from "./timePriceForm"
-
+import PartnerImageScreen from "./partnerImage"
 import { LogoTitle } from "../../../components/Header"
+import ImagePreviewScreen from "./imagePreview"
 
 const Stack = createStackNavigator()
 
@@ -23,11 +24,11 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTitle: (props) => (
             <LogoTitle title="โหมดงานที่รับสมัคร" {...props} />
-          ),
+          )
         }}
         initialParams={{ userId, status }}
       />
@@ -42,15 +43,15 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         options={{
           title: "เลือกจังหวัด",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{
           pageFrom: "Select-Province-Form",
           userId,
-          status,
+          status
         }}
       />
       <Stack.Screen
@@ -59,15 +60,15 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         options={{
           title: "เลือกจังหวัด",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{
           pageFrom: "Select-Province-Form",
           userId,
-          status,
+          status
         }}
       />
       <Stack.Screen
@@ -76,15 +77,15 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         options={{
           title: "ข้อมูลสถานที่",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{
           pageFrom: "Select-Province-Form",
           userId,
-          status,
+          status
         }}
       />
       <Stack.Screen
@@ -93,16 +94,42 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         options={{
           title: "เวลาเริ่ม",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{
           pageFrom: "Select-Province-Form",
           userId,
-          status,
+          status
         }}
+      />
+      <Stack.Screen
+        name="Partner-Image"
+        component={PartnerImageScreen}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#ff2fe6"
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
+        }}
+        initialParams={{ userId }}
+      />
+      <Stack.Screen
+        name="Image-Preview"
+        component={ImagePreviewScreen}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#ff2fe6"
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
+        }}
+        initialParams={{ userId }}
       />
     </Stack.Navigator>
   )

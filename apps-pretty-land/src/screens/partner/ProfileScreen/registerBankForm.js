@@ -11,6 +11,7 @@ import {
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
+import { TextInputMask } from "react-native-masked-text"
 
 import { getBankList } from "../../../data/apis"
 import firebase from "../../../../util/firebase"
@@ -85,7 +86,6 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ alignItems: "center" }}>
           <Text style={styles.textFormInfo}>เพิ่มข้อมูลธนาคาร</Text>
-          <Text>Add bank information (Optional)</Text>
         </View>
 
         <View style={{ width: "80%", alignSelf: "center" }}>
@@ -108,11 +108,14 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
           </Text>
           <View style={styles.formControl}>
             <GetIcon type="fa5" name="money-check" />
-            <TextInput
-              value={`${bankNo}`}
-              onChangeText={(value) => setBankNo(value)}
+            <TextInputMask
+              type="custom"
+              options={{
+                mask: "999-999-9999"
+              }}
+              value={bankNo}
+              onChangeText={(text) => setBankNo(text)}
               style={styles.textInput}
-              placeholder="ใส่เลขบัญชี"
             />
           </View>
           <Button

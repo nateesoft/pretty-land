@@ -20,9 +20,9 @@ import { AppConfig } from "../../../Constants"
 import { Alert } from "react-native"
 
 export default function PartnerImage({ navigation, route }) {
-  const { postItem, partnerItem } = route.params
+  const { data } = route.params
+  const { partnerProfile } = data
 
-  const [partnerProfile, setPartnerProfile] = useState({})
   const [selectStatus, setSelectStatus] = useState("")
   const [images, setImages] = useState([])
 
@@ -34,34 +34,22 @@ export default function PartnerImage({ navigation, route }) {
   const [rate1, setRate1] = useState(0)
 
   const onPressSelectPartner = () => {
-    firebase
-      .database()
-      .ref(
-        getDocument(
-          `posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`
-        )
-      )
-      .update({
-        selectStatus: AppConfig.PostsStatus.customerConfirm,
-        selectStatusText: "ลูกค้าคอนเฟิร์ม รอชำระเงิน",
-        sys_create_date: new Date().toUTCString()
-      })
-    navigation.navigate("Partner-List-Select")
+    navigation.navigate("Time-Price-Form", { data })
   }
 
   const cancelSelectPartner = () => {
-    firebase
-      .database()
-      .ref(
-        getDocument(
-          `posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`
-        )
-      )
-      .update({
-        selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
-        selectStatusText: "เสนอรับงาน",
-        sys_update_date: new Date().toUTCString()
-      })
+    // firebase
+    //   .database()
+    //   .ref(
+    //     getDocument(
+    //       `posts/${postItem.id}/partnerSelect/${partnerProfile.partnerId}`
+    //     )
+    //   )
+    //   .update({
+    //     selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
+    //     selectStatusText: "เสนอรับงาน",
+    //     sys_update_date: new Date().toUTCString(),
+    //   })
     navigation.navigate("Partner-List-Select")
   }
 
@@ -130,43 +118,20 @@ export default function PartnerImage({ navigation, route }) {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(getDocument(`members/${partnerItem.partnerId}`))
-    ref.once("value", (snapshot) => {
-      const data = { ...snapshot.val() }
-      setPartnerProfile(data)
-      setImages([
-        { url: data.imageUrl1 || null },
-        { url: data.imageUrl2 || null },
-        { url: data.imageUrl3 || null },
-        { url: data.imageUrl4 || null },
-        { url: data.imageUrl5 || null }
-      ])
-    })
-  }, [])
-
-  useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref(
-        getDocument(
-          `posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`
-        )
-      )
-    ref.once("value", (snapshot) => {
-      const partnerStatusSelect = { ...snapshot.val() }
-      setSelectStatus(partnerStatusSelect.selectStatus)
-    })
-  }, [])
-
-  useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref(getDocument(`partner_star/${partnerItem.partnerId}`))
+      .ref(getDocument(`partner_star/${partnerProfile.partnerId}`))
     ref.once("value", (snapshot) => {
       if (snapshot.numChildren()) {
         getStarFromPosts(snapshot).catch((err) => Alert.alert(err))
       }
     })
+
+    setImages([
+      { url: partnerProfile.imageUrl1 || null },
+      { url: partnerProfile.imageUrl2 || null },
+      { url: partnerProfile.imageUrl3 || null },
+      { url: partnerProfile.imageUrl4 || null },
+      { url: partnerProfile.imageUrl5 || null }
+    ])
   }, [])
 
   return (
@@ -198,7 +163,7 @@ export default function PartnerImage({ navigation, route }) {
               สัดส่วน {partnerProfile.stature} สูง {partnerProfile.height}
             </Text>
             <Text style={{ fontSize: 16 }}>
-              ราคาที่เสนอ: {partnerItem.amount} บาท
+              ราคาที่เสนอ: {partnerProfile.price4} บาท
             </Text>
             <Text style={{ fontSize: 12, color: "blue" }}>
               (* ราคาที่เสนอยังไม่รวมค่าดำเนินการ)

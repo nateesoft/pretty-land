@@ -30,7 +30,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
       .ref(getDocument(`posts/${posts.id}/partnerSelect/${profile.id}`))
       .update({
         selectStatus: AppConfig.PostsStatus.customerConfirm,
-        selectStatusText: "เด็กแจ้งรับงาน รอลูกค้าขำระเงิน",
+        selectStatusText: "น้องๆแจ้งรับงาน รอลูกค้าขำระเงิน",
         sys_update_date: new Date().toUTCString(),
         place: profile.address,
         character: profile.character,
@@ -51,13 +51,13 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
       .ref(getDocument(`posts/${posts.id}/partnerSelect/${profile.id}`))
       .update({
         selectStatus: AppConfig.PostsStatus.partnerCancelWork,
-        selectStatusText: "เด็กปฏิเสธงาน",
+        selectStatusText: "น้องๆปฏิเสธงาน",
         sys_update_date: new Date().toUTCString(),
       })
 
     firebase.database().ref(getDocument(`posts/${posts.id}`)).update({
       status: AppConfig.PostsStatus.closeJob,
-      statusText: "เด็กปฏิเสธงาน",
+      statusText: "น้องๆปฏิเสธงาน",
       sys_update_date: new Date().toUTCString(),
     })
 
@@ -85,7 +85,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
             marginBottom: 5,
           }}
         >
-          จำนวนเด็ก ที่ต้องการ: {item.partnerWantQty || 0} คน
+          จำนวนน้องๆ ที่ต้องการ: {item.partnerWantQty || 0} คน
         </ListItem.Title>
         <ListItem.Title
           style={{

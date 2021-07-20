@@ -14,6 +14,7 @@ import { MaterialIcons } from "@expo/vector-icons"
 import { Button, CheckBox } from "react-native-elements"
 import RadioButtonRN from "radio-buttons-react-native"
 import { FontAwesome } from "react-native-vector-icons"
+import { TextInputMask } from "react-native-masked-text"
 
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
@@ -222,7 +223,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 placeholder="ชื่อ/ ชื่อเล่น"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>อายุ (optional)</Text>
+            <Text style={{ fontSize: 16, padding: 5 }}>อายุ</Text>
             <View style={styles.formControl}>
               <GetIcon type="mci" name="timeline-clock" />
               <TextInput
@@ -248,7 +249,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 placeholder="นิสัยหรือบุคคลิก (character)"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>ส่วนสูง (optional)</Text>
+            <Text style={{ fontSize: 16, padding: 5 }}>ส่วนสูง</Text>
             <View style={styles.formControl}>
               <GetIcon type="mci" name="human-male-height" />
               <TextInput
@@ -259,17 +260,20 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 keyboardType="numeric"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>สัดส่วน (optional)</Text>
+            <Text style={{ fontSize: 16, padding: 5 }}>สัดส่วน</Text>
             <View style={styles.formControl}>
               <GetIcon type="ii" name="md-woman-outline" />
-              <TextInput
+              <TextInputMask
+                type="custom"
+                options={{
+                  mask: "99-99-99"
+                }}
                 value={stature}
-                onChangeText={(value) => setStature(value)}
+                onChangeText={(text) => setStature(text)}
                 style={styles.textInput}
-                placeholder="สัดส่วน 32-24-35"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>น้ำหนัก (optional)</Text>
+            <Text style={{ fontSize: 16, padding: 5 }}>น้ำหนัก</Text>
             <View style={styles.formControl}>
               <GetIcon type="fa5" name="weight" />
               <TextInput

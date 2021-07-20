@@ -12,6 +12,7 @@ import {
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
+import { TextInputMask } from "react-native-masked-text"
 
 import { getCountryList, getDistrictList } from "../../../data/apis"
 import firebase from "../../../../util/firebase"
@@ -95,7 +96,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             <Text style={{ marginBottom: 5 }}>(Ways to get a job)</Text>
           </View>
           <View style={{ width: "80%", alignSelf: "center" }}>
-            <Text style={{ fontSize: 16, padding: 5 }}>Line Id (optional)</Text>
+            <Text style={{ fontSize: 16, padding: 5 }}>Line Id</Text>
             <View style={styles.formControl}>
               <GetIcon type="fa5" name="line" />
               <TextInput
@@ -110,12 +111,14 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             </Text>
             <View style={styles.formControl}>
               <GetIcon type="fa" name="mobile-phone" />
-              <TextInput
-                value={`${mobile}`}
-                onChangeText={(value) => setMobile(value)}
+              <TextInputMask
+                type="custom"
+                options={{
+                  mask: "(099)-999-9999"
+                }}
+                value={mobile}
+                onChangeText={(text) => setMobile(text)}
                 style={styles.textInput}
-                placeholder="เบอร์โทรศัพท์"
-                keyboardType="numeric"
               />
             </View>
             <Text style={{ color: "#123456", marginTop: 5 }}>

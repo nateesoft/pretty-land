@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   Alert,
   StyleSheet,
-  ScrollView,
+  ScrollView
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -21,8 +21,8 @@ import { AppConfig } from "../../../Constants"
 
 const TimePriceForm = (props) => {
   const { navigation, route } = props
-  const { item, userId, partnerRequest, province, partnerProfile } =
-    route.params
+  const { data } = route.params
+  const { item, userId, partnerRequest, province, partnerProfile } = data
 
   const [phone, setPhone] = useState("")
   const [timeMeeting, setTimeMeeting] = useState("")
@@ -66,9 +66,9 @@ const TimePriceForm = (props) => {
           image: data.image,
           sys_create_date: new Date().toUTCString(),
           age: data.age,
-          name: data.name,
-        },
-      },
+          name: data.name
+        }
+      }
     }
     saveNewPosts(dataToSave)
     navigation.navigate("Customer-Dashboard")
@@ -148,7 +148,7 @@ const TimePriceForm = (props) => {
                   width: 250,
                   paddingHorizontal: 15,
                   height: 45,
-                  borderWidth: 0.5,
+                  borderWidth: 0.5
                 }}
                 title="ส่งไปยัง Partner"
                 onPress={() => sendToMassagePartner(partnerProfile)}
@@ -164,37 +164,37 @@ const TimePriceForm = (props) => {
 const styles = StyleSheet.create({
   cardDetail: {
     alignItems: "center",
-    padding: 5,
+    padding: 5
   },
   optionsNameDetail: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     color: "blue",
-    marginTop: 10,
+    marginTop: 10
   },
   optionsNameDetail2: {
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
     color: "blue",
-    marginTop: 10,
+    marginTop: 10
   },
   container: {
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "center",
-    margin: 10,
+    margin: 10
   },
   dropdownStyle: {
     marginBottom: 10,
     borderColor: "#ff2fe6",
-    borderWidth: 1.5,
+    borderWidth: 1.5
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   formControl: {
     flexDirection: "row",
@@ -205,20 +205,20 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 5,
     height: 50,
-    borderRadius: 10,
+    borderRadius: 10
   },
   textInput: {
     backgroundColor: "white",
     width: 350,
     fontSize: 16,
     marginVertical: 5,
-    marginLeft: 15,
+    marginLeft: 15
   },
   buttonFooter: {
     flexDirection: "column",
     alignSelf: "center",
     justifyContent: "center",
-    marginBottom: 50,
+    marginBottom: 50
   },
   panelPartner: {
     padding: 20,
@@ -230,8 +230,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#bbb",
     borderRadius: 5,
-    position: "relative",
-  },
+    position: "relative"
+  }
 })
 
 export default TimePriceForm
