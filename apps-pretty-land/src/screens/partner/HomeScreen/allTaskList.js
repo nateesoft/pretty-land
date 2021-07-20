@@ -11,10 +11,9 @@ import {
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 
-import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
-
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const AllTaskListScreen = ({ navigation, route }) => {
@@ -23,8 +22,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
   const [filterList, setFilterList] = useState([])
   const [profile, setProfile] = useState({})
 
-  const handleRefresh = () => {
-  }
+  const handleRefresh = () => {}
 
   const onPressOptions = (item) => {
     navigation.navigate("All-Customer-Post-List", {
@@ -114,7 +112,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
       setProfile({ ...snapshot.val() })
     })
@@ -122,26 +120,13 @@ const AllTaskListScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>
         <View style={styles.container}>
-          {/* <DropDownPicker
-            placeholder="เลือกจังหวัด"
-            open={openSelectCountry}
-            setOpen={setOpenSelectCountry}
-            value={country}
-            setValue={setCountry}
-            items={countryList}
-            setItems={setCountryList}
-            textStyle={{ fontSize: 18 }}
-            zIndex={20}
-            searchable={false}
-            selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-          /> */}
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />
           )}

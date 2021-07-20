@@ -14,9 +14,9 @@ import Moment from "moment"
 
 import { getProvinceName } from "../../../data/apis"
 import CardNotfound from "../../../components/CardNotfound"
-import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 
 const SelectProvinceTaskList = ({ navigation, route }) => {
   const { item, profile, taskList } = route.params
@@ -27,18 +27,18 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
   const partnerConfrim = (posts) => {
     firebase
       .database()
-      .ref(`posts/${posts.id}/partnerSelect/${profile.id}`)
+      .ref(getDocument(`posts/${posts.id}/partnerSelect/${profile.id}`))
       .update({
         selectStatus: AppConfig.PostsStatus.customerConfirm,
-        selectStatusText: "Partner แจ้งรับงาน รอลูกค้าขำระเงิน",
+        selectStatusText: "น้องๆแจ้งรับงาน รอลูกค้าขำระเงิน",
         sys_update_date: new Date().toUTCString(),
         place: profile.address,
         character: profile.character,
       })
 
-    firebase.database().ref(`posts/${posts.id}`).update({
+    firebase.database().ref(getDocument(`posts/${posts.id}`)).update({
       status: AppConfig.PostsStatus.waitCustomerPayment,
-      statusText: "รอลูกค้าชำระค่าบริการ",
+      statusText: "รอลูกค้าชำระค่าดำเนินการ",
       sys_update_date: new Date().toUTCString(),
     })
 
@@ -48,16 +48,16 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
   const partnerReject = (posts) => {
     firebase
       .database()
-      .ref(`posts/${posts.id}/partnerSelect/${profile.id}`)
+      .ref(getDocument(`posts/${posts.id}/partnerSelect/${profile.id}`))
       .update({
         selectStatus: AppConfig.PostsStatus.partnerCancelWork,
-        selectStatusText: "Partner ปฏิเสธงาน",
+        selectStatusText: "น้องๆปฏิเสธงาน",
         sys_update_date: new Date().toUTCString(),
       })
 
-    firebase.database().ref(`posts/${posts.id}`).update({
+    firebase.database().ref(getDocument(`posts/${posts.id}`)).update({
       status: AppConfig.PostsStatus.closeJob,
-      statusText: "Partner ปฏิเสธงาน",
+      statusText: "น้องๆปฏิเสธงาน",
       sys_update_date: new Date().toUTCString(),
     })
 
@@ -85,7 +85,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
             marginBottom: 5,
           }}
         >
-          จำนวนPartner ที่ต้องการ: {item.partnerWantQty || 0} คน
+          จำนวนน้องๆ ที่ต้องการ: {item.partnerWantQty || 0} คน
         </ListItem.Title>
         <ListItem.Title
           style={{
@@ -216,9 +216,9 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>

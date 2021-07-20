@@ -4,17 +4,17 @@ import { Button, Text } from "react-native-elements"
 import { FontAwesome, MaterialIcons } from "react-native-vector-icons"
 import { Ionicons } from "@expo/vector-icons"
 
-import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from "../../../Constants"
 
-const ViewProfileScreen = ({ navigation, route }) => {
+const SettingsCategory = ({ navigation, route }) => {
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <Text style={styles.textTopic}>ตั้งค่าระบบ / รายงาน</Text>
-      <View style={[styles.cardDetail, { marginTop: "40%" }]}>
+      <View style={[styles.cardDetail, { justifyContent: "center" }]}>
         <Button
           icon={
             <FontAwesome
@@ -87,7 +87,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
           titleStyle={{ fontSize: 22 }}
           iconLeft
           buttonStyle={styles.btnPartnerReport}
-          title="รายงานสมัคร Partner"
+          title="รายงานสมัครหางาน"
           onPress={() => navigation.navigate("Partner-Register-Lists")}
         />
       </View>
@@ -190,4 +190,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ViewProfileScreen
+export default SettingsCategory

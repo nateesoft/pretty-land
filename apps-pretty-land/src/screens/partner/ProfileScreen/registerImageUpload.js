@@ -9,19 +9,18 @@ import {
   SafeAreaView,
   Alert,
   Button as ButtonLink,
-  ImageBackground,
+  ImageBackground
 } from "react-native"
 import * as Progress from "react-native-progress"
 import * as ImagePicker from "expo-image-picker"
 import { Video } from "expo-av"
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
-import uuid from "react-native-uuid"
 
 import { AppConfig } from "../../../Constants"
-import bgImage from "../../../../assets/bg.png"
 import { Context as AuthContext } from "../../../context/AuthContext"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
 
 const RegisterImageUpload = ({ navigation, route }) => {
@@ -51,6 +50,19 @@ const RegisterImageUpload = ({ navigation, route }) => {
   const [imageUrl6, setImageUrl6] = useState(null)
 
   const saveProfileData = () => {
+    if (
+      !imageUrl1 &&
+      !imageUrl2 &&
+      !imageUrl3 &&
+      !imageUrl4 &&
+      !imageUrl5 &&
+      !imageUrl6
+    ) {
+      Alert.alert(
+        "กรุณาเพิ่มรูปให้ครบ 5 รูป และวิดีโอ 1 คลิป ก่อนบันทึกข้อมูล !!!"
+      )
+      return
+    }
     const dataUpdate = {
       ...bankData,
       image: image ? image : imageUrl1,
@@ -63,9 +75,12 @@ const RegisterImageUpload = ({ navigation, route }) => {
       username,
       password,
       status: AppConfig.MemberStatus.newRegister,
-      statusText: AppConfig.MemberStatus.newRegisterMessage,
+      statusText: AppConfig.MemberStatus.newRegisterMessage
     }
-    firebase.database().ref(`members/${userId}`).update(dataUpdate)
+    firebase
+      .database()
+      .ref(getDocument(`members/${userId}`))
+      .update(dataUpdate)
     Alert.alert(
       "กระบวนการเสร็จสมบูรณ์",
       "อัพเดตข้อมูลเรียบร้อยแล้ว รอ Admin อนุมัติข้อมูล"
@@ -77,7 +92,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      videoExportPreset: ImagePicker.VideoExportPreset.MediumQuality,
+      videoExportPreset: ImagePicker.VideoExportPreset.MediumQuality
     })
     if (!result.cancelled) {
       handleImg(result.uri)
@@ -95,7 +110,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       allowsEditing: false,
-      videoExportPreset: ImagePicker.VideoExportPreset.LowQuality,
+      videoExportPreset: ImagePicker.VideoExportPreset.LowQuality
     })
 
     if (!result.cancelled) {
@@ -104,8 +119,8 @@ const RegisterImageUpload = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setUsername(data.username)
       setPassword(data.password)
@@ -117,11 +132,22 @@ const RegisterImageUpload = ({ navigation, route }) => {
       setImageUrl5(data.imageUrl5 || null)
       setImageUrl6(data.videoUrl || null)
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   const uploadAllImageVideo = () => {
+    if (
+      !imageUrl1 &&
+      !imageUrl2 &&
+      !imageUrl3 &&
+      !imageUrl4 &&
+      !imageUrl5 &&
+      !imageUrl6
+    ) {
+      Alert.alert(
+        "กรุณาเพิ่มรูปให้ครบ 5 รูป และวิดีโอ 1 คลิป ก่อนบันทึกข้อมูล !!!"
+      )
+      return
+    }
     setHideButtonUpload(true)
     if (imageFile1) {
       uploadImageAsync(imageFile1, setImageUrl1, true, `${userId}_pic1`)
@@ -165,7 +191,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     if (uploadToCloud) {
       const ref = firebase
         .storage()
-        .ref("images/member/partner")
+        .ref(getDocument("images/member/partner"))
         .child(fileName)
       const snapshot = await ref.put(blob)
       const url = await snapshot.ref.getDownloadURL()
@@ -193,7 +219,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
           backgroundColor: "yellow",
           bottom: 5,
           left: 10,
-          padding: 5,
+          padding: 5
         }}
       >
         {text}
@@ -220,7 +246,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
           backgroundColor: "red",
           bottom: 5,
           right: 10,
-          padding: 5,
+          padding: 5
         }}
       >
         วิดีโอเดิมที่เคยอัพโหลด
@@ -230,9 +256,9 @@ const RegisterImageUpload = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={styles.container}>
         <Text style={styles.textFormInfo}>เพิ่ม/แก้ไข รูปภาพ และวิดีโอ</Text>
@@ -411,7 +437,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
             paddingHorizontal: 15,
             height: 45,
             borderWidth: 0.5,
-            marginBottom: 20,
+            marginBottom: 20
           }}
           onPress={() => uploadAllImageVideo()}
         />
@@ -434,7 +460,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
             paddingHorizontal: 15,
             height: 45,
             borderWidth: 0.5,
-            marginBottom: 20,
+            marginBottom: 20
           }}
           onPress={() => saveProfileData()}
         />
@@ -448,24 +474,24 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   image: {
     height: 100,
     width: 100,
-    marginBottom: 10,
+    marginBottom: 10
   },
   textLogo: {
     fontSize: 24,
     fontWeight: "bold",
     fontStyle: "italic",
-    color: "purple",
+    color: "purple"
   },
   textDetail: {
     fontSize: 12,
     fontWeight: "bold",
     color: "gray",
-    marginBottom: 20,
+    marginBottom: 20
   },
   btnFacebook: {
     marginHorizontal: 55,
@@ -474,30 +500,30 @@ const styles = StyleSheet.create({
     marginTop: 5,
     backgroundColor: "blue",
     paddingVertical: 2,
-    borderRadius: 23,
+    borderRadius: 23
   },
   textOr: {
     fontSize: 14,
     color: "gray",
-    marginTop: 50,
+    marginTop: 50
   },
   textInput: {
     width: 200,
     textAlign: "center",
     fontSize: 16,
-    marginVertical: 5,
+    marginVertical: 5
   },
   videoInput: {
     width: 180,
     textAlign: "center",
     fontSize: 16,
-    marginVertical: 5,
+    marginVertical: 5
   },
   textRegister: {
     color: "purple",
     marginTop: 20,
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   textFooter: {
     position: "absolute",
@@ -506,13 +532,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flexWrap: "wrap",
     fontSize: 12,
-    color: "gray",
+    color: "gray"
   },
   textFormInfo: {
     fontSize: 22,
     fontWeight: "bold",
     marginTop: 20,
-    marginBottom: 8,
+    marginBottom: 8
   },
   formControl: {
     flexDirection: "row",
@@ -522,7 +548,7 @@ const styles = StyleSheet.create({
     borderColor: "#ff2fe6",
     marginTop: 5,
     height: 40,
-    borderRadius: 5,
+    borderRadius: 5
   },
   inputControl: {
     alignItems: "center",
@@ -535,18 +561,18 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
-    elevation: 5,
+    elevation: 5
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })
 
 export default RegisterImageUpload

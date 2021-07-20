@@ -6,20 +6,22 @@ import {
   TextInput,
   Alert,
   ImageBackground,
-  SafeAreaView,
+  SafeAreaView
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
+import { TextInputMask } from "react-native-masked-text"
 
 import { getBankList } from "../../../data/apis"
-import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
+import { AppConfig } from "../../../Constants"
 
 const RegisterPartnerBankForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { userId, status, partnerData } = route.params
+  const { userId, status, partnerData, appconfig } = route.params
   const [bank, setBank] = useState("")
   const [bankNo, setBankNo] = useState("")
 
@@ -40,34 +42,50 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
     const bankData = {
       ...partnerData,
       bank,
-      bankNo,
+      bankNo
     }
-    // firebase.database().ref(`members/${userId}`).update(bankData)
 
-    navigate("Partner-Register-Image-Upload", { userId, status, bankData })
+    navigate("Partner-Register-Image-Upload", {
+      userId,
+      status,
+      bankData,
+      appconfig
+    })
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setBank(data.bank || "")
       setBankNo(data.bankNo || "")
     })
 
-    return () => ref.off("value", listener)
+    if (!appconfig.partner_account) {
+      // save data
+      const bankData = {
+        ...partnerData,
+        bank: "",
+        bankNo: ""
+      }
+      navigate("Partner-Register-Image-Upload", {
+        userId,
+        status,
+        bankData,
+        appconfig
+      })
+    }
   }, [])
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ alignItems: "center" }}>
           <Text style={styles.textFormInfo}>เพิ่มข้อมูลธนาคาร</Text>
-          <Text>Add bank information (Optional)</Text>
         </View>
 
         <View style={{ width: "80%", alignSelf: "center" }}>
@@ -90,11 +108,14 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
           </Text>
           <View style={styles.formControl}>
             <GetIcon type="fa5" name="money-check" />
-            <TextInput
-              value={`${bankNo}`}
-              onChangeText={(value) => setBankNo(value)}
+            <TextInputMask
+              type="custom"
+              options={{
+                mask: "999-999-9999"
+              }}
+              value={bankNo}
+              onChangeText={(text) => setBankNo(text)}
               style={styles.textInput}
-              placeholder="ใส่เลขบัญชี"
             />
           </View>
           <Button
@@ -114,7 +135,7 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
               borderRadius: 25,
               paddingHorizontal: 15,
               height: 45,
-              borderWidth: 0.5,
+              borderWidth: 0.5
             }}
             onPress={() => handleNextData()}
           />
@@ -128,24 +149,24 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   image: {
     height: 100,
     width: 100,
-    marginBottom: 10,
+    marginBottom: 10
   },
   textLogo: {
     fontSize: 24,
     fontWeight: "bold",
     fontStyle: "italic",
-    color: "purple",
+    color: "purple"
   },
   textDetail: {
     fontSize: 12,
     fontWeight: "bold",
     color: "gray",
-    marginBottom: 20,
+    marginBottom: 20
   },
   btnFacebook: {
     marginHorizontal: 55,
@@ -154,24 +175,24 @@ const styles = StyleSheet.create({
     marginTop: 5,
     backgroundColor: "blue",
     paddingVertical: 2,
-    borderRadius: 23,
+    borderRadius: 23
   },
   textOr: {
     fontSize: 14,
     color: "gray",
-    marginTop: 50,
+    marginTop: 50
   },
   textInput: {
     width: 250,
     textAlign: "center",
     fontSize: 16,
-    marginVertical: 5,
+    marginVertical: 5
   },
   textRegister: {
     color: "purple",
     marginTop: 20,
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   textFooter: {
     position: "absolute",
@@ -180,13 +201,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flexWrap: "wrap",
     fontSize: 12,
-    color: "gray",
+    color: "gray"
   },
   textFormInfo: {
     fontSize: 22,
     fontWeight: "bold",
     marginTop: 20,
-    marginBottom: 8,
+    marginBottom: 8
   },
   formControl: {
     flexDirection: "row",
@@ -196,13 +217,13 @@ const styles = StyleSheet.create({
     borderColor: "#ff2fe6",
     marginTop: 5,
     height: 50,
-    borderRadius: 10,
+    borderRadius: 10
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })
 
 export default RegisterPartnerBankForm

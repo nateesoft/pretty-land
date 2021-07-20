@@ -6,17 +6,15 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
-  ImageBackground,
+  ImageBackground
 } from "react-native"
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 
-import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
-import { getPartnerGroupByType } from "../../../data/apis"
-
+import { snapshotToArray, getDocument } from "../../../../util"
+import { AppConfig } from "../../../Constants"
 import FemaleSimple from "../../../../assets/avatar/1.png"
 import MaleSimple from "../../../../assets/avatar/2.png"
 import OtherSimple from "../../../../assets/avatar/3.png"
@@ -24,31 +22,68 @@ import OtherSimple from "../../../../assets/avatar/3.png"
 const MemberAllListScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false)
   const [members, setMembers] = useState([])
+  const [items, setItems] = useState([])
 
   useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref("members")
-      .orderByChild("status_priority")
-    const listener = ref.on("value", (snapshot) => {
-      const memberInCloud = snapshotToArray(snapshot)
-      setMembers(
-        memberInCloud.filter(
-          (item, index) =>
-            item.memberType !== "superadmin" &&
-            item.memberType !== "admin" &&
-            item.memberType !== "demo"
+    initConfig().then((res) => {
+      setItems(res)
+      const ref = firebase
+        .database()
+        .ref(getDocument("members"))
+        .orderByChild("status_priority")
+      const litener = ref.on("value", (snapshot) => {
+        const memberInCloud = snapshotToArray(snapshot)
+        setMembers(
+          memberInCloud.filter((item, index) => item.memberType === "partner")
         )
-      )
-    })
+      })
 
-    return () => ref.off("value", listener)
+      return () => {
+        ref.off('value', listener)
+      }
+    })
   }, [])
+
+  const initConfig = () => {
+    return new Promise((resolve, reject) => {
+      const ref = firebase.database().ref(getDocument(`appconfig`))
+      ref.once("value", (snapshot) => {
+        const dataItems = []
+        const appconfig = snapshot.val()
+        dataItems.push({ ...appconfig.partner1 })
+        dataItems.push({ ...appconfig.partner2 })
+        dataItems.push({ ...appconfig.partner3 })
+        dataItems.push({ ...appconfig.partner4 })
+
+        resolve(dataItems)
+      })
+    })
+  }
+
+  const getPartnerTypeFromFirebase = (member) => {
+    if (member.memberType === "partner") {
+      const listType = [[]]
+      if (member.type1) {
+        listType.push(items[0].name)
+      }
+      if (member.type2) {
+        listType.push(items[1].name)
+      }
+      if (member.type3) {
+        listType.push(items[2].name)
+      }
+      if (member.type4) {
+        listType.push(items[3].name)
+      }
+      return listType.toString()
+    }
+    return member.memberType
+  }
 
   const handleRefresh = () => {}
 
-  const onPressOptions = (item) => {
-    navigation.navigate("Member-Detail", { item })
+  const onPressOptions = (item, topic) => {
+    navigation.navigate("Member-Detail", { item, topic })
   }
 
   const renderItem = ({ item }) =>
@@ -58,9 +93,9 @@ const MemberAllListScreen = ({ navigation, route }) => {
         containerStyle={{
           backgroundColor: null,
           borderRadius: 8,
-          marginVertical: 5,
+          marginVertical: 5
         }}
-        onPress={() => onPressOptions(item)}
+        onPress={() => onPressOptions(item, getPartnerTypeFromFirebase(item))}
         underlayColor="pink"
       >
         {item.image ? (
@@ -91,10 +126,10 @@ const MemberAllListScreen = ({ navigation, route }) => {
               padding: 5,
               borderRadius: 10,
               borderColor: "#aaa",
-              marginVertical: 5,
+              marginVertical: 5
             }}
           >
-            รับงาน: {getPartnerGroupByType(item)}
+            งานที่สมัคร: {getPartnerTypeFromFirebase(item)}
           </ListItem.Subtitle>
           <ListItem.Subtitle>สถานะ: {item.statusText}</ListItem.Subtitle>
         </ListItem.Content>
@@ -115,9 +150,9 @@ const MemberAllListScreen = ({ navigation, route }) => {
         containerStyle={{
           backgroundColor: null,
           borderRadius: 8,
-          marginVertical: 5,
+          marginVertical: 5
         }}
-        onPress={() => onPressOptions(item)}
+        onPress={() => onPressOptions(item, getPartnerTypeFromFirebase(item))}
         underlayColor="pink"
       >
         {item.image ? (
@@ -129,7 +164,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
               height: 130,
               borderWidth: 1,
               padding: 10,
-              borderColor: "#aaa",
+              borderColor: "#aaa"
             }}
           >
             <Text style={{ alignSelf: "center" }}>No Image</Text>
@@ -189,12 +224,12 @@ const MemberAllListScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>รายชื่อสมาชิก</Text>
+        <Text style={styles.textTopic}>รายชื่อผู้สมัครงาน</Text>
         <View style={styles.container}>
           {members.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลสมาชิกในระบบ" />
@@ -206,7 +241,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
               renderItem={renderItem}
               style={{
                 height: 600,
-                padding: 5,
+                padding: 5
               }}
               refreshControl={
                 <RefreshControl
@@ -225,7 +260,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
+    padding: 5
   },
   textTopic: {
     fontSize: 24,
@@ -233,47 +268,47 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
+    padding: 10
   },
   btnNewPost: {
     backgroundColor: "#35D00D",
     margin: 5,
     borderRadius: 75,
     height: 45,
-    width: 250,
+    width: 250
   },
   dropdownStyle: {
     marginBottom: 10,
     borderColor: "#ff2fe6",
-    borderWidth: 1.5,
+    borderWidth: 1.5
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   images: { width: 128, height: 128, flex: 1 },
   noImageText: {
     position: "absolute",
     bottom: 10,
     backgroundColor: "orange",
-    padding: 5,
+    padding: 5
   },
   tagLineLabel: {
     backgroundColor: "#35d00D",
     marginTop: 5,
-    paddingHorizontal: 5,
+    paddingHorizontal: 5
   },
   tagFacebookLabel: {
     backgroundColor: "blue",
     marginTop: 5,
-    paddingHorizontal: 5,
+    paddingHorizontal: 5
   },
   tagAppleLabel: {
     backgroundColor: "white",
     marginTop: 5,
-    paddingHorizontal: 5,
-  },
+    paddingHorizontal: 5
+  }
 })
 
 export default MemberAllListScreen

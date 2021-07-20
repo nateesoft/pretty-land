@@ -6,25 +6,26 @@ import {
   SafeAreaView,
   Alert,
   StyleSheet,
-  ScrollView,
+  ScrollView
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
+import { TextInputMask } from "react-native-masked-text"
 
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { getProvinceName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
-import bgImage from "../../../../assets/bg.png"
 import { saveNewPosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
 const TimePriceForm = (props) => {
   const { navigation, route } = props
-  const { item, userId, partnerRequest, province, partnerProfile } = route.params
+  const { data } = route.params
+  const { item, userId, partnerRequest, province, partnerProfile } = data
 
   const [phone, setPhone] = useState("")
   const [timeMeeting, setTimeMeeting] = useState("")
-
   const [customer, setCustomer] = useState("")
 
   const mappingCustomerProfile = (snapshot) => {
@@ -51,7 +52,7 @@ const TimePriceForm = (props) => {
       customerPhone: phone,
       partnerImage: item.image_url,
       status: AppConfig.PostsStatus.waitPartnerConfrimWork,
-      statusText: "รอ Partner แจ้งรับงาน",
+      statusText: "รอแจ้งรับงาน",
       province,
       provinceName: getProvinceName(province)[0],
       customerLevel: customer.customerLevel,
@@ -65,16 +66,16 @@ const TimePriceForm = (props) => {
           image: data.image,
           sys_create_date: new Date().toUTCString(),
           age: data.age,
-          name: data.name,
-        },
-      },
+          name: data.name
+        }
+      }
     }
     saveNewPosts(dataToSave)
     navigation.navigate("Customer-Dashboard")
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
       mappingCustomerProfile(snapshot).catch((err) => Alert.alert(err))
     })
@@ -82,11 +83,11 @@ const TimePriceForm = (props) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
-      <SafeAreaView style={{ flex: 1, height: "100%" }}>
+      <SafeAreaView style={{ flex: 1, height: "100%", alignItems: "center" }}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
@@ -98,11 +99,14 @@ const TimePriceForm = (props) => {
               )}
               <View style={styles.formControl}>
                 <GetIcon type="ii" name="time-outline" />
-                <TextInput
-                  placeholder="เวลาที่จะไป"
-                  style={styles.textInput}
+                <TextInputMask
+                  type="custom"
+                  options={{
+                    mask: "99:99"
+                  }}
                   value={timeMeeting}
-                  onChangeText={(value) => setTimeMeeting(value)}
+                  onChangeText={(text) => setTimeMeeting(text)}
+                  style={styles.textInput}
                 />
               </View>
             </View>
@@ -115,11 +119,14 @@ const TimePriceForm = (props) => {
               )}
               <View style={styles.formControl}>
                 <GetIcon type="ad" name="phone" />
-                <TextInput
-                  placeholder="เบอร์โทร"
-                  style={styles.textInput}
+                <TextInputMask
+                  type="custom"
+                  options={{
+                    mask: "(999)-999-9999"
+                  }}
                   value={phone}
-                  onChangeText={(value) => setPhone(value)}
+                  onChangeText={(text) => setPhone(text)}
+                  style={styles.textInput}
                 />
               </View>
             </View>
@@ -141,7 +148,7 @@ const TimePriceForm = (props) => {
                   width: 250,
                   paddingHorizontal: 15,
                   height: 45,
-                  borderWidth: 0.5,
+                  borderWidth: 0.5
                 }}
                 title="ส่งไปยัง Partner"
                 onPress={() => sendToMassagePartner(partnerProfile)}
@@ -157,37 +164,37 @@ const TimePriceForm = (props) => {
 const styles = StyleSheet.create({
   cardDetail: {
     alignItems: "center",
-    padding: 5,
+    padding: 5
   },
   optionsNameDetail: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     color: "blue",
-    marginTop: 10,
+    marginTop: 10
   },
   optionsNameDetail2: {
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
     color: "blue",
-    marginTop: 10,
+    marginTop: 10
   },
   container: {
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "center",
-    margin: 10,
+    margin: 10
   },
   dropdownStyle: {
     marginBottom: 10,
     borderColor: "#ff2fe6",
-    borderWidth: 1.5,
+    borderWidth: 1.5
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   formControl: {
     flexDirection: "row",
@@ -198,20 +205,20 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 5,
     height: 50,
-    borderRadius: 10,
+    borderRadius: 10
   },
   textInput: {
     backgroundColor: "white",
     width: 350,
     fontSize: 16,
     marginVertical: 5,
-    marginLeft: 15,
+    marginLeft: 15
   },
   buttonFooter: {
     flexDirection: "column",
     alignSelf: "center",
     justifyContent: "center",
-    marginBottom: 50,
+    marginBottom: 50
   },
   panelPartner: {
     padding: 20,
@@ -223,8 +230,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#bbb",
     borderRadius: 5,
-    position: "relative",
-  },
+    position: "relative"
+  }
 })
 
 export default TimePriceForm

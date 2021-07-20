@@ -5,14 +5,12 @@ import {
   View,
   Text,
   Image,
-  Dimensions,
   ImageBackground,
 } from "react-native"
 
 /* import data */
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
-import bgImage from "../../../../assets/bg.png"
+import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const Category = ({ navigation, route }) => {
@@ -53,8 +51,8 @@ const Category = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`appconfig`)
-    const listener = ref.on("value", (snapshot) => {
+    const ref = firebase.database().ref(getDocument(`appconfig`))
+    ref.once("value", (snapshot) => {
       const dataItems = []
       const appconfig = snapshot.val()
       dataItems.push({ ...appconfig.partner1 })
@@ -63,17 +61,11 @@ const Category = ({ navigation, route }) => {
       dataItems.push({ ...appconfig.partner4 })
 
       setItems(dataItems)
-
-      return () => {
-        ref.off("value", listener)
-      }
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   useEffect(() => {
-    const ref = firebase.database().ref(`posts`)
+    const ref = firebase.database().ref(getDocument(`posts`))
     const listener = ref.on("value", (snapshot) => {
       getComputeGroup(snapshot).catch((err) => Alert.alert(err))
     })
@@ -83,7 +75,7 @@ const Category = ({ navigation, route }) => {
   }, [])
 
   const onPressOptions = (item) => {
-    navigation.navigate("Post-List-All", { partnerRequest: item.value })
+    navigation.navigate("Post-List-All", { item, partnerRequest: item.value })
   }
 
   const DisplayCard = ({ data, count }) => (
@@ -107,15 +99,15 @@ const Category = ({ navigation, route }) => {
           }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
-        <Text style={{ fontWeight: "bold", color: "blue" }}>จำนวน {count} โพสท์</Text>
+        <Text style={{ fontWeight: "bold", color: "blue" }}>จำนวน {count} งาน</Text>
       </View>
     </TouchableHighlight>
   )
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       {items.length > 0 && (
         <View style={styles.container}>

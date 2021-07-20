@@ -14,19 +14,21 @@ import { Ionicons, Feather, AntDesign } from "react-native-vector-icons"
 import Moment from "moment"
 import { ActivityIndicator } from "react-native-paper"
 
-import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
-import { getPartnerGroupByType } from "../../../data/apis"
+import { getDocument } from "../../../../util"
 
 const MemberDetailScreen = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { item } = route.params
+  const { item, topic } = route.params
   const video = useRef(null)
   const [status, setStatus] = useState({})
 
   const confirmRemovePermanent = () => {
-    firebase.database().ref(`members/${item.id}`).remove()
+    firebase
+      .database()
+      .ref(getDocument(`members/${item.id}`))
+      .remove()
     navigate("List-All-Member")
   }
 
@@ -62,47 +64,56 @@ const MemberDetailScreen = ({ navigation, route }) => {
 
   const approveMember = () => {
     // update status member
-    firebase.database().ref(`members/${item.id}`).update({
-      status: AppConfig.MemberStatus.active,
-      statusText: AppConfig.MemberStatus.activeMessage,
-      status_priority: AppConfig.MemberStatus.activePriority,
-      member_register_date: new Date().toUTCString(),
-      member_update_date: new Date().toUTCString(),
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`members/${item.id}`))
+      .update({
+        status: AppConfig.MemberStatus.active,
+        statusText: AppConfig.MemberStatus.activeMessage,
+        status_priority: AppConfig.MemberStatus.activePriority,
+        member_register_date: new Date().toUTCString(),
+        member_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString(),
+      })
     navigation.navigate("List-All-Member")
   }
 
   const suspendMember = () => {
     // update status member
-    firebase.database().ref(`members/${item.id}`).update({
-      status: AppConfig.MemberStatus.suspend,
-      statusText: AppConfig.MemberStatus.suspendMessage,
-      status_priority: AppConfig.MemberStatus.suspendPriority,
-      member_update_date: new Date().toUTCString(),
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`members/${item.id}`))
+      .update({
+        status: AppConfig.MemberStatus.suspend,
+        statusText: AppConfig.MemberStatus.suspendMessage,
+        status_priority: AppConfig.MemberStatus.suspendPriority,
+        member_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString(),
+      })
     navigation.navigate("List-All-Member")
   }
 
   const cancelSuspendMember = () => {
     // update status member
-    firebase.database().ref(`members/${item.id}`).update({
-      status: AppConfig.MemberStatus.active,
-      statusText: AppConfig.MemberStatus.activeMessage,
-      status_priority: AppConfig.MemberStatus.activePriority,
-      member_register_date: new Date().toUTCString(),
-      member_update_date: new Date().toUTCString(),
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`members/${item.id}`))
+      .update({
+        status: AppConfig.MemberStatus.active,
+        statusText: AppConfig.MemberStatus.activeMessage,
+        status_priority: AppConfig.MemberStatus.activePriority,
+        member_register_date: new Date().toUTCString(),
+        member_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString(),
+      })
     navigation.navigate("List-All-Member")
   }
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <ScrollView
         style={{ height: "100%" }}
@@ -202,7 +213,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
                 ชื่อ: {item.name || item.username}
               </Text>
               <Text style={{ fontSize: 16 }}>
-                รับงาน: {getPartnerGroupByType(item)}
+                โหมดงาน: {topic}
               </Text>
               <Text style={{ fontSize: 16 }}>
                 วันที่เป็นสมาชิก:{" "}
@@ -271,7 +282,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
                 width: 250,
                 borderRadius: 10,
               }}
-              title="อนุมัติเป็น Partner"
+              title="อนุมัติข้อมูล"
               onPress={() => approveMember()}
             />
           )}

@@ -14,8 +14,7 @@ import Moment from "moment"
 
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
-import bgImage from "../../../../assets/bg.png"
+import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 import { updatePosts } from "../../../apis"
 
@@ -58,7 +57,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
             paddingHorizontal: 5,
           }}
         >
-          จำนวนPartner ที่ต้องการ: {item.partnerWantQty||0} คน
+          จำนวนน้องๆ ที่ต้องการ: {item.partnerWantQty||0} คน
         </ListItem.Title>
         <ListItem.Title
           style={{
@@ -120,7 +119,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts`)
+      .ref(getDocument(`posts`))
       .orderByChild("province")
       .equalTo(province)
     const listener = ref.on("value", (snapshot) => {
@@ -174,9 +173,9 @@ const AllCustomerPostList = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>โพสท์ทั้งหมดในระบบ</Text>

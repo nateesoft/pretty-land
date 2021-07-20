@@ -11,32 +11,28 @@ import {
 import { ListItem, Text } from "react-native-elements"
 import Moment from "moment"
 
-import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 import { getProvinceName } from "../../../data/apis"
-
 import NoImage from "../../../../assets/avatar/1.png"
 
-const AdminAllListScreen = ({ navigation, route }) => {
+const PartnerList = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false)
   const [members, setMembers] = useState([])
 
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref("members")
+      .ref(getDocument("members"))
       .orderByChild("status_priority")
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const memberInCloud = snapshotToArray(snapshot)
       setMembers(
         memberInCloud.filter((item, index) => item.memberType === "partner")
       )
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   const handleRefresh = () => {}
@@ -89,7 +85,7 @@ const AdminAllListScreen = ({ navigation, route }) => {
           </View>
         )}
         <ListItem.Title>
-          พื้นที่รับงาน: {getProvinceName(item.province)}
+          พื้นที่: {getProvinceName(item.province)}
         </ListItem.Title>
         <View
           style={{
@@ -114,15 +110,15 @@ const AdminAllListScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>รายงานสมัคร Partner</Text>
+        <Text style={styles.textTopic}>รายงานสมัครหางาน</Text>
         <View style={styles.container}>
           {members.length === 0 && (
-            <CardNotfound text="ไม่พบข้อมูล Partner ในระบบ" />
+            <CardNotfound text="ไม่พบข้อมูลผู้ใช้ ในระบบ" />
           )}
           {members.length > 0 && (
             <FlatList
@@ -178,4 +174,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default AdminAllListScreen
+export default PartnerList

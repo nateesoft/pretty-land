@@ -4,16 +4,14 @@ import {
   View,
   TextInput,
   Alert,
-  ScrollView,
   SafeAreaView,
   ImageBackground,
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 
-import bgImage from "../../../../assets/bg.png"
 import { partnerAcceptJobWaitCustomerReview } from "../../../apis"
-
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const PriceFormDetail = ({ navigation, route }) => {
@@ -23,8 +21,10 @@ const PriceFormDetail = ({ navigation, route }) => {
 
   const [getWork, setGetWork] = useState(false)
   const workHide =
-  postDetail.partnerQty -
-      (postDetail.partnerSelect ? Object.keys(postDetail.partnerSelect).length : 0) ===
+    postDetail.partnerQty -
+      (postDetail.partnerSelect
+        ? Object.keys(postDetail.partnerSelect).length
+        : 0) ===
     0
 
   const partnerQuatation = () => {
@@ -42,8 +42,8 @@ const PriceFormDetail = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts/${postDetail.id}/partnerSelect/${profile.id}`)
-    const listener = ref.on("value", (snapshot) => {
+      .ref(getDocument(`posts/${postDetail.id}/partnerSelect/${profile.id}`))
+    ref.once("value", (snapshot) => {
       const checkItem = { ...snapshot.val() }
       const acceptAlready = checkItem.partnerId === profile.id
       if (acceptAlready) {
@@ -52,15 +52,13 @@ const PriceFormDetail = ({ navigation, route }) => {
       }
       setGetWork(acceptAlready)
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>รายละเอียดโพสท์</Text>
@@ -78,7 +76,7 @@ const PriceFormDetail = ({ navigation, route }) => {
                 >
                   <TextInput
                     value={amount}
-                    placeholder="เสนอราคา (บาท)"
+                    placeholder="ค่าเดินทาง (บาท)"
                     style={styles.textInput}
                     keyboardType="number-pad"
                     onChangeText={(value) => setAmount(value)}

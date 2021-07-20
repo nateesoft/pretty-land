@@ -3,13 +3,23 @@ import { Alert } from "react-native"
 import { StyleSheet, View, ImageBackground, Image, Linking } from "react-native"
 import { Button, Text } from "react-native-elements"
 
-import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from "../../../Constants"
 import lineLogo from "../../../../assets/icons/LINE_APP.png"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 
 const ViewContact = ({ navigation, route }) => {
   const { userId } = route.params
   const [profile, setProfile] = useState({})
+  const [lineContact, setLineContact] = useState("")
+
+  useEffect(() => {
+    const ref = firebase.database().ref(getDocument("appconfig"))
+    ref.once("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      setLineContact(data.line_contact_admin || "https://lin.ee/DgRh5Mw")
+    })
+  }, [])
 
   const LinkToLineContact = () => {
     Linking.openURL(lineContact)
@@ -17,7 +27,7 @@ const ViewContact = ({ navigation, route }) => {
 
   const getProfileFromDB = (userId) => {
     return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(`members/${userId}`)
+      const ref = firebase.database().ref(getDocument(`members/${userId}`))
       ref.once("value", (snapshot) => {
         const data = { ...snapshot.val() }
         setProfile(data)
@@ -32,9 +42,9 @@ const ViewContact = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <View style={{ alignItems: "center", margin: 10 }}>
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>ข้อมูลสมาชิก</Text>
@@ -55,7 +65,7 @@ const ViewContact = ({ navigation, route }) => {
         </Text>
       </View>
       <View style={styles.cardDetail}>
-        <Text style={styles.textTopic}>ติดต่อ Admin</Text>
+        <Text style={styles.textTopic}>ติดต่อผู้ดูแลระบบ</Text>
         <Button
           icon={
             <Image

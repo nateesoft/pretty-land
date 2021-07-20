@@ -4,7 +4,8 @@ import { Button, Text, Input } from "react-native-elements"
 import { FontAwesome } from "react-native-vector-icons"
 
 import firebase from "../../../../util/firebase"
-import bgImage from "../../../../assets/bg.png"
+import { getDocument } from "../../../../util"
+import { AppConfig } from "../../../Constants"
 import { Alert } from "react-native"
 
 const ViewSettingForm = ({ navigation, route }) => {
@@ -14,16 +15,14 @@ const ViewSettingForm = ({ navigation, route }) => {
   const [lineContact, setLineContact] = useState("")
 
   useEffect(() => {
-    const ref = firebase.database().ref("appconfig")
-    const listener = ref.on("value", (snapshot) => {
+    const ref = firebase.database().ref(getDocument("appconfig"))
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setFeeAmount(data.fee_amount || null)
       setLineContact(data.line_contact_admin || "")
       setImageQuality(data.quality_image_upload || "default")
       setVideoQuality(data.quality_video_upload || "default")
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   const updateAppConfigSetting = () => {
@@ -32,7 +31,7 @@ const ViewSettingForm = ({ navigation, route }) => {
       return
     }
 
-    firebase.database().ref("appconfig").update({
+    firebase.database().ref(getDocument("appconfig")).update({
       fee_amount: feeAmount,
     })
     Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว")
@@ -40,9 +39,9 @@ const ViewSettingForm = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <Text style={styles.textTopic}>จัดการข้อมูลระบบ</Text>
       <View style={styles.cardDetail}>
@@ -152,7 +151,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
   imageBg: {

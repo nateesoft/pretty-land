@@ -11,8 +11,8 @@ import {
 import { Button, Text } from "react-native-elements"
 import { AntDesign } from "react-native-vector-icons"
 
-import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const VerifyPaymentSlip = ({ navigation, route }) => {
@@ -37,7 +37,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
 
   const getMemberProfile = () => {
     return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(`members/${item.customerId}`)
+      const ref = firebase.database().ref(getDocument(`members/${item.customerId}`))
       ref.once("value", (snapshot) => {
         const customerData = { ...snapshot.val() }
         resolve(customerData)
@@ -47,7 +47,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
 
   const saveConfirmPayment = () => {
     // save to firebase
-    firebase.database().ref(`posts/${item.id}`).update({
+    firebase.database().ref(getDocument(`posts/${item.id}`)).update({
       status: AppConfig.PostsStatus.adminConfirmPayment,
       statusText: "ชำระเงินเรียบร้อยแล้ว",
       sys_update_date: new Date().toUTCString(),
@@ -57,7 +57,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
     listPartner.forEach((obj) => {
       firebase
         .database()
-        .ref(`posts/${item.id}/partnerSelect/${obj.partnerId}`)
+        .ref(getDocument(`posts/${item.id}/partnerSelect/${obj.partnerId}`))
         .update({
           selectStatus: AppConfig.PostsStatus.customerPayment,
           selectStatusText: "ชำระเงินเรียบร้อยแล้ว",
@@ -69,7 +69,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
       // update level to customer
       firebase
         .database()
-        .ref(`members/${item.customerId}`)
+        .ref(getDocument(`members/${item.customerId}`))
         .update({
           customerLevel: cust.customerLevel + 1,
         })
@@ -85,9 +85,9 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>ตรวจสอบข้อมูลการโอนเงิน</Text>
@@ -114,7 +114,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
             >
               <Text>ชื่อลูกค้า: {item.customerName}</Text>
               <Text>Level: {item.customerLevel}</Text>
-              <Text>สถานที่นัดหมาย: {item.placeMeeting}</Text>
+              <Text>ชื่อสถานที่: {item.placeMeeting}</Text>
               <Text>
                 เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
               </Text>
@@ -150,7 +150,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
           )}
           <View style={{ alignItems: "center", margin: 10 }}>
             <Text style={{ marginBottom: 5 }}>
-              ยอดรับชำระสำหรับ Partner {listPartner.length} คน
+              ยอดรับชำระสำหรับ {listPartner.length} คน
             </Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {listPartner.map((obj, index) => (

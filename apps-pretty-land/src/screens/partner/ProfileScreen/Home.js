@@ -8,7 +8,7 @@ import {
   View,
   TouchableNativeFeedback,
   LogBox,
-  ImageBackground,
+  ImageBackground
 } from "react-native"
 import { Video } from "expo-av"
 
@@ -16,21 +16,18 @@ import {
   FontAwesome,
   Feather,
   FontAwesome5,
-  MaterialCommunityIcons,
+  MaterialCommunityIcons
 } from "@expo/vector-icons"
-import { ActivityIndicator } from "react-native-paper"
 import Moment from "moment"
 
-import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { Context as AuthContext } from "../../../context/AuthContext"
-
-import bgImage from "../../../../assets/bg.png"
 import FemaleSimple from "../../../../assets/avatar/1.png"
 import MaleSimple from "../../../../assets/avatar/2.png"
 import OtherSimple from "../../../../assets/avatar/3.png"
 import { Button } from "react-native-elements"
-import { Platform } from "react-native"
+import { AppConfig } from "../../../Constants"
 
 const ProfileHomeScreen = ({ navigation, route }) => {
   const { signOut } = useContext(AuthContext)
@@ -38,7 +35,6 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   const { navigate } = navigation
   const { userId } = route.params
   const video = useRef(null)
-  const [status, setStatus] = useState({})
 
   const [userStatus, setUserStatus] = useState("")
   const [imageProfile, setImageProfile] = useState(null)
@@ -53,15 +49,24 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   const [img4, setImg4] = useState(null)
   const [img5, setImg5] = useState(null)
   const [videoUrl, setVideoUrl] = useState(null)
+  const [appconfig, setAppConfig] = useState({})
 
   LogBox.ignoreLogs(["Setting a timer"])
 
   const handleEditForm = () => {
-    navigate("Register-Plan-Form")
+    navigate("Register-Plan-Form", { appconfig })
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
+    const ref = firebase.database().ref(getDocument(`appconfig`))
+    ref.once("value", (snapshot) => {
+      const appconfig = snapshot.val()
+      setAppConfig(appconfig)
+    })
+  }, [])
+
+  useEffect(() => {
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       if (!data.image) {
@@ -97,9 +102,9 @@ const ProfileHomeScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -108,10 +113,10 @@ const ProfileHomeScreen = ({ navigation, route }) => {
               <Text
                 style={[
                   styles.text,
-                  { color: "red", fontSize: 14, fontWeight: "bold" },
+                  { color: "blue", fontSize: 18, fontWeight: "bold" }
                 ]}
               >
-                LOGGOUT
+                กลับสู่หน้าหลัก
               </Text>
             </View>
           </TouchableNativeFeedback>
@@ -139,7 +144,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
                 flexDirection: "row",
                 alignItems: "baseline",
                 marginTop: 10,
-                alignSelf: "flex-start",
+                alignSelf: "flex-start"
               }}
             >
               <FontAwesome
@@ -151,7 +156,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
               <Text
                 style={[
                   styles.text,
-                  { color: "#bbb", fontSize: 14, marginRight: 10 },
+                  { color: "#bbb", fontSize: 14, marginRight: 10 }
                 ]}
               >
                 {mobile}
@@ -181,8 +186,8 @@ const ProfileHomeScreen = ({ navigation, route }) => {
                 {
                   borderColor: "#ccc",
                   borderLeftWidth: 1,
-                  borderRightWidth: 1,
-                },
+                  borderRightWidth: 1
+                }
               ]}
             >
               <Text style={[styles.text, { fontSize: 24, fontWeight: "bold" }]}>
@@ -198,7 +203,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
               <Text
                 style={[
                   styles.text,
-                  { fontSize: 12, marginBottom: 5, color: "blue" },
+                  { fontSize: 12, marginBottom: 5, color: "blue" }
                 ]}
               >
                 {memberRegisterDate}
@@ -211,7 +216,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
             <View
               style={{
                 marginTop: 5,
-                alignItems: "center",
+                alignItems: "center"
               }}
             >
               <Video
@@ -236,7 +241,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
                   backgroundColor: "chocolate",
                   margin: 20,
                   borderRadius: 10,
-                  padding: 15,
+                  padding: 15
                 }}
                 icon={
                   <MaterialCommunityIcons
@@ -246,7 +251,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
                     style={{ marginRight: 10 }}
                   />
                 }
-                onPress={() => navigate("Register-Plan-Form")}
+                onPress={handleEditForm}
               />
             </View>
           )}
@@ -302,34 +307,34 @@ const ProfileHomeScreen = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   text: {
-    color: "#52575D",
+    color: "#52575D"
   },
   subText: {
     fontSize: 12,
     color: "#aeb5bc",
     textTransform: "uppercase",
-    fontWeight: "500",
+    fontWeight: "500"
   },
   image: {
     flex: 1,
     width: undefined,
-    height: undefined,
+    height: undefined
   },
   titleBar: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 24,
-    marginHorizontal: 16,
+    marginHorizontal: 16
   },
   profileImage: {
     marginTop: 10,
     width: 200,
     height: 200,
     borderRadius: 200 / 2,
-    overflow: "hidden",
+    overflow: "hidden"
   },
   active: {
     backgroundColor: "#34FFB9",
@@ -339,7 +344,7 @@ const styles = StyleSheet.create({
     padding: 4,
     height: 20,
     width: 20,
-    borderRadius: 10,
+    borderRadius: 10
   },
   edit: {
     backgroundColor: "#41444B",
@@ -350,28 +355,28 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   infoContainer: {
     alignSelf: "center",
     alignItems: "center",
-    marginTop: 16,
+    marginTop: 16
   },
   statsContainer: {
     alignItems: "baseline",
     flexDirection: "row",
-    marginTop: 32,
+    marginTop: 32
   },
   statsBox: {
     alignItems: "center",
-    flex: 1,
+    flex: 1
   },
   mediaImageContainer: {
     width: 180,
     height: 200,
     borderRadius: 12,
     overflow: "hidden",
-    marginHorizontal: 10,
+    marginHorizontal: 10
   },
   mediaCount: {
     backgroundColor: "#41444b",
@@ -387,13 +392,13 @@ const styles = StyleSheet.create({
     shadowColor: "rgba(0,0,0,0.38)",
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 20,
-    opacity: 1,
+    opacity: 1
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })
 
 export default ProfileHomeScreen

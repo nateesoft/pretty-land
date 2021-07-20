@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import {
   View,
   StyleSheet,
@@ -6,24 +6,22 @@ import {
   Image,
   ScrollView,
   TouchableNativeFeedback,
-  ImageBackground,
+  ImageBackground
 } from "react-native"
-// import { Video } from "expo-av"
+
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import * as Progress from "react-native-progress"
 import { AirbnbRating } from "react-native-elements"
 
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import bgImage from "../../../../assets/bg.png"
 import { Alert } from "react-native"
 
 export default function PartnerImage({ navigation, route }) {
   const { postItem, partnerItem } = route.params
 
-  const video = useRef(null)
-  const [status, setStatus] = useState({})
   const [partnerProfile, setPartnerProfile] = useState({})
   const [selectStatus, setSelectStatus] = useState("")
   const [images, setImages] = useState([])
@@ -38,11 +36,15 @@ export default function PartnerImage({ navigation, route }) {
   const onPressSelectPartner = () => {
     firebase
       .database()
-      .ref(`posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`)
+      .ref(
+        getDocument(
+          `posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`
+        )
+      )
       .update({
         selectStatus: AppConfig.PostsStatus.customerConfirm,
         selectStatusText: "ลูกค้าคอนเฟิร์ม รอชำระเงิน",
-        sys_create_date: new Date().toUTCString(),
+        sys_create_date: new Date().toUTCString()
       })
     navigation.navigate("Partner-List-Select")
   }
@@ -50,11 +52,15 @@ export default function PartnerImage({ navigation, route }) {
   const cancelSelectPartner = () => {
     firebase
       .database()
-      .ref(`posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`)
+      .ref(
+        getDocument(
+          `posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`
+        )
+      )
       .update({
         selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
         selectStatusText: "เสนอรับงาน",
-        sys_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString()
       })
     navigation.navigate("Partner-List-Select")
   }
@@ -122,7 +128,9 @@ export default function PartnerImage({ navigation, route }) {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${partnerItem.partnerId}`)
+    const ref = firebase
+      .database()
+      .ref(getDocument(`members/${partnerItem.partnerId}`))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setPartnerProfile(data)
@@ -131,7 +139,7 @@ export default function PartnerImage({ navigation, route }) {
         { url: data.imageUrl2 || null },
         { url: data.imageUrl3 || null },
         { url: data.imageUrl4 || null },
-        { url: data.imageUrl5 || null },
+        { url: data.imageUrl5 || null }
       ])
     })
   }, [])
@@ -139,7 +147,11 @@ export default function PartnerImage({ navigation, route }) {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`)
+      .ref(
+        getDocument(
+          `posts/${postItem.id}/partnerSelect/${partnerItem.partnerId}`
+        )
+      )
     ref.once("value", (snapshot) => {
       const partnerStatusSelect = { ...snapshot.val() }
       setSelectStatus(partnerStatusSelect.selectStatus)
@@ -147,7 +159,9 @@ export default function PartnerImage({ navigation, route }) {
   }, [])
 
   useEffect(() => {
-    const ref = firebase.database().ref(`partner_star/${partnerItem.partnerId}`)
+    const ref = firebase
+      .database()
+      .ref(getDocument(`partner_star/${partnerItem.partnerId}`))
     ref.once("value", (snapshot) => {
       if (snapshot.numChildren()) {
         getStarFromPosts(snapshot).catch((err) => Alert.alert(err))
@@ -157,14 +171,14 @@ export default function PartnerImage({ navigation, route }) {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>
           <Text style={{ fontSize: 20, color: "green", fontWeight: "bold" }}>
-            รายละเอียด Partner
+            ข้อมูลน้องๆ
           </Text>
           <View
             style={{
@@ -174,7 +188,7 @@ export default function PartnerImage({ navigation, route }) {
               borderWidth: 2.5,
               borderColor: "#ff2fe6",
               width: 350,
-              borderRadius: 25,
+              borderRadius: 25
             }}
           >
             <Text style={{ fontSize: 16 }}>
@@ -199,7 +213,7 @@ export default function PartnerImage({ navigation, route }) {
               borderColor: "#ff2fe6",
               backgroundColor: "black",
               width: 350,
-              borderRadius: 25,
+              borderRadius: 25
             }}
           >
             <View style={{ flex: 1, flexDirection: "row" }}>
@@ -229,7 +243,7 @@ export default function PartnerImage({ navigation, route }) {
           </View>
           {selectStatus !== AppConfig.PostsStatus.customerConfirm ? (
             <Button
-              title="เลือก Partner คนนี้"
+              title="เลือกคนนี้"
               icon={
                 <AntDesign
                   name="checkcircleo"
@@ -243,7 +257,7 @@ export default function PartnerImage({ navigation, route }) {
                 backgroundColor: "#ff2fe6",
                 marginVertical: 10,
                 borderRadius: 25,
-                paddingHorizontal: 15,
+                paddingHorizontal: 15
               }}
               onPress={() => onPressSelectPartner()}
             />
@@ -253,15 +267,19 @@ export default function PartnerImage({ navigation, route }) {
                 style={{
                   fontSize: 20,
                   backgroundColor: "yellow",
-                  marginTop: 10,
+                  marginTop: 10
                 }}
               >
-                status: คุณเลือก Partner คนนี้แล้ว
+                status: คุณเลือกสมาชิกคนนี้แล้ว
               </Text>
               <Button
                 title="ยกเลิกการเลือก"
-                buttonStyle={{ backgroundColor: "red", borderRadius: 5, margin: 5 }}
-                onPress={()=>cancelSelectPartner()}
+                buttonStyle={{
+                  backgroundColor: "red",
+                  borderRadius: 5,
+                  margin: 5
+                }}
+                onPress={() => cancelSelectPartner()}
               />
             </View>
           )}
@@ -277,7 +295,7 @@ export default function PartnerImage({ navigation, route }) {
                       marginVertical: 5,
                       alignItems: "center",
                       padding: 10,
-                      borderRadius: 25,
+                      borderRadius: 25
                     }}
                   >
                     <Image
@@ -302,23 +320,23 @@ export default function PartnerImage({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   },
   video: {
     alignSelf: "center",
     width: 350,
     height: 350,
-    borderRadius: 25,
+    borderRadius: 25
   },
   buttons: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   imageContainer: {
     flexDirection: "column",
     alignItems: "center",
-    padding: 10,
+    padding: 10
   },
   image: {
     height: 400,
@@ -327,14 +345,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1.5,
     borderRadius: 25,
-    borderColor: "#ff2fe6",
+    borderColor: "#ff2fe6"
   },
   progress: {
-    margin: 1,
+    margin: 1
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })

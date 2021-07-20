@@ -11,10 +11,8 @@ import { Text } from "react-native"
 import { Button } from "react-native-elements"
 import { MaterialIcons } from "react-native-vector-icons"
 
-import bgImage from "../../../../assets/bg.png"
-
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const PartnerListSelect = ({ navigation, route }) => {
@@ -112,7 +110,9 @@ const PartnerListSelect = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase.database().ref(`posts/${postItem.id}/partnerSelect`)
+    const ref = firebase
+      .database()
+      .ref(getDocument(`posts/${postItem.id}/partnerSelect`))
     const listener = ref.on("value", (snapshot) => {
       const listData = snapshotToArray(snapshot)
       setListSelect(listData)
@@ -123,7 +123,7 @@ const PartnerListSelect = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts/${postItem.id}/partnerSelect`)
+      .ref(getDocument(`posts/${postItem.id}/partnerSelect`))
       .orderByChild("selectStatus")
       .equalTo(AppConfig.PostsStatus.customerConfirm)
     const listener = ref.on("value", (snapshot) => {
@@ -138,12 +138,12 @@ const PartnerListSelect = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>แสดงพร้อมรับงาน</Text>
+        <Text style={styles.textTopic}>แสดงพร้อมทำงาน</Text>
         <View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {listSelect.map((item, index) => (

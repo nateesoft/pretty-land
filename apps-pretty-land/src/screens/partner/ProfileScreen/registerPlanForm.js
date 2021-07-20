@@ -8,35 +8,29 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  ImageBackground,
+  ImageBackground
 } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
 import { Button, CheckBox } from "react-native-elements"
 import RadioButtonRN from "radio-buttons-react-native"
 import { FontAwesome } from "react-native-vector-icons"
+import { TextInputMask } from "react-native-masked-text"
 
-import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
-
 import { AppConfig } from "../../../Constants"
 
-const radioData = [
-  { label: AppConfig.PartnerType.type1, value: "1" },
-  { label: AppConfig.PartnerType.type2, value: "2" },
-  { label: AppConfig.PartnerType.type3, value: "3" },
-  { label: AppConfig.PartnerType.type4, value: "4" },
-]
-
 const sexData = [
-  { label: "หญิง (Female)", value: "female" },
   { label: "ชาย (Male)", value: "male" },
-  { label: "อื่น ๆ (Other)", value: "other" },
+  { label: "หญิง (Female)", value: "female" },
+  { label: "อื่น ๆ (Other)", value: "other" }
 ]
 
 const RegisterPlanForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { userId, status } = route.params
+  const { userId, status, appconfig } = route.params
+  const [items, setItems] = useState([])
 
   const [type1, setType1] = useState(true)
   const [type2, setType2] = useState(false)
@@ -44,7 +38,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
   const [type4, setType4] = useState(false)
   const [price4, setPrice4] = useState("")
 
-  const [sex, setSex] = useState("female")
+  const [sex, setSex] = useState("male")
   const [name, setName] = useState("")
   const [age, setAge] = useState("")
   const [character, setCharacter] = useState("")
@@ -59,22 +53,6 @@ const RegisterPlanForm = ({ navigation, route }) => {
     }
     if (!name) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
-      return
-    }
-    if (!age) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุอายุ")
-      return
-    }
-    if (!height) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุส่วนสูง")
-      return
-    }
-    if (!weight) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุน้ำหนัก")
-      return
-    }
-    if (!stature) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุสัดส่วน")
       return
     }
     if (type4 && !price4) {
@@ -100,18 +78,24 @@ const RegisterPlanForm = ({ navigation, route }) => {
       stature,
       weight,
       price4: !price4 ? 0 : price4,
-      character,
+      character
     }
-    // firebase
-    //   .database()
-    //   .ref(`members/${userId}`)
-    //   .update(planData)
-    navigate("Register-Partner-Form", { userId, status, planData })
+
+    navigate("Register-Partner-Form", { userId, status, planData, appconfig })
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    const dataItems = []
+    dataItems.push({ ...appconfig.partner1 })
+    dataItems.push({ ...appconfig.partner2 })
+    dataItems.push({ ...appconfig.partner3 })
+    dataItems.push({ ...appconfig.partner4 })
+    setItems(dataItems)
+  }, [])
+
+  useEffect(() => {
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setName(data.name || "")
       setAge(data.age || "")
@@ -123,18 +107,16 @@ const RegisterPlanForm = ({ navigation, route }) => {
       setType3(data.type3 || false)
       setType4(data.type4 || false)
       setPrice4(data.price4 || "")
-      setSex(data.sex || "female")
+      setSex(data.sex || "male")
       setCharacter(data.character || "")
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -142,7 +124,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{ alignItems: "center" }}>
-            <Text style={styles.textFormInfo}>รายละเอียดงานที่รับ</Text>
+            <Text style={styles.textFormInfo}>รายละเอียดงานที่สมัคร</Text>
             <Text>(Work Details)</Text>
           </View>
 
@@ -154,32 +136,32 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 fontSize: 16,
                 padding: 5,
                 marginTop: 10,
-                alignSelf: "flex-start",
+                alignSelf: "flex-start"
               }}
             >
-              ประเภทงาน
+              หมวดหมู่งาน
             </Text>
             <CheckBox
               containerStyle={styles.checkbox}
-              title={radioData[0].label}
+              title={(items[0] && items[0].name) || ""}
               checked={type1}
               onPress={() => setType1(!type1)}
             />
             <CheckBox
               containerStyle={styles.checkbox}
-              title={radioData[1].label}
+              title={(items[1] && items[1].name) || ""}
               checked={type2}
               onPress={() => setType2(!type2)}
             />
             <CheckBox
               containerStyle={styles.checkbox}
-              title={radioData[2].label}
+              title={(items[2] && items[2].name) || ""}
               checked={type3}
               onPress={() => setType3(!type3)}
             />
             <CheckBox
-              containerStyle={styles.checkbox}
-              title={radioData[3].label}
+              containerStyle={[styles.checkbox, { marginTop: 50 }]}
+              title={(items[3] && items[3].name) || ""}
               checked={type4}
               onPress={() => setType4(!type4)}
             />
@@ -190,10 +172,10 @@ const RegisterPlanForm = ({ navigation, route }) => {
                     fontSize: 16,
                     padding: 5,
                     marginTop: 10,
-                    alignSelf: "flex-start",
+                    alignSelf: "flex-start"
                   }}
                 >
-                  ค่าบริการ สำหรับนวดแผนไทย
+                  ราคาสำหรับการนวดแผนไทยต่อ 1 ครั้ง
                 </Text>
                 <View style={styles.formControlPrice}>
                   <GetIcon type="fa" name="money" />
@@ -221,7 +203,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 icon={
                   <FontAwesome name="check-circle" size={25} color="#2c9dd1" />
                 }
-                initial={sex === "female" ? 1 : sex === "male" ? 2 : 3}
+                initial={sex === "male" ? 1 : sex === "female" ? 2 : 3}
               />
             </View>
             <Text style={{ fontSize: 16, padding: 5 }}>
@@ -241,8 +223,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 placeholder="ชื่อ/ ชื่อเล่น"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>อายุ (age)</Text>
-            {!age && <Text style={{ color: "red" }}>ระบุอายุ</Text>}
+            <Text style={{ fontSize: 16, padding: 5 }}>อายุ</Text>
             <View style={styles.formControl}>
               <GetIcon type="mci" name="timeline-clock" />
               <TextInput
@@ -268,8 +249,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 placeholder="นิสัยหรือบุคคลิก (character)"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>ส่วนสูง (Tall)</Text>
-            {!height && <Text style={{ color: "red" }}>ระบุข้อมูลส่วนสูง</Text>}
+            <Text style={{ fontSize: 16, padding: 5 }}>ส่วนสูง</Text>
             <View style={styles.formControl}>
               <GetIcon type="mci" name="human-male-height" />
               <TextInput
@@ -280,23 +260,20 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 keyboardType="numeric"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>
-              สัดส่วน 32-24-35 (Stature)
-            </Text>
-            {!stature && (
-              <Text style={{ color: "red" }}>ระบุข้อมูลสัดส่วน</Text>
-            )}
+            <Text style={{ fontSize: 16, padding: 5 }}>สัดส่วน</Text>
             <View style={styles.formControl}>
               <GetIcon type="ii" name="md-woman-outline" />
-              <TextInput
+              <TextInputMask
+                type="custom"
+                options={{
+                  mask: "99-99-99"
+                }}
                 value={stature}
-                onChangeText={(value) => setStature(value)}
+                onChangeText={(text) => setStature(text)}
                 style={styles.textInput}
-                placeholder="สัดส่วน 32-24-35"
               />
             </View>
-            <Text style={{ fontSize: 16, padding: 5 }}>น้ำหนัก (Weight)</Text>
-            {!weight && <Text style={{ color: "red" }}>ระบุข้อมูลน้ำหนัก</Text>}
+            <Text style={{ fontSize: 16, padding: 5 }}>น้ำหนัก</Text>
             <View style={styles.formControl}>
               <GetIcon type="fa5" name="weight" />
               <TextInput
@@ -325,7 +302,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
                 paddingHorizontal: 15,
                 height: 45,
                 borderWidth: 0.5,
-                marginBottom: 20,
+                marginBottom: 20
               }}
               onPress={() => handleNexData()}
             />
@@ -340,23 +317,23 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   image: {
     height: 100,
-    width: 100,
+    width: 100
   },
   textLogo: {
     fontSize: 24,
     fontWeight: "bold",
     fontStyle: "italic",
-    color: "purple",
+    color: "purple"
   },
   textDetail: {
     fontSize: 12,
     fontWeight: "bold",
     color: "gray",
-    marginBottom: 20,
+    marginBottom: 20
   },
   btnFacebook: {
     marginHorizontal: 55,
@@ -365,24 +342,24 @@ const styles = StyleSheet.create({
     marginTop: 5,
     backgroundColor: "blue",
     paddingVertical: 2,
-    borderRadius: 23,
+    borderRadius: 23
   },
   textOr: {
     fontSize: 14,
     color: "gray",
-    marginTop: 50,
+    marginTop: 50
   },
   textInput: {
     width: 250,
     textAlign: "center",
     fontSize: 16,
-    marginVertical: 5,
+    marginVertical: 5
   },
   textRegister: {
     color: "purple",
     marginTop: 20,
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   textFooter: {
     position: "absolute",
@@ -391,13 +368,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flexWrap: "wrap",
     fontSize: 12,
-    color: "gray",
+    color: "gray"
   },
   textFormInfo: {
     fontSize: 22,
     fontWeight: "bold",
     marginTop: 20,
-    marginBottom: 8,
+    marginBottom: 8
   },
   formControl: {
     flexDirection: "row",
@@ -407,7 +384,7 @@ const styles = StyleSheet.create({
     borderColor: "#ff2fe6",
     marginTop: 5,
     height: 50,
-    borderRadius: 5,
+    borderRadius: 5
   },
   formControlPrice: {
     flexDirection: "row",
@@ -417,14 +394,14 @@ const styles = StyleSheet.create({
     borderColor: "#ff2fe6",
     marginTop: 5,
     height: 50,
-    borderRadius: 5,
+    borderRadius: 5
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
-  checkbox: { width: "100%", backgroundColor: null, borderColor: "#ff2fe6" },
+  checkbox: { width: "100%", backgroundColor: null, borderColor: "#ff2fe6" }
 })
 
 export default RegisterPlanForm

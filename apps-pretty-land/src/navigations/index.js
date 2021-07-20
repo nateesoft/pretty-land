@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useReducer } from "react"
 import { createStackNavigator } from "@react-navigation/stack"
-import { Alert, Text, View, Linking } from "react-native"
+import { Alert, Text, View } from "react-native"
 import * as Facebook from "expo-facebook"
 import base64 from "react-native-base64"
 
 import { AppConfig } from "../Constants"
-import { snapshotToArray } from "../../util"
+import { snapshotToArray, getDocument } from "../../util"
 import firebase from "../../util/firebase"
 import { facebookConfig } from "../../util/appConfig"
 
@@ -65,16 +65,19 @@ const AppNavigation = () => {
   )
 
   const lineLogin = (data) => {
-    firebase.database().ref(`members/${data.id}`).set({
-      id: data.id,
-      profile: data.name,
-      image: data.picture,
-      customerType: "line",
-      memberType: "customer",
-      status: "active",
-      loginDate: new Date().toUTCString(),
-      customerLevel: 0,
-    })
+    firebase
+      .database()
+      .ref(getDocument(`members/${data.id}`))
+      .set({
+        id: data.id,
+        profile: data.name,
+        image: data.picture,
+        customerType: "line",
+        memberType: "customer",
+        status: "active",
+        loginDate: new Date().toUTCString(),
+        customerLevel: 0,
+      })
     dispatch({
       type: "SIGN_IN",
       token: data.id,
@@ -84,16 +87,19 @@ const AppNavigation = () => {
 
   const appleLogin = ({ userId, email, fullName }) => {
     const id = base64.encode(email)
-    firebase.database().ref(`members/${id}`).set({
-      id,
-      userId,
-      email: email.toString().toLowerCase(),
-      customerType: "apple",
-      memberType: "customer",
-      status: "active",
-      loginDate: new Date().toUTCString(),
-      customerLevel: 0,
-    })
+    firebase
+      .database()
+      .ref(getDocument(`members/${id}`))
+      .set({
+        id,
+        userId,
+        email: email.toString().toLowerCase(),
+        customerType: "apple",
+        memberType: "customer",
+        status: "active",
+        loginDate: new Date().toUTCString(),
+        customerLevel: 0,
+      })
     dispatch({
       type: "SIGN_IN",
       token: id,
@@ -105,26 +111,38 @@ const AppNavigation = () => {
     try {
       await Facebook.initializeAsync({
         appId: facebookConfig.appId,
+      }).catch((err) => {
+        Alert.alert(`Facebook initializeAsync: ${err}`)
       })
 
-      const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ["public_profile"],
+      const data = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ["public_profile", "email"],
+      }).catch((err) => {
+        Alert.alert(`Facebook logInWithReadPermissionAsync: ${err}`)
       })
 
-      if (type === "success") {
-        const response = await fetch(
-          `https://graph.facebook.com/me?access_token=${token}`
-        )
-        const fbProfile = await response.json()
-        firebase.database().ref(`members/${fbProfile.id}`).set({
-          id: fbProfile.id,
-          profile: fbProfile.name,
-          customerType: "facebook",
-          memberType: "customer",
-          status: "active",
-          loginDate: new Date().toUTCString(),
-          customerLevel: 0,
+      const { status, authResponse, appId, token, type, userId } = data
+      if (status === "success" || type === "success") {
+        const { accessToken, userID } = authResponse || {}
+        const graphUri = `https://graph.facebook.com/me?access_token=${
+          accessToken || token
+        }`
+        const response = await fetch(graphUri).catch((err) => {
+          Alert.alert(`fetch graph: ${err}`)
         })
+        const fbProfile = await response.json()
+        firebase
+          .database()
+          .ref(getDocument(`members/${userID || appId}`))
+          .set({
+            id: userID || appId,
+            profile: fbProfile.name || userID || appId,
+            customerType: "facebook",
+            memberType: "customer",
+            status: "active",
+            loginDate: new Date().toUTCString(),
+            customerLevel: 0,
+          })
         dispatch({
           type: "SIGN_IN",
           token: fbProfile.id,
@@ -151,7 +169,7 @@ const AppNavigation = () => {
         const { username, password } = data
         firebase
           .database()
-          .ref("members")
+          .ref(getDocument("members"))
           .orderByChild("username")
           .equalTo(username)
           .once("value", (snapshot) => {

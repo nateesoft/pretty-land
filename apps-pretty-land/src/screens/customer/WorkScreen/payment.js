@@ -19,8 +19,8 @@ import { TextInputMask } from "react-native-masked-text"
 
 import { getBankList, getBankName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
-import bgImage from "../../../../assets/bg.png"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const PaymentForm = ({ navigation, route }) => {
@@ -58,7 +58,7 @@ const PaymentForm = ({ navigation, route }) => {
 
   const getFeeAmountFromFirebase = () => {
     return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref("appconfig/fee_amount")
+      const ref = firebase.database().ref(getDocument("appconfig/fee_amount"))
       ref.once("value", (snapshot) => {
         const feeAmt = parseInt(snapshot.val())
         resolve(feeAmt)
@@ -67,8 +67,8 @@ const PaymentForm = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`posts/${item.id}/partnerSelect`)
-    const listener = ref.on("value", async (snapshot) => {
+    const ref = firebase.database().ref(getDocument(`posts/${item.id}/partnerSelect`))
+    ref.once("value", async (snapshot) => {
       const pAmount = await computeAmount(snapshot)
       const fAmount = await getFeeAmountFromFirebase()
       const netTotalAmt = parseInt(pAmount) + parseInt(fAmount)
@@ -77,8 +77,6 @@ const PaymentForm = ({ navigation, route }) => {
       setFeeAmount(fAmount.toFixed(2))
       setNetTotalAmount(netTotalAmt.toFixed(2))
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   useEffect(() => {
@@ -152,7 +150,7 @@ const PaymentForm = ({ navigation, route }) => {
 
     const ref = firebase
       .storage()
-      .ref("images/member/customer/payment_slip")
+      .ref(getDocument("images/member/customer/payment_slip"))
       .child(item.id)
     const snapshot = await ref.put(blob)
 
@@ -175,15 +173,16 @@ const PaymentForm = ({ navigation, route }) => {
       transferAmount: transferAmount,
       sys_update_date: new Date().toUTCString(),
     }
-    firebase.database().ref(`posts/${item.id}`).update(dataPayment)
+    firebase.database().ref(getDocument(`posts/${item.id}`)).update(dataPayment)
+    
     navigate("Post-List")
   }
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
         <KeyboardAvoidingView
@@ -191,7 +190,10 @@ const PaymentForm = ({ navigation, route }) => {
           keyboardVerticalOffset={Platform.OS === "ios" ? 120 : 0}
         >
           <Text style={styles.textTopic}>โอนเงิน เพื่อชำระค่าบริการ</Text>
-          <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: 100}}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ marginBottom: 100 }}
+          >
             <View
               style={{
                 alignItems: "center",

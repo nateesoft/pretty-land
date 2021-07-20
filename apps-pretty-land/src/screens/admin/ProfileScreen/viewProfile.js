@@ -5,7 +5,8 @@ import { FontAwesome } from "react-native-vector-icons"
 import base64 from "react-native-base64"
 
 import firebase from "../../../../util/firebase"
-import bgImage from "../../../../assets/bg.png"
+import { getDocument } from "../../../../util"
+import { AppConfig } from '../../../Constants'
 
 const ViewProfileScreen = ({ navigation, route }) => {
   const { userId } = route.params
@@ -40,7 +41,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
 
     firebase
       .database()
-      .ref(`members/${userId}`)
+      .ref(getDocument(`members/${userId}`))
       .update({
         password: base64.encode(newPassword),
       })
@@ -51,21 +52,19 @@ const ViewProfileScreen = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setUsername(data.username)
       setOwnPassword(base64.decode(data.password))
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <Text style={styles.textTopic}>เปลี่ยนรหัสผ่าน</Text>
       <View style={styles.cardDetail}>
@@ -171,7 +170,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    backgroundColor: '#ff2fe6',
+    backgroundColor: "#ff2fe6",
     padding: 10,
   },
   textSubTopic: {

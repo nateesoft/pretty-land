@@ -12,15 +12,17 @@ import {
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
+import { TextInputMask } from "react-native-masked-text"
 
-import bgImage from "../../../../assets/bg.png"
 import { getCountryList, getDistrictList } from "../../../data/apis"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
+import { AppConfig } from '../../../Constants'
 
 const RegisterPartnerForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { userId, status, planData } = route.params
+  const { userId, status, planData, appconfig } = route.params
   const { type4 } = planData
   const [mobile, setMobile] = useState("")
   const [province, setProvince] = useState("")
@@ -65,14 +67,13 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       address,
       lineId,
     }
-    // firebase.database().ref(`members/${userId}`).update(partnerData)
 
-    navigate("Partner-Register-Bank-Form", { userId, status, partnerData })
+    navigate("Partner-Register-Bank-Form", { userId, status, partnerData, appconfig })
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`members/${userId}`)
-    const listener = ref.on("value", (snapshot) => {
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
+    ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
       setLineId(data.lineId || "")
       setMobile(data.mobile || "")
@@ -80,15 +81,13 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       setDistrict(data.district || "")
       setAddress(data.address || "")
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -97,7 +96,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             <Text style={{ marginBottom: 5 }}>(Ways to get a job)</Text>
           </View>
           <View style={{ width: "80%", alignSelf: "center" }}>
-            <Text style={{ fontSize: 16, padding: 5 }}>Line Id (optional)</Text>
+            <Text style={{ fontSize: 16, padding: 5 }}>Line Id</Text>
             <View style={styles.formControl}>
               <GetIcon type="fa5" name="line" />
               <TextInput
@@ -112,12 +111,14 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             </Text>
             <View style={styles.formControl}>
               <GetIcon type="fa" name="mobile-phone" />
-              <TextInput
-                value={`${mobile}`}
-                onChangeText={(value) => setMobile(value)}
+              <TextInputMask
+                type="custom"
+                options={{
+                  mask: "(099)-999-9999"
+                }}
+                value={mobile}
+                onChangeText={(text) => setMobile(text)}
                 style={styles.textInput}
-                placeholder="เบอร์โทรศัพท์"
-                keyboardType="numeric"
               />
             </View>
             <Text style={{ color: "#123456", marginTop: 5 }}>
@@ -125,7 +126,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
             </Text>
             <View style={{ alignSelf: "center" }}>
               <Text style={{ fontSize: 16, padding: 5, marginTop: 10 }}>
-                จังหวัดที่รับงาน
+                จังหวัด
               </Text>
               <DropDownPicker
                 placeholder="-- เลือกจังหวัด --"

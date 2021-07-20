@@ -40,7 +40,7 @@ const App = () => {
         method: "POST",
         headers: myHeaders,
         body: urlencoded,
-        redirect: "follow",
+        redirect: "follow"
       }
 
       fetch(lineConfig.postToken, requestOptions)
@@ -51,7 +51,7 @@ const App = () => {
           setPayload({
             id: decode.sub,
             name: decode.name,
-            picture: decode.picture,
+            picture: decode.picture
           })
         })
         .catch((error) => {
@@ -76,13 +76,29 @@ const App = () => {
           Pretty Land
         </p>
         <div>
-          <img src="logo.png" alt="Pretty Land" width="150" style={{borderRadius: 5, boxShadow: 20}} />
+          <img
+            src="logo.png"
+            alt="Pretty Land"
+            width="150"
+            style={{ borderRadius: 5, boxShadow: 20 }}
+          />
         </div>
         <div>
-          <span style={{color: 'orange'}}>เหงาอยู่รึป่าว!!</span> หาเพื่อนดื่ม หาแฟนชั่วคราว หาคนเที่ยว สายปาร์ตี้ ต้อง<br />
-          PrettyLand เท่านั้น PrettyLand แอพแก้เหงาให้คุณ Match กับคนที่ถูกใจ<br />
-          <span style={{backgroundColor: 'blue', fontSize: 22}}>นัดเจอ ไปออกเที่ยวกันได้เลย</span> <span style={{color: 'red', fontSize: 36, fontStyle: 'italic'}}>24 ชั่วโมง</span> <br />
-          <span style={{color: 'yellow', fontSize: 36}}>เจอเพื่อนใหม่ สายปาร์ตี้ ใกล้ตัว ได้ทุกที่ ทุกเวลา</span>
+          <span style={{ color: "orange" }}>เหงาอยู่รึป่าว!!</span> หาเพื่อนดื่ม
+          หาแฟนชั่วคราว หาคนเที่ยว สายปาร์ตี้ ต้อง
+          <br />
+          PrettyLand เท่านั้น PrettyLand แอพแก้เหงาให้คุณ Match กับคนที่ถูกใจ
+          <br />
+          <span style={{ backgroundColor: "blue", fontSize: 22 }}>
+            นัดเจอ ไปออกเที่ยวกันได้เลย
+          </span>{" "}
+          <span style={{ color: "red", fontSize: 36, fontStyle: "italic" }}>
+            24 ชั่วโมง
+          </span>{" "}
+          <br />
+          <span style={{ color: "yellow", fontSize: 36 }}>
+            เจอเพื่อนใหม่ สายปาร์ตี้ ใกล้ตัว ได้ทุกที่ ทุกเวลา
+          </span>
         </div>
         <div className="App-footer">
           <Link

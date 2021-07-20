@@ -7,18 +7,16 @@ import {
   Image,
   RefreshControl,
   ImageBackground,
+  Alert,
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 import moment from "moment"
 
-import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
-
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import { Alert } from "react-native"
 
 const ListMyWorkScreen = ({ navigation, route }) => {
   const { userId } = route.params
@@ -73,7 +71,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
             <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
             <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
             <ListItem.Title>
-              วันที่แจ้งรับงาน:{" "}
+              วันที่แจ้ง:{" "}
               {moment(item.sys_create_date).format("D MMM YYYY")}
             </ListItem.Title>
             <Text>---------------------------------------</Text>
@@ -90,7 +88,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
             <ListItem.Title>โหมดงาน: {item.partnerRequest}</ListItem.Title>
             <ListItem.Title>จังหวัด: {item.provinceName}</ListItem.Title>
             <ListItem.Title>
-              วันที่แจ้งรับงาน:{" "}
+              วันที่แจ้ง:{" "}
               {moment(item.sys_create_date).format("D MMM YYYY")}
             </ListItem.Title>
             <Text>---------------------------------------</Text>
@@ -126,7 +124,7 @@ const ListMyWorkScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase.database().ref("posts")
+    const ref = firebase.database().ref(getDocument("posts"))
     const listener = ref.on("value", (snapshot) => {
       getListMyWork(snapshot).catch((err) => Alert.alert(err))
     })
@@ -136,12 +134,12 @@ const ListMyWorkScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>งานที่สนใจ / รอลูกค้าตกลง</Text>
+        <Text style={styles.textTopic}>งานที่รอดำเนินการ</Text>
         <View style={styles.container}>
           {filterList.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลโพสท์ในระบบ" />

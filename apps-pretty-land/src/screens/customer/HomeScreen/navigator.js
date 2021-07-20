@@ -3,13 +3,13 @@ import { createStackNavigator } from "@react-navigation/stack"
 
 import CustomerDashboard from "./customerDashboard"
 import PartnerListCountryScreen from "./partnerListCountry"
-import CreatePostForm from "./createPost"
 import SelectProvinceForm from "./selectProvince"
 import SelectProvinceFormType4 from "./selectProvinceType4"
 import PlaceForm from "./placeForm"
 import TimePriceForm from "./timePriceForm"
-
+import PartnerImageScreen from "./partnerImage"
 import { LogoTitle } from "../../../components/Header"
+import ImagePreviewScreen from "./imagePreview"
 
 const Stack = createStackNavigator()
 
@@ -24,11 +24,11 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTitle: (props) => (
-            <LogoTitle title="โหมดงานในระบบ" {...props} />
-          ),
+            <LogoTitle title="โหมดงานที่รับสมัคร" {...props} />
+          )
         }}
         initialParams={{ userId, status }}
       />
@@ -38,37 +38,20 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         initialParams={{ userId, status }}
       />
       <Stack.Screen
-        name="Create-Post-Form"
-        component={CreatePostForm}
-        options={{
-          title: "สร้างโพสท์ใหม่",
-          headerStyle: {
-            backgroundColor: "#ff2fe6",
-          },
-          headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
-        }}
-        initialParams={{
-          pageFrom: "Partner-Category",
-          userId,
-          status,
-        }}
-      />
-      <Stack.Screen
         name="Select-Province-Form"
         component={SelectProvinceForm}
         options={{
           title: "เลือกจังหวัด",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{
           pageFrom: "Select-Province-Form",
           userId,
-          status,
+          status
         }}
       />
       <Stack.Screen
@@ -77,15 +60,15 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         options={{
           title: "เลือกจังหวัด",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{
           pageFrom: "Select-Province-Form",
           userId,
-          status,
+          status
         }}
       />
       <Stack.Screen
@@ -94,33 +77,59 @@ const CustomerHomeTabNavigator = ({ navigation, route }) => {
         options={{
           title: "ข้อมูลสถานที่",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{
           pageFrom: "Select-Province-Form",
           userId,
-          status,
+          status
         }}
       />
       <Stack.Screen
         name="Time-Price-Form"
         component={TimePriceForm}
         options={{
-          title: "เวลาที่นัดหมาย",
+          title: "เวลาเริ่ม",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{
           pageFrom: "Select-Province-Form",
           userId,
-          status,
+          status
         }}
+      />
+      <Stack.Screen
+        name="Partner-Image"
+        component={PartnerImageScreen}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#ff2fe6"
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
+        }}
+        initialParams={{ userId }}
+      />
+      <Stack.Screen
+        name="Image-Preview"
+        component={ImagePreviewScreen}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#ff2fe6"
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
+        }}
+        initialParams={{ userId }}
       />
     </Stack.Navigator>
   )

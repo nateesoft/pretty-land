@@ -9,16 +9,19 @@ import {
 import { Button, Text } from "react-native-elements"
 import { Ionicons } from "react-native-vector-icons"
 
-import bgImage from "../../../../assets/bg.png"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 
 const AdminDetailScreen = ({ navigation, route }) => {
   const { navigate } = navigation
   const { item } = route.params
 
   const confirmRemovePermanent = () => {
-    firebase.database().ref(`members/${item.id}`).remove()
+    firebase
+      .database()
+      .ref(getDocument(`members/${item.id}`))
+      .remove()
     navigate("Admin-Lists")
   }
 
@@ -43,34 +46,40 @@ const AdminDetailScreen = ({ navigation, route }) => {
 
   const suspendMember = () => {
     // update status member
-    firebase.database().ref(`members/${item.id}`).update({
-      status: AppConfig.MemberStatus.suspend,
-      statusText: AppConfig.MemberStatus.suspendMessage,
-      status_priority: AppConfig.MemberStatus.suspendPriority,
-      member_update_date: new Date().toUTCString(),
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`members/${item.id}`))
+      .update({
+        status: AppConfig.MemberStatus.suspend,
+        statusText: AppConfig.MemberStatus.suspendMessage,
+        status_priority: AppConfig.MemberStatus.suspendPriority,
+        member_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString(),
+      })
     navigation.navigate("Admin-Lists")
   }
 
   const cancelSuspendMember = () => {
     // update status member
-    firebase.database().ref(`members/${item.id}`).update({
-      status: AppConfig.MemberStatus.active,
-      statusText: AppConfig.MemberStatus.activeMessage,
-      status_priority: AppConfig.MemberStatus.activePriority,
-      member_register_date: new Date().toUTCString(),
-      member_update_date: new Date().toUTCString(),
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`members/${item.id}`))
+      .update({
+        status: AppConfig.MemberStatus.active,
+        statusText: AppConfig.MemberStatus.activeMessage,
+        status_priority: AppConfig.MemberStatus.activePriority,
+        member_register_date: new Date().toUTCString(),
+        member_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString(),
+      })
     navigation.navigate("Admin-Lists")
   }
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
         <View style={styles.viewCard}>

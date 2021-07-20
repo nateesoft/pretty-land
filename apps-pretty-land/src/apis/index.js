@@ -2,41 +2,8 @@ import uuid from "react-native-uuid"
 import { Alert } from "react-native"
 
 import firebase from "../../util/firebase"
-import { snapshotToArray } from "../../util"
+import { snapshotToArray, getDocument } from "../../util"
 import { AppConfig } from "../Constants"
-
-export const saveMemberRegister = (member, navigation) => {
-  firebase
-    .database()
-    .ref("members")
-    .orderByChild("username")
-    .equalTo(member.username)
-    .once("value", (snapshot) => {
-      const data = snapshotToArray(snapshot)
-      if (data.length === 0) {
-        const newId = uuid.v4()
-        const saveData = {
-          id: newId,
-          sys_create_date: new Date().toUTCString(),
-          sys_update_date: new Date().toUTCString(),
-          ...member,
-        }
-        firebase.database().ref(`members/${newId}`).set(saveData)
-        Alert.alert(
-          "กระบวนการสมบูรณ์",
-          "บันทึกข้อมูลเรียบร้อย สามารถ login เข้าสู่ระบบได้"
-        )
-        navigation.popToTop()
-        navigation.navigate("Login-Form")
-      } else {
-        Alert.alert(
-          "แจ้งเตือน",
-          `ข้อมูลผู้ใช้งาน: ${member.username} มีอยู่แล้ว`,
-          [{ text: "OK" }]
-        )
-      }
-    })
-}
 
 export const saveNewPosts = (postData) => {
   const newId = uuid.v4()
@@ -44,13 +11,19 @@ export const saveNewPosts = (postData) => {
     id: newId,
     sys_create_date: new Date().toUTCString(),
     sys_update_date: new Date().toUTCString(),
-    ...postData,
+    ...postData
   }
-  firebase.database().ref(`posts/${newId}`).set(saveData)
+  firebase
+    .database()
+    .ref(getDocument(`posts/${newId}`))
+    .set(saveData)
 }
 
 export const updatePosts = (postId, data) => {
-  firebase.database().ref(`posts/${postId}`).update(data)
+  firebase
+    .database()
+    .ref(getDocument(`posts/${postId}`))
+    .update(data)
 }
 
 export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
@@ -60,7 +33,7 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
   updatePosts(postId, {
     status: AppConfig.PostsStatus.waitCustomerSelectPartner,
     statusText: "รอลูกค้าเลือกผู้ร่วมงาน",
-    sys_update_date: new Date().toUTCString(),
+    sys_update_date: new Date().toUTCString()
   })
 
   // update partnerSelect
@@ -74,10 +47,10 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
     character: profile.character,
     telephone: profile.mobile,
     selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
-    selectStatusText: "เสนอรับงาน",
+    selectStatusText: "เสนอรับงาน"
   }
   firebase
     .database()
-    .ref(`posts/${postId}/partnerSelect/${profile.id}`)
+    .ref(getDocument(`posts/${postId}/partnerSelect/${profile.id}`))
     .update(data)
 }

@@ -5,10 +5,12 @@ import {
   Foundation,
   MaterialCommunityIcons,
 } from "@expo/vector-icons"
+import { MaterialIcons } from '@expo/vector-icons';
 
 /* all screen */
 import HomeNavigator from "./HomeScreen/navigator"
 import WorkNavigator from "./WorkScreen/navigator"
+import RequestNavigator from "./RequestScreen/navigator"
 import ProfileNavigator from "./ProfileScreen/navigator"
 
 /* Logout */
@@ -36,6 +38,17 @@ const PartnerNavigator = ({ navigation, route }) => {
           title: "โหมดงาน",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="kiss-wink-heart" color="white" size={size} />
+          ),
+        }}
+        initialParams={{ userId, status }}
+      />
+      <Tab.Screen
+        name="p-Quatation"
+        component={RequestNavigator}
+        options={{
+          title: "งานที่เสนอ",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="request-quote" color="white" size={size} />
           ),
         }}
         initialParams={{ userId, status }}

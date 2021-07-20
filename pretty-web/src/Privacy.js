@@ -3,118 +3,1953 @@ import "./Live.css"
 
 export default function Privacy() {
   return (
-    <div className="wrapper py-5">
-      <div className="page">
-        <section className="sect-live">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-12">
-                <h1>Privacy Policy for prettyland</h1>
-                <p>
-                  At prettyland, one of our main priorities is the privacy of
-                  our visitors. This Privacy Policy document contains types of
-                  information that is collected and recorded by prettyland and
-                  how we use it.
-                </p>
-                <p>
-                  If you have additional questions or require more information
-                  about our Privacy Policy, do not hesitate to contact us.
-                </p>
-                <h2>Log Files</h2>
-                <p>
-                  prettyland follows a standard procedure of using log files.
-                  These files log visitors when they use app. The information
-                  collected by log files include internet protocol (IP)
-                  addresses, browser type, Internet Service Provider (ISP), date
-                  and time stamp, referring/exit pages, and possibly the number
-                  of clicks. These are not linked to any information that is
-                  personally identifiable. The purpose of the information is for
-                  analyzing trends, administering the app, tracking users'
-                  movement on the app, and gathering demographic information.
-                </p>
-                <h2>Our Advertising Partners</h2>
-                <p>
-                  Some of advertisers in our app may use cookies and web
-                  beacons. Our advertising partners are listed below. Each of
-                  our advertising partners has their own Privacy Policy for
-                  their policies on user data. For easier access, we hyperlinked
-                  to their Privacy Policies below.
-                </p>
-                <ul>
-                  <li>
-                    <p>Google</p>
-                    <p>
-                      <a href="https://policies.google.com/technologies/ads">
-                        https://policies.google.com/technologies/ads
-                      </a>
-                    </p>
-                  </li>
-                </ul>
-                <h2>Privacy Policies</h2>
-                <p>
-                  You may consult this list to find the Privacy Policy for each
-                  of the advertising partners of prettyland.
-                </p>
-                <p>
-                  Third-party ad servers or ad networks uses technologies like
-                  cookies, JavaScript, or Beacons that are used in their
-                  respective advertisements and links that appear on prettyland.
-                  They automatically receive your IP address when this occurs.
-                  These technologies are used to measure the effectiveness of
-                  their advertising campaigns and/or to personalize the
-                  advertising content that you see on this app or other apps or
-                  websites.
-                </p>
-                <p>
-                  Note that prettyland has no access to or control over these
-                  cookies that are used by third-party advertisers.
-                </p>
-                <h2>Third Party Privacy Policies</h2>
-                <p>
-                  prettyland's Privacy Policy does not apply to other
-                  advertisers or websites. Thus, we are advising you to consult
-                  the respective Privacy Policies of these third-party ad
-                  servers for more detailed information. It may include their
-                  practices and instructions about how to opt-out of certain
-                  options.
-                </p>
-                <h2>Children's Information</h2>
-                <p>
-                  Another part of our priority is adding protection for children
-                  while using the internet. We encourage parents and guardians
-                  to observe, participate in, and/or monitor and guide their
-                  online activity.
-                </p>
-                <p>
-                  prettyland does not knowingly collect any Personal
-                  Identifiable Information from children under the age of 13. If
-                  you think that your child provided this kind of information on
-                  our App, we strongly encourage you to contact us immediately
-                  and we will do our best efforts to promptly remove such
-                  information from our records.
-                </p>
-                <h2>Online Privacy Policy Only</h2>
-                <p>
-                  This Privacy Policy applies only to our online activities and
-                  is valid for visitors to our App with regards to the
-                  information that they shared and/or collect in prettyland.
-                  This policy is not applicable to any information collected
-                  offline or via channels other than this app. Our Privacy
-                  Policy was created with the help of the{" "}
-                  <a href="https://www.app-privacy-policy.com/app-privacy-policy-generator/">
-                    App Privacy Policy Generator from App-Privacy-Policy.com
-                  </a>
-                </p>
-                <h2>Consent</h2>
-                <p>
-                  By using our app, you hereby consent to our Privacy Policy and
-                  agree to its Terms and Conditions.
-                </p>{" "}
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+    <div>
+      <p>
+        <strong>ข้อตกลงผู้ใช้และนโยบายความเป็นส่วนตัว</strong>
+      </p>
+      <p>
+        ขอต้อนรับท่าน(ต่อไปจะเรียก“ผู้ใช้”หรือ“ท่าน”)ร่วมลงนามข้อตกลงผู้ใช้และนโยบายความเป็นส่วนตัวฉบับนี้(ต่อไปจะเรียก“ข้อตกลงฉบับนี้”)กับผู้ประกอบการ“Pretty Land”(รายละเอียดตามคำนิยาม)พร้อมใช้บริการของ“Pretty Land”
+        หัวข้อทุกประการมีไว้เพื่อช่วยให้ท่านทำความเข้าใจเนื้อหาข้อนั้น
+        ซึ่งไม่ส่งผลต่อหรือจำกัดความหมายหรือคำอธิบายของเนื้อหาในข้อตกลงฉบับนี้
+        เพื่อสิทธิประโยชน์ของท่านเอง กรุณาอ่านรายละเอียดของทุกประการ
+      </p>
+      <p>
+        ก่อนท่านจะคลิก“เห็นด้วย”ข้อตกลงฉบับนี้ในขั้นตอนการลงทะเบียน
+        กรุณาอ่านข้อตกลงฉบับนี้โดยละเอียด เพื่อทำความเข้าใจเนื้อหาทุกประการ
+        โดยเฉพาะประการที่เกี่ยวกับการยกเว้นหรือจำกัดความรับผิด
+        การบังคับใช้ทางกฎหมายและการแก้ไขความขัดแย้ง{" "}
+        <strong>
+          <strong>
+            ท่านควรให้ความสำคัญกับประการที่เกี่ยวกับการยกเว้นหรือจำกัดความรับผิด
+            ซึ่งแสดงเป็นตัวอักษรหนาสีดำ หากท่านมีข้อสงสัยเกี่ยวกับข้อตกลงฉบับนี้
+            กรุณาสอบถามพนักงานของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”</strong>
+        </strong>
+      </p>
+      <p>
+        <strong>
+          <strong>
+            เมื่อท่านได้กรอกข้อมูลตามคำชี้แจงบนหน้าลงทะเบียน
+            อ่านและเห็นด้วยข้อตกลงฉบับนี้จนกว่าได้ลงทะเบียนเรียบร้อย
+            ก็แสดงว่าท่านได้อ่าน เข้าใจและยอมรับเนื้อหาทั้งหมดในข้อตกลงฉบับนี้
+            และเห็นพ้องกับ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”ในการสมัครเป็นผู้ใช้ของ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” </strong>
+        </strong>
+        ระหว่างการอ่านข้อตกลงฉบับนี้
+        หากท่านไม่เห็นด้วยข้อตกลงฉบับนี้หรือข้อใดข้อหนึ่งในนั้น
+        กรุณาหยุดลงทะเบียนทันที
+        หากท่านได้เป็นผู้ใช้ของ“Pretty Land”โดยไม่ได้สมัครลงทะเบียนหรือก่อนข้อตกลงฉบับนี้มีผลบังคับใช้
+        เมื่อท่านเข้าถึงและ/หรือเข้าใช้“Pretty Land”
+        ก็แสดงว่าท่านได้เห็นด้วยเนื้อหาทั้งหมดของข้อตกลงฉบับนี้ มิฉะนั้น
+        โปรดอย่าเข้าถึงหรือเข้าใช้“Pretty Land”
+      </p>
+      <p>ประการ ๑ 【คำนิยาม】</p>
+      <p>“Pretty Land” หมายถึงเว็บไซต์“Pretty Land”และไคลเอนต์</p>
+      <p>
+        บริการ“Pretty Land” หมายถึงบริการต่างๆ
+        ที่“Pretty Land”เสนอต่อท่านโดยอาศัยอินเตอร์เน็ต
+        ในรูปแบบที่ประกอบด้วยเว็บไซต์และไคลเอนต์
+        (รวมถึงรูปแบบใหม่ที่เกิดขึ้นจากการพัฒนาด้านเทคโนโลยีในอนาคต){" "}
+        <strong>
+          <strong>
+            เมื่อผู้ใช้เข้าสู่ระบบหรือเข้าใช้สินค้าหรือบริการของบริษัทในเครือของฝ่ายเรา
+            ซึ่งสินค้าหรือบริการนี้ยังไม่มีข้อตกลงผู้ใช้และนโยบายความเป็นส่วนตัวต่างหาก
+            ให้บังคับใช้ข้อตกลงฉบับนี้กับสินค้าหรือบริการส่วนนี้ด้วย
+          </strong>
+        </strong>
+      </p>
+      <p>ผู้ให้บริการ“Pretty Land” และบริษัทในเครือ</p>
+      <p>
+        ข้อบังคับของ“Pretty Land” ประกอบด้วยข้อบังคับ คำอธิบาย
+        ประกาศทั้งหมดที่ได้ประกาศหรือจะประกาศทีหลังในเว็บไซต์ทั้งหมดของ“Pretty Land”
+        รวมถึงข้อบังคับ ระเบียบการดำเนินงาน รายละเอียดสินค้า ประกาศต่างๆ
+        ที่ประกาศในทุกช่องทางและหน้าเว็บกิจกรรมของ“Pretty Land”
+      </p>
+      <p>
+        ผู้ใช้ ต่อไปจะเรียก“ท่าน”หรือ“ผู้ใช้” หมายถึง
+        บุคคลหรือองค์กรที่ลงทะเบียน เข้าสู่ระบบ เข้าใช้
+        เข้าอ่านและรับบริการที่อยู่ใต้ข้อตกลงฉบับนี้
+      </p>
+      <p>ประการ ๒ 【ขอบเขต】</p>
+      <p>2.1&nbsp;ผู้ลงนาม</p>
+      <p>
+        ข้อตกลงฉบับนี้จัดทำขึ้นระหว่างท่านกับ“Pretty Land”ในการลงทะเบียนและเข้าสู่ระบบ“Pretty Land”
+        รวมถึงการใช้บริการของ“Pretty Land”
+        โดยมีความสมบูรณ์แห่งสนธิสัญญาสำหรับท่านและผู้ประกอบการ“Pretty Land”
+      </p>
+      <p>
+        ผู้ประกอบการ“Pretty Land” หมายถึงบุคคลตามกฎหมายที่ประกอบกิจการ“Pretty Land”
+        ในข้อตกลงฉบับนี้
+        ผู้ประกอบการ“Pretty Land”อาจมีการเปลี่ยนแปลงด้วยการปรับปรุงกิจการของ“Pretty Land”
+        และผู้ประกอบการใหม่จะปฏิบัติตามข้อตกลงฉบับนี้และให้บริการท่านต่อไป
+        ซึ่งการเปลี่ยนแปลงดังกล่าวจะไม่ส่งผลต่อสิทธิประโยชน์ของท่านภายใต้ข้อตกลงฉบับนี้{" "}
+        <strong>
+          <strong>นอกจากนี้ อาจเพิ่มผู้ประกอบการ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”รายใหม่เนื่องจาก“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”มีบริการใหม่ หากท่านตกลงใช้บริการใหม่ของ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” ให้ถือว่าท่านได้เห็นด้วยผู้ประกอบการ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”รายใหม่จะปฏิบัติตามข้อตกลงฉบับนี้พร้อมกัน</strong>
+        </strong>
+        &nbsp;เมื่อเกิดความขัดแย้งกัน
+        ท่านสามารถยืนยันบุคคลที่ปฏิบัติข้อตกลงร่วมกันและฝ่ายขัดแย้งตามรายละเอียดของบริการที่ท่านได้ใช้และผู้กระทำที่ส่งผลต่อสิทธิประโยชน์ของท่าน
+      </p>
+      <p>2.2&nbsp;ข้อตกลงเพิ่มเติม</p>
+      <p>
+        ด้วยการพัฒนาทางอินเตอร์เน็ต
+        เนื้อหาในข้อตกลงฉบับนี้อาจไม่อาจระบุและรวมถึงสิทธิและหน้าที่ทั้งหมดระหว่างท่านกับ“Pretty Land”
+        สิ่งที่ตกลงในปัจจุบันก็ไม่อาจสอดคล้องกับการพัฒนาในอนาคต ดังนั้น
+        แถลงการณ์และนโยบายที่“Pretty Land”ประกาศ รวมถึงข้อบังคับและข้อตกลงต่างๆ
+        ของ“Pretty Land”ต่างถือเป็นข้อตกลงเพิ่มเติมของข้อตกลงฉบับนี้
+        มีผลผูกพันและผลบังคับใช้ทางกฎหมายที่เท่าเทียมกับข้อตกลงฉบับนี้
+        หากท่านตกลงใช้บริการของ“Pretty Land”
+        ให้ถือว่าท่านได้เห็นด้วยข้อตกลงเพิ่มเติมดังกล่าว
+      </p>
+      <p>ประการ ๓ 【การลงทะเบียนและการใช้บัญชี】</p>
+      <p>3.1 ผู้ใช้</p>
+      <p>
+        ท่านจะต้องยืนยันว่าท่านมีความสามารถกระทำนิติกรรมตามกฎหมายของจีนก่อนใช้/ลงทะเบียนเพื่อเข้าใช้บริการของ“Pretty Land”{" "}
+        <strong>
+          <strong>
+            หากท่านไม่มีความสามารถดังกล่าว
+            ท่านและผู้ปกครองของท่านจะต้องรับผิดชอบสิ่งที่จะเกิดขึ้นทั้งหมด
+          </strong>
+        </strong>
+      </p>
+      <p>
+        <strong>
+          <strong>สำหรับผู้ใช้ที่มีอายุต่ำกว่า </strong>
+        </strong>
+        <strong>
+          <strong>18</strong>
+        </strong>
+        <strong>
+          <strong>
+            &nbsp;ปี จะต้องอ่านข้อตกลงฉบับนี้ในเมื่ออยู่กับผู้ปกครอง
+            หลังจากผู้ปกครองได้เห็นด้วยการกระทำของผู้ใช้ที่จะใช้บริการของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”และชำระเงินต่อ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ” พร้อมเห็นด้วยทุกประการของข้อตกลงฉบับนี้ ผู้ใช้ถึงใช้บริการของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”ได้</strong>
+        </strong>
+      </p>
+      <p>3.2&nbsp;บัญชี</p>
+      <p>
+        เมื่อได้กรอกข้อมูลตามคำชี้แจงบนหน้าลงทะเบียน
+        อ่านและเห็นด้วยข้อตกลงฉบับนี้จนกว่าได้ลงทะเบียนเรียบร้อย
+        ท่านจะได้รับบัญชีของ“Pretty Land”และเป็นผู้ใช้ของ“Pretty Land”
+      </p>
+      <p>
+        ท่านสามารถใช้ชื่อบัญชีที่ท่านได้ตั้งไว้หรือยืนยันนั้น(ต่อไปเรียกว่า“ชื่อบัญชี”)พร้อมรหัสผ่าน(เรียกชื่อบัญชีและรหัสผ่านรวมเป็น“บัญชี”)เพื่อเข้าสู่ระบบ“Pretty Land”
+        เนื่องจากบัญชีของท่านผูกกับข้อมูลส่วนตัวของท่านและข้อมูลธุรกิจของ“Pretty Land”
+        จึงมีแต่ท่านเท่านั้นที่ใช้บัญชี“Pretty Land”ของท่านได้{" "}
+        <strong>
+          <strong>
+            หากท่านมอบหมายโดยตรงหรือโดยอ้อมให้บุคคลที่สามใช้บัญชี“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ของท่านหรือรับข้อมูลจากบัญชีของท่านโดยไม่ได้รับอนุญาตของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” ท่านจะต้องรับผิดชอบสิ่งที่เกิดขึ้นตามมาทั้งหมด ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”จะไม่รับผิดชอบใดๆ ทั้งสิ้น</strong>
+        </strong>
+        &nbsp;อย่างไรก็ตาม
+        ถ้า“Pretty Land”เห็นว่าการใช้บัญชีของท่านอาจเป็นอันตรายต่อบัญชีของท่านและ/หรือข้อมูลทาง“Pretty Land”
+        ทาง“Pretty Land”สามารถปฏิเสธให้บริการหรือยกเลิกข้อตกลงฉบับนี้
+        เนื่องด้วยบัญชีของผู้ใช้มีความเกี่ยวข้องกับข้อมูลเครดิตของผู้ใช้ ดังนั้น
+        ท่านไม่สามารถโอนบัญชีผู้ใช้
+        เว้นแต่มีกฎหมายกำหนดหรือคำพิพากษาหรือได้รับอนุญาตจาก“Pretty Land”และทุกอย่างถูกต้องตามขั้นตอนการโอนบัญชีผู้ใช้ที่กำหนดไว้ในข้อบังคับของ“Pretty Land”{" "}
+        <strong>
+          <strong>
+            เมื่อบัญชีของท่านถูกโอนไป
+            สิทธิและหน้าที่ที่เกี่ยวกับบัญชีนี้จะถูกโอนไปพร้อมกัน
+            นอกจากกรณีดังกล่าว ห้ามโอนบัญชีของท่านในรูปแบบใด มิฉะนั้น
+            ท่านจะต้องรับผิดชอบสิ่งที่เกิดขึ้นตามมาทั้งหมด
+          </strong>
+        </strong>
+      </p>
+      <p>
+        เพื่อการใช้บริการต่างๆ ของ“Pretty Land”และป้องกันความปลอดภัยของบัญชี
+        ในฐานะเป็นผู้ประกอบการ“Pretty Land”
+        ขอให้ท่านยืนยันตัวตนตามความต้องการทาง“Pretty Land”และข้อกำหนดของกฎหมายจีน
+        หากท่านไม่ได้เข้าสู่ระบบเป็นเวลานาน ทาง“Pretty Land”มีสิทธิ์ดำเนินการเพิกถอน
+        เรียกคืนหรือทดแทนบัญชีของท่านหรือลบข้อมูลใดๆ
+        ของบัญชีท่านจากคลังข้อมูล“Pretty Land”(รวมถึงแต่ไม่จำกัดเพียง ข้อมูลลงทะเบียน
+        ข้อมูลของขวัญเสมือน
+        ฯลฯ)&nbsp;&nbsp;ซึ่งท่านจะไม่สามารถใช้บัญชีดังกล่าวเข้าสู่ระบบใดของ“Pretty Land”และใช้บริการต่างๆ
+        &nbsp;ทั้งนี้
+        ทาง“Pretty Land”จะแจ้งให้ท่านทราบล่วงหน้าก่อนดำเนินการบัญชีดังกล่าว
+        ซึ่งเป็นรูปแบบรวมถึงแต่ไม่จำกัดเพียง หน้าต่างป๊อปอัพ ประกาศบนเว็บไซต์
+        ข้อความในเว็บไซต์ ข้อความจากไคลเอนต์ ฯลฯ
+      </p>
+      <p>3.3&nbsp;ข้อมูลการลงทะเบียน</p>
+      <p>3.3.1&nbsp;ความถูกต้องตามกฎหมาย</p>
+      <p>
+        ระหว่างการใช้บริการ“Pretty Land”
+        ท่านจะต้องยื่นส่งข้อมูลตนเองที่ถูกต้องครบถ้วนตามคำชี้แจงบนหน้าเว็บ“Pretty Land”(รวมถึงแต่ไม่จำกัดเพียง
+        เอกสารประจำตัว หมายเลขโทรศัพท์ ฯลฯ) เพื่อติดต่อในกรณีจำเป็น{" "}
+        <strong>
+          <strong>
+            ท่านได้เข้าใจและเห็นด้วยว่า
+            ท่านมีหน้าที่ในการให้ข้อมูลที่มีความจริงและความถูกต้อง
+            ชื่อบัญชีที่ท่านตั้งไว้จะต้องถูกต้องตามกฎหมายจีนและข้อกำหนดเกี่ยวกับชื่อบัญชีในข้อบังคับของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” มิฉะนั้น ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”อาจบังคับให้งดใช้ชั่วคราวหรือเพิกถอนชื่อบัญชีของท่านพร้อมแจ้งทางหน่วยงานของรัฐ
+          </strong>
+        </strong>
+      </p>
+      <p>
+        <strong>
+          <strong>
+            เพื่อบริการที่ดีและความปลอดภัยของบัญชี ท่านเห็นด้วยและอนุญาตให้“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”นำหมายเลขโทรศัพท์
+            หมายเลขบัตรประชาชนหรือข้อมูลอื่นไปตรวจสอบความจริงของผู้ใช้
+            ข้อมูลความน่าเชื่อถือ
+            ความถูกต้องของหมายเลขโทรศัพท์ที่ศูนย์บริการค้นหาหมายเลขบัตรประชาชนทั่วประเทศ
+            ผู้ประกอบกิจการโทรคมนาคมหรือสถาบันบริการด้านการเงินหรือหน่วยงานอื่นที่น่าเชื่อถือ
+          </strong>
+        </strong>
+      </p>
+      <p>3.3.2&nbsp;การอัพเดทข้อมูล</p>
+      <p>
+        ท่านจะต้องอัพเดทข้อมูลของท่าน(รวมถึงแต่ไม่จำกัดเพียงข้อมูลการลงทะเบียน)อย่างทันเวลา
+        ละเอียด ครบถ้วนและถูกต้อง
+        ในกรณีที่มีกฎหมายกำหนดอย่างชัดเจนที่ต้องการให้“Pretty Land”ดำเนินการตรวจสอบข้อมูลของผู้ใช้บางส่วน
+        ทาง“Pretty Land”จะดำเนินการตรวจสอบข้อมูลของท่านเป็นครั้งคราว
+        จึงขอความกรุณาท่านให้ข้อมูลล่าสุดที่ถูกต้องครบถ้วน{" "}
+        <strong>
+          <strong>
+            ในขณะที่ท่านกำลังแก้ไขหรือลบข้อมูลที่เกี่ยวข้องอาจเกิดข้อความ ภาพ
+            วีดีโอที่ถูกเก็บไว้ในระบบนั้นหายไป ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะไม่รับผิดชอบต่อการกระทำของท่านเองที่ทำให้ข้อมูลหายไป หากทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ไม่สามารถติดต่อท่านตามข้อมูลที่ท่านให้มาครั้งล่าสุด
+            หรือท่านไม่ได้ให้ข้อมูลตามที่“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ต้องการอย่างทันเวลา
+            หรือข้อมูลที่ท่านให้มาไม่ถูกต้องหรือหน่วยงานการปกครองตรวจสอบพบว่าข้อมูลที่ท่านให้มาไม่ถูกต้อง
+            ท่านจะต้องรับผิดชอบความเสียหายและผลเสียที่เกิดขึ้นทั้งหมดต่อท่านเองหรือบุคคลอื่นหรือทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” ทั้งนี้ ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”มีสิทธิ์ทวงถามหรือเรียกร้องให้ท่านดำเนินการปรับปรุงแก้ไขพร้อมยืนยันตัวตนอีกครั้ง
+            จนงดหรือยกเลิกการให้บริการบางส่วนหรือทั้งหมด โดยไม่ต้องรับผิดชอบใดๆ
+            ทั้งสิ้น
+          </strong>
+        </strong>
+      </p>
+      <p>3.3.3&nbsp;ความปลอดภัยของบัญชี</p>
+      <p>
+        <strong>
+          <strong>
+            ท่านเป็นผู้เดียวที่สามารถตั้งค่าและบันทึกบัญชีของตน ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะไม่เรียกให้แสดงรหัสผ่านในกรณีใด ดังนั้น
+            โปรดดูแลรักษาบัญชีของท่านให้ดี
+            โดยล็อกเอ้าท์ทุกครั้งที่ใช้เสร็จและออกจากระบบ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”อย่างถูกต้อง</strong>
+        </strong>
+        &nbsp;ในกรณีที่ท่านแจ้งทาง“Pretty Land”ให้งดการล็อกอินและการใช้บัญชีของท่านชั่วคราว
+        ทาง“Pretty Land”จะต้องตรวจสอบข้อมูลยืนยันตัวตนที่ท่านให้มาได้ตรงกันกับข้อมูลที่ยื่นตอนลงทะเบียน
+        มิฉะนั้น “Pretty Land”มีสิทธิ์ปฏิเสธคำร้องของท่าน
+        เมื่อข้อมูลยืนยันตัวตนถูกต้องตรงกัน
+        ทาง“Pretty Land”จะงดการล็อกอินและการใช้บัญชีชั่วคราวทันที
+        <strong>
+          <strong>
+            หากผู้ใช้ไม่มีเอกสารยืนยันตัวตนหรือเอกสารที่ให้มาไม่ตรงกับข้อมูลที่ยื่นตอนลงทะเบียน
+            ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”มีสิทธิ์ปฏิเสธคำร้องดังกล่าว</strong>
+        </strong>
+      </p>
+      <p>
+        <strong>
+          <strong>
+            สำหรับความเสียหายหรือผลที่เกิดขึ้นตามมาจากท่านเปิดเผยบัญชีเองหรือถูกผู้อื่นโจมตีหรือหลอกลวง
+            ท่านจะต้องรับผิดชอบเอง ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะไม่รับผิดชอบใดๆ ทั้งสิ้น
+            ขอแนะนำเรียกร้องค่าเสียหายจากผู้ละเมิดสิทธิโดยขอความช่วยเหลือทางกฎหมายหรือหน่วยงานปกครอง
+            เป็นต้น
+          </strong>
+        </strong>
+      </p>
+      <p>
+        บัญชีของท่านใช้เฉพาะท่านเท่านั้น ห้ามให้ยืม มอบให้ ให้เช่า
+        หรือโอนโดยไม่ตามขั้นตอนที่กำหนด
+        ขายให้หรือแบ่งปันให้ผู้อื่นใช้บัญชีของท่าน
+        หากพบว่าบัญชีของท่านถูกใช้โดยไม่ได้รับอนุญาตของท่าน
+        โปรดแจ้งทาง“Pretty Land”ทันที มิฉะนั้น ให้ถือว่าการกระทำดังกล่าวมาจากท่านเอง
+        ซึ่งท่านจะต้องรับผิดชอบความเสียหายและผลที่เกิดขึ้นทั้งหมด{" "}
+        <strong>
+          <strong>ทั้งนี้</strong>
+        </strong>
+        &nbsp;
+        <strong>
+          <strong>
+            ท่านจะต้องรับผิดชอบผลที่เกิดขึ้นจากการกระทำทั้งหมดโดยบัญชีของท่าน(รวมถึงแต่ไม่จำกัดเพียง
+            การลงนามข้อตกลงต่างๆ ออนไลน์ การเปิดเผยข้อมูล
+            การซื้อสินค้าหรือบริการ ฯลฯ) เว้นแต่เป็นความผิดของทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” </strong>
+        </strong>
+        หากพบกรณีที่มีการใช้บัญชีท่านเข้าสู่ระบบ“Pretty Land”โดยไม่ได้รับอนุญาตของท่านหรือกรณีอื่นที่อาจเกิดบัญชีท่านถูกโขมยหรือทำหาย
+        โปรดแจ้งทาง“Pretty Land”ทันที{" "}
+        <strong>
+          <strong>ขอให้เข้าใจว่าทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ต้องใช้เวลาเพียงพอในการกระทำต่อคำร้องของท่าน
+            และการกระทำนั้นอาจไม่สามารถหลีกเลี่ยงหรือขีดขวางผลที่เกิดขึ้นหรือขยายขึ้น
+            ซึ่งทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”จะไม่รับผิดชอบเว้นแต่เป็นความผิดที่กฎหมายกำหนด </strong>
+        </strong>
+      </p>
+      <p>ประการ&nbsp;๔&nbsp;【บริการและข้อกำหนด】</p>
+      <p>4.1&nbsp;บริการของ“Pretty Land”</p>
+      <p>4.1.&nbsp;“Pretty Land”ให้บริการรวมถึงแต่ไม่จำกัดแต่ดังนี้</p>
+      <p>
+        4.1.1&nbsp;เว็บไซต์ทั้งหมดที่“Pretty Land”มีกรรมสิทธิ์หรือดำเนินงานโดยตรง
+      </p>
+      <p>
+        4.1.2&nbsp;ไคลเอนต์ของเว็บไซต์ที่“Pretty Land”มีกรรมสิทธิ์หรือดำเนินงานโดยตรง
+        รวมถึงแต่ไม่จำกัดเพียงไคลเอนต์ของ PC&nbsp;แล็บท็อป โทรศัพท์มือถือ ฯลฯ
+      </p>
+      <p>4.1.3&nbsp;บริการของศูนย์บริการลูกค้า“Pretty Land”</p>
+      <p>
+        4.1.4&nbsp;บริการห้องสนทนา“Pretty Land” ก่อตั้งและเข้าไปในห้องสนทนา
+        เข้าร่วมสนทนาเสียงและข้อความ ฯลฯ
+      </p>
+      <p>
+        4.1.5&nbsp;บริการข้อความของ“Pretty Land” สนทนาส่วนตัว สนทนาในกลุ่ม
+        ความเป็นเพื่อน ฯลฯ
+      </p>
+      <p>
+        4.1.6&nbsp;บริการเชิญชวน ให้รางวัลและอั่งเปาของ“Pretty Land” ได้แก่
+        เชิญชวนผู้ใช้ ให้รางวัลและอั่งเปาแก่ผู้ใช้ ฯลฯ
+      </p>
+      <p>
+        4.1.7&nbsp;เทคโนโลยีและ/หรือบริการของ“Pretty Land” (ต่อไปจะเรียกว่า
+        “เทคโนโลยีและบริการอื่นๆ”)
+      </p>
+      <p>(บริการดังกล่าวรวมเป็น“บริการของ‘Pretty Land’”)</p>
+      <p>
+        ท่านใช้บริการของ“Pretty Land”ได้ที่“Pretty Land”เท่านั้น การกระทำใดที่ผิดกฎหมาย
+        เช่น การถอดรหัสที่มีเจตนาร้าย
+        เพื่อทำให้บริการของ“Pretty Land”แยกออกจาก“Pretty Land”
+        ไม่ใช่บริการที่ตกลงในข้อตกลงฉบับนี้ ทั้งนี้
+        ผู้กระทำจะต้องรับผิดชอบผลทางกฎหมายทั้งหมดที่เกิดขึ้น
+        ทาง“Pretty Land”มีสิทธิในการดำเนินการตามกฎหมายเพื่อให้ผู้กระทำรับผิดชอบ
+      </p>
+      <p>
+        <strong>
+          <strong>วิธีที่ประกาศในเว็บไซต์ของ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”อย่างเป็นทางการถือเป็นวิธีเดียวที่ถูกต้องตามกฎหมายเพื่อลงทะเบียน
+            เข้าสู่ระบบ ดาวน์โหลดและใช้บริการ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” นอกจากนี้ บริการ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”(รวมถึงแต่ไม่จำกัดเพียงบัญชี อุปกรณ์ ดาวน์โหลด
+            ฯลฯ)ที่ท่านได้รับจากช่องทางอื่นหรือโดยวิธีอื่นเป็นการกระทำที่ผิดกฎหมาย
+            ซึ่งไม่เป็นที่ยอมรับของทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” เมื่อพบกรณีดังกล่าว “</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”มีสิทธิ์ดำเนินการลบ งดบัญชีชั่วคราว ตั้งศูนย์และปิดบัญชีทันที
+            ท่านจะต้องรับผิดชอบผลเสียทั้งหมดที่เกิดขึ้น “
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”มีสิทธิในการดำเนินการตามกฎหมายเพื่อให้บุคคลหรือหน่วยงานที่เกียวข้องรับผิดชอบ{" "}
+          </strong>
+        </strong>
+        “Pretty Land”มีสิทธิในการแจ้ง(รวมถึงแต่ไม่จำกัดเพียง หน้าเว็บป๊อปอัพ
+        ประกาศเว็บไซต์ ข้อความในเว็บไซต์ ฯลฯ)เพื่อแก้ไข ทดแทน
+        อัพเกรดโปรแกรมที่เกี่ยวกับบริการของ“Pretty Land”
+        หากท่านไม่เห็นด้วยหรือไม่ยอมรับการแก้ไข ทดแทน
+        อัพเกรดโปรแกรมที่เกี่ยวกับบริการของ“Pretty Land”
+        โปรดปฏิเสธหรืองดหรือยกเลิกการใช้ มิฉะนั้น
+        ให้ถือว่าท่านได้เห็นด้วยและยอมรับการแก้ไข ทดแทน
+        อัพเกรดโปรแกรมที่เกี่ยวกับบริการของ“Pretty Land”
+        และการกระทำที่ได้รับการเห็นด้วยและยอมรับนั้นยังมีความผูกพันกับข้อตกลงฉบับนี้
+      </p>
+      <p>
+        <strong>
+          <strong>ท่านเข้าใจและยอมรับว่าสิ่งของเสมือนของ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ” รวมถึงแต่ไม่จำกัดเพียง ของขวัญเสมือน อุปกรณ์และฐานันดร ฯลฯ
+            &nbsp;ผู้ใช้สามารถใช้สิ่งของเสมือนตามข้อบังคับของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”และกฎหมายกำหนด ห้ามซื้อขายสิ่งของเสมือนหรือแลกเป็นเงินสด{" "}
+          </strong>
+        </strong>
+        ท่านเข้าใจและยอมรับว่า “Pretty Land”มีสิทธิในการตั้ง เพิ่ม
+        แก้ไขบริการเสริมพร้อมออกเหรียญโทเคนสำหรับบริการเสริม
+        ซึ่งต้องแลกด้วยเงินตราตามกฎหมาย
+        เมื่อใช้เงินตราตามกฎหมายแลกเป็นเหรียญโทเคนของบริการเสริม
+        ก็ถือว่าเงินตรานั้นได้ใช้ไปแล้ว
+        เหรียญโทเคนไม่สามารถแลกเป็นเงินตราตามกฎหมาย
+        เหรียญโทเคนใช้ซื้อสิทธิในการใช้อุปกรณ์เสมือนหรือรับบริการเสริมที่เกี่ยวข้อง{" "}
+        <strong>
+          <strong>ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”มีสิทธิในการให้รางวัลแต้มเสน่ห์ตามสภาพจริงการใช้เหรียญโทรเคนบริการเสริม
+            การให้รางวัลหรือมอบของขวัญเสมือน ซึ่งแต้มเสน่ห์ใช้ได้ที่“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”เท่านั้น ไม่สามารถแลกเป็นเงินตราตามกฎหมาย</strong>
+        </strong>
+      </p>
+      <p>
+        สำหรับสิ่งของเสมือนใน“Pretty Land” หากไม่ได้ระบุวันหมดอายุ
+        เมื่อได้รับสิทธิการใช้ ผู้ใช้สามารถใช้ต่อจนกว่า“Pretty Land”งดให้บริการนั้น
+        สำหรับสิ่งของเสมือนที่ได้ระบุวันหมดอายุ ให้ใช้ตามเวลาที่ระบุไว้
+        เมื่อหมดอายุ
+        “Pretty Land”มีสิทธิเรียกคืนโดยไม่ต้องแจ้งให้ผู้ใช้ทราบ(วันหมดอายุนี้จะไม่ถูกงดหรือยกเลิกด้วยเหตุผลใด)
+        <strong>
+          <strong>
+            ในกรณีที่ผู้ใช้ต้องซื้อสิทธิการใช้สิ่งของเสมือนหรือต้องรับบริการเสริมโดยชำระเงิน
+            เมื่อสิ่งของเสมือนหรือบริการเสริมนั้นหมดอายุ(ไม่ว่าผู้ใช้ได้ใช้จริงหรือไม่)หรือเกินกว่าจำนวนครั้งที่ใช้
+            ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”มีสิทธิในการยกเลิกสิทธิการใช้สิ่งของเสมือนหรืองดให้บริการเสริมดังกล่าว
+          </strong>
+        </strong>
+      </p>
+      <p>
+        ท่านเข้าใจและยอมรับว่า“Pretty Land”มีสิทธิดังนี้
+        โดยไม่ถือเป็นการกระทำผิดสัญญาในเมื่อ“Pretty Land”ใช้สิทธิดังนี้
+        ท่านจะไม่ดำเนินการตามกฎหมายและยกเว้นความรับผิดทางกฎหมายของ“Pretty Land”
+        สำหรับข้อมูลค่าประสบการณ์ เกรด การติดตาม การจอง ไทเติ้ล
+        ตั๋วอิเล็กทรอนิกส์ ห้องโชว์ไลฟ์สด ของขวัญเสมือน
+        ของแถมเสมือนและรางวัลในระหว่างท่านใช้เว็บ“Pretty Land”หรือบัญชี“Pretty Land”
+        ข้อมูลดาวน์โหลด และข้อมูล(รวมถึงแต่ไม่จำกัดเพียง ข้อมูลบัญชี
+        ข้อมูลเวลาไลฟ์สด ข้อมูลของขวัญเสมือน ข้อมูลการใช้จ่าย
+        ฯลฯ)ที่เกิดขึ้นระหว่างการดำเนินงานของ“Pretty Land”พร้อมถูกจัดเก็บไว้ในคลังข้อมูลของ“Pretty Land”
+        (ต่อไปเรียก“สิ่งที่ได้มา”){" "}
+        <strong>
+          <strong>ท่านยืนยันไม่มีกรรมสิทธิ์(เว้นแต่“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”ประกาศเป็นอย่างอื่น) ซึ่ง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”อนุญาตให้ท่านใช้ตามข้อบังคับของ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”และไม่รับผิดชอบค่าชดใช้ใดๆ สำหรับสิ่งที่ได้มาดังกล่าว ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”มีสิทธิในการกำหนดวันหมดอายุตามสภาพจริงโดยไม่ต้องแจ้งให้ท่านทราบและขออนุญาตจากท่านด้วย
+          </strong>
+        </strong>
+      </p>
+      <p>
+        <strong>
+          <strong>
+            ท่านเห็นด้วยและรับรองว่า จะไม่นำบริการหรือสิ่งที่ได้มาของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ไปข่ายต่อ โอน แลกซื้อ จำนอง เป็นต้น เพื่อผลประโยชน์ที่ผิดกฎหมาย
+            ท่านจะไม่ใช้บริการหรือสิ่งที่ได้มาของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ไปละเมิดสิทธิประโยชน์ตามกฎหมายของผู้อื่น
+            ห้ามขโมยบัญชีและของขวัญเสมือนของผู้อื่นโดยใช้ช่องโหว่ร้ายแรง
+            โปรแกรมอันตรายหรือวิธีอื่นที่ผิดกฎหมาย
+          </strong>
+        </strong>
+      </p>
+      <p>
+        <strong>
+          <strong>
+            ท่านเข้าใจและยอมรับว่า
+            เหรียญโทเคนของบริการเสริมและค่าเสน่ห์ห้ามแลกเป็นเงินสด ห้ามเติมเงิน
+            เติมเงินแทน
+            หรือซื้อขายสิ่งของเสมือนผ่านช่องทางอื่นที่ไม่ใช้ช่องทางทางการของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ” หากพบกรณีดังกล่าว จะถูกปิดบัญชีและยึดเงิน
+            ของขวัญเสมือนและบริการเสริมอื่นในบัญชี{" "}
+          </strong>
+        </strong>
+        ในกรณีที่ท่านชำระเงินหรือเติมเงินเพื่อซื้อบริการเสริมของ“Pretty Land”ผ่านตัวกลางระบบชำระเงินออนไลน์(รวมถึงแต่ไม่จำกัดเพียง
+        การซื้อสิทธิการใช้ของขวัญเสมือนใน“Pretty Land”และการรับบริการเสริมอื่นที่ต้องชำระเงิน)
+        อาจก่อให้เกิดความเสี่ยงทางธุรกิจ(รวมถึงแต่ไม่จำกัดเพียงคนร้ายใช้บัญชีหรือบัตรธนาคารของท่านทำกิจกรรมผิดกฎหมาย)
+        ซึ่งอาจทำให้ท่านเกิดความเสียหายทางการเงิน ทั้งนี้
+        เมื่อได้ปฏิบัติหน้าที่ตามข้อตกลงฉบับนี้และกฎหมายกำหนด
+        “Pretty Land”จะไม่รับผิดชอบต่อความเสี่ยงและค่าเสียหายดังกล่าว
+      </p>
+      <p>
+        <strong>
+          <strong>ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ไม่ยอมรับข้อตกลงผิดกฎหมายระหว่างท่านกับผู้ใช้คนอื่น ดังนั้น ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะไม่รับผิดชอบและไม่มีหน้าที่ดำเนินการความขัดแย้งที่เกิดขึ้น
+            สำหรับการกระทำที่ผิดข้อตกลงฉบับนี้และข้อบังคับของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”มีสิทธิในการดำเนินการลงโทษ</strong>
+        </strong>
+      </p>
+      <p>4.2 &nbsp;ข้อกำหนดด้านบริการ</p>
+      <p>
+        ทาง“Pretty Land”มีกรรมสิทธิ์บัญชีของ“Pretty Land” เมื่อท่านได้ลงทะเบียนเรียบร้อย
+        จะได้รับสิทธิการใช้บัญชี“Pretty Land” ซึ่งเป็นของผู้ลงทะเบียนเท่านั้น
+        &nbsp;ท่านมีหน้าที่รักษาบัญชีและรหัสผ่านที่ได้จาก“Pretty Land”
+        และต้องรับผิดชอบต่อการกระทำหรือกิจกรรมต่างๆ
+        หลังใช้ชื่อบัญชีและรหัสผ่านดังกล่าวเพื่อเข้าสู่ระบบ
+        ด้วยความพิเศษของบริการทางอินเตอร์เน็ต
+        “Pretty Land”จะไม่ตรวจสอบท่านเป็นคนที่ใช้ชื่อบัญชีและรหัสผ่านหรือไม่
+        เพียงตรวจสอบชื่อบัญชีและรหัสผ่านต้องตรงกับของคลังข้อมูล
+        ผู้ใดที่ป้อนชื่อบัญชีและรหัสผ่านตรงกับของคลังข้อมูล
+        ก็สามารถเข้าสู้ระบบ“Pretty Land” หากผู้ใช้ไม่ใช่ผู้ลงทะเบียนบัญชีนี้
+        “Pretty Land”มีสิทธิในการงดใช้หรือเรียกคืนบัญชีนี้โดยไม่ต้องแจ้งให้ทราบและไม่ต้องรับผิดชอบต่อผู้ใช้บัญชีนี้
+        ทั้งนี้ ท่านจะต้องรับผิดชอบความเสียหายที่เกิดขึ้น
+        รวมถึงแต่ไม่จำกัดเป็นการสื่อสารถูกตัด ข้อมูลผู้ใช้และอุปกรณ์เสมือนถูกลบ
+        เป็นต้น{" "}
+        <strong>
+          <strong>
+            ในกรณีที่เกิดความขัดแย้งเกี่ยวกับบัญชีผู้ใช้หรือเงินทุนในบัญชีผู้ใช้
+            เมื่อได้รับคำร้องเรียน ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”มีสิทธิในการงดใช้บัญชีหรือเงินทุนในบัญชีดังกล่าวชั่วคราว
+            คู่ขัดแย้งจะต้องยื่นหลักฐานภายในเวลากำหนดเพื่อพิสูจน์ตนเป็นเจ้าของบัญชีหรือเงินทุนในบัญชี
+            ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะพิจารณาหลักฐานที่ยื่นโดยคู่ขัดแย้งและชี้ขาดเจ้าของเพื่อดำเนินการบัญชีหรือเงินทุนในบัญชีอย่างเหมาะสม
+          </strong>
+        </strong>
+      </p>
+      <p>
+        <strong>
+          <strong>“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ถือว่าท่านเป็นเจ้าของลิขสิทธิ์ในเนื้อหาที่ท่านได้อัพโหลด
+            เปิดเผยหรือส่งผ่าน“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” เว้นแต่มีหลักฐานพิสูจน์ที่ตรงกันข้าง ท่านใช้บริการ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”เพื่ออัพโหลด เปิดเผยหรือส่งเนื้อหาต่างๆ
+            แสดงว่าท่านมีสิทธิและเห็นด้วยว่าท่านได้นำทรัพย์สินทางปัญญาทั้งหมด(รวมถึงแต่ไม่จำกัดเพียงลิขสิทธิ์
+            สิทธิในเครื่องหมายการค้า
+            และสิทธิอนุพันธ์ทั้งหมด)ของเนื้อหาทั้งหมดที่ท่านได้อัพโหลด
+            เปิดเผยหรือส่งผ่าน“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”(รวมถึงแต่ไม่จำกัดเพียง วีดีโอ เสียง และข้อความ วีดีโอ
+            เสียงที่เกียวกับข้อตกลงฉบับนี้
+            ต่อไปเรียก“ผลการแสดง”)พร้อมสิทธิประโยชน์ที่เกี่ยวข้องไปมอบให้“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”ใช้ฟรีถาวรในทั่วโลกโดยเพิกถอนไม่ได้ </strong>
+        </strong>
+        ภายในระยะเวลาของข้อตกลงฉบับนี้และหลังครบกำหนด
+        “Pretty Land”สามารถใช้ผลงานของผู้ไลฟ์สดในทุกรูปแบบพร้อมรับผลประโยชน์ที่เกี่ยวข้อง
+        ทั้งนี้
+        ท่านไม่สามารถใช้เองหรือมอบให้บุคคลที่สามใช้ในทุกรูปแบบพร้อมรับผลประโยชน์
+        เว้นแต่ได้รับความยินยอมของ“Pretty Land”ที่เป็นลายลักษณ์อักษร
+      </p>
+      <p>
+        เพื่อความสะดวกในการใช้“Pretty Land”และบริการอื่นจากบริษัทในเครือของ“Pretty Land”{" "}
+        <strong>
+          <strong>ท่านได้มอบหมายให้“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”นำข้อมูลของท่านที่เสนอและเกิดขึ้นในระหว่างการลงทะเลียนบัญชีและการใช้บริการของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”ไปส่งต่อให้บริษัทในเครือของ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”ที่เป็นผู้ให้บริการอื่น</strong>
+        </strong>
+      </p>
+      <p>
+        ท่านสามารถซื้อสินค้าเสมือนที่เป็นบริการเสริมในระหว่างการใช้บริการของ“Pretty Land”
+        ยกเว้นการอธิบายเป็นอย่างอื่น
+        ท่านจะได้รับสินค้าเสมือนผ่าน“Pretty Land”และช่องทางตามกฎหมายที่ได้รับมอบหมายจาก“Pretty Land”
+        สำหรับวิธีการใช้และวันหมดอายุให้ถือคำอธิบายในหน้าเว็บ“Pretty Land”หรือเอกสารทางการที่มีลักษณะการอธิบายเป็นหลัก
+        เนื่องจากสินค้าเสมือนอาจมีการปรับปรุงตามความต้องการของผู้ใช้
+        นโยบายเว็บไซต์และระดับการยอมรับของผู้ใช้ในทุกเวลา ดังนั้น
+        กรุณาถือข้อความที่ระบุไว้บนหน้าเว็บในเวลานั้นเป็นหลัก{" "}
+        <strong>
+          <strong>ด้วยลักษณะของสินค้าเสมือน ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ไม่มีบริการเรียกคืนสินค้าเสมือนหรือเปลี่ยนใหม่
+            บริการสินค้าเสมือนจะยกเลิกในเมื่อท่านได้ใช้สินค้าเสมือนทั้งหมดที่ได้รับและจะไม่ใช้บริการสินค้าเสมือนอีกต่กไป
+          </strong>
+        </strong>
+      </p>
+      <p>
+        ท่านจะต้องปฏิบัติทุกประการของข้อตกลงฉบับนี้
+        โดยใช้บริการดังกล่าวอย่างถูกต้องเหมาะสม ไม่ก่อกวนระเบียบของ“Pretty Land”
+        รวมถึงแต่ไม่จำกัดเพียงการก่อกวนระเบียบทางการเงินของ“Pretty Land”(อาทิ
+        การขายทรัพย์สินเสมือน ของขวัญเสมือน ฯลฯ)
+        เว้นแต่ได้รับการมอบหมายจาก“Pretty Land”ที่เป็นลายลักษณ์อักษรท่านไม่สามารถใช้สินค้าเสมือนในทางธุรกิจ
+        รวมถึงแต่ไม่จำกัดเพียงการขาย การแทนที่
+        การจำนองหรือการใช้บริการสินค้าเสมือนด้วยวิธีพิเศษเพื่อผลประโยชน์ที่ไม่ถูกต้อง
+        เป็นต้น{" "}
+        <strong>
+          <strong>
+            &nbsp;หากพบว่าท่านเติมเงินบัญชีด้วยวิธีที่ไม่ถูกต้อง(รวมถึงแต่ไม่จำกัดเพียงการใช้เครดิตการ์ดเบิกถอนเงินสดล่วงหน้าที่ผิดกฎหมาย)
+            ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”มีสิทธิในการพิจารณาปิดบัญชีท่านชั่วคราวหรือถาวร ในขณะเดียวกัน ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ขอสงวนสิทธิ์ในการเรียกคืนบัญชีและชื่อผู้ใช้ดังกล่าวได้ตลอดเวลา
+          </strong>
+        </strong>
+      </p>
+      <p>
+        <strong>
+          <strong>ผู้ใช้ทุกคนจะต้องรับบริการสินเค้าเสมือนของ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ผ่านช่องทางที่ถูกต้อง
+            สินเค้าเสมือนและบริการอนุพันธ์ทั้งหมดที่ได้รับจากช่องทางที่ไม่ใช่“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”ประกาศไว้ไม่มีผลบังคับใช้ทางกฎหมาย ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ” มีสิทธิในการเรียกคืนสินค้าเสมือนพร้อมงดให้บริการเพียงฝ่ายเดียว
+            สำหรับผู้ใช้ที่กระทำรุนแรง ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”มีสิทธิในการงดให้บริการทั้งหมดหรือบางส่วนและปิดบัญชีของผู้ใช้
+            รวมถึงจัดเก็บข้อมูลที่เกี่ยวข้องตามกฎหมายกำหนดและรายงานต่อหน่วยงาน
+            เป็นต้น
+          </strong>
+        </strong>
+      </p>
+      <p>
+        <strong>
+          <strong>
+            การโต้แย้งทางกฎหมายที่เกิดจากการกระทำของท่านที่มีต่อบุคคลอื่นใน“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” ให้คู่กรณีดำเนินการหรือแจ้งความเอง ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะไม่รับผิดชอบใดๆ ทั้งสิ้น
+            แต่จะให้ความร่วมมือในการสอบสวนของตำรวจและช่วยเหลือผู้ใช้ในการปกป้องผลประโยชน์ของตนที่ถูกต้องตามกฎหมาย
+          </strong>
+        </strong>
+      </p>
+      <p>
+        ท่านเข้าใจและรับรู้ว่าเนื้อหาและข้อมูลที่ได้รับในระหว่างการใช้บริการของ“Pretty Land”มาจากหลายแหล่ง
+        ซึ่งทาง“Pretty Land”ไม่อาจรับผิดชอบต่อความถูกต้อง ความจริง ความพร้อมใช้งาน
+        ความปลอดภัย ความครบถ้วนและความเหมาะสมของเนื้อหาและข้อมูลนั้น
+        <strong>
+          <strong>
+            ท่านเข้าใจและยอมรับว่าท่านอาจได้รับเนื้อหาและข้อมูลที่ไม่ถูกต้อง
+            น่ารำคาญหรือไม่เหมาะสม และท่านจะไม่ดำเนินการทางกฎหมาย{" "}
+          </strong>
+        </strong>
+        อย่างไรก็ตาม ท่านสามารถร้องเรียนต่อศูนย์บริการของ“Pretty Land”ทันที
+        ทาง“Pretty Land”มีสิทธิในการหยุดส่งเนื้อหาดังกลาวพร้อมดำเนินการตามกฎหมาย
+        รวมถึงแต่ไม่จำกัดเพียงการงดให้บริการท่านในการใช้“Pretty Land”
+        บางส่วนหรือทั้งหมด
+        การบันทึกข้อมูลที่เกี่ยวข้องพร้อมรายงานต่อหน่วยงานของรัฐ
+      </p>
+      <p>
+        <strong>
+          <strong>ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะไม่สนับสนุน
+            แนะนำหรือแสดงความคิดเห็นต่อเนื้อหาหรือข้อมูลใดที่ท่านได้อัพโหลด
+            เปิดเผยหรือส่งผ่าน“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”
+            และไม่รับผิดชอบต่อความผิดหรือความบกพร่องของเนื้อหาและข้อมูลใดหรือความเสียหายใดที่เกิดขึ้น
+            ทั้งนี้
+            ท่านจะต้องรับความเสี่ยงที่เกี่ยวกับการใช้เนื้อหาและข้อมูลดังกล่าว
+          </strong>
+        </strong>
+      </p>
+      <p>
+        ท่านเห็นด้วย“Pretty Land”ส่งโฆษณาพาณิชย์หรือข้อมูลทางพาณิชย์ระหว่างการให้บริการในรูปแบบใด(รวมถึงแต่ไม่จำกัดเพียงการลงโฆษณาในตำแหน่งใดของ“Pretty Land”
+        การลงโฆษณาในเนื้อหาที่ท่านอัพโหลดหรือกระจาย)
+        ท่านเห็นด้วยและยอมรับ“Pretty Land”จะส่งรายการโปรโมชั่นหรือข้อมูลทางพาณิชย์อื่นถึงท่านผ่านอีเมล์
+        ข้อความในเว็บไซต์ ข้อความโทรศัพท์มือถือ ประกาศเว็บไซต์หรือรูปแบบอื่น
+        ในขณะเดียวกัน “Pretty Land”มีสิทธิในการใส่โลโก้(หรือชื่อ)และเวลาในห้องไลฟ์สด
+        ทาง“Pretty Land”จะพยายามแต่ไม่สามารถรับรองว่าจะไม่มีผลกระทบต่อท่านในการใช้“Pretty Land”
+      </p>
+      <p>
+        <strong>
+          <strong>ท่านควรระมัดระวังพฤติกรรมใน“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”และรักษาความปลอดภัยและทรัพย์สินของตนในระหว่างไลฟ์สด ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะไม่รับผิดชอบความเสียหายทางร่างกายหรือทรัพย์สินที่เกิดจากท่านเอง
+            เหตุสุดวิสัย อุบัติเหตุหรือสาเหตุของบุคคลที่สาม
+          </strong>
+        </strong>
+      </p>
+      <p>
+        ระหว่างการใช้บริการของ“Pretty Land”
+        ท่านจะต้องปฏิบัติตามกฎหมายและกฎระเบียบที่เกี่ยวกับการใช้คอมพิวเตอร์และอินเตอร์เน็ตดังต่อไป
+        กฎหมายว่าด้วยการรักษาความลับของทางราชการแห่งประเทศจีน
+        กฎหมายว่าด้วยลิขสิทธิ์แห่งประเทศจีน
+        ระเบียบว่าด้วยการรักษาความปลอดภัยของระบบสารสนเทศคอมพิวเตอร์แห่งประเทศจีน
+        ระเบียบว่าด้วยการรักษาความปลอดภัยของซอฟต์แวร์คอมพิวเตอร์
+        ระเบียบว่าด้วยการปกป้องสิทธิในการเผยแพร่ต่อสาธารณะผ่านเครือข่ายสารสนเทศ
+        ระเบียบว่าด้วยการให้บริการไลฟ์สดทางอินเตอร์เน็ต เป็นต้น ไม่ว่ากรณีใด
+        เมื่อทาง“Pretty Land”พิจารณาเห็นว่าพฤติกรรมของท่านอาจฝ่าฝืนกฎหมายกฎระเบียบดังกล่าว
+        จะงดให้บริการท่านในเวลาใดก็ได้โดยไม่ต้องแจ้งให้ทราบล่วงหน้า
+      </p>
+      <p>
+        ท่านเห็นด้วยและยอมรับว่า
+        เมื่อได้เลือกดาวน์โหลด“Pretty Land”หรือซื้อสิทธิในการใช้สิ่งของเสมือนหรือรับบริการที่เกี่ยวข้อง
+        ก็แสดงว่าท่านได้เข้าใจอย่างดีและยอมรับวิธีการชำระเงินกับอัตราค่าใช้จ่ายที่ระบุ{" "}
+        <strong>
+          <strong>ผู้ใช้อนุญาตให้“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”กำหนดวิธีการชำระเงินกับอัตราค่าใช้จ่ายของบริการและกำหนดวิธีการชำระเงินกับอัตราค่าใช้จ่ายที่แตกต่างของบริการทุกประเภทในระยะต่างๆ
+            รวมถึงมีการปรับปรุงนโยบายอัตราค่าใช้จ่ายด้วย
+          </strong>
+        </strong>
+      </p>
+      <p>4.3&nbsp;เนื้อหาต้องห้าม</p>
+      <p>
+        ท่านเข้าใจและรับรองว่าจะไม่ผลิต อัพโหลด
+        เปิดเผยหรือส่งต่อเนื้อหา(รวมถึงข้อมูลชื่อบัญชี ข้อคิดเห็น ข้อความป๊อปอัพ
+        ฯลฯ)ผ่าน“Pretty Land”ที่มีลักษณะดังนี้
+      </p>
+      <p>(๑) การคัดค้านหลักการของรัฐธรรมนูญ</p>
+      <p>
+        (๒) เป็นอันตรายต่อความเป็นเอกภาพ
+        อำนาจอธิปไตยและบูรณภาพแห่งดินแดนของประเทศ หรือการล้มล้างรัฐบาล
+      </p>
+      <p>
+        (๓) การเปิดเผยความลับทางราชการ เป็นอันตรายต่อความมั่นคงของประเทศ
+        หรือการเสื่อมเสียชื่อเสียงและผลประโยชน์ของประเทศชาติ
+      </p>
+      <p>
+        (๔) การยั่วยุให้เกิดความเกลียดชังหรืออคติทางชาติพันธุ์
+        การทำลายความสามัคคีชนชาติหรือขนมธรรมเนียมประเพณีชนชาติ
+      </p>
+      <p>
+        (๕) การฝ่าฝืนนโยบายด้านศาสนาของรัฐบาล
+        การเผยแพร่ศาสนานอกรีตหรือความเชื่อถือโชคลาง
+      </p>
+      <p>(๖) การบ่อนทำลายระเบียบสังคมและความมั่นคงของสังคม</p>
+      <p>
+        (๗) การยั่วยุให้ผู้ที่ยังไม่บรรลุนิติภาวะกระทำผิดกฎหมาย
+        การกระจายเผยแพร่กิจกรรมเกี่ยวกับลามกอนาจาร การพนัน ความรุนแรง
+        อาชญากรรมและการก่อการร้าย หรือยุยงให้เกิดการกระทำผิดเกี่ยวกับอาชญากรรม
+      </p>
+      <p>
+        (๘) การสบประมาทหรือใส่ร้ายผู้อื่น
+        การละเมิดสิทธิและประโยชน์ของผู้อื่นที่ถูกต้องตามกฎหมาย อาทิ
+        ความเป็นส่วนตัวของราษฎร
+      </p>
+      <p>
+        (๙) การเผยแพร่ข่าวลือ การผิดศีลธรรม
+        การทำลายขนมธรรมเนียมประเพณีและวัฒนธรรมอันดีงามของชนชาติ
+      </p>
+      <p>
+        (๑๐)
+        เนื้อหาอื่นที่กฎหมายกฎระเบียบของประเทศและรัฐบาลกำหนดเป็นเนื้อหาต้องห้าม
+      </p>
+      <p>
+        <strong>
+          <strong>
+            หากข้อความหรือเนื้อหาที่ท่านได้อัพโหลด
+            เปิดเผยหรือส่งต่อนั้นมีเนื้อหาที่ฝ่าฝืนกฎหมายกฎระเบียบดังกล่าวข้างต้น
+            หรือละเมิดสิทธิและประโยชน์ของบุคคลที่สาม
+            ท่านจะต้องรับผิดชอบผลเสียทั้งหมดที่เกิดขึ้นโดยตรง
+            ในกรณีที่ก่อให้เกิดผลเสียต่อ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”
+            ท่านจะต้องรับผิดชอบในการกำจัดผลเสียพร้อมชดใช้ความเสียหายทั้งหมดของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ” รวมถึงแต่ไม่จำกัดเพียง ค่าเสียหายทางทรัพย์สิน
+            ค่าเสียหายจากเสื่อมเสียชื่อเสียง ค่าทนายความ
+            ค่าเดินทางและค่าใช้จ่ายอื่นที่เกิดขึ้นในการปกป้องสิทธิ์ของตน
+          </strong>
+        </strong>
+      </p>
+      <p>4.4&nbsp;การกระทำต้องห้าม</p>
+      <p>
+        ท่านเข้าใจและรับรองว่าจะมีการกระทำต้องห้ามดังนี้โดยใช้บริการของ“Pretty Land”และไม่อนุญาตให้ผู้อื่นมีการกระทำดังนี้โดยใช้บัญชีของท่าน
+      </p>
+      <p>
+        1)&nbsp;ในระหว่างลงทะเบียนหรือใช้บริการของ“Pretty Land”(รวมถึงแต่ไม่จำกัดเพียงอัพโหลด
+        เปิดเผย กระจายข้อมูล ฯลฯ) แอบอ้างเป็นผู้อื่นหรือตัวแทนหน่วยงาน
+        หรืออ้างว่ามีความเกี่ยวข้องกับบุคคลหรือองค์กรใด(รวมถึงตั้งชื่อบัญชีเป็นเทจหรือต่อกับบัญชีของผู้ใช้คนอื่น)
+        หรือใช้บัญชีที่ลงทะเบียนโดยเจตนาร้ายเพื่อทำให้ผู้ใช้คนอื่นเข้าใจผิด
+      </p>
+      <p>
+        2)&nbsp;แต่งหัวข้อที่เป็นเทจหรือปรับเปลี่ยนเนื้อหาด้วยวิธีอื่น
+        ทำให้ผู้อื่นเข้าใจผิดว่าเนื้อหานั้นส่งจาก“Pretty Land”
+      </p>
+      <p>
+        3)&nbsp;นำเนื้อหาที่ไม่ได้รับอนุญาต(อาทิ ข้อมูลภายใน
+        ข้อมูลที่เป็นความลับ เนื้อหาที่ละเมิดสิทธิบัตร สิทธิในเครื่องหมายการค้า
+        ลิขสิทธิ์ ความลับทางธุรกิจหรือสิทธิแต่เพียงผู้เดียว ฯลฯ)ไปอัพโหลด
+        เปิดเผย ส่งทางอีเมล์หรือส่งต่อโดยวิธีอื่น
+      </p>
+      <p>
+        4)&nbsp;นำ“อีเมล์ขยะ” โฆษณา ข้อมูลประชาสัมพันธ์ ข้อมูลโปรโมชั่น
+        หรือข้อมูลทางพาณิชย์อื่นที่ไม่ได้รับอนุญาตนั้นมาอัพโลหด เปิดเผย
+        ส่งทางอีเมล์หรือส่งต่อโดยวิธีอื่น
+      </p>
+      <p>
+        5)&nbsp;ใช้บริการของ“Pretty Land”ในเชิงงพาณิชย์หรือเพื่อผลประโยชน์ของบุคคลที่สามโดยไม่ได้รับอนุญาตจาก“Pretty Land”
+      </p>
+      <p>6)&nbsp;เฝ้าติดตามหรือก่อกวนผู้อื่นด้วยวิธีอื่น</p>
+      <p>
+        7)&nbsp;มีส่วนร่วมกิจกรรมหรือการค้าขายที่ผิดกฎหมายหรืออาจผิดกฎหมาย(อยู่ที่การพิจารณาทาง“Pretty Land”)
+        รวมถึงการสอนวิธีการกระทำผิด การจำหน่ายยาผิดกฎหมาย การฟอกเงิน การโกงเงิน
+        เป็นต้น
+      </p>
+      <p>
+        8)&nbsp;เล่นการพนันในทุกรูปแบบหรือให้ข้อมูลเกี่ยวกับการพนันหรือยั่วยุให้ผู้อื่นเข้าร่วมการพนัน
+      </p>
+      <p>
+        9)&nbsp;ใช้ทรัพย์สินทางปัญญาของ“Pretty Land”(รวมถึงเครื่องหมายการค้า แบรนด์
+        โลโก้ ข้อมูลพิเศษ การจัดวางหรือการออกแบบของหน้าเว็บใดของ“Pretty Land”)
+        หรือละเมิดทรัพย์สินทางปัญญาของ“Pretty Land”ในด้านอื่น(รวมถึงวางแผนจะดำเนินงานวิศวกรรมย้อนกลับไคลเอนต์ของ“Pretty Land”หรือโปรแกรมที่ใช้)
+      </p>
+      <p>
+        10)&nbsp;ต่อเข้ากับบริการของ“Pretty Land”และรวบรวมหรือจัดการเนื้อหาจากบริการของ“Pretty Land”โดยใช้โปรแกรมอัตโนมัติ
+        ซอฟต์แวร์ เอ็นจิ้น เว็บคราวเลอร์ เครื่องมือวิเคราะห์เว็บเพจ
+        เครื่องมือทำเหมืองข้อมูลหรือเครื่องมือที่มีลักษณะคล้ายกัน
+      </p>
+      <p>
+        11)&nbsp;มีส่วนร่วมในด้าน“โครงสร้าง” “จำลองไดร์”หรือเทคโนโลยีอื่น
+        เพื่อเลียนแบบภายนอกและฟังก์ชั่นของบริการ“Pretty Land”
+      </p>
+      <p>
+        12)&nbsp;ก่อกวนหรือวางแผนจะก่อกวนผู้ใช้หรือบุคคลอื่นต่อเข้ารับบริการของ“Pretty Land”
+      </p>
+      <p>
+        13)&nbsp;มีเจตนาร้ายในการเผยแพร่ไวรัส วอร์ม ไวรัสโทรจัน
+        ไฟล์ที่สูญเสียหรือรหัสอันตรายอื่นหรือรายการต่างๆ เพื่อก่อกวน
+        ทำลายหรือจำกัดฟังก์ชั่นของซอฟต์แวร์ ฮาร์ดแวร์หรืออุปกรณ์การสื่อสาร
+        รวมถึงบริการของ“Pretty Land”
+        เซิร์ฟเวอร์และเครือข่ายที่เชื่อมต่อกับบริการของ“Pretty Land”
+      </p>
+      <p>
+        14)&nbsp;แบ่งปันหรือเปิดเผยข้อมูลยืนยันตัวตนของผู้อื่นโดยไม่ได้รับอนุญาตจากคนนั้นอย่างชัดเจน
+      </p>
+      <p>
+        15)&nbsp;สำรวจหรือทดสอบบริการหรือระบบของ“Pretty Land”หรือระบบของผู้ใช้คนอื่นถูกบุกรุกหรือโจมตีอย่างง่ายหรือไม่
+        หรือหลีกเลี่ยง(หรือพยายามหลีกเลี่ยง)ฟังก์ชั่นด้านความปลอดภัยของบริการหรือระบบของ“Pretty Land”หรือระบบของผู้ใช้คนอื่น
+      </p>
+      <p>
+        16)&nbsp;ดำเนินการถอดรหัส
+        การแปลกลับหรือวิศวกรรมย้อนกลับสำหรับโปรแกรมที่ใช้กับบริการของ“Pretty Land”
+        หรือวางแผนที่จะดำเนินการดังกล่าว
+      </p>
+      <p>
+        17)&nbsp;ลงทะเบียนหลายบัญชีเพื่อทำลายหรือใช้อย่างหนัก
+        หรืออัพโหลดข้อมูลและดาต้าขนาดใหญ่ที่ซ้ำซ้อนหรือเป็นโมฆะโดยเจตนาร้าย
+      </p>
+      <p>
+        18)&nbsp;การกระทำที่ทำลายความยุติธรรมในบริการของ“Pretty Land”หรือส่งผลต่อระเบียบการทำงานของโปรแกรม
+        อาทิ การโกงคะแนนเองหรือถูกบังคับโกงคะแนน การร่วมกันทุจริต
+        การใช้โปรแกรมโกง การใช้ BUG(หรือเรียกว่า“ช่องโหว่”หรือ“ข้อบกพร่อง”)
+        เพื่อรับผลประโยชน์ที่ผิดกฎหมาย
+        หรือเปิดเผยโปรแกรมโกงหรือ&nbsp;BUG&nbsp;ผ่านอินเตอร์เน็ตหรือด้วยวิธีอื่น
+      </p>
+      <p>
+        19)&nbsp;ดำเนินการกระทำเชิงพาณิชย์ เช่น การลงโฆษณา การจำหน่ายสินค้า
+        หรือดำเนินการกระทำที่ทำลายผลประโยชน์ของ“Pretty Land” เช่น
+        การจำหน่ายสินค้าเสมือนของ“Pretty Land”หรือโปรแกรมโกง
+      </p>
+      <p>
+        20)&nbsp;ฝ่าฝืนกฎหมาย กฎระเบียบ
+        ข้อกฎบังคับหรือข้อกำหนดอื่นที่มีผลบังคับใช้ทางกฎหมายของประเทศจีนโดยเจตนาหรือไม่เจตนา
+      </p>
+      <p>4.5&nbsp;ผลที่ตามมาจากการฝ่าฝืน</p>
+      <p>
+        <strong>
+          <strong>
+            หากท่านฝ่าฝืนข้อตกลงฉบับนี้ นอกจากถูกลงโทษตามข้ออื่นแล้ว
+            อาจถูกลงโทษดังนี้อีก
+          </strong>
+        </strong>
+      </p>
+      <p>
+        1)
+        การเตือน:&nbsp;การเตือนเป็นการสั่งสอนผู้ใช้ที่ฝ่าฝืนข้อบังคับของ“Pretty Land”เท่านั้น
+        และเป็นหนึ่งวิธีในการดำเนินการจัดการ“Pretty Land”
+      </p>
+      <p>
+        2)&nbsp;การห้ามสนทนา:&nbsp;โดยปิดช่องสนทนาบางส่วนหรือทั้งหมดสำหรับผู้ใช้ที่ฝ่าฝืนข้อบังคับ
+        บังคับปิดฟังก์ชั่นสนทนาอ่อนไลน์ของบัญชีผู้ใช้นั้น
+        เพื่อไม่ให้สนทนากับผู้ใช้คนอื่น จนกว่าหมดเวลาหรือยกเลิกการลงโทษครั้งนี้
+      </p>
+      <p>
+        3)&nbsp;การระงับแบบชั่วคราว:&nbsp;โดยจำกัดการให้บริการผู้ใช้ที่ฝ่าฝืนข้อบังคับและจำกัดการใช้บริการบางส่วนของ“Pretty Land”
+        จนกว่าหมดเวลาหรือยกเลิกการลงโทษครั้งนี้
+      </p>
+      <p>
+        4)&nbsp;การระงับแบบถาวร:&nbsp;โดยจำกัดการให้บริการผู้ใช้ที่ฝ่าฝืนข้อบังคับและจำกัดการใช้บริการบางส่วนของ“Pretty Land”
+        ซึ่งจะไม่ปลดล็อกหรือยกเลิกการลงโทษนี้
+      </p>
+      <p>
+        5)&nbsp;ห้ามล็อกอินแบบชั่วคราว:&nbsp;ผู้ใช้ที่ฝ่าฝืนข้อบังคับจะใช้บัญชีเข้าสู่บางระบบของ“Pretty Land”ชั่วคราว
+        จนกว่าหมดเวลาหรือยกเลิกการลงโทษครั้งนี้
+      </p>
+      <p>
+        6)&nbsp;ห้ามล็อกอินแบบถาวร:&nbsp;ผู้ใช้ที่ฝ่าฝืนข้อบังคับจะไม่สามารถใช้บัญชีเข้าสู่ระบบและใช้บริการของ“Pretty Land”อย่างถาวร
+      </p>
+      <p>
+        7)&nbsp;การบังคับให้ออกจากระบบ:&nbsp;โดยบังคับให้ผู้ใช้ที่ฝ่าฝืนข้อบังคับออกจากบริการปัจจุบันและปิดการใช้บริการทันที
+      </p>
+      <p>
+        8)&nbsp;การปิดบัญชี:&nbsp;ปิดบัญชีของผู้ใช้ที่ฝ่าฝืนข้อบังคับชั่วคราวหรือถาวร
+        เพื่อไม่ให้เข้าสู่ระบบของ“Pretty Land”
+      </p>
+      <p>
+        9)&nbsp;ให้รับผิดชอบทางกฎหมาย:&nbsp;ในกรณีที่การกระทำอันไม่เหมาะสมของผู้ใช้ก่อให้ผู้อื่นหรือ“Pretty Land”เกิดความเสียหายหรือผิดกฎหมายปัจจุบัน
+        ผู้ใช้ที่ฝ่าฝืนข้อบังคับจะต้องรับผิดทางแพ่งและทางอาญาตามกฎหมาย
+      </p>
+      <p>
+        10)&nbsp;ยุบกลุ่ม:&nbsp;ยุบกลุ่มที่ก่อตั้งโดยผู้ใช้
+        รวมถึงแต่ไม่จำกัดเพียงแก๊ง สมาคม ชุมนุม ฯลฯ
+      </p>
+      <p>
+        11)&nbsp;การแก้ไขชื่อ:&nbsp;โดยบังคับให้แก้ไขชื่อเล่นหรือชื่อที่ผู้ใช้ตั้งเอง
+        รวมถึงแต่ไม่จำกัดเพียง ชื่อเล่นบุคคล ชื่อแก๊ง ชื่อห้องสนทนา ชื่อกลุ่ม
+        ฯลฯ
+      </p>
+      <p>
+        12)&nbsp;การจำกัดการใช้บริการแบบชั่วคราว:&nbsp;บัญชีของผู้ใช้ที่ฝ่าฝืนข้อบังคับจะถูกจำกัดในการใช้บริการบางส่วนภายในเวลาที่กำหนด
+      </p>
+      <p>
+        13)&nbsp;การเพิกถอนการซื้อขาย:&nbsp;โดยเพิกถอนการซื้อขายที่ฝ่าฝืนข้อบังคับ
+        และคืนสภาพสิ่งของเสมือนจากทั้งสองฝ่าย
+      </p>
+      <p>
+        14)&nbsp;การหักสิ่งของที่ได้จากการซื้อขายที่ฝ่าฝืนข้อบังคับ:&nbsp;โดยหักสิ่งของเสมือนที่ฝ่ายฝ่าฝืนหรือทั้งสองฝ่ายได้รับจากการซื้อขายที่ฝ่าฝืนข้อบังคับ
+      </p>
+      <p>
+        15)&nbsp;การจำกัดฟังก์ชั่นการซื้อขาย:&nbsp;โดยระงับสิ่งของเสมือนที่ฝ่ายฝ่าฝืนหรือทั้งสองฝ่ายได้รับจากการซื้อขายที่ฝ่าฝืนข้อบังคับชั่วคราว
+        และจะสังเกตพฤติกรรมของผู้ใช้ดังกล่าวภายในเวลากำหนดอย่างต่อเนื่อง
+        หากไม่มีการฝ่าฝืนอีก ให้ปลดล็อกสิ่งของเสมือนโดยอัตโนมัติเมื่อครบกำหนด
+        หากพบมีการฝ่าฝืนอีกครั้ง
+        จะหักสิ่งของเสมือนที่ถูกระงับนั้นในเมื่อทาง“Pretty Land”พิจารณาว่ามีพฤติกรรมที่ฝ่าฝืนข้อบังคับ
+      </p>
+      <p>
+        16)&nbsp;การระงับสิ่งของเสมือน:&nbsp;โดยจำกัดฟังก์ชั่นที่เกี่ยวกับสิ่งของเสมือนสำหรับบทบาทของผู้ใช้ที่ฝ่าฝืนข้อบังคับ
+        รวมถึงแต่ไม่จำกัดเพียงการใช้ การซื้อขาย การมอบให้ เป็นต้น
+      </p>
+      <p>
+        17)&nbsp;การเรียกคืนสิ่งของเสมือน:&nbsp;โดยเรียกคืนสิ่งของเสมือนที่ผู้ใช้ได้จากการโกงหรือการกระทำที่ฝ่าฝืนข้อบังคับ
+        รวมถึงแต่ไม่จำกัดเพียงสิ่งของเสมือน
+      </p>
+      <p>
+        18)&nbsp;การลงโทษอื่น:&nbsp;รวมถึงแต่ไม่จำกัดเพียงการยึดผลประโยชน์ที่ไม่ถูกต้อง(เช่น
+        สิ่งของเสมือนที่ผู้ใช้ได้จากการกระทำที่ไม่ถูกต้อง)
+        การหักคะแนน(รวมถึงแต่ไม่จำกัดเพียงคะแนนประสบการณ์)
+        การงดให้บริการชั่วคราว เป็นต้น
+      </p>
+      <p>ประการ ๕&nbsp;【นโยบายความเป็นส่วนตัว】</p>
+      <p>
+        ทาง“Pretty Land”ให้ความสำคัญกับการปกป้องข้อมูลส่วนตัวของผู้ใช้(หมายถึงข้อมูลที่สามารถจำแนกผู้ใช้ด้วยตนเองหรือร่วมกับข้อมูลอื่น)
+        ในระหว่างการใช้บริการของเรา ท่านอนุญาตให้เรารวบรวม จัดเก็บ ใช้
+        เปิดเผยและปกป้องข้อมูลส่วนตัวของท่านตามนโยบายความเป็นส่วนตัวที่ประกาศใน“Pretty Land”
+        ทางเราหวังว่าจะอธิบายวิธีการจัดการข้อมูลส่วนตัวต่อท่านด้วยนโยบายความเป็นส่วนตัว
+        ดังนั้น ขอความกรุณาอ่านนโยบายความเป็นส่วนตัวให้ละเอียดครบถ้วน
+        เพื่อช่วยปกป้องความเป็นส่วนตัวของท่าน
+      </p>
+      <p>
+        หากมีข้อสงสัยเกี่ยวกับนโยบายความเป็นส่วนตัวนี้
+        ท่านสามารถติดต่อเราตามวิธีติดต่อที่ประกาศใน“Pretty Land”{" "}
+        <strong>
+          <strong>
+            ในกรณีที่ไม่เห็นด้วยเนื้อหาใดของนโยบายความเป็นส่วนตัวนี้
+            โปรดหยุดใช้บริการของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”ทันที ทั้งนี้ เมื่อท่านได้ใช้บริการใดจาก“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”
+            ก็แสดงว่าท่านได้อนุญาตให้เราใช้และปกป้องข้อมูลส่วนตัวของท่านตามนโยบายความเป็นส่วนตัวนี้
+          </strong>
+        </strong>
+      </p>
+      <p>5.1&nbsp;ขอบเขต</p>
+      <p>
+        นโยบายความเป็นส่วนตัวนี้มีผลบังคับใช้กับบริการทั้งหมดของ“Pretty Land”{" "}
+        <strong>
+          <strong>
+            ขอชี้แจงว่า นโยบายความเป็นส่วนตัวนี้ไม่ใช้กับบริการจากบุคคลที่สาม
+            อย่างเช่น กรณีที่บุคคลที่สามใน“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ให้บริการท่าน
+            นโยบายความเป็นส่วนตัวนี้ใช้กับข้อมูลส่วนตัวที่ท่านเสนอให้บุคคลที่สามไม่ได้
+            ทั้งนี้ ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะไม่รับผิดชอบในกรณีที่บุคคลที่สามใช้ข้อมูลส่วนตัวของท่าน
+          </strong>
+        </strong>
+      </p>
+      <p>
+        ทางเราจะใช้ความระมัดระวังในการจัดการหรือการใช้ข้อมูลส่วนตัวของท่านตามหลักการความถูกต้องตามกฎหมาย
+        ความเหมาะสมและความชื่อสัตย์
+      </p>
+      <p>5.2&nbsp;การเก็บข้อมูล</p>
+      <p>เราเก็บข้อมูลเพื่อให้บริการที่ดีกว่า โดยมีรูปแบบการเก็บข้อมูลดังนี้</p>
+      <p>1)&nbsp;ข้อมูลที่ท่านเสนอให้เรา</p>
+      <p>
+        ข้อมูลที่ท่านได้กรอกและ/หรือยื่นส่งในการใช้บริการ“Pretty Land”
+        รวมถึงหมายเลขโทรศัพท์ของท่าน
+      </p>
+      <p>ข้อมูลที่ท่านได้จัดเก็บในการใช้บริการ“Pretty Land”</p>
+      <p>2)&nbsp;ข้อมูลที่เก็บในระหว่างท่านใช้บริการ</p>
+      <p>
+        เพื่อเสนอและปรับปรุงบริการ เราจะเก็บข้อมูลดังนี้ที่เกี่ยวกับการใช้บริการ
+      </p>
+      <p>
+        อย่างเช่น ระหว่างท่านใช้บริการของ“Pretty Land”
+        เราอาจเรียกอ่านข้อมูลที่เกี่ยวกับตำแหน่งและอุปกรณ์เคลื่อนที่ของท่าน
+        รวมถึงแต่ไม่จำกัดเพียงรุ่นอุปกรณ์ หมายเลขประจำอุปกรณ์ ระบบปฏิบัติการ
+        ความคมชัด ผู้ประกอบกิจการโทรคมนาคม ฯลฯ
+      </p>
+      <p>
+        นอกจากข้อมูลดังกล่าว
+        เราอาจต้องเก็บข้อมูลอื่นของท่านเพื่อให้บริการและปรับปรุงคุณภาพของบริการอย่างเหมาะสม
+        รวมถึงข้อมูลที่ท่านเสนอในเมื่อท่านติดต่อทีมงานบริการลูกค้า{" "}
+        <strong>
+          <strong>ในขณะเดียวกัน เพื่อความปลอดภัยในการใช้บริการ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ” ป้องกันเว็บไซต์หลอกลวงและไวรัสโทรจันให้ดีขึ้น
+            เราอาจพิจารณาความเสี่ยงโดยสังเกตพฤติกรรมการใช้อินเตอร์เน็ตของท่านหรือข้อมูลซอฟต์แวร์ที่ท่านใช้บ่อย
+            พร้อมบันทึก
+          </strong>
+        </strong>
+        <strong>
+          <strong>&nbsp;URL</strong>
+        </strong>
+        <strong>
+          <strong>&nbsp;ที่เราเห็นว่าอาจมีความเสี่ยง</strong>
+        </strong>
+      </p>
+      <p>3)&nbsp;ข้อมูลจากบุคคลที่สาม</p>
+      <p>
+        <strong>
+          <strong>
+            เพื่อเสนอบริการที่ดีกว่าต่อท่าน หรือร่วมเสนอบริการต่อท่าน
+            หรือป้องกันการโกงทางอินเตอร์เน็ต ผู้ที่เกี่ยวข้องและพันธมิตรของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”จะแบ่งปันข้อมูลส่วนตัวของท่านให้“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ตามกฎหมายกำหนดหรือตามที่ตกลงกันไว้หรือได้รับอนุญาตของท่าน
+          </strong>
+        </strong>
+      </p>
+      <p>
+        ท่านเข้าใจและเห็นด้วยว่านโยบายความเป็นส่วนตัวนี้ไม่ใช้กับข้อมูลดังนี้
+      </p>
+      <ol>
+        <li>a)ข้อมูลคำหลักที่ท่านป้อนเข้าในเมื่อใช้บริการค้นหาของ“Pretty Land”</li>
+        <li>
+          b)การกระทำที่ผิดกฎหมายหรือฝ่าฝืนข้อบังคับของ“Pretty Land”
+          รวมถึงมาตรการที่ทาง“Pretty Land”ได้ดำเนินการ
+        </li>
+        <li>c)ข้อมูลส่วนตัวที่กฎหมายกำหนดต้องเปิดเผย</li>
+        <li>d)ในกรณีฉุกเฉินและเพื่อผลประโยชน์ของผู้ใช้และสาธารณประโยชน์</li>
+      </ol>
+      <p>5.3&nbsp;การใช้ข้อมูล</p>
+      <p>
+        ด้วยวัตถุประสงค์ของการเก็บข้อมูลเพื่อเสนอบริการและปรับคุณภาพของการให้บริการ
+        เราจะใช้ข้อมูลของท่านในดังนี้
+      </p>
+      <p>
+        1)&nbsp;เสนอบริการต่างๆ &nbsp;รวมถึงออกแบบ
+        ดูแลรักษาและปรับปรุงบริการดังกล่าว
+      </p>
+      <p>
+        2)&nbsp;แนะนำเนื้อหาที่ท่านอาจสนใจ
+        รวมถึงแต่ไม่จำกัดเพียงการส่งข้อมูลของสินค้าและบริการ
+      </p>
+      <p>
+        3)&nbsp;เราอาจใช้ข้อมูลส่วนตัวของท่านเพื่อป้องกัน ตรวจสอบ
+        สอบสวนการกระทำที่หลอกลวง หรือเป็นอันตรายต่อความปลอดภัย
+        หรือผิดกฎหมายหรือฝ่าฝืนข้อตกลง นโยบาย
+        ข้อบังคับระหว่าง“Pretty Land”กับผู้ดำเนินงาน
+        เพื่อปกป้องสิทธิประโยชน์ที่ถูกต้องของท่านและผู้ใช้คนอื่น
+      </p>
+      <p>
+        4)&nbsp;ให้ท่านมีส่วนร่วมในการสำรวจสินค้าและบริการของเรา
+        หรือร่วมกิจกรรมโปรโมชั่นและลุ้นรางวัล
+      </p>
+      <p>5.4&nbsp;การแบ่งปันข้อมูล</p>
+      <p>
+        เรามีหน้าที่รักษาข้อมูลของท่านเป็นความลับ
+        โดยไม่จำหน่ายหรือให้เช่าข้อมูลใดของท่าน
+        เราจะแบ่งปันข้อมูลของท่านต่อบุคคลที่สามเฉพาะในกรณีดังนี้
+      </p>
+      <p>1)&nbsp;ได้รับอนุญาตหรือมอบหมายจากท่านก่อน</p>
+      <p>
+        2)&nbsp;ตามกฎหมายกำหนดหรือความต้องการของหน่วยงานราชการหรือหน่วยงานตุลาการ
+      </p>
+      <p>
+        3)&nbsp;กรณีที่ท่านเป็นผู้มีคุณสมบัติในการร้องเรียนทางทรัพย์สินทางปัญญาและได้ยื่นคำร้อง
+        หากผู้ถูกร้องเรียนต้องการ
+        ให้เปิดเผยข้อมูลต่อผู้ถูกร้องเรียนเพื่อดำเนินการความขัดแย้งที่อาจเกิดขึ้น
+      </p>
+      <p>
+        4)&nbsp;มีแต่แบ่งปันข้อมูลของท่าน
+        ถึงให้บริการได้หรือจัดการความขัดแย้งหรือข้อพิพาทระหว่างท่านกับผู้อื่นได้
+        อย่างเช่น ท่านจะทำการซื้อขายที่“Pretty Land”
+        เมื่อมีฝ่ายใดฝ่ายหนึ่งได้ปฏิบัติหน้าที่ทั้งหมดหรือบางส่วนและขอเปิดเผยข้อมูล
+        ทางเราจะพิจารณาในการให้ข้อมูลจำเป็นแก่ผู้ใช้ เช่น
+        วิธีการติดต่อของอีกฝ่ายหนึ่ง เพื่อทำการซื้อขายหรือแก้ไขข้อพิพาท
+      </p>
+      <p>
+        5)&nbsp;จำเป็นต้องเปิดเผยต่อบุคคลที่สาม
+        ในกรณีที่ท่านฝ่าฝืนกฎหมายกฎระเบียบของจีนหรือข้อตกลงข้อบังคับของ“Pretty Land”
+      </p>
+      <p>6)&nbsp;เพื่อปกป้องสิทธิประโยชน์ของ“Pretty Land”</p>
+      <p>5.6&nbsp;การจัดการข้อมูล</p>
+      <p>
+        ท่านมีสิทธิ์ตรวจสอบข้อมูลของท่านโดยเข้าถึงหน้าบรรยายลักษณะผู้ใช้หรือแก้ไขข้อมูลส่วนตัวในบัญชีท่าน
+        เปลี่ยนหมายเลขโทรศัพท์ที่ผูกกับบัญชี
+        ผูกหรือยกเลิกการผูกกับบัญชีของบุคคลที่สาม เป็นต้น
+      </p>
+      <p>
+        ท่านสามารถตรวจดูประวัติเชิญชวนและประวัติซื้อขายได้ที่“เชิญชวน”และ“กระเป๋าเงิน”
+      </p>
+      <p>5.7&nbsp;การปกป้องข้อมูลส่วนตัว</p>
+      <p>
+        เราใช้มาตรการป้องกันในด้านการปกครอง เทคโนโลยีและการปฏิบัติจริง
+        เพื่อป้องกันไม่ให้ข้อมูลส่วนตัวของท่านสูญหายหรือถูกขโมย ใช้ผิด รับอ่าน
+        เปิดเผย แก้ไขหรือทำลาย ทั้งนี้
+        เราจะแจ้งให้ลูกจ้างทุกคนทราบหลักเกณฑ์ด้านความปลอดภัยและความเป็นส่วนตัวของบริษัท
+        พร้อมปฏิบัติมาตรการปกป้องความเป็นส่วนตัวอย่างเคร่งครัดภายในบริษัท
+      </p>
+      <p>5.8&nbsp;การคุ้มครองผู้เยาว์</p>
+      <p>
+        <strong>
+          <strong>สำหรับผู้เยาว์ที่มีอายุน้อยกว่า </strong>
+        </strong>
+        <strong>
+          <strong>18</strong>
+        </strong>
+        <strong>
+          <strong>&nbsp;ปี การลงทะเบียนบัญชี“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”หรือการใช้บริการของ“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>”จะต้องรับอนุญาตจากผู้ปกครองก่อน</strong>
+        </strong>
+      </p>
+      <p>
+        <strong>
+          <strong>
+            เราจะไม่เก็บข้อมูลส่วนตัวของผู้เยาว์ในกรณีที่ได้รับรู้ ดังนั้น
+            ผู้เยาว์ห้ามลงทะเบียนบัญชีหรือส่งข้อมูลส่วนตัวถึงเรา เช่น ชื่อ
+            ที่อยู่ หมายเลขโทรศัพท์ ที่อยู่อีเมล์ ฯลฯ
+            เว้นแต่มีกฎหมายท้องถิ่นกำหนดและได้รับอนุญาตจากผู้ปกครอง
+            หากท่านเห็นว่าเราอาจได้เก็บข้อมูลที่มาจากหรือเกี่ยวกับผู้เยาว์โดยไม่เหมาะสม
+            กรุณาติดต่อเรา และเราจะลบข้อมูลดังกล่าวโดยเร็ว
+          </strong>
+        </strong>
+      </p>
+      <p>ประการ ๖ 【ทรัพย์สินทางปัญญา】</p>
+      <p>
+        ยกเว้นมีการตกลงเป็นอย่างอื่นหรือ“Pretty Land”มีการประกาศเป็นอย่างอื่น
+        ทรัพย์สินทางปัญญาทั้งหมด(รวมถึงแต่ไม่จำกัดเพียงลิขสิทธิ์
+        สิทธิในเครื่องหมายการค้า สิทธิบัตร ความลับทางธุรกิจ
+        ฯลฯ)และสิทธิอื่นในเนื้อหา(เว้นแต่เนื้อหาที่ผู้ใช้มีลิขสิทธิ์ตามกฎหมาย)
+        เทคโนโลยี ซอฟต์แวร์ โปรแกรม
+        ดาต้าและข้อมูลอื่น(รวมถึงแต่ไม่จำกัดเพียงข้อความ ภาพ รูปภาพ รูปถ่าย
+        เสียง วีดีโอ กราฟ สี การออกแบบ
+        ไฟล์)ทั้งหมดใน“Pretty Land”ให้ถือเป็นทรัพย์สินของ“Pretty Land”หรือบริษัทในเครือของ“Pretty Land”
+        ทั้งนี้ ห้ามบุคคลใดใช้(รวมถึงแต่ไม่จำกัดเพียงคัดลอก กระจาย แสดง จำลอง
+        อัพโหลด ดาวน์โหลด แก้ไข ให้เช่า)โดยไม่ได้รับอนุญาตของ“Pretty Land”
+      </p>
+      <p>
+        สำหรับโลโก้ของ“Pretty Land” ภาพและชุดภาพที่ประกอบกัน รวมถึงเครื่องหมาย
+        สัญลักษณ์
+        ชื่อสินค้าและบริการของ“Pretty Land”ต่างถือเป็นเครื่องหมายการค้าภายในประเทศจีนหรือประเทศอื่นของ“Pretty Land”หรือบริษัทในเครือของ“Pretty Land”
+        ห้ามบุคคลใดแสดง ใช้หรือดำเนินการอื่น
+        หรือแสดงต่อผู้อื่นว่ามีสิทธิในการแสดง ใช้หรือดำเนินการอื่น
+        เว้นแต่ได้รับอนุญาตของ“Pretty Land”ที่เป็นลายลักษณ์อักษร
+      </p>
+      <p>
+        ทาง“Pretty Land”เป็นเจ้าของทรัพย์สินทางปัญญาแต่เพียงผู้เดียวสำหรับเนื้อหาที่“Pretty Land”มีกรรมสิทธิ์
+        เนื้อหาประดิษฐ์และเนื้อหาอื่นที่“Pretty Land”เป็นเจ้าของแต่เพียงผู้เดียวโดยได้รับอนุญาต
+        ห้ามหน่วยงานหรือบุคคลใดส่งต่อ กระจาย
+        ให้บริการรับชมหรือมีการกระทำละเมิดทรัพย์สินทางปัญญาของ“Pretty Land”
+        เว้นแต่ได้รับอนุญาตของ“Pretty Land” มิฉะนั้น
+        ผู้ละเมิดจะต้องรับผิดตามกฎหมายในเรื่องการละเมิดสิทธิ
+      </p>
+      <p>ประการ ๗ 【ร้องเรียนการละเมิดสิทธิ】</p>
+      <p>
+        7.2.1&nbsp;ตามกฎหมายว่าด้วยความรับผิดต่อการละเมิดสิทธิของประเทศจีน
+        ในกรณีที่บุคคลที่สามเห็นว่าผู้ใช้มีการกระทำละเมิดสิทธิประโยชน์ทางแพ่งหรือดำเนินการละเมิดสิทธิผ่าน“Pretty Land”
+        ผู้ถูกละเมิดสิทธิมีสิทธิในการแจ้ง“Pretty Land”เป็นลายลักษณ์อักษรให้ดำเนินการตามความจำเป็น
+        เช่น ลบ บล็อก ตัดลิงค์ เป็นต้น
+      </p>
+      <p>
+        7.2.2&nbsp;ตามระเบียบว่าด้วยการปกป้องสิทธิในการเผยแพร่ต่อสาธารณะผ่านเครือข่ายสารสนเทศ
+        ในกรณีที่บุคคลที่สามเห็นว่าผลงาน การแสดง
+        เทปและวีดีโอใน“Pretty Land”เป็นการละเมิดสิทธิถูกกฎหมายของตน
+        สามารถแจ้งทาง“Pretty Land”เป็นลายลักษณ์อักษรให้ลบเนื้อหาดังกล่าวหรือตัดลิงค์ไป
+        ซึ่งในหนังสือแจ้งนั้นจะต้องประกอบด้วยเนื้อหาดังนี้ ชื่อ-นามสกุล(ชื่อ)
+        วิธีติดต่อและที่อยู่ของเจ้าของสิทธิ ชื่อและลิงค์ของผลงาน การแสดง
+        เทปและวีดีโอที่ต้องการให้ลบหรือตัดลิงค์
+        เอกสารรับรองสิทธิถูกต้องของเจ้าของสิทธิ ทั้งนี้
+        เจ้าของสิทธิจะต้องรับผิดชอบต่อความจริงความถูกต้องของหนังสือแจ้ง
+        หากพบว่าการร้องเรียนไม่เป็นความจริง ผู้ร้องเรียนจะต้องรับผิดตามกฎหมาย
+      </p>
+      <p>
+        7.2.3&nbsp;การร้องเรียนการละเมิดสิทธิจะต้องประกอบด้วยข้อมูลดังนี้
+        เอกสารรับรองสิทธิถูกต้องของผู้ถูกละเมิดสิทธิหรือลิงค์ต้นแบบของผลงานที่ถูกละเมิดสิทธิ
+        รวมถึงเอกสารรับรองเพิ่มเติม
+        ชื่อและลิงค์ของเนื้อหาหรือผลงานที่ถูกละเมิดสิทธิใน“Pretty Land”
+        วิธีติดต่อผู้ร้องเรียนเพื่อทาง“Pretty Land”ติดต่อได้อย่างทันเวลา
+        รวมถึงที่อยู่อีเมล์ หมายเลขโทรศัพท์หรือโทรศัพท์มือถือ
+        ส่วนในเนื้อหาร้องเรียนจะต้องมีคำแถลงดังนี้:&nbsp;ด้วยความซื่อสัตย์
+        ข้าพเจ้ามีหลักฐานพบว่าผู้นี้มีการละเมิดสิทธิถูกกฎหมายของข้าพเจ้า
+        ข้าพเจ้าขอสัญญาว่าข้อมูลที่ร้องเรียนทั้งหมดมีความถูกต้องและเป็นความจริง
+        ข้าพเจ้ายินยอมที่จะรับผิดชอบต่อผลที่ตามมา
+        พร้อมมีลายลือชื่อของผู้ร้องเรียนและระบุวันที่ด้วย
+        ในกรณีที่มอบหมายให้ผู้อื่นดำเนินการร้องเรียน
+        จะต้องมีหนังสือมอบหมายที่มีลายมือชื่อของผู้มอบหมาย
+      </p>
+      <p>
+        7.2.4&nbsp;เพื่อหลีกเลี่ยงความขัดแย้งกัน ผู้ใช้เข้าใจและเห็นด้วยว่า
+        ในระหว่างการให้บริการของ“Pretty Land”
+        ความขัดแย้งทั้งหมดที่เกี่ยวกับทรัพย์สินทางปัญญาอันเกิดจากเนื้อหาใน“Pretty Land”ที่เป็นสาเหตุเดียวนั้น
+        ผู้ใช้จะต้องร่วมแก้ไขความขัดแย้งกับทาง“Pretty Land”เพียงฝ่ายเดียว
+      </p>
+      <p>ประการ ๘ 【ผู้ใช้มีการผิดสัญญาและการดำเนินการ】</p>
+      <p>8.1&nbsp;การพิจารณาการผิดสัญญา</p>
+      <p>ในกรณีดังนี้ ถือว่าท่านได้ทำผิดสัญญา</p>
+      <p>(๑) ฝ่าฝืนกฎหมายกฎระเบียบในระหว่างการใช้บริการของ“Pretty Land”</p>
+      <p>
+        (๒) ฝ่าฝืนข้อตกลงฉบับนี้หรือข้อตกลงเพิ่มเติม(ข้อ
+        2.2&nbsp;ในข้อตกลงฉบับนี้)
+      </p>
+      <p>
+        เพื่อให้สอดคล้องกับการพัฒนาของอุตสาหกรรมอินเตอร์เน็ตและสนองความต้องการของผู้ใช้ในบริการที่มีประสิทธิภาพและคุณภาพสูง{" "}
+        <strong>
+          <strong>
+            ท่านเข้าใจและยอมรับขั้นตอนการและมาตรฐานการพิจารณาการผิดสัญญาที่ตกลงในข้อบังคับของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” อย่างเช่น “</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”สามารถพิจารณาการผิดสัญญาตามความสัมพันธ์ระหว่างข้อมูลผู้ใช้ของท่านกับข้อมูลผู้ใช้ทั่วไป
+            ทั้งนี้
+            ท่านมีหน้าที่เสนอหลักฐานที่เพียงพอและคำอธิบายที่สมเหตุสมผลสำหรับความผิดปกติทางข้อมูลของท่าน
+            มิฉะนั้น จะถูกพิจารณาว่าเป็นการผิดสัญญา
+          </strong>
+        </strong>
+      </p>
+      <p>8.2&nbsp;การดำเนินการ</p>
+      <p>
+        ในกรณีที่เนื้อหาและข้อมูลที่ท่านได้เปิดเผยใน“Pretty Land”นั้นมีการผิดสัญญา
+        ทาง“Pretty Land”จะดำเนินการลบหรือบล็อกเนื้อหาและข้อมูลดังกล่าวทันที
+        หรืองดให้บริการชั่วคราว ปิด ระงับบัญชีของท่าน หรือลบของขวัญเสมือน
+        เพิกถอนบัญชี เป็นต้น
+        สำหรับการกระทำของท่านที่กระทำใน“Pretty Land”หรือแม้ไม่ได้กระทำใน“Pretty Land”แต่มีผลกระทบต่อ“Pretty Land”และผู้ใช้ของ“Pretty Land”มีการผิดสัญญา
+        ทาง“Pretty Land”จะจำกัดสิทธิในการร่วมกิจกรรมของบัญชีท่านและงดให้บริการบางส่วนหรือทั้งหมด(เช่น
+        ปิดห้องโชว์เสมือน ระงับหรือลบของขวัญเสมือน หักค่าปรับจากการผิดสัญญา
+        เป็นต้น){" "}
+        <strong>
+          <strong>ในกรณีที่ท่านทำผิดสัญญาในข้อพื้นฐาน ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะปิดบัญชีของท่านและยกเลิกการให้บริการต่อท่าน เมื่อท่านถูกปิดบัญชี
+            สินค้าเสมือนในบัญชีของท่านจะถูกลบไป
+            ส่วนบริการด้านสินค้าเสมือนกูกยกเลิกด้วย
+          </strong>
+        </strong>
+      </p>
+      <p>
+        ในกรณีที่การกระทำของท่านที่กระทำใน“Pretty Land”เป็นการฝ่าฝืนกฎหมายกฎระเบียบ
+        ทาง“Pretty Land”จะรายงานต่อหน่วยงานทางราชการที่เกี่ยวข้องพร้อมยื่นส่งประวัติการใช้บริการและข้อมูลอื่น{" "}
+        <strong>
+          <strong>ในขณะเดียวกัน ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะประกาศข้อมูลการดำเนินการสำหรับการกระทำดังกล่าวและข้อมูลการฝ่าฝืนกฎหมายตามเอกสารทางกฎหมายจากหน่วยงานทางราชการหรือตุลาการไว้ใน“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>” นอกจากนี้ ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะบันทึกท่านไว้ในรายชื่อดำและดำเนินการด้านเครดิตตามกฎหมายกำหนด
+            รวมถึงการจัดการและบริการที่เชื่อมโยงกับระดับเครดิต
+            หากท่านถูกบันทึกไว้ในรายชื่อดำ ทาง“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”มีสิทธิในการห้ามลงทะเบียนบัญชีใหม่และรายงานต่อหน่วยงานที่เกี่ยวข้องทันที
+          </strong>
+        </strong>
+      </p>
+      <p>8.3&nbsp;การชดใช้</p>
+      <p>
+        ในกรณีที่การกระทำของท่านก่อให้“Pretty Land”และ/หรือบริษัทในเครือได้รับความเสียหาย(รวมแต่ไม่จำกัดเพียงความเสียหายทางการเงินโดยตรงและทางค่าความนิยมของตน
+        ความเสียหายทางการเงินโดยอ้อม เช่น ค่าชดใช้ ค่าไกล่เกลี่ย ค่าทนายความ
+        ค่าดำเนินคดีที่ชำระแก่บุคคลภายนอก)
+        ท่านจะต้องชดใช้ความเสียหายทั้งหมดของ“Pretty Land”และ/หรือบริษัทในเครือ
+        ในกรณีที่การกระทำของท่านทำให้“Pretty Land”และ/หรือบริษัทในเครือถูกบุคคลที่สาม
+        ร้องเรียนการละเมิดสิทธิ
+        ทาง“Pretty Land”และ/หรือบริษัทในเครือจะเรียกความเสียหายทั้งหมดจากท่านหลังจากได้ชำระเงินต่อบุคคลที่สามดังกล่าว
+      </p>
+      <p>8.4&nbsp;การยินยอม</p>
+      <p>
+        ทาง“Pretty Land”จะให้บริการในสถานะ“ตามสภาพปัจจุบัน”และ“จะได้รับ” ทั้งนี้
+        แม้ทาง“Pretty Land”จะต้องปฏิบัติหน้าที่ตามกฎหมาย
+        แต่ไม่สามารถรับผิดชอบต่อความเสียหายของท่านอันเกิดจากการบำรุงรักษาอุปกรณ์เครือข่ายสารสนเทศ
+        ปัญหาการเชื่อมต่อ
+        ความขัดข้องของคอมพิวเตอร์หรือระบบการสื่อสารหรือระบบอื่น
+        การกระทำของนักเลงคอมพิวเตอร์ ไวรัสคอมพิวเตอร์ ปัญหาระบบไฟฟ้า
+        การนัดหยุดงาน การจลาจล ไฟไหม้ อุทกภัย พายุ การวางระเบิด สงคราม
+        การกระทำทางรัฐบาล คำสั่งของหน่วยงานราชการหรือตุลาการ
+        หรือสาเหตุจากบุคคลที่สาม
+      </p>
+      <p>
+        เนื่องจากทาง“Pretty Land”ดูแลและเสนอบริการของ“Pretty Land”ผ่านเครื่องอุปกรณ์ภายในประเทศจีน
+        และไม่รับรองว่าบริการที่ดูแลหรือเสนอนั้นมีความเหมาะสมและความเป็นไปได้ในภูมิภาคหรือประเทศอื่นๆ
+        ดังนั้น
+        ผู้ใช้ที่ใช้บริการของ“Pretty Land”นอกพื้นที่จะต้องปฏิบัติตามกฎหมายกฎระเบียนของท้องถิ่น
+        ทาง“Pretty Land”จะไม่รับผิดชอบใดๆ ทั้งสิ้น
+      </p>
+      <p>ประการ ๙ 【การเปลี่ยนแปลงข้อตกลง】</p>
+      <p>
+        ทาง“Pretty Land”สามารถแก้ไขข้อตกลงฉบับนี้ ข้อตกลงเพิ่มเติม
+        ข้อตกลงกับข้อตกลงเพิ่มเติมที่หลังการเปลี่ยนแปลง(ต่อไปเรียกว่า“รายการเปลี่ยน”)ตามกฎหมายกฎระเบียบและบริการของ“Pretty Land”ที่เปลี่ยนแปลงไป
+        และแจ้งให้ท่านทราบด้วยวิธีที่ได้ตกลงไว้ในประการ ๑๐ ของข้อตกลงฉบับนี้
+        เนื้อหาในข้อตกลงที่หลังการเปลี่ยนแปลงจะแทนที่ของข้อตกลงฉบับเดิมหลังจากมีการประกาศการเปลี่ยนแปลง
+      </p>
+      <p>
+        <strong>
+          <strong>
+            หากท่านไม่เห็นด้วยในรายการเปลี่ยนแปลง โปรดงดใช้บริการของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ตั้งแต่วันที่รายการเปลี่ยนแปลงมีผลบังคับใช้
+            ในกรณีที่ท่านยังใช้บริการของ“
+          </strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”ต่อไปหลังจากรายการเปลี่ยนแปลงมีผลบังคับใช้
+            ให้ถือว่าท่านได้เห็นด้วยกับรายการเปลี่ยนแปลงที่มีผลบังคับใช้ดังกล่าว
+          </strong>
+        </strong>
+      </p>
+      <p>ประการ ๑๐ 【การแจ้งเตือน】</p>
+      <p>ท่านได้อนุญาตทาง“Pretty Land”ส่งข้อความแจ้งเตือนถึงท่านในรูปแบบดังนี้</p>
+      <p>(๑) คำประกาศ</p>
+      <p>(๒) ข้อความในเว็บไซต์ ข้อความป๊อปอัพ ข้อความจากไคลเอนต์</p>
+      <p>
+        (๓) อีเมล์
+        ข้อความSMS&nbsp;จดหมายที่ส่งตามวิธีติดต่อที่ท่านได้ให้ไว้ใน“Pretty Land”
+      </p>
+      <p>
+        <strong>
+          <strong>ทาง“</strong>
+        </strong>
+        <strong>
+          <strong>Pretty Land</strong>
+        </strong>
+        <strong>
+          <strong>
+            ”จะส่งข้อความแจ้งเตือนในรูปแบบดังกล่าว
+            เมื่อส่งไปเรียบร้อยให้ถือว่าได้ส่งถึงท่านแล้ว
+            สำหรับหนังสือแจ้งเตือนที่เป็นลายลักษณ์อักษร ให้ถือวันที่{" "}
+          </strong>
+        </strong>
+        <strong>
+          <strong>5</strong>
+        </strong>
+        <strong>
+          <strong>
+            &nbsp;หลังจากส่งทางไปรษณีย์ตามที่อยู่ที่ท่านให้ไว้เป็นวันที่ส่งถึงเรียบร้อย
+          </strong>
+        </strong>
+      </p>
+      <p>
+        สำหรับข้อพิพาทอันเกิดจากการซื้อขายในทาง“Pretty Land”
+        ท่านอนุญาตหน่วยงานทางตุลาการ(รวมถึงแต่ไม่จำกัดเพียงศาลประชาชน)จัดส่งเอกสารทางกฎหมาย(รวมถึงแต่ไม่จำกัดเพียงเอกสารฟ้องคดี)ด้วยวิธีการสื่อสารยุคปัจจุบัน
+        เช่น ข้อความSMS&nbsp;อีเมล์หรือทางไปรษณีย์
+        ซึ่งวิธีติดต่อที่ท่านใช้รับเอกสารทางกฎหมาย เช่น หมายเลขโทรศัพท์มือถือ
+        ที่อยู่อีเมล์
+        จะเป็นวิธีติดต่อที่ท่านให้ไว้ในการลงทะเบียน“Pretty Land”หรือการปรับให้เป็นปัจจุบัน
+        เมื่อหน่วยงานทางตุลาการได้จัดส่งเอกสารทางกฎหมายตามวิธีติดต่อดังกล่าว
+        ให้ถือว่าได้ส่งถึงท่านเป็นที่เรียบร้อย
+        ส่วนที่อยู่ทางไปรษณีย์ที่ท่านตกลงใช้นั้นจะต้องเป็นที่อยู่ตามกฎหมายหรือที่อยู่ถูกต้องที่ท่านได้ให้ไว้
+      </p>
+      <p>
+        ท่านอนุญาตหน่วยงานทางตุลาการใช้หนึ่งหรือหลายวิธีดังกล่าวในการจัดส่งเอกสารทางกฎหมายถึงท่าน
+        ในกรณีที่หน่วยงานทางตุลาการใช้หลายวิธีในการจัดส่งเอกสารทางกฎหมายถึงท่าน
+        ให้ถือวันที่ส่งถึงก่อนวันนั้นเป็นวันที่ส่งถึง
+      </p>
+      <p>
+        ท่านอนุญาตใช้วิธีการจัดส่งดังกล่าวในทุกกระบวนการทางศาล อย่างเช่น
+        การฟ้องคดี รวมถึงแต่ไม่จำกัดเพียงกระบวนการทางศาลชั้นต้น ศาลอุทธรณ์
+        ศาลฏีกา การดำเนินการตามคำพิพากษา การควบคุมดูแล เป็นต้น
+      </p>
+      <p>
+        <strong>
+          <strong>
+            ท่านจะต้องรับรองว่าวิธีติดต่อที่ให้ไว้มีความถูกต้องและจะปรับให้เป็นปัจจุบันตลอดเวลา
+            หากไม่สามารถจัดส่งเอกสารทางกฎหมายหรือจัดส่งไม่ทันเนื่องจากวิธีติดต่อที่ท่านได้ให้ไว้ไม่ชัดเจนหรือท่านไม่ได้แจ้งวิธีติดต่อหลังเปลี่ยนใหม่อย่างทันเวลา
+            ท่านจะต้องรับผิดชอบต่อผลทางกฎหมายที่อาจเกิดขึ้นตามมา
+          </strong>
+        </strong>
+      </p>
+      <p>ประการ ๑๑ 【การบอกเลิกข้อตกลง/บริการ】</p>
+      <p>11.1&nbsp;กรณีการบอกเลิก</p>
+      <p>ท่านมีสิทธิบอกเลิกข้อตกลงฉบับนี้ด้วยวิธีดังนี้</p>
+      <p>
+        (๑)
+        เพิกถอนบัญชีของท่านผ่านเว็บไซต์ในเมื่อถูกต้องตามเงื่อนไขการเพิกถอนบัญชีที่ได้ประกาศในเว็บไซต์ของ“Pretty Land”
+      </p>
+      <p>
+        (๒)
+        ท่านได้งดใช้บริการและแสดงความไม่เห็นด้วยกับรายการเปลี่ยนแปลงอย่างชัดเจนก่อนรายการเปลี่ยนมีผลบังคับใช้
+      </p>
+      <p>
+        (๓) ท่านได้แสดงอย่างชัดเจนว่าจะไม่ใช้บริการของ“Pretty Land”อีกต่อไป
+        และถูกต้องตามเงื่อนไขการบอกเลิกของ“Pretty Land”
+      </p>
+      <p>
+        ในกรณีดังนี้
+        ทาง“Pretty Land”สามารถแจ้งบอกเลิกข้อตกลงฉบับนี้ด้วยวิธีที่ระบุในประการ ๑๐
+        ของข้อตกลงฉบับนี้
+      </p>
+      <p>
+        (๑) ท่านมีการฝ่าฝืนข้อตกลงฉบับนี้
+        ทาง“Pretty Land”จะบอกเลิกข้อตกลงฉบับนี้ตามข้อบังคับเกี่ยวกับการผิดสัญญา
+      </p>
+      <p>
+        (๒) ท่านมีการโอนบัญชีของตน ขโมยบัญชีของผู้อื่น
+        เสนอข้อมูลเป็นเท็จในการลงทะเบียน เปิดเผยเนื้อหาและข้อมูลต้องห้าม
+        หลอกลวงโกงทรัพย์สินของผู้อื่น แสดงหาผลประโยชน์ด้วยวิธีที่ไม่ถูกต้อง
+        ทาง“Pretty Land”จะดำเนินการปิดบัญชีของท่านตามข้อบังคับของ“Pretty Land”
+      </p>
+      <p>
+        (๓) นอกจากกรณีดังกล่าว
+        ท่านมีการฝ่าฝืนข้อบังคับของ“Pretty Land”หลายครั้งอย่างรุนแรง
+        ทาง“Pretty Land”จะดำเนินการปิดบัญชีของท่านตามข้อบังคับของ“Pretty Land”
+      </p>
+      <p>(๔) บัญชีของท่านถูกทาง“Pretty Land”เพิกถอนตามข้อตกลงฉบับนี้</p>
+      <p>
+        (๕)
+        ท่านมีการละเมิดสิทธิประโยชน์ของผู้อื่นหรือการกระทำที่ผิดกฎหมายหรือฝ่าฝืนข้อตกลงอย่างรุนแรง
+      </p>
+      <p>(๖) กรณีอื่นที่ทาง“Pretty Land”จะต้องหยุดบริการตามกฎหมายกฎระเบียบกำหนด</p>
+      <p>11.2&nbsp;การดำเนินการหลังบอกเลิกข้อตกลง</p>
+      <p>
+        หลังการบอกเลิกข้อตกลงฉบับนี้
+        &nbsp;ทาง“Pretty Land”ไม่มีหน้าที่ในการเปิดเผยข้อมูลใดในบัญชีท่านต่อท่านหรือบุคคลที่สามที่ท่านมอบหมาย
+        เว้นแต่กฎหมายมีการกำหนดไว้อย่างชัดเจน
+      </p>
+      <p>หลังการบอกข้อตกลงฉบับนี้ ทาง“Pretty Land”มีสิทธิดังนี้</p>
+      <p>
+        (๑) งดเก็บและใช้ข้อมูลส่วนตัวของท่าน
+        แต่สามารถจัดเก็บเนื้อหาและข้อมูลอื่นที่ท่านได้บันทึกไว้ใน“Pretty Land”
+      </p>
+      <p>
+        (๒) สำหรับการกระทำผิดสัญญาที่ท่านเคยกระทำ
+        ทาง“Pretty Land”สามารถเรียกร้องความรับผิดชอบต่อการผิดสัญญาตามข้อตกลงฉบับนี้
+      </p>
+      <p>ประการ ๑๒ 【การใช้กฎหมาย เขตอำนาจและอื่นๆ】</p>
+      <p>
+        สำหรับการจัดทำ มีผลบังคับใช้ อธิบาย แก้ไข เพิ่มเติม ยกเลิก
+        ปฏิบัติและไกล่เกลี่ยข้อพิพาทเกี่ยวกับข้อตกลงฉบับนี้
+        ให้ใช้กฎหมายของจีนแผ่นดินใหญ่ ในกรณีที่ไม่มีข้อกำหนดทางกฎหมาย
+        ให้ดำเนินการตามธรรมเนียมปฏิบัติในการดำเนินธุรกิจและ/หรือในวงการ
+      </p>
+      <p>
+        สำหรับข้อพิพาทที่เกี่ยวกับบริการของ“Pretty Land”อันเกิดจากการใช้บริการของ“Pretty Land”
+        ทาง“Pretty Land”จะดำเนินการไกล่เกลี่ยกับท่าน หากไม่สามารถยุติข้อพิพาท
+        ฝ่ายใดฝ่ายหนึ่งสามารถฟ้องคดีต่อศาลประชาชนที่เขตพัฒนาไฮเทคตงหูเมืองอู่ฮั่น
+      </p>
+      <p>
+        เมื่อข้อใดในข้อตกลงฉบับนี้ถูกยกเลิก เป็นโมฆะหรือไม่สามารถปฏิบัติได้
+        ข้อนั้นถือเป็นเนื้อหาที่แยกออกข้อตกลงฉบับนี้ได้
+        จะไม่ส่งผลต่อผลบังคับใช้และความพร้อมในการปฏิบัติของข้ออื่นในข้อตกลงฉบับนี้
+      </p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
     </div>
   )
 }

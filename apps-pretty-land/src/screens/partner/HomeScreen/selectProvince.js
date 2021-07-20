@@ -11,7 +11,7 @@ import DropDownPicker from "react-native-dropdown-picker"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 import { getCountryList, getProvinceName } from "../../../data/apis"
-import bgImage from "../../../../assets/bg.png"
+import { AppConfig } from "../../../Constants"
 
 const SelectProvince = (props) => {
   const { navigation, route } = props
@@ -38,16 +38,16 @@ const SelectProvince = (props) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ flex: 1, height: "100%" }}>
         <View style={styles.cardDetail}>
           <Text style={[styles.optionsNameDetail, { marginBottom: 10 }]}>
             เลือกจังหวัด
           </Text>
-          <Text> ประเภท: {partnerRequest}</Text>
+          <Text> โหมดงาน: {partnerRequest}</Text>
           <DropDownPicker
             placeholder="-- เลือกจังหวัด --"
             open={openSelectCountry}

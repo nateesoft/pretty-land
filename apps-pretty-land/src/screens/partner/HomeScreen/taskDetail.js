@@ -9,9 +9,8 @@ import {
 import { Button } from "react-native-elements"
 import Moment from "moment"
 
-import bgImage from "../../../../assets/bg.png"
-
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 import { Alert } from "react-native"
 
@@ -34,22 +33,20 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`posts/${postDetail.id}/partnerSelect/${profile.id}`)
-    const listener = ref.on("value", (snapshot) => {
+      .ref(getDocument(`posts/${postDetail.id}/partnerSelect/${profile.id}`))
+    ref.once("value", (snapshot) => {
       getProfileSelectObject(snapshot).catch((err) => Alert.alert(err))
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>รายละเอียดโพสท์ของลูกค้า</Text>
+        <Text style={styles.textTopic}>รายละเอียดโพสท์</Text>
         <View style={styles.cardDetail}>
           <View>
             <Text
@@ -57,7 +54,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 marginBottom: 5,
               }}
             >
-              จำนวนPartner ที่ต้องการ: {postDetail.partnerWantQty || 0} คน
+              จำนวนน้องๆที่ต้องการ: {postDetail.partnerWantQty || 0} คน
             </Text>
             <Text
               style={{
@@ -136,7 +133,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 paddingHorizontal: 10,
               }}
             >
-              Status: เสนอราคาไปแล้ว รอลูกค้าตอบรับ
+              Status: กำหนดค่าเดินทางไปแล้ว
             </Text>
           )}
         </View>

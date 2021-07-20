@@ -11,10 +11,10 @@ import {
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 
-import bgImage from "../../../../assets/bg.png"
 import CardNotfound from "../../../components/CardNotfound"
 import firebase from "../../../../util/firebase"
-import { snapshotToArray } from "../../../../util"
+import { snapshotToArray, getDocument } from "../../../../util"
+import { AppConfig } from '../../../Constants'
 
 const AdminAllListScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false)
@@ -23,9 +23,9 @@ const AdminAllListScreen = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref("members")
+      .ref(getDocument("members"))
       .orderByChild("status_priority")
-    const listener = ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const memberInCloud = snapshotToArray(snapshot)
       setMembers(
         memberInCloud.filter(
@@ -34,8 +34,6 @@ const AdminAllListScreen = ({ navigation, route }) => {
         )
       )
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   const handleRefresh = () => {}
@@ -78,28 +76,13 @@ const AdminAllListScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground
-      source={bgImage}
+      source={AppConfig.bgImage}
       style={styles.imageBg}
-      resizeMode="stretch"
+      resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>Admin ในระบบทั้งหมด</Text>
         <View style={styles.container}>
-          {/* <View style={{ width: "90%", alignSelf: "center", zIndex: 1 }}>
-            <DropDownPicker
-              placeholder="เลือกประเภทสมาชิก"
-              open={openSelectPartner}
-              setOpen={setOpenSelectPartner}
-              value={partner}
-              setValue={setPartner}
-              items={partnerList}
-              setItems={setPartnerList}
-              style={styles.dropdownStyle}
-              textStyle={{ fontSize: 18 }}
-              searchable={false}
-              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-            />
-          </View> */}
           {members.length === 0 && (
             <CardNotfound text="ไม่พบข้อมูลสมาชิกในระบบ" />
           )}
