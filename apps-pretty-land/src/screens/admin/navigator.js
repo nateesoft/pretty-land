@@ -1,10 +1,10 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import {
   Ionicons,
   MaterialIcons,
   Feather,
-  MaterialCommunityIcons,
+  MaterialCommunityIcons
 } from "@expo/vector-icons"
 
 /* all screen */
@@ -15,11 +15,65 @@ import SettingsNavigator from "./SettingsScreen/navigator"
 
 /* Logout */
 import LogoutScreen from "../logout"
+import firebase from "../../../util/firebase"
+import { snapshotToArray } from "../../../util"
+import { Alert } from "react-native"
+import { AppConfig } from "../../Constants"
 
 const Tab = createBottomTabNavigator()
 
 const AdminNavigator = ({ navigation, route }) => {
   const { userId, screen } = route.params
+  const [memberCount, setMemberCount] = useState(0)
+  const [postCount, setPostCount] = useState(null)
+
+  const countOfMemberNew = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const data = snapshotToArray(snapshot)
+      let count = 0
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].status === AppConfig.MemberStatus.newRegister) {
+          count = count + 1
+        }
+      }
+      setMemberCount(count)
+      resolve(true)
+    })
+  }
+
+  const countOfPostNew = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const data = snapshotToArray(snapshot)
+      let count = 0
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].status === AppConfig.PostsStatus.customerNewPostDone) {
+          count = count + 1
+        }
+      }
+      setPostCount(count)
+      resolve(true)
+    })
+  }
+
+  useEffect(() => {
+    const ref = firebase
+      .database()
+      .ref(`members`)
+      .orderByChild("memberType")
+      .equalTo("partner")
+    const listener = ref.on("value", (snapshot) => {
+      countOfMemberNew(snapshot).catch((err) => Alert.alert(err))
+    })
+    return () => ref.off("value", listener)
+  }, [])
+
+  useEffect(() => {
+    const ref = firebase.database().ref("posts")
+    const listener = ref.on("value", (snapshot) => {
+      countOfPostNew(snapshot).catch((err) => Alert.alert(err))
+    })
+    return () => ref.off("value", listener)
+  }, [])
 
   return (
     <Tab.Navigator
@@ -27,8 +81,8 @@ const AdminNavigator = ({ navigation, route }) => {
         activeTintColor: "purple",
         inactiveTintColor: "white",
         style: {
-          backgroundColor: "#ff2fe6",
-        },
+          backgroundColor: "#ff2fe6"
+        }
       }}
     >
       <Tab.Screen
@@ -39,6 +93,7 @@ const AdminNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="fact-check" color="white" size={size} />
           ),
+          tabBarBadge: postCount ? postCount : null
         }}
         initialParams={{ userId }}
       />
@@ -50,6 +105,7 @@ const AdminNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <Feather name="users" color="white" size={size} />
           ),
+          tabBarBadge: memberCount ? memberCount : null
         }}
         initialParams={{ userId }}
       />
@@ -64,7 +120,7 @@ const AdminNavigator = ({ navigation, route }) => {
               color="white"
               size={size}
             />
-          ),
+          )
         }}
         initialParams={{ userId }}
       />
@@ -76,7 +132,7 @@ const AdminNavigator = ({ navigation, route }) => {
             title: "ตั้งค่าระบบ",
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="md-settings-outline" color="white" size={size} />
-            ),
+            )
           }}
           initialParams={{ userId }}
         />
@@ -88,7 +144,7 @@ const AdminNavigator = ({ navigation, route }) => {
           title: "Logout",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="logout" color="white" size={size} />
-          ),
+          )
         }}
         initialParams={{ userId }}
       />
