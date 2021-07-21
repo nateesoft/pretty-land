@@ -200,9 +200,6 @@ export default function PartnerImage({ navigation, route }) {
             <Text style={{ fontSize: 16 }}>
               ราคาที่เสนอ: {partnerItem.amount} บาท
             </Text>
-            <Text style={{ fontSize: 12, color: "blue" }}>
-              (* ราคาที่เสนอยังไม่รวมค่าดำเนินการ)
-            </Text>
           </View>
           <View
             style={{

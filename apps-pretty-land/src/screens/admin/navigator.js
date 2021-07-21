@@ -25,7 +25,6 @@ const Tab = createBottomTabNavigator()
 const AdminNavigator = ({ navigation, route }) => {
   const { userId, screen } = route.params
   const [memberCount, setMemberCount] = useState(0)
-  const [postCount, setPostCount] = useState(null)
 
   const countOfMemberNew = (snapshot) => {
     return new Promise((resolve, reject) => {
@@ -41,20 +40,6 @@ const AdminNavigator = ({ navigation, route }) => {
     })
   }
 
-  const countOfPostNew = (snapshot) => {
-    return new Promise((resolve, reject) => {
-      const data = snapshotToArray(snapshot)
-      let count = 0
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].status === AppConfig.PostsStatus.customerNewPostDone) {
-          count = count + 1
-        }
-      }
-      setPostCount(count)
-      resolve(true)
-    })
-  }
-
   useEffect(() => {
     const ref = firebase
       .database()
@@ -63,14 +48,6 @@ const AdminNavigator = ({ navigation, route }) => {
       .equalTo("partner")
     const listener = ref.on("value", (snapshot) => {
       countOfMemberNew(snapshot).catch((err) => Alert.alert(err))
-    })
-    return () => ref.off("value", listener)
-  }, [])
-
-  useEffect(() => {
-    const ref = firebase.database().ref("posts")
-    const listener = ref.on("value", (snapshot) => {
-      countOfPostNew(snapshot).catch((err) => Alert.alert(err))
     })
     return () => ref.off("value", listener)
   }, [])
@@ -93,7 +70,6 @@ const AdminNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="fact-check" color="white" size={size} />
           ),
-          tabBarBadge: postCount ? postCount : null
         }}
         initialParams={{ userId }}
       />

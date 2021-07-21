@@ -14,7 +14,7 @@ import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 import { Alert } from "react-native"
 
-const Category = ({ navigation, route }) => {
+const PartnerDashboard = ({ navigation, route }) => {
   const { userId } = route.params
   const [items, setItems] = useState([])
   const [profile, setProfile] = useState({})
@@ -210,4 +210,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Category
+export default PartnerDashboard

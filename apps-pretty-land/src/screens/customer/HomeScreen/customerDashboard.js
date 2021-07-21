@@ -13,7 +13,7 @@ import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
-const PartnerCategory = ({ navigation, route }) => {
+const CustomerDashboard = ({ navigation, route }) => {
   const { userId } = route.params
   const [items, setItems] = useState([])
   const [appconfigMaster, setAppConfigMaster] = useState({})
@@ -229,4 +229,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default PartnerCategory
+export default CustomerDashboard
