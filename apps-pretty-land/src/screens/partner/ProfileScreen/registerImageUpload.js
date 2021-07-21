@@ -136,12 +136,12 @@ const RegisterImageUpload = ({ navigation, route }) => {
 
   const uploadAllImageVideo = () => {
     if (
-      !imageUrl1 &&
-      !imageUrl2 &&
-      !imageUrl3 &&
-      !imageUrl4 &&
-      !imageUrl5 &&
-      !imageUrl6
+      !imageFile1 &&
+      !imageFile2 &&
+      !imageFile3 &&
+      !imageFile4 &&
+      !imageFile5 &&
+      !imageFile6
     ) {
       Alert.alert(
         "กรุณาเพิ่มรูปให้ครบ 5 รูป และวิดีโอ 1 คลิป ก่อนบันทึกข้อมูล !!!"

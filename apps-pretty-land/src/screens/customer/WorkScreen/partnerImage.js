@@ -280,7 +280,7 @@ export default function PartnerImage({ navigation, route }) {
               />
             </View>
           )}
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ScrollView showsHorizontalScrollIndicator={false}>
             {images.map((item, index) =>
               item.url ? (
                 <TouchableNativeFeedback

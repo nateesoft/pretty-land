@@ -6,12 +6,12 @@ import {
   Alert,
   StyleSheet,
   TouchableHighlight,
+  Image,
   FlatList
 } from "react-native"
 import { Text } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
-import RadioButtonRN from "radio-buttons-react-native"
-import { FontAwesome } from "react-native-vector-icons"
+import RadioForm from "react-native-simple-radio-button"
 
 import { getCountryList, getDistrictList } from "../../../data/apis"
 import { AppConfig } from "../../../Constants"
@@ -20,9 +20,9 @@ import { getDocument } from "../../../../util"
 import CardNotfound from "../../../components/CardNotfound"
 
 const sexData = [
-  { label: "ชาย (Male)", value: "male" },
-  { label: "หญิง (Female)", value: "female" },
-  { label: "อื่น ๆ (Other)", value: "other" }
+  { label: "ชาย   ", value: "male" },
+  { label: "หญิง   ", value: "female" },
+  { label: "อื่น ๆ   ", value: "other" }
 ]
 
 const SelectProvinceType4 = (props) => {
@@ -56,13 +56,6 @@ const SelectProvinceType4 = (props) => {
     navigation.navigate("Partner-Image", {
       data
     })
-    // navigation.navigate("Time-Price-Form", {
-    //   item,
-    //   province,
-    //   userId,
-    //   partnerRequest,
-    //   partnerProfile
-    // })
   }
 
   const getPartnerQty = (sexType) => {
@@ -108,89 +101,107 @@ const SelectProvinceType4 = (props) => {
 
   const renderItem = ({ item }) => {
     return (
-      <ImageBackground
-        source={{ uri: item.image }}
-        style={{
-          width: 200,
-          height: 280,
-          margin: 15,
-          padding: 15
-        }}
-        resizeMode="cover"
-      >
-        <TouchableHighlight onPress={() => nextStep(item)} underlayColor={null}>
+      <TouchableHighlight onPress={() => nextStep(item)} underlayColor={null}>
+        <View
+          style={{
+            margin: 5
+          }}
+        >
+          <Image
+            source={{ uri: item.image }}
+            style={{ width: 200, height: 250, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
+          />
           <View
             style={{
+              padding: 5,
+              backgroundColor: "#b8256e",
+              borderRadius: 7,
               alignItems: "center",
-              borderRadius: 5,
-              height: "100%",
-              width: "100%"
+              position: "absolute",
+              bottom: 85,
+              zIndex: 2,
+              opacity: 0.8
             }}
           >
-            <Text
-              style={{
-                color: "white",
-                fontSize: 14,
-                fontWeight: "bold",
-                backgroundColor: "red",
-                position: "absolute",
-                bottom: 38,
-                left: -5,
-                opacity: 0.65
-              }}
-            >
-              ชื่อ: {item.name} อายุ: {item.age}
-            </Text>
-            {appconfig.show_price && (
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 16,
-                  fontWeight: "bold",
-                  backgroundColor: "purple",
-                  position: "absolute",
-                  left: -10,
-                  opacity: 0.8
-                }}
-              >
-                ค่านวดแผนไทย: {item.price4}
-              </Text>
-            )}
-            <Text
-              style={{
-                color: "white",
-                fontSize: 16,
-                fontWeight: "bold",
-                backgroundColor: "black",
-                position: "absolute",
-                left: -10,
-                top: 25,
-                opacity: 0.5
-              }}
-            >
-              เพศ: {item.sex}
-            </Text>
-            <Text
-              style={{
-                color: "white",
-                fontSize: 18,
-                fontWeight: "bold",
-                backgroundColor: "green",
-                position: "absolute",
-                bottom: 0,
-                width: "100%",
-                textAlign: "center",
-                alignContent: "center",
-                padding: 5,
-                opacity: 0.6,
-                left: -5
-              }}
-            >
-              สถานที่: {item.address}
+            <Text style={{ fontSize: 18, fontWeight: "bold", color: "white" }}>
+              ฿ {item.price4}
             </Text>
           </View>
-        </TouchableHighlight>
-      </ImageBackground>
+          <View
+            style={{
+              flex: 0.5,
+              flexDirection: "row",
+              backgroundColor: "#fe9fbf",
+              width: "100%",
+              height: 80,
+              bottom: 0
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                alignItems: "flex-start",
+                margin: 5
+              }}
+            >
+              <Text
+                style={{
+                  flex: 0.5,
+                  color: "red",
+                  fontSize: 18,
+                  fontWeight: "bold"
+                }}
+              >
+                {item.name}
+              </Text>
+              <Text
+                style={{
+                  flex: 0.5,
+                  color: "green",
+                  fontSize: 18,
+                  fontWeight: "bold"
+                }}
+              >
+                {item.address}
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                alignItems: "flex-start",
+                margin: 5
+              }}
+            >
+              <Text
+                style={{
+                  flex: 0.5,
+                  color: "red",
+                  fontSize: 18,
+                  fontWeight: "bold"
+                }}
+              >
+                อายุ: {item.age}
+              </Text>
+              <Text
+                style={{
+                  flex: 0.5,
+                  color: "black",
+                  fontSize: 18,
+                  fontWeight: "bold"
+                }}
+              >
+                {item.sex == "female"
+                  ? "หญิง"
+                  : item.sex == "male"
+                  ? "ชาย"
+                  : "อื่นๆ"}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </TouchableHighlight>
     )
   }
 
@@ -205,25 +216,6 @@ const SelectProvinceType4 = (props) => {
           <Text style={[styles.optionsNameDetail, { marginBottom: 10 }]}>
             {item.name}
           </Text>
-        </View>
-        <View
-          style={{
-            borderWidth: 1,
-            width: "80%",
-            borderRadius: 10,
-            borderColor: "#ff2fe6",
-            marginTop: 10
-          }}
-        >
-          <RadioButtonRN
-            box={false}
-            animationTypes={["shake"]}
-            data={sexData}
-            selectedBtn={(e) => handleChangeSex(e.value)}
-            icon={<FontAwesome name="check-circle" size={25} color="#2c9dd1" />}
-            initial={sex === "male" ? 1 : sex === "female" ? 2 : 3}
-            style={{ padding: 10 }}
-          />
         </View>
         <View style={{ marginTop: 10, zIndex: 2 }}>
           <DropDownPicker
@@ -276,6 +268,12 @@ const SelectProvinceType4 = (props) => {
             </View>
           )}
         </View>
+        <RadioForm
+          radio_props={sexData}
+          labelHorizontal={true}
+          formHorizontal={true}
+          onPress={(value) => handleChangeSex(value)}
+        />
         {partnerList.length === 0 && (
           <CardNotfound text={`ไม่พบข้อมูล ${item.name}`} />
         )}

@@ -210,17 +210,18 @@ const styles = StyleSheet.create({
   },
   badgeContainer: {
     position: "absolute",
-    right: 15,
-    top: 20,
-    zIndex: 2
+    right: 13,
+    top: 17,
+    zIndex: 2,
   },
   badge: {
-    color: "white",
+    color: "black",
     alignSelf: "center",
     justifyContent: "center",
     padding: 10,
-    backgroundColor: "red",
-    fontWeight: "bold"
+    backgroundColor: "rgb(70, 240, 238)",
+    fontWeight: "bold",
+    fontSize: 32,
   }
 })
 

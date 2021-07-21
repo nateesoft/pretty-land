@@ -69,7 +69,7 @@ const AdminNavigator = ({ navigation, route }) => {
           title: "โพสท์ทั้งหมด",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="fact-check" color="white" size={size} />
-          ),
+          )
         }}
         initialParams={{ userId }}
       />
@@ -81,7 +81,8 @@ const AdminNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <Feather name="users" color="white" size={size} />
           ),
-          tabBarBadge: memberCount ? memberCount : null
+          tabBarBadge: memberCount ? memberCount : null,
+          tabBarBadgeStyle: { backgroundColor: "rgb(70, 240, 238)" }
         }}
         initialParams={{ userId }}
       />
