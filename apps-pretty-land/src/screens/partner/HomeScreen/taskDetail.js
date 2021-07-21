@@ -133,7 +133,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 paddingHorizontal: 10,
               }}
             >
-              Status: กำหนดค่าเดินทางไปแล้ว
+              Status: กำหนดค่าบริการไปแล้ว
             </Text>
           )}
         </View>

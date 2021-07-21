@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 
@@ -9,11 +9,39 @@ import ContactAdminScreen from "./ContactAdminScreen/navigator"
 
 /* Logout */
 import LogoutScreen from "../logout"
+import firebase from "../../../util/firebase"
+import { snapshotToArray } from "../../../util"
+import { AppConfig } from "../../Constants"
 
 const Tab = createBottomTabNavigator()
 
 const CustomerNavigator = ({ navigation, route }) => {
   const { userId, status } = route.params
+  const [postsChangeCount, setPostsChangeCount] = useState(0)
+
+  const countPostChange = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const data = snapshotToArray(snapshot)
+      let count = 0
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].status === AppConfig.PostsStatus.adminConfirmNewPost) {
+          count = count + 1
+        }
+      }
+      setPostsChangeCount(count)
+      resolve(true)
+    })
+  }
+
+  useEffect(() => {
+    const ref = firebase
+      .database()
+      .ref(`members`)
+    const listener = ref.on("value", (snapshot) => {
+      countPostChange(snapshot).catch((err) => Alert.alert(err))
+    })
+    return () => ref.off("value", listener)
+  }, [])
   
   return (
     <Tab.Navigator
@@ -45,6 +73,7 @@ const CustomerNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="post" color="white" size={size} />
           ),
+          tabBarBadge: postsChangeCount ? postsChangeCount : null,
         }}
         initialParams={{ userId, status }}
       />

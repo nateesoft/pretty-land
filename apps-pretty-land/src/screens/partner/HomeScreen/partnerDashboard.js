@@ -5,7 +5,7 @@ import {
   View,
   Text,
   Image,
-  ImageBackground,
+  ImageBackground
 } from "react-native"
 
 /* import data */
@@ -24,6 +24,11 @@ const PartnerDashboard = ({ navigation, route }) => {
   const [sumType3, setSumType3] = useState("0")
   const [sumType4, setSumType4] = useState("0")
 
+  const [postType1Count, setPostType1Count] = useState(null)
+  const [postType2Count, setPostType2Count] = useState(null)
+  const [postType3Count, setPostType3Count] = useState(null)
+  const [postType4Count, setPostType4Count] = useState(null)
+
   const getComputeGroup = (snapshot) => {
     return new Promise((resolve, reject) => {
       const listTrue = []
@@ -32,6 +37,12 @@ const PartnerDashboard = ({ navigation, route }) => {
         type2 = 0,
         type3 = 0,
         type4 = 0
+
+      let countType1 = 3,
+        countType2 = 0,
+        countType3 = 0,
+        countType4 = 0
+
       arr.forEach((item) => {
         if (
           item.status === AppConfig.PostsStatus.adminConfirmNewPost ||
@@ -100,7 +111,7 @@ const PartnerDashboard = ({ navigation, route }) => {
     navigation.navigate("Select-Province-Task-List", {
       profile,
       item,
-      taskList: newTaskList,
+      taskList: newTaskList
     })
   }
 
@@ -121,7 +132,7 @@ const PartnerDashboard = ({ navigation, route }) => {
             margin: 5,
             borderRadius: 5,
             borderColor: "white",
-            borderWidth: 3,
+            borderWidth: 3
           }}
         />
         <Text style={styles.optionsName}>{data.name}</Text>
@@ -179,35 +190,49 @@ const styles = StyleSheet.create({
     height: "100%",
     padding: 5,
     flexDirection: "row",
-    flexWrap: "wrap",
+    flexWrap: "wrap"
   },
   box: {
     width: "50%",
     height: "50%",
-    padding: 5,
+    padding: 5
   },
   inner: {
     flex: 1,
     backgroundColor: "red",
     borderRadius: 5,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   optionsName: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "white",
+    color: "white"
   },
   optionsInfo: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "white",
+    color: "white"
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
+  badgeContainer: {
+    position: "absolute",
+    right: 15,
+    top: 20,
+    zIndex: 2
+  },
+  badge: {
+    color: "white",
+    alignSelf: "center",
+    justifyContent: "center",
+    padding: 10,
+    backgroundColor: "red",
+    fontWeight: "bold"
+  }
 })
 
 export default PartnerDashboard

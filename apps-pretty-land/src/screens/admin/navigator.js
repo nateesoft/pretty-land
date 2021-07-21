@@ -6,6 +6,7 @@ import {
   Feather,
   MaterialCommunityIcons
 } from "@expo/vector-icons"
+import { Alert } from "react-native"
 
 /* all screen */
 import TaskNavigator from "./CustomerPostScreen/navigator"
@@ -17,7 +18,6 @@ import SettingsNavigator from "./SettingsScreen/navigator"
 import LogoutScreen from "../logout"
 import firebase from "../../../util/firebase"
 import { snapshotToArray } from "../../../util"
-import { Alert } from "react-native"
 import { AppConfig } from "../../Constants"
 
 const Tab = createBottomTabNavigator()

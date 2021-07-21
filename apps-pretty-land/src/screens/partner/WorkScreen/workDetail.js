@@ -199,7 +199,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
             }}
           >
             <Input
-              placeholder="ค่าเดินทาง (บาท)"
+              placeholder="ค่าบริการ (บาท)"
               value={`ราคาที่เสนอ ${partner.amount} บาท`}
             />
           </View>

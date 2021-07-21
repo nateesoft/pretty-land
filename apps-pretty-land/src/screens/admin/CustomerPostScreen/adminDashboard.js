@@ -32,6 +32,7 @@ const AdminDashboard = ({ navigation, route }) => {
         type2 = 0,
         type3 = 0,
         type4 = 0
+
       let countType1 = 0,
         countType2 = 0,
         countType3 = 0,
