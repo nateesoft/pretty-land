@@ -158,7 +158,7 @@ const SelectProvinceType4 = (props) => {
               <Text
                 style={{
                   flex: 0.5,
-                  color: "green",
+                  color: "purple",
                   fontSize: 18,
                   fontWeight: "bold"
                 }}

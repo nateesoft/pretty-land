@@ -7,6 +7,8 @@ import { Ionicons } from "@expo/vector-icons"
 import { AppConfig } from "../../../Constants"
 
 const SettingsCategory = ({ navigation, route }) => {
+  const { role } = route.params
+
   return (
     <ImageBackground
       source={AppConfig.bgImage}
@@ -27,39 +29,60 @@ const SettingsCategory = ({ navigation, route }) => {
           titleStyle={{ fontSize: 22 }}
           iconLeft
           buttonStyle={styles.btnNewAdmin}
-          title="เพิ่มข้อมูลผู้ใช้งาน"
-          onPress={() => navigation.navigate("New-Admin-Form")}
+          title="เพิ่มข้อมูลบัญชีธนาคาร"
+          onPress={() => navigation.navigate("New-Bank-Form")}
         />
-        <Button
-          icon={
-            <MaterialIcons
-              name="app-settings-alt"
-              size={20}
-              color="white"
-              style={{ marginRight: 5 }}
-            />
-          }
-          titleStyle={{ fontSize: 22 }}
-          iconLeft
-          buttonStyle={styles.btnPostConfig}
-          title="จัดการข้อมูลระบบ"
-          onPress={() => navigation.navigate("View-Settings")}
-        />
-        <Button
-          icon={
-            <FontAwesome
-              name="user-secret"
-              size={20}
-              color="white"
-              style={{ marginRight: 5 }}
-            />
-          }
-          titleStyle={{ fontSize: 22 }}
-          iconLeft
-          buttonStyle={styles.btnListAdmin}
-          title="ข้อมูล admin"
-          onPress={() => navigation.navigate("Admin-Lists")}
-        />
+        {role === "superadmin" && (
+          <Button
+            icon={
+              <FontAwesome
+                name="user-secret"
+                size={20}
+                color="white"
+                style={{ marginRight: 5 }}
+              />
+            }
+            titleStyle={{ fontSize: 22 }}
+            iconLeft
+            buttonStyle={styles.btnNewAdmin}
+            title="เพิ่มข้อมูลผู้ใช้งาน"
+            onPress={() => navigation.navigate("New-Admin-Form")}
+          />
+        )}
+        {role === "superadmin" && (
+          <Button
+            icon={
+              <MaterialIcons
+                name="app-settings-alt"
+                size={20}
+                color="white"
+                style={{ marginRight: 5 }}
+              />
+            }
+            titleStyle={{ fontSize: 22 }}
+            iconLeft
+            buttonStyle={styles.btnPostConfig}
+            title="จัดการข้อมูลระบบ"
+            onPress={() => navigation.navigate("View-Settings")}
+          />
+        )}
+        {role === "superadmin" && (
+          <Button
+            icon={
+              <FontAwesome
+                name="user-secret"
+                size={20}
+                color="white"
+                style={{ marginRight: 5 }}
+              />
+            }
+            titleStyle={{ fontSize: 22 }}
+            iconLeft
+            buttonStyle={styles.btnListAdmin}
+            title="ข้อมูล admin"
+            onPress={() => navigation.navigate("Admin-Lists")}
+          />
+        )}
         <Button
           icon={
             <Ionicons
@@ -104,7 +127,7 @@ const styles = StyleSheet.create({
     height: 75,
     justifyContent: "flex-start",
     backgroundColor: "#ff2fe6",
-    opacity: 0.65,
+    opacity: 0.65
   },
   btnMemberReport: {
     margin: 5,
@@ -114,7 +137,7 @@ const styles = StyleSheet.create({
     height: 75,
     justifyContent: "flex-start",
     backgroundColor: "#ff2fe6",
-    opacity: 0.65,
+    opacity: 0.65
   },
   btnPartnerReport: {
     margin: 5,
@@ -125,7 +148,7 @@ const styles = StyleSheet.create({
     height: 75,
     justifyContent: "flex-start",
     backgroundColor: "#ff2fe6",
-    opacity: 0.65,
+    opacity: 0.65
   },
   btnPostConfig: {
     margin: 5,
@@ -135,7 +158,7 @@ const styles = StyleSheet.create({
     height: 75,
     justifyContent: "flex-start",
     backgroundColor: "#ff2fe6",
-    opacity: 0.65,
+    opacity: 0.65
   },
   btnNewAdmin: {
     margin: 5,
@@ -146,13 +169,13 @@ const styles = StyleSheet.create({
     height: 75,
     justifyContent: "flex-start",
     backgroundColor: "#ff2fe6",
-    opacity: 0.65,
+    opacity: 0.65
   },
   cardDetail: {
     flex: 1,
     alignItems: "center",
     padding: 5,
-    margin: 10,
+    margin: 10
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -160,7 +183,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   optionsNameDetail2: {
     fontSize: 18,
@@ -168,12 +191,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   viewCard: {
     width: "100%",
     borderRadius: 20,
-    padding: 5,
+    padding: 5
   },
   textTopic: {
     fontSize: 24,
@@ -181,13 +204,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
+    padding: 10
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })
 
 export default SettingsCategory

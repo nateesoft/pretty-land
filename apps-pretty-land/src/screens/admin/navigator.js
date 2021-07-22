@@ -82,7 +82,10 @@ const AdminNavigator = ({ navigation, route }) => {
             <Feather name="users" color="white" size={size} />
           ),
           tabBarBadge: memberCount ? memberCount : null,
-          tabBarBadgeStyle: { backgroundColor: "rgb(70, 240, 238)" }
+          tabBarBadgeStyle: {
+            backgroundColor: "rgb(70, 240, 238)",
+            color: "red"
+          }
         }}
         initialParams={{ userId }}
       />
@@ -101,19 +104,17 @@ const AdminNavigator = ({ navigation, route }) => {
         }}
         initialParams={{ userId }}
       />
-      {screen === "superadmin" && (
-        <Tab.Screen
-          name="a-Settings"
-          component={SettingsNavigator}
-          options={{
-            title: "ตั้งค่าระบบ",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="md-settings-outline" color="white" size={size} />
-            )
-          }}
-          initialParams={{ userId }}
-        />
-      )}
+      <Tab.Screen
+        name="a-Settings"
+        component={SettingsNavigator}
+        options={{
+          title: "ตั้งค่าระบบ",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="md-settings-outline" color="white" size={size} />
+          )
+        }}
+        initialParams={{ userId, role: screen }}
+      />
       <Tab.Screen
         name="a-Logout"
         component={LogoutScreen}

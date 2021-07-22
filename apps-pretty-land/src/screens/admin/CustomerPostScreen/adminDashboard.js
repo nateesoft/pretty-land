@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   badge: {
-    color: "black",
+    color: "red",
     alignSelf: "center",
     justifyContent: "center",
     padding: 10,

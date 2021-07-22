@@ -4,17 +4,18 @@ import { createStackNavigator } from "@react-navigation/stack"
 import SettingsCategoryScreen from "./settingsCategory"
 import ViewSettingsForm from "./viewSettingsForm"
 import NewAdminFormScreen from "./addNewAdmin"
-import AdminListScreen from './adminList'
-import MemberListScreen from './memberList'
-import PartnerListScreen from './partnerList'
-import AdminDetailScreen from './adminDetail'
+import NewBankFormScreen from "./addNewBankAccount"
+import AdminListScreen from "./adminList"
+import MemberListScreen from "./memberList"
+import PartnerListScreen from "./partnerList"
+import AdminDetailScreen from "./adminDetail"
 
 import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
 const AdminSettingsNavigator = ({ navigation, route }) => {
-  const { userId } = route.params
+  const { userId, role } = route.params
 
   return (
     <Stack.Navigator>
@@ -24,38 +25,50 @@ const AdminSettingsNavigator = ({ navigation, route }) => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
-        initialParams={{userId}}
+        initialParams={{ userId, role }}
       />
       <Stack.Screen
         name="View-Settings"
         component={ViewSettingsForm}
         options={{
-          title: "Edit-Admin-Profile",
+          title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
-        initialParams={{userId}}
+        initialParams={{ userId }}
       />
       <Stack.Screen
         name="New-Admin-Form"
         component={NewAdminFormScreen}
         options={{
-          title: "Edit-Admin-Profile",
+          title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
-        initialParams={{userId}}
+        initialParams={{ userId }}
+      />
+      <Stack.Screen
+        name="New-Bank-Form"
+        component={NewBankFormScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: "#ff2fe6"
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
+        }}
+        initialParams={{ userId }}
       />
       <Stack.Screen
         name="Admin-Lists"
@@ -63,10 +76,10 @@ const AdminSettingsNavigator = ({ navigation, route }) => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
       />
       <Stack.Screen
@@ -75,10 +88,10 @@ const AdminSettingsNavigator = ({ navigation, route }) => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
       />
       <Stack.Screen
@@ -87,10 +100,10 @@ const AdminSettingsNavigator = ({ navigation, route }) => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
       />
       <Stack.Screen
@@ -99,10 +112,10 @@ const AdminSettingsNavigator = ({ navigation, route }) => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
       />
     </Stack.Navigator>
