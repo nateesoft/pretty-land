@@ -10,7 +10,7 @@ import ContactAdminScreen from "./ContactAdminScreen/navigator"
 /* Logout */
 import LogoutScreen from "../logout"
 import firebase from "../../../util/firebase"
-import { snapshotToArray } from "../../../util"
+import { snapshotToArray, getDocument } from "../../../util"
 import { AppConfig } from "../../Constants"
 
 const Tab = createBottomTabNavigator()
@@ -36,7 +36,7 @@ const CustomerNavigator = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`members`)
+      .ref(getDocument(`members`))
     const listener = ref.on("value", (snapshot) => {
       countPostChange(snapshot).catch((err) => Alert.alert(err))
     })

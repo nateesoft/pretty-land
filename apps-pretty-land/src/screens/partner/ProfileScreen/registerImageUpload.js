@@ -134,7 +134,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
     })
   }, [])
 
-  const uploadAllImageVideo = () => {
+  const uploadAllImageVideo = async () => {
     if (
       !imageFile1 &&
       !imageFile2 &&
@@ -149,46 +149,45 @@ const RegisterImageUpload = ({ navigation, route }) => {
       return
     }
     setHideButtonUpload(true)
+    setUploadFinish("in_progress")
+
     if (imageFile1) {
-      uploadImageAsync(imageFile1, setImageUrl1, true, `${userId}_pic1`)
+      await uploadImageAsync(imageFile1, setImageUrl1, true, `${userId}_pic1`)
     }
     if (imageFile2) {
-      uploadImageAsync(imageFile2, setImageUrl2, false, `${userId}_pic2`)
+      await uploadImageAsync(imageFile2, setImageUrl2, false, `${userId}_pic2`)
     }
     if (imageFile3) {
-      uploadImageAsync(imageFile3, setImageUrl3, false, `${userId}_pic3`)
+      await uploadImageAsync(imageFile3, setImageUrl3, false, `${userId}_pic3`)
     }
     if (imageFile4) {
-      uploadImageAsync(imageFile4, setImageUrl4, false, `${userId}_pic4`)
+      await uploadImageAsync(imageFile4, setImageUrl4, false, `${userId}_pic4`)
     }
     if (imageFile5) {
-      uploadImageAsync(imageFile5, setImageUrl5, false, `${userId}_pic5`)
+      await uploadImageAsync(imageFile5, setImageUrl5, false, `${userId}_pic5`)
     }
     if (imageFile6) {
-      uploadImageAsync(imageFile6, setImageUrl6, false, `${userId}_video`)
+      await uploadImageAsync(imageFile6, setImageUrl6, false, `${userId}_video`)
     }
+
+    setUploadFinish("finish")
   }
 
-  async function uploadImageAsync(imageSource, updateUrl, isProfile, fileName) {
-    // Why are we using XMLHttpRequest? See:
-    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-    setUploadFinish("in_progress")
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest()
-      xhr.onload = function () {
-        resolve(xhr.response)
-      }
-      xhr.onerror = function (e) {
-        reject(new TypeError("Network request failed"))
-      }
-      xhr.responseType = "blob"
-      xhr.open("GET", imageSource, true)
-      xhr.send(null)
-    })
+  function uploadImageAsync(imageSource, updateUrl, isProfile, fileName) {
+    return new Promise(async (resolve, reject) => {
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.onload = function () {
+          resolve(xhr.response)
+        }
+        xhr.onerror = function (e) {
+          reject(new TypeError("Network request failed"))
+        }
+        xhr.responseType = "blob"
+        xhr.open("GET", imageSource, true)
+        xhr.send(null)
+      })
 
-    const uploadToCloud = true // config upload image to cloud
-
-    if (uploadToCloud) {
       const ref = firebase
         .storage()
         .ref(getDocument("images/member/partner"))
@@ -201,10 +200,8 @@ const RegisterImageUpload = ({ navigation, route }) => {
       }
       // We're done with the blob, close and release it
       blob.close()
-    } else {
-      blob.close()
-    }
-    setUploadFinish("finish")
+      resolve(true)
+    })
   }
 
   const OldImage = ({ link, text }) => (

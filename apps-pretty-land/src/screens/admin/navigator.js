@@ -17,7 +17,7 @@ import SettingsNavigator from "./SettingsScreen/navigator"
 /* Logout */
 import LogoutScreen from "../logout"
 import firebase from "../../../util/firebase"
-import { snapshotToArray } from "../../../util"
+import { snapshotToArray, getDocument } from "../../../util"
 import { AppConfig } from "../../Constants"
 
 const Tab = createBottomTabNavigator()
@@ -43,7 +43,7 @@ const AdminNavigator = ({ navigation, route }) => {
   useEffect(() => {
     const ref = firebase
       .database()
-      .ref(`members`)
+      .ref(getDocument(`members`))
       .orderByChild("memberType")
       .equalTo("partner")
     const listener = ref.on("value", (snapshot) => {

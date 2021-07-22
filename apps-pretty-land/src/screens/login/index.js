@@ -28,16 +28,16 @@ const LoginScreen = ({ navigation, route }) => {
   const { navigate } = navigation
   const { signInFacebook, signInApple } = useContext(AuthContext)
   const [lineContact, setLineContact] = useState("")
-  const [facebookLogin, setFacebookLogin] = useState(false)
+  const [appName, setAppName] = useState("PRETTY LAND")
+  const [appVersion, setAppVersion] = useState("1.0")
 
   useEffect(() => {
     const ref = firebase.database().ref(getDocument("appconfig"))
     ref.once("value", (snapshot) => {
       const data = { ...snapshot.val() }
+      setAppName(data.app_name)
+      setAppVersion(data.app_version)
       setLineContact(data.line_contact_admin || "https://lin.ee/DgRh5Mw")
-      if (data.facebook_login) {
-        setFacebookLogin(data.facebook_login)
-      }
     })
   }, [])
 
@@ -53,8 +53,9 @@ const LoginScreen = ({ navigation, route }) => {
     >
       <View style={styles.container}>
         <Image style={styles.image} source={bg} />
-        <Text style={styles.textLogo}>PRETTY LAND</Text>
-        <Text style={styles.textDetail}>Version 1.0</Text>
+        <Text style={styles.textLogo}>{appName}</Text>
+        <Text style={[styles.textLogo, { fontSize: 20, fontStyle: "normal", marginBottom: 5 }]}>Thailand</Text>
+        <Text style={styles.textDetail}>( Version {appVersion} )</Text>
         <TouchableHighlight
           underlayColor="pink"
           style={styles.btnLineClickContain}
@@ -74,28 +75,26 @@ const LoginScreen = ({ navigation, route }) => {
             </Text>
           </View>
         </TouchableHighlight>
-        {facebookLogin && (
-          <TouchableHighlight
-            underlayColor="pink"
-            style={[styles.btnClickContain, { marginBottom: 20 }]}
-            onPress={() => signInFacebook()}
-          >
-            <View style={styles.btnContainer}>
-              <Image source={facebookLogo} style={{ width: 24, height: 24 }} />
-              <Text
-                style={{
-                  marginTop: 2,
-                  marginLeft: 5,
-                  color: "white",
-                  fontWeight: "bold",
-                  fontSize: 14
-                }}
-              >
-                เข้าสู่ระบบด้วย facebook
-              </Text>
-            </View>
-          </TouchableHighlight>
-        )}
+        <TouchableHighlight
+          underlayColor="pink"
+          style={[styles.btnClickContain, { marginBottom: 20 }]}
+          onPress={() => signInFacebook()}
+        >
+          <View style={styles.btnContainer}>
+            <Image source={facebookLogo} style={{ width: 24, height: 24 }} />
+            <Text
+              style={{
+                marginTop: 2,
+                marginLeft: 5,
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 14
+              }}
+            >
+              เข้าสู่ระบบด้วย facebook
+            </Text>
+          </View>
+        </TouchableHighlight>
         {Platform.OS === "ios" && (
           <AppleAuthentication.AppleAuthenticationButton
             buttonType={
@@ -298,7 +297,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom: 5,
     backgroundColor: "#35D00D",
-    marginTop: 45,
+    marginTop: 10,
     borderRadius: 5,
     width: 200,
     height: 45

@@ -15,6 +15,7 @@ import { TextInputMask } from "react-native-masked-text"
 
 import { GetIcon } from "../../../components/GetIcons"
 import firebase from "../../../../util/firebase"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 import { getBankList, getBankName } from "../../../data/apis"
 
@@ -47,7 +48,7 @@ const AddNewBankAccount = ({ navigation, route }) => {
 
     firebase
       .database()
-      .ref(`bank_account/${bankCode}/${accountNo}`)
+      .ref(`${getDocument(bank_account)}/${bankCode}/${accountNo}`)
       .update(dataNewBank)
       .then((res) => {
         Alert.alert("เพิ่มข้อมูลบัญชีธนาคารแล้ว")

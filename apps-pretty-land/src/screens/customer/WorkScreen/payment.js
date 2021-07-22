@@ -9,7 +9,7 @@ import {
   TextInput,
   ImageBackground,
   SafeAreaView,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView
 } from "react-native"
 import * as ImagePicker from "expo-image-picker"
 import { Button, Text } from "react-native-elements"
@@ -20,7 +20,7 @@ import { TextInputMask } from "react-native-masked-text"
 import { getBankList, getBankName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import firebase from "../../../../util/firebase"
-import { getDocument } from "../../../../util"
+import { getDocument, snapshotToArray } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const PaymentForm = ({ navigation, route }) => {
@@ -32,12 +32,25 @@ const PaymentForm = ({ navigation, route }) => {
 
   const [image, setImage] = useState(null)
   const [bank, setBank] = useState("")
-  const [bankList, setBankList] = useState(getBankList())
+  const [bankList, setBankList] = useState([])
+  const [toAccount, setToAccount] = useState("")
   const [transferAmount, setTransferAmount] = useState("")
   const [datetime, setDateTime] = useState("")
   const [openSelectBank, setOpenSelectBank] = useState(false)
 
   const [listPartner, setListPartner] = useState([])
+
+  const handleBankAccount = (value) => {
+    firebase
+      .database()
+      .ref(getDocument("bank_account") + "/" + value)
+      .once("value", (snapshot) => {
+        const data = { ...snapshot.val() }
+        if (data.account_no) {
+          setToAccount(data.account_no)
+        }
+      })
+  }
 
   const computeAmount = (snapshot) => {
     return new Promise((resolve, reject) => {
@@ -66,8 +79,26 @@ const PaymentForm = ({ navigation, route }) => {
     })
   }
 
+  const getBankAccountList = () => {
+    return new Promise((resolve, reject) => {
+      const ref = firebase.database().ref(getDocument("bank_account"))
+      ref.once("value", (snapshot) => {
+        const listBank = snapshotToArray(snapshot)
+        const lists = []
+        for (let i = 0; i < listBank.length; i++) {
+          const data = listBank[i]
+          lists.push({ id: data.bank_code, label: data.bank_name, value: data.bank_code })
+        }
+        setBankList(lists)
+        resolve(true)
+      })
+    })
+  }
+
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`posts/${item.id}/partnerSelect`))
+    const ref = firebase
+      .database()
+      .ref(getDocument(`posts/${item.id}/partnerSelect`))
     ref.once("value", async (snapshot) => {
       const pAmount = await computeAmount(snapshot)
       const fAmount = await getFeeAmountFromFirebase()
@@ -76,6 +107,8 @@ const PaymentForm = ({ navigation, route }) => {
       setPartnerAmount(pAmount.toFixed(2))
       setFeeAmount(fAmount.toFixed(2))
       setNetTotalAmount(netTotalAmt.toFixed(2))
+
+      getBankAccountList()
     })
   }, [])
 
@@ -98,7 +131,7 @@ const PaymentForm = ({ navigation, route }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       aspect: [4, 3],
-      quality: 1,
+      quality: 1
     })
 
     if (!result.cancelled) {
@@ -171,10 +204,13 @@ const PaymentForm = ({ navigation, route }) => {
       bankName: bankData.label,
       transferTime: datetime,
       transferAmount: transferAmount,
-      sys_update_date: new Date().toUTCString(),
+      sys_update_date: new Date().toUTCString()
     }
-    firebase.database().ref(getDocument(`posts/${item.id}`)).update(dataPayment)
-    
+    firebase
+      .database()
+      .ref(getDocument(`posts/${item.id}`))
+      .update(dataPayment)
+
     navigate("Post-List")
   }
 
@@ -198,7 +234,7 @@ const PaymentForm = ({ navigation, route }) => {
               style={{
                 alignItems: "center",
                 padding: 5,
-                backgroundColor: "green",
+                backgroundColor: "green"
               }}
             >
               <Text
@@ -279,8 +315,22 @@ const PaymentForm = ({ navigation, route }) => {
                 textStyle={{ fontSize: 18 }}
                 searchable={false}
                 selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+                onChangeValue={(value) => handleBankAccount(value)}
                 listMode="SCROLLVIEW"
               />
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                เลขที่บัญชีปลายทาง
+              </Text>
+              <View style={styles.formControl}>
+                <GetIcon type="mci" name="text-box-check-outline" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="เลขที่บัญชีปลายทาง"
+                  value={toAccount}
+                  keyboardType="number-pad"
+                  editable={false}
+                />
+              </View>
               <Text style={{ fontSize: 16, padding: 5 }}>ยอดเงินโอน (บาท)</Text>
               <View style={styles.formControl}>
                 <GetIcon type="fa" name="dollar" />
@@ -300,7 +350,7 @@ const PaymentForm = ({ navigation, route }) => {
                 <TextInputMask
                   type={"datetime"}
                   options={{
-                    format: "DD/MM/YYYY HH:mm:ss",
+                    format: "DD/MM/YYYY HH:mm:ss"
                   }}
                   value={datetime}
                   onChangeText={(text) => setDateTime(text)}
@@ -357,7 +407,7 @@ const styles = StyleSheet.create({
   buttonConfirm: {
     backgroundColor: "green",
     marginTop: 10,
-    width: "100%",
+    width: "100%"
   },
   optionsNameDetail: {
     fontSize: 18,
@@ -365,7 +415,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   formControl: {
     flexDirection: "row",
@@ -376,29 +426,29 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 5,
     height: 40,
-    borderRadius: 10,
+    borderRadius: 10
   },
   textInput: {
     backgroundColor: "white",
     width: 250,
     fontSize: 16,
     marginVertical: 5,
-    marginLeft: 10,
+    marginLeft: 10
   },
   topic: {
     marginTop: 20,
-    fontSize: 20,
+    fontSize: 20
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   textInputStype: {
     height: 40,
     width: "100%",
     fontSize: 18,
-    marginLeft: 10,
+    marginLeft: 10
   },
   textTopic: {
     fontSize: 24,
@@ -406,8 +456,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
-  },
+    padding: 10
+  }
 })
 
 export default PaymentForm
