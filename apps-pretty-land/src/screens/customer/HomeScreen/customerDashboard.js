@@ -28,6 +28,55 @@ const CustomerDashboard = ({ navigation, route }) => {
   const [sumBoy3, setSumBoy3] = useState("0")
   const [sumBoy4, setSumBoy4] = useState("0")
 
+  const [sumType1, setSumType1] = useState("0")
+  const [sumType2, setSumType2] = useState("0")
+  const [sumType3, setSumType3] = useState("0")
+  const [sumType4, setSumType4] = useState("0")
+
+  const getComputeGroup = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const arr = snapshotToArray(snapshot)
+      let type1 = 0,
+        type2 = 0,
+        type3 = 0,
+        type4 = 0
+      arr.forEach((item) => {
+        if (item.customerId === userId) {
+          if (item.status === AppConfig.PostsStatus.waitCustomerSelectPartner) {
+            if (item.partnerRequest === AppConfig.PartnerType.type1) {
+              type1 = type1 + 1
+            }
+            if (item.partnerRequest === AppConfig.PartnerType.type2) {
+              type2 = type2 + 1
+            }
+            if (item.partnerRequest === AppConfig.PartnerType.type3) {
+              type3 = type3 + 1
+            }
+            if (item.partnerRequest === AppConfig.PartnerType.type4) {
+              type4 = type4 + 1
+            }
+          }
+        }
+      })
+      setSumType1(type1)
+      setSumType2(type2)
+      setSumType3(type3)
+      setSumType4(type4)
+
+      resolve(true)
+    })
+  }
+
+  useEffect(() => {
+    const ref = firebase.database().ref(getDocument(`posts`))
+    const listener = ref.on("value", (snapshot) => {
+      getComputeGroup(snapshot).catch((err) => Alert.alert(err))
+    })
+    return () => {
+      ref.off("value", listener)
+    }
+  }, [])
+
   const getAllPartnerList = (snapshot) => {
     return new Promise((resolve, reject) => {
       const arr = snapshotToArray(snapshot)
@@ -118,13 +167,18 @@ const CustomerDashboard = ({ navigation, route }) => {
     }
   }
 
-  const DisplayCard = ({ data, countGirl, countBoy }) => (
+  const DisplayCard = ({ data, countGirl, countBoy, badge }) => (
     <TouchableHighlight
       underlayColor="pink"
       onPress={() => onPressOptions(data)}
       style={styles.box}
     >
       <View style={styles.inner}>
+        {badge > 0 && (
+          <View style={styles.badgeContainer}>
+            <Text style={styles.badge}>{badge}</Text>
+          </View>
+        )}
         <Image
           source={{ uri: data.image_url }}
           style={{
@@ -170,21 +224,25 @@ const CustomerDashboard = ({ navigation, route }) => {
             data={items[0]}
             countGirl={sumGirl1}
             countBoy={sumBoy1}
+            badge={sumType1}
           />
           <DisplayCard
             data={items[1]}
             countGirl={sumGirl2}
             countBoy={sumBoy2}
+            badge={sumType2}
           />
           <DisplayCard
             data={items[2]}
             countGirl={sumGirl3}
             countBoy={sumBoy3}
+            badge={sumType3}
           />
           <DisplayCard
             data={items[3]}
             countGirl={sumGirl4}
             countBoy={sumBoy4}
+            badge={sumType4}
           />
         </View>
       )}
@@ -226,6 +284,21 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center"
+  },
+  badgeContainer: {
+    position: "absolute",
+    right: 13,
+    top: 17,
+    zIndex: 2
+  },
+  badge: {
+    color: "red",
+    alignSelf: "center",
+    justifyContent: "center",
+    padding: 10,
+    backgroundColor: "rgb(70, 240, 238)",
+    fontWeight: "bold",
+    fontSize: 32
   }
 })
 

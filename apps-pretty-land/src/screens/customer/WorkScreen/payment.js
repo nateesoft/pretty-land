@@ -9,7 +9,8 @@ import {
   TextInput,
   ImageBackground,
   SafeAreaView,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  TouchableHighlight
 } from "react-native"
 import * as ImagePicker from "expo-image-picker"
 import { Button, Text } from "react-native-elements"
@@ -17,11 +18,17 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import DropDownPicker from "react-native-dropdown-picker"
 import { TextInputMask } from "react-native-masked-text"
 
-import { getBankList, getBankName } from "../../../data/apis"
+import { getBankName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import firebase from "../../../../util/firebase"
 import { getDocument, snapshotToArray } from "../../../../util"
 import { AppConfig } from "../../../Constants"
+
+// bank
+import scbLogo from "../../../../assets/bank/scb.png"
+import kbankLogo from "../../../../assets/bank/kbank.png"
+import ktbLogo from "../../../../assets/bank/ktb.png"
+import bayLogo from "../../../../assets/bank/bay.png"
 
 const PaymentForm = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -43,7 +50,7 @@ const PaymentForm = ({ navigation, route }) => {
   const handleBankAccount = (value) => {
     firebase
       .database()
-      .ref(getDocument("bank_account") + "/" + value)
+      .ref(getDocument(`bank_account/${value}`))
       .once("value", (snapshot) => {
         const data = { ...snapshot.val() }
         if (data.account_no) {
@@ -87,7 +94,11 @@ const PaymentForm = ({ navigation, route }) => {
         const lists = []
         for (let i = 0; i < listBank.length; i++) {
           const data = listBank[i]
-          lists.push({ id: data.bank_code, label: data.bank_name, value: data.bank_code })
+          lists.push({
+            id: data.bank_code,
+            label: data.bank_name,
+            value: data.bank_code
+          })
         }
         setBankList(lists)
         resolve(true)
@@ -247,11 +258,14 @@ const PaymentForm = ({ navigation, route }) => {
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {listPartner.map((item, index) => (
                   <View key={`v_${item.id}`}>
-                    <Text>ชื่อ: {item.partnerName}</Text>
-                    <Text>ราคา: {item.amount}</Text>
                     <Image
                       source={{ uri: item.image }}
-                      style={{ width: 100, height: 100 }}
+                      style={{
+                        width: 200,
+                        height: 200,
+                        borderRadius: 10,
+                        marginVertical: 10
+                      }}
                     />
                   </View>
                 ))}
@@ -318,6 +332,36 @@ const PaymentForm = ({ navigation, route }) => {
                 onChangeValue={(value) => handleBankAccount(value)}
                 listMode="SCROLLVIEW"
               />
+              <ScrollView
+                horizontal
+                style={{ margin: 10 }}
+                contentContainerStyle={{ alignItems: "center" }}
+              >
+                <TouchableHighlight onPress={() => handleBankAccount("kbank")}>
+                  <Image
+                    source={kbankLogo}
+                    style={{ width: 75, height: 75, margin: 5 }}
+                  />
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => handleBankAccount("scb")}>
+                  <Image
+                    source={scbLogo}
+                    style={{ width: 75, height: 75, margin: 5 }}
+                  />
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => handleBankAccount("ktb")}>
+                  <Image
+                    source={ktbLogo}
+                    style={{ width: 75, height: 75, margin: 5 }}
+                  />
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => handleBankAccount("bay")}>
+                  <Image
+                    source={bayLogo}
+                    style={{ width: 75, height: 75, margin: 5 }}
+                  />
+                </TouchableHighlight>
+              </ScrollView>
               <Text style={{ fontSize: 16, padding: 5 }}>
                 เลขที่บัญชีปลายทาง
               </Text>

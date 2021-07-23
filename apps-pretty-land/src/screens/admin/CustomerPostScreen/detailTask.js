@@ -80,25 +80,25 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               <Text style={{ fontSize: 16 }}>
                 จำนวนน้องๆที่ต้องการ: {item.partnerWantQty || 0} คน
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, color: "blue" }}>
                 ชื่อลูกค้า: {item.customerName}
               </Text>
               <Text style={{ fontSize: 16 }}>Level: {item.customerLevel}</Text>
               <Text style={{ fontSize: 16 }}>จังหวัด: {item.provinceName}</Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, color: "red" }}>
                 เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
               </Text>
             </View>
           </View>
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, color: "green" }}>
                 สถานะที่: {item.placeMeeting}
               </Text>
               <Text style={{ fontSize: 16 }}>
                 เบอร์โทร: {item.customerPhone}
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, color: "brown" }}>
                 รายละเอียดเพิ่มเติม: {item.customerRemark}
               </Text>
             </View>
@@ -107,11 +107,11 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
             <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>
                 วันที่สร้างข้อมูล:{" "}
-                {Moment(item.sys_create_date).format("D MMM YYYY HH:mm:ss")}
+                {Moment(item.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
               </Text>
               <Text style={{ fontSize: 16 }}>
                 วันที่อัพเดตข้อมูล:{" "}
-                {Moment(item.sys_update_date).format("D MMM YYYY HH:mm:ss")}
+                {Moment(item.sys_update_date).format("DD/MM/YYYY HH:mm:ss")}
               </Text>
             </View>
           </View>

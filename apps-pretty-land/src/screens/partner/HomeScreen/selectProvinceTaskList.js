@@ -83,6 +83,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            fontSize: 22,
           }}
         >
           จำนวนน้องๆ ที่ต้องการ: {item.partnerWantQty || 0} คน
@@ -90,6 +91,8 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            color: "blue",
+            fontSize: 22,
           }}
         >
           ลูกค้า: {item.customerName}
@@ -97,6 +100,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            fontSize: 22,
           }}
         >
           ระดับ: {item.customerLevel}
@@ -104,6 +108,8 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            color: "green",
+            fontSize: 22,
           }}
         >
           สถานที่: {item.placeMeeting}
@@ -111,6 +117,8 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            color: "red",
+            fontSize: 22,
           }}
         >
           เริ่ม: {item.startTime}, เลิก: {item.stopTime}
@@ -118,6 +126,8 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            color: "brown",
+            fontSize: 22,
           }}
         >
           รายละเอียดเพิ่มเติม: {item.customerRemark}
@@ -125,6 +135,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            fontSize: 22,
           }}
         >
           วันที่โพสท์:{" "}

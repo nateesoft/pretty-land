@@ -16,7 +16,7 @@ import ProfileNavigator from "./ProfileScreen/navigator"
 /* Logout */
 import LogoutScreen from "../logout"
 import firebase from "../../../util/firebase"
-import { snapshotToArray } from "../../../util"
+import { snapshotToArray, getDocument } from "../../../util"
 import { AppConfig } from "../../Constants"
 
 const Tab = createBottomTabNavigator()
@@ -32,11 +32,15 @@ const PartnerNavigator = ({ navigation, route }) => {
       let count1 = 0
       let count2 = 0
       for (let i = 0; i < data.length; i++) {
-        if (data[i].status === AppConfig.PostsStatus.waitCustomerSelectPartner) {
-          count1 = count1 + 1
-        }
-        if (data[i].status === AppConfig.PostsStatus.waitCustomerPayment) {
-          count2 = count2 + 1
+        if (data[i].customerId === userId) {
+          if (
+            data[i].status === AppConfig.PostsStatus.waitCustomerSelectPartner
+          ) {
+            count1 = count1 + 1
+          }
+          if (data[i].status === AppConfig.PostsStatus.waitCustomerPayment) {
+            count2 = count2 + 1
+          }
         }
       }
       setReqCount(count1)
@@ -46,7 +50,7 @@ const PartnerNavigator = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`posts`)
+    const ref = firebase.database().ref(getDocument(`posts`))
     const listener = ref.on("value", (snapshot) => {
       countOfPostsNew(snapshot).catch((err) => Alert.alert(err))
     })

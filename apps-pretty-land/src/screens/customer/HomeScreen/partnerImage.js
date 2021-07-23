@@ -39,18 +39,6 @@ export default function PartnerImage({ navigation, route }) {
   }
 
   const cancelSelectPartner = () => {
-    // firebase
-    //   .database()
-    //   .ref(
-    //     getDocument(
-    //       `posts/${postItem.id}/partnerSelect/${partnerProfile.partnerId}`
-    //     )
-    //   )
-    //   .update({
-    //     selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
-    //     selectStatusText: "เสนอรับงาน",
-    //     sys_update_date: new Date().toUTCString(),
-    //   })
     navigation.navigate("Partner-List-Select")
   }
 

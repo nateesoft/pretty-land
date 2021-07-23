@@ -4,7 +4,7 @@ import {
   View,
   Text,
   SafeAreaView,
-  ImageBackground,
+  ImageBackground
 } from "react-native"
 import { Button } from "react-native-elements"
 import Moment from "moment"
@@ -48,67 +48,73 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
       <SafeAreaView style={{ height: "100%" }}>
         <Text style={styles.textTopic}>รายละเอียดโพสท์</Text>
         <View style={styles.cardDetail}>
-          <View>
+          <Text
+            style={{
+              fontSize: 26
+            }}
+          >
+            จำนวนน้องๆ ที่ต้องการ: {postDetail.partnerWantQty || 0} คน
+          </Text>
+          <Text
+            style={{
+              fontSize: 26,
+              color: "blue",
+              fontWeight: "bold"
+            }}
+          >
+            ลูกค้า: {postDetail.customerName}
+          </Text>
+          <Text
+            style={{
+              fontSize: 26
+            }}
+          >
+            ระดับ: {postDetail.customerLevel}
+          </Text>
+          <Text
+            style={{
+              fontSize: 26,
+              color: "green",
+              fontWeight: "bold"
+            }}
+          >
+            สถานที่: {postDetail.placeMeeting}
+          </Text>
+          <View style={{ padding: 20, borderWidth: 2, borderRadius: 10, borderColor: "red" }}>
             <Text
               style={{
-                marginBottom: 5,
-              }}
-            >
-              จำนวนน้องๆที่ต้องการ: {postDetail.partnerWantQty || 0} คน
-            </Text>
-            <Text
-              style={{
-                marginBottom: 5,
-              }}
-            >
-              ลูกค้า: {postDetail.customerName}
-            </Text>
-            <Text
-              style={{
-                marginBottom: 5,
-              }}
-            >
-              ระดับ: {postDetail.customerLevel}
-            </Text>
-            <Text
-              style={{
-                marginBottom: 5,
-              }}
-            >
-              สถานที่: {postDetail.placeMeeting}
-            </Text>
-            <Text
-              style={{
-                marginBottom: 5,
+                fontSize: 26,
+                color: "red",
+                fontWeight: "bold"
               }}
             >
               เริ่ม: {postDetail.startTime}, เลิก: {postDetail.stopTime}
             </Text>
-            <Text
-              style={{
-                marginBottom: 5,
-              }}
-            >
-              รายละเอียดเพิ่มเติม: {postDetail.customerRemark}
-            </Text>
-            <Text
-              style={{
-                marginBottom: 5,
-              }}
-            >
-              วันที่โพสท์:{" "}
-              {Moment(postDetail.sys_create_date).format("D MMM YYYY HH:mm:ss")}
-            </Text>
           </View>
+          <Text
+            style={{
+              fontSize: 26,
+              color: "brown",
+              fontWeight: "bold",
+            }}
+          >
+            รายละเอียดเพิ่มเติม: {postDetail.customerRemark}
+          </Text>
+          <Text
+            style={{
+              fontSize: 26
+            }}
+          >
+            วันที่โพสท์:{" "}
+            {Moment(postDetail.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
+          </Text>
           {Object.keys(profileSelect).length === 0 && (
-            <View style={styles.viewCard}>
-              <View style={{ marginVertical: 10 }}>
-                <Button
-                  title="ถัดไป"
-                  buttonStyle={{ borderRadius: 5 }}
-                  onPress={() => nextPriceForm()}
-                />
-              </View>
+            <View style={{ marginVertical: 10, width: 200 }}>
+              <Button
+                title="ถัดไป"
+                buttonStyle={{ borderRadius: 5 }}
+                onPress={() => nextPriceForm()}
+              />
             </View>
           )}
           {profileSelect.selectStatus ===
@@ -118,7 +124,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                 fontWeight: "bold",
                 backgroundColor: "blue",
                 color: "white",
-                paddingHorizontal: 10,
+                paddingHorizontal: 10
               }}
             >
               Status: ได้งานแล้ว รอลูกค้าชำระเงิน
@@ -130,7 +136,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               style={{
                 fontWeight: "bold",
                 backgroundColor: "orange",
-                paddingHorizontal: 10,
+                paddingHorizontal: 10
               }}
             >
               Status: กำหนดค่าบริการไปแล้ว
@@ -148,6 +154,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     margin: 10,
+    justifyContent: "space-evenly"
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -155,7 +162,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   optionsNameDetail2: {
     fontSize: 18,
@@ -163,25 +170,25 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   viewCard: {
     width: "100%",
     borderRadius: 20,
     padding: 5,
-    margin: 20,
+    margin: 20
   },
   textInput: {
     backgroundColor: "white",
     textAlign: "center",
     fontSize: 16,
     marginVertical: 5,
-    height: 40,
+    height: 40
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   textTopic: {
     fontSize: 24,
@@ -189,8 +196,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
-  },
+    padding: 10
+  }
 })
 
 export default ConfirmTaskScreen

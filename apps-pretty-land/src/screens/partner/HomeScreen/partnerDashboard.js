@@ -38,7 +38,7 @@ const PartnerDashboard = ({ navigation, route }) => {
         type3 = 0,
         type4 = 0
 
-      let countType1 = 3,
+      let countType1 = 0,
         countType2 = 0,
         countType3 = 0,
         countType4 = 0
@@ -115,7 +115,7 @@ const PartnerDashboard = ({ navigation, route }) => {
     })
   }
 
-  const DisplayCard = ({ data, count, type }) => (
+  const DisplayCard = ({ data, count, type, badge }) => (
     <TouchableHighlight
       underlayColor="pink"
       onPress={() =>
@@ -124,6 +124,11 @@ const PartnerDashboard = ({ navigation, route }) => {
       style={styles.box}
     >
       <View style={styles.inner}>
+        {badge > 0 && (
+          <View style={styles.badgeContainer}>
+            <Text style={styles.badge}>{badge}</Text>
+          </View>
+        )}
         <Image
           source={{ uri: data.image_url }}
           style={{
@@ -155,6 +160,7 @@ const PartnerDashboard = ({ navigation, route }) => {
               data={items[0]}
               count={sumType1}
               type={AppConfig.PartnerType.type1}
+              badge={0}
             />
           )}
           {profile.type2 && (
@@ -162,6 +168,7 @@ const PartnerDashboard = ({ navigation, route }) => {
               data={items[1]}
               count={sumType2}
               type={AppConfig.PartnerType.type2}
+              badge={0}
             />
           )}
           {profile.type3 && (
@@ -169,6 +176,7 @@ const PartnerDashboard = ({ navigation, route }) => {
               data={items[2]}
               count={sumType3}
               type={AppConfig.PartnerType.type3}
+              badge={0}
             />
           )}
           {profile.type4 && (
@@ -176,6 +184,7 @@ const PartnerDashboard = ({ navigation, route }) => {
               data={items[3]}
               count={sumType4}
               type={AppConfig.PartnerType.type4}
+              badge={0}
             />
           )}
         </View>
@@ -221,17 +230,18 @@ const styles = StyleSheet.create({
   },
   badgeContainer: {
     position: "absolute",
-    right: 15,
-    top: 20,
-    zIndex: 2
+    right: 11,
+    top: 11,
+    zIndex: 2,
   },
   badge: {
-    color: "white",
+    color: "red",
     alignSelf: "center",
     justifyContent: "center",
     padding: 10,
-    backgroundColor: "red",
-    fontWeight: "bold"
+    backgroundColor: "rgb(70, 240, 238)",
+    fontWeight: "bold",
+    fontSize: 32,
   }
 })
 

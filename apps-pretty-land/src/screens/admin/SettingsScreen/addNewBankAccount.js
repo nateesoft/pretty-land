@@ -48,7 +48,7 @@ const AddNewBankAccount = ({ navigation, route }) => {
 
     firebase
       .database()
-      .ref(`${getDocument(bank_account)}/${bankCode}/${accountNo}`)
+      .ref(getDocument(`bank_account/${bankCode}/${accountNo}`))
       .update(dataNewBank)
       .then((res) => {
         Alert.alert("เพิ่มข้อมูลบัญชีธนาคารแล้ว")
