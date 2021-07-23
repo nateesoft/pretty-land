@@ -55,7 +55,7 @@
     "android": {
       "package": "com.thailand.prettyland",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
+        "foregroundImage": "./assets/android/icon.png",
         "backgroundColor": "#FFFFFF"
       },
       "versionCode": 1

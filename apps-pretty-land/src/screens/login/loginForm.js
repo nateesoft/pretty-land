@@ -46,8 +46,7 @@ const LoginForm = ({ navigation, route }) => {
           <View style={{ alignItems: "center" }}>
             <Image style={styles.image} source={bg} />
             <Text style={styles.textLogo}>PRETTY LAND</Text>
-            <Text style={styles.textDetail}>Find Job & Work</Text>
-
+            <Text style={[styles.textLogo, { fontSize: 20, fontStyle: "normal", marginBottom: 5 }]}>Thailand</Text>
             <View style={{ width: "80%", alignSelf: "center" }}>
               <Text style={{ fontSize: 16, padding: 5 }}>
                 ข้อมูลผู้ใช้งาน (Username)

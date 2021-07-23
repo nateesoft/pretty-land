@@ -6,7 +6,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "build:ios": "expo build:ios"
+    "build:ios": "expo build:ios",
+    "build:android": "expo build:android",
+    "build:web": "expo build:web"
   },
   "dependencies": {
     "@react-native-masked-view/masked-view": "github:react-native-masked-view/masked-view",
