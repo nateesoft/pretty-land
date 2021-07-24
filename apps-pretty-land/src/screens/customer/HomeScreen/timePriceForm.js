@@ -6,11 +6,14 @@ import {
   SafeAreaView,
   Alert,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  Button,
 } from "react-native"
-import { Button, Text } from "react-native-elements"
+import { Button as ButtonAction, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 import { TextInputMask } from "react-native-masked-text"
+import DateTimePickerModal from "react-native-modal-datetime-picker"
+import Moment from "moment"
 
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
@@ -27,6 +30,21 @@ const TimePriceForm = (props) => {
   const [phone, setPhone] = useState("")
   const [timeMeeting, setTimeMeeting] = useState("")
   const [customer, setCustomer] = useState("")
+  
+  const [isTimeMeetingPicker, setTimeMeetingPicker] = useState(false)
+
+  const showTimeMeeting = () => {
+    setTimeMeetingPicker(true)
+  }
+
+  const hideTimeMeetingPicker = () => {
+    setTimeMeetingPicker(false)
+  }
+
+  const handleConfirmTime = (date) => {
+    setTimeMeeting(Moment(date).format("HH:mm"))
+    hideTimeMeetingPicker()
+  }
 
   const mappingCustomerProfile = (snapshot) => {
     return new Promise((resolve, reject) => {
@@ -90,25 +108,24 @@ const TimePriceForm = (props) => {
       <SafeAreaView style={{ flex: 1, height: "100%", alignItems: "center" }}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
-            <View>
+            <View style={{ width: "100%" }}>
               <Text style={{ fontSize: 16, padding: 5 }}>เวลาเริ่ม</Text>
-              {!timeMeeting && (
-                <Text style={{ color: "red", marginLeft: 5 }}>
-                  จะต้องระบุข้อมูล เวลาที่จะไป
-                </Text>
-              )}
               <View style={styles.formControl}>
-                <GetIcon type="ii" name="time-outline" />
-                <TextInputMask
-                  type="custom"
-                  options={{
-                    mask: "99:99"
-                  }}
-                  value={timeMeeting}
-                  onChangeText={(text) => setTimeMeeting(text)}
-                  style={styles.textInput}
+                <Button
+                  color="green"
+                  title={timeMeeting ? timeMeeting : "เลือกเวลาเริ่ม"}
+                  onPress={showTimeMeeting}
+                  style={{ marginVertical: 5, borderRadius: 10 }}
                 />
               </View>
+              <DateTimePickerModal
+                isVisible={isTimeMeetingPicker}
+                mode="time"
+                onConfirm={handleConfirmTime}
+                onCancel={hideTimeMeetingPicker}
+                locale="en_GB"
+                isDarkModeEnabled={false}
+              />
             </View>
             <View>
               <Text style={{ fontSize: 16, padding: 5 }}>เบอร์โทร</Text>
@@ -131,7 +148,7 @@ const TimePriceForm = (props) => {
               </View>
             </View>
             <View style={styles.buttonFooter}>
-              <Button
+              <ButtonAction
                 icon={
                   <Icon
                     name="send"

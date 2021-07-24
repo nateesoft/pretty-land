@@ -184,7 +184,7 @@ const PlaceForm = (props) => {
                 onConfirm={handleConfirmStartTime}
                 onCancel={hideTimeStartPicker}
                 locale="en_GB"
-                isDarkModeEnabled={true}
+                isDarkModeEnabled={false}
               />
             </View>
             <View style={{ width: "100%" }}>
@@ -203,7 +203,7 @@ const PlaceForm = (props) => {
                 onConfirm={handleConfirmStopTime}
                 onCancel={hideTimeStopPicker}
                 locale="en_GB"
-                isDarkModeEnabled={true}
+                isDarkModeEnabled={false}
               />
             </View>
             <View style={{ width: "100%" }}>

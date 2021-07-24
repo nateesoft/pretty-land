@@ -24,8 +24,10 @@ const CustomerNavigator = ({ navigation, route }) => {
       const data = snapshotToArray(snapshot)
       let count = 0
       for (let i = 0; i < data.length; i++) {
-        if (data[i].status === AppConfig.PostsStatus.adminConfirmNewPost) {
-          count = count + 1
+        if (data[i].customerId === userId) {
+          if (data[i].status === AppConfig.PostsStatus.adminConfirmNewPost) {
+            count = count + 1
+          }
         }
       }
       setPostsChangeCount(count)
@@ -34,23 +36,21 @@ const CustomerNavigator = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref(getDocument(`members`))
+    const ref = firebase.database().ref(getDocument(`posts`))
     const listener = ref.on("value", (snapshot) => {
       countPostChange(snapshot).catch((err) => Alert.alert(err))
     })
     return () => ref.off("value", listener)
   }, [])
-  
+
   return (
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: "purple",
         inactiveTintColor: "white",
         style: {
-          backgroundColor: "#ff2fe6",
-        },
+          backgroundColor: "#ff2fe6"
+        }
       }}
     >
       <Tab.Screen
@@ -61,7 +61,7 @@ const CustomerNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color="white" size={size} />
           ),
-          color: "white",
+          color: "white"
         }}
         initialParams={{ userId, status }}
       />
@@ -73,7 +73,7 @@ const CustomerNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="post" color="white" size={size} />
           ),
-          tabBarBadge: postsChangeCount ? postsChangeCount : null,
+          tabBarBadge: postsChangeCount ? postsChangeCount : null
         }}
         initialParams={{ userId, status }}
       />
@@ -84,7 +84,7 @@ const CustomerNavigator = ({ navigation, route }) => {
           tabBarLabel: "ติดต่อ Admin",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="contact-phone" color="white" size={size} />
-          ),
+          )
         }}
         initialParams={{ userId, status }}
       />
@@ -95,7 +95,7 @@ const CustomerNavigator = ({ navigation, route }) => {
           tabBarLabel: "Logout",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="logout" color="white" size={size} />
-          ),
+          )
         }}
         initialParams={{ userId, status }}
       />

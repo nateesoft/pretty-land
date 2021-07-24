@@ -164,7 +164,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               <ScrollView horizontals showsHorizontalScrollIndicator={false}>
                 {partnerList.map((pObj, index) => (
                   <View
-                    key={pObj.id}
+                    key={pObj.partnerId}
                     style={{
                       padding: 10,
                       borderWidth: 1,
@@ -181,7 +181,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                         width: 150,
                         height: 150
                       }}
-                      key={`img_${pObj.id}`}
+                      key={`img_${pObj.partnerId}`}
                     />
                     <View style={{ alignSelf: "center" }}>
                       <Text>ชื่อน้องๆ: {pObj.partnerName}</Text>
