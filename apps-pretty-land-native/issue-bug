@@ -1,0 +1,27 @@
+[issue]
+Your app icon can't have transparency if you wish to upload your app Apple's App Store. 
+Read more here: https://expo.fyi/remove-alpha-channel
+[solve]
+https://github.com/expo/fyi/blob/master/remove-alpha-channel.md
+
+[note]
+expo build:ios
+expo build:android
+
+[descript_app]
+[p_kit]
+    เหงาอยู่รึป่าว!! หาเพื่อน หาแฟน หาคนคุย ต้อง PrettyLand เท่านั้น
+    PrettyLand แอพแก้เหงาให้คุณ Match กับคนที่ถูกใจ นัดเจอ ไปออกเดทกันได้เลย
+    เจอเพื่อนใหม่ เจอคนคุย ใกล้ตัว ได้ทุกที่ ทุกเวลา
+[customer]
+    เหงาอยู่รึป่าว!! หาเพื่อนดื่ม หาแฟนชั่วคราว หาคนเที่ยว สายปาร์ตี้ ต้อง PrettyLand เท่านั้น
+    PrettyLand แอพแก้เหงาให้คุณ Match กับคนที่ถูกใจ นัดเจอ ไปออกเที่ยวกันได้เลย 24ชม.
+    เจอเพื่อนใหม่ สายปาร์ตี้ ใกล้ตัว ได้ทุกที่ ทุกเวลา
+
+prettyland.2021@gmail.com
+Pxxxxxxx35
+
+https://github.com/hossein-zare/react-native-dropdown-picker/issues/56
+listMode="SCROLLVIEW"
+
+firebase auth by natee.live@gmail.com
