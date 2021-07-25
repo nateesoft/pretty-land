@@ -1,11 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
   StyleSheet,
   View,
   ImageBackground,
   Alert,
-  TextInput,
-  SafeAreaView
+  SafeAreaView,
+  FlatList
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -25,6 +25,7 @@ const AddNewBankAccount = ({ navigation, route }) => {
 
   const [openSelectBank, setOpenSelectBank] = useState(false)
   const [bankList, setBankList] = useState(getBankList())
+  const [listBank, setListBank] = useState([])
 
   const saveNewAdmin = () => {
     if (!accountNo) {
@@ -48,7 +49,7 @@ const AddNewBankAccount = ({ navigation, route }) => {
 
     firebase
       .database()
-      .ref(getDocument(`bank_account/${bankCode}/${accountNo}`))
+      .ref(getDocument(`bank_account/${bankCode}`))
       .update(dataNewBank)
       .then((res) => {
         Alert.alert("เพิ่มข้อมูลบัญชีธนาคารแล้ว")
@@ -57,6 +58,46 @@ const AddNewBankAccount = ({ navigation, route }) => {
       })
       .catch((err) => Alert.alert(err))
   }
+
+  const renderItem = ({ item }) => (
+    <View
+      style={{
+        padding: 10,
+        borderWidth: 1,
+        margin: 5,
+        borderColor: "green",
+        borderRadius: 5
+      }}
+    >
+      <Text style={{ fontSize: 18 }}>
+        {item.bank_name}: {item.account_no}
+      </Text>
+    </View>
+  )
+
+  const loadListBank = () => {
+    return new Promise((resolve, reject) => {
+      const ref = firebase.database().ref(getDocument(`bank_account`))
+      ref
+        .once("value", (snapshot) => {
+          const data = snapshot.val()
+          const listB = []
+          for (let obj in data) {
+            const objData = data[obj]
+            listB.push(objData)
+          }
+          setListBank(listB)
+        })
+        .catch((err) => {
+          reject(err)
+        })
+      resolve(true)
+    })
+  }
+
+  useEffect(() => {
+    loadListBank().catch((err) => Alert.alert(err))
+  }, [])
 
   return (
     <ImageBackground
@@ -112,8 +153,19 @@ const AddNewBankAccount = ({ navigation, route }) => {
             }
             iconLeft
             buttonStyle={styles.btnSave}
-            title="เพิ่มข้อมูล"
+            title="อัพเดตข้อมูล"
             onPress={() => saveNewAdmin()}
+          />
+          <FlatList
+            keyExtractor={(item) => item.bank_code.toString()}
+            data={listBank}
+            renderItem={renderItem}
+            style={{
+              height: 600,
+              borderWidth: 1,
+              borderColor: "#eee",
+              padding: 5
+            }}
           />
         </View>
       </SafeAreaView>

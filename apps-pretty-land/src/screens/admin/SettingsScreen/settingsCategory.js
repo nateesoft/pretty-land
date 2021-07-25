@@ -17,21 +17,23 @@ const SettingsCategory = ({ navigation, route }) => {
     >
       <Text style={styles.textTopic}>ตั้งค่าระบบ / รายงาน</Text>
       <View style={[styles.cardDetail, { justifyContent: "center" }]}>
-        <Button
-          icon={
-            <FontAwesome
-              name="user-secret"
-              size={20}
-              color="white"
-              style={{ marginRight: 5 }}
-            />
-          }
-          titleStyle={{ fontSize: 22 }}
-          iconLeft
-          buttonStyle={styles.btnNewAdmin}
-          title="เพิ่มข้อมูลบัญชีธนาคาร"
-          onPress={() => navigation.navigate("New-Bank-Form")}
-        />
+        {role === "superadmin" && (
+          <Button
+            icon={
+              <FontAwesome
+                name="user-secret"
+                size={20}
+                color="white"
+                style={{ marginRight: 5 }}
+              />
+            }
+            titleStyle={{ fontSize: 22 }}
+            iconLeft
+            buttonStyle={styles.btnNewAdmin}
+            title="เพิ่มข้อมูลบัญชีธนาคาร"
+            onPress={() => navigation.navigate("New-Bank-Form")}
+          />
+        )}
         {role === "superadmin" && (
           <Button
             icon={
