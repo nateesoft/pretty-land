@@ -12,7 +12,7 @@ import {
 import { Button as ButtonAction, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 import { TextInputMask } from "react-native-masked-text"
-import DateTimePickerModal from "react-native-modal-datetime-picker"
+// import DateTimePickerModal from "react-native-modal-datetime-picker"
 import Moment from "moment"
 
 import firebase from "../../../../util/firebase"
@@ -118,14 +118,14 @@ const TimePriceForm = (props) => {
                   style={{ marginVertical: 5, borderRadius: 10 }}
                 />
               </View>
-              <DateTimePickerModal
+              {/* <DateTimePickerModal
                 isVisible={isTimeMeetingPicker}
                 mode="time"
                 onConfirm={handleConfirmTime}
                 onCancel={hideTimeMeetingPicker}
                 locale="en_GB"
                 isDarkModeEnabled={false}
-              />
+              /> */}
             </View>
             <View>
               <Text style={{ fontSize: 16, padding: 5 }}>เบอร์โทร</Text>

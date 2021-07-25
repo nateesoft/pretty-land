@@ -1,4 +1,6 @@
 {
+  "name": "prettyland",
+  "displayName": "Pretty Land",
   "expo": {
     "name": "Pretty Land",
     "slug": "Pretty-Land",

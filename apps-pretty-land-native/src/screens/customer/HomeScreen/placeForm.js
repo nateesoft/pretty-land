@@ -14,7 +14,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import RadioButtonRN from "radio-buttons-react-native"
 import { FontAwesome } from "react-native-vector-icons"
 import { TextInputMask } from "react-native-masked-text"
-import DateTimePickerModal from "react-native-modal-datetime-picker"
+// import DateTimePickerModal from "react-native-modal-datetime-picker"
 import Moment from "moment"
 
 import firebase from "../../../../util/firebase"
@@ -178,14 +178,14 @@ const PlaceForm = (props) => {
                   style={{ marginVertical: 5, borderRadius: 10 }}
                 />
               </View>
-              <DateTimePickerModal
+              {/* <DateTimePickerModal
                 isVisible={isTimeStartPicker}
                 mode="time"
                 onConfirm={handleConfirmStartTime}
                 onCancel={hideTimeStartPicker}
                 locale="en_GB"
                 isDarkModeEnabled={false}
-              />
+              /> */}
             </View>
             <View style={{ width: "100%" }}>
               <Text style={{ fontSize: 16, padding: 5 }}>เวลาเลิก</Text>
@@ -197,14 +197,14 @@ const PlaceForm = (props) => {
                   style={{ marginVertical: 5, borderRadius: 10 }}
                 />
               </View>
-              <DateTimePickerModal
+              {/* <DateTimePickerModal
                 isVisible={isTimeStopPicker}
                 mode="time"
                 onConfirm={handleConfirmStopTime}
                 onCancel={hideTimeStopPicker}
                 locale="en_GB"
                 isDarkModeEnabled={false}
-              />
+              /> */}
             </View>
             <View style={{ width: "100%" }}>
               <Text style={{ fontSize: 16, padding: 5 }}>เบอร์โทร</Text>
