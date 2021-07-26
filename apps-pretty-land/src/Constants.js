@@ -2,7 +2,7 @@ export const AppConfig = {
   bgImage: require("../assets/bg.png"),
   iconImage: require("../assets/icon.png"),
   logoImage: require("../assets/logo.png"),
-  env: "demo",
+  env: "",
   MemberStatus: {
     newRegister: "new_register",
     newRegisterMessage: "รอออนุมัติ",
