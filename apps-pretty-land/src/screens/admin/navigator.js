@@ -19,11 +19,13 @@ import LogoutScreen from "../logout"
 import firebase from "../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../util"
 import { AppConfig } from "../../Constants"
+import { getAdminNewPostFromDb, getAdminNewMemberFromDb } from "../../apis"
 
 const Tab = createBottomTabNavigator()
 
 const AdminNavigator = ({ navigation, route }) => {
   const { userId, screen } = route.params
+  const [postNewCount, setPostNewCount] = useState(0)
   const [memberCount, setMemberCount] = useState(0)
 
   const countOfMemberNew = (snapshot) => {
@@ -41,15 +43,15 @@ const AdminNavigator = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref(getDocument(`members`))
-      .orderByChild("memberType")
-      .equalTo("partner")
-    const listener = ref.on("value", (snapshot) => {
-      countOfMemberNew(snapshot).catch((err) => Alert.alert(err))
-    })
-    return () => ref.off("value", listener)
+    getAdminNewPostFromDb()
+      .then((res) => setPostNewCount(res))
+      .catch((err) => Alert.alert(err))
+  }, [])
+
+  useEffect(() => {
+    getAdminNewMemberFromDb()
+      .then((res) => setMemberCount(res))
+      .catch((err) => Alert.alert(err))
   }, [])
 
   return (
@@ -69,7 +71,12 @@ const AdminNavigator = ({ navigation, route }) => {
           title: "โพสท์ทั้งหมด",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="fact-check" color="white" size={size} />
-          )
+          ),
+          tabBarBadge: postNewCount ? postNewCount : null,
+          tabBarBadgeStyle: {
+            backgroundColor: "rgb(70, 240, 238)",
+            color: "red"
+          }
         }}
         initialParams={{ userId }}
       />

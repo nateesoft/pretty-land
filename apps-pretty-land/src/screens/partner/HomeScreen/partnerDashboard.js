@@ -5,14 +5,20 @@ import {
   View,
   Text,
   Image,
-  ImageBackground
+  ImageBackground,
+  Alert
 } from "react-native"
 
 /* import data */
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import { Alert } from "react-native"
+import {
+  getPartnerDashboardType1,
+  getPartnerDashboardType2,
+  getPartnerDashboardType3,
+  getPartnerDashboardType4
+} from "../../../apis"
 
 const PartnerDashboard = ({ navigation, route }) => {
   const { userId } = route.params
@@ -37,11 +43,6 @@ const PartnerDashboard = ({ navigation, route }) => {
         type2 = 0,
         type3 = 0,
         type4 = 0
-
-      let countType1 = 0,
-        countType2 = 0,
-        countType3 = 0,
-        countType4 = 0
 
       arr.forEach((item) => {
         if (
@@ -74,6 +75,21 @@ const PartnerDashboard = ({ navigation, route }) => {
       resolve(true)
     })
   }
+
+  useEffect(() => {
+    getPartnerDashboardType1()
+      .then((res) => setPostType1Count(res))
+      .catch((err) => Alert.alert(err))
+    getPartnerDashboardType2()
+      .then((res) => setPostType2Count(res))
+      .catch((err) => Alert.alert(err))
+    getPartnerDashboardType3()
+      .then((res) => setPostType3Count(res))
+      .catch((err) => Alert.alert(err))
+    getPartnerDashboardType4()
+      .then((res) => setPostType4Count(res))
+      .catch((err) => Alert.alert(err))
+  }, [])
 
   useEffect(() => {
     const ref = firebase.database().ref(getDocument(`members/${userId}`))
@@ -160,7 +176,7 @@ const PartnerDashboard = ({ navigation, route }) => {
               data={items[0]}
               count={sumType1}
               type={AppConfig.PartnerType.type1}
-              badge={0}
+              badge={postType1Count}
             />
           )}
           {profile.type2 && (
@@ -168,7 +184,7 @@ const PartnerDashboard = ({ navigation, route }) => {
               data={items[1]}
               count={sumType2}
               type={AppConfig.PartnerType.type2}
-              badge={0}
+              badge={postType2Count}
             />
           )}
           {profile.type3 && (
@@ -176,7 +192,7 @@ const PartnerDashboard = ({ navigation, route }) => {
               data={items[2]}
               count={sumType3}
               type={AppConfig.PartnerType.type3}
-              badge={0}
+              badge={postType3Count}
             />
           )}
           {profile.type4 && (
@@ -184,7 +200,7 @@ const PartnerDashboard = ({ navigation, route }) => {
               data={items[3]}
               count={sumType4}
               type={AppConfig.PartnerType.type4}
-              badge={0}
+              badge={postType4Count}
             />
           )}
         </View>
@@ -232,7 +248,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 11,
     top: 11,
-    zIndex: 2,
+    zIndex: 2
   },
   badge: {
     color: "red",
@@ -241,7 +257,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "rgb(70, 240, 238)",
     fontWeight: "bold",
-    fontSize: 32,
+    fontSize: 32
   }
 })
 

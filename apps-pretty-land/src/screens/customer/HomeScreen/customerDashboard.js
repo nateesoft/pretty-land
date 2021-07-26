@@ -5,13 +5,20 @@ import {
   View,
   Text,
   Image,
-  ImageBackground
+  ImageBackground,
+  Alert,
 } from "react-native"
 
 /* import data */
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
+import {
+  getCustomerDashboardType1,
+  getCustomerDashboardType2,
+  getCustomerDashboardType3,
+  getCustomerDashboardType4,
+} from "../../../apis"
 
 const CustomerDashboard = ({ navigation, route }) => {
   const { userId } = route.params
@@ -33,48 +40,19 @@ const CustomerDashboard = ({ navigation, route }) => {
   const [sumType3, setSumType3] = useState("0")
   const [sumType4, setSumType4] = useState("0")
 
-  const getComputeGroup = (snapshot) => {
-    return new Promise((resolve, reject) => {
-      const arr = snapshotToArray(snapshot)
-      let type1 = 0,
-        type2 = 0,
-        type3 = 0,
-        type4 = 0
-      arr.forEach((item) => {
-        if (item.customerId === userId) {
-          if (item.status === AppConfig.PostsStatus.waitCustomerSelectPartner) {
-            if (item.partnerRequest === AppConfig.PartnerType.type1) {
-              type1 = type1 + 1
-            }
-            if (item.partnerRequest === AppConfig.PartnerType.type2) {
-              type2 = type2 + 1
-            }
-            if (item.partnerRequest === AppConfig.PartnerType.type3) {
-              type3 = type3 + 1
-            }
-            if (item.partnerRequest === AppConfig.PartnerType.type4) {
-              type4 = type4 + 1
-            }
-          }
-        }
-      })
-      setSumType1(type1)
-      setSumType2(type2)
-      setSumType3(type3)
-      setSumType4(type4)
-
-      resolve(true)
-    })
-  }
-
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`posts`))
-    const listener = ref.on("value", (snapshot) => {
-      getComputeGroup(snapshot).catch((err) => Alert.alert(err))
-    })
-    return () => {
-      ref.off("value", listener)
-    }
+    getCustomerDashboardType1()
+      .then((res) => setSumType1(res))
+      .catch((err) => Alert.alert(err))
+    getCustomerDashboardType2()
+      .then((res) => setSumType2(res))
+      .catch((err) => Alert.alert(err))
+    getCustomerDashboardType3()
+      .then((res) => setSumType3(res))
+      .catch((err) => Alert.alert(err))
+    getCustomerDashboardType4()
+      .then((res) => setSumType4(res))
+      .catch((err) => Alert.alert(err))
   }, [])
 
   const getAllPartnerList = (snapshot) => {

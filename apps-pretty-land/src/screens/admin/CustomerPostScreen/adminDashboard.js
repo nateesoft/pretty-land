@@ -5,13 +5,21 @@ import {
   View,
   Text,
   Image,
-  ImageBackground
+  ImageBackground,
+  Alert
 } from "react-native"
 
 /* import data */
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
+import {
+  getAdminDashboardType1,
+  getAdminDashboardType2,
+  getAdminDashboardType3,
+  getAdminDashboardType4,
+  getConfigList
+} from "../../../apis"
 
 const AdminDashboard = ({ navigation, route }) => {
   const [items, setItems] = useState([])
@@ -33,35 +41,18 @@ const AdminDashboard = ({ navigation, route }) => {
         type3 = 0,
         type4 = 0
 
-      let countType1 = 0,
-        countType2 = 0,
-        countType3 = 0,
-        countType4 = 0
-
       arr.forEach((item) => {
         if (item.partnerRequest === AppConfig.PartnerType.type1) {
           type1 = type1 + 1
-          if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
-            countType1 = countType1 + 1
-          }
         }
         if (item.partnerRequest === AppConfig.PartnerType.type2) {
           type2 = type2 + 1
-          if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
-            countType2 = countType2 + 1
-          }
         }
         if (item.partnerRequest === AppConfig.PartnerType.type3) {
           type3 = type3 + 1
-          if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
-            countType3 = countType3 + 1
-          }
         }
         if (item.partnerRequest === AppConfig.PartnerType.type4) {
           type4 = type4 + 1
-          if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
-            countType4 = countType4 + 1
-          }
         }
       })
 
@@ -70,27 +61,26 @@ const AdminDashboard = ({ navigation, route }) => {
       setSumType3(type3)
       setSumType4(type4)
 
-      setPostType1Count(countType1)
-      setPostType2Count(countType2)
-      setPostType3Count(countType3)
-      setPostType4Count(countType4)
-
       resolve(true)
     })
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`appconfig`))
-    ref.once("value", (snapshot) => {
-      const dataItems = []
-      const appconfig = snapshot.val()
-      dataItems.push({ ...appconfig.partner1 })
-      dataItems.push({ ...appconfig.partner2 })
-      dataItems.push({ ...appconfig.partner3 })
-      dataItems.push({ ...appconfig.partner4 })
-
-      setItems(dataItems)
-    })
+    getConfigList()
+      .then((res) => setItems(res))
+      .catch((err) => Alert.alert(err))
+    getAdminDashboardType1()
+      .then((res) => setPostType1Count(res))
+      .catch((err) => Alert.alert(err))
+    getAdminDashboardType2()
+      .then((res) => setPostType2Count(res))
+      .catch((err) => Alert.alert(err))
+    getAdminDashboardType3()
+      .then((res) => setPostType3Count(res))
+      .catch((err) => Alert.alert(err))
+    getAdminDashboardType4()
+      .then((res) => setPostType4Count(res))
+      .catch((err) => Alert.alert(err))
   }, [])
 
   useEffect(() => {
@@ -212,7 +202,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 13,
     top: 17,
-    zIndex: 2,
+    zIndex: 2
   },
   badge: {
     color: "red",
@@ -221,7 +211,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "rgb(70, 240, 238)",
     fontWeight: "bold",
-    fontSize: 32,
+    fontSize: 32
   }
 })
 

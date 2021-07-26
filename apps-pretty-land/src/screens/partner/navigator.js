@@ -15,9 +15,8 @@ import ProfileNavigator from "./ProfileScreen/navigator"
 
 /* Logout */
 import LogoutScreen from "../logout"
-import firebase from "../../../util/firebase"
-import { snapshotToArray, getDocument } from "../../../util"
-import { AppConfig } from "../../Constants"
+import { getPartnerRequestChange, getPartnerMyPostChange } from "../../apis"
+import { Alert } from "react-native"
 
 const Tab = createBottomTabNavigator()
 
@@ -26,35 +25,13 @@ const PartnerNavigator = ({ navigation, route }) => {
   const [reqCount, setReqCount] = useState(0)
   const [myPostCount, setMyPostCount] = useState(0)
 
-  const countOfPostsNew = (snapshot) => {
-    return new Promise((resolve, reject) => {
-      const data = snapshotToArray(snapshot)
-      let count1 = 0
-      let count2 = 0
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].customerId === userId) {
-          if (
-            data[i].status === AppConfig.PostsStatus.waitCustomerSelectPartner
-          ) {
-            count1 = count1 + 1
-          }
-          if (data[i].status === AppConfig.PostsStatus.waitCustomerPayment) {
-            count2 = count2 + 1
-          }
-        }
-      }
-      setReqCount(count1)
-      setMyPostCount(count2)
-      resolve(true)
-    })
-  }
-
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`posts`))
-    const listener = ref.on("value", (snapshot) => {
-      countOfPostsNew(snapshot).catch((err) => Alert.alert(err))
-    })
-    return () => ref.off("value", listener)
+    getPartnerRequestChange()
+      .then((res) => setReqCount(res))
+      .catch((err) => Alert.alert(err))
+    getPartnerMyPostChange()
+      .then((res) => setMyPostCount(res))
+      .catch((err) => Alert.alert(err))
   }, [])
 
   return (
