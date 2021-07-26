@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   badgeContainer: {
     position: "absolute",
     right: 13,
-    top: 17,
+    top: 15,
     zIndex: 2
   },
   badge: {
