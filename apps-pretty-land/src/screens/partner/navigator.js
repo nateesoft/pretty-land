@@ -63,7 +63,11 @@ const PartnerNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="request-quote" color="white" size={size} />
           ),
-          tabBarBadge: reqCount ? reqCount : null
+          tabBarBadge: reqCount ? reqCount : null,
+          tabBarBadgeStyle: {
+            backgroundColor: "rgb(70, 240, 238)",
+            color: "red"
+          }
         }}
         initialParams={{ userId, status }}
       />
@@ -75,7 +79,11 @@ const PartnerNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <Foundation name="social-foursquare" color="white" size={size} />
           ),
-          tabBarBadge: myPostCount ? myPostCount : null
+          tabBarBadge: myPostCount ? myPostCount : null,
+          tabBarBadgeStyle: {
+            backgroundColor: "rgb(70, 240, 238)",
+            color: "red"
+          }
         }}
         initialParams={{ userId, status }}
       />

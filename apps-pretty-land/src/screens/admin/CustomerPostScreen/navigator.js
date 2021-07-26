@@ -10,7 +10,7 @@ import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const AdminTaskNavigator = () => {
+const AdminTaskNavigator = ({ navigator, route }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -19,10 +19,12 @@ const AdminTaskNavigator = () => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="โพสท์ทั้งหมดในระบบ" {...props} />,
+          headerTitle: (props) => (
+            <LogoTitle title="โพสท์ทั้งหมดในระบบ" {...props} />
+          )
         }}
         initialParams={{ partnerType: "all" }}
       />
@@ -32,10 +34,10 @@ const AdminTaskNavigator = () => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{ partnerType: "all" }}
       />
@@ -45,10 +47,10 @@ const AdminTaskNavigator = () => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
       />
       <Stack.Screen
@@ -57,10 +59,10 @@ const AdminTaskNavigator = () => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
       />
     </Stack.Navigator>

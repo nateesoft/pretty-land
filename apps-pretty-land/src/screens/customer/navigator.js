@@ -54,7 +54,11 @@ const CustomerNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="post" color="white" size={size} />
           ),
-          tabBarBadge: postsChangeCount ? postsChangeCount : null
+          tabBarBadge: postsChangeCount ? postsChangeCount : null,
+          tabBarBadgeStyle: {
+            backgroundColor: "rgb(70, 240, 238)",
+            color: "red"
+          }
         }}
         initialParams={{ userId, status }}
       />

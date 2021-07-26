@@ -9,7 +9,7 @@ import {
 import { Alert } from "react-native"
 
 /* all screen */
-import TaskNavigator from "./CustomerPostScreen/navigator"
+import CustomerPostNavigator from "./CustomerPostScreen/navigator"
 import MemberNavigator from "./MemberScreen/navigator"
 import ProfileNavigator from "./ProfileScreen/navigator"
 import SettingsNavigator from "./SettingsScreen/navigator"
@@ -17,41 +17,28 @@ import SettingsNavigator from "./SettingsScreen/navigator"
 /* Logout */
 import LogoutScreen from "../logout"
 import firebase from "../../../util/firebase"
-import { snapshotToArray, getDocument } from "../../../util"
-import { AppConfig } from "../../Constants"
+import { getDocument } from "../../../util"
 import { getAdminNewPostFromDb, getAdminNewMemberFromDb } from "../../apis"
 
 const Tab = createBottomTabNavigator()
 
 const AdminNavigator = ({ navigation, route }) => {
   const { userId, screen } = route.params
-  const [postNewCount, setPostNewCount] = useState(0)
+  const [postNewCount, setPostNewCount] = useState([])
   const [memberCount, setMemberCount] = useState(0)
 
-  const countOfMemberNew = (snapshot) => {
-    return new Promise((resolve, reject) => {
-      const data = snapshotToArray(snapshot)
-      let count = 0
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].status === AppConfig.MemberStatus.newRegister) {
-          count = count + 1
-        }
-      }
-      setMemberCount(count)
-      resolve(true)
+  useEffect(() => {
+    const ref = firebase.database().ref(getDocument(`message_alert`))
+    const listener = ref.on("value", (snapshot) => {
+      getAdminNewPostFromDb(userId)
+        .then((res) => setPostNewCount(res))
+        .catch((err) => Alert.alert(err))
+
+      getAdminNewMemberFromDb()
+        .then((res) => setMemberCount(res))
+        .catch((err) => Alert.alert(err))
     })
-  }
-
-  useEffect(() => {
-    getAdminNewPostFromDb()
-      .then((res) => setPostNewCount(res))
-      .catch((err) => Alert.alert(err))
-  }, [])
-
-  useEffect(() => {
-    getAdminNewMemberFromDb()
-      .then((res) => setMemberCount(res))
-      .catch((err) => Alert.alert(err))
+    return () => ref.off("value", listener)
   }, [])
 
   return (
@@ -66,7 +53,7 @@ const AdminNavigator = ({ navigation, route }) => {
     >
       <Tab.Screen
         name="a-Task"
-        component={TaskNavigator}
+        component={CustomerPostNavigator}
         options={{
           title: "โพสท์ทั้งหมด",
           tabBarIcon: ({ color, size }) => (

@@ -104,7 +104,8 @@ const PlaceForm = (props) => {
       startTime,
       stopTime,
       partnerWantQty,
-      sexTarget: sex
+      sexTarget: sex,
+      partnerType: item.type,
     })
     navigation.navigate("Customer-Dashboard")
   }

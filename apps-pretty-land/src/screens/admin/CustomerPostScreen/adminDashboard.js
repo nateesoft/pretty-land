@@ -13,13 +13,7 @@ import {
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import {
-  getAdminDashboardType1,
-  getAdminDashboardType2,
-  getAdminDashboardType3,
-  getAdminDashboardType4,
-  getConfigList
-} from "../../../apis"
+import { getAdminDashboardType, getConfigList } from "../../../apis"
 
 const AdminDashboard = ({ navigation, route }) => {
   const [items, setItems] = useState([])
@@ -66,21 +60,25 @@ const AdminDashboard = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    getConfigList()
-      .then((res) => setItems(res))
-      .catch((err) => Alert.alert(err))
-    getAdminDashboardType1()
-      .then((res) => setPostType1Count(res))
-      .catch((err) => Alert.alert(err))
-    getAdminDashboardType2()
-      .then((res) => setPostType2Count(res))
-      .catch((err) => Alert.alert(err))
-    getAdminDashboardType3()
-      .then((res) => setPostType3Count(res))
-      .catch((err) => Alert.alert(err))
-    getAdminDashboardType4()
-      .then((res) => setPostType4Count(res))
-      .catch((err) => Alert.alert(err))
+    const ref = firebase.database().ref(getDocument(`message_alert`))
+    const listener = ref.on("value", (snapshot) => {
+      getConfigList()
+        .then((res) => setItems(res))
+        .catch((err) => Alert.alert(err))
+      getAdminDashboardType(1)
+        .then((res) => setPostType1Count(res))
+        .catch((err) => Alert.alert(err))
+      getAdminDashboardType(2)
+        .then((res) => setPostType2Count(res))
+        .catch((err) => Alert.alert(err))
+      getAdminDashboardType(3)
+        .then((res) => setPostType3Count(res))
+        .catch((err) => Alert.alert(err))
+      getAdminDashboardType(4)
+        .then((res) => setPostType4Count(res))
+        .catch((err) => Alert.alert(err))
+    })
+    return () => ref.off("value", listener)
   }, [])
 
   useEffect(() => {
