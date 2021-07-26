@@ -17,7 +17,8 @@ import {
   getPartnerDashboardType1,
   getPartnerDashboardType2,
   getPartnerDashboardType3,
-  getPartnerDashboardType4
+  getPartnerDashboardType4,
+  getConfigList
 } from "../../../apis"
 
 const PartnerDashboard = ({ navigation, route }) => {
@@ -99,17 +100,9 @@ const PartnerDashboard = ({ navigation, route }) => {
   }, [])
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`appconfig`))
-    ref.once("value", (snapshot) => {
-      const dataItems = []
-      const appconfig = snapshot.val()
-      dataItems.push({ ...appconfig.partner1 })
-      dataItems.push({ ...appconfig.partner2 })
-      dataItems.push({ ...appconfig.partner3 })
-      dataItems.push({ ...appconfig.partner4 })
-
-      setItems(dataItems)
-    })
+    getConfigList()
+      .then((res) => setItems(res))
+      .catch((err) => Alert.alert(err))
   }, [])
 
   useEffect(() => {

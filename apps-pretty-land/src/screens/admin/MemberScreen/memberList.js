@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
-  ImageBackground
+  ImageBackground,
+  Alert
 } from "react-native"
 import { ListItem, Avatar, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
@@ -18,6 +19,7 @@ import { AppConfig } from "../../../Constants"
 import FemaleSimple from "../../../../assets/avatar/1.png"
 import MaleSimple from "../../../../assets/avatar/2.png"
 import OtherSimple from "../../../../assets/avatar/3.png"
+import { getConfigList } from "../../../apis"
 
 const MemberAllListScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false)
@@ -25,40 +27,24 @@ const MemberAllListScreen = ({ navigation, route }) => {
   const [items, setItems] = useState([])
 
   useEffect(() => {
-    initConfig().then((res) => {
-      setItems(res)
-      const ref = firebase
-        .database()
-        .ref(getDocument("members"))
-        .orderByChild("status_priority")
-      const litener = ref.on("value", (snapshot) => {
-        const memberInCloud = snapshotToArray(snapshot)
-        setMembers(
-          memberInCloud.filter((item, index) => item.memberType === "partner")
-        )
-      })
-
-      return () => {
-        ref.off('value', listener)
-      }
+    getConfigList()
+      .then((res) => setItems(res))
+      .catch((err) => Alert.alert(err))
+    const ref = firebase
+      .database()
+      .ref(getDocument("members"))
+      .orderByChild("status_priority")
+    const listener = ref.on("value", (snapshot) => {
+      const memberInCloud = snapshotToArray(snapshot)
+      setMembers(
+        memberInCloud.filter((item, index) => item.memberType === "partner")
+      )
     })
+
+    return () => {
+      ref.off("value", listener)
+    }
   }, [])
-
-  const initConfig = () => {
-    return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(getDocument(`appconfig`))
-      ref.once("value", (snapshot) => {
-        const dataItems = []
-        const appconfig = snapshot.val()
-        dataItems.push({ ...appconfig.partner1 })
-        dataItems.push({ ...appconfig.partner2 })
-        dataItems.push({ ...appconfig.partner3 })
-        dataItems.push({ ...appconfig.partner4 })
-
-        resolve(dataItems)
-      })
-    })
-  }
 
   const getPartnerTypeFromFirebase = (member) => {
     if (member.memberType === "partner") {

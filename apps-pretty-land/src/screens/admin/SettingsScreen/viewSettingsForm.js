@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react"
-import { StyleSheet, View, ImageBackground } from "react-native"
+import { StyleSheet, View, ImageBackground, Alert } from "react-native"
 import { Button, Text, Input } from "react-native-elements"
 import { FontAwesome } from "react-native-vector-icons"
 
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import { Alert } from "react-native"
 
 const ViewSettingForm = ({ navigation, route }) => {
   const [feeAmount, setFeeAmount] = useState("")
