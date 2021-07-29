@@ -171,21 +171,22 @@ const WorkDetailScreen = ({ navigation, route }) => {
             ลูกค้า: {item.customerName}
           </Text>
           <View>
-            <Text>โหมดงาน: {item.partnerRequest}</Text>
-            <Text>จังหวัด: {item.provinceName}</Text>
-            <Text>
+            <Text style={{fontSize: 16, marginVertical: 5}}>โหมดงาน: {item.partnerRequest}</Text>
+            <Text style={{fontSize: 16}}>จังหวัด: {item.provinceName}</Text>
+            <Text style={{fontSize: 16, marginVertical: 5}}>
               วันที่แจ้ง:{" "}
               {moment(item.sys_create_date).format("D MMM YYYY")}
             </Text>
-            <Text>Lv.ลูกค้า: {item.customerLevel}</Text>
-            <Text>เบอร์ติดต่อ: {item.customerPhone}</Text>
+            <Text style={{fontSize: 16}}>Lv.ลูกค้า: {item.customerLevel}</Text>
+            <Text style={{fontSize: 16, marginVertical: 5}}>เบอร์ติดต่อ: {item.customerPhone}</Text>
           </View>
           <Text
             style={{
-              marginBottom: 5,
               backgroundColor: "chocolate",
               color: "white",
               paddingHorizontal: 5,
+              fontSize: 16,
+              marginVertical: 10,
             }}
           >
             โหมดงาน: {item.partnerRequest}

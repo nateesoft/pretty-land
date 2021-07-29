@@ -9,6 +9,7 @@ import AdminListScreen from "./adminList"
 import MemberListScreen from "./memberList"
 import PartnerListScreen from "./partnerList"
 import AdminDetailScreen from "./adminDetail"
+import SendBroadcast from "./sendBroadcast"
 
 import { LogoTitle } from "../../../components/Header"
 
@@ -109,6 +110,18 @@ const AdminSettingsNavigator = ({ navigation, route }) => {
       <Stack.Screen
         name="Admin-Detail"
         component={AdminDetailScreen}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#ff2fe6"
+          },
+          headerTintColor: "white",
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
+        }}
+      />
+      <Stack.Screen
+        name="Send-Broadcast"
+        component={SendBroadcast}
         options={{
           title: "Back",
           headerStyle: {

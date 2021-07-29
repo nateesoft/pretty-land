@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
-  ImageBackground,
+  ImageBackground
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
@@ -39,17 +39,23 @@ const PostListAllScreen = ({ navigation, route }) => {
       containerStyle={{
         backgroundColor: null,
         borderRadius: 8,
-        marginVertical: 5,
+        marginVertical: 5
       }}
       underlayColor="pink"
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title style={{color: "blue"}}>ชื่อลูกค้า: {item.customerName}</ListItem.Title>
-        <ListItem.Title>Level: {item.customerLevel}</ListItem.Title>
-        <ListItem.Subtitle>
+        <ListItem.Title style={{ color: "blue", fontSize: 16 }}>
+          ชื่อลูกค้า: {item.customerName}
+        </ListItem.Title>
+        <ListItem.Title style={{ marginVertical: 5, fontSize: 16 }}>
+          Level: {item.customerLevel}
+        </ListItem.Title>
+        <ListItem.Subtitle style={{ fontSize: 16 }}>
           ประเภทงาน: {itemData.name}
         </ListItem.Subtitle>
-        <ListItem.Subtitle>Status: {item.statusText}</ListItem.Subtitle>
+        <ListItem.Subtitle style={{ marginVertical: 5, fontSize: 16 }}>
+          Status: {item.statusText}
+        </ListItem.Subtitle>
       </ListItem.Content>
       <ProgressCircle
         percent={30}
@@ -82,7 +88,7 @@ const PostListAllScreen = ({ navigation, route }) => {
               updatePosts(item.id, {
                 status: AppConfig.PostsStatus.postTimeout,
                 statusText: "ข้อมูลการโพสท์ใหม่หมดอายุ",
-                sys_update_date: new Date().toUTCString(),
+                sys_update_date: new Date().toUTCString()
               })
             }
           }
@@ -96,7 +102,7 @@ const PostListAllScreen = ({ navigation, route }) => {
                 status: AppConfig.PostsStatus.postTimeout,
                 statusText:
                   "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
-                sys_update_date: new Date().toUTCString(),
+                sys_update_date: new Date().toUTCString()
               })
             }
           }
@@ -109,7 +115,7 @@ const PostListAllScreen = ({ navigation, route }) => {
               updatePosts(item.id, {
                 status: AppConfig.PostsStatus.closeJob,
                 statusText: "ระบบปิดโพสท์อัตโนมัติ หลังจาก 2 ชั่วโมง",
-                sys_update_date: new Date().toUTCString(),
+                sys_update_date: new Date().toUTCString()
               })
 
               // ให้ star/rate สำหรับน้องๆ โพสท์นั้นๆ (เต็ม 5 ดาว)
@@ -117,10 +123,14 @@ const PostListAllScreen = ({ navigation, route }) => {
                 const partnerData = item.partnerSelect[key]
                 firebase
                   .database()
-                  .ref(getDocument(`partner_star/${partnerData.partnerId}/${item.id}`))
+                  .ref(
+                    getDocument(
+                      `partner_star/${partnerData.partnerId}/${item.id}`
+                    )
+                  )
                   .update({
                     star: 5,
-                    sys_date: new Date().toUTCString(),
+                    sys_date: new Date().toUTCString()
                   })
               }
             }
@@ -152,7 +162,7 @@ const PostListAllScreen = ({ navigation, route }) => {
                 height: 600,
                 borderWidth: 1,
                 borderColor: "#eee",
-                padding: 5,
+                padding: 5
               }}
               refreshControl={
                 <RefreshControl
@@ -171,7 +181,7 @@ const PostListAllScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
+    padding: 5
   },
   textTopic: {
     fontSize: 24,
@@ -179,20 +189,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
+    padding: 10
   },
   btnNewPost: {
     backgroundColor: "#35D00D",
     margin: 5,
     borderRadius: 75,
     height: 45,
-    width: 250,
+    width: 250
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })
 
 export default PostListAllScreen

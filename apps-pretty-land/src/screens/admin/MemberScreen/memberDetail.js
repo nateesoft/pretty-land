@@ -208,21 +208,20 @@ const MemberDetailScreen = ({ navigation, route }) => {
                 margin: 10,
               }}
             >
-              <Text style={{ fontSize: 16 }}>id: {item.id}</Text>
               <Text style={{ fontSize: 16, color: "blue" }}>
                 ชื่อ: {item.name || item.username}
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
                 โหมดงาน: {topic}
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginBottom: 5 }}>
                 วันที่เป็นสมาชิก:{" "}
                 {item.member_register_date
                   ? Moment(item.member_register_date).format("D MMM YYYY")
                   : "[ รออนุมัติ ]"}
               </Text>
               {item.memberType === "admin" && (
-                <Text style={{ fontSize: 16 }}>
+                <Text style={{ fontSize: 16, marginVertical: 5 }}>
                   ระดับ Level: {item.customerLevel || 0}
                 </Text>
               )}
@@ -233,7 +232,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
                   </Text>
                 </View>
               )}
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
                 เบอร์ติดต่อ: {item.mobile || "[ ไม่พบข้อมูล ]"}
               </Text>
               <Text style={{ fontSize: 16 }}>สถานะ: {item.statusText}</Text>

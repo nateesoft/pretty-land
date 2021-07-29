@@ -46,9 +46,9 @@ const PostListScreen = ({ navigation, route }) => {
       underlayColor="pink"
     >
       <Avatar source={{ uri: item.partnerImage }} size={128} />
-      <ListItem.Content style={{ marginLeft: 10 }}>
+      <ListItem.Content>
         <ListItem.Subtitle style={{color: "blue"}}>ชื่อ: {item.customerName}</ListItem.Subtitle>
-        <ListItem.Subtitle>จังหวัด: {item.provinceName}</ListItem.Subtitle>
+        <ListItem.Subtitle style={{marginVertical: 5}}>จังหวัด: {item.provinceName}</ListItem.Subtitle>
         <ListItem.Subtitle style={{ backgroundColor: "pink", padding: 5 }}>
           Status: {item.statusText}
         </ListItem.Subtitle>

@@ -79,15 +79,15 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>โหมดงาน: {topic}</Text>
-              <Text style={{ fontSize: 16 }}>
-                จำนวนน้องๆที่ต้องการ: {item.partnerWantQty || 0} คน
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
+                จำนวนน้องๆ ที่ต้องการ: {item.partnerWantQty || 0} คน
               </Text>
               <Text style={{ fontSize: 16, color: "blue" }}>
                 ชื่อลูกค้า: {item.customerName}
               </Text>
-              <Text style={{ fontSize: 16 }}>Level: {item.customerLevel}</Text>
+              <Text style={{ fontSize: 16, marginVertical: 5, marginVertical: 5 }}>Level: {item.customerLevel}</Text>
               <Text style={{ fontSize: 16 }}>จังหวัด: {item.provinceName}</Text>
-              <Text style={{ fontSize: 16, color: "red" }}>
+              <Text style={{ fontSize: 16, marginVertical: 5, color: "red" }}>
                 เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
               </Text>
             </View>
@@ -97,7 +97,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               <Text style={{ fontSize: 16, color: "green" }}>
                 สถานะที่: {item.placeMeeting}
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
                 เบอร์โทร: {item.customerPhone}
               </Text>
               <Text style={{ fontSize: 16, color: "brown" }}>
@@ -107,11 +107,11 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           </View>
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
                 วันที่สร้างข้อมูล:{" "}
                 {Moment(item.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
                 วันที่อัพเดตข้อมูล:{" "}
                 {Moment(item.sys_update_date).format("DD/MM/YYYY HH:mm:ss")}
               </Text>

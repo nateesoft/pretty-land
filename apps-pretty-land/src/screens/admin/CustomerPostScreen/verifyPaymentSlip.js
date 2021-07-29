@@ -68,7 +68,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
           <View style={{ alignSelf: "center" }}>
             <Image
               source={{ uri: item.slip_image }}
-              style={{ width: 200, height: 250 }}
+              style={{ width: 300, height: 350 }}
             />
           </View>
           {item.partnerRequest !== AppConfig.PartnerType.type4 && (
@@ -79,22 +79,36 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                 borderWidth: 1.5,
                 margin: 10,
                 borderColor: "pink",
-                width: "85%",
+                width: "85%"
               }}
             >
-              <Text style={{color: "blue"}}>ชื่อลูกค้า: {item.customerName}</Text>
-              <Text>Level: {item.customerLevel}</Text>
-              <Text style={{color: "green"}}>สถานที่: {item.placeMeeting}</Text>
-              <Text style={{color: "red"}}>
+              <Text style={{ color: "blue", fontSize: 16 }}>
+                ชื่อลูกค้า: {item.customerName}
+              </Text>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
+                Level: {item.customerLevel}
+              </Text>
+              <Text style={{ color: "green", fontSize: 16, marginVertical: 5 }}>
+                สถานที่: {item.placeMeeting}
+              </Text>
+              <Text style={{ color: "red", fontSize: 16 }}>
                 เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
               </Text>
-              <Text>เบอร์ติดต่อ: {item.customerPhone}</Text>
-              <Text style={{color: "brown"}}>รายละเอียดเพิ่มเติม: {item.customerRemark}</Text>
-              <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
-              <Text>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
+                เบอร์ติดต่อ: {item.customerPhone}
+              </Text>
+              <Text style={{ color: "brown", fontSize: 16 }}>
+                รายละเอียดเพิ่มเติม: {item.customerRemark}
+              </Text>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
+                ธนาคารที่โอนเงิน: {item.bankName}
+              </Text>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
                 ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}
               </Text>
-              <Text>เวลาที่โอนเงิน: {item.transferTime}</Text>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
+                เวลาที่โอนเงิน: {item.transferTime}
+              </Text>
             </View>
           )}
           {item.partnerRequest === AppConfig.PartnerType.type4 && (
@@ -108,7 +122,9 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                 width: "85%"
               }}
             >
-              <Text style={{color: "blue"}}>ชื่อลูกค้า: {item.customerName}</Text>
+              <Text style={{ color: "blue" }}>
+                ชื่อลูกค้า: {item.customerName}
+              </Text>
               <Text>Level: {item.customerLevel}</Text>
               <Text>เบอร์ติดต่อลูกค้า: {item.customerPhone}</Text>
               <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
@@ -119,7 +135,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
             </View>
           )}
           <View style={{ alignItems: "center", margin: 10 }}>
-            <Text style={{ marginBottom: 5 }}>
+            <Text style={{ marginBottom: 5, fontSize: 16 }}>
               ยอดรับชำระสำหรับ {listPartner.length} คน
             </Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -132,7 +148,9 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                     source={{ uri: obj.image }}
                     style={{ width: 100, height: 100 }}
                   />
-                  <Text style={{ marginTop: 5 }}>ชื่อ: {obj.partnerName}</Text>
+                  <Text style={{ marginTop: 5 }}>
+                    ชื่อ: {obj.partnerName || obj.name}
+                  </Text>
                   {item.partnerRequest === AppConfig.PartnerType.type4 && (
                     <View
                       style={{
@@ -141,7 +159,11 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                         marginTop: 5
                       }}
                     >
-                      <Text style={{ marginTop: 5 }}>สถานที่: {obj.place}</Text>
+                      {obj.place && (
+                        <Text style={{ marginTop: 5 }}>
+                          สถานที่: {obj.place}
+                        </Text>
+                      )}
                       <Text style={{ marginTop: 5 }}>
                         เวลาที่จะไป: {item.timeMeeting}
                       </Text>
