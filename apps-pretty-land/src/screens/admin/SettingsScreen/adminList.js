@@ -54,7 +54,7 @@ const AdminAllListScreen = ({ navigation, route }) => {
       underlayColor="pink"
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>
+        <ListItem.Title style={{color: "blue"}}>
           ชื่อสมาชิก: {item.name || item.username}
         </ListItem.Title>
         <ListItem.Subtitle style={{ fontSize: 20, fontWeight: "bold" }}>

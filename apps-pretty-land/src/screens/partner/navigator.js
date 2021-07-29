@@ -17,7 +17,6 @@ import ProfileNavigator from "./ProfileScreen/navigator"
 /* Logout */
 import firebase from "../../../util/firebase"
 import LogoutScreen from "../logout"
-import { getPartnerMyPostChange } from "../../apis"
 import { getDocument } from "../../../util"
 import { AppConfig } from "../../Constants"
 
@@ -48,19 +47,34 @@ const PartnerNavigator = ({ navigation, route }) => {
     })
   }
 
+  const getMyWorkProcess = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const list = snapshot.val()
+      let count = 0
+      for (let key in list) {
+        const postObj = list[key]
+        if (postObj.status === AppConfig.PostsStatus.adminConfirmPayment) {
+          const listPartner = postObj.partnerSelect
+          for (let key2 in listPartner) {
+            const partnerObj = listPartner[key2]
+            if (partnerObj.partnerId === userId) {
+              count = count + 1
+            }
+          }
+        }
+      }
+      resolve(count)
+    })
+  }
+
   useEffect(() => {
     const ref = firebase.database().ref(getDocument(`posts`))
     const listener = ref.on("value", (snapshot) => {
       getWorkRequest(snapshot).then((res) => setReqCount(res))
+      getMyWorkProcess(snapshot).then((res) => setMyPostCount(res))
     })
 
     return () => ref.off("value", listener)
-  }, [])
-  
-  useEffect(() => {
-    getPartnerMyPostChange()
-      .then((res) => setMyPostCount(res))
-      .catch((err) => Alert.alert(err))
   }, [])
 
   return (

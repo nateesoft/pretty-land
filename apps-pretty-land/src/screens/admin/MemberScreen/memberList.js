@@ -103,7 +103,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
           </View>
         )}
         <ListItem.Content style={{ marginLeft: 10 }}>
-          <ListItem.Title>
+          <ListItem.Title style={{color: "blue"}}>
             ชื่อสมาชิก: {item.name || item.username}
           </ListItem.Title>
           <ListItem.Subtitle
@@ -157,7 +157,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
           </View>
         )}
         <ListItem.Content style={{ marginLeft: 10 }}>
-          <ListItem.Title>
+          <ListItem.Title style={{color: "blue"}}>
             ชื่อ: {item.name || item.username || item.profile || item.email}
           </ListItem.Title>
           <ListItem.Subtitle style={{ fontSize: 16, fontWeight: "bold" }}>

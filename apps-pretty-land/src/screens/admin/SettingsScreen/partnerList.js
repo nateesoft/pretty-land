@@ -52,7 +52,7 @@ const PartnerList = ({ navigation, route }) => {
           source={item.image ? { uri: item.image } : NoImage}
           style={{ width: 100, height: 100 }}
         />
-        <ListItem.Title>ชื่อสมาชิก: {item.name}</ListItem.Title>
+        <ListItem.Title style={{color: "blue"}}>ชื่อสมาชิก: {item.name}</ListItem.Title>
         <ListItem.Title>เบอร์ติดต่อ: {item.mobile}</ListItem.Title>
         {item.type1 && (
           <ListItem.Title>

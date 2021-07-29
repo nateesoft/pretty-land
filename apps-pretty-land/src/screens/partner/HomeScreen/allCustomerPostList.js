@@ -76,6 +76,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            color: "green"
           }}
         >
           สถานที่: {item.placeMeeting}
@@ -90,6 +91,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            color: "brown"
           }}
         >
           รายละเอียดเพิ่มเติม: {item.customerRemark}

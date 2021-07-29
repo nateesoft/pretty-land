@@ -92,22 +92,21 @@ const ReviewTaskScreen = (props) => {
               padding: 10,
               borderWidth: 1.5,
               borderColor: "#aaa",
-              borderRadius: 15,
+              borderRadius: 5,
               margin: 5
             }}
           >
-            <Text style={styles.textDetail}>ไอดี: {postDetail.customerId}</Text>
-            <Text style={styles.textDetail}>
-              ระดับ Level: {postDetail.customerLevel}
+            <Text style={[styles.textDetail, {color: "blue"}]}>
+              ชื่อผู้โพสท์: {postDetail.customerName}
             </Text>
             <Text style={styles.textDetail}>
-              ชื่อผู้โพสท์: {postDetail.customerName}
+              ระดับ Level: {postDetail.customerLevel}
             </Text>
             <Text style={styles.textDetail}>
               เบอร์โทรศัพท์: {postDetail.customerPhone}
             </Text>
             {postDetail.placeMeeting && (
-              <Text style={styles.textDetail}>
+              <Text style={[styles.textDetail, {color: "green"}]}>
                 สถานที่: {postDetail.placeMeeting}
               </Text>
             )}

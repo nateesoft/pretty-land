@@ -44,7 +44,7 @@ const PostListAllScreen = ({ navigation, route }) => {
       underlayColor="pink"
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>ชื่อลูกค้า: {item.customerName}</ListItem.Title>
+        <ListItem.Title style={{color: "blue"}}>ชื่อลูกค้า: {item.customerName}</ListItem.Title>
         <ListItem.Title>Level: {item.customerLevel}</ListItem.Title>
         <ListItem.Subtitle>
           ประเภทงาน: {itemData.name}

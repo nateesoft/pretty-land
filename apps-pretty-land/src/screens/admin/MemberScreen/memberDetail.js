@@ -209,7 +209,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
               }}
             >
               <Text style={{ fontSize: 16 }}>id: {item.id}</Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, color: "blue" }}>
                 ชื่อ: {item.name || item.username}
               </Text>
               <Text style={{ fontSize: 16 }}>
@@ -247,7 +247,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
                 margin: 10,
               }}
             >
-              <Text style={{ fontSize: 22 }}>
+              <Text style={{ fontSize: 22, color: "blue" }}>
                 ชื่อ: {item.name || item.username || item.profile}
               </Text>
               {item.memberType === "customer" && (

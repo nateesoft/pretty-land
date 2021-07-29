@@ -145,7 +145,7 @@ export default function PartnerImage({ navigation, route }) {
               borderRadius: 25
             }}
           >
-            <Text style={{ fontSize: 16 }}>
+            <Text style={{ fontSize: 16, color: "blue" }}>
               ชื่อสมาชิก: {partnerProfile.name}
             </Text>
             <Text style={{ fontSize: 16 }}>

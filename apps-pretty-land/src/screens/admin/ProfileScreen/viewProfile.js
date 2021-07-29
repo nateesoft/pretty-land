@@ -69,7 +69,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
       <Text style={styles.textTopic}>เปลี่ยนรหัสผ่าน</Text>
       <View style={styles.cardDetail}>
         <View style={styles.viewCard}>
-          <Text style={{ fontSize: 18 }}>ชื่อผู้ใช้งาน</Text>
+          <Text style={{ fontSize: 18, color: "blue" }}>ชื่อผู้ใช้งาน</Text>
           <Input
             name="username"
             placeholder="ชื่อผู้ใช้งาน"

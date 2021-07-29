@@ -216,11 +216,6 @@ export const getAdminDashboardType = (type) => {
 }
 
 // for partner notification api
-export const getPartnerMyPostChange = () => {
-  return new Promise((resolve, reject) => {
-    resolve(0)
-  })
-}
 export const getPartnerDashboardType1 = () => {
   return new Promise((resolve, reject) => {
     resolve(0)

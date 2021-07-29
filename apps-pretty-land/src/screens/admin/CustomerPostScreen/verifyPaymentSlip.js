@@ -79,17 +79,17 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                 borderWidth: 1.5,
                 margin: 10,
                 borderColor: "pink",
-                width: "85%"
+                width: "85%",
               }}
             >
-              <Text>ชื่อลูกค้า: {item.customerName}</Text>
+              <Text style={{color: "blue"}}>ชื่อลูกค้า: {item.customerName}</Text>
               <Text>Level: {item.customerLevel}</Text>
-              <Text>ชื่อสถานที่: {item.placeMeeting}</Text>
-              <Text>
+              <Text style={{color: "green"}}>สถานที่: {item.placeMeeting}</Text>
+              <Text style={{color: "red"}}>
                 เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
               </Text>
               <Text>เบอร์ติดต่อ: {item.customerPhone}</Text>
-              <Text>รายละเอียดเพิ่มเติม: {item.customerRemark}</Text>
+              <Text style={{color: "brown"}}>รายละเอียดเพิ่มเติม: {item.customerRemark}</Text>
               <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
               <Text>
                 ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}
@@ -108,7 +108,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                 width: "85%"
               }}
             >
-              <Text>ชื่อลูกค้า: {item.customerName}</Text>
+              <Text style={{color: "blue"}}>ชื่อลูกค้า: {item.customerName}</Text>
               <Text>Level: {item.customerLevel}</Text>
               <Text>เบอร์ติดต่อลูกค้า: {item.customerPhone}</Text>
               <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
