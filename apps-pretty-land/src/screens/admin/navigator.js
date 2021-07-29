@@ -6,7 +6,6 @@ import {
   Feather,
   MaterialCommunityIcons
 } from "@expo/vector-icons"
-import { Alert } from "react-native"
 import { Audio } from "expo-av"
 
 /* all screen */
@@ -19,50 +18,41 @@ import SettingsNavigator from "./SettingsScreen/navigator"
 import LogoutScreen from "../logout"
 import firebase from "../../../util/firebase"
 import { getDocument } from "../../../util"
-import { getAdminNewPostFromDb, getAdminNewMemberFromDb } from "../../apis"
 import SoundFile from "../../../assets/sound/noti.wav"
+import { AppConfig } from "../../Constants"
 
 const Tab = createBottomTabNavigator()
 
 const AdminNavigator = ({ navigation, route }) => {
   const { userId, screen } = route.params
-  const [postNewCount, setPostNewCount] = useState([])
   const [memberCount, setMemberCount] = useState(0)
+  const [sound, setSound] = useState()
 
-  const [sound, setSound] = React.useState()
+  // async function playSound() {
+  //   const { sound } = await Audio.Sound.createAsync(SoundFile)
+  //   setSound(sound)
 
-  async function playSound() {
-    const { sound } = await Audio.Sound.createAsync(SoundFile)
-    setSound(sound)
+  //   console.log("Playing Sound")
+  //   await sound.playAsync()
+  // }
 
-    console.log("Playing Sound")
-    await sound.playAsync()
-  }
-
-  React.useEffect(() => {
-    return sound
-      ? () => {
-          console.log("Unloading Sound")
-          sound.unloadAsync()
-        }
-      : undefined
-  }, [sound])
+  // useEffect(() => {
+  //   return sound
+  //     ? () => {
+  //         console.log("Unloading Sound")
+  //         sound.unloadAsync()
+  //       }
+  //     : undefined
+  // }, [sound])
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`message_alert`))
+    const ref = firebase
+      .database()
+      .ref(getDocument(`members`))
+      .orderByChild("status")
+      .equalTo(AppConfig.MemberStatus.newRegister)
     const listener = ref.on("value", (snapshot) => {
-      getAdminNewPostFromDb(userId)
-        .then((res) => setPostNewCount(res))
-        .catch((err) => Alert.alert(err))
-
-      getAdminNewMemberFromDb()
-        .then(async (res) => {
-          if (res > 0) {
-            playSound()
-          }
-          setMemberCount(res)
-        })
-        .catch((err) => Alert.alert(err))
+      setMemberCount(snapshot.numChildren())
     })
     return () => ref.off("value", listener)
   }, [])
@@ -84,12 +74,7 @@ const AdminNavigator = ({ navigation, route }) => {
           title: "โพสท์ทั้งหมด",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="fact-check" color="white" size={size} />
-          ),
-          tabBarBadge: postNewCount ? postNewCount : null,
-          tabBarBadgeStyle: {
-            backgroundColor: "rgb(70, 240, 238)",
-            color: "red"
-          }
+          )
         }}
         initialParams={{ userId }}
       />

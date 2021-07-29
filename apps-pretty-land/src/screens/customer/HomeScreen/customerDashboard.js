@@ -13,12 +13,6 @@ import {
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import {
-  getCustomerDashboardType1,
-  getCustomerDashboardType2,
-  getCustomerDashboardType3,
-  getCustomerDashboardType4,
-} from "../../../apis"
 
 const CustomerDashboard = ({ navigation, route }) => {
   const { userId } = route.params
@@ -34,26 +28,6 @@ const CustomerDashboard = ({ navigation, route }) => {
   const [sumBoy2, setSumBoy2] = useState("0")
   const [sumBoy3, setSumBoy3] = useState("0")
   const [sumBoy4, setSumBoy4] = useState("0")
-
-  const [sumType1, setSumType1] = useState("0")
-  const [sumType2, setSumType2] = useState("0")
-  const [sumType3, setSumType3] = useState("0")
-  const [sumType4, setSumType4] = useState("0")
-
-  useEffect(() => {
-    getCustomerDashboardType1()
-      .then((res) => setSumType1(res))
-      .catch((err) => Alert.alert(err))
-    getCustomerDashboardType2()
-      .then((res) => setSumType2(res))
-      .catch((err) => Alert.alert(err))
-    getCustomerDashboardType3()
-      .then((res) => setSumType3(res))
-      .catch((err) => Alert.alert(err))
-    getCustomerDashboardType4()
-      .then((res) => setSumType4(res))
-      .catch((err) => Alert.alert(err))
-  }, [])
 
   const getAllPartnerList = (snapshot) => {
     return new Promise((resolve, reject) => {
@@ -145,18 +119,13 @@ const CustomerDashboard = ({ navigation, route }) => {
     }
   }
 
-  const DisplayCard = ({ data, countGirl, countBoy, badge }) => (
+  const DisplayCard = ({ data, countGirl, countBoy }) => (
     <TouchableHighlight
       underlayColor="pink"
       onPress={() => onPressOptions(data)}
       style={styles.box}
     >
       <View style={styles.inner}>
-        {badge > 0 && (
-          <View style={styles.badgeContainer}>
-            <Text style={styles.badge}>{badge}</Text>
-          </View>
-        )}
         <Image
           source={{ uri: data.image_url }}
           style={{
@@ -202,25 +171,21 @@ const CustomerDashboard = ({ navigation, route }) => {
             data={items[0]}
             countGirl={sumGirl1}
             countBoy={sumBoy1}
-            badge={sumType1}
           />
           <DisplayCard
             data={items[1]}
             countGirl={sumGirl2}
             countBoy={sumBoy2}
-            badge={sumType2}
           />
           <DisplayCard
             data={items[2]}
             countGirl={sumGirl3}
             countBoy={sumBoy3}
-            badge={sumType3}
           />
           <DisplayCard
             data={items[3]}
             countGirl={sumGirl4}
             countBoy={sumBoy4}
-            badge={sumType4}
           />
         </View>
       )}

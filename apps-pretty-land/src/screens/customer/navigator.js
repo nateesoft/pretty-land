@@ -10,8 +10,10 @@ import ContactAdminScreen from "./ContactAdminScreen/navigator"
 import TestSound from "./TestSound"
 
 /* Logout */
+import firebase from "../../../util/firebase"
+import { getDocument } from "../../../util"
 import LogoutScreen from "../logout"
-import { getCustomerPostChange } from "../../apis"
+import { AppConfig } from "../../Constants"
 
 const Tab = createBottomTabNavigator()
 
@@ -19,10 +21,30 @@ const CustomerNavigator = ({ navigation, route }) => {
   const { userId, status } = route.params
   const [postsChangeCount, setPostsChangeCount] = useState(0)
 
+  const getCustomerPostChange = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const list = snapshot.val()
+      let count = 0
+      for (let key in list) {
+        const postObj = list[key]
+        if (
+          postObj.status === AppConfig.PostsStatus.waitCustomerPayment &&
+          postObj.customerId === userId
+        ) {
+          count = count + 1
+        }
+      }
+      resolve(count)
+    })
+  }
+
   useEffect(() => {
-    getCustomerPostChange()
-      .then((res) => setPostsChangeCount(res))
-      .catch((err) => Alert.alert(err))
+    const ref = firebase.database().ref(getDocument(`posts`))
+    const listener = ref.on("value", (snapshot) => {
+      getCustomerPostChange(snapshot).then((res) => setPostsChangeCount(res))
+    })
+
+    return () => ref.off("value", listener)
   }, [])
 
   return (

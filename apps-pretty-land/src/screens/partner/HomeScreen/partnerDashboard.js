@@ -193,7 +193,7 @@ const PartnerDashboard = ({ navigation, route }) => {
               data={items[3]}
               count={sumType4}
               type={AppConfig.PartnerType.type4}
-              badge={postType4Count}
+              badge={0}
             />
           )}
         </View>

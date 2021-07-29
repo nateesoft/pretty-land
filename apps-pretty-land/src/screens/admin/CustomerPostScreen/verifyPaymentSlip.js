@@ -27,24 +27,15 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
       let list = []
       for (let key in item) {
         const data = item[key]
-        if (data.selectStatus === AppConfig.PostsStatus.customerConfirm) {
+        if (
+          data.selectStatus === AppConfig.PostsStatus.customerConfirm ||
+          data.partnerStatus === AppConfig.PostsStatus.partnerAcceptWork
+        ) {
           list.push(data)
         }
       }
       setListPartner(list)
       resolve(true)
-    })
-  }
-
-  const getMemberProfile = () => {
-    return new Promise((resolve, reject) => {
-      const ref = firebase
-        .database()
-        .ref(getDocument(`members/${item.customerId}`))
-      ref.once("value", (snapshot) => {
-        const customerData = { ...snapshot.val() }
-        resolve(customerData)
-      })
     })
   }
 

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
+import { Alert } from "react-native"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import {
   FontAwesome5,
   Foundation,
-  MaterialCommunityIcons
+  MaterialCommunityIcons,
+  MaterialIcons
 } from "@expo/vector-icons"
-import { MaterialIcons } from "@expo/vector-icons"
 
 /* all screen */
 import HomeNavigator from "./HomeScreen/navigator"
@@ -14,9 +15,11 @@ import RequestNavigator from "./RequestScreen/navigator"
 import ProfileNavigator from "./ProfileScreen/navigator"
 
 /* Logout */
+import firebase from "../../../util/firebase"
 import LogoutScreen from "../logout"
-import { getPartnerRequestChange, getPartnerMyPostChange } from "../../apis"
-import { Alert } from "react-native"
+import { getPartnerMyPostChange } from "../../apis"
+import { getDocument } from "../../../util"
+import { AppConfig } from "../../Constants"
 
 const Tab = createBottomTabNavigator()
 
@@ -25,10 +28,36 @@ const PartnerNavigator = ({ navigation, route }) => {
   const [reqCount, setReqCount] = useState(0)
   const [myPostCount, setMyPostCount] = useState(0)
 
+  const getWorkRequest = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const list = snapshot.val()
+      let count = 0
+      for (let key in list) {
+        const postObj = list[key]
+        if (postObj.status === AppConfig.PostsStatus.waitPartnerConfrimWork) {
+          const listPartner = postObj.partnerSelect
+          for (let key2 in listPartner) {
+            const partnerObj = listPartner[key2]
+            if (partnerObj.partnerId === userId) {
+              count = count + 1
+            }
+          }
+        }
+      }
+      resolve(count)
+    })
+  }
+
   useEffect(() => {
-    getPartnerRequestChange()
-      .then((res) => setReqCount(res))
-      .catch((err) => Alert.alert(err))
+    const ref = firebase.database().ref(getDocument(`posts`))
+    const listener = ref.on("value", (snapshot) => {
+      getWorkRequest(snapshot).then((res) => setReqCount(res))
+    })
+
+    return () => ref.off("value", listener)
+  }, [])
+  
+  useEffect(() => {
     getPartnerMyPostChange()
       .then((res) => setMyPostCount(res))
       .catch((err) => Alert.alert(err))

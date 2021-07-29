@@ -13,7 +13,7 @@ import {
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import { getAdminDashboardType, getConfigList } from "../../../apis"
+import { getConfigList } from "../../../apis"
 
 const AdminDashboard = ({ navigation, route }) => {
   const [items, setItems] = useState([])
@@ -35,18 +35,41 @@ const AdminDashboard = ({ navigation, route }) => {
         type3 = 0,
         type4 = 0
 
+      let countType1 = 0,
+        countType2 = 0,
+        countType3 = 0,
+        countType4 = 0
+
       arr.forEach((item) => {
+        const statusMatch =
+          item.status === AppConfig.PostsStatus.customerNewPostDone ||
+          item.status === AppConfig.PostsStatus.waitAdminConfirmPayment
         if (item.partnerRequest === AppConfig.PartnerType.type1) {
           type1 = type1 + 1
+          if (statusMatch) {
+            countType1 = countType1 + 1
+          }
         }
         if (item.partnerRequest === AppConfig.PartnerType.type2) {
           type2 = type2 + 1
+          if (statusMatch) {
+            countType2 = countType2 + 1
+          }
         }
         if (item.partnerRequest === AppConfig.PartnerType.type3) {
           type3 = type3 + 1
+          if (statusMatch) {
+            countType3 = countType3 + 1
+          }
         }
         if (item.partnerRequest === AppConfig.PartnerType.type4) {
           type4 = type4 + 1
+          if (
+            statusMatch ||
+            item.status === AppConfig.PostsStatus.waitAdminApprovePost
+          ) {
+            countType4 = countType4 + 1
+          }
         }
       })
 
@@ -55,36 +78,22 @@ const AdminDashboard = ({ navigation, route }) => {
       setSumType3(type3)
       setSumType4(type4)
 
+      setPostType1Count(countType1)
+      setPostType2Count(countType2)
+      setPostType3Count(countType3)
+      setPostType4Count(countType4)
+
       resolve(true)
     })
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`message_alert`))
-    const listener = ref.on("value", (snapshot) => {
-      getConfigList()
-        .then((res) => setItems(res))
-        .catch((err) => Alert.alert(err))
-      getAdminDashboardType(1)
-        .then((res) => setPostType1Count(res))
-        .catch((err) => Alert.alert(err))
-      getAdminDashboardType(2)
-        .then((res) => setPostType2Count(res))
-        .catch((err) => Alert.alert(err))
-      getAdminDashboardType(3)
-        .then((res) => setPostType3Count(res))
-        .catch((err) => Alert.alert(err))
-      getAdminDashboardType(4)
-        .then((res) => setPostType4Count(res))
-        .catch((err) => Alert.alert(err))
-    })
-    return () => ref.off("value", listener)
-  }, [])
-
-  useEffect(() => {
     const ref = firebase.database().ref(getDocument(`posts`))
     const listener = ref.on("value", (snapshot) => {
       getComputeGroup(snapshot).catch((err) => Alert.alert(err))
+      getConfigList()
+        .then((res) => setItems(res))
+        .catch((err) => Alert.alert(err))
     })
     return () => {
       ref.off("value", listener)

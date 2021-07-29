@@ -62,14 +62,18 @@ const PaymentForm = ({ navigation, route }) => {
     return new Promise((resolve, reject) => {
       let totalAmount = 0
       let list = []
-      snapshot.forEach((item, index) => {
-        const data = item.val()
-        if (data.selectStatus === AppConfig.PostsStatus.customerConfirm) {
-          const amt = parseInt(data.amount)
+      const listPartner = snapshot.val()
+      for(let key in listPartner){
+        const partnerObj = listPartner[key]
+        if (
+          partnerObj.selectStatus === AppConfig.PostsStatus.customerConfirm ||
+          partnerObj.partnerStatus === AppConfig.PostsStatus.partnerAcceptWork
+        ) {
+          const amt = parseInt(partnerObj.amount)
           totalAmount = totalAmount + amt
-          list.push(data)
+          list.push(partnerObj)
         }
-      })
+      }
       setListPartner(list)
       resolve(totalAmount)
     })
