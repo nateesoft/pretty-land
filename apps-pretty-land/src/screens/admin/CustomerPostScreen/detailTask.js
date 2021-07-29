@@ -10,7 +10,7 @@ import { Button, Text } from "react-native-elements"
 import { AntDesign, Ionicons } from "react-native-vector-icons"
 import Moment from "moment"
 
-import { updatePosts } from "../../../apis"
+import { updatePosts, adminConfirmNewPost } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 import { Alert } from "react-native"
 
@@ -45,14 +45,16 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
         statusText: "รอลูกค้าชำระเงิน",
         sys_update_date: new Date().toUTCString()
       })
+      navigation.navigate("Post-List-All")
     } else {
-      updatePosts(item.id, {
-        status: AppConfig.PostsStatus.adminConfirmNewPost,
-        statusText: "อนุมัติโพสท์",
-        sys_update_date: new Date().toUTCString()
-      })
+      adminConfirmNewPost(item)
+        .then((res) => {
+          if (res) {
+            navigation.navigate("Post-List-All")
+          }
+        })
+        .catch((err) => Alert.alert(err))
     }
-    navigation.navigate("Post-List-All")
   }
 
   const updateNotApprove = () => {

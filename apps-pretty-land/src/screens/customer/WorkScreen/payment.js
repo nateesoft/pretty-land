@@ -15,13 +15,13 @@ import {
 import * as ImagePicker from "expo-image-picker"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
-import DropDownPicker from "react-native-dropdown-picker"
 import { TextInputMask } from "react-native-masked-text"
 
+import { savePaymentSlip } from "../../../apis"
 import { getBankName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import firebase from "../../../../util/firebase"
-import { getDocument, snapshotToArray } from "../../../../util"
+import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 // bank
@@ -39,15 +39,14 @@ const PaymentForm = ({ navigation, route }) => {
 
   const [image, setImage] = useState(null)
   const [bank, setBank] = useState("")
-  const [bankList, setBankList] = useState([])
   const [toAccount, setToAccount] = useState("")
   const [transferAmount, setTransferAmount] = useState("")
   const [datetime, setDateTime] = useState("")
-  const [openSelectBank, setOpenSelectBank] = useState(false)
 
   const [listPartner, setListPartner] = useState([])
 
   const handleBankAccount = (value) => {
+    setBank(value)
     firebase
       .database()
       .ref(getDocument(`bank_account/${value}`))
@@ -86,26 +85,6 @@ const PaymentForm = ({ navigation, route }) => {
     })
   }
 
-  const getBankAccountList = () => {
-    return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(getDocument("bank_account"))
-      ref.once("value", (snapshot) => {
-        const listBank = snapshotToArray(snapshot)
-        const lists = []
-        for (let i = 0; i < listBank.length; i++) {
-          const data = listBank[i]
-          lists.push({
-            id: data.bank_code,
-            label: data.bank_name,
-            value: data.bank_code
-          })
-        }
-        setBankList(lists)
-        resolve(true)
-      })
-    })
-  }
-
   useEffect(() => {
     const ref = firebase
       .database()
@@ -118,8 +97,6 @@ const PaymentForm = ({ navigation, route }) => {
       setPartnerAmount(pAmount.toFixed(2))
       setFeeAmount(fAmount.toFixed(2))
       setNetTotalAmount(netTotalAmt.toFixed(2))
-
-      getBankAccountList()
     })
   }, [])
 
@@ -217,12 +194,13 @@ const PaymentForm = ({ navigation, route }) => {
       transferAmount: transferAmount,
       sys_update_date: new Date().toUTCString()
     }
-    firebase
-      .database()
-      .ref(getDocument(`posts/${item.id}`))
-      .update(dataPayment)
-
-    navigate("Post-List")
+    savePaymentSlip(dataPayment, item)
+      .then((res) => {
+        if (res) {
+          navigate("Post-List")
+        }
+      })
+      .catch((err) => Alert.alert(err))
   }
 
   return (
@@ -314,52 +292,51 @@ const PaymentForm = ({ navigation, route }) => {
             </View>
             <View style={{ margin: 5, alignSelf: "center", width: "90%" }}>
               <Text style={styles.optionsNameDetail}>
-                ยืนยันข้อมูลการโอนเงิน
+                เลือกบัญชีธนาคาร สำหรับโอนเงิน
               </Text>
-
-              <Text style={{ fontSize: 16, padding: 5 }}>ธนาคารที่โอนเงิน</Text>
-              <DropDownPicker
-                placeholder="-- เลือกธนาคาร --"
-                open={openSelectBank}
-                setOpen={setOpenSelectBank}
-                value={bank}
-                setValue={setBank}
-                items={bankList}
-                setItems={setBankList}
-                textStyle={{ fontSize: 18 }}
-                searchable={false}
-                selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-                onChangeValue={(value) => handleBankAccount(value)}
-                listMode="SCROLLVIEW"
-              />
               <ScrollView
                 horizontal
                 style={{ margin: 10 }}
-                contentContainerStyle={{ alignItems: "center" }}
+                contentContainerStyle={{
+                  alignItems: "center",
+                  marginBottom: 10
+                }}
               >
                 <TouchableHighlight onPress={() => handleBankAccount("kbank")}>
-                  <Image
-                    source={kbankLogo}
-                    style={{ width: 75, height: 75, margin: 5 }}
-                  />
+                  <View style={{ alignItems: "center" }}>
+                    <Image
+                      source={kbankLogo}
+                      style={{ width: 75, height: 75, margin: 5 }}
+                    />
+                    <Text>กสิกรไทย</Text>
+                  </View>
                 </TouchableHighlight>
                 <TouchableHighlight onPress={() => handleBankAccount("scb")}>
-                  <Image
-                    source={scbLogo}
-                    style={{ width: 75, height: 75, margin: 5 }}
-                  />
+                  <View style={{ alignItems: "center" }}>
+                    <Image
+                      source={scbLogo}
+                      style={{ width: 75, height: 75, margin: 5 }}
+                    />
+                    <Text>ไทยพาณิชย์</Text>
+                  </View>
                 </TouchableHighlight>
                 <TouchableHighlight onPress={() => handleBankAccount("ktb")}>
-                  <Image
-                    source={ktbLogo}
-                    style={{ width: 75, height: 75, margin: 5 }}
-                  />
+                  <View style={{ alignItems: "center" }}>
+                    <Image
+                      source={ktbLogo}
+                      style={{ width: 75, height: 75, margin: 5 }}
+                    />
+                    <Text>กรุงไทย</Text>
+                  </View>
                 </TouchableHighlight>
                 <TouchableHighlight onPress={() => handleBankAccount("bay")}>
-                  <Image
-                    source={bayLogo}
-                    style={{ width: 75, height: 75, margin: 5 }}
-                  />
+                  <View style={{ alignItems: "center" }}>
+                    <Image
+                      source={bayLogo}
+                      style={{ width: 75, height: 75, margin: 5 }}
+                    />
+                    <Text>กรุงศรี</Text>
+                  </View>
                 </TouchableHighlight>
               </ScrollView>
               <Text style={{ fontSize: 16, padding: 5 }}>
@@ -434,7 +411,7 @@ const PaymentForm = ({ navigation, route }) => {
                       />
                     }
                     buttonStyle={styles.buttonConfirm}
-                    title="ยืนยันข้อมูลการโอนเงิน"
+                    title="ส่งข้อมูลการโอนเงิน"
                     onPress={() => saveCustomerPayment()}
                   />
                 </View>

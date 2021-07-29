@@ -63,6 +63,19 @@
     "web": {
       "favicon": "./assets/icon.png"
     },
-    "description": ""
+    "description": "",
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#ffffff",
+          "sounds": [
+            "./assets/sound/noti.wav"
+          ],
+          "mode": "production"
+        }
+      ]
+    ]
   }
 }

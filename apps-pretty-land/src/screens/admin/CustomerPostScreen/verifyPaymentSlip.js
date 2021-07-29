@@ -6,11 +6,12 @@ import {
   View,
   StyleSheet,
   ImageBackground,
-  SafeAreaView,
+  SafeAreaView
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import { AntDesign } from "react-native-vector-icons"
 
+import { adminSaveConfirmPayment } from "../../../apis"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
@@ -37,7 +38,9 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
 
   const getMemberProfile = () => {
     return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(getDocument(`members/${item.customerId}`))
+      const ref = firebase
+        .database()
+        .ref(getDocument(`members/${item.customerId}`))
       ref.once("value", (snapshot) => {
         const customerData = { ...snapshot.val() }
         resolve(customerData)
@@ -46,37 +49,13 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
   }
 
   const saveConfirmPayment = () => {
-    // save to firebase
-    firebase.database().ref(getDocument(`posts/${item.id}`)).update({
-      status: AppConfig.PostsStatus.adminConfirmPayment,
-      statusText: "ชำระเงินเรียบร้อยแล้ว",
-      sys_update_date: new Date().toUTCString(),
-    })
-
-    // update status partner in list
-    listPartner.forEach((obj) => {
-      firebase
-        .database()
-        .ref(getDocument(`posts/${item.id}/partnerSelect/${obj.partnerId}`))
-        .update({
-          selectStatus: AppConfig.PostsStatus.customerPayment,
-          selectStatusText: "ชำระเงินเรียบร้อยแล้ว",
-          sys_update_date: new Date().toUTCString(),
-        })
-    })
-
-    getMemberProfile().then((cust) => {
-      // update level to customer
-      firebase
-        .database()
-        .ref(getDocument(`members/${item.customerId}`))
-        .update({
-          customerLevel: cust.customerLevel + 1,
-        })
-    })
-
-    // to all list
-    navigate("Post-List-All")
+    adminSaveConfirmPayment(item, listPartner)
+      .then((res) => {
+        if (res) {
+          navigate("Post-List-All")
+        }
+      })
+      .catch((err) => Alert.alert(err))
   }
 
   useEffect(() => {
@@ -109,7 +88,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                 borderWidth: 1.5,
                 margin: 10,
                 borderColor: "pink",
-                width: "85%",
+                width: "85%"
               }}
             >
               <Text>ชื่อลูกค้า: {item.customerName}</Text>
@@ -135,7 +114,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                 borderWidth: 1.5,
                 margin: 10,
                 borderColor: "pink",
-                width: "85%",
+                width: "85%"
               }}
             >
               <Text>ชื่อลูกค้า: {item.customerName}</Text>
@@ -168,7 +147,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                       style={{
                         backgroundColor: "pink",
                         padding: 5,
-                        marginTop: 5,
+                        marginTop: 5
                       }}
                     >
                       <Text style={{ marginTop: 5 }}>สถานที่: {obj.place}</Text>
@@ -205,7 +184,7 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
     borderRadius: 5,
     alignSelf: "center",
-    width: 250,
+    width: 250
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -213,12 +192,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   textTopic: {
     fontSize: 24,
@@ -226,8 +205,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
-  },
+    padding: 10
+  }
 })
 
 export default VerifyPaymentSlip

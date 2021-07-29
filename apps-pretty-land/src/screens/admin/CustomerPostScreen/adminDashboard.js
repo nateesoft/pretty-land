@@ -91,7 +91,7 @@ const AdminDashboard = ({ navigation, route }) => {
     }
   }, [])
 
-  const onPressOptions = (item) => {
+  const onPressOptions = async (item) => {
     navigation.navigate("Post-List-All", { item, partnerRequest: item.value })
   }
 

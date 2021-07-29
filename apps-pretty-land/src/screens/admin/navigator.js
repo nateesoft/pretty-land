@@ -7,6 +7,7 @@ import {
   MaterialCommunityIcons
 } from "@expo/vector-icons"
 import { Alert } from "react-native"
+import { Audio } from "expo-av"
 
 /* all screen */
 import CustomerPostNavigator from "./CustomerPostScreen/navigator"
@@ -19,6 +20,7 @@ import LogoutScreen from "../logout"
 import firebase from "../../../util/firebase"
 import { getDocument } from "../../../util"
 import { getAdminNewPostFromDb, getAdminNewMemberFromDb } from "../../apis"
+import SoundFile from "../../../assets/sound/noti.wav"
 
 const Tab = createBottomTabNavigator()
 
@@ -26,6 +28,25 @@ const AdminNavigator = ({ navigation, route }) => {
   const { userId, screen } = route.params
   const [postNewCount, setPostNewCount] = useState([])
   const [memberCount, setMemberCount] = useState(0)
+
+  const [sound, setSound] = React.useState()
+
+  async function playSound() {
+    const { sound } = await Audio.Sound.createAsync(SoundFile)
+    setSound(sound)
+
+    console.log("Playing Sound")
+    await sound.playAsync()
+  }
+
+  React.useEffect(() => {
+    return sound
+      ? () => {
+          console.log("Unloading Sound")
+          sound.unloadAsync()
+        }
+      : undefined
+  }, [sound])
 
   useEffect(() => {
     const ref = firebase.database().ref(getDocument(`message_alert`))
@@ -35,7 +56,12 @@ const AdminNavigator = ({ navigation, route }) => {
         .catch((err) => Alert.alert(err))
 
       getAdminNewMemberFromDb()
-        .then((res) => setMemberCount(res))
+        .then(async (res) => {
+          if (res > 0) {
+            playSound()
+          }
+          setMemberCount(res)
+        })
         .catch((err) => Alert.alert(err))
     })
     return () => ref.off("value", listener)

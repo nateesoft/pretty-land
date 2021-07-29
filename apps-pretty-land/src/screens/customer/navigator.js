@@ -7,6 +7,7 @@ import { Alert } from "react-native"
 import HomeScreen from "./HomeScreen/navigator"
 import WorkScreen from "./WorkScreen/navigator"
 import ContactAdminScreen from "./ContactAdminScreen/navigator"
+import TestSound from "./TestSound"
 
 /* Logout */
 import LogoutScreen from "../logout"
@@ -84,6 +85,7 @@ const CustomerNavigator = ({ navigation, route }) => {
         }}
         initialParams={{ userId, status }}
       />
+      {/* <Tab.Screen name="c-TestSound" component={TestSound} /> */}
     </Tab.Navigator>
   )
 }

@@ -17,8 +17,8 @@ export const saveNewMember = (memberId, memberData) => {
     // create message alert to admin
     createMessageAlert({
       func_type: "new_member",
+      msg_alert_to: "admin",
       msg_alert_person: "all_admin",
-      msg_alert_to: "all",
       msg_detail: "partner register member",
       type: "badge"
     })
@@ -42,16 +42,16 @@ export const saveNewPosts = (postData) => {
   // create message alert to admin
   createMessageAlert({
     func_type: "new_post",
+    msg_alert_to: "admin",
     msg_alert_person: "all_admin",
-    msg_alert_to: "all",
     msg_detail: "customer create new post",
     type: "badge"
   })
   createMessageAlert({
     func_type: `new_post_type_${postData.partnerType}`,
+    msg_alert_to: "admin",
     msg_alert_person: "all_admin",
-    msg_alert_to: "all",
-    msg_detail: `customer create new post type ${postData.partnerType}`,
+    msg_detail: "customer create new post",
     type: "dashboard"
   })
 }
@@ -107,6 +107,110 @@ export const getConfigList = () => {
   })
 }
 
+export const savePaymentSlip = (dataPayment, item) => {
+  return new Promise((resolve, reject) => {
+    firebase
+      .database()
+      .ref(getDocument(`posts/${item.id}`))
+      .update(dataPayment)
+
+    // create message alert to admin
+    createMessageAlert({
+      func_type: "validate_slip",
+      msg_alert_to: "admin",
+      msg_alert_person: "all_admin",
+      msg_detail: "customer upload slip payment for partner",
+      type: "badge"
+    })
+    createMessageAlert({
+      func_type: `validate_slip_type_${item.partnerType}`,
+      msg_alert_to: "admin",
+      msg_alert_person: "all_admin",
+      msg_detail: `customer update slip payment type ${item.partnerType}`,
+      type: "dashboard"
+    })
+
+    // create message alert to both customer and partner
+    createMessageAlert({
+      func_type: "post_approve",
+      msg_alert_to: "customer,partner",
+      msg_alert_person: `customer=${item.customerId},all_partner_type_${item.partnerType}`,
+      msg_detail: "customer upload slip payment for partner",
+      type: "badge"
+    })
+
+    resolve(true)
+  })
+}
+
+export const adminConfirmNewPost = (item) => {
+  return new Promise((resolve, reject) => {
+    updatePosts(item.id, {
+      status: AppConfig.PostsStatus.adminConfirmNewPost,
+      statusText: "อนุมัติโพสท์",
+      sys_update_date: new Date().toUTCString()
+    })
+
+    resolve(true)
+  })
+}
+
+export const adminSaveConfirmPayment = (item, listPartner) => {
+  return new Promise((resolve, reject) => {
+    // save to firebase
+    firebase
+      .database()
+      .ref(getDocument(`posts/${item.id}`))
+      .update({
+        status: AppConfig.PostsStatus.adminConfirmPayment,
+        statusText: "ชำระเงินเรียบร้อยแล้ว",
+        sys_update_date: new Date().toUTCString()
+      })
+
+    // update status partner in list
+    listPartner.forEach((obj) => {
+      firebase
+        .database()
+        .ref(getDocument(`posts/${item.id}/partnerSelect/${obj.partnerId}`))
+        .update({
+          selectStatus: AppConfig.PostsStatus.customerPayment,
+          selectStatusText: "ชำระเงินเรียบร้อยแล้ว",
+          sys_update_date: new Date().toUTCString()
+        })
+
+      // send to partner
+      createMessageAlert({
+        func_type: "validate_slip",
+        msg_alert_to: "partner",
+        msg_alert_person: `parnter=${obj.partnerId}`,
+        msg_detail: "customer upload slip payment for partner",
+        type: "badge"
+      })
+    })
+
+    getMemberProfile().then((cust) => {
+      // update level to customer
+      firebase
+        .database()
+        .ref(getDocument(`members/${item.customerId}`))
+        .update({
+          customerLevel: cust.customerLevel + 1
+        })
+    })
+
+    // send to customer
+    createMessageAlert({
+      func_type: "validate_slip",
+      msg_alert_to: "customer",
+      msg_alert_person: `customer=${item.customerId}`,
+      msg_detail: "admin approve slip payment for partner",
+      type: "badge"
+    })
+
+    resolve(true)
+  })
+}
+
 export const createMessageAlert = ({
   func_type,
   msg_alert_person,
@@ -148,8 +252,8 @@ export const getAdminNewPostFromDb = (userId) => {
       for (let key in data) {
         const obj = data[key]
         if (
-          obj.msg_alert_person === "all_admin" &&
-          obj.func_type === "new_post" &&
+          obj.msg_alert_to === "admin" &&
+          (obj.func_type === "new_post" || obj.func_type === "validate_slip") &&
           obj.type === "badge"
         ) {
           const arr = obj.read
@@ -177,7 +281,7 @@ export const getAdminNewMemberFromDb = () => {
       for (let key in data) {
         const obj = data[key]
         if (
-          obj.msg_alert_person === "all_admin" &&
+          obj.msg_alert_to === "admin" &&
           obj.func_type === "new_member" &&
           obj.type === "badge"
         ) {
@@ -206,8 +310,9 @@ export const getAdminDashboardType = (type) => {
       for (let key in data) {
         const obj = data[key]
         if (
-          obj.msg_alert_person === "all_admin" &&
-          obj.func_type === `new_post_type_${type}` &&
+          obj.msg_alert_to === "admin" &&
+          (obj.func_type === `new_post_type_${type}` ||
+            obj.func_type === `validate_slip_type_${type}`) &&
           obj.type === "dashboard"
         ) {
           const arr = obj.read
