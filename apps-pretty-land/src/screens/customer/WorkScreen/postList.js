@@ -49,7 +49,7 @@ const PostListScreen = ({ navigation, route }) => {
       <ListItem.Content>
         <ListItem.Subtitle style={{color: "blue"}}>ชื่อ: {item.customerName}</ListItem.Subtitle>
         <ListItem.Subtitle style={{marginVertical: 5}}>จังหวัด: {item.provinceName}</ListItem.Subtitle>
-        <ListItem.Subtitle style={{ backgroundColor: "pink", padding: 5 }}>
+        <ListItem.Subtitle style={{ backgroundColor: "pink", padding: 5, fontWeight: "bold" }}>
           Status: {item.statusText}
         </ListItem.Subtitle>
       </ListItem.Content>

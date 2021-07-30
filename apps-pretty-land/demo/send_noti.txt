@@ -1,0 +1,14 @@
+
+// send to iPhone12 proMax
+curl -H "Content-Type: application/json" -X POST "https://exp.host/--/api/v2/push/send" -d '{
+  "to": "ExponentPushToken[HnkDpzOkj3U7O92pm948mR]",
+  "title":"hello",
+  "body": "world"
+}'
+
+// send to iPhone7
+curl -H "Content-Type: application/json" -X POST "https://exp.host/--/api/v2/push/send" -d '{
+  "to": "ExponentPushToken[CIp5G5DMKGix23ggpwrxHx]",
+  "title":"hello",
+  "body": "world"
+}'

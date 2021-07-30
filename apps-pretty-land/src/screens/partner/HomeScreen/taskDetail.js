@@ -69,7 +69,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               fontSize: 26
             }}
           >
-            ระดับ: {postDetail.customerLevel}
+            Level: {postDetail.customerLevel}
           </Text>
           <Text
             style={{

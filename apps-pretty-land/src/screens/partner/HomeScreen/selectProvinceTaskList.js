@@ -109,7 +109,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
             fontSize: 22
           }}
         >
-          ระดับ: {item.customerLevel}
+          Level: {item.customerLevel}
         </ListItem.Title>
         <ListItem.Title
           style={{
@@ -192,7 +192,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
             marginBottom: 5
           }}
         >
-          ระดับ: {item.customerLevel}
+          Level: {item.customerLevel}
         </ListItem.Title>
         <ListItem.Title
           style={{

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pretty Land",
     "slug": "Pretty-Land",
-    "version": "1.5",
+    "version": "1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "facebookScheme": "fb197019969023037",
@@ -30,7 +30,7 @@
       "supportsTablet": true,
       "usesAppleSignIn": true,
       "bundleIdentifier": "com.thailand.prettyland",
-      "buildNumber": "1.5",
+      "buildNumber": "1.0",
       "infoPlist": {
         "LSApplicationQueriesSchemes": [
           "fbapi",

@@ -71,7 +71,7 @@ const AllCustomerPostList = ({ navigation, route }) => {
             marginBottom: 5,
           }}
         >
-          ระดับ: {item.customerLevel}
+          Level: {item.customerLevel}
         </ListItem.Title>
         <ListItem.Title
           style={{

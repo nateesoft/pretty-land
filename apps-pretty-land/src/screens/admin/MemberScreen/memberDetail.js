@@ -222,7 +222,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
               </Text>
               {item.memberType === "admin" && (
                 <Text style={{ fontSize: 16, marginVertical: 5 }}>
-                  ระดับ Level: {item.customerLevel || 0}
+                  Level: {item.customerLevel || 0}
                 </Text>
               )}
               {item.memberType === "partner" && (
@@ -253,7 +253,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
                 <View>
                   <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ลูกค้า</Text>
                   <Text style={{ fontSize: 22 }}>
-                    ระดับ Level: {item.customerLevel}
+                    Level: {item.customerLevel}
                   </Text>
                 </View>
               )}

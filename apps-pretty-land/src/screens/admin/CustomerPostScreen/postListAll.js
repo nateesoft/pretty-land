@@ -47,13 +47,13 @@ const PostListAllScreen = ({ navigation, route }) => {
         <ListItem.Title style={{ color: "blue", fontSize: 16 }}>
           ชื่อลูกค้า: {item.customerName}
         </ListItem.Title>
-        <ListItem.Title style={{ marginVertical: 5, fontSize: 16 }}>
+        <ListItem.Title style={{ marginVertical: 5, fontSize: 16, fontWeight: "bold" }}>
           Level: {item.customerLevel}
         </ListItem.Title>
         <ListItem.Subtitle style={{ fontSize: 16 }}>
           ประเภทงาน: {itemData.name}
         </ListItem.Subtitle>
-        <ListItem.Subtitle style={{ marginVertical: 5, fontSize: 16 }}>
+        <ListItem.Subtitle style={{ marginVertical: 5, fontSize: 16, fontWeight: "bold" }}>
           Status: {item.statusText}
         </ListItem.Subtitle>
       </ListItem.Content>

@@ -3,6 +3,11 @@ import { Alert } from "react-native"
 import { StyleSheet, View, ImageBackground, Image, Linking } from "react-native"
 import { Button, Text } from "react-native-elements"
 
+import {
+  registerForPushNotificationsAsync,
+  fetchExpoHosting,
+  saveExponentPushToken
+} from "../../../apis"
 import { AppConfig } from "../../../Constants"
 import lineLogo from "../../../../assets/icons/LINE_APP.png"
 import firebase from "../../../../util/firebase"
@@ -23,6 +28,21 @@ const ViewContact = ({ navigation, route }) => {
 
   const LinkToLineContact = () => {
     Linking.openURL(lineContact)
+  }
+
+  const registerBroadcast = async () => {
+    await registerForPushNotificationsAsync().then((token) => {
+      saveExponentPushToken({userId, token})
+
+      // test send notification from server
+      fetchExpoHosting({
+        to: token,
+        title: "Welcome :)",
+        body: "Welcome to Pretty Land"
+      })
+
+      Alert.alert("ลงทะเบียนรับข้อมูลแล้ว :)")
+    })
   }
 
   const getProfileFromDB = (userId) => {
@@ -55,17 +75,25 @@ const ViewContact = ({ navigation, route }) => {
           borderRadius: 15,
           padding: 10,
           margin: 10,
-          borderColor: "pink",
+          borderColor: "pink"
         }}
       >
         <Text style={{ fontSize: 14 }}>Id: {profile.id}</Text>
-        <Text style={{ fontSize: 14, color: "blue" }}>ชื่อสมาชิก: {profile.profile}</Text>
-        <Text style={{ fontSize: 14 }}>
-          ระดับ Level: {profile.customerLevel}
+        <Text style={{ fontSize: 14, color: "blue" }}>
+          ชื่อสมาชิก: {profile.profile}
         </Text>
+        <Text style={{ fontSize: 14 }}>
+          Level: {profile.customerLevel}
+        </Text>
+        <Button
+          iconLeft
+          buttonStyle={styles.btnRegisterBroadcastButton}
+          title="ลงทะเบียนรับข้อมูล"
+          onPress={() => registerBroadcast()}
+        />
       </View>
       <View style={styles.cardDetail}>
-        <Text style={styles.textTopic}>ติดต่อผู้ดูแลระบบ</Text>
+        <Text style={styles.textTopic}>Line ติดต่อผู้ดูแลระบบ</Text>
         <Button
           icon={
             <Image
@@ -84,17 +112,23 @@ const ViewContact = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
+  btnRegisterBroadcastButton: {
+    margin: 15,
+    paddingHorizontal: 50,
+    borderRadius: 5,
+    backgroundColor: "blue"
+  },
   btnContactLineButton: {
     margin: 15,
     paddingHorizontal: 50,
     borderRadius: 5,
-    backgroundColor: "#35D00D",
+    backgroundColor: "#35D00D"
   },
   cardDetail: {
     flex: 1,
     alignItems: "center",
     padding: 5,
-    margin: 10,
+    margin: 10
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -102,7 +136,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   optionsNameDetail2: {
     fontSize: 18,
@@ -110,26 +144,25 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   viewCard: {
     width: "100%",
     borderRadius: 20,
-    padding: 5,
+    padding: 5
   },
   textTopic: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     color: "blue",
-    marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })
 
 export default ViewContact

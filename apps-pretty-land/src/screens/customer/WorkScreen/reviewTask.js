@@ -100,7 +100,7 @@ const ReviewTaskScreen = (props) => {
               ชื่อผู้โพสท์: {postDetail.customerName}
             </Text>
             <Text style={styles.textDetail}>
-              ระดับ Level: {postDetail.customerLevel}
+              Level: {postDetail.customerLevel}
             </Text>
             <Text style={styles.textDetail}>
               เบอร์โทรศัพท์: {postDetail.customerPhone}

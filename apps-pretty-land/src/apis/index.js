@@ -1,4 +1,6 @@
 import uuid from "react-native-uuid"
+import Constants from "expo-constants"
+import * as Notifications from "expo-notifications"
 
 import firebase from "../../util/firebase"
 import { getDocument } from "../../util"
@@ -107,9 +109,7 @@ export const adminConfirmNewPost = (item) => {
 
 export const getMemberProfile = (customerId) => {
   return new Promise((resolve, reject) => {
-    const ref = firebase
-      .database()
-      .ref(getDocument(`members/${customerId}`))
+    const ref = firebase.database().ref(getDocument(`members/${customerId}`))
     ref.once("value", (snapshot) => {
       const customerData = { ...snapshot.val() }
       resolve(customerData)
@@ -235,4 +235,61 @@ export const getPartnerDashboardType4 = () => {
   return new Promise((resolve, reject) => {
     resolve(0)
   })
+}
+
+// for notifaction alert
+// iPhone12proMax=ExponentPushToken[HnkDpzOkj3U7O92pm948mR]
+// iPhone7=ExponentPushToken[CIp5G5DMKGix23ggpwrxHx]
+export const fetchExpoHosting = ({ to, title, body }) => {
+  fetch("https://exp.host/--/api/v2/push/send", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ to, title, body })
+  })
+}
+
+export const registerForPushNotificationsAsync = async () => {
+  let token
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync()
+    let finalStatus = existingStatus
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync()
+      finalStatus = status
+    }
+    if (finalStatus !== "granted") {
+      alert("Failed to get push token for push notification!")
+      return
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data
+    console.log(token)
+  } else {
+    alert("Must use physical device for Push Notifications")
+  }
+
+  if (Platform.OS === "android") {
+    Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C"
+    })
+  }
+
+  return token
+}
+
+export const saveExponentPushToken = ({ userId, token }) => {
+  firebase
+    .database()
+    .ref(getDocument(`notifications/${userId}`))
+    .update({
+      member_type: "customer",
+      member_id: userId,
+      expo_token: token,
+      active: true
+    })
 }
