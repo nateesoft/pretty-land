@@ -16,8 +16,6 @@ import RadioButtonRN from "radio-buttons-react-native"
 import { FontAwesome } from "react-native-vector-icons"
 import { TextInputMask } from "react-native-masked-text"
 
-import firebase from "../../../../util/firebase"
-import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
 import { AppConfig } from "../../../Constants"
 import { getMemberProfile } from "../../../apis"

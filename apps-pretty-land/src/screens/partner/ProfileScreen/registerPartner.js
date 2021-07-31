@@ -15,8 +15,6 @@ import DropDownPicker from "react-native-dropdown-picker"
 import { TextInputMask } from "react-native-masked-text"
 
 import { getCountryList, getDistrictList } from "../../../data/apis"
-import firebase from "../../../../util/firebase"
-import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
 import { AppConfig } from "../../../Constants"
 import { getMemberProfile } from "../../../apis"

@@ -13,8 +13,6 @@ import ProgressCircle from "react-native-progress-circle"
 
 import { getMemberProfile } from "../../../apis"
 import CardNotfound from "../../../components/CardNotfound"
-import firebase from "../../../../util/firebase"
-import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const AllTaskListScreen = ({ navigation, route }) => {

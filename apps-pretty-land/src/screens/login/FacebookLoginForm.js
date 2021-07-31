@@ -1,11 +1,7 @@
 import React, { memo, useContext } from "react"
 import { WebView } from "react-native-webview"
-import uuid from "react-native-uuid"
 
 import { Context as AuthContext } from "../../context/AuthContext"
-import { lineConfig } from "../../../util/appConfig"
-
-const state = uuid.v4()
 const linkUri = `https://pretty-land.web.app/facebook`
 
 const FacebookLoginForm = ({ navigation, route }) => {

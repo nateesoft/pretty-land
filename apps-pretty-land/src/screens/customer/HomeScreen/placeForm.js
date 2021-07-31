@@ -17,8 +17,6 @@ import { TextInputMask } from "react-native-masked-text"
 import DateTimePickerModal from "react-native-modal-datetime-picker"
 import Moment from "moment"
 
-import firebase from "../../../../util/firebase"
-import { getDocument } from "../../../../util"
 import { getProvinceName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import { saveNewPosts, getMemberProfile } from "../../../apis"

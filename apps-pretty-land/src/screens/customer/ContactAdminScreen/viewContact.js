@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { Alert } from "react-native"
 import { StyleSheet, View, ImageBackground, Image, Linking } from "react-native"
 import { Button, Text } from "react-native-elements"
 

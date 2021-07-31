@@ -9,7 +9,6 @@ import {
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
-import uuid from "react-native-uuid"
 import DropDownPicker from "react-native-dropdown-picker"
 import { TextInputMask } from "react-native-masked-text"
 

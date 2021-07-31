@@ -15,8 +15,6 @@ import { TextInputMask } from "react-native-masked-text"
 
 import { getMemberProfile } from "../../../apis"
 import { getBankList } from "../../../data/apis"
-import firebase from "../../../../util/firebase"
-import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
 import { AppConfig } from "../../../Constants"
 
