@@ -10,6 +10,7 @@ import {
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
+import Moment from "moment"
 
 import CardNotfound from "../../../components/CardNotfound"
 import { updatePosts } from "../../../apis"
@@ -47,14 +48,21 @@ const PostListAllScreen = ({ navigation, route }) => {
         <ListItem.Title style={{ color: "blue", fontSize: 16 }}>
           ชื่อลูกค้า: {item.customerName}
         </ListItem.Title>
-        <ListItem.Title style={{ marginVertical: 5, fontSize: 16, fontWeight: "bold" }}>
+        <ListItem.Title
+          style={{ marginVertical: 5, fontSize: 16, fontWeight: "bold" }}
+        >
           Level: {item.customerLevel}
         </ListItem.Title>
         <ListItem.Subtitle style={{ fontSize: 16 }}>
           ประเภทงาน: {itemData.name}
         </ListItem.Subtitle>
-        <ListItem.Subtitle style={{ marginVertical: 5, fontSize: 16, fontWeight: "bold" }}>
+        <ListItem.Subtitle
+          style={{ marginVertical: 5, fontSize: 16, fontWeight: "bold" }}
+        >
           Status: {item.statusText}
+        </ListItem.Subtitle>
+        <ListItem.Subtitle style={{ marginVertical: 5, fontSize: 14 }}>
+          วันที่: {Moment(item.sys_update_date).format("DD/MM/YYYY HH:mm:ss")}
         </ListItem.Subtitle>
       </ListItem.Content>
       <ProgressCircle
@@ -70,18 +78,26 @@ const PostListAllScreen = ({ navigation, route }) => {
     </ListItem>
   )
 
-  useEffect(() => {
-    let ref = firebase
-      .database()
-      .ref(getDocument(`posts`))
-      .orderByChild("partnerRequest")
-      .equalTo(partnerRequest)
-    const listener = ref.on("value", (snapshot) => {
-      const postsList = snapshotToArray(snapshot)
-      setPosts(
-        postsList.filter((item, index) => {
+  const getFilterData = (postsList) => {
+    return new Promise((resolve, reject) => {
+      const newData = postsList.filter((item, index) => {
+        const countHours = getDiffHours(item.sys_update_date)
+        const todayDate = Moment().format("DD/MM/YYYY")
+        const tomorrowDate = Moment().add(1, "day").format("DD/MM/YYYY")
+        const yesterDate = Moment().add(-1, "day").format("DD/MM/YYYY")
+        const dbDate = Moment(item.sys_update_date).format("DD/MM/YYYY")
+        const isDateValid =
+          todayDate === dbDate ||
+          tomorrowDate === dbDate ||
+          yesterDate === dbDate
+        if (
+          isDateValid &&
+          item.status !== AppConfig.PostsStatus.closeJob &&
+          item.status !== AppConfig.PostsStatus.notApprove &&
+          item.status !== AppConfig.PostsStatus.postTimeout
+        ) {
           if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
-            if (getDiffHours(item.sys_update_date) <= 24) {
+            if (countHours <= 24) {
               return item
             } else {
               // update timeout
@@ -94,7 +110,7 @@ const PostListAllScreen = ({ navigation, route }) => {
           }
 
           if (item.status === AppConfig.PostsStatus.adminConfirmNewPost) {
-            if (getDiffHours(item.sys_update_date) <= 2) {
+            if (countHours <= 2) {
               return item
             } else {
               // update timeout
@@ -108,7 +124,7 @@ const PostListAllScreen = ({ navigation, route }) => {
           }
 
           if (item.status === AppConfig.PostsStatus.startWork) {
-            if (getDiffHours(item.sys_update_date) <= 2) {
+            if (countHours <= 2) {
               return item
             } else {
               // update timeout
@@ -137,8 +153,27 @@ const PostListAllScreen = ({ navigation, route }) => {
           } else {
             return item
           }
-        })
-      )
+        }
+      })
+      resolve(newData)
+    })
+  }
+
+  useEffect(() => {
+    let ref = firebase
+      .database()
+      .ref(getDocument(`posts`))
+      .orderByChild("partnerRequest")
+      .equalTo(partnerRequest)
+    const listener = ref.on("value", (snapshot) => {
+      const postsList = snapshotToArray(snapshot)
+      getFilterData(postsList).then((res) => {
+        setPosts(
+          res.sort((a, b) => {
+            return new Date(b.sys_update_date) - new Date(a.sys_update_date)
+          })
+        )
+      })
     })
     return () => ref.off("value", listener)
   }, [])

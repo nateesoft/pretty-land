@@ -11,6 +11,8 @@ import { LogoTitle } from "../../../components/Header"
 const Stack = createStackNavigator()
 
 const AdminTaskNavigator = ({ navigator, route }) => {
+  const { userId } = route.params
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -26,7 +28,7 @@ const AdminTaskNavigator = ({ navigator, route }) => {
             <LogoTitle title="โพสท์ทั้งหมดในระบบ" {...props} />
           )
         }}
-        initialParams={{ partnerType: "all" }}
+        initialParams={{ partnerType: "all", userId }}
       />
       <Stack.Screen
         name="Post-List-All"
@@ -39,7 +41,7 @@ const AdminTaskNavigator = ({ navigator, route }) => {
           headerTintColor: "white",
           headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
-        initialParams={{ partnerType: "all" }}
+        initialParams={{ partnerType: "all", userId }}
       />
       <Stack.Screen
         name="Detail-Task"

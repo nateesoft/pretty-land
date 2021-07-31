@@ -40,8 +40,6 @@ const ViewContact = ({ navigation, route }) => {
         title: "Welcome :)",
         body: "Welcome to Pretty Land"
       })
-
-      Alert.alert("ลงทะเบียนรับข้อมูลแล้ว :)")
     })
   }
 

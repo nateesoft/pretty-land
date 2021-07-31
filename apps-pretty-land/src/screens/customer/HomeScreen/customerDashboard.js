@@ -6,10 +6,13 @@ import {
   Text,
   Image,
   ImageBackground,
-  Alert,
+  Alert
 } from "react-native"
 
+import BroadcastNews from "../../../components/BroadcastNews"
+
 /* import data */
+import { getModelDataList } from '../../../apis'
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
@@ -28,6 +31,8 @@ const CustomerDashboard = ({ navigation, route }) => {
   const [sumBoy2, setSumBoy2] = useState("0")
   const [sumBoy3, setSumBoy3] = useState("0")
   const [sumBoy4, setSumBoy4] = useState("0")
+
+  const [modelData, setModelData] = useState([])
 
   const getAllPartnerList = (snapshot) => {
     return new Promise((resolve, reject) => {
@@ -159,12 +164,33 @@ const CustomerDashboard = ({ navigation, route }) => {
     }
   }, [])
 
+  useEffect(() => {
+    const ref = firebase.database().ref(getDocument(`broadcast_news`))
+    const listener = ref.on("value", (snapshot) => {
+      getModelDataList(snapshot, userId).then((res) => setModelData(res))
+    })
+
+    return () => ref.off("value", listener)
+  }, [])
+
   return (
     <ImageBackground
       source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >
+      {modelData &&
+        modelData.map((item, index) => (
+          <BroadcastNews
+          key={`${userId}/${item.id}`}
+            id={item.id}
+            visible={item.status === "active"}
+            title={item.msg_title}
+            link={item.link_connect}
+            imageUrl={item.image_url}
+            userId={userId}
+          />
+        ))}
       {items.length > 0 && (
         <View style={styles.container}>
           <DisplayCard

@@ -9,13 +9,16 @@ import {
   Alert
 } from "react-native"
 
+import BroadcastNews from "../../../components/BroadcastNews"
+
 /* import data */
 import firebase from "../../../../util/firebase"
 import { snapshotToArray, getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import { getConfigList } from "../../../apis"
+import { getConfigList, getModelDataList } from "../../../apis"
 
 const AdminDashboard = ({ navigation, route }) => {
+  const { userId } = route.params
   const [items, setItems] = useState([])
   const [sumType1, setSumType1] = useState("0")
   const [sumType2, setSumType2] = useState("0")
@@ -26,6 +29,8 @@ const AdminDashboard = ({ navigation, route }) => {
   const [postType2Count, setPostType2Count] = useState(null)
   const [postType3Count, setPostType3Count] = useState(null)
   const [postType4Count, setPostType4Count] = useState(null)
+
+  const [modelData, setModelData] = useState([])
 
   const getComputeGroup = (snapshot) => {
     return new Promise((resolve, reject) => {
@@ -136,12 +141,34 @@ const AdminDashboard = ({ navigation, route }) => {
       </View>
     </TouchableHighlight>
   )
+
+  useEffect(() => {
+    const ref = firebase.database().ref(getDocument(`broadcast_news`))
+    const listener = ref.on("value", (snapshot) => {
+      getModelDataList(snapshot, userId).then((res) => setModelData(res))
+    })
+
+    return () => ref.off("value", listener)
+  }, [])
+
   return (
     <ImageBackground
       source={AppConfig.bgImage}
       style={styles.imageBg}
       resizeMode="contain"
     >
+      {modelData &&
+        modelData.map((item, index) => (
+          <BroadcastNews
+            key={`${userId}/${item.id}`}
+            id={item.id}
+            visible={item.status === "active"}
+            title={item.msg_title}
+            link={item.link_connect}
+            imageUrl={item.image_url}
+            userId={userId}
+          />
+        ))}
       {items.length > 0 && (
         <View style={styles.container}>
           <DisplayCard

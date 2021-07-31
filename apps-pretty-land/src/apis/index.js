@@ -282,14 +282,48 @@ export const registerForPushNotificationsAsync = async () => {
   return token
 }
 
-export const saveExponentPushToken = ({ userId, token }) => {
+export const saveExponentPushToken = ({ userId, token, member_type }) => {
   firebase
     .database()
     .ref(getDocument(`notifications/${userId}`))
     .update({
-      member_type: "customer",
+      member_type: member_type,
       member_id: userId,
       expo_token: token,
       active: true
     })
+}
+
+const existUserReadBroadcast = (data, userId) => {
+  return new Promise((resolve, reject) => {
+    for (let key in data) {
+      console.log("key:", key, userId)
+      if (key === userId) {
+        return resolve(true)
+      }
+    }
+    resolve(false)
+  })
+}
+
+export const getModelDataList = (snapshot, userId) => {
+  return new Promise((resolve, reject) => {
+    const list = snapshot.val()
+    const listModel = []
+    for (let key in list) {
+      const obj = list[key]
+      if (obj.status === "active") {
+        const list2 = obj.users
+        existUserReadBroadcast(list2, userId).then((res) => {
+          if (!res) {
+            listModel.push(obj)
+          }
+        })
+        if (!list2) {
+          listModel.push(obj)
+        }
+      }
+    }
+    resolve(listModel)
+  })
 }

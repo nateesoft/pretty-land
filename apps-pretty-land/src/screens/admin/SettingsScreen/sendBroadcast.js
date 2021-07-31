@@ -1,69 +1,208 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import {
   StyleSheet,
   View,
   ImageBackground,
   Alert,
   TextInput,
-  SafeAreaView
+  SafeAreaView,
+  ScrollView,
+  Platform,
+  Image,
+  Button
 } from "react-native"
-import { Button, Text } from "react-native-elements"
+import * as ImagePicker from "expo-image-picker"
+import { Button as ButtonAction, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
-import * as Notifications from "expo-notifications"
-import Constants from "expo-constants"
+import uuid from "react-native-uuid"
+import DateTimePickerModal from "react-native-modal-datetime-picker"
+import Moment from "moment"
 
+import { getDocument } from "../../../../util"
+import firebase from "../../../../util/firebase"
+import { fetchExpoHosting } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false
-  })
-})
-
 const SendBroadcast = ({ navigation, route }) => {
-  const [expoToken, setExpoToken] = useState("")
   const [msgTitle, setMsgTitle] = useState("")
-  const [msgBody, setMsgBody] = useState("")
+  const [dateStart, setDateStart] = useState("")
+  const [dateFinish, setDateFinish] = useState("")
+  const [timeSend, setTimeSend] = useState("")
+  const [image, setImage] = useState(null)
+  const [linkConnect, setLinkConnect] = useState("")
 
-  const [expoPushToken, setExpoPushToken] = useState("")
-  const [notification, setNotification] = useState(false)
-  const notificationListener = useRef()
-  const responseListener = useRef()
+  const [isDateStartPicker, setDateStartPicker] = useState(false)
+  const [isDateFinishPicker, setDateFinishPicker] = useState(false)
+  const [isTimeSetup, setIsTimeSetup] = useState(false)
+
+  /// start date ///
+  const showDateStart = () => {
+    setDateStartPicker(true)
+  }
+
+  const hideDateStartPicker = () => {
+    setDateStartPicker(false)
+  }
+
+  const handleConfirmStartDate = (date) => {
+    setDateStart(Moment(date).format("DD/MM/YYYY"))
+    hideDateStartPicker()
+  }
+
+  /// finish date ///
+  const showDateFinish = () => {
+    setDateFinishPicker(true)
+  }
+
+  const hideDateFinishPicker = () => {
+    setDateFinishPicker(false)
+  }
+
+  const handleConfirmFinishDate = (date) => {
+    setDateFinish(Moment(date).format("DD/MM/YYYY"))
+    hideDateFinishPicker()
+  }
+
+  /// time setup ///
+  const showTimePicker = () => {
+    setIsTimeSetup(true)
+  }
+
+  const hideTimePicker = () => {
+    setIsTimeSetup(false)
+  }
+
+  const handleConfirmFinishTime = (time) => {
+    setTimeSend(Moment(time).format("HH:mm"))
+    hideTimePicker()
+  }
+
+  const getListExpoToken = () => {
+    return new Promise((resolve, reject) => {
+      const ref = firebase.database().ref(getDocument(`notifications`))
+      ref.once("value", (snapshot) => {
+        const list = snapshot.val()
+        const listExpoToken = []
+        for (let key in list) {
+          const obj = list[key]
+          if (obj.member_id !== "superadmin") {
+            listExpoToken.push(obj.expo_token)
+          }
+        }
+        resolve(listExpoToken)
+      })
+    })
+  }
 
   const sendData = () => {
-    if (!expoToken) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุ Token สำหรับส่งข้อมูล")
-      return
-    }
     if (!msgTitle) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ หัวข้อสำหรับส่ง")
       return
     }
-    if (!msgBody) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุ รายละเอียดข้อมูล")
+    if (!dateStart) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ วันที่เริ่มส่ง")
       return
+    }
+    if (!dateFinish) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ วันที่สิ้นสุด")
+      return
+    }
+    if (!timeSend) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ เวลาแจ้งเตือน")
+      return
+    }
+    if (!image) {
+      Alert.alert("แจ้งเตือน", "กรุณาอัพโหลดรูปภาพ")
+      return
+    }
+    if (!linkConnect) {
+      Alert.alert("แจ้งเตือน", "กรุณาระบุ Link เชื่อมต่อ")
+      return
+    }
+
+    getListExpoToken().then((res) => {
+      fetchExpoHosting({
+        to: res,
+        title: "Test Title",
+        body: "Test Body"
+      })
+
+      // save broadcast news
+      if (image) {
+        uploadImageAsync(image)
+      }
+    })
+  }
+
+  async function uploadImageAsync(imageSource) {
+    const newId = uuid.v4()
+
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+      xhr.onload = function () {
+        resolve(xhr.response)
+      }
+      xhr.onerror = function (e) {
+        reject(new TypeError("Network request failed"))
+      }
+      xhr.responseType = "blob"
+      xhr.open("GET", imageSource, true)
+      xhr.send(null)
+    })
+
+    const ref = firebase
+      .storage()
+      .ref(getDocument("images/member/admin/broadcast"))
+      .child(newId)
+    const snapshot = await ref.put(blob)
+
+    // We're done with the blob, close and release it
+    blob.close()
+
+    const url = await snapshot.ref.getDownloadURL()
+
+    firebase
+      .database()
+      .ref(getDocument(`broadcast_news/${newId}`))
+      .set({
+        id: newId,
+        msg_title: msgTitle,
+        date_start: dateStart,
+        date_finish: dateFinish,
+        time_send: timeSend,
+        image_url: url,
+        link_connect: linkConnect,
+        status: "active"
+      })
+
+    Alert.alert("บันทึกส่งข้อมูลเรียบร้อยแล้ว")
+  }
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      aspect: [4, 3],
+      quality: 1
+    })
+
+    if (!result.cancelled) {
+      setImage(result.uri)
     }
   }
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) => setExpoPushToken(token))
-
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification)
-      })
-
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response)
-      })
-
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current)
-      Notifications.removeNotificationSubscription(responseListener.current)
-    }
+    ;(async () => {
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync()
+        if (status !== "granted") {
+          Alert.alert(
+            "แจ้งเตือน",
+            "ขออภัย, กรุณาให้สิทธิืการเข้าถึงรูปภาพของท่าน!"
+          )
+        }
+      }
+    })()
   }, [])
 
   return (
@@ -81,59 +220,120 @@ const SendBroadcast = ({ navigation, route }) => {
           justifyContent: "center"
         }}
       >
-        <View style={{ margin: 10 }}>
-          <Text style={{ fontSize: 18 }}>
-            To (Expo push token from your app)
-          </Text>
-          <View style={styles.formControl}>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={(value) => setExpoToken(value)}
-              value={expoToken}
-              placeholder="ExponentPushToken[**********************]"
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={{ margin: 10 }}>
+            <Text style={{ fontSize: 18 }}>หัวข้อแจ้งเตือน</Text>
+            <View style={styles.formControl}>
+              <TextInput
+                style={styles.inputForm}
+                onChangeText={(value) => setMsgTitle(value)}
+                value={msgTitle}
+              />
+            </View>
+          </View>
+          <View style={{ margin: 10 }}>
+            <Text style={{ fontSize: 18 }}>เริ่มวันที่</Text>
+            <View style={styles.formDateControl}>
+              <Button
+                color="green"
+                title={dateStart ? dateStart : "เลือกวันที่เริ่ม"}
+                onPress={showDateStart}
+                style={{ marginVertical: 5, borderRadius: 10 }}
+              />
+              <DateTimePickerModal
+                isVisible={isDateStartPicker}
+                mode="date"
+                onConfirm={handleConfirmStartDate}
+                onCancel={hideDateStartPicker}
+                isDarkModeEnabled={true}
+              />
+            </View>
+          </View>
+          <View style={{ margin: 10 }}>
+            <Text style={{ fontSize: 18 }}>ถึงวันที่</Text>
+            <View style={styles.formDateControl}>
+              <Button
+                color="green"
+                title={dateFinish ? dateFinish : "เลือกวันที่สิ้นสุด"}
+                onPress={showDateFinish}
+                style={{ marginVertical: 5, borderRadius: 10 }}
+              />
+              <DateTimePickerModal
+                isVisible={isDateFinishPicker}
+                mode="date"
+                onConfirm={handleConfirmFinishDate}
+                onCancel={hideDateFinishPicker}
+                isDarkModeEnabled={true}
+              />
+            </View>
+          </View>
+          <View style={{ margin: 10 }}>
+            <Text style={{ fontSize: 18 }}>เวลาแจ้งเตือน</Text>
+            <View style={styles.formDateControl}>
+              <Button
+                color="green"
+                title={timeSend ? timeSend : "เวลาแจ้งเตือน"}
+                onPress={showTimePicker}
+                style={{ marginVertical: 5, borderRadius: 10 }}
+              />
+              <DateTimePickerModal
+                isVisible={isTimeSetup}
+                mode="time"
+                onConfirm={handleConfirmFinishTime}
+                onCancel={hideTimePicker}
+                locale="en_GB"
+                isDarkModeEnabled={true}
+              />
+            </View>
+          </View>
+          <View style={{ margin: 10 }}>
+            <Text style={{ fontSize: 18 }}>Link ข้อมูล</Text>
+            <View style={styles.formControl}>
+              <TextInput
+                style={styles.inputForm}
+                onChangeText={(value) => setLinkConnect(value)}
+                value={linkConnect}
+              />
+            </View>
+          </View>
+          <View style={{ alignSelf: "center", width: 200, marginVertical: 10 }}>
+            <Button
+              icon={
+                <Icon
+                  name="file"
+                  size={15}
+                  color="white"
+                  style={{ marginRight: 5 }}
+                />
+              }
+              buttonStyle={{ marginTop: 10 }}
+              title="เลือกไฟล์รูปภาพ"
+              onPress={pickImage}
             />
           </View>
-        </View>
-        <View style={{ margin: 10 }}>
-          <Text style={{ fontSize: 18 }}>Message title</Text>
-          <View style={styles.formControl}>
-            <TextInput
-              style={styles.inputForm}
-              onChangeText={(value) => setMsgTitle(value)}
-              value={msgTitle}
-              secureTextEntry={true}
-              placeholder=""
-            />
+          <View style={{ alignSelf: "center" }}>
+            {image && (
+              <Image
+                source={{ uri: image }}
+                style={{ width: 250, height: 250 }}
+              />
+            )}
           </View>
-        </View>
-        <View style={{ margin: 10 }}>
-          <Text style={{ fontSize: 18 }}>Message body</Text>
-          <View style={styles.formControl}>
-            <TextInput
-              style={styles.inputForm}
-              onChangeText={(value) => setMsgBody(value)}
-              value={msgBody}
-              secureTextEntry={true}
-              placeholder=""
-            />
-          </View>
-        </View>
-        <Button
-          icon={
-            <Icon
-              name="send"
-              size={20}
-              color="white"
-              style={{ marginRight: 5 }}
-            />
-          }
-          iconLeft
-          buttonStyle={styles.btnSend}
-          title="ส่งข้อมูล"
-          onPress={async () => {
-            await schedulePushNotification()
-          }}
-        />
+          <ButtonAction
+            icon={
+              <Icon
+                name="send"
+                size={20}
+                color="white"
+                style={{ marginRight: 5 }}
+              />
+            }
+            iconLeft
+            buttonStyle={styles.btnSend}
+            title="ส่งข้อมูล"
+            onPress={() => sendData()}
+          />
+        </ScrollView>
       </SafeAreaView>
     </ImageBackground>
   )
@@ -196,6 +396,14 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10
   },
+  formDateControl: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderColor: "#ff2fe6",
+    marginTop: 5,
+    height: 50,
+    borderRadius: 10
+  },
   textInput: {
     width: "90%",
     textAlign: "center",
@@ -203,47 +411,5 @@ const styles = StyleSheet.create({
     marginVertical: 5
   }
 })
-
-async function schedulePushNotification() {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "You've got mail! 📬",
-      body: "Here is the notification body",
-      data: { data: "goes here" }
-    },
-    trigger: { seconds: 2 }
-  })
-}
-
-async function registerForPushNotificationsAsync() {
-  let token
-  if (Constants.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync()
-    let finalStatus = existingStatus
-    if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync()
-      finalStatus = status
-    }
-    if (finalStatus !== "granted") {
-      alert("Failed to get push token for push notification!")
-      return
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data
-    console.log(token)
-  } else {
-    alert("Must use physical device for Push Notifications")
-  }
-
-  if (Platform.OS === "android") {
-    Notifications.setNotificationChannelAsync("default", {
-      name: "default",
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#FF231F7C"
-    })
-  }
-
-  return token
-}
 
 export default SendBroadcast

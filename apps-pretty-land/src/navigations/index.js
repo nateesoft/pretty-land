@@ -17,6 +17,11 @@ import PartnerNavigator from "../screens/partner/navigator"
 import PartnerProfileNavigator from "../screens/partner/ProfileScreen/navigator"
 
 import { Context as AuthContext } from "../context/AuthContext"
+import {
+  registerForPushNotificationsAsync,
+  saveExponentPushToken,
+  fetchExpoHosting
+} from "../apis"
 
 const Stack = createStackNavigator()
 
@@ -36,7 +41,7 @@ const AppNavigation = () => {
           return {
             ...prevState,
             token: action.token,
-            isLoading: false,
+            isLoading: false
           }
         case "SIGN_IN":
           return {
@@ -45,7 +50,7 @@ const AppNavigation = () => {
             token: action.token,
             profile: action.profile,
             screen: action.screen,
-            status: action.status,
+            status: action.status
           }
         case "SIGN_OUT":
           return {
@@ -53,18 +58,18 @@ const AppNavigation = () => {
             isSignout: true,
             token: null,
             screen: null,
-            status: null,
+            status: null
           }
       }
     },
     {
       isLoading: true,
       isSignout: false,
-      token: null,
+      token: null
     }
   )
 
-  const lineLogin = (data) => {
+  const lineLogin = async (data) => {
     firebase
       .database()
       .ref(getDocument(`members/${data.id}`))
@@ -76,16 +81,22 @@ const AppNavigation = () => {
         memberType: "customer",
         status: "active",
         loginDate: new Date().toUTCString(),
-        customerLevel: 0,
+        customerLevel: 0
       })
+
+    // update expo token to firebase
+    await registerForPushNotificationsAsync().then((token) => {
+      saveExponentPushToken({ userId: data.id, token, member_type: "customer" })
+    })
+
     dispatch({
       type: "SIGN_IN",
       token: data.id,
-      screen: "customer",
+      screen: "customer"
     })
   }
 
-  const appleLogin = ({ userId, email, fullName }) => {
+  const appleLogin = async ({ userId, email, fullName }) => {
     const id = base64.encode(email)
     firebase
       .database()
@@ -98,25 +109,31 @@ const AppNavigation = () => {
         memberType: "customer",
         status: "active",
         loginDate: new Date().toUTCString(),
-        customerLevel: 0,
+        customerLevel: 0
       })
+
+    // update expo token to firebase
+    await registerForPushNotificationsAsync().then((token) => {
+      saveExponentPushToken({ userId: id, token, member_type: "customer" })
+    })
+
     dispatch({
       type: "SIGN_IN",
       token: id,
-      screen: "customer",
+      screen: "customer"
     })
   }
 
   const facebookLogin = async () => {
     try {
       await Facebook.initializeAsync({
-        appId: facebookConfig.appId,
+        appId: facebookConfig.appId
       }).catch((err) => {
         Alert.alert(`Facebook initializeAsync: ${err}`)
       })
 
       const data = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ["public_profile", "email"],
+        permissions: ["public_profile", "email"]
       }).catch((err) => {
         Alert.alert(`Facebook logInWithReadPermissionAsync: ${err}`)
       })
@@ -141,12 +158,18 @@ const AppNavigation = () => {
             memberType: "customer",
             status: "active",
             loginDate: new Date().toUTCString(),
-            customerLevel: 0,
+            customerLevel: 0
           })
+
+        // update expo token to firebase
+        await registerForPushNotificationsAsync().then((token) => {
+          saveExponentPushToken({ userId: userID || appId, token, member_type: "customer" })
+        })
+
         dispatch({
           type: "SIGN_IN",
           token: fbProfile.id,
-          screen: "customer",
+          screen: "customer"
         })
       } else {
         console.log("Cancel fackbook login action")
@@ -172,7 +195,7 @@ const AppNavigation = () => {
           .ref(getDocument("members"))
           .orderByChild("username")
           .equalTo(username)
-          .once("value", (snapshot) => {
+          .once("value", async (snapshot) => {
             const user = snapshotToArray(snapshot)[0]
             if (user) {
               const passwordDb = base64.decode(user.password)
@@ -183,11 +206,16 @@ const AppNavigation = () => {
                     AppConfig.MemberStatus.suspendMessagePopup
                   )
                 } else {
+                  // update expo token to firebase
+                  await registerForPushNotificationsAsync().then((token) => {
+                    saveExponentPushToken({ userId: user.id, token, member_type: user.memberType })
+                  })
+
                   dispatch({
                     type: "SIGN_IN",
                     token: user.id,
                     screen: user.memberType,
-                    status: user.status,
+                    status: user.status
                   })
                 }
               } else {
@@ -207,7 +235,7 @@ const AppNavigation = () => {
       signInApple: (data) => {
         appleLogin(data)
       },
-      signOut: () => dispatch({ type: "SIGN_OUT" }),
+      signOut: () => dispatch({ type: "SIGN_OUT" })
     }),
     []
   )
@@ -224,13 +252,13 @@ const AppNavigation = () => {
             options={{
               title: "Pretty Land",
               headerStyle: {
-                backgroundColor: "#ff2fe6",
+                backgroundColor: "#ff2fe6"
               },
               headerTintColor: "#fff",
               headerTitleStyle: {
-                fontWeight: "bold",
+                fontWeight: "bold"
               },
-              headerShown: false,
+              headerShown: false
             }}
           />
         ) : (
@@ -250,12 +278,12 @@ const AppNavigation = () => {
                 : null
             }
             options={{
-              headerShown: false,
+              headerShown: false
             }}
             initialParams={{
               userId: state.token,
               status: state.status,
-              screen: state.screen,
+              screen: state.screen
             }}
           />
         )}

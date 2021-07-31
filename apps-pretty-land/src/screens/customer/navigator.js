@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
-import { Alert } from "react-native"
 
 /* all screen */
 import HomeScreen from "./HomeScreen/navigator"
 import WorkScreen from "./WorkScreen/navigator"
 import ContactAdminScreen from "./ContactAdminScreen/navigator"
-import TestSound from "./TestSound"
 
 /* Logout */
 import firebase from "../../../util/firebase"
