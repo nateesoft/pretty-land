@@ -16,6 +16,7 @@ import * as ImagePicker from "expo-image-picker"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 import { TextInputMask } from "react-native-masked-text"
+import * as Progress from "react-native-progress"
 
 import { savePaymentSlip } from "../../../apis"
 import { getBankName } from "../../../data/apis"
@@ -44,6 +45,7 @@ const PaymentForm = ({ navigation, route }) => {
   const [datetime, setDateTime] = useState("")
 
   const [listPartner, setListPartner] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const handleBankAccount = (value) => {
     setBank(value)
@@ -63,7 +65,7 @@ const PaymentForm = ({ navigation, route }) => {
       let totalAmount = 0
       let list = []
       const listPartner = snapshot.val()
-      for(let key in listPartner){
+      for (let key in listPartner) {
         const partnerObj = listPartner[key]
         if (
           partnerObj.selectStatus === AppConfig.PostsStatus.customerConfirm ||
@@ -160,6 +162,7 @@ const PaymentForm = ({ navigation, route }) => {
   }
 
   async function uploadImageAsync(imageSource) {
+    setLoading("start")
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       xhr.onload = function () {
@@ -201,6 +204,7 @@ const PaymentForm = ({ navigation, route }) => {
     savePaymentSlip(dataPayment, item)
       .then((res) => {
         if (res) {
+          setLoading("finish")
           navigate("Post-List")
         }
       })
@@ -404,6 +408,13 @@ const PaymentForm = ({ navigation, route }) => {
                     style={{ width: 200, height: 250 }}
                   />
                 </View>
+                {loading === "start" && (
+                  <Progress.Bar
+                    width={200}
+                    indeterminate={true}
+                    style={{ marginTop: 10 }}
+                  />
+                )}
                 <View style={{ alignSelf: "center", padding: 5 }}>
                   <Button
                     icon={

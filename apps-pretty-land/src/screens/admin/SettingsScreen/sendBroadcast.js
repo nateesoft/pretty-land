@@ -17,10 +17,10 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import uuid from "react-native-uuid"
 import DateTimePickerModal from "react-native-modal-datetime-picker"
 import Moment from "moment"
+import * as Progress from "react-native-progress"
 
 import { getDocument } from "../../../../util"
 import firebase from "../../../../util/firebase"
-import { fetchExpoHosting } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
 const SendBroadcast = ({ navigation, route }) => {
@@ -34,6 +34,8 @@ const SendBroadcast = ({ navigation, route }) => {
   const [isDateStartPicker, setDateStartPicker] = useState(false)
   const [isDateFinishPicker, setDateFinishPicker] = useState(false)
   const [isTimeSetup, setIsTimeSetup] = useState(false)
+
+  const [loading, setLoading] = useState(false)
 
   /// start date ///
   const showDateStart = () => {
@@ -77,23 +79,6 @@ const SendBroadcast = ({ navigation, route }) => {
     hideTimePicker()
   }
 
-  const getListExpoToken = () => {
-    return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(getDocument(`notifications`))
-      ref.once("value", (snapshot) => {
-        const list = snapshot.val()
-        const listExpoToken = []
-        for (let key in list) {
-          const obj = list[key]
-          if (obj.member_id !== "superadmin") {
-            listExpoToken.push(obj.expo_token)
-          }
-        }
-        resolve(listExpoToken)
-      })
-    })
-  }
-
   const sendData = () => {
     if (!msgTitle) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุ หัวข้อสำหรับส่ง")
@@ -120,23 +105,15 @@ const SendBroadcast = ({ navigation, route }) => {
       return
     }
 
-    getListExpoToken().then((res) => {
-      fetchExpoHosting({
-        to: res,
-        title: "Test Title",
-        body: "Test Body"
-      })
-
-      // save broadcast news
-      if (image) {
-        uploadImageAsync(image)
-      }
-    })
+    // save broadcast news
+    if (image) {
+      uploadImageAsync(image)
+    }
   }
 
   async function uploadImageAsync(imageSource) {
     const newId = uuid.v4()
-
+    setLoading("start")
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       xhr.onload = function () {
@@ -175,6 +152,7 @@ const SendBroadcast = ({ navigation, route }) => {
         status: "active"
       })
 
+    setLoading("finish")
     Alert.alert("บันทึกส่งข้อมูลเรียบร้อยแล้ว")
   }
 
@@ -245,7 +223,7 @@ const SendBroadcast = ({ navigation, route }) => {
                 mode="date"
                 onConfirm={handleConfirmStartDate}
                 onCancel={hideDateStartPicker}
-                isDarkModeEnabled={Moment().hour()>20}
+                isDarkModeEnabled={Moment().hour() > 20}
               />
             </View>
           </View>
@@ -263,7 +241,7 @@ const SendBroadcast = ({ navigation, route }) => {
                 mode="date"
                 onConfirm={handleConfirmFinishDate}
                 onCancel={hideDateFinishPicker}
-                isDarkModeEnabled={Moment().hour()>20}
+                isDarkModeEnabled={Moment().hour() > 20}
               />
             </View>
           </View>
@@ -282,7 +260,7 @@ const SendBroadcast = ({ navigation, route }) => {
                 onConfirm={handleConfirmFinishTime}
                 onCancel={hideTimePicker}
                 locale="en_GB"
-                isDarkModeEnabled={Moment().hour()>20}
+                isDarkModeEnabled={Moment().hour() > 20}
               />
             </View>
           </View>
@@ -319,6 +297,13 @@ const SendBroadcast = ({ navigation, route }) => {
               />
             )}
           </View>
+          {loading === "start" && (
+            <Progress.Bar
+              width={200}
+              indeterminate={true}
+              style={{ marginTop: 10 }}
+            />
+          )}
           <ButtonAction
             icon={
               <Icon

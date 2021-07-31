@@ -19,8 +19,7 @@ import PartnerProfileNavigator from "../screens/partner/ProfileScreen/navigator"
 import { Context as AuthContext } from "../context/AuthContext"
 import {
   registerForPushNotificationsAsync,
-  saveExponentPushToken,
-  fetchExpoHosting
+  saveExponentPushToken
 } from "../apis"
 
 const Stack = createStackNavigator()
@@ -163,7 +162,11 @@ const AppNavigation = () => {
 
         // update expo token to firebase
         await registerForPushNotificationsAsync().then((token) => {
-          saveExponentPushToken({ userId: userID || appId, token, member_type: "customer" })
+          saveExponentPushToken({
+            userId: userID || appId,
+            token,
+            member_type: "customer"
+          })
         })
 
         dispatch({
@@ -208,7 +211,11 @@ const AppNavigation = () => {
                 } else {
                   // update expo token to firebase
                   await registerForPushNotificationsAsync().then((token) => {
-                    saveExponentPushToken({ userId: user.id, token, member_type: user.memberType })
+                    saveExponentPushToken({
+                      userId: user.id,
+                      token,
+                      member_type: user.memberType
+                    })
                   })
 
                   dispatch({
