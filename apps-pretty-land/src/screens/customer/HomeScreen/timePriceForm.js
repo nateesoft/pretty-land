@@ -79,6 +79,16 @@ const TimePriceForm = (props) => {
       }
     }
     saveNewPosts(dataToSave)
+
+    //send noti to partner type4
+    getMemberProfile(data.id).then((partner) => {
+      fetchExpoHosting({
+        to: partner.expo_token,
+        title: "แจ้งเตือน",
+        body: "มีงานใหม่ รออนุมัติจากลูกค้า"
+      })
+    })
+
     navigation.navigate("Customer-Dashboard")
   }
 
@@ -113,7 +123,7 @@ const TimePriceForm = (props) => {
                 onConfirm={handleConfirmTime}
                 onCancel={hideTimeMeetingPicker}
                 locale="en_GB"
-                isDarkModeEnabled={false}
+                isDarkModeEnabled={Moment().hour()>20}
               />
             </View>
             <View>

@@ -6,6 +6,7 @@ import {
   Alert,
   TextInput,
   SafeAreaView,
+  ScrollView
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -16,7 +17,7 @@ import DropDownPicker from "react-native-dropdown-picker"
 import { GetIcon } from "../../../components/GetIcons"
 import { snapshotToArray, getDocument } from "../../../../util"
 import firebase from "../../../../util/firebase"
-import { AppConfig } from '../../../Constants'
+import { AppConfig } from "../../../Constants"
 
 const AddNewAdminForm = ({ navigation, route }) => {
   const [name, setName] = useState("")
@@ -32,7 +33,7 @@ const AddNewAdminForm = ({ navigation, route }) => {
     { label: "manager", value: "manager" },
     { label: "customer", value: "customer" },
     { label: "partner", value: "partner" },
-    { label: "demo", value: "demo" },
+    { label: "demo", value: "demo" }
   ])
 
   const saveNewAdmin = () => {
@@ -68,7 +69,7 @@ const AddNewAdminForm = ({ navigation, route }) => {
       password: base64.encode(password),
       memberType,
       status_priority: 10,
-      status: "active",
+      status: "active"
     }
 
     if (
@@ -84,7 +85,7 @@ const AddNewAdminForm = ({ navigation, route }) => {
         memberType,
         status: "active",
         customerLevel: 0,
-        status_priority: 1,
+        status_priority: 1
       }
     }
 
@@ -125,95 +126,97 @@ const AddNewAdminForm = ({ navigation, route }) => {
     >
       <Text style={styles.textTopic}>เพิ่มข้อมูล Admin</Text>
       <SafeAreaView style={{ flex: 1, height: "100%", alignItems: "center" }}>
-        <View style={styles.cardDetail}>
-          <View style={styles.viewCard}>
-            <Text style={{ fontSize: 18 }}>ชื่อผู้ใช้งาน (name)</Text>
-            <View style={styles.formControl}>
-              <GetIcon type="ad" name="idcard" />
-              <TextInput
-                leftIcon={{ type: "ant-design", name: "idcard" }}
-                style={styles.textInput}
-                onChangeText={(value) => setName(value)}
-                value={name}
-                placeholder="ชื่อผู้ใช้งาน (name)"
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.cardDetail}>
+            <View style={styles.viewCard}>
+              <Text style={{ fontSize: 18 }}>ชื่อผู้ใช้งาน (name)</Text>
+              <View style={styles.formControl}>
+                <GetIcon type="ad" name="idcard" />
+                <TextInput
+                  leftIcon={{ type: "ant-design", name: "idcard" }}
+                  style={styles.textInput}
+                  onChangeText={(value) => setName(value)}
+                  value={name}
+                  placeholder="ชื่อผู้ใช้งาน (name)"
+                />
+              </View>
+              <Text style={{ fontSize: 18 }}>
+                ข้อมูลชื่อผู้ใช้งาน (username) ในระบบ
+              </Text>
+              <View style={styles.formControl}>
+                <GetIcon type="fa" name="address-book" />
+                <TextInput
+                  leftIcon={{ type: "font-awesome", name: "address-book" }}
+                  style={styles.textInput}
+                  onChangeText={(value) => setUsername(value)}
+                  value={username}
+                  placeholder="ข้อมูลชื่อผู้ใช้งาน"
+                />
+              </View>
+              <Text style={{ fontSize: 18 }}>กำหนดรหัสผ่าน (password)</Text>
+              <View style={styles.formControl}>
+                <GetIcon type="fa" name="lock" />
+                <TextInput
+                  leftIcon={{ type: "font-awesome", name: "lock" }}
+                  style={styles.inputForm}
+                  onChangeText={(value) => setPassword(value)}
+                  value={password}
+                  secureTextEntry={true}
+                  placeholder="กำหนดรหัสผ่าน (password)"
+                />
+              </View>
+              <Text style={{ fontSize: 18 }}>
+                ยืนยันรหัสผ่านใหม่ (re-password)
+              </Text>
+              <View style={styles.formControl}>
+                <GetIcon type="fa" name="lock" />
+                <TextInput
+                  leftIcon={{ type: "font-awesome", name: "lock" }}
+                  style={styles.inputForm}
+                  onChangeText={(value) => setRePassword(value)}
+                  value={rePassword}
+                  secureTextEntry={true}
+                  placeholder="ยืนยันรหัสผ่านใหม่"
+                />
+              </View>
+            </View>
+            <View style={{ alignSelf: "center", zIndex: 1 }}>
+              <Text style={{ fontSize: 18, marginBottom: 10 }}>
+                ประเภทผู้ใช้งาน
+              </Text>
+              <DropDownPicker
+                placeholder="ประเภทผู้ใช้งาน"
+                open={openMemberType}
+                setOpen={setOpenMemberType}
+                value={memberType}
+                setValue={setMemberType}
+                items={memberTypesLists}
+                setItems={setMemberTypeList}
+                textStyle={{ fontSize: 18 }}
+                zIndex={2}
+                searchable={false}
+                selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
+                listMode="SCROLLVIEW"
+                style={{ width: 350 }}
+                containerStyle={{ width: 350 }}
               />
             </View>
-            <Text style={{ fontSize: 18 }}>
-              ข้อมูลชื่อผู้ใช้งาน (username) ในระบบ
-            </Text>
-            <View style={styles.formControl}>
-              <GetIcon type="fa" name="address-book" />
-              <TextInput
-                leftIcon={{ type: "font-awesome", name: "address-book" }}
-                style={styles.textInput}
-                onChangeText={(value) => setUsername(value)}
-                value={username}
-                placeholder="ข้อมูลชื่อผู้ใช้งาน"
-              />
-            </View>
-            <Text style={{ fontSize: 18 }}>กำหนดรหัสผ่าน (password)</Text>
-            <View style={styles.formControl}>
-              <GetIcon type="fa" name="lock" />
-              <TextInput
-                leftIcon={{ type: "font-awesome", name: "lock" }}
-                style={styles.inputForm}
-                onChangeText={(value) => setPassword(value)}
-                value={password}
-                secureTextEntry={true}
-                placeholder="กำหนดรหัสผ่าน (password)"
-              />
-            </View>
-            <Text style={{ fontSize: 18 }}>
-              ยืนยันรหัสผ่านใหม่ (re-password)
-            </Text>
-            <View style={styles.formControl}>
-              <GetIcon type="fa" name="lock" />
-              <TextInput
-                leftIcon={{ type: "font-awesome", name: "lock" }}
-                style={styles.inputForm}
-                onChangeText={(value) => setRePassword(value)}
-                value={rePassword}
-                secureTextEntry={true}
-                placeholder="ยืนยันรหัสผ่านใหม่"
-              />
-            </View>
-          </View>
-          <View style={{ alignSelf: "center", zIndex: 1 }}>
-            <Text style={{ fontSize: 18, marginBottom: 10 }}>
-              ประเภทผู้ใช้งาน
-            </Text>
-            <DropDownPicker
-              placeholder="ประเภทผู้ใช้งาน"
-              open={openMemberType}
-              setOpen={setOpenMemberType}
-              value={memberType}
-              setValue={setMemberType}
-              items={memberTypesLists}
-              setItems={setMemberTypeList}
-              textStyle={{ fontSize: 18 }}
-              zIndex={2}
-              searchable={false}
-              selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-              listMode="SCROLLVIEW"
-              style={{ width: 350 }}
-              containerStyle={{ width: 350 }}
+            <Button
+              icon={
+                <Icon
+                  name="save"
+                  size={20}
+                  color="white"
+                  style={{ marginRight: 5 }}
+                />
+              }
+              iconLeft
+              buttonStyle={styles.btnSave}
+              title="เพิ่มข้อมูล"
+              onPress={() => saveNewAdmin()}
             />
           </View>
-          <Button
-            icon={
-              <Icon
-                name="save"
-                size={20}
-                color="white"
-                style={{ marginRight: 5 }}
-              />
-            }
-            iconLeft
-            buttonStyle={styles.btnSave}
-            title="เพิ่มข้อมูล"
-            onPress={() => saveNewAdmin()}
-          />
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </ImageBackground>
   )
@@ -224,12 +227,12 @@ const styles = StyleSheet.create({
     margin: 15,
     paddingHorizontal: 50,
     borderRadius: 5,
-    backgroundColor: "#ff2fe6",
+    backgroundColor: "#ff2fe6"
   },
   cardDetail: {
     alignItems: "center",
     padding: 5,
-    margin: 10,
+    margin: 10
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -237,7 +240,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   optionsNameDetail2: {
     fontSize: 18,
@@ -245,12 +248,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   viewCard: {
     width: "100%",
     borderRadius: 20,
-    padding: 5,
+    padding: 5
   },
   textTopic: {
     fontSize: 24,
@@ -258,18 +261,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
+    padding: 10
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   inputForm: {
     width: "90%",
     textAlign: "center",
     fontSize: 16,
-    marginVertical: 5,
+    marginVertical: 5
   },
   formControl: {
     flexDirection: "row",
@@ -280,14 +283,14 @@ const styles = StyleSheet.create({
     marginTop: 5,
     height: 50,
     borderRadius: 10,
-    width: 350,
+    width: 350
   },
   textInput: {
     width: "90%",
     textAlign: "center",
     fontSize: 16,
-    marginVertical: 5,
-  },
+    marginVertical: 5
+  }
 })
 
 export default AddNewAdminForm

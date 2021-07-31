@@ -245,7 +245,7 @@ const SendBroadcast = ({ navigation, route }) => {
                 mode="date"
                 onConfirm={handleConfirmStartDate}
                 onCancel={hideDateStartPicker}
-                isDarkModeEnabled={true}
+                isDarkModeEnabled={Moment().hour()>20}
               />
             </View>
           </View>
@@ -263,7 +263,7 @@ const SendBroadcast = ({ navigation, route }) => {
                 mode="date"
                 onConfirm={handleConfirmFinishDate}
                 onCancel={hideDateFinishPicker}
-                isDarkModeEnabled={true}
+                isDarkModeEnabled={Moment().hour()>20}
               />
             </View>
           </View>
@@ -282,7 +282,7 @@ const SendBroadcast = ({ navigation, route }) => {
                 onConfirm={handleConfirmFinishTime}
                 onCancel={hideTimePicker}
                 locale="en_GB"
-                isDarkModeEnabled={true}
+                isDarkModeEnabled={Moment().hour()>20}
               />
             </View>
           </View>
@@ -322,7 +322,7 @@ const SendBroadcast = ({ navigation, route }) => {
           <ButtonAction
             icon={
               <Icon
-                name="send"
+                name="save"
                 size={20}
                 color="white"
                 style={{ marginRight: 5 }}
@@ -330,7 +330,7 @@ const SendBroadcast = ({ navigation, route }) => {
             }
             iconLeft
             buttonStyle={styles.btnSend}
-            title="ส่งข้อมูล"
+            title="บันทึกข้อมูล"
             onPress={() => sendData()}
           />
         </ScrollView>

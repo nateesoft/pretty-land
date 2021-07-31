@@ -6,7 +6,8 @@ import {
   Text,
   TouchableHighlight,
   View,
-  Image
+  Image,
+  Dimensions
 } from "react-native"
 import { Button } from "react-native-elements"
 import { AntDesign } from "react-native-vector-icons"
@@ -61,7 +62,20 @@ const BroadcastNews = ({
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>{title}</Text>
+          <TouchableHighlight
+            underlayColor="white"
+            onPress={() => handleClose(id, userId)}
+            style={{
+              backgroundColor: "rgb(70, 240, 238)",
+              position: "absolute",
+              zIndex: 2,
+              right: 10,
+              top: 10,
+              padding: 5
+            }}
+          >
+            <AntDesign name="close" color="white" size={32} />
+          </TouchableHighlight>
           <TouchableHighlight
             underlayColor="white"
             onPress={() => openBrowser(link, id, userId)}
@@ -69,27 +83,13 @@ const BroadcastNews = ({
             <Image
               source={{ uri: imageUrl }}
               style={{
-                width: 300,
+                width: Dimensions.get("window").width - 50,
                 height: 350,
                 padding: 10,
-                margin: 10,
-                borderRadius: 20
+                margin: 10
               }}
             />
           </TouchableHighlight>
-          <Button
-            buttonStyle={{ backgroundColor: "red" }}
-            icon={
-              <AntDesign
-                name="close"
-                color="white"
-                size={20}
-                style={{ marginRight: 5 }}
-              />
-            }
-            title="ปิดหน้าต่าง"
-            onPress={() => handleClose(id, userId)}
-          />
         </View>
       </View>
     </Modal>
@@ -103,9 +103,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   modalView: {
-    backgroundColor: "orange",
-    borderRadius: 20,
-    padding: 10,
+    backgroundColor: null,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -114,9 +112,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
-    borderWidth: 5,
-    borderColor: "snow"
+    elevation: 5
   },
   button: {
     borderRadius: 5,

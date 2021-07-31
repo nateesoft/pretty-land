@@ -31,6 +31,15 @@ export const saveNewPosts = (postData) => {
     .database()
     .ref(getDocument(`posts/${newId}`))
     .set(saveData)
+
+  //send noti to admin
+  getAllAdminNotification().then((listAdmin) => {
+    fetchExpoHosting({
+      to: listAdmin,
+      title: "แจ้งเตือน",
+      body: "มีรายการรออนุมัติข้อมูล"
+    })
+  })
 }
 
 export const updatePosts = (postId, data) => {
@@ -103,6 +112,15 @@ export const adminConfirmNewPost = (item) => {
       sys_update_date: new Date().toUTCString()
     })
 
+    //send noti to customer
+    getMemberProfile(item.customerId).then((customer) => {
+      fetchExpoHosting({
+        to: customer.expo_token,
+        title: "แจ้งเตือน",
+        body: "รายการได้รับการอนุมัติแล้ว"
+      })
+    })
+
     resolve(true)
   })
 }
@@ -128,6 +146,15 @@ export const adminSaveConfirmPayment = (item, listPartner) => {
         statusText: "ชำระเงินเรียบร้อยแล้ว",
         sys_update_date: new Date().toUTCString()
       })
+
+    //send noti to customer
+    getMemberProfile(item.customerId).then((customer) => {
+      fetchExpoHosting({
+        to: customer.expo_token,
+        title: "แจ้งเตือน",
+        body: "ข้อมูลการโอนเงินได้รับการอนุมัติแล้ว"
+      })
+    })
 
     // update status partner in list
     listPartner.forEach((obj) => {
@@ -265,7 +292,6 @@ export const registerForPushNotificationsAsync = async () => {
       return
     }
     token = (await Notifications.getExpoPushTokenAsync()).data
-    console.log(token)
   } else {
     alert("Must use physical device for Push Notifications")
   }
@@ -305,7 +331,6 @@ export const saveExponentPushToken = ({ userId, token, member_type }) => {
 const existUserReadBroadcast = (data, userId) => {
   return new Promise((resolve, reject) => {
     for (let key in data) {
-      console.log("key:", key, userId)
       if (key === userId) {
         return resolve(true)
       }
@@ -333,5 +358,22 @@ export const getModelDataList = (snapshot, userId) => {
       }
     }
     resolve(listModel)
+  })
+}
+
+export const getAllAdminNotification = () => {
+  return new Promise((resolve, reject) => {
+    const ref = firebase.database().ref(getDocument(`notifications`))
+    ref.once("value", (snapshot) => {
+      const data = snapshot.val()
+      const listAdmin = []
+      for (let key in data) {
+        const obj = data[key]
+        if (obj.member_type === "admin" || obj.member_type === "superadmin") {
+          listAdmin.push(obj.expo_token)
+        }
+      }
+      resolve(listAdmin)
+    })
   })
 }

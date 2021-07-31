@@ -19,7 +19,10 @@ import Moment from "moment"
 
 import { getProvinceName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
-import { saveNewPosts, getMemberProfile } from "../../../apis"
+import {
+  saveNewPosts,
+  getMemberProfile,
+} from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
 const sexData = [
@@ -105,6 +108,7 @@ const PlaceForm = (props) => {
       sexTarget: sex,
       partnerType: item.type
     })
+
     navigation.navigate("Customer-Dashboard")
   }
 
@@ -181,7 +185,7 @@ const PlaceForm = (props) => {
                 onConfirm={handleConfirmStartTime}
                 onCancel={hideTimeStartPicker}
                 locale="en_GB"
-                isDarkModeEnabled={false}
+                isDarkModeEnabled={Moment().hour() > 20}
               />
             </View>
             <View style={{ width: "100%" }}>
@@ -200,7 +204,7 @@ const PlaceForm = (props) => {
                 onConfirm={handleConfirmStopTime}
                 onCancel={hideTimeStopPicker}
                 locale="en_GB"
-                isDarkModeEnabled={false}
+                isDarkModeEnabled={Moment().hour() > 20}
               />
             </View>
             <View style={{ width: "100%" }}>
