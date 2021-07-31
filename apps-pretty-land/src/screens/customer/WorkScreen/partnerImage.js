@@ -6,7 +6,8 @@ import {
   Image,
   ScrollView,
   TouchableNativeFeedback,
-  ImageBackground
+  ImageBackground,
+  Alert
 } from "react-native"
 
 import { AntDesign } from "@expo/vector-icons"
@@ -15,14 +16,14 @@ import * as Progress from "react-native-progress"
 import { AirbnbRating } from "react-native-elements"
 import { Video } from "expo-av"
 
+import { getMemberProfile } from "../../../apis"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import { Alert } from "react-native"
 
 export default function PartnerImage({ navigation, route }) {
   const { postItem, partnerItem } = route.params
-  
+
   const video = useRef(null)
   const [partnerProfile, setPartnerProfile] = useState({})
   const [selectStatus, setSelectStatus] = useState("")
@@ -130,11 +131,7 @@ export default function PartnerImage({ navigation, route }) {
   }
 
   useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref(getDocument(`members/${partnerItem.partnerId}`))
-    ref.once("value", (snapshot) => {
-      const data = { ...snapshot.val() }
+    getMemberProfile(partnerItem.partnerId).then((data) => {
       setPartnerProfile(data)
       setImages([
         { url: data.imageUrl1 || null },

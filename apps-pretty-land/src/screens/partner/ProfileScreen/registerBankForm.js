@@ -13,6 +13,7 @@ import { Button } from "react-native-elements"
 import DropDownPicker from "react-native-dropdown-picker"
 import { TextInputMask } from "react-native-masked-text"
 
+import { getMemberProfile } from "../../../apis"
 import { getBankList } from "../../../data/apis"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
@@ -54,13 +55,10 @@ const RegisterPartnerBankForm = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`members/${userId}`))
-    ref.once("value", (snapshot) => {
-      const data = { ...snapshot.val() }
+    getMemberProfile(userId).then((data) => {
       setBank(data.bank || "")
       setBankNo(data.bankNo || "")
     })
-
     if (!appconfig.partner_account) {
       // save data
       const bankData = {

@@ -22,6 +22,7 @@ import { Context as AuthContext } from "../../../context/AuthContext"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
+import { getMemberProfile } from "../../../apis"
 
 const RegisterImageUpload = ({ navigation, route }) => {
   const { signOut } = useContext(AuthContext)
@@ -119,9 +120,7 @@ const RegisterImageUpload = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`members/${userId}`))
-    ref.once("value", (snapshot) => {
-      const data = { ...snapshot.val() }
+    getMemberProfile(userId).then((data) => {
       setUsername(data.username)
       setPassword(data.password)
 

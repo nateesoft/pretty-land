@@ -6,7 +6,8 @@ import { Button, Text } from "react-native-elements"
 import {
   registerForPushNotificationsAsync,
   fetchExpoHosting,
-  saveExponentPushToken
+  saveExponentPushToken,
+  getMemberProfile
 } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 import lineLogo from "../../../../assets/icons/LINE_APP.png"
@@ -32,7 +33,7 @@ const ViewContact = ({ navigation, route }) => {
 
   const registerBroadcast = async () => {
     await registerForPushNotificationsAsync().then((token) => {
-      saveExponentPushToken({userId, token})
+      saveExponentPushToken({ userId, token })
 
       // test send notification from server
       fetchExpoHosting({
@@ -43,19 +44,10 @@ const ViewContact = ({ navigation, route }) => {
     })
   }
 
-  const getProfileFromDB = (userId) => {
-    return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(getDocument(`members/${userId}`))
-      ref.once("value", (snapshot) => {
-        const data = { ...snapshot.val() }
-        setProfile(data)
-      })
-      resolve(true)
-    })
-  }
-
   useEffect(() => {
-    getProfileFromDB(userId).catch((err) => Alert.alert(err))
+    getMemberProfile(userId).then((data) => {
+      setProfile(data)
+    })
   }, [])
 
   return (
@@ -80,9 +72,7 @@ const ViewContact = ({ navigation, route }) => {
         <Text style={{ fontSize: 14, color: "blue" }}>
           ชื่อสมาชิก: {profile.profile}
         </Text>
-        <Text style={{ fontSize: 14 }}>
-          Level: {profile.customerLevel}
-        </Text>
+        <Text style={{ fontSize: 14 }}>Level: {profile.customerLevel}</Text>
         <Button
           iconLeft
           buttonStyle={styles.btnRegisterBroadcastButton}

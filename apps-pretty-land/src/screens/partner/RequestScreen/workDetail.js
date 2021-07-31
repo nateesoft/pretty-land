@@ -8,6 +8,7 @@ import moment from "moment"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
+import { getMemberProfile } from "../../../apis"
 
 const WorkDetailScreen = ({ navigation, route }) => {
   const { userId, item } = route.params
@@ -21,7 +22,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
         .ref(getDocument(`partner_star/${partnerId}/${item.id}`))
         .update({
           star: rate,
-          sys_date: new Date().toUTCString(),
+          sys_date: new Date().toUTCString()
         })
         .then((result) => {
           resolve("success")
@@ -39,7 +40,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
         .ref(getDocument(`members/${partnerId}`))
         .update({
           workIn: parseInt(workIn) + 1,
-          workPoint: parseInt(workPoint) + 10,
+          workPoint: parseInt(workPoint) + 10
         })
         .then((result) => {
           resolve(result)
@@ -61,21 +62,22 @@ const WorkDetailScreen = ({ navigation, route }) => {
         partnerStatus: AppConfig.PostsStatus.partnerCloseJob,
         partnerStatusText: "น้องๆแจ้งปิดงาน",
         partner_close_date: new Date().toUTCString(),
-        sys_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString()
       })
 
     if (item.partnerRequest === AppConfig.PartnerType.type4) {
       // update partner close job
-      firebase.database().ref(getDocument(`posts/${item.id}`)).update({
-        selectStatus: AppConfig.PostsStatus.closeJob,
-        selectStatusText: "ปิดงานเรียบร้อย",
-        sys_update_date: new Date().toUTCString(),
-      })
+      firebase
+        .database()
+        .ref(getDocument(`posts/${item.id}`))
+        .update({
+          selectStatus: AppConfig.PostsStatus.closeJob,
+          selectStatusText: "ปิดงานเรียบร้อย",
+          sys_update_date: new Date().toUTCString()
+        })
     }
 
-    const ref = firebase.database().ref(getDocument(`members/${partnerId}`))
-    ref.once("value", (snapshot) => {
-      const pData = { ...snapshot.val() }
+    getMemberProfile(partnerId).then((pData) => {
       updateMember(pData.workIn, pData.workPoint, partnerId).then((result) => {
         saveHistoryStar(partnerId).then((result) => {
           navigation.navigate("List-My-Work")
@@ -92,7 +94,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
         status: AppConfig.PostsStatus.startWork,
         statusText: "เริ่มปฏิบัติงาน",
         sys_update_date: new Date().toUTCString(),
-        start_work_date: new Date().toUTCString(),
+        start_work_date: new Date().toUTCString()
       })
 
     navigation.navigate("List-My-Work")
@@ -107,14 +109,17 @@ const WorkDetailScreen = ({ navigation, route }) => {
         partnerStatusText: "น้องๆแจ้งไม่รับงาน",
         partnerStart: new Date().toUTCString(),
         sys_update_date: new Date().toUTCString(),
-        start_work_date: new Date().toUTCString(),
+        start_work_date: new Date().toUTCString()
       })
 
-    firebase.database().ref(getDocument(`posts/${item.id}`)).update({
-      status: AppConfig.PostsStatus.postCancel,
-      statusText: "น้องๆแจ้งไม่รับงาน",
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`posts/${item.id}`))
+      .update({
+        status: AppConfig.PostsStatus.postCancel,
+        statusText: "น้องๆแจ้งไม่รับงาน",
+        sys_update_date: new Date().toUTCString()
+      })
 
     navigation.navigate("List-My-Work")
   }
@@ -128,14 +133,17 @@ const WorkDetailScreen = ({ navigation, route }) => {
         partnerStatusText: "น้องๆแจ้งรับงาน",
         partnerStart: new Date().toUTCString(),
         sys_update_date: new Date().toUTCString(),
-        start_work_date: new Date().toUTCString(),
+        start_work_date: new Date().toUTCString()
       })
 
-    firebase.database().ref(getDocument(`posts/${item.id}`)).update({
-      status: AppConfig.PostsStatus.waitAdminApprovePost,
-      statusText: "รอ Admin อนุมัติโพสท์",
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`posts/${item.id}`))
+      .update({
+        status: AppConfig.PostsStatus.waitAdminApprovePost,
+        statusText: "รอ Admin อนุมัติโพสท์",
+        sys_update_date: new Date().toUTCString()
+      })
 
     navigation.navigate("List-My-Work")
   }
@@ -165,20 +173,25 @@ const WorkDetailScreen = ({ navigation, route }) => {
               marginBottom: 5,
               backgroundColor: "#123456",
               color: "white",
-              paddingHorizontal: 5,
+              paddingHorizontal: 5
             }}
           >
             ลูกค้า: {item.customerName}
           </Text>
           <View>
-            <Text style={{fontSize: 16, marginVertical: 5}}>โหมดงาน: {item.partnerRequest}</Text>
-            <Text style={{fontSize: 16}}>จังหวัด: {item.provinceName}</Text>
-            <Text style={{fontSize: 16, marginVertical: 5}}>
-              วันที่แจ้ง:{" "}
-              {moment(item.sys_create_date).format("D MMM YYYY")}
+            <Text style={{ fontSize: 16, marginVertical: 5 }}>
+              โหมดงาน: {item.partnerRequest}
             </Text>
-            <Text style={{fontSize: 16}}>Lv.ลูกค้า: {item.customerLevel}</Text>
-            <Text style={{fontSize: 16, marginVertical: 5}}>เบอร์ติดต่อ: {item.customerPhone}</Text>
+            <Text style={{ fontSize: 16 }}>จังหวัด: {item.provinceName}</Text>
+            <Text style={{ fontSize: 16, marginVertical: 5 }}>
+              วันที่แจ้ง: {moment(item.sys_create_date).format("D MMM YYYY")}
+            </Text>
+            <Text style={{ fontSize: 16 }}>
+              Lv.ลูกค้า: {item.customerLevel}
+            </Text>
+            <Text style={{ fontSize: 16, marginVertical: 5 }}>
+              เบอร์ติดต่อ: {item.customerPhone}
+            </Text>
           </View>
           <Text
             style={{
@@ -186,7 +199,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
               color: "white",
               paddingHorizontal: 5,
               fontSize: 16,
-              marginVertical: 10,
+              marginVertical: 10
             }}
           >
             โหมดงาน: {item.partnerRequest}
@@ -196,7 +209,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
               borderWidth: 1.5,
               borderRadius: 10,
               borderColor: "gray",
-              padding: 5,
+              padding: 5
             }}
           >
             <Input
@@ -222,7 +235,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
                 margin: 5,
                 backgroundColor: "green",
                 paddingHorizontal: 20,
-                borderRadius: 5,
+                borderRadius: 5
               }}
               title="กดเริ่มงาน"
               onPress={() => startWorking()}
@@ -243,7 +256,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
               margin: 5,
               backgroundColor: "#ff2fe6",
               paddingHorizontal: 20,
-              borderRadius: 25,
+              borderRadius: 25
             }}
             title="บันทึกปิดงาน"
             onPress={() => partnerCloseJob(userId)}
@@ -271,7 +284,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
                 margin: 5,
                 backgroundColor: "red",
                 borderRadius: 5,
-                width: 200,
+                width: 200
               }}
               title="ปฏิเสธงาน"
               onPress={() => partnerMassageCancel(userId)}
@@ -290,7 +303,7 @@ const WorkDetailScreen = ({ navigation, route }) => {
                 margin: 5,
                 backgroundColor: "#ff2fe6",
                 borderRadius: 5,
-                width: 200,
+                width: 200
               }}
               title="แจ้งรับงาน"
               onPress={() => partnerMassageAccept(userId)}
@@ -307,7 +320,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 5,
-    margin: 10,
+    margin: 10
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -315,7 +328,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   optionsNameDetail2: {
     fontSize: 18,
@@ -323,17 +336,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   viewCard: {
     width: "100%",
     borderRadius: 20,
-    padding: 5,
+    padding: 5
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   textTopic: {
     fontSize: 24,
@@ -341,8 +354,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
-  },
+    padding: 10
+  }
 })
 
 export default WorkDetailScreen

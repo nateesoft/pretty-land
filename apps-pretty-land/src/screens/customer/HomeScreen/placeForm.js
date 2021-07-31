@@ -21,7 +21,7 @@ import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { getProvinceName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
-import { saveNewPosts } from "../../../apis"
+import { saveNewPosts, getMemberProfile } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
 const sexData = [
@@ -105,15 +105,13 @@ const PlaceForm = (props) => {
       stopTime,
       partnerWantQty,
       sexTarget: sex,
-      partnerType: item.type,
+      partnerType: item.type
     })
     navigation.navigate("Customer-Dashboard")
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`members/${userId}`))
-    ref.once("value", (snapshot) => {
-      const customer = { ...snapshot.val() }
+    getMemberProfile(userId).then((customer) => {
       setCustomerLevel(customer.customerLevel)
       setCustomerName(customer.profile)
     })
@@ -310,14 +308,14 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 5,
     height: 50,
-    borderRadius: 10,
+    borderRadius: 10
   },
   textInput: {
     backgroundColor: "white",
     fontSize: 16,
     marginVertical: 5,
     marginLeft: 15,
-    width: 250,
+    width: 250
   },
   buttonFooter: {
     flexDirection: "column",

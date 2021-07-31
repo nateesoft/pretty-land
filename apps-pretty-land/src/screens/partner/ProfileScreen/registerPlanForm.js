@@ -20,6 +20,7 @@ import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
 import { AppConfig } from "../../../Constants"
+import { getMemberProfile } from "../../../apis"
 
 const sexData = [
   { label: "ชาย (Male)", value: "male" },
@@ -94,9 +95,7 @@ const RegisterPlanForm = ({ navigation, route }) => {
   }, [])
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`members/${userId}`))
-    ref.once("value", (snapshot) => {
-      const data = { ...snapshot.val() }
+    getMemberProfile(userId).then((data) => {
       setName(data.name || "")
       setAge(data.age || "")
       setHeight(data.height || "")

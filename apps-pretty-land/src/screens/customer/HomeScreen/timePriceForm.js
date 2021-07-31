@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react"
 import {
   View,
   ImageBackground,
-  TextInput,
   SafeAreaView,
   Alert,
   StyleSheet,
   ScrollView,
-  Button,
+  Button
 } from "react-native"
 import { Button as ButtonAction, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -15,11 +14,9 @@ import { TextInputMask } from "react-native-masked-text"
 import DateTimePickerModal from "react-native-modal-datetime-picker"
 import Moment from "moment"
 
-import firebase from "../../../../util/firebase"
-import { getDocument } from "../../../../util"
 import { getProvinceName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
-import { saveNewPosts } from "../../../apis"
+import { getMemberProfile, saveNewPosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
 const TimePriceForm = (props) => {
@@ -30,7 +27,7 @@ const TimePriceForm = (props) => {
   const [phone, setPhone] = useState("")
   const [timeMeeting, setTimeMeeting] = useState("")
   const [customer, setCustomer] = useState("")
-  
+
   const [isTimeMeetingPicker, setTimeMeetingPicker] = useState(false)
 
   const showTimeMeeting = () => {
@@ -44,14 +41,6 @@ const TimePriceForm = (props) => {
   const handleConfirmTime = (date) => {
     setTimeMeeting(Moment(date).format("HH:mm"))
     hideTimeMeetingPicker()
-  }
-
-  const mappingCustomerProfile = (snapshot) => {
-    return new Promise((resolve, reject) => {
-      const cust = { ...snapshot.val() }
-      setCustomer(cust)
-      resolve(true)
-    })
   }
 
   const sendToMassagePartner = (data) => {
@@ -94,9 +83,8 @@ const TimePriceForm = (props) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`members/${userId}`))
-    ref.once("value", (snapshot) => {
-      mappingCustomerProfile(snapshot).catch((err) => Alert.alert(err))
+    getMemberProfile(userId).then((data) => {
+      setCustomer(data)
     })
   }, [])
 

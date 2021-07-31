@@ -20,6 +20,7 @@ import {
 } from "@expo/vector-icons"
 import Moment from "moment"
 
+import { getMemberProfile } from "../../../apis"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { Context as AuthContext } from "../../../context/AuthContext"
@@ -66,9 +67,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   }, [])
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`members/${userId}`))
-    ref.once("value", (snapshot) => {
-      const data = { ...snapshot.val() }
+    getMemberProfile(userId).then((data) => {
       if (!data.image) {
         if (data.sex === "female") {
           setImageProfile(FemaleSimple)

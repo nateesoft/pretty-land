@@ -107,12 +107,12 @@ export const adminConfirmNewPost = (item) => {
   })
 }
 
-export const getMemberProfile = (customerId) => {
+export const getMemberProfile = (userId) => {
   return new Promise((resolve, reject) => {
-    const ref = firebase.database().ref(getDocument(`members/${customerId}`))
+    const ref = firebase.database().ref(getDocument(`members/${userId}`))
     ref.once("value", (snapshot) => {
-      const customerData = { ...snapshot.val() }
-      resolve(customerData)
+      const data = { ...snapshot.val() }
+      resolve(data)
     })
   })
 }
@@ -291,6 +291,14 @@ export const saveExponentPushToken = ({ userId, token, member_type }) => {
       member_id: userId,
       expo_token: token,
       active: true
+    })
+
+  // update member exists
+  firebase
+    .database()
+    .ref(getDocument(`members/${userId}`))
+    .update({
+      expo_token: token
     })
 }
 

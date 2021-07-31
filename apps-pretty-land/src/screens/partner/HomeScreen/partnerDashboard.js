@@ -21,7 +21,8 @@ import {
   getPartnerDashboardType3,
   getPartnerDashboardType4,
   getConfigList,
-  getModelDataList
+  getModelDataList,
+  getMemberProfile
 } from "../../../apis"
 
 const PartnerDashboard = ({ navigation, route }) => {
@@ -98,9 +99,8 @@ const PartnerDashboard = ({ navigation, route }) => {
   }, [])
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`members/${userId}`))
-    ref.once("value", (snapshot) => {
-      setProfile({ ...snapshot.val() })
+    getMemberProfile(userId).then((data) => {
+      setProfile(data)
     })
   }, [])
 
