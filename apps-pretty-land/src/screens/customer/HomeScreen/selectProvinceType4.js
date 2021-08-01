@@ -123,12 +123,18 @@ const SelectProvinceType4 = (props) => {
               top: 0,
               borderWidth: 1,
               borderColor: "#eee",
-              padding: 10,
+              padding: 5,
               backgroundColor:
-                item.work_status === "available" ? "green" : "red"
+                item.work_status === "available" ? "green" : "rgb(70, 240, 238)"
             }}
           >
-            <Text style={{ color: "white", fontSize: 22, fontWeight: "bold" }}>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: "bold",
+                color: item.work_status === "available" ? "white" : "black"
+              }}
+            >
               {item.work_status === "available" ? "ว่าง" : "ไม่ว่าง"}
             </Text>
           </View>
