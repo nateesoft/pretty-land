@@ -16,6 +16,7 @@ import { Button } from "react-native-elements/dist/buttons/Button"
 import { TouchableNativeFeedback } from "react-native"
 import * as AppleAuthentication from "expo-apple-authentication"
 
+import { checkToSendAllBroadcastToAllUser } from "../../apis"
 import firebase from "../../../util/firebase"
 import { getDocument } from "../../../util"
 import { Context as AuthContext } from "../../context/AuthContext"
@@ -45,6 +46,19 @@ const LoginScreen = ({ navigation, route }) => {
     Linking.openURL(lineContact)
   }
 
+  useEffect(() => {
+    const ref = firebase.database().ref(getDocument(`broadcast_news`))
+    const listener = ref.on("value", (snapshot) => {
+      checkToSendAllBroadcastToAllUser(snapshot).then((res) => {
+        if (res) {
+          console.log("checkToSendAllBroadcastToAllUser:", res)
+        }
+      })
+    })
+
+    return () => ref.off("value", listener)
+  }, [])
+
   return (
     <ImageBackground
       source={AppConfig.bgImage}
@@ -54,7 +68,14 @@ const LoginScreen = ({ navigation, route }) => {
       <View style={styles.container}>
         <Image style={styles.image} source={bg} />
         <Text style={styles.textLogo}>{appName}</Text>
-        <Text style={[styles.textLogo, { fontSize: 20, fontStyle: "normal", marginBottom: 5 }]}>Thailand</Text>
+        <Text
+          style={[
+            styles.textLogo,
+            { fontSize: 20, fontStyle: "normal", marginBottom: 5 }
+          ]}
+        >
+          Thailand
+        </Text>
         <Text style={styles.textDetail}>( Version {appVersion} )</Text>
         <TouchableHighlight
           underlayColor="pink"

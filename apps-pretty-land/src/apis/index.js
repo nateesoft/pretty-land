@@ -1,6 +1,7 @@
 import uuid from "react-native-uuid"
 import Constants from "expo-constants"
 import * as Notifications from "expo-notifications"
+import Moment from "moment"
 
 import firebase from "../../util/firebase"
 import { getDocument } from "../../util"
@@ -15,6 +16,15 @@ export const saveNewMember = (memberId, memberData) => {
       .catch((err) => {
         reject(err)
       })
+
+    //send noti to admin
+    getAllAdminNotification().then((listAdmin) => {
+      fetchExpoHosting({
+        to: listAdmin,
+        title: "แจ้งเตือน",
+        body: "มีรายการรออนุมัติข้อมูล สำหรับสมาชิกใหม่"
+      })
+    })
     resolve(true)
   })
 }
@@ -32,7 +42,7 @@ export const saveNewPosts = (postData) => {
     .ref(getDocument(`posts/${newId}`))
     .set(saveData)
 
-  //send noti to admin
+  //send noti to all admin
   getAllAdminNotification().then((listAdmin) => {
     fetchExpoHosting({
       to: listAdmin,
@@ -40,6 +50,17 @@ export const saveNewPosts = (postData) => {
       body: "มีรายการรออนุมัติข้อมูล"
     })
   })
+
+  //send noti to all partner
+  if (postData.partnerType !== 4) {
+    getAllPartnerNotification().then((listPartner) => {
+      fetchExpoHosting({
+        to: listPartner,
+        title: "แจ้งเตือน",
+        body: "มีโพสท์งานใหม่ในระบบ"
+      })
+    })
+  }
 }
 
 export const updatePosts = (postId, data) => {
@@ -361,6 +382,23 @@ export const getModelDataList = (snapshot, userId) => {
   })
 }
 
+export const getAllPartnerNotification = () => {
+  return new Promise((resolve, reject) => {
+    const ref = firebase.database().ref(getDocument(`notifications`))
+    ref.once("value", (snapshot) => {
+      const data = snapshot.val()
+      const listPartner = []
+      for (let key in data) {
+        const obj = data[key]
+        if (obj.member_type === "partner") {
+          listPartner.push(obj.expo_token)
+        }
+      }
+      resolve(listPartner)
+    })
+  })
+}
+
 export const getAllAdminNotification = () => {
   return new Promise((resolve, reject) => {
     const ref = firebase.database().ref(getDocument(`notifications`))
@@ -376,4 +414,63 @@ export const getAllAdminNotification = () => {
       resolve(listAdmin)
     })
   })
+}
+
+export const checkToSendAllBroadcastToAllUser = (snaphost) => {
+  return new Promise((resolve, reject) => {
+    const broadcastList = { ...snaphost.val() }
+    for (let key in broadcastList) {
+      const obj = broadcastList[key]
+
+      // date information
+      const currentDate = Moment()
+      const dateStart = Moment(obj.date_start, "DD/MM/YYYY")
+      const dateFinish = Moment(obj.date_finish, "DD/MM/YYYY")
+      const validDate = currentDate.isBetween(dateStart, dateFinish)
+
+      // time information
+      const currentTime = Moment()
+      const startTime = Moment(obj.time_send, "HH:mm")
+      const finishTime = Moment("23:59", "HH:mm")
+      const validTime = currentTime.isBetween(startTime, finishTime)
+
+      if (validDate && validTime) {
+        //send noti to all users
+        getAllMemberNotification().then((listMembers) => {
+          fetchExpoHosting({
+            to: listMembers,
+            title: "แจ้งเตือน",
+            body: "มีรายการรออนุมัติข้อมูล"
+          })
+        })
+        resolve(true)
+      } else {
+        resolve(false)
+      }
+    }
+  })
+}
+
+export const getAllMemberNotification = () => {
+  return new Promise((resolve, reject) => {
+    const ref = firebase.database().ref(getDocument(`notifications`))
+    ref.once("value", (snapshot) => {
+      const data = snapshot.val()
+      const listUsers = []
+      for (let key in data) {
+        const obj = data[key]
+        listUsers.push(obj.expo_token)
+      }
+      resolve(listUsers)
+    })
+  })
+}
+
+export const updateWorkingStatus = (userId, isEnabled) => {
+  firebase
+    .database()
+    .ref(getDocument(`members/${userId}`))
+    .update({
+      work_status: isEnabled ? "working" : "available"
+    })
 }

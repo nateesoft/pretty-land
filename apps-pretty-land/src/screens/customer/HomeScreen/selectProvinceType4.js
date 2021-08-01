@@ -109,8 +109,29 @@ const SelectProvinceType4 = (props) => {
         >
           <Image
             source={{ uri: item.image }}
-            style={{ width: 200, height: 250, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
+            style={{
+              width: 200,
+              height: 250,
+              borderTopRightRadius: 10,
+              borderTopLeftRadius: 10
+            }}
           />
+          <View
+            style={{
+              position: "absolute",
+              right: 0,
+              top: 0,
+              borderWidth: 1,
+              borderColor: "#eee",
+              padding: 10,
+              backgroundColor:
+                item.work_status === "available" ? "green" : "red"
+            }}
+          >
+            <Text style={{ color: "white", fontSize: 22, fontWeight: "bold" }}>
+              {item.work_status === "available" ? "ว่าง" : "ไม่ว่าง"}
+            </Text>
+          </View>
           <View
             style={{
               padding: 5,
