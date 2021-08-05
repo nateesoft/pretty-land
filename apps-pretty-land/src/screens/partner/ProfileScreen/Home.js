@@ -8,7 +8,8 @@ import {
   View,
   TouchableNativeFeedback,
   LogBox,
-  ImageBackground
+  ImageBackground,
+  Switch
 } from "react-native"
 import { Video } from "expo-av"
 
@@ -20,9 +21,9 @@ import {
 } from "@expo/vector-icons"
 import Moment from "moment"
 
+import { getMemberProfile, updateWorkingStatus } from "../../../apis"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
-import { Context as AuthContext } from "../../../context/AuthContext"
 import FemaleSimple from "../../../../assets/avatar/1.png"
 import MaleSimple from "../../../../assets/avatar/2.png"
 import OtherSimple from "../../../../assets/avatar/3.png"
@@ -30,8 +31,6 @@ import { Button } from "react-native-elements"
 import { AppConfig } from "../../../Constants"
 
 const ProfileHomeScreen = ({ navigation, route }) => {
-  const { signOut } = useContext(AuthContext)
-
   const { navigate } = navigation
   const { userId } = route.params
   const video = useRef(null)
@@ -50,6 +49,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   const [img5, setImg5] = useState(null)
   const [videoUrl, setVideoUrl] = useState(null)
   const [appconfig, setAppConfig] = useState({})
+  const [isEnabled, setIsEnabled] = useState(false)
 
   LogBox.ignoreLogs(["Setting a timer"])
 
@@ -66,9 +66,7 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   }, [])
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`members/${userId}`))
-    ref.once("value", (snapshot) => {
-      const data = { ...snapshot.val() }
+    getMemberProfile(userId).then((data) => {
       if (!data.image) {
         if (data.sex === "female") {
           setImageProfile(FemaleSimple)
@@ -97,8 +95,18 @@ const ProfileHomeScreen = ({ navigation, route }) => {
           ? Moment(data.member_register_date).format("D MMM YYYY")
           : "รออนุมัติข้อมูล"
       )
+      setIsEnabled(data.work_status === "available" ? true : false)
     })
   }, [])
+
+  const toggleSwitch = () => {
+    setIsEnabled((previousState) => !previousState)
+    updateWorkingStatus(userId, isEnabled)
+  }
+
+  if (userStatus === AppConfig.MemberStatus.newRegister) {
+    navigate("Register-Plan-Form", { appconfig })
+  }
 
   return (
     <ImageBackground
@@ -108,18 +116,20 @@ const ProfileHomeScreen = ({ navigation, route }) => {
     >
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <TouchableNativeFeedback onPress={() => signOut()}>
-            <View style={{ alignSelf: "flex-end", margin: 10 }}>
-              <Text
-                style={[
-                  styles.text,
-                  { color: "blue", fontSize: 18, fontWeight: "bold" }
-                ]}
-              >
-                กลับสู่หน้าหลัก
+          <View style={{ alignSelf: "flex-end", margin: 10 }}>
+            <View style={{ alignItems: "center" }}>
+              <Switch
+                trackColor={{ false: "red", true: "green" }}
+                thumbColor={isEnabled ? "snow" : "show"}
+                ios_backgroundColor="red"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+              <Text style={{ fontWeight: "bold", padding: 5 }}>
+                {isEnabled ? "พร้อมรับงาน" : "ไม่ว่าง"}
               </Text>
             </View>
-          </TouchableNativeFeedback>
+          </View>
           <View style={{ alignSelf: "center" }}>
             <View style={styles.profileImage}>
               <Image
@@ -211,7 +221,6 @@ const ProfileHomeScreen = ({ navigation, route }) => {
               <Text style={[styles.text, styles.subText]}>วันที่เริ่มงาน</Text>
             </View>
           </View>
-
           {videoUrl && (
             <View
               style={{
@@ -229,7 +238,6 @@ const ProfileHomeScreen = ({ navigation, route }) => {
               />
             </View>
           )}
-
           {!img1 && !img2 && !img3 && !img4 && !img5 && !videoUrl && (
             <View style={{ alignItems: "center", margin: 50 }}>
               <Text style={{ fontSize: 20 }}>

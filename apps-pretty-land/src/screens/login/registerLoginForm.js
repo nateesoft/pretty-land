@@ -19,6 +19,7 @@ import { AppConfig } from "../../Constants"
 import { GetIcon } from "../../components/GetIcons"
 import firebase from "../../../util/firebase"
 import { getDocument, snapshotToArray } from "../../../util"
+import { saveNewMember } from "../../apis"
 
 const RegisterLoginForm = ({ navigation, route }) => {
   const { signIn } = useContext(AuthContext)
@@ -28,19 +29,6 @@ const RegisterLoginForm = ({ navigation, route }) => {
 
   const encryptPassword = (password) => {
     return base64.encode(password)
-  }
-
-  const saveMemberDb = (id, data) => {
-    return new Promise((resolve, reject) => {
-      firebase
-        .database()
-        .ref(getDocument(`members/${id}`))
-        .set(data)
-        .catch((err) => {
-          reject(err)
-        })
-      resolve(true)
-    })
   }
 
   const saveAndGoLoginForm = () => {
@@ -88,7 +76,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
             sys_update_date: new Date().toUTCString(),
             ...memberData
           }
-          saveMemberDb(newId, saveData)
+          saveNewMember(newId, saveData)
             .then((res) => {
               if (res) {
                 signIn({ username, password, screen: "admin" })
@@ -171,7 +159,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
           </View>
           <View style={styles.buttonFooter}>
             <Button
-              title="บันทึกข้อมูล"
+              title="ลงทะเบียน"
               iconLeft
               icon={
                 <AntDesign

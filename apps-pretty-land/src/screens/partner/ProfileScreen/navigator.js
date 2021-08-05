@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
+import { getMemberProfile, getConfigList } from "../../../apis"
 import ProfileHomeScreen from "./Home"
 import RegisterPlanForm from "./registerPlanForm"
 import RegisterPartnerForm from "./registerPartner"
@@ -8,11 +9,19 @@ import RegisterPartnerBankForm from "./registerBankForm"
 import RegisterPartnerImageUpload from "./registerImageUpload"
 
 import { LogoTitle } from "../../../components/Header"
+import { AppConfig } from "../../../Constants"
 
 const Stack = createStackNavigator()
 
 const TabNavigator = ({ navigation, route }) => {
   const { userId, status } = route.params
+  const [profile, setProfile] = useState(null)
+
+  useEffect(() => {
+    getMemberProfile(userId).then((data) => {
+      setProfile(data)
+    })
+  }, [])
 
   return (
     <Stack.Navigator>
@@ -22,10 +31,10 @@ const TabNavigator = ({ navigation, route }) => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{ userId, status }}
       />
@@ -35,10 +44,10 @@ const TabNavigator = ({ navigation, route }) => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{ userId, status }}
       />
@@ -48,10 +57,10 @@ const TabNavigator = ({ navigation, route }) => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{ userId, status }}
       />
@@ -61,10 +70,10 @@ const TabNavigator = ({ navigation, route }) => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{ userId, status }}
       />
@@ -74,10 +83,10 @@ const TabNavigator = ({ navigation, route }) => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
         initialParams={{ userId, status }}
       />

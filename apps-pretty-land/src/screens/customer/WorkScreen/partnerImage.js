@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import {
   View,
   StyleSheet,
@@ -6,22 +6,25 @@ import {
   Image,
   ScrollView,
   TouchableNativeFeedback,
-  ImageBackground
+  ImageBackground,
+  Alert
 } from "react-native"
 
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
 import * as Progress from "react-native-progress"
 import { AirbnbRating } from "react-native-elements"
+import { Video } from "expo-av"
 
+import { getMemberProfile } from "../../../apis"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
-import { Alert } from "react-native"
 
 export default function PartnerImage({ navigation, route }) {
   const { postItem, partnerItem } = route.params
 
+  const video = useRef(null)
   const [partnerProfile, setPartnerProfile] = useState({})
   const [selectStatus, setSelectStatus] = useState("")
   const [images, setImages] = useState([])
@@ -128,11 +131,7 @@ export default function PartnerImage({ navigation, route }) {
   }
 
   useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref(getDocument(`members/${partnerItem.partnerId}`))
-    ref.once("value", (snapshot) => {
-      const data = { ...snapshot.val() }
+    getMemberProfile(partnerItem.partnerId).then((data) => {
       setPartnerProfile(data)
       setImages([
         { url: data.imageUrl1 || null },
@@ -191,17 +190,14 @@ export default function PartnerImage({ navigation, route }) {
               borderRadius: 25
             }}
           >
-            <Text style={{ fontSize: 16 }}>
-              ชื่อสมาชิก: {partnerProfile.name}
+            <Text style={{ fontSize: 16, color: "blue" }}>
+              ชื่อน้องๆ: {partnerProfile.name}
             </Text>
             <Text style={{ fontSize: 16 }}>
               สัดส่วน {partnerProfile.stature} สูง {partnerProfile.height}
             </Text>
             <Text style={{ fontSize: 16 }}>
               ราคาที่เสนอ: {partnerItem.amount} บาท
-            </Text>
-            <Text style={{ fontSize: 12, color: "blue" }}>
-              (* ราคาที่เสนอยังไม่รวมค่าดำเนินการ)
             </Text>
           </View>
           <View
@@ -283,7 +279,7 @@ export default function PartnerImage({ navigation, route }) {
               />
             </View>
           )}
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ScrollView showsHorizontalScrollIndicator={false}>
             {images.map((item, index) =>
               item.url ? (
                 <TouchableNativeFeedback
@@ -309,6 +305,23 @@ export default function PartnerImage({ navigation, route }) {
                   </View>
                 </TouchableNativeFeedback>
               ) : null
+            )}
+            {partnerProfile.videoUrl && (
+              <View
+                style={{
+                  marginTop: 5,
+                  alignItems: "center"
+                }}
+              >
+                <Video
+                  ref={video}
+                  style={styles.image}
+                  source={{ uri: partnerProfile.videoUrl }}
+                  useNativeControls
+                  resizeMode="contain"
+                  isLooping
+                />
+              </View>
             )}
           </ScrollView>
         </View>

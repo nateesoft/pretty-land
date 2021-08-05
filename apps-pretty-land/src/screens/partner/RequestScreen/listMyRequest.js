@@ -39,7 +39,10 @@ const ListMyWorkScreen = ({ navigation, route }) => {
         const data = item.partnerSelect
         for (let key in data) {
           const obj = data[key]
-          if (obj.partnerId === userId) {
+          const statusMatch =
+            item.status === AppConfig.PostsStatus.waitPartnerConfrimWork ||
+            item.status === AppConfig.PostsStatus.waitCustomerSelectPartner
+          if (obj.partnerId === userId && statusMatch) {
             myWorkList.push(item)
           }
         }

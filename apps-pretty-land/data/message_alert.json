@@ -1,0 +1,11 @@
+{
+  "001" : {
+    "func_type" : "new_post",
+    "msg_alert_person" : "all_admin",
+    "msg_alert_to" : "all",
+    "msg_detail" : "customer create new post",
+    "msg_id" : "001",
+    "sys_date" : "today",
+    "type" : "badge"
+  }
+}

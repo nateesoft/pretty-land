@@ -6,13 +6,12 @@ import {
   View,
   StyleSheet,
   ImageBackground,
-  SafeAreaView,
+  SafeAreaView
 } from "react-native"
 import { Button, Text } from "react-native-elements"
 import { AntDesign } from "react-native-vector-icons"
 
-import firebase from "../../../../util/firebase"
-import { getDocument } from "../../../../util"
+import { adminSaveConfirmPayment } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
 const VerifyPaymentSlip = ({ navigation, route }) => {
@@ -26,7 +25,10 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
       let list = []
       for (let key in item) {
         const data = item[key]
-        if (data.selectStatus === AppConfig.PostsStatus.customerConfirm) {
+        if (
+          data.selectStatus === AppConfig.PostsStatus.customerConfirm ||
+          data.partnerStatus === AppConfig.PostsStatus.partnerAcceptWork
+        ) {
           list.push(data)
         }
       }
@@ -35,48 +37,14 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
     })
   }
 
-  const getMemberProfile = () => {
-    return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(getDocument(`members/${item.customerId}`))
-      ref.once("value", (snapshot) => {
-        const customerData = { ...snapshot.val() }
-        resolve(customerData)
-      })
-    })
-  }
-
   const saveConfirmPayment = () => {
-    // save to firebase
-    firebase.database().ref(getDocument(`posts/${item.id}`)).update({
-      status: AppConfig.PostsStatus.adminConfirmPayment,
-      statusText: "ชำระเงินเรียบร้อยแล้ว",
-      sys_update_date: new Date().toUTCString(),
-    })
-
-    // update status partner in list
-    listPartner.forEach((obj) => {
-      firebase
-        .database()
-        .ref(getDocument(`posts/${item.id}/partnerSelect/${obj.partnerId}`))
-        .update({
-          selectStatus: AppConfig.PostsStatus.customerPayment,
-          selectStatusText: "ชำระเงินเรียบร้อยแล้ว",
-          sys_update_date: new Date().toUTCString(),
-        })
-    })
-
-    getMemberProfile().then((cust) => {
-      // update level to customer
-      firebase
-        .database()
-        .ref(getDocument(`members/${item.customerId}`))
-        .update({
-          customerLevel: cust.customerLevel + 1,
-        })
-    })
-
-    // to all list
-    navigate("Post-List-All")
+    adminSaveConfirmPayment(item, listPartner)
+      .then((res) => {
+        if (res) {
+          navigate("Post-List-All")
+        }
+      })
+      .catch((err) => Alert.alert(err))
   }
 
   useEffect(() => {
@@ -98,7 +66,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
           <View style={{ alignSelf: "center" }}>
             <Image
               source={{ uri: item.slip_image }}
-              style={{ width: 200, height: 250 }}
+              style={{ width: 300, height: 350 }}
             />
           </View>
           {item.partnerRequest !== AppConfig.PartnerType.type4 && (
@@ -109,22 +77,36 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                 borderWidth: 1.5,
                 margin: 10,
                 borderColor: "pink",
-                width: "85%",
+                width: "85%"
               }}
             >
-              <Text>ชื่อลูกค้า: {item.customerName}</Text>
-              <Text>Level: {item.customerLevel}</Text>
-              <Text>ชื่อสถานที่: {item.placeMeeting}</Text>
-              <Text>
+              <Text style={{ color: "blue", fontSize: 16 }}>
+                ชื่อลูกค้า: {item.customerName}
+              </Text>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
+                Level: {item.customerLevel}
+              </Text>
+              <Text style={{ color: "green", fontSize: 16, marginVertical: 5 }}>
+                สถานที่: {item.placeMeeting}
+              </Text>
+              <Text style={{ color: "red", fontSize: 16 }}>
                 เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
               </Text>
-              <Text>เบอร์ติดต่อ: {item.customerPhone}</Text>
-              <Text>รายละเอียดเพิ่มเติม: {item.customerRemark}</Text>
-              <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
-              <Text>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
+                เบอร์ติดต่อ: {item.customerPhone}
+              </Text>
+              <Text style={{ color: "brown", fontSize: 16 }}>
+                รายละเอียดเพิ่มเติม: {item.customerRemark}
+              </Text>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
+                ธนาคารที่โอนเงิน: {item.bankName}
+              </Text>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
                 ยอดเงินโอน: {parseFloat(item.transferAmount).toFixed(2)}
               </Text>
-              <Text>เวลาที่โอนเงิน: {item.transferTime}</Text>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
+                เวลาที่โอนเงิน: {item.transferTime}
+              </Text>
             </View>
           )}
           {item.partnerRequest === AppConfig.PartnerType.type4 && (
@@ -135,10 +117,12 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                 borderWidth: 1.5,
                 margin: 10,
                 borderColor: "pink",
-                width: "85%",
+                width: "85%"
               }}
             >
-              <Text>ชื่อลูกค้า: {item.customerName}</Text>
+              <Text style={{ color: "blue" }}>
+                ชื่อลูกค้า: {item.customerName}
+              </Text>
               <Text>Level: {item.customerLevel}</Text>
               <Text>เบอร์ติดต่อลูกค้า: {item.customerPhone}</Text>
               <Text>ธนาคารที่โอนเงิน: {item.bankName}</Text>
@@ -149,7 +133,7 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
             </View>
           )}
           <View style={{ alignItems: "center", margin: 10 }}>
-            <Text style={{ marginBottom: 5 }}>
+            <Text style={{ marginBottom: 5, fontSize: 16 }}>
               ยอดรับชำระสำหรับ {listPartner.length} คน
             </Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -162,16 +146,26 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                     source={{ uri: obj.image }}
                     style={{ width: 100, height: 100 }}
                   />
-                  <Text style={{ marginTop: 5 }}>ชื่อ: {obj.partnerName}</Text>
+                  <Text style={{ marginTop: 5, color: "blue" }}>
+                    ชื่อ: {obj.partnerName || obj.name}
+                  </Text>
+                  <Text>ธนาคาร: {obj.bankName}</Text>
+                  <Text>เลขที่บัญชี: {obj.bankNo}</Text>
+                  <Text>เบอร์โทร: {obj.telephone}</Text>
+                  <Text>Lien: {obj.lineId}</Text>
                   {item.partnerRequest === AppConfig.PartnerType.type4 && (
                     <View
                       style={{
                         backgroundColor: "pink",
                         padding: 5,
-                        marginTop: 5,
+                        marginTop: 5
                       }}
                     >
-                      <Text style={{ marginTop: 5 }}>สถานที่: {obj.place}</Text>
+                      {obj.place && (
+                        <Text style={{ marginTop: 5 }}>
+                          สถานที่: {obj.place}
+                        </Text>
+                      )}
                       <Text style={{ marginTop: 5 }}>
                         เวลาที่จะไป: {item.timeMeeting}
                       </Text>
@@ -205,7 +199,7 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
     borderRadius: 5,
     alignSelf: "center",
-    width: 250,
+    width: 250
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -213,12 +207,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   textTopic: {
     fontSize: 24,
@@ -226,8 +220,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
-  },
+    padding: 10
+  }
 })
 
 export default VerifyPaymentSlip

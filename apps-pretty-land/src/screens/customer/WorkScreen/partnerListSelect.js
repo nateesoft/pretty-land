@@ -5,7 +5,7 @@ import {
   TouchableHighlight,
   ScrollView,
   ImageBackground,
-  SafeAreaView,
+  SafeAreaView
 } from "react-native"
 import { Text } from "react-native"
 import { Button } from "react-native-elements"
@@ -30,21 +30,9 @@ const PartnerListSelect = ({ navigation, route }) => {
       style={{
         width: 180,
         height: 300,
-        margin: 5,
+        margin: 5
       }}
     >
-      <View style={{ borderRadius: 20, margin: 10, opacity: 0.8 }}>
-        <Text
-          style={{
-            color: "white",
-            backgroundColor: "green",
-            width: 55,
-            padding: 2,
-          }}
-        >
-          อายุ: {data.age}
-        </Text>
-      </View>
       <View
         style={{
           position: "absolute",
@@ -53,38 +41,10 @@ const PartnerListSelect = ({ navigation, route }) => {
           width: "100%",
           height: 30,
           alignItems: "center",
-          opacity: 0.75,
+          opacity: 0.75
         }}
       >
         <Text style={{ color: "white", marginTop: 5 }}>{data.character}</Text>
-      </View>
-      <View
-        style={{
-          color: "white",
-          backgroundColor: "#0471AB",
-          position: "absolute",
-          bottom: 155,
-          borderRadius: 5,
-          paddingVertical: 5,
-          paddingHorizontal: 10,
-        }}
-      >
-        <Text style={{ color: "white", fontWeight: "bold" }}>{data.sex}</Text>
-      </View>
-      <View
-        style={{
-          color: "white",
-          backgroundColor: "#FF00B2",
-          position: "absolute",
-          bottom: 110,
-          borderRadius: 5,
-          paddingVertical: 5,
-          paddingHorizontal: 10,
-        }}
-      >
-        <Text style={{ color: "white", fontWeight: "bold" }}>
-          B {data.amount}
-        </Text>
       </View>
       <View
         style={{
@@ -96,14 +56,63 @@ const PartnerListSelect = ({ navigation, route }) => {
           width: "100%",
           height: 65,
           alignItems: "flex-end",
-          paddingRight: 15,
+          paddingRight: 15
         }}
       >
-        <Text style={{ color: "blue", fontSize: 22, fontWeight: "bold" }}>
+        <Text
+          style={{
+            color: "purple",
+            fontSize: 18,
+            fontWeight: "bold",
+            position: "absolute",
+            left: 0,
+            top: 0,
+            padding: 5
+          }}
+        >
           {data.partnerName}
         </Text>
+        <Text
+          style={{
+            color: "red",
+            fontSize: 18,
+            fontWeight: "bold",
+            position: "absolute",
+            right: 0,
+            top: 0,
+            padding: 5
+          }}
+        >
+          อายุ: {data.age}
+        </Text>
+        <Text
+          style={{
+            color: "black",
+            fontSize: 18,
+            fontWeight: "bold",
+            position: "absolute",
+            right: 0,
+            bottom: 0,
+            padding: 5
+          }}
+        >
+          {data.sex == "female" ? "หญิง" : data.sex == "male" ? "ชาย" : "อื่นๆ"}
+        </Text>
         {data.selectStatus === AppConfig.PostsStatus.customerConfirm && (
-          <Text style={{ color: "blue" }}>เลือกสมาชิกคนนี้แล้ว</Text>
+          <Text
+            style={{
+              color: "white",
+              position: "absolute",
+              left: 0,
+              bottom: 0,
+              padding: 3,
+              backgroundColor: "chocolate",
+              fontWeight: "bold",
+              borderRadius: 5,
+            }}
+          >
+            เลือกสมาชิกคนนี้แล้ว
+          </Text>
         )}
       </View>
     </ImageBackground>
@@ -143,7 +152,7 @@ const PartnerListSelect = ({ navigation, route }) => {
       resizeMode="contain"
     >
       <SafeAreaView style={{ height: "100%" }}>
-        <Text style={styles.textTopic}>แสดงพร้อมทำงาน</Text>
+        <Text style={styles.textTopic}>น้องๆ พร้อมทำงาน</Text>
         <View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {listSelect.map((item, index) => (
@@ -186,53 +195,53 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-around",
+    justifyContent: "space-around"
   },
   cardContainer1: {
     flexDirection: "column",
     alignItems: "center",
-    padding: 10,
+    padding: 10
   },
   cardContainer2: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: "column"
   },
   list: {
     flex: 1,
-    width: "100%",
+    width: "100%"
   },
   image: {
     width: 350,
-    height: 250,
+    height: 250
   },
   button: {},
   textTopic: {
-    marginBottom: 15,
+    marginBottom: 15
   },
   box: {
     flex: 1,
     flexDirection: "column",
     width: "50%",
     height: "50%",
-    padding: 5,
+    padding: 5
   },
   inner: {
     flex: 1,
     borderRadius: 5,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
     height: 200,
-    width: 100,
+    width: 100
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   textTopic: {
     fontSize: 24,
@@ -240,8 +249,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
-  },
+    padding: 10
+  }
 })
 
 export default PartnerListSelect

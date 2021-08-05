@@ -79,7 +79,7 @@ export default function PartnerListItem(props) {
                 borderBottomRightRadius: 15,
               }}
             >
-              <Text style={{ color: "black" }}>ชื่อ: {item.partnerName}</Text>
+              <Text style={{ color: "blue" }}>ชื่อ: {item.partnerName}</Text>
               <Text
                 style={{ color: "black", fontWeight: "bold", color: "blue" }}
               >

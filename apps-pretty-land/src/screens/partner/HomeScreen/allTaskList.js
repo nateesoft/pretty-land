@@ -6,14 +6,13 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
-  ImageBackground,
+  ImageBackground
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
 
+import { getMemberProfile } from "../../../apis"
 import CardNotfound from "../../../components/CardNotfound"
-import firebase from "../../../../util/firebase"
-import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const AllTaskListScreen = ({ navigation, route }) => {
@@ -27,7 +26,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
   const onPressOptions = (item) => {
     navigation.navigate("All-Customer-Post-List", {
       profile,
-      item: { ...item },
+      item: { ...item }
     })
   }
 
@@ -38,7 +37,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
       containerStyle={{
         borderRadius: 8,
         marginVertical: 5,
-        backgroundColor: null,
+        backgroundColor: null
       }}
       underlayColor="pink"
     >
@@ -48,7 +47,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
             fontSize: 20,
             marginBottom: 5,
             paddingHorizontal: 5,
-            fontWeight: "bold",
+            fontWeight: "bold"
           }}
         >
           จังหวัด: {item.provinceName}
@@ -58,7 +57,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
             style={{
               marginLeft: 15,
               marginBottom: 5,
-              paddingHorizontal: 5,
+              paddingHorizontal: 5
             }}
           >
             {AppConfig.PartnerType.type1} ({item.partner1})
@@ -69,7 +68,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
             style={{
               marginLeft: 15,
               marginBottom: 5,
-              paddingHorizontal: 5,
+              paddingHorizontal: 5
             }}
           >
             {AppConfig.PartnerType.type2} ({item.partner2})
@@ -80,7 +79,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
             style={{
               marginLeft: 15,
               marginBottom: 5,
-              paddingHorizontal: 5,
+              paddingHorizontal: 5
             }}
           >
             {AppConfig.PartnerType.type3} ({item.partner3})
@@ -91,7 +90,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
             style={{
               marginLeft: 15,
               marginBottom: 5,
-              paddingHorizontal: 5,
+              paddingHorizontal: 5
             }}
           >
             {AppConfig.PartnerType.type4} ({item.partner4})
@@ -112,9 +111,8 @@ const AllTaskListScreen = ({ navigation, route }) => {
   )
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`members/${userId}`))
-    ref.once("value", (snapshot) => {
-      setProfile({ ...snapshot.val() })
+    getMemberProfile(userId).then((data) => {
+      setProfile(data)
     })
   }, [])
 
@@ -139,7 +137,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
                 height: 600,
                 borderWidth: 1,
                 borderColor: "#eee",
-                padding: 5,
+                padding: 5
               }}
               refreshControl={
                 <RefreshControl
@@ -157,7 +155,7 @@ const AllTaskListScreen = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 5,
+    padding: 5
   },
   textTopic: {
     fontSize: 24,
@@ -165,7 +163,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
+    padding: 10
   },
   textTopicDetail: {
     fontSize: 16,
@@ -173,20 +171,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
+    padding: 10
   },
   btnNewPost: {
     backgroundColor: "#35D00D",
     margin: 5,
     borderRadius: 75,
     height: 45,
-    width: 250,
+    width: 250
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })
 
 export default AllTaskListScreen

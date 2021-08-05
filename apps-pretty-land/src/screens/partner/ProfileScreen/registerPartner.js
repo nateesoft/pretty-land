@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   Alert,
   ImageBackground,
-  ScrollView,
+  ScrollView
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Button } from "react-native-elements"
@@ -15,10 +15,9 @@ import DropDownPicker from "react-native-dropdown-picker"
 import { TextInputMask } from "react-native-masked-text"
 
 import { getCountryList, getDistrictList } from "../../../data/apis"
-import firebase from "../../../../util/firebase"
-import { getDocument } from "../../../../util"
 import { GetIcon } from "../../../components/GetIcons"
-import { AppConfig } from '../../../Constants'
+import { AppConfig } from "../../../Constants"
+import { getMemberProfile } from "../../../apis"
 
 const RegisterPartnerForm = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -49,10 +48,6 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       Alert.alert("แจ้งเตือน", "กรุณาระบุจังหวัดที่รับงานได้")
       return
     }
-    if (!district) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุ เขต/อำเภอที่รับงานได้")
-      return
-    }
     if (type4 && !address) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
       return
@@ -65,16 +60,19 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       province,
       district,
       address,
-      lineId,
+      lineId
     }
 
-    navigate("Partner-Register-Bank-Form", { userId, status, partnerData, appconfig })
+    navigate("Partner-Register-Bank-Form", {
+      userId,
+      status,
+      partnerData,
+      appconfig
+    })
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`members/${userId}`))
-    ref.once("value", (snapshot) => {
-      const data = { ...snapshot.val() }
+    getMemberProfile(userId).then((data) => {
       setLineId(data.lineId || "")
       setMobile(data.mobile || "")
       setProvince(data.province || "")
@@ -194,7 +192,7 @@ const RegisterPartnerForm = ({ navigation, route }) => {
                   paddingHorizontal: 15,
                   height: 45,
                   borderWidth: 0.5,
-                  marginBottom: 20,
+                  marginBottom: 20
                 }}
                 onPress={() => handleNextData()}
               />
@@ -210,23 +208,23 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   image: {
     height: 100,
-    width: 100,
+    width: 100
   },
   textLogo: {
     fontSize: 24,
     fontWeight: "bold",
     fontStyle: "italic",
-    color: "purple",
+    color: "purple"
   },
   textDetail: {
     fontSize: 12,
     fontWeight: "bold",
     color: "gray",
-    marginBottom: 20,
+    marginBottom: 20
   },
   btnFacebook: {
     marginHorizontal: 55,
@@ -235,24 +233,24 @@ const styles = StyleSheet.create({
     marginTop: 5,
     backgroundColor: "blue",
     paddingVertical: 2,
-    borderRadius: 23,
+    borderRadius: 23
   },
   textOr: {
     fontSize: 14,
     color: "gray",
-    marginTop: 50,
+    marginTop: 50
   },
   textInput: {
     width: 250,
     textAlign: "center",
     fontSize: 16,
-    marginVertical: 5,
+    marginVertical: 5
   },
   textRegister: {
     color: "purple",
     marginTop: 20,
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   textFooter: {
     position: "absolute",
@@ -261,13 +259,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flexWrap: "wrap",
     fontSize: 12,
-    color: "gray",
+    color: "gray"
   },
   textFormInfo: {
     fontSize: 22,
     fontWeight: "bold",
     marginTop: 20,
-    marginBottom: 8,
+    marginBottom: 8
   },
   formControl: {
     flexDirection: "row",
@@ -277,13 +275,13 @@ const styles = StyleSheet.create({
     borderColor: "#ff2fe6",
     marginTop: 5,
     height: 50,
-    borderRadius: 10,
+    borderRadius: 10
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })
 
 export default RegisterPartnerForm

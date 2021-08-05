@@ -10,7 +10,7 @@ import { Button, Text } from "react-native-elements"
 import { AntDesign, Ionicons } from "react-native-vector-icons"
 import Moment from "moment"
 
-import { updatePosts } from "../../../apis"
+import { updatePosts, adminConfirmNewPost } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 import { Alert } from "react-native"
 
@@ -45,14 +45,16 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
         statusText: "รอลูกค้าชำระเงิน",
         sys_update_date: new Date().toUTCString()
       })
+      navigation.navigate("Post-List-All")
     } else {
-      updatePosts(item.id, {
-        status: AppConfig.PostsStatus.adminConfirmNewPost,
-        statusText: "อนุมัติโพสท์",
-        sys_update_date: new Date().toUTCString()
-      })
+      adminConfirmNewPost(item)
+        .then((res) => {
+          if (res) {
+            navigation.navigate("Post-List-All")
+          }
+        })
+        .catch((err) => Alert.alert(err))
     }
-    navigation.navigate("Post-List-All")
   }
 
   const updateNotApprove = () => {
@@ -77,41 +79,41 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
               <Text style={{ fontSize: 16 }}>โหมดงาน: {topic}</Text>
-              <Text style={{ fontSize: 16 }}>
-                จำนวนน้องๆที่ต้องการ: {item.partnerWantQty || 0} คน
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
+                จำนวนน้องๆ ที่ต้องการ: {item.partnerWantQty || 0} คน
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, color: "blue" }}>
                 ชื่อลูกค้า: {item.customerName}
               </Text>
-              <Text style={{ fontSize: 16 }}>Level: {item.customerLevel}</Text>
+              <Text style={{ fontSize: 16, marginVertical: 5, marginVertical: 5 }}>Level: {item.customerLevel}</Text>
               <Text style={{ fontSize: 16 }}>จังหวัด: {item.provinceName}</Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginVertical: 5, color: "red" }}>
                 เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
               </Text>
             </View>
           </View>
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, color: "green" }}>
                 สถานะที่: {item.placeMeeting}
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
                 เบอร์โทร: {item.customerPhone}
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, color: "brown" }}>
                 รายละเอียดเพิ่มเติม: {item.customerRemark}
               </Text>
             </View>
           </View>
           <View style={styles.viewCard}>
             <View style={{ marginLeft: 10 }}>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
                 วันที่สร้างข้อมูล:{" "}
-                {Moment(item.sys_create_date).format("D MMM YYYY HH:mm:ss")}
+                {Moment(item.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
                 วันที่อัพเดตข้อมูล:{" "}
-                {Moment(item.sys_update_date).format("D MMM YYYY HH:mm:ss")}
+                {Moment(item.sys_update_date).format("DD/MM/YYYY HH:mm:ss")}
               </Text>
             </View>
           </View>
@@ -164,7 +166,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
               <ScrollView horizontals showsHorizontalScrollIndicator={false}>
                 {partnerList.map((pObj, index) => (
                   <View
-                    key={pObj.id}
+                    key={pObj.partnerId}
                     style={{
                       padding: 10,
                       borderWidth: 1,
@@ -181,7 +183,7 @@ const ConfirmTaskScreen = ({ navigation, route }) => {
                         width: 150,
                         height: 150
                       }}
-                      key={`img_${pObj.id}`}
+                      key={`img_${pObj.partnerId}`}
                     />
                     <View style={{ alignSelf: "center" }}>
                       <Text>ชื่อน้องๆ: {pObj.partnerName}</Text>

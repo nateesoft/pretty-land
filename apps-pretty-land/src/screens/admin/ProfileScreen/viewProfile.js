@@ -4,9 +4,10 @@ import { Button, Text, Input } from "react-native-elements"
 import { FontAwesome } from "react-native-vector-icons"
 import base64 from "react-native-base64"
 
+import { getMemberProfile } from "../../../apis"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
-import { AppConfig } from '../../../Constants'
+import { AppConfig } from "../../../Constants"
 
 const ViewProfileScreen = ({ navigation, route }) => {
   const { userId } = route.params
@@ -43,7 +44,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
       .database()
       .ref(getDocument(`members/${userId}`))
       .update({
-        password: base64.encode(newPassword),
+        password: base64.encode(newPassword)
       })
     Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว")
     setPassword("")
@@ -52,9 +53,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`members/${userId}`))
-    ref.once("value", (snapshot) => {
-      const data = { ...snapshot.val() }
+    getMemberProfile(userId).then((data) => {
       setUsername(data.username)
       setOwnPassword(base64.decode(data.password))
     })
@@ -69,7 +68,7 @@ const ViewProfileScreen = ({ navigation, route }) => {
       <Text style={styles.textTopic}>เปลี่ยนรหัสผ่าน</Text>
       <View style={styles.cardDetail}>
         <View style={styles.viewCard}>
-          <Text style={{ fontSize: 18 }}>ชื่อผู้ใช้งาน</Text>
+          <Text style={{ fontSize: 18, color: "blue" }}>ชื่อผู้ใช้งาน</Text>
           <Input
             name="username"
             placeholder="ชื่อผู้ใช้งาน"
@@ -130,19 +129,19 @@ const ViewProfileScreen = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   inputForm: {
-    marginLeft: 20,
+    marginLeft: 20
   },
   btnSave: {
     margin: 15,
     paddingHorizontal: 50,
     borderRadius: 55,
-    backgroundColor: "#ff2fe6",
+    backgroundColor: "#ff2fe6"
   },
   cardDetail: {
     flex: 1,
     alignItems: "center",
     padding: 5,
-    margin: 10,
+    margin: 10
   },
   optionsNameDetail: {
     fontSize: 24,
@@ -150,7 +149,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   optionsNameDetail2: {
     fontSize: 18,
@@ -158,12 +157,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   viewCard: {
     width: "100%",
     borderRadius: 20,
-    padding: 5,
+    padding: 5
   },
   textTopic: {
     fontSize: 24,
@@ -171,19 +170,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
+    padding: 10
   },
   textSubTopic: {
     fontSize: 18,
     textAlign: "center",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })
 
 export default ViewProfileScreen

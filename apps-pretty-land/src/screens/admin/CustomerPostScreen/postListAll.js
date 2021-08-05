@@ -6,10 +6,11 @@ import {
   StyleSheet,
   Image,
   RefreshControl,
-  ImageBackground,
+  ImageBackground
 } from "react-native"
 import { ListItem, Text } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
+import Moment from "moment"
 
 import CardNotfound from "../../../components/CardNotfound"
 import { updatePosts } from "../../../apis"
@@ -39,17 +40,30 @@ const PostListAllScreen = ({ navigation, route }) => {
       containerStyle={{
         backgroundColor: null,
         borderRadius: 8,
-        marginVertical: 5,
+        marginVertical: 5
       }}
       underlayColor="pink"
     >
       <ListItem.Content style={{ marginLeft: 10 }}>
-        <ListItem.Title>ชื่อลูกค้า: {item.customerName}</ListItem.Title>
-        <ListItem.Title>Level: {item.customerLevel}</ListItem.Title>
-        <ListItem.Subtitle>
+        <ListItem.Title style={{ color: "blue", fontSize: 16 }}>
+          ชื่อลูกค้า: {item.customerName}
+        </ListItem.Title>
+        <ListItem.Title
+          style={{ marginVertical: 5, fontSize: 16, fontWeight: "bold" }}
+        >
+          Level: {item.customerLevel}
+        </ListItem.Title>
+        <ListItem.Subtitle style={{ fontSize: 16 }}>
           ประเภทงาน: {itemData.name}
         </ListItem.Subtitle>
-        <ListItem.Subtitle>Status: {item.statusText}</ListItem.Subtitle>
+        <ListItem.Subtitle
+          style={{ marginVertical: 5, fontSize: 16, fontWeight: "bold" }}
+        >
+          Status: {item.statusText}
+        </ListItem.Subtitle>
+        <ListItem.Subtitle style={{ marginVertical: 5, fontSize: 14 }}>
+          วันที่: {Moment(item.sys_update_date).format("DD/MM/YYYY HH:mm:ss")}
+        </ListItem.Subtitle>
       </ListItem.Content>
       <ProgressCircle
         percent={30}
@@ -64,6 +78,87 @@ const PostListAllScreen = ({ navigation, route }) => {
     </ListItem>
   )
 
+  const getFilterData = (postsList) => {
+    return new Promise((resolve, reject) => {
+      const newData = postsList.filter((item, index) => {
+        const countHours = getDiffHours(item.sys_update_date)
+        const todayDate = Moment().format("DD/MM/YYYY")
+        const tomorrowDate = Moment().add(1, "day").format("DD/MM/YYYY")
+        const yesterDate = Moment().add(-1, "day").format("DD/MM/YYYY")
+        const dbDate = Moment(item.sys_update_date).format("DD/MM/YYYY")
+        const isDateValid =
+          todayDate === dbDate ||
+          tomorrowDate === dbDate ||
+          yesterDate === dbDate
+        if (
+          isDateValid &&
+          item.status !== AppConfig.PostsStatus.closeJob &&
+          item.status !== AppConfig.PostsStatus.notApprove &&
+          item.status !== AppConfig.PostsStatus.postTimeout
+        ) {
+          if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
+            if (countHours <= 24) {
+              return item
+            } else {
+              // update timeout
+              updatePosts(item.id, {
+                status: AppConfig.PostsStatus.postTimeout,
+                statusText: "ข้อมูลการโพสท์ใหม่หมดอายุ",
+                sys_update_date: new Date().toUTCString()
+              })
+            }
+          }
+
+          if (item.status === AppConfig.PostsStatus.adminConfirmNewPost) {
+            if (countHours <= 2) {
+              return item
+            } else {
+              // update timeout
+              updatePosts(item.id, {
+                status: AppConfig.PostsStatus.postTimeout,
+                statusText:
+                  "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
+                sys_update_date: new Date().toUTCString()
+              })
+            }
+          }
+
+          if (item.status === AppConfig.PostsStatus.startWork) {
+            if (countHours <= 2) {
+              return item
+            } else {
+              // update timeout
+              updatePosts(item.id, {
+                status: AppConfig.PostsStatus.closeJob,
+                statusText: "ระบบปิดโพสท์อัตโนมัติ หลังจาก 2 ชั่วโมง",
+                sys_update_date: new Date().toUTCString()
+              })
+
+              // ให้ star/rate สำหรับน้องๆ โพสท์นั้นๆ (เต็ม 5 ดาว)
+              for (let key in item.partnerSelect) {
+                const partnerData = item.partnerSelect[key]
+                firebase
+                  .database()
+                  .ref(
+                    getDocument(
+                      `partner_star/${partnerData.partnerId}/${item.id}`
+                    )
+                  )
+                  .update({
+                    star: 5,
+                    sys_date: new Date().toUTCString()
+                  })
+              }
+            }
+          } else {
+            return item
+          }
+        }
+      })
+      resolve(newData)
+    })
+  }
+
   useEffect(() => {
     let ref = firebase
       .database()
@@ -72,63 +167,13 @@ const PostListAllScreen = ({ navigation, route }) => {
       .equalTo(partnerRequest)
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
-      setPosts(
-        postsList.filter((item, index) => {
-          if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
-            if (getDiffHours(item.sys_update_date) <= 24) {
-              return item
-            } else {
-              // update timeout
-              updatePosts(item.id, {
-                status: AppConfig.PostsStatus.postTimeout,
-                statusText: "ข้อมูลการโพสท์ใหม่หมดอายุ",
-                sys_update_date: new Date().toUTCString(),
-              })
-            }
-          }
-
-          if (item.status === AppConfig.PostsStatus.adminConfirmNewPost) {
-            if (getDiffHours(item.sys_update_date) <= 2) {
-              return item
-            } else {
-              // update timeout
-              updatePosts(item.id, {
-                status: AppConfig.PostsStatus.postTimeout,
-                statusText:
-                  "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
-                sys_update_date: new Date().toUTCString(),
-              })
-            }
-          }
-
-          if (item.status === AppConfig.PostsStatus.startWork) {
-            if (getDiffHours(item.sys_update_date) <= 2) {
-              return item
-            } else {
-              // update timeout
-              updatePosts(item.id, {
-                status: AppConfig.PostsStatus.closeJob,
-                statusText: "ระบบปิดโพสท์อัตโนมัติ หลังจาก 2 ชั่วโมง",
-                sys_update_date: new Date().toUTCString(),
-              })
-
-              // ให้ star/rate สำหรับน้องๆ โพสท์นั้นๆ (เต็ม 5 ดาว)
-              for (let key in item.partnerSelect) {
-                const partnerData = item.partnerSelect[key]
-                firebase
-                  .database()
-                  .ref(getDocument(`partner_star/${partnerData.partnerId}/${item.id}`))
-                  .update({
-                    star: 5,
-                    sys_date: new Date().toUTCString(),
-                  })
-              }
-            }
-          } else {
-            return item
-          }
-        })
-      )
+      getFilterData(postsList).then((res) => {
+        setPosts(
+          res.sort((a, b) => {
+            return new Date(b.sys_update_date) - new Date(a.sys_update_date)
+          })
+        )
+      })
     })
     return () => ref.off("value", listener)
   }, [])
@@ -152,7 +197,7 @@ const PostListAllScreen = ({ navigation, route }) => {
                 height: 600,
                 borderWidth: 1,
                 borderColor: "#eee",
-                padding: 5,
+                padding: 5
               }}
               refreshControl={
                 <RefreshControl
@@ -171,7 +216,7 @@ const PostListAllScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
+    padding: 5
   },
   textTopic: {
     fontSize: 24,
@@ -179,20 +224,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
+    padding: 10
   },
   btnNewPost: {
     backgroundColor: "#35D00D",
     margin: 5,
     borderRadius: 75,
     height: 45,
-    width: 250,
+    width: 250
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })
 
 export default PostListAllScreen

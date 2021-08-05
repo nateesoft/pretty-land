@@ -96,7 +96,7 @@ const AdminDetailScreen = ({ navigation, route }) => {
               margin: 10,
             }}
           >
-            <Text style={{ fontSize: 22 }}>
+            <Text style={{ fontSize: 22, color: "blue" }}>
               ชื่อ: {item.name || item.username}
             </Text>
             <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ผู้ดูแลระบบ</Text>

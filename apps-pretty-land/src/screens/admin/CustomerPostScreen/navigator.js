@@ -10,7 +10,9 @@ import { LogoTitle } from "../../../components/Header"
 
 const Stack = createStackNavigator()
 
-const AdminTaskNavigator = () => {
+const AdminTaskNavigator = ({ navigator, route }) => {
+  const { userId } = route.params
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -19,12 +21,14 @@ const AdminTaskNavigator = () => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="โพสท์ทั้งหมด" {...props} />,
+          headerTitle: (props) => (
+            <LogoTitle title="โพสท์ทั้งหมดในระบบ" {...props} />
+          )
         }}
-        initialParams={{ partnerType: "all" }}
+        initialParams={{ partnerType: "all", userId }}
       />
       <Stack.Screen
         name="Post-List-All"
@@ -32,12 +36,12 @@ const AdminTaskNavigator = () => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
-        initialParams={{ partnerType: "all" }}
+        initialParams={{ partnerType: "all", userId }}
       />
       <Stack.Screen
         name="Detail-Task"
@@ -45,10 +49,10 @@ const AdminTaskNavigator = () => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
       />
       <Stack.Screen
@@ -57,10 +61,10 @@ const AdminTaskNavigator = () => {
         options={{
           title: "Back",
           headerStyle: {
-            backgroundColor: "#ff2fe6",
+            backgroundColor: "#ff2fe6"
           },
           headerTintColor: "white",
-          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />,
+          headerTitle: (props) => <LogoTitle title="Pretty Land" {...props} />
         }}
       />
     </Stack.Navigator>

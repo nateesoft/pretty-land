@@ -6,19 +6,23 @@ import {
   SafeAreaView,
   Alert,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  Button
 } from "react-native"
-import { Button, Text } from "react-native-elements"
+import { Text, Button as ButtonAction } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
 import RadioButtonRN from "radio-buttons-react-native"
 import { FontAwesome } from "react-native-vector-icons"
 import { TextInputMask } from "react-native-masked-text"
+import DateTimePickerModal from "react-native-modal-datetime-picker"
+import Moment from "moment"
 
-import firebase from "../../../../util/firebase"
-import { getDocument } from "../../../../util"
 import { getProvinceName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
-import { saveNewPosts } from "../../../apis"
+import {
+  saveNewPosts,
+  getMemberProfile,
+} from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
 const sexData = [
@@ -39,6 +43,34 @@ const PlaceForm = (props) => {
 
   const [customerName, setCustomerName] = useState("")
   const [customerLevel, setCustomerLevel] = useState("")
+
+  const [isTimeStartPicker, setTimeStartPicker] = useState(false)
+  const [isTimeStopPicker, setTimeStopPicker] = useState(false)
+
+  const showTimeStart = () => {
+    setTimeStartPicker(true)
+  }
+
+  const hideTimeStartPicker = () => {
+    setTimeStartPicker(false)
+  }
+
+  const handleConfirmStartTime = (date) => {
+    setStartTime(Moment(date).format("HH:mm"))
+    hideTimeStartPicker()
+  }
+  const showTimeStop = () => {
+    setTimeStopPicker(true)
+  }
+
+  const hideTimeStopPicker = () => {
+    setTimeStopPicker(false)
+  }
+
+  const handleConfirmStopTime = (date) => {
+    setStopTime(Moment(date).format("HH:mm"))
+    hideTimeStopPicker()
+  }
 
   const createNewPost = () => {
     if (!place) {
@@ -74,14 +106,14 @@ const PlaceForm = (props) => {
       stopTime,
       partnerWantQty,
       sexTarget: sex,
+      partnerType: item.type
     })
+
     navigation.navigate("Customer-Dashboard")
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`members/${userId}`))
-    ref.once("value", (snapshot) => {
-      const customer = { ...snapshot.val() }
+    getMemberProfile(userId).then((customer) => {
       setCustomerLevel(customer.customerLevel)
       setCustomerName(customer.profile)
     })
@@ -99,7 +131,10 @@ const PlaceForm = (props) => {
           alignItems: "center"
         }}
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ width: "100%" }}
+        >
           <View style={styles.container}>
             <View
               style={{
@@ -122,52 +157,58 @@ const PlaceForm = (props) => {
                 style={{ padding: 10 }}
               />
             </View>
-            <View>
+            <View style={{ width: "100%" }}>
               <Text style={{ fontSize: 16, padding: 5 }}>สถานที่นัดหมาย</Text>
               <View style={styles.formControl}>
                 <GetIcon type="fa" name="home" />
                 <TextInput
                   placeholder="สถานที่นัดหมาย"
-                  style={styles.textInput}
+                  style={[styles.textInput, { width: 200 }]}
                   value={place}
                   onChangeText={(value) => setPlace(value)}
                 />
               </View>
             </View>
-            <View>
+            <View style={{ width: "100%" }}>
               <Text style={{ fontSize: 16, padding: 5 }}>เวลาเริ่ม</Text>
               <View style={styles.formControl}>
-                <GetIcon type="ii" name="time-outline" />
-                <TextInputMask
-                  type="custom"
-                  options={{
-                    mask: "99:99"
-                  }}
-                  value={startTime}
-                  onChangeText={(text) => setStartTime(text)}
-                  style={styles.textInput}
+                <Button
+                  color="green"
+                  title={startTime ? startTime : "เลือกเวลาเริ่ม"}
+                  onPress={showTimeStart}
+                  style={{ marginVertical: 5, borderRadius: 10 }}
                 />
               </View>
+              <DateTimePickerModal
+                isVisible={isTimeStartPicker}
+                mode="time"
+                onConfirm={handleConfirmStartTime}
+                onCancel={hideTimeStartPicker}
+                locale="en_GB"
+                isDarkModeEnabled={Moment().hour() > 20}
+              />
             </View>
-            <View>
+            <View style={{ width: "100%" }}>
               <Text style={{ fontSize: 16, padding: 5 }}>เวลาเลิก</Text>
               <View style={styles.formControl}>
-                <GetIcon type="mi" name="timer-off" />
-                <TextInputMask
-                  type="custom"
-                  options={{
-                    mask: "99:99"
-                  }}
-                  value={stopTime}
-                  onChangeText={(text) => setStopTime(text)}
-                  style={styles.textInput}
+                <Button
+                  color="red"
+                  title={stopTime ? stopTime : "เลือกเวลาเลิก"}
+                  onPress={showTimeStop}
+                  style={{ marginVertical: 5, borderRadius: 10 }}
                 />
               </View>
+              <DateTimePickerModal
+                isVisible={isTimeStopPicker}
+                mode="time"
+                onConfirm={handleConfirmStopTime}
+                onCancel={hideTimeStopPicker}
+                locale="en_GB"
+                isDarkModeEnabled={Moment().hour() > 20}
+              />
             </View>
-            <View>
-              <Text style={{ fontSize: 16, padding: 5 }}>
-                เบอร์โทร
-              </Text>
+            <View style={{ width: "100%" }}>
+              <Text style={{ fontSize: 16, padding: 5 }}>เบอร์โทร</Text>
               <View style={styles.formControl}>
                 <GetIcon type="ad" name="phone" />
                 <TextInputMask
@@ -181,10 +222,10 @@ const PlaceForm = (props) => {
                 />
               </View>
             </View>
-            <View>
+            <View style={{ width: "100%" }}>
               <Text style={{ fontSize: 16, padding: 5 }}>รายละเอียดงาน</Text>
             </View>
-            <View style={[styles.formControl, { height: 100 }]}>
+            <View style={[styles.formControl, { height: 100, width: "100%" }]}>
               <TextInput
                 placeholder="รายละเอียดงาน"
                 style={[styles.textInput, { height: 90 }]}
@@ -195,7 +236,7 @@ const PlaceForm = (props) => {
               />
             </View>
             <View style={styles.buttonFooter}>
-              <Button
+              <ButtonAction
                 icon={
                   <Icon
                     name="save"
@@ -273,10 +314,10 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: "white",
-    width: 350,
     fontSize: 16,
     marginVertical: 5,
-    marginLeft: 15
+    marginLeft: 15,
+    width: 250
   },
   buttonFooter: {
     flexDirection: "column",

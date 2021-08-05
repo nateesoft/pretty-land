@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 
@@ -8,21 +8,51 @@ import WorkScreen from "./WorkScreen/navigator"
 import ContactAdminScreen from "./ContactAdminScreen/navigator"
 
 /* Logout */
+import firebase from "../../../util/firebase"
+import { getDocument } from "../../../util"
 import LogoutScreen from "../logout"
+import { AppConfig } from "../../Constants"
 
 const Tab = createBottomTabNavigator()
 
 const CustomerNavigator = ({ navigation, route }) => {
   const { userId, status } = route.params
-  
+  const [postsChangeCount, setPostsChangeCount] = useState(0)
+
+  const getCustomerPostChange = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const list = snapshot.val()
+      let count = 0
+      for (let key in list) {
+        const postObj = list[key]
+        if (
+          postObj.status === AppConfig.PostsStatus.waitCustomerPayment &&
+          postObj.customerId === userId
+        ) {
+          count = count + 1
+        }
+      }
+      resolve(count)
+    })
+  }
+
+  useEffect(() => {
+    const ref = firebase.database().ref(getDocument(`posts`))
+    const listener = ref.on("value", (snapshot) => {
+      getCustomerPostChange(snapshot).then((res) => setPostsChangeCount(res))
+    })
+
+    return () => ref.off("value", listener)
+  }, [])
+
   return (
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: "purple",
         inactiveTintColor: "white",
         style: {
-          backgroundColor: "#ff2fe6",
-        },
+          backgroundColor: "#ff2fe6"
+        }
       }}
     >
       <Tab.Screen
@@ -33,7 +63,7 @@ const CustomerNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color="white" size={size} />
           ),
-          color: "white",
+          color: "white"
         }}
         initialParams={{ userId, status }}
       />
@@ -45,6 +75,11 @@ const CustomerNavigator = ({ navigation, route }) => {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="post" color="white" size={size} />
           ),
+          tabBarBadge: postsChangeCount ? postsChangeCount : null,
+          tabBarBadgeStyle: {
+            backgroundColor: "rgb(70, 240, 238)",
+            color: "red"
+          }
         }}
         initialParams={{ userId, status }}
       />
@@ -55,7 +90,7 @@ const CustomerNavigator = ({ navigation, route }) => {
           tabBarLabel: "ติดต่อ Admin",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="contact-phone" color="white" size={size} />
-          ),
+          )
         }}
         initialParams={{ userId, status }}
       />
@@ -66,10 +101,11 @@ const CustomerNavigator = ({ navigation, route }) => {
           tabBarLabel: "Logout",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="logout" color="white" size={size} />
-          ),
+          )
         }}
         initialParams={{ userId, status }}
       />
+      {/* <Tab.Screen name="c-TestSound" component={TestSound} /> */}
     </Tab.Navigator>
   )
 }

@@ -10,18 +10,26 @@ import {
   ImageBackground,
   SafeAreaView,
   KeyboardAvoidingView,
+  TouchableHighlight
 } from "react-native"
 import * as ImagePicker from "expo-image-picker"
 import { Button, Text } from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
-import DropDownPicker from "react-native-dropdown-picker"
 import { TextInputMask } from "react-native-masked-text"
+import * as Progress from "react-native-progress"
 
-import { getBankList, getBankName } from "../../../data/apis"
+import { savePaymentSlip } from "../../../apis"
+import { getBankName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
+
+// bank
+import scbLogo from "../../../../assets/bank/scb.png"
+import kbankLogo from "../../../../assets/bank/kbank.png"
+import ktbLogo from "../../../../assets/bank/ktb.png"
+import bayLogo from "../../../../assets/bank/bay.png"
 
 const PaymentForm = ({ navigation, route }) => {
   const { navigate } = navigation
@@ -32,25 +40,42 @@ const PaymentForm = ({ navigation, route }) => {
 
   const [image, setImage] = useState(null)
   const [bank, setBank] = useState("")
-  const [bankList, setBankList] = useState(getBankList())
+  const [toAccount, setToAccount] = useState("")
   const [transferAmount, setTransferAmount] = useState("")
   const [datetime, setDateTime] = useState("")
-  const [openSelectBank, setOpenSelectBank] = useState(false)
 
   const [listPartner, setListPartner] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  const handleBankAccount = (value) => {
+    setBank(value)
+    firebase
+      .database()
+      .ref(getDocument(`bank_account/${value}`))
+      .once("value", (snapshot) => {
+        const data = { ...snapshot.val() }
+        if (data.account_no) {
+          setToAccount(data.account_no)
+        }
+      })
+  }
 
   const computeAmount = (snapshot) => {
     return new Promise((resolve, reject) => {
       let totalAmount = 0
       let list = []
-      snapshot.forEach((item, index) => {
-        const data = item.val()
-        if (data.selectStatus === AppConfig.PostsStatus.customerConfirm) {
-          const amt = parseInt(data.amount)
+      const listPartner = snapshot.val()
+      for (let key in listPartner) {
+        const partnerObj = listPartner[key]
+        if (
+          partnerObj.selectStatus === AppConfig.PostsStatus.customerConfirm ||
+          partnerObj.partnerStatus === AppConfig.PostsStatus.partnerAcceptWork
+        ) {
+          const amt = parseInt(partnerObj.amount)
           totalAmount = totalAmount + amt
-          list.push(data)
+          list.push(partnerObj)
         }
-      })
+      }
       setListPartner(list)
       resolve(totalAmount)
     })
@@ -67,7 +92,9 @@ const PaymentForm = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(getDocument(`posts/${item.id}/partnerSelect`))
+    const ref = firebase
+      .database()
+      .ref(getDocument(`posts/${item.id}/partnerSelect`))
     ref.once("value", async (snapshot) => {
       const pAmount = await computeAmount(snapshot)
       const fAmount = await getFeeAmountFromFirebase()
@@ -98,7 +125,7 @@ const PaymentForm = ({ navigation, route }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       aspect: [4, 3],
-      quality: 1,
+      quality: 1
     })
 
     if (!result.cancelled) {
@@ -135,6 +162,7 @@ const PaymentForm = ({ navigation, route }) => {
   }
 
   async function uploadImageAsync(imageSource) {
+    setLoading("start")
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       xhr.onload = function () {
@@ -171,11 +199,16 @@ const PaymentForm = ({ navigation, route }) => {
       bankName: bankData.label,
       transferTime: datetime,
       transferAmount: transferAmount,
-      sys_update_date: new Date().toUTCString(),
+      sys_update_date: new Date().toUTCString()
     }
-    firebase.database().ref(getDocument(`posts/${item.id}`)).update(dataPayment)
-    
-    navigate("Post-List")
+    savePaymentSlip(dataPayment, item)
+      .then((res) => {
+        if (res) {
+          setLoading("finish")
+          navigate("Post-List")
+        }
+      })
+      .catch((err) => Alert.alert(err))
   }
 
   return (
@@ -198,7 +231,7 @@ const PaymentForm = ({ navigation, route }) => {
               style={{
                 alignItems: "center",
                 padding: 5,
-                backgroundColor: "green",
+                backgroundColor: "green"
               }}
             >
               <Text
@@ -211,11 +244,14 @@ const PaymentForm = ({ navigation, route }) => {
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {listPartner.map((item, index) => (
                   <View key={`v_${item.id}`}>
-                    <Text>ชื่อ: {item.partnerName}</Text>
-                    <Text>ราคา: {item.amount}</Text>
                     <Image
                       source={{ uri: item.image }}
-                      style={{ width: 100, height: 100 }}
+                      style={{
+                        width: 200,
+                        height: 200,
+                        borderRadius: 10,
+                        marginVertical: 10
+                      }}
                     />
                   </View>
                 ))}
@@ -264,23 +300,66 @@ const PaymentForm = ({ navigation, route }) => {
             </View>
             <View style={{ margin: 5, alignSelf: "center", width: "90%" }}>
               <Text style={styles.optionsNameDetail}>
-                ยืนยันข้อมูลการโอนเงิน
+                เลือกบัญชีธนาคาร สำหรับโอนเงิน
               </Text>
-
-              <Text style={{ fontSize: 16, padding: 5 }}>ธนาคารที่โอนเงิน</Text>
-              <DropDownPicker
-                placeholder="-- เลือกธนาคาร --"
-                open={openSelectBank}
-                setOpen={setOpenSelectBank}
-                value={bank}
-                setValue={setBank}
-                items={bankList}
-                setItems={setBankList}
-                textStyle={{ fontSize: 18 }}
-                searchable={false}
-                selectedItemContainerStyle={{ backgroundColor: "#facaff" }}
-                listMode="SCROLLVIEW"
-              />
+              <ScrollView
+                horizontal
+                style={{ margin: 10 }}
+                contentContainerStyle={{
+                  alignItems: "center",
+                  marginBottom: 10
+                }}
+              >
+                <TouchableHighlight onPress={() => handleBankAccount("kbank")}>
+                  <View style={{ alignItems: "center" }}>
+                    <Image
+                      source={kbankLogo}
+                      style={{ width: 75, height: 75, margin: 5 }}
+                    />
+                    <Text>กสิกรไทย</Text>
+                  </View>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => handleBankAccount("scb")}>
+                  <View style={{ alignItems: "center" }}>
+                    <Image
+                      source={scbLogo}
+                      style={{ width: 75, height: 75, margin: 5 }}
+                    />
+                    <Text>ไทยพาณิชย์</Text>
+                  </View>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => handleBankAccount("ktb")}>
+                  <View style={{ alignItems: "center" }}>
+                    <Image
+                      source={ktbLogo}
+                      style={{ width: 75, height: 75, margin: 5 }}
+                    />
+                    <Text>กรุงไทย</Text>
+                  </View>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => handleBankAccount("bay")}>
+                  <View style={{ alignItems: "center" }}>
+                    <Image
+                      source={bayLogo}
+                      style={{ width: 75, height: 75, margin: 5 }}
+                    />
+                    <Text>กรุงศรี</Text>
+                  </View>
+                </TouchableHighlight>
+              </ScrollView>
+              <Text style={{ fontSize: 16, padding: 5 }}>
+                เลขที่บัญชีปลายทาง
+              </Text>
+              <View style={styles.formControl}>
+                <GetIcon type="mci" name="text-box-check-outline" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="เลขที่บัญชีปลายทาง"
+                  value={toAccount}
+                  keyboardType="number-pad"
+                  editable={false}
+                />
+              </View>
               <Text style={{ fontSize: 16, padding: 5 }}>ยอดเงินโอน (บาท)</Text>
               <View style={styles.formControl}>
                 <GetIcon type="fa" name="dollar" />
@@ -300,7 +379,7 @@ const PaymentForm = ({ navigation, route }) => {
                 <TextInputMask
                   type={"datetime"}
                   options={{
-                    format: "DD/MM/YYYY HH:mm:ss",
+                    format: "DD/MM/YYYY HH:mm:ss"
                   }}
                   value={datetime}
                   onChangeText={(text) => setDateTime(text)}
@@ -329,6 +408,13 @@ const PaymentForm = ({ navigation, route }) => {
                     style={{ width: 200, height: 250 }}
                   />
                 </View>
+                {loading === "start" && (
+                  <Progress.Bar
+                    width={200}
+                    indeterminate={true}
+                    style={{ marginTop: 10 }}
+                  />
+                )}
                 <View style={{ alignSelf: "center", padding: 5 }}>
                   <Button
                     icon={
@@ -340,7 +426,7 @@ const PaymentForm = ({ navigation, route }) => {
                       />
                     }
                     buttonStyle={styles.buttonConfirm}
-                    title="ยืนยันข้อมูลการโอนเงิน"
+                    title="ส่งข้อมูลการโอนเงิน"
                     onPress={() => saveCustomerPayment()}
                   />
                 </View>
@@ -357,7 +443,7 @@ const styles = StyleSheet.create({
   buttonConfirm: {
     backgroundColor: "green",
     marginTop: 10,
-    width: "100%",
+    width: "100%"
   },
   optionsNameDetail: {
     fontSize: 18,
@@ -365,7 +451,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "blue",
     marginBottom: 15,
-    marginTop: 10,
+    marginTop: 10
   },
   formControl: {
     flexDirection: "row",
@@ -376,29 +462,29 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 5,
     height: 40,
-    borderRadius: 10,
+    borderRadius: 10
   },
   textInput: {
     backgroundColor: "white",
     width: 250,
     fontSize: 16,
     marginVertical: 5,
-    marginLeft: 10,
+    marginLeft: 10
   },
   topic: {
     marginTop: 20,
-    fontSize: 20,
+    fontSize: 20
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   textInputStype: {
     height: 40,
     width: "100%",
     fontSize: 18,
-    marginLeft: 10,
+    marginLeft: 10
   },
   textTopic: {
     fontSize: 24,
@@ -406,8 +492,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
-  },
+    padding: 10
+  }
 })
 
 export default PaymentForm

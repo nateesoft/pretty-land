@@ -6,7 +6,7 @@ import {
   Image,
   RefreshControl,
   ImageBackground,
-  StyleSheet,
+  StyleSheet
 } from "react-native"
 import { ListItem, Text, Button } from "react-native-elements"
 import ProgressCircle from "react-native-progress-circle"
@@ -33,14 +33,17 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         selectStatusText: "น้องๆแจ้งรับงาน รอลูกค้าขำระเงิน",
         sys_update_date: new Date().toUTCString(),
         place: profile.address,
-        character: profile.character,
+        character: profile.character
       })
 
-    firebase.database().ref(getDocument(`posts/${posts.id}`)).update({
-      status: AppConfig.PostsStatus.waitCustomerPayment,
-      statusText: "รอลูกค้าชำระค่าดำเนินการ",
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`posts/${posts.id}`))
+      .update({
+        status: AppConfig.PostsStatus.waitCustomerPayment,
+        statusText: "รอลูกค้าชำระค่าดำเนินการ",
+        sys_update_date: new Date().toUTCString()
+      })
 
     navigation.navigate("Partner-Dashboard")
   }
@@ -52,14 +55,17 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
       .update({
         selectStatus: AppConfig.PostsStatus.partnerCancelWork,
         selectStatusText: "น้องๆปฏิเสธงาน",
-        sys_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString()
       })
 
-    firebase.database().ref(getDocument(`posts/${posts.id}`)).update({
-      status: AppConfig.PostsStatus.closeJob,
-      statusText: "น้องๆปฏิเสธงาน",
-      sys_update_date: new Date().toUTCString(),
-    })
+    firebase
+      .database()
+      .ref(getDocument(`posts/${posts.id}`))
+      .update({
+        status: AppConfig.PostsStatus.closeJob,
+        statusText: "น้องๆปฏิเสธงาน",
+        sys_update_date: new Date().toUTCString()
+      })
 
     navigation.navigate("Partner-Dashboard")
   }
@@ -75,7 +81,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
       containerStyle={{
         backgroundColor: null,
         borderRadius: 8,
-        marginVertical: 5,
+        marginVertical: 5
       }}
       underlayColor="pink"
     >
@@ -83,6 +89,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            fontSize: 22
           }}
         >
           จำนวนน้องๆ ที่ต้องการ: {item.partnerWantQty || 0} คน
@@ -90,6 +97,8 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            color: "blue",
+            fontSize: 22
           }}
         >
           ลูกค้า: {item.customerName}
@@ -97,13 +106,16 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            fontSize: 22
           }}
         >
-          ระดับ: {item.customerLevel}
+          Level: {item.customerLevel}
         </ListItem.Title>
         <ListItem.Title
           style={{
             marginBottom: 5,
+            color: "green",
+            fontSize: 22
           }}
         >
           สถานที่: {item.placeMeeting}
@@ -111,6 +123,8 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            color: "red",
+            fontSize: 22
           }}
         >
           เริ่ม: {item.startTime}, เลิก: {item.stopTime}
@@ -118,6 +132,8 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            color: "brown",
+            fontSize: 22
           }}
         >
           รายละเอียดเพิ่มเติม: {item.customerRemark}
@@ -125,6 +141,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
+            fontSize: 22
           }}
         >
           วันที่โพสท์:{" "}
@@ -150,7 +167,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
       containerStyle={{
         backgroundColor: null,
         borderRadius: 8,
-        marginVertical: 5,
+        marginVertical: 5
       }}
       underlayColor="pink"
     >
@@ -158,35 +175,35 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
         <ListItem.Title
           style={{
             marginBottom: 5,
-            backgroundColor: "pink",
+            backgroundColor: "pink"
           }}
         >
           ref: {item.id}
         </ListItem.Title>
         <ListItem.Title
           style={{
-            marginBottom: 5,
+            marginBottom: 5
           }}
         >
           ลูกค้า: {item.customerName}
         </ListItem.Title>
         <ListItem.Title
           style={{
-            marginBottom: 5,
+            marginBottom: 5
           }}
         >
-          ระดับ: {item.customerLevel}
+          Level: {item.customerLevel}
         </ListItem.Title>
         <ListItem.Title
           style={{
-            marginBottom: 5,
+            marginBottom: 5
           }}
         >
           เวลาที่จะไป: {item.timeMeeting}
         </ListItem.Title>
         <ListItem.Title
           style={{
-            marginBottom: 5,
+            marginBottom: 5
           }}
         >
           วันที่โพสท์:{" "}
@@ -199,7 +216,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
               buttonStyle={{
                 backgroundColor: "blue",
                 margin: 5,
-                width: "100%",
+                width: "100%"
               }}
               onPress={() => partnerConfrim(item)}
             />
@@ -228,7 +245,7 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
             alignItems: "center",
             width: "100%",
             height: 30,
-            justifyContent: "center",
+            justifyContent: "center"
           }}
         >
           <Text style={{ color: "white", fontSize: 20 }}>
@@ -272,17 +289,19 @@ const SelectProvinceTaskList = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   btnNewPost: {
     margin: 5,
     borderRadius: 75,
     height: 45,
-    width: 250,
+    width: 250
   },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   textTopic: {
     fontSize: 24,
@@ -290,7 +309,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
+    padding: 10
   },
   textDetail: {
     fontSize: 16,
@@ -298,8 +317,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     backgroundColor: "#ff2fe6",
-    padding: 10,
-  },
+    padding: 10
+  }
 })
 
 export default SelectProvinceTaskList

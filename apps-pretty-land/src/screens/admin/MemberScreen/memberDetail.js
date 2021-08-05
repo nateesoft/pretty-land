@@ -208,22 +208,21 @@ const MemberDetailScreen = ({ navigation, route }) => {
                 margin: 10,
               }}
             >
-              <Text style={{ fontSize: 16 }}>id: {item.id}</Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, color: "blue" }}>
                 ชื่อ: {item.name || item.username}
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
                 โหมดงาน: {topic}
               </Text>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginBottom: 5 }}>
                 วันที่เป็นสมาชิก:{" "}
                 {item.member_register_date
                   ? Moment(item.member_register_date).format("D MMM YYYY")
                   : "[ รออนุมัติ ]"}
               </Text>
               {item.memberType === "admin" && (
-                <Text style={{ fontSize: 16 }}>
-                  ระดับ Level: {item.customerLevel || 0}
+                <Text style={{ fontSize: 16, marginVertical: 5 }}>
+                  Level: {item.customerLevel || 0}
                 </Text>
               )}
               {item.memberType === "partner" && (
@@ -233,7 +232,7 @@ const MemberDetailScreen = ({ navigation, route }) => {
                   </Text>
                 </View>
               )}
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16, marginVertical: 5 }}>
                 เบอร์ติดต่อ: {item.mobile || "[ ไม่พบข้อมูล ]"}
               </Text>
               <Text style={{ fontSize: 16 }}>สถานะ: {item.statusText}</Text>
@@ -247,14 +246,14 @@ const MemberDetailScreen = ({ navigation, route }) => {
                 margin: 10,
               }}
             >
-              <Text style={{ fontSize: 22 }}>
+              <Text style={{ fontSize: 22, color: "blue" }}>
                 ชื่อ: {item.name || item.username || item.profile}
               </Text>
               {item.memberType === "customer" && (
                 <View>
                   <Text style={{ fontSize: 22 }}>ตำแหน่งงาน: ลูกค้า</Text>
                   <Text style={{ fontSize: 22 }}>
-                    ระดับ Level: {item.customerLevel}
+                    Level: {item.customerLevel}
                   </Text>
                 </View>
               )}
