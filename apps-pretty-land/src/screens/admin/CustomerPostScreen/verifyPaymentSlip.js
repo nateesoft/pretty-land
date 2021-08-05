@@ -12,8 +12,6 @@ import { Button, Text } from "react-native-elements"
 import { AntDesign } from "react-native-vector-icons"
 
 import { adminSaveConfirmPayment } from "../../../apis"
-import firebase from "../../../../util/firebase"
-import { getDocument } from "../../../../util"
 import { AppConfig } from "../../../Constants"
 
 const VerifyPaymentSlip = ({ navigation, route }) => {
@@ -148,9 +146,13 @@ const VerifyPaymentSlip = ({ navigation, route }) => {
                     source={{ uri: obj.image }}
                     style={{ width: 100, height: 100 }}
                   />
-                  <Text style={{ marginTop: 5 }}>
+                  <Text style={{ marginTop: 5, color: "blue" }}>
                     ชื่อ: {obj.partnerName || obj.name}
                   </Text>
+                  <Text>ธนาคาร: {obj.bankName}</Text>
+                  <Text>เลขที่บัญชี: {obj.bankNo}</Text>
+                  <Text>เบอร์โทร: {obj.telephone}</Text>
+                  <Text>Lien: {obj.lineId}</Text>
                   {item.partnerRequest === AppConfig.PartnerType.type4 && (
                     <View
                       style={{

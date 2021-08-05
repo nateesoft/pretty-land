@@ -48,10 +48,6 @@ const RegisterPartnerForm = ({ navigation, route }) => {
       Alert.alert("แจ้งเตือน", "กรุณาระบุจังหวัดที่รับงานได้")
       return
     }
-    if (!district) {
-      Alert.alert("แจ้งเตือน", "กรุณาระบุ เขต/อำเภอที่รับงานได้")
-      return
-    }
     if (type4 && !address) {
       Alert.alert("แจ้งเตือน", "กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
       return

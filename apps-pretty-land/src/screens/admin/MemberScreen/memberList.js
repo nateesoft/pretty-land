@@ -104,7 +104,7 @@ const MemberAllListScreen = ({ navigation, route }) => {
         )}
         <ListItem.Content style={{ marginLeft: 10 }}>
           <ListItem.Title style={{color: "blue"}}>
-            ชื่อสมาชิก: {item.name || item.username}
+            ชื่อ: {item.name || item.username}
           </ListItem.Title>
           <ListItem.Subtitle
             style={{

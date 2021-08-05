@@ -159,7 +159,7 @@ const RegisterLoginForm = ({ navigation, route }) => {
           </View>
           <View style={styles.buttonFooter}>
             <Button
-              title="บันทึกข้อมูล"
+              title="ลงทะเบียน"
               iconLeft
               icon={
                 <AntDesign

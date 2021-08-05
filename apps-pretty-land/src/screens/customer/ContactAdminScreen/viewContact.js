@@ -69,7 +69,7 @@ const ViewContact = ({ navigation, route }) => {
       >
         <Text style={{ fontSize: 14 }}>Id: {profile.id}</Text>
         <Text style={{ fontSize: 14, color: "blue" }}>
-          ชื่อสมาชิก: {profile.profile}
+          ชื่อ: {profile.profile}
         </Text>
         <Text style={{ fontSize: 14 }}>Level: {profile.customerLevel}</Text>
         <Button

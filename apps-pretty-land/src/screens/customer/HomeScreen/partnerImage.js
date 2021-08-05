@@ -146,7 +146,7 @@ export default function PartnerImage({ navigation, route }) {
             }}
           >
             <Text style={{ fontSize: 16, color: "blue" }}>
-              ชื่อสมาชิก: {partnerProfile.name}
+              ชื่อน้องๆ: {partnerProfile.name}
             </Text>
             <Text style={{ fontSize: 16 }}>
               สัดส่วน {partnerProfile.stature} สูง {partnerProfile.height}

@@ -5,6 +5,7 @@ import Moment from "moment"
 
 import firebase from "../../util/firebase"
 import { getDocument } from "../../util"
+import { getBankName } from "../data/apis"
 import { AppConfig } from "../Constants"
 
 export const saveNewMember = (memberId, memberData) => {
@@ -91,7 +92,11 @@ export const partnerAcceptJobWaitCustomerReview = (item, profile) => {
     character: profile.character,
     telephone: profile.mobile,
     selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
-    selectStatusText: "เสนอรับงาน"
+    selectStatusText: "เสนอรับงาน",
+    bankNo: profile.bankNo,
+    bankCode: profile.bank,
+    bankName: getBankName(profile.bank)[0].label,
+    lineId: profile.lineId
   }
   firebase
     .database()
@@ -203,20 +208,6 @@ export const adminSaveConfirmPayment = (item, listPartner) => {
 }
 
 export const createMessageAlert = (data) => {
-  // const dataExample = {
-  //   func_type: "new_post",
-  //   func_detail: "customer create new post",
-  //   show_admin: "all||person",
-  //   show_admin_id: "",
-  //   show_customer: "all||person",
-  //   show_customer_id: "",
-  //   show_partner: "all||person",
-  //   show_partner_type: "1",
-  //   show_partner_sex: "female",
-  //   show_partner_id: "",
-  //   show_dashboard_type: "1",
-  //   show_tab_name: "",
-  // }
   const msg_id = uuid.v4()
   firebase
     .database()

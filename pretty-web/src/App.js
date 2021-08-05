@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Redirect, Link } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import jwtDecode from "jwt-decode"
 
 import "./App.css"
@@ -70,49 +70,16 @@ const App = () => {
   }
 
   return (
-    <div className="App">
-      <header className="App-header" style={{ backgroundImage: "url(bg.png)" }}>
-        <p style={{ fontSize: 50, fontStyle: "italic", fontWeight: "bold" }}>
-          Pretty Land
-        </p>
-        <div>
-          <img
-            src="logo.png"
-            alt="Pretty Land"
-            width="150"
-            style={{ borderRadius: 5, boxShadow: 20 }}
-          />
-        </div>
-        <div>
-          <span style={{ color: "orange" }}>เหงาอยู่รึป่าว!!</span> หาเพื่อนดื่ม
-          หาแฟนชั่วคราว หาคนเที่ยว สายปาร์ตี้ ต้อง
-          <br />
-          PrettyLand เท่านั้น PrettyLand แอพแก้เหงาให้คุณ Match กับคนที่ถูกใจ
-          <br />
-          <span style={{ backgroundColor: "blue", fontSize: 22 }}>
-            นัดเจอ ไปออกเที่ยวกันได้เลย
-          </span>{" "}
-          <span style={{ color: "red", fontSize: 36, fontStyle: "italic" }}>
-            24 ชั่วโมง
-          </span>{" "}
-          <br />
-          <span style={{ color: "yellow", fontSize: 36 }}>
-            เจอเพื่อนใหม่ สายปาร์ตี้ ใกล้ตัว ได้ทุกที่ ทุกเวลา
-          </span>
-        </div>
-        <div className="App-footer">
-          <Link
-            to="/support"
-            style={{ color: "chocolate", textDecoration: "none" }}
-          >
-            Support Us
-          </Link>
-          <span style={{ color: "gray" }}> | </span>
-          <Link to="/privacy" style={{ color: "red", textDecoration: "none" }}>
-            Privacy Notices
-          </Link>
-        </div>
-      </header>
+    <div
+      className="App-header"
+      style={{
+        backgroundImage: "url(bg.png)",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
+        height: "100%",
+        backgroundPosition: "center"
+      }}
+    >
     </div>
   )
 }

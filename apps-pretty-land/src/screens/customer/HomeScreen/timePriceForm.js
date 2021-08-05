@@ -14,7 +14,7 @@ import { TextInputMask } from "react-native-masked-text"
 import DateTimePickerModal from "react-native-modal-datetime-picker"
 import Moment from "moment"
 
-import { getProvinceName } from "../../../data/apis"
+import { getProvinceName, getBankName } from "../../../data/apis"
 import { GetIcon } from "../../../components/GetIcons"
 import { getMemberProfile, saveNewPosts } from "../../../apis"
 import { AppConfig } from "../../../Constants"
@@ -74,7 +74,11 @@ const TimePriceForm = (props) => {
           image: data.image,
           sys_create_date: new Date().toUTCString(),
           age: data.age,
-          name: data.name
+          name: data.name,
+          bankNo: data.bankNo,
+          bankCode: data.bank,
+          bankName: getBankName(data.bank)[0].label,
+          lineId: data.lineId
         }
       }
     }
@@ -123,7 +127,7 @@ const TimePriceForm = (props) => {
                 onConfirm={handleConfirmTime}
                 onCancel={hideTimeMeetingPicker}
                 locale="en_GB"
-                isDarkModeEnabled={Moment().hour()>20}
+                isDarkModeEnabled={Moment().hour() > 20}
               />
             </View>
             <View>

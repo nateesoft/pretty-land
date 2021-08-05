@@ -16,6 +16,8 @@ import RadioButtonRN from "radio-buttons-react-native"
 import { FontAwesome } from "react-native-vector-icons"
 import { TextInputMask } from "react-native-masked-text"
 
+import { getDocument } from "../../../../util"
+import firebase from "../../../../util/firebase"
 import { GetIcon } from "../../../components/GetIcons"
 import { AppConfig } from "../../../Constants"
 import { getMemberProfile } from "../../../apis"
@@ -28,7 +30,7 @@ const sexData = [
 
 const RegisterPlanForm = ({ navigation, route }) => {
   const { navigate } = navigation
-  const { userId, status, appconfig } = route.params
+  const { userId, status } = route.params
   const [items, setItems] = useState([])
 
   const [type1, setType1] = useState(true)
@@ -44,6 +46,8 @@ const RegisterPlanForm = ({ navigation, route }) => {
   const [height, setHeight] = useState("")
   const [weight, setWeight] = useState("")
   const [stature, setStature] = useState("")
+
+  const [appconfig, setAppConfig] = useState({})
 
   const handleNexData = () => {
     if (!type1 && !type2 && !type3 && !type4) {
@@ -83,14 +87,30 @@ const RegisterPlanForm = ({ navigation, route }) => {
     navigate("Register-Partner-Form", { userId, status, planData, appconfig })
   }
 
+  const getAppConfigItem = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const appconfig = snapshot.val()
+      const dataItems = []
+      dataItems.push({ ...appconfig.partner1 })
+      dataItems.push({ ...appconfig.partner2 })
+      dataItems.push({ ...appconfig.partner3 })
+      dataItems.push({ ...appconfig.partner4 })
+
+      setAppConfig(appconfig)
+      resolve(dataItems)
+    })
+  }
+
   useEffect(() => {
-    const dataItems = []
-    dataItems.push({ ...appconfig.partner1 })
-    dataItems.push({ ...appconfig.partner2 })
-    dataItems.push({ ...appconfig.partner3 })
-    dataItems.push({ ...appconfig.partner4 })
-    setItems(dataItems)
+    const ref = firebase.database().ref(getDocument(`appconfig`))
+    ref.once("value", (snapshot) => {
+      getAppConfigItem(snapshot).then((res) => {
+        setItems(res)
+      })
+    })
   }, [])
+
+  useEffect(() => {}, [])
 
   useEffect(() => {
     getMemberProfile(userId).then((data) => {

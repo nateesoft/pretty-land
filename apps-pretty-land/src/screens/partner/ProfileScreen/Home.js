@@ -24,7 +24,6 @@ import Moment from "moment"
 import { getMemberProfile, updateWorkingStatus } from "../../../apis"
 import firebase from "../../../../util/firebase"
 import { getDocument } from "../../../../util"
-import { Context as AuthContext } from "../../../context/AuthContext"
 import FemaleSimple from "../../../../assets/avatar/1.png"
 import MaleSimple from "../../../../assets/avatar/2.png"
 import OtherSimple from "../../../../assets/avatar/3.png"
@@ -32,8 +31,6 @@ import { Button } from "react-native-elements"
 import { AppConfig } from "../../../Constants"
 
 const ProfileHomeScreen = ({ navigation, route }) => {
-  const { signOut } = useContext(AuthContext)
-
   const { navigate } = navigation
   const { userId } = route.params
   const video = useRef(null)
@@ -105,6 +102,10 @@ const ProfileHomeScreen = ({ navigation, route }) => {
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState)
     updateWorkingStatus(userId, isEnabled)
+  }
+
+  if (userStatus === AppConfig.MemberStatus.newRegister) {
+    navigate("Register-Plan-Form", { appconfig })
   }
 
   return (
@@ -220,7 +221,6 @@ const ProfileHomeScreen = ({ navigation, route }) => {
               <Text style={[styles.text, styles.subText]}>วันที่เริ่มงาน</Text>
             </View>
           </View>
-
           {videoUrl && (
             <View
               style={{
@@ -238,7 +238,6 @@ const ProfileHomeScreen = ({ navigation, route }) => {
               />
             </View>
           )}
-
           {!img1 && !img2 && !img3 && !img4 && !img5 && !videoUrl && (
             <View style={{ alignItems: "center", margin: 50 }}>
               <Text style={{ fontSize: 20 }}>

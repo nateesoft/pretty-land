@@ -83,8 +83,8 @@ const RegisterImageUpload = ({ navigation, route }) => {
       .ref(getDocument(`members/${userId}`))
       .update(dataUpdate)
     Alert.alert(
-      "กระบวนการเสร็จสมบูรณ์",
-      "อัพเดตข้อมูลเรียบร้อยแล้ว รอ Admin อนุมัติข้อมูล"
+      "ลงทะเบียนเรียบร้อย !",
+      "โปรดแคปหน้าจอนี้แล้วส่งให้ Admin ทางไลน์@ เพื่อทำการอนุมัติบัญชีของคุณ"
     )
     signOut()
   }
