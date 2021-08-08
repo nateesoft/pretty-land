@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 import "./index.css"
 import App from "./App"
+import Home from "../src/apps/containers/home"
 import reportWebVitals from "./reportWebVitals"
 import Profile from "./Profile"
 import Support from "./Support"
@@ -16,6 +17,9 @@ ReactDOM.render(
     <Switch>
       <Route exact path="/">
         <App />
+      </Route>
+      <Route path="/apps">
+        <Home />
       </Route>
       <Route path="/profile">
         <Profile />
