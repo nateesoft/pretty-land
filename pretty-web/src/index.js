@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import "./index.css"
 import App from "./App"
 import Home from "../src/apps/containers/home"
+import RegisterForm from "../src/apps/containers/register"
+import LoginForm from "../src/apps/containers/login"
+
 import reportWebVitals from "./reportWebVitals"
 import Profile from "./Profile"
 import Support from "./Support"
@@ -13,14 +16,47 @@ import FacebookForm from "./pages/FacebookLogin"
 import FacebookProfile from "./pages/FacebookProfile"
 import HelpPage from "./pages/help"
 
+function getOS() {
+  var userAgent = window.navigator.userAgent,
+    platform = window.navigator.platform,
+    macosPlatforms = ["Macintosh", "MacIntel", "MacPPC", "Mac68K"],
+    windowsPlatforms = ["Win32", "Win64", "Windows", "WinCE"],
+    iosPlatforms = ["iPhone", "iPad", "iPod"],
+    os = null
+
+  if (macosPlatforms.indexOf(platform) !== -1) {
+    os = "Mac OS"
+  } else if (iosPlatforms.indexOf(platform) !== -1) {
+    os = "iOS"
+  } else if (windowsPlatforms.indexOf(platform) !== -1) {
+    os = "Windows"
+  } else if (/Android/.test(userAgent)) {
+    os = "Android"
+  } else if (!os && /Linux/.test(platform)) {
+    os = "Linux"
+  }
+
+  return os
+}
+
+// if (getOS() !== "iOS" || getOS() !== "Android") {
+//   window.location.href = "http://google.co.th"
+// }
+
 ReactDOM.render(
   <Router>
     <Switch>
       <Route exact path="/">
-        <App />
-      </Route>
-      <Route path="/apps">
         <Home />
+      </Route>
+      <Route path="/register">
+        <RegisterForm />
+      </Route>
+      <Route path="/login">
+        <LoginForm />
+      </Route>
+      {/* <Route path="/apps">
+        <App />
       </Route>
       <Route path="/profile">
         <Profile />
@@ -39,7 +75,7 @@ ReactDOM.render(
       </Route>
       <Route path="/help">
         <HelpPage />
-      </Route>
+      </Route> */}
     </Switch>
   </Router>,
   document.getElementById("root")

@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { Button, Grid } from "@material-ui/core"
 import ExitToApp from "@material-ui/icons/ExitToApp"
 import Icon from "@material-ui/core/Icon"
+import { Link } from "react-router-dom"
 
 const Container = styled.div`
   height: 100vh;
@@ -69,7 +70,9 @@ export default function Home() {
         <Image src="/assets/login.png" alt="" />
         <h4 style={{ fontStyle: "italic" }}>PRETTY LAND</h4>
         <h5 style={{ marginTop: -15 }}>Thailand</h5>
-        <p style={{ marginTop: -15, color: "gray", fontSize: '12px' }}>( Version 1.0 )</p>
+        <p style={{ marginTop: -15, color: "gray", fontSize: "12px" }}>
+          ( Version 1.0 )
+        </p>
         <Grid item>
           <ButtonAction
             variant="contained"
@@ -78,12 +81,11 @@ export default function Home() {
               color: "white",
               backgroundColor: "#35d00d",
               justifyContent: "unset",
-              fontWeight: 'bold'
+              fontWeight: "bold"
             }}
           >
             เข้าสู่ระบบด้วย LINE
           </ButtonAction>
-          <br />
           <ButtonAction
             variant="contained"
             size="medium"
@@ -93,13 +95,12 @@ export default function Home() {
               backgroundColor: "#0a69d6",
               marginTop: 5,
               justifyContent: "unset",
-              textTransform: 'none',
-              fontWeight: 'bold'
+              textTransform: "none",
+              fontWeight: "bold"
             }}
           >
             เข้าสู่ระบบด้วย facebook
           </ButtonAction>
-          <br />
           <div
             style={{
               color: "gray",
@@ -110,19 +111,33 @@ export default function Home() {
           >
             ------ OR ------
           </div>
-          <ButtonAction
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<ExitToApp />}
-            style={{
-              backgroundColor: "#ff2fe6",
-              color: "white",
-              fontWeight: "bold"
-            }}
-          >
-            LOGIN
-          </ButtonAction>
+          <Link to="/login">
+            <ButtonAction
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<ExitToApp />}
+              style={{
+                backgroundColor: "#ff2fe6",
+                color: "white",
+                fontWeight: "bold"
+              }}
+            >
+              LOGIN
+            </ButtonAction>
+          </Link>
+          <div>
+            <Link
+              to="/register"
+              style={{
+                fontSize: 12,
+                textDecoration: "underline",
+                marginTop: 10
+              }}
+            >
+              ลงทะเบียน (Register)
+            </Link>
+          </div>
         </Grid>
       </Paper>
       <Footer>
