@@ -1,8 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import { Button, Grid, TextField } from "@material-ui/core"
-import { Link } from "react-router-dom"
 import { Save } from "@material-ui/icons"
+import { useHistory } from "react-router-dom"
 
 const Container = styled.div`
   height: 100vh;
@@ -34,7 +34,18 @@ const Footer = styled.div`
   text-align: center;
 `
 
-export default function Home() {
+export default function RegisterHome() {
+  const history = useHistory()
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [rePassword, setRePassword] = useState("")
+
+  const handleNext = () => {
+    history.push("/registerDetail1", {
+      username,
+      password
+    })
+  }
   return (
     <Container>
       <Paper>
@@ -51,6 +62,8 @@ export default function Home() {
               label="ข้อมูลผู้ใช้งาน (Username)"
               variant="outlined"
               style={{ width: "100%" }}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div style={{ textAlign: "left", marginTop: 10 }}>
@@ -60,6 +73,8 @@ export default function Home() {
               label="ข้อมูลรหัสผ่าน (Password)"
               variant="outlined"
               style={{ width: "100%" }}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div style={{ textAlign: "left", marginTop: 10 }}>
@@ -69,18 +84,19 @@ export default function Home() {
               label="ยืนยันข้อมูลรหัสผ่าน (Re-Password)"
               variant="outlined"
               style={{ width: "100%" }}
+              value={rePassword}
+              onChange={(e) => setRePassword(e.target.value)}
             />
           </div>
           <div style={{ marginTop: 10 }}>
-            <Link to="/registerDetail1">
-              <Button
-                variant="contained"
-                startIcon={<Save />}
-                style={{ backgroundColor: "#ff32ee", color: "white" }}
-              >
-                ลงทะเบียน
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              startIcon={<Save />}
+              style={{ backgroundColor: "#ff32ee", color: "white" }}
+              onClick={handleNext}
+            >
+              ลงทะเบียน
+            </Button>
           </div>
         </Grid>
       </Paper>

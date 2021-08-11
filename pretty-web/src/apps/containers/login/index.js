@@ -1,8 +1,9 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import { Button, Grid, TextField } from "@material-ui/core"
 import { Lock } from "@material-ui/icons"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
+import * as ApiControl from "../../../apis"
 
 const Container = styled.div`
   height: 100vh;
@@ -32,7 +33,18 @@ const Footer = styled.div`
   text-align: center;
 `
 
-export default function LoginForm() {
+export default function LoginForm(props) {
+  const history = useHistory();
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const onLogin = async () => {
+    const result = await ApiControl.loginApp(username, password)
+    if (result) {
+      history.push("/admin")
+    } else {
+      alert('กรุณาระบุข้อมูลผู้ใช้งาน และรหัสผ่านให้ครบถ้วน !!!')
+    }
+  }
   return (
     <Container>
       <Paper>
@@ -48,6 +60,8 @@ export default function LoginForm() {
               required
               label="ข้อมูลผู้ใช้งาน (Username)"
               variant="outlined"
+              value={username}
+              onChange={(evt) => setUsername(evt.target.value)}
               style={{ width: "100%" }}
             />
           </div>
@@ -58,6 +72,8 @@ export default function LoginForm() {
               label="ข้อมูลรหัสผ่าน (Password)"
               variant="outlined"
               style={{ width: "100%" }}
+              value={password}
+              onChange={(evt) => setPassword(evt.target.value)}
             />
           </div>
           <div style={{ marginTop: 10 }}>
@@ -65,6 +81,7 @@ export default function LoginForm() {
               variant="contained"
               startIcon={<Lock />}
               style={{ backgroundColor: "#ff32ee", color: "white" }}
+              onClick={onLogin}
             >
               LOGIN
             </Button>

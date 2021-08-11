@@ -1,13 +1,13 @@
-import React from "react"
+import React, { useState } from "react"
 
 import styled from "styled-components"
 import { Button, TextField } from "@material-ui/core"
 import { SkipNext } from "@material-ui/icons"
 import FormControl from "@material-ui/core/FormControl"
-import { Link } from "react-router-dom"
 import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
+import { useHistory } from "react-router-dom"
 
 const Container = styled.div`
   height: 100vh;
@@ -19,10 +19,51 @@ const Container = styled.div`
   padding: 20px;
 `
 export default function RegisterDetail2() {
-  const [age, setAge] = React.useState("")
+  const history = useHistory()
+  const {
+    username,
+    password,
+    type1,
+    type2,
+    type3,
+    type4,
+    price4,
+    gender,
+    name,
+    age,
+    charactor,
+    height,
+    stature,
+    weight
+  } = history.location.state
+  const [lineId, setLineId] = useState("")
+  const [telephone, setTelephone] = useState("")
+  const [province, setProvince] = useState("")
+  const [district, setDistrict] = useState("")
+  const [place, setPlace] = useState("")
 
-  const handleChange = (event) => {
-    setAge(event.target.value)
+  const handleNext = () => {
+    history.push("/registerDetail3", {
+      username,
+      password,
+      type1,
+      type2,
+      type3,
+      type4,
+      price4,
+      gender,
+      name,
+      age,
+      charactor,
+      height,
+      stature,
+      weight,
+      lineId,
+      telephone,
+      province,
+      district,
+      place
+    })
   }
 
   return (
@@ -38,6 +79,8 @@ export default function RegisterDetail2() {
             label="Line Id"
             variant="outlined"
             style={{ width: "100%" }}
+            value={lineId}
+            onChange={(e) => setLineId(e.target.value)}
           />
         </div>
         <div style={{ width: "100%", marginTop: 5 }}>
@@ -46,6 +89,8 @@ export default function RegisterDetail2() {
             label="เบอร์โทรศัพท์"
             variant="outlined"
             style={{ width: "100%" }}
+            value={telephone}
+            onChange={(e) => setTelephone(e.target.value)}
           />
         </div>
         <FormControl variant="outlined" style={{ width: "100%", marginTop: 5 }}>
@@ -55,9 +100,9 @@ export default function RegisterDetail2() {
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            value={age}
-            onChange={handleChange}
-            label="Age"
+            value={province}
+            onChange={(e) => setProvince(e.target.value)}
+            label="จังหวัด"
           >
             <MenuItem value="">
               <em>None</em>
@@ -72,9 +117,9 @@ export default function RegisterDetail2() {
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            value={age}
-            onChange={handleChange}
-            label="Age"
+            value={district}
+            onChange={(e) => setDistrict(e.target.value)}
+            label="อำเภอ"
           >
             <MenuItem value="">
               <em>None</em>
@@ -92,20 +137,21 @@ export default function RegisterDetail2() {
             label="ที่อยู่พักอาศัย (สำหรับนวดแผนไทย)"
             variant="outlined"
             style={{ width: "100%" }}
+            value={place}
+            onChange={(e) => setPlace(e.target.value)}
           />
         </div>
       </div>
       <div style={{ textAlign: "center" }}>
-        <Link to="/registerDetail3">
-          <Button
-            color="primary"
-            variant="contained"
-            style={{ width: 150, marginBottom: 10 }}
-            startIcon={<SkipNext />}
-          >
-            ถัดไป
-          </Button>
-        </Link>
+        <Button
+          color="primary"
+          variant="contained"
+          style={{ width: 150, marginBottom: 10 }}
+          startIcon={<SkipNext />}
+          onClick={handleNext}
+        >
+          ถัดไป
+        </Button>
       </div>
     </Container>
   )

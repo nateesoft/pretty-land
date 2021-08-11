@@ -1,6 +1,5 @@
-import React from "react"
+import React, { useState } from "react"
 
-import { makeStyles } from "@material-ui/core/styles"
 import styled from "styled-components"
 import { Button, TextField } from "@material-ui/core"
 import { SkipNext } from "@material-ui/icons"
@@ -9,16 +8,8 @@ import FormGroup from "@material-ui/core/FormGroup"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import { RadioGroup, Radio } from "@material-ui/core"
 import Checkbox from "@material-ui/core/Checkbox"
-import { Link } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex"
-  },
-  formControl: {
-    margin: theme.spacing(3)
-  }
-}))
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
@@ -30,24 +21,50 @@ const Container = styled.div`
   padding: 20px;
 `
 export default function RegisterDetail1() {
-  const [value, setValue] = React.useState("male")
+  const history = useHistory()
+  const { username, password } = history.location.state
+
+  const [gender, setGender] = React.useState("male")
   const [state, setState] = React.useState({
     type1: false,
     type2: false,
     type3: false,
     type4: false
   })
+  const [price4, setPrice4] = useState(0)
+  const [name, setName] = useState("")
+  const [age, setAge] = useState(0)
+  const [charactor, setCharactor] = useState("")
+  const [height, setHeight] = useState("")
+  const [weight, setWeight] = useState("")
+  const [stature, setStature] = useState("")
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked })
   }
 
-  const handleRadioChange = (event) => {
-    setValue(event.target.value)
-  }
-
   const { type1, type2, type3, type4 } = state
   const error = [type1, type2, type3, type4].filter((v) => v).length !== 2
+  console.log('error:', error);
+
+  const handleNext = () => {
+    history.push("/registerDetail2", {
+      username,
+      password,
+      type1,
+      type2,
+      type3,
+      type4,
+      price4,
+      gender,
+      name,
+      age,
+      charactor,
+      height,
+      stature,
+      weight
+    })
+  }
 
   return (
     <Container>
@@ -93,6 +110,8 @@ export default function RegisterDetail1() {
               label="ราคาสำหรับการนวดแผนไทยต่อ 1 ครั้ง"
               variant="outlined"
               style={{ width: "100%" }}
+              value={price4}
+              onChange={(e) => setPrice4(e.target.value)}
             />
           </div>
         </div>
@@ -102,8 +121,8 @@ export default function RegisterDetail1() {
         <RadioGroup
           aria-label="gender"
           name="gender"
-          value={value}
-          onChange={handleRadioChange}
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
         >
           <FormControlLabel
             value="male"
@@ -129,6 +148,8 @@ export default function RegisterDetail1() {
             label="ชื่อ/ชื่อเล่น (Name/Nickname)"
             variant="outlined"
             style={{ width: "100%" }}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div style={{ width: "100%", marginTop: 5 }}>
@@ -137,6 +158,8 @@ export default function RegisterDetail1() {
             label="อายุ"
             variant="outlined"
             style={{ width: "100%" }}
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
           />
         </div>
         <div style={{ width: "100%", marginTop: 5 }}>
@@ -145,6 +168,8 @@ export default function RegisterDetail1() {
             label="นิสัยหรือบุคลิก (Charactor)"
             variant="outlined"
             style={{ width: "100%" }}
+            value={charactor}
+            onChange={(e) => setCharactor(e.target.value)}
           />
         </div>
         <div style={{ width: "100%", marginTop: 5 }}>
@@ -153,6 +178,8 @@ export default function RegisterDetail1() {
             label="ส่วนสูง"
             variant="outlined"
             style={{ width: "100%" }}
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
           />
         </div>
         <div style={{ width: "100%", marginTop: 5 }}>
@@ -161,6 +188,8 @@ export default function RegisterDetail1() {
             label="สัดส่วน"
             variant="outlined"
             style={{ width: "100%" }}
+            value={stature}
+            onChange={(e) => setStature(e.target.value)}
           />
         </div>
         <div style={{ width: "100%", marginTop: 5 }}>
@@ -169,20 +198,21 @@ export default function RegisterDetail1() {
             label="น้ำหนัก"
             variant="outlined"
             style={{ width: "100%" }}
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
           />
         </div>
       </div>
       <div style={{ textAlign: "center" }}>
-        <Link to="/registerDetail2">
-          <Button
-            color="primary"
-            variant="contained"
-            style={{ width: 150, marginBottom: 10 }}
-            startIcon={<SkipNext />}
-          >
-            ถัดไป
-          </Button>
-        </Link>
+        <Button
+          color="primary"
+          variant="contained"
+          style={{ width: 150, marginBottom: 10 }}
+          startIcon={<SkipNext />}
+          onClick={handleNext}
+        >
+          ถัดไป
+        </Button>
       </div>
     </Container>
   )
