@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { Button, Grid, TextField } from "@material-ui/core"
+import { Link } from "react-router-dom"
 import { Save } from "@material-ui/icons"
 
 const Container = styled.div`
@@ -10,6 +11,8 @@ const Container = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+  background-attachment: fixed;
+  padding: 20px;
 `
 const Paper = styled.div`
   margin: 0;
@@ -69,13 +72,15 @@ export default function Home() {
             />
           </div>
           <div style={{ marginTop: 10 }}>
-            <Button
-              variant="contained"
-              startIcon={<Save />}
-              style={{ backgroundColor: "#ff32ee", color: "white" }}
-            >
-              ลงทะเบียน
-            </Button>
+            <Link to="/registerDetail1">
+              <Button
+                variant="contained"
+                startIcon={<Save />}
+                style={{ backgroundColor: "#ff32ee", color: "white" }}
+              >
+                ลงทะเบียน
+              </Button>
+            </Link>
           </div>
         </Grid>
       </Paper>

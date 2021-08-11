@@ -6,6 +6,10 @@ import "./index.css"
 import App from "./App"
 import Home from "../src/apps/containers/home"
 import RegisterForm from "../src/apps/containers/register"
+import RegisterDetail1Form from "../src/apps/containers/register/RegisterDetail1"
+import RegisterDetail2Form from "../src/apps/containers/register/RegisterDetail2"
+import RegisterDetail3Form from "../src/apps/containers/register/RegisterDetail3"
+import RegisterDetail4Form from "../src/apps/containers/register/RegisterDetail4"
 import LoginForm from "../src/apps/containers/login"
 
 import reportWebVitals from "./reportWebVitals"
@@ -51,6 +55,18 @@ ReactDOM.render(
       </Route>
       <Route path="/register">
         <RegisterForm />
+      </Route>
+      <Route path="/registerDetail1">
+        <RegisterDetail1Form />
+      </Route>
+      <Route path="/registerDetail2">
+        <RegisterDetail2Form />
+      </Route>
+      <Route path="/registerDetail3">
+        <RegisterDetail3Form />
+      </Route>
+      <Route path="/registerDetail4">
+        <RegisterDetail4Form />
       </Route>
       <Route path="/login">
         <LoginForm />
