@@ -11,6 +11,7 @@ import Support from "./Support"
 import Privacy from "./Privacy"
 import FacebookForm from "./pages/FacebookLogin"
 import FacebookProfile from "./pages/FacebookProfile"
+import HelpPage from "./pages/help"
 
 ReactDOM.render(
   <Router>
@@ -35,6 +36,9 @@ ReactDOM.render(
       </Route>
       <Route path="/facebook-profile">
         <FacebookProfile />
+      </Route>
+      <Route path="/help">
+        <HelpPage />
       </Route>
     </Switch>
   </Router>,
