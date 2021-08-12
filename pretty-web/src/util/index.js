@@ -1,6 +1,6 @@
 import Moment from "moment"
 
-import { AppConfig } from "../src/Constants"
+import { AppConfig } from "../Constants"
 
 export const snapshotToArray = (snapshot) => {
   const returnArr = []

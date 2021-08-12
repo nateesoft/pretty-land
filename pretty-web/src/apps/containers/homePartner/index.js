@@ -9,11 +9,8 @@ import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import { useHistory } from "react-router-dom"
 
-import { getConfigList } from "../../../apis"
-import firebase from "../../../util/firebase"
-import { snapshotToArray } from "../../../util"
-import { AppConfig } from "../../../Constants"
-import Members from "./Members"
+import { getMemberProfile } from "../../../apis"
+import ProfileScreen from "./Profile"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -58,12 +55,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function ScrollableTabsButtonForce() {
+  const history = useHistory()
+  const { userId } = history.location.state
+
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
-  const history = useHistory()
 
-  const [members, setMembers] = useState([])
-  const [items, setItems] = useState([])
+  const [profile, setProfile] = useState({})
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -74,30 +72,15 @@ export default function ScrollableTabsButtonForce() {
   }
 
   useEffect(() => {
-    const ref = firebase.database().ref(`${AppConfig.env}/members`)
-    const listener = ref.on("value", (snapshot) => {
-      const memberInCloud = snapshotToArray(snapshot)
-      const newMemberList = memberInCloud.filter(
-        (item, index) => item.memberType === "partner"
-      )
-      setMembers(newMemberList)
-
-      getConfigList()
-        .then((res) => {
-          setItems(res)
-        })
-        .catch((err) => alert(err))
+    getMemberProfile(userId).then((data) => {
+      setProfile(data)
     })
-
-    return () => ref.off("value", listener)
   }, [])
 
   return (
     <div className={classes.root}>
       <TabPanel value={value} index={0}>
-        {items && items.length > 0 && (
-          <Members members={members} items={items} />
-        )}
+        <ProfileScreen profile={profile} />
       </TabPanel>
       <AppBar position="static" style={{ backgroundColor: "#ff32ee" }}>
         <Tabs
@@ -108,7 +91,7 @@ export default function ScrollableTabsButtonForce() {
           indicatorColor="primary"
           textColor="white"
         >
-          <Tab label="สมาชิกในระบบ" icon={<People />} {...a11yProps(0)} />
+          <Tab label="ข้อมูลส่วนตัว" icon={<People />} {...a11yProps(0)} />
           <Tab
             label="Logout"
             icon={<ExitToApp />}

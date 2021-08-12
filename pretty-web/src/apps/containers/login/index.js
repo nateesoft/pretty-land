@@ -4,6 +4,7 @@ import { Button, Grid, TextField } from "@material-ui/core"
 import { Lock } from "@material-ui/icons"
 import { Link, useHistory } from "react-router-dom"
 import * as ApiControl from "../../../apis"
+import { AppConfig } from "../../../Constants"
 
 const Container = styled.div`
   height: 100vh;
@@ -34,15 +35,23 @@ const Footer = styled.div`
 `
 
 export default function LoginForm(props) {
-  const history = useHistory();
+  const history = useHistory()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const onLogin = async () => {
-    const result = await ApiControl.loginApp(username, password)
-    if (result) {
-      history.push("/admin")
+    const { valid, member } = await ApiControl.loginApp(username, password)
+    if (valid) {
+      if (member.memberType === "admin" || member.memberType === "superadmin") {
+        history.push("/admin", { userId: member.id })
+      } else if (member.memberType === "partner") {
+        if(member.status===AppConfig.MemberStatus.active){
+          history.push("/partner", { userId: member.id })
+        }else{
+          alert("รอการอนุมัติข้อมูลจาก admin");
+        }
+      }
     } else {
-      alert('กรุณาระบุข้อมูลผู้ใช้งาน และรหัสผ่านให้ครบถ้วน !!!')
+      alert("กรุณาระบุข้อมูลผู้ใช้งาน และรหัสผ่านให้ครบถ้วน !!!")
     }
   }
   return (
@@ -86,7 +95,7 @@ export default function LoginForm(props) {
               LOGIN
             </Button>
           </div>
-          <div style={{marginTop: 10}}>
+          <div style={{ marginTop: 10 }}>
             <Link
               to="/register"
               style={{

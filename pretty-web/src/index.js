@@ -13,6 +13,7 @@ import RegisterDetail4Form from "../src/apps/containers/register/RegisterDetail4
 import LoginForm from "../src/apps/containers/login"
 
 import HomeAdmin from '../src/apps/containers/homeAdmin'
+import HomePartner from '../src/apps/containers/homePartner'
 
 import reportWebVitals from "./reportWebVitals"
 // import Profile from "./Profile"
@@ -46,6 +47,7 @@ function getOS() {
 }
 
 if (getOS() !== "iOS" && getOS() !== "Android") {
+   console.log('application support only, iOS and Android')
   window.location.href = "http://google.co.th"
 }
 
@@ -75,6 +77,9 @@ ReactDOM.render(
       </Route>
       <Route path="/admin">
         <HomeAdmin />
+      </Route>
+      <Route path="/partner">
+        <HomePartner />
       </Route>
       {/* <Route path="/apps">
         <App />

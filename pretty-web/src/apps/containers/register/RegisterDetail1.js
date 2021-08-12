@@ -1,5 +1,5 @@
-import React, { useState } from "react"
 
+import React, { useState } from 'react'
 import styled from "styled-components"
 import { Button, Grid, TextField } from "@material-ui/core"
 import { SkipNext } from "@material-ui/icons"
@@ -10,6 +10,8 @@ import { RadioGroup, Radio } from "@material-ui/core"
 import Checkbox from "@material-ui/core/Checkbox"
 import { useHistory } from "react-router-dom"
 
+import NumberFormatCustom from "../../components/numberFormat"
+
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
@@ -19,12 +21,13 @@ const Container = styled.div`
   background-size: contain;
   background-attachment: fixed;
 `
+
 export default function RegisterDetail1() {
   const history = useHistory()
   const { username, password } = history.location.state
 
-  const [gender, setGender] = React.useState("male")
-  const [state, setState] = React.useState({
+  const [gender, setGender] = useState("male")
+  const [state, setState] = useState({
     type1: false,
     type2: false,
     type3: false,
@@ -83,7 +86,7 @@ export default function RegisterDetail1() {
 
   return (
     <Container>
-      <div style={{margin: 10}}>
+      <div style={{ margin: 10 }}>
         <div align="center">
           <h3>รายละเอียดงานที่สมัคร</h3>
           <div>(Work Details)</div>
@@ -93,26 +96,42 @@ export default function RegisterDetail1() {
           <FormGroup>
             <FormControlLabel
               control={
-                <Checkbox checked={type1} onChange={handleChange} name="type1" />
+                <Checkbox
+                  checked={type1}
+                  onChange={handleChange}
+                  name="type1"
+                />
               }
               label="พริตตี้ Event / Mc"
             />
             <FormControlLabel
               control={
-                <Checkbox checked={type2} onChange={handleChange} name="type2" />
+                <Checkbox
+                  checked={type2}
+                  onChange={handleChange}
+                  name="type2"
+                />
               }
               label="โคโยตี้ / งานเต้น"
             />
             <FormControlLabel
               control={
-                <Checkbox checked={type3} onChange={handleChange} name="type3" />
+                <Checkbox
+                  checked={type3}
+                  onChange={handleChange}
+                  name="type3"
+                />
               }
               label="พริตตี้ En / Env"
             />
             <FormControlLabel
               style={{ marginTop: 20 }}
               control={
-                <Checkbox checked={type4} onChange={handleChange} name="type4" />
+                <Checkbox
+                  checked={type4}
+                  onChange={handleChange}
+                  name="type4"
+                />
               }
               label="พริตตี้ นวดแผนไทย"
             />
@@ -204,6 +223,9 @@ export default function RegisterDetail1() {
               style={{ width: "100%" }}
               value={stature}
               onChange={(e) => setStature(e.target.value)}
+              InputProps={{
+                inputComponent: NumberFormatCustom
+              }}
             />
           </div>
           <div style={{ width: "100%", marginTop: 10 }}>

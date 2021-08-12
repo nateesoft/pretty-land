@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core"
 import { CloudUpload, Save } from "@material-ui/icons"
 import { useHistory } from "react-router-dom"
 import uuid from "react-uuid"
+import CircularProgress from "@material-ui/core/CircularProgress"
 
 import firebase from "../../../util/firebase"
 import * as ApiControl from "../../../apis"
@@ -47,6 +48,8 @@ export default function RegisterDetail4() {
   } = history.location.state
 
   const [image, setImage] = useState(null)
+  const [uploadSuccess, setUploadSuccess] = useState(false)
+  const [progress, setProgress] = useState(false)
   const [imageFile1, setImageFile1] = useState(null)
   const [imageFile2, setImageFile2] = useState(null)
   const [imageFile3, setImageFile3] = useState(null)
@@ -73,6 +76,7 @@ export default function RegisterDetail4() {
       alert("กรุณาเพิ่มรูปให้ครบ 5 รูป และวิดีโอ 1 คลิป ก่อนบันทึกข้อมูล !!!")
       return
     }
+    setProgress(true)
     if (imageFile1) {
       await uploadImageAsync(imageFile1, setImageUrl1, true, `${userId}_pic1`)
     }
@@ -91,6 +95,8 @@ export default function RegisterDetail4() {
     if (imageFile6) {
       await uploadImageAsync(imageFile6, setImageUrl6, false, `${userId}_video`)
     }
+    setProgress(false)
+    setUploadSuccess(true)
   }
 
   const uploadImageAsync = (imageSource, updateUrl, isProfile, fileName) => {
@@ -166,10 +172,20 @@ export default function RegisterDetail4() {
       imageUrl3,
       imageUrl4,
       imageUrl5,
-      imageUrl6
+      imageUrl6,
+      memberType: "partner",
+      status: AppConfig.MemberStatus.newRegister,
+      statusText: AppConfig.MemberStatus.newRegisterMessage,
+      status_priority: AppConfig.MemberStatus.newRegisterPriority,
+      sys_create_date: new Date().toUTCString(),
+      sys_update_date: new Date().toUTCString()
     }
+
     const result = await ApiControl.saveNewPartner(newData)
     if (result) {
+      alert(
+        "โปรดแคปหน้าจอนี้แล้วส่งให้ Admin ทางไลน์@ เพื่อทำการอนุมัติบัญชีของคุณ"
+      )
       history.push("/", {})
     } else {
       alert("ไม่สามารถบันทึกข้อมูลได้")
@@ -239,17 +255,24 @@ export default function RegisterDetail4() {
           อัพโหลด
         </Button>
       </div>
-      <div style={{ textAlign: "center" }}>
-        <Button
-          color="primary"
-          variant="contained"
-          style={{ width: 150, marginBottom: 10, borderRadius: 10 }}
-          startIcon={<Save />}
-          onClick={saveDataToDatabase}
-        >
-          บันทึกข้อมูล
-        </Button>
-      </div>
+      {progress  && (
+        <div style={{ textAlign: "center" }}>
+          <CircularProgress color="secondary" />
+        </div>
+      )}
+      {uploadSuccess && (
+        <div style={{ textAlign: "center" }}>
+          <Button
+            color="primary"
+            variant="contained"
+            style={{ width: 150, marginBottom: 10, borderRadius: 10 }}
+            startIcon={<Save />}
+            onClick={saveDataToDatabase}
+          >
+            บันทึกข้อมูล
+          </Button>
+        </div>
+      )}
     </Container>
   )
 }
