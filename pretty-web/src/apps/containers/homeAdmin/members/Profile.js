@@ -1,12 +1,28 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
+import { makeStyles } from "@material-ui/core/styles"
 import styled from "styled-components"
+import ImageList from "@material-ui/core/ImageList"
+import ImageListItem from "@material-ui/core/ImageListItem"
 
 import Moment from "moment"
 import { Button } from "@material-ui/core"
 
 import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../../Constants"
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    backgroundColor: theme.palette.background.paper
+  },
+  imageList: {
+    width: 500,
+    height: 450
+  }
+}))
 
 const Container = styled.div`
   height: 100vh;
@@ -20,6 +36,7 @@ const Container = styled.div`
 export default function BasicImageList(props) {
   const history = useHistory()
   const { profile } = history.location.state
+  const classes = useStyles()
 
   const approveMember = () => {
     firebase.database().ref(`${AppConfig.env}members/${profile.id}`).update({
@@ -59,21 +76,70 @@ export default function BasicImageList(props) {
           <div>เบอร์ติดต่อ: {profile.mobile}</div>
           <div>สถานะ: {profile.status}</div>
         </div>
-        <div style={{ margin: 10 }}>
-          {profile.status === AppConfig.MemberStatus.newRegister && (
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ margin: 5, backgroundColor: "green", color: "white" }}
-              onClick={approveMember}
-            >
-              อนุมัติข้อมูล
-            </Button>
+      </div>
+      <div style={{ margin: 10 }}>
+        <ImageList rowHeight={450} cols={2}>
+          {profile.imageUrl1 && (
+            <ImageListItem cols={2}>
+              <img
+                src={profile.imageUrl1}
+                style={{ height: "100%", width: "auto" }}
+                alt={""}
+              />
+            </ImageListItem>
           )}
-          <Button variant="contained" color="secondary" onClick={suspendMember}>
-            ลบข้อมูลออกจากระบบ
+          {profile.imageUrl2 && (
+            <ImageListItem cols={2}>
+              <img
+                src={profile.imageUrl2}
+                style={{ height: "100%", width: "auto" }}
+                alt={""}
+              />
+            </ImageListItem>
+          )}
+          {profile.imageUrl3 && (
+            <ImageListItem cols={2}>
+              <img
+                src={profile.imageUrl3}
+                style={{ height: "100%", width: "auto" }}
+                alt={""}
+              />
+            </ImageListItem>
+          )}
+          {profile.imageUrl4 && (
+            <ImageListItem cols={2}>
+              <img
+                src={profile.imageUrl4}
+                style={{ height: "100%", width: "auto" }}
+                alt={""}
+              />
+            </ImageListItem>
+          )}
+          {profile.imageUrl5 && (
+            <ImageListItem cols={2}>
+              <img
+                src={profile.imageUrl5}
+                style={{ height: "100%", width: "auto" }}
+                alt={""}
+              />
+            </ImageListItem>
+          )}
+        </ImageList>
+      </div>
+      <div style={{ margin: 10 }}>
+        {profile.status === AppConfig.MemberStatus.newRegister && (
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ margin: 5, backgroundColor: "green", color: "white" }}
+            onClick={approveMember}
+          >
+            อนุมัติข้อมูล
           </Button>
-        </div>
+        )}
+        <Button variant="contained" color="secondary" onClick={suspendMember}>
+          ลบข้อมูลออกจากระบบ
+        </Button>
       </div>
     </Container>
   )

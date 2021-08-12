@@ -96,51 +96,18 @@ const App = () => {
     window.location.href = "https://pretty-land.web.app/"
   }
 
-  const downloadAndroid = () => {
-    window.location.href = "https://pretty-land.web.app/"
-  }
+  // const downloadAndroid = () => {
+  //   window.location.href = "https://pretty-land.web.app/"
+  // }
 
-  const partnerConnectAdminLine = () => {
-    console.log("onClick:partnerConnectAdminLine")
-    window.location.href = "https://lin.ee/8f5kP3x"
-  }
+  // const partnerConnectAdminLine = () => {
+  //   console.log("onClick:partnerConnectAdminLine")
+  //   window.location.href = "https://lin.ee/8f5kP3x"
+  // }
 
   return (
     <div>
       <div>
-        <img
-          src="download_ios.png"
-          alt=""
-          style={{
-            width: 90,
-            position: "absolute",
-            top: window.innerHeight - window.innerHeight / 2 - 43,
-            left: 10
-          }}
-          onClick={downloadIOS}
-        />
-        <img
-          src="download_android.png"
-          alt=""
-          style={{
-            width: 90,
-            position: "absolute",
-            top: window.innerHeight - window.innerHeight / 2 - 43,
-            left: 100
-          }}
-          onClick={downloadAndroid}
-        />
-        <img
-          src="click_here_line.png"
-          alt=""
-          style={{
-            width: 50,
-            position: "absolute",
-            top: window.innerHeight - window.innerHeight / 2 + 25,
-            right: 0
-          }}
-          onClick={partnerConnectAdminLine}
-        />
         <img
           src="bg.jpg"
           alt=""
@@ -151,6 +118,7 @@ const App = () => {
             backgroundRepeat: "no-repeat",
             backgroundSize: "contain"
           }}
+          onClick={downloadIOS}
         />
       </div>
       <div>

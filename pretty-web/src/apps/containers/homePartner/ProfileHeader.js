@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   }
 })
 
-export default function MediaCard(props) {
+export default function ProfileHeader(props) {
   const { profile } = props
   const classes = useStyles()
 

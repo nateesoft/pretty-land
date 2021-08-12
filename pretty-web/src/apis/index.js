@@ -29,7 +29,6 @@ const loginApp = (username, password) => {
         let memberMaster = {}
         for (let key in members) {
           const member = members[key]
-          console.log(member.username, base64.decode(member.password), password)
           if (
             member.username === username &&
             base64.decode(member.password) === password
@@ -86,10 +85,20 @@ const getMemberProfile = (userId) => {
   })
 }
 
+const updateWorkingStatus = (userId, isEnabled) => {
+  firebase
+    .database()
+    .ref(`${AppConfig.env}/members/${userId}`)
+    .update({
+      work_status: isEnabled ? "working" : "available"
+    })
+}
+
 export {
   loginApp,
   saveNewPartner,
   validUserExist,
   getMemberProfile,
-  getConfigList
+  getConfigList,
+  updateWorkingStatus
 }

@@ -1,16 +1,19 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import ImageList from "@material-ui/core/ImageList"
 import ImageListItem from "@material-ui/core/ImageListItem"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
 
 import ProfileHeader from "./ProfileHeader"
+import IOSSwitch from "./iosSwitch"
+import { updateWorkingStatus } from "../../../apis"
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper
   },
   imageList: {
     width: 500,
@@ -18,13 +21,36 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function BasicImageList(props) {
+export default function Profile(props) {
   const { profile } = props
+  console.log("id:", profile.id, profile.work_status)
   const classes = useStyles()
+  const [checked, setChecked] = useState(false)
+
+  const handleStatus = (evt) => {
+    updateWorkingStatus(profile.id, !evt.target.checked)
+    setChecked(evt.target.checked)
+  }
+
+  useEffect(() => {
+    if (profile) {
+      setChecked(profile.work_status === "available")
+    }
+  }, [profile])
 
   return (
     <div style={{ height: "500px", overflow: "auto" }}>
       <div className={classes.root}>
+        <FormControlLabel
+          control={
+            <IOSSwitch
+              checked={checked}
+              onChange={handleStatus}
+              name="checked"
+            />
+          }
+          label={checked ? "พร้อมรับงาน" : "ไม่ว่าง"}
+        />
         <ProfileHeader profile={profile} />
         <ImageList rowHeight={450} className={classes.imageList} cols={2}>
           {profile.imageUrl1 && (
