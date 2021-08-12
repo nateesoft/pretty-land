@@ -45,7 +45,7 @@ function getOS() {
   return os
 }
 
-if (getOS() !== "iOS" || getOS() !== "Android") {
+if (getOS() !== "iOS" && getOS() !== "Android") {
   window.location.href = "http://google.co.th"
 }
 
