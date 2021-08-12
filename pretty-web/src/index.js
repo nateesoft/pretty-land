@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 import "./index.css"
-// import App from "./App"
+import App from "./App"
 import Home from "../src/apps/containers/home"
 import RegisterForm from "../src/apps/containers/register"
 import RegisterDetail1Form from "../src/apps/containers/register/RegisterDetail1"
@@ -14,6 +14,7 @@ import LoginForm from "../src/apps/containers/login"
 
 import HomeAdmin from '../src/apps/containers/homeAdmin'
 import HomePartner from '../src/apps/containers/homePartner'
+import MemberProfile from '../src/apps/containers/homeAdmin/members/Profile'
 
 import reportWebVitals from "./reportWebVitals"
 // import Profile from "./Profile"
@@ -48,7 +49,7 @@ function getOS() {
 
 if (getOS() !== "iOS" && getOS() !== "Android") {
    console.log('application support only, iOS and Android')
-  window.location.href = "http://google.co.th"
+  // window.location.href = "http://google.co.th"
 }
 
 ReactDOM.render(
@@ -78,8 +79,14 @@ ReactDOM.render(
       <Route path="/admin">
         <HomeAdmin />
       </Route>
+      <Route path="/member-profile">
+        <MemberProfile />
+      </Route>
       <Route path="/partner">
         <HomePartner />
+      </Route>
+      <Route path="/apps">
+        <App />
       </Route>
       {/* <Route path="/apps">
         <App />

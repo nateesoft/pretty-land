@@ -184,7 +184,7 @@ export default function RegisterDetail4() {
     const result = await ApiControl.saveNewPartner(newData)
     if (result) {
       alert(
-        "โปรดแคปหน้าจอนี้แล้วส่งให้ Admin ทางไลน์@ เพื่อทำการอนุมัติบัญชีของคุณ"
+        "ลงทะเบียนเรียบร้อย รออนุมัติ ! กรุณาติดต่อ Admin ทางไลน์@ เพื่อนทำการยืนยันตัวตนอีกครั้ง"
       )
       history.push("/", {})
     } else {
@@ -200,42 +200,78 @@ export default function RegisterDetail4() {
       </div>
       <div style={{ marginBottom: 10, paddingRight: 10, paddingLeft: 10 }}>
         <div style={{ width: "100%", margin: 10, padding: 10 }}>
-          <input
-            accept="image/jpeg"
-            style={{ width: "100%", margin: 5 }}
-            type="file"
-            onChange={(e) => setImageFile1(e.target.files[0])}
-          />
-          <input
-            accept="image/jpeg"
-            style={{ width: "100%", margin: 5 }}
-            type="file"
-            onChange={(e) => setImageFile2(e.target.files[0])}
-          />
-          <input
-            accept="image/jpeg"
-            style={{ width: "100%", margin: 5 }}
-            type="file"
-            onChange={(e) => setImageFile3(e.target.files[0])}
-          />
-          <input
-            accept="image/jpeg"
-            style={{ width: "100%", margin: 5 }}
-            type="file"
-            onChange={(e) => setImageFile4(e.target.files[0])}
-          />
-          <input
-            accept="image/jpeg"
-            style={{ width: "100%", margin: 5 }}
-            type="file"
-            onChange={(e) => setImageFile5(e.target.files[0])}
-          />
-          <input
-            accept="video/mp4,video/x-m4v,video/*"
-            style={{ width: "100%", margin: 5 }}
-            type="file"
-            onChange={(e) => setImageFile6(e.target.files[0])}
-          />
+          <div style={{ padding: 10 }}>
+            <label for="file1" class="btn">
+              รูปที่ 1
+            </label>
+            <input
+              id="file1"
+              accept="image/jpeg"
+              style={{ width: "100%", margin: 5 }}
+              type="file"
+              onChange={(e) => setImageFile1(e.target.files[0])}
+            />
+          </div>
+          <div style={{ padding: 10 }}>
+            <label for="file2" class="btn">
+              รูปที่ 2
+            </label>
+            <input
+              id="file2"
+              accept="image/jpeg"
+              style={{ width: "100%", margin: 5 }}
+              type="file"
+              onChange={(e) => setImageFile2(e.target.files[0])}
+            />
+          </div>
+          <div style={{ padding: 10 }}>
+            <label for="file3" class="btn">
+              รูปที่ 3
+            </label>
+            <input
+              id="file3"
+              accept="image/jpeg"
+              style={{ width: "100%", margin: 5 }}
+              type="file"
+              onChange={(e) => setImageFile3(e.target.files[0])}
+            />
+          </div>
+          <div style={{ padding: 10 }}>
+            <label for="file4" class="btn">
+              รูปที่ 4
+            </label>
+            <input
+              id="file4"
+              accept="image/jpeg"
+              style={{ width: "100%", margin: 5 }}
+              type="file"
+              onChange={(e) => setImageFile4(e.target.files[0])}
+            />
+          </div>
+          <div style={{ padding: 10 }}>
+            <label for="file5" class="btn">
+              รูปที่ 5
+            </label>
+            <input
+              id="file5"
+              accept="image/jpeg"
+              style={{ width: "100%", margin: 5 }}
+              type="file"
+              onChange={(e) => setImageFile5(e.target.files[0])}
+            />
+          </div>
+          <div style={{ padding: 10 }}>
+            <label for="file6" class="btn">
+              เลือก VIDEO
+            </label>
+            <input
+              id="file6"
+              accept="video/mp4,video/x-m4v,video/*"
+              style={{ width: "100%", margin: 5 }}
+              type="file"
+              onChange={(e) => setImageFile6(e.target.files[0])}
+            />
+          </div>
         </div>
       </div>
       <div style={{ textAlign: "center" }}>
@@ -255,7 +291,7 @@ export default function RegisterDetail4() {
           อัพโหลด
         </Button>
       </div>
-      {progress  && (
+      {progress && (
         <div style={{ textAlign: "center" }}>
           <CircularProgress color="secondary" />
         </div>

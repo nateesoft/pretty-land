@@ -75,7 +75,7 @@ export default function ScrollableTabsButtonForce() {
     getMemberProfile(userId).then((data) => {
       setProfile(data)
     })
-  }, [])
+  }, [userId])
 
   return (
     <div className={classes.root}>

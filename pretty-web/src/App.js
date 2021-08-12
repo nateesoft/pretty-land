@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Link, Redirect } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import jwtDecode from "jwt-decode"
 
 import "./App.css"
@@ -93,22 +93,12 @@ const App = () => {
   }
 
   const downloadIOS = () => {
-    console.log("onClick:downloadIOS")
-    const os = getOS()
-    console.log("Application running on:", os)
-    if (os === "iOS") {
-      window.location.href = "https://i.diawi.com/DEqv4p"
-    }
+    window.location.href = "https://pretty-land.web.app/"
   }
 
-  // const downloadAndroid = () => {
-  //   console.log("onClick:downloadAndroid")
-  //   const os = getOS()
-  //   console.log("Application running on:", os)
-  //   if (os === "Android") {
-  //     window.location.href = "apk_file/prettyland_1_0.apk"
-  //   }
-  // }
+  const downloadAndroid = () => {
+    window.location.href = "https://pretty-land.web.app/"
+  }
 
   const partnerConnectAdminLine = () => {
     console.log("onClick:partnerConnectAdminLine")
@@ -117,34 +107,77 @@ const App = () => {
 
   return (
     <div>
-      <div
-        style={{
-          display: "inline-block",
-          position: "relative",
-          margin: "0 auto"
-        }}
-      >
-        <img src="bg.jpg" alt="" />
-        <div style={{ position: "absolute", bottom: "50px", left: "15px" }}>
-          <img
-            src="download_ios.png"
-            alt=""
-            style={{ width: 150 }}
-            onClick={downloadIOS}
-          />
-        </div>
-        <div style={{ position: "absolute", bottom: "50px", left: "170px" }}>
-          <Link to="/apk_file/prettyland_1_0.apk" target="_blank" download>
-            <img src="download_android.png" alt="" style={{ width: 150 }} />
-          </Link>
-        </div>
-        <div style={{ position: "absolute", bottom: "1px", right: "0px" }}>
-          <img
-            src="click_here_line.png"
-            alt=""
-            onClick={partnerConnectAdminLine}
-          />
-        </div>
+      <div>
+        <img
+          src="download_ios.png"
+          alt=""
+          style={{
+            width: 90,
+            position: "absolute",
+            top: window.innerHeight - window.innerHeight / 2 - 43,
+            left: 10
+          }}
+          onClick={downloadIOS}
+        />
+        <img
+          src="download_android.png"
+          alt=""
+          style={{
+            width: 90,
+            position: "absolute",
+            top: window.innerHeight - window.innerHeight / 2 - 43,
+            left: 100
+          }}
+          onClick={downloadAndroid}
+        />
+        <img
+          src="click_here_line.png"
+          alt=""
+          style={{
+            width: 50,
+            position: "absolute",
+            top: window.innerHeight - window.innerHeight / 2 + 25,
+            right: 0
+          }}
+          onClick={partnerConnectAdminLine}
+        />
+        <img
+          src="bg.jpg"
+          alt=""
+          style={{
+            height: "auto",
+            width: "100%",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain"
+          }}
+        />
+      </div>
+      <div>
+        <img
+          src="ios_manual.png"
+          alt=""
+          style={{
+            height: "auto",
+            width: "100%",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain"
+          }}
+        />
+      </div>
+      <div>
+        <img
+          src="android_manual.png"
+          alt=""
+          style={{
+            height: "auto",
+            width: "100%",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain"
+          }}
+        />
       </div>
     </div>
   )

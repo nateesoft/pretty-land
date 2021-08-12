@@ -29,6 +29,7 @@ const loginApp = (username, password) => {
         let memberMaster = {}
         for (let key in members) {
           const member = members[key]
+          console.log(member.username, base64.decode(member.password), password)
           if (
             member.username === username &&
             base64.decode(member.password) === password
