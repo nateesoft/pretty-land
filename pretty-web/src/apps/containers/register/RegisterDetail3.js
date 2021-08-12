@@ -9,6 +9,8 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
 
+import { getBankList } from "../../../data/apis"
+
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
@@ -16,7 +18,6 @@ const Container = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  padding: 20px;
 `
 export default function RegisterDetail3() {
   const history = useHistory()
@@ -36,15 +37,24 @@ export default function RegisterDetail3() {
     stature,
     weight,
     lineId,
-    telephone,
+    mobile,
     province,
     district,
-    place
+    address
   } = history.location.state
-  const [bankCode, setBankCode] = useState("")
+  const [bank, setBank] = useState("")
   const [bankNo, setBankNo] = useState("")
+  const [bankList] = useState(getBankList())
 
   const handleNext = () => {
+    if (!bank) {
+      alert("กรุณาระบุธนาคารที่รอรับเงินโอน")
+      return
+    }
+    if (!bankNo) {
+      alert("กรุณาระบุเลขที่บัญชีธนาคาร")
+      return
+    }
     history.push("/registerDetail4", {
       username,
       password,
@@ -61,61 +71,70 @@ export default function RegisterDetail3() {
       stature,
       weight,
       lineId,
-      telephone,
+      mobile,
       province,
       district,
-      place,
-      bankCode,
+      address,
+      bank,
       bankNo
     })
   }
 
   return (
     <Container>
-      <div align="center">
-        <h3>เพิ่มข้อมูลธนาคาร</h3>
-      </div>
-      <div style={{ padding: 10 }}>
-        <FormControl variant="outlined" style={{ width: "100%", marginTop: 5 }}>
-          <InputLabel id="demo-simple-select-outlined-label">ธนาคาร</InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={bankCode}
-            onChange={(e) => setBankCode(e.target.value)}
-            label="Age"
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-      <div style={{ marginBottom: 10, paddingRight: 10, paddingLeft: 10 }}>
-        <div style={{ width: "100%" }}>
-          <TextField
-            required
-            label="เลขที่บัญชีธนาคาร"
-            variant="outlined"
-            style={{ width: "100%" }}
-            value={bankNo}
-            onChange={(e) => setBankNo(e.target.value)}
-          />
+      <div style={{ margin: 10 }}>
+        <div align="center">
+          <h3>เพิ่มข้อมูลธนาคาร</h3>
         </div>
-      </div>
-      <div style={{ textAlign: "center" }}>
-        <Button
-          color="primary"
-          variant="contained"
-          style={{ width: 150, marginBottom: 10 }}
-          startIcon={<SkipNext />}
-          onClick={handleNext}
-        >
-          ถัดไป
-        </Button>
+        <div style={{ padding: 10 }}>
+          <FormControl
+            variant="outlined"
+            style={{ width: "100%", marginTop: 5 }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              ธนาคาร
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={bank}
+              onChange={(e) => setBank(e.target.value)}
+              label="Age"
+            >
+              <MenuItem value="">
+                <em>--- เลือกธนาคาร ---</em>
+              </MenuItem>
+              {bankList.map((item, index) => (
+                <MenuItem value={item.value} key={item.label + index}>
+                  {item.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+        <div style={{ marginBottom: 10, paddingRight: 10, paddingLeft: 10 }}>
+          <div style={{ width: "100%" }}>
+            <TextField
+              required
+              label="เลขที่บัญชีธนาคาร"
+              variant="outlined"
+              style={{ width: "100%" }}
+              value={bankNo}
+              onChange={(e) => setBankNo(e.target.value)}
+            />
+          </div>
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <Button
+            color="primary"
+            variant="contained"
+            style={{ width: 150, marginBottom: 10 }}
+            startIcon={<SkipNext />}
+            onClick={handleNext}
+          >
+            ถัดไป
+          </Button>
+        </div>
       </div>
     </Container>
   )

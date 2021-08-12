@@ -86,7 +86,7 @@ export default function LoginForm(props) {
               LOGIN
             </Button>
           </div>
-          <div>
+          <div style={{marginTop: 10}}>
             <Link
               to="/register"
               style={{

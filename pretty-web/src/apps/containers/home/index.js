@@ -74,33 +74,37 @@ export default function Home() {
           ( Version 1.0 )
         </p>
         <Grid item>
-          <ButtonAction
-            variant="contained"
-            startIcon={lineIcon}
-            style={{
-              color: "white",
-              backgroundColor: "#35d00d",
-              justifyContent: "unset",
-              fontWeight: "bold"
-            }}
-          >
-            เข้าสู่ระบบด้วย LINE
-          </ButtonAction>
-          <ButtonAction
-            variant="contained"
-            size="medium"
-            startIcon={facebookIcon}
-            style={{
-              color: "white",
-              backgroundColor: "#0a69d6",
-              marginTop: 5,
-              justifyContent: "unset",
-              textTransform: "none",
-              fontWeight: "bold"
-            }}
-          >
-            เข้าสู่ระบบด้วย facebook
-          </ButtonAction>
+          <div>
+            <ButtonAction
+              variant="contained"
+              startIcon={lineIcon}
+              style={{
+                color: "white",
+                backgroundColor: "#35d00d",
+                justifyContent: "unset",
+                fontWeight: "bold"
+              }}
+            >
+              เข้าสู่ระบบด้วย LINE
+            </ButtonAction>
+          </div>
+          <div>
+            <ButtonAction
+              variant="contained"
+              size="medium"
+              startIcon={facebookIcon}
+              style={{
+                color: "white",
+                backgroundColor: "#0a69d6",
+                marginTop: 5,
+                justifyContent: "unset",
+                textTransform: "none",
+                fontWeight: "bold"
+              }}
+            >
+              เข้าสู่ระบบด้วย facebook
+            </ButtonAction>
+          </div>
           <div
             style={{
               color: "gray",
@@ -111,7 +115,7 @@ export default function Home() {
           >
             ------ OR ------
           </div>
-          <Link to="/login">
+          <Link to="/login" style={{textDecoration: 'none'}}>
             <ButtonAction
               variant="contained"
               color="primary"
@@ -126,7 +130,7 @@ export default function Home() {
               LOGIN
             </ButtonAction>
           </Link>
-          <div>
+          <div style={{marginTop: 5}}>
             <Link
               to="/register"
               style={{
