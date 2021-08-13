@@ -77,7 +77,7 @@ export default function ScrollableTabsButtonForce() {
     const ref = firebase.database().ref(`${AppConfig.env}/members`)
     const listener = ref.on("value", (snapshot) => {
       const memberInCloud = snapshotToArray(snapshot)
-      const newMemberList = memberInCloud.filter(
+      let newMemberList = memberInCloud.filter(
         (item, index) => item.memberType === "partner"
       )
       setMembers(newMemberList)

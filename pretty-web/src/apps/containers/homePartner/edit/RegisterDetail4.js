@@ -4,15 +4,15 @@ import styled from "styled-components"
 import { Button } from "@material-ui/core"
 import { CloudUpload, Save } from "@material-ui/icons"
 import { useHistory } from "react-router-dom"
-import uuid from "react-uuid"
+import CircularProgress from "@material-ui/core/CircularProgress"
 
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 
-import firebase from "../../../util/firebase"
-import * as ApiControl from "../../../apis"
-import { AppConfig } from "../../../Constants"
+import firebase from "../../../../util/firebase"
+import * as ApiControl from "../../../../apis"
+import { AppConfig } from "../../../../Constants"
 
 function LinearProgressWithLabel(props) {
   return (
@@ -43,31 +43,8 @@ const Container = styled.div`
   padding: 20px;
 `
 export default function RegisterDetail4() {
-  const userId = uuid()
   const history = useHistory()
-  const {
-    username,
-    password,
-    type1,
-    type2,
-    type3,
-    type4,
-    price4,
-    gender,
-    name,
-    age,
-    charactor,
-    height,
-    stature,
-    weight,
-    lineId,
-    mobile,
-    province,
-    district,
-    address,
-    bank,
-    bankNo
-  } = history.location.state
+  const { profile } = history.location.state
 
   const [image, setImage] = useState(null)
   const [imageFile1, setImageFile1] = useState(null)
@@ -77,12 +54,12 @@ export default function RegisterDetail4() {
   const [imageFile5, setImageFile5] = useState(null)
   const [imageFile6, setImageFile6] = useState(null)
 
-  const [imageUrl1, setImageUrl1] = useState(null)
-  const [imageUrl2, setImageUrl2] = useState(null)
-  const [imageUrl3, setImageUrl3] = useState(null)
-  const [imageUrl4, setImageUrl4] = useState(null)
-  const [imageUrl5, setImageUrl5] = useState(null)
-  const [imageUrl6, setImageUrl6] = useState(null)
+  const [imageUrl1, setImageUrl1] = useState(profile.imageUrl1 || null)
+  const [imageUrl2, setImageUrl2] = useState(profile.imageUrl2 || null)
+  const [imageUrl3, setImageUrl3] = useState(profile.imageUrl3 || null)
+  const [imageUrl4, setImageUrl4] = useState(profile.imageUrl4 || null)
+  const [imageUrl5, setImageUrl5] = useState(profile.imageUrl5 || null)
+  const [imageUrl6, setImageUrl6] = useState(profile.imageUrl6 || null)
 
   const [progress1, setProgress1] = useState(0)
   const [progress2, setProgress2] = useState(0)
@@ -108,8 +85,7 @@ export default function RegisterDetail4() {
         imageFile1,
         setImageUrl1,
         true,
-        `${userId}_pic1`,
-        1
+        `${profile.id}_pic1`
       )
     }
     if (imageFile2) {
@@ -117,8 +93,7 @@ export default function RegisterDetail4() {
         imageFile2,
         setImageUrl2,
         false,
-        `${userId}_pic2`,
-        2
+        `${profile.id}_pic2`
       )
     }
     if (imageFile3) {
@@ -126,8 +101,7 @@ export default function RegisterDetail4() {
         imageFile3,
         setImageUrl3,
         false,
-        `${userId}_pic3`,
-        3
+        `${profile.id}_pic3`
       )
     }
     if (imageFile4) {
@@ -135,8 +109,7 @@ export default function RegisterDetail4() {
         imageFile4,
         setImageUrl4,
         false,
-        `${userId}_pic4`,
-        4
+        `${profile.id}_pic4`
       )
     }
     if (imageFile5) {
@@ -144,8 +117,7 @@ export default function RegisterDetail4() {
         imageFile5,
         setImageUrl5,
         false,
-        `${userId}_pic5`,
-        5
+        `${profile.id}_pic5`
       )
     }
     if (imageFile6) {
@@ -153,8 +125,7 @@ export default function RegisterDetail4() {
         imageFile6,
         setImageUrl6,
         false,
-        `${userId}_video`,
-        6
+        `${profile.id}_video`
       )
     }
   }
@@ -171,7 +142,6 @@ export default function RegisterDetail4() {
       const storageRef = storage.ref(
         `${AppConfig.env}/images/member/partner/${fileName}`
       )
-      console.log(storageRef.getMetadata())
       const uploadTask = storageRef.put(imageSource)
       uploadTask.on(
         firebase.storage.TaskEvent.STATE_CHANGED,
@@ -234,28 +204,7 @@ export default function RegisterDetail4() {
     }
 
     const newData = {
-      userId,
-      username,
-      password,
-      type1,
-      type2,
-      type3,
-      type4,
-      price4,
-      gender,
-      name,
-      age,
-      charactor,
-      height,
-      stature,
-      weight,
-      lineId,
-      mobile,
-      province,
-      district,
-      address,
-      bank,
-      bankNo,
+      userId: profile.id,
       image,
       imageUrl1,
       imageUrl2,
@@ -302,7 +251,13 @@ export default function RegisterDetail4() {
             }
           />
           <LinearProgressWithLabel value={progress1} />
-          <img src={imageUrl1} alt="" style={{ width: 100, height: "auto" }} />
+          {profile.imageUrl1 && (
+            <img
+              src={profile.imageUrl1}
+              style={{ width: "auto", height: 100 }}
+              alt=""
+            />
+          )}
         </div>
         <div style={{ padding: 10 }}>
           <label htmlFor="file2">รูปที่ 2</label>
@@ -316,7 +271,13 @@ export default function RegisterDetail4() {
             }
           />
           <LinearProgressWithLabel value={progress2} />
-          <img src={imageUrl2} alt="" style={{ width: 100, height: "auto" }} />
+          {profile.imageUrl2 && (
+            <img
+              src={profile.imageUrl2}
+              style={{ width: "auto", height: 100 }}
+              alt=""
+            />
+          )}
         </div>
         <div style={{ padding: 10 }}>
           <label htmlFor="file3">รูปที่ 3</label>
@@ -330,7 +291,13 @@ export default function RegisterDetail4() {
             }
           />
           <LinearProgressWithLabel value={progress3} />
-          <img src={imageUrl3} alt="" style={{ width: 100, height: "auto" }} />
+          {profile.imageUrl3 && (
+            <img
+              src={profile.imageUrl3}
+              style={{ width: "auto", height: 100 }}
+              alt=""
+            />
+          )}
         </div>
         <div style={{ padding: 10 }}>
           <label htmlFor="file4">รูปที่ 4</label>
@@ -344,7 +311,13 @@ export default function RegisterDetail4() {
             }
           />
           <LinearProgressWithLabel value={progress4} />
-          <img src={imageUrl4} alt="" style={{ width: 100, height: "auto" }} />
+          {profile.imageUrl4 && (
+            <img
+              src={profile.imageUrl4}
+              style={{ width: "auto", height: 100 }}
+              alt=""
+            />
+          )}
         </div>
         <div style={{ padding: 10 }}>
           <label htmlFor="file5">รูปที่ 5</label>
@@ -358,7 +331,13 @@ export default function RegisterDetail4() {
             }
           />
           <LinearProgressWithLabel value={progress5} />
-          <img src={imageUrl5} alt="" style={{ width: 100, height: "auto" }} />
+          {profile.imageUrl5 && (
+            <img
+              src={profile.imageUrl5}
+              style={{ width: "auto", height: 100 }}
+              alt=""
+            />
+          )}
         </div>
         <div style={{ padding: 10 }}>
           <label htmlFor="file6">เลือก VIDEO</label>
@@ -372,6 +351,13 @@ export default function RegisterDetail4() {
             }
           />
           <LinearProgressWithLabel value={progress6} />
+          {profile.imageUrl6 && (
+            <img
+              src={profile.imageUrl6}
+              style={{ width: "auto", height: 100 }}
+              alt=""
+            />
+          )}
         </div>
       </div>
       <div
@@ -392,7 +378,7 @@ export default function RegisterDetail4() {
         - กรุณาถ่ายคลิป Video ไม่ควรเกิน 10 วิ
         <br />- รูปภาพที่อัพโหลดไม่ควรเกิน 4 mb
       </div>
-      <div style={{ textAlign: "center" }}>
+      {/* <div style={{ textAlign: "center" }}>
         <Button
           color="primary"
           variant="contained"
@@ -408,7 +394,7 @@ export default function RegisterDetail4() {
         >
           อัพโหลด
         </Button>
-      </div>
+      </div> */}
       {imageUrl1 &&
         imageUrl2 &&
         imageUrl3 &&

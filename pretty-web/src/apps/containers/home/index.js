@@ -115,7 +115,7 @@ export default function Home() {
           >
             ------ OR ------
           </div>
-          <Link to="/login" style={{textDecoration: 'none'}}>
+          <Link to="/login" style={{ textDecoration: "none" }}>
             <ButtonAction
               variant="contained"
               color="primary"
@@ -130,7 +130,7 @@ export default function Home() {
               LOGIN
             </ButtonAction>
           </Link>
-          <div style={{marginTop: 5}}>
+          <div style={{ marginTop: 5 }}>
             <Link
               to="/register"
               style={{

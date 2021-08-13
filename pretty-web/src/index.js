@@ -16,6 +16,11 @@ import HomeAdmin from '../src/apps/containers/homeAdmin'
 import HomePartner from '../src/apps/containers/homePartner'
 import MemberProfile from '../src/apps/containers/homeAdmin/members/Profile'
 
+import ProfileEditForm from '../src/apps/containers/homePartner/edit/RegisterDetail1'
+import ProfileEditForm2 from '../src/apps/containers/homePartner/edit/RegisterDetail2'
+import ProfileEditForm3 from '../src/apps/containers/homePartner/edit/RegisterDetail3'
+import ProfileEditForm4 from '../src/apps/containers/homePartner/edit/RegisterDetail4'
+
 import reportWebVitals from "./reportWebVitals"
 // import Profile from "./Profile"
 // import Support from "./Support"
@@ -84,6 +89,18 @@ ReactDOM.render(
       </Route>
       <Route path="/partner">
         <HomePartner />
+      </Route>
+      <Route path="/partner-edit-form">
+        <ProfileEditForm />
+      </Route>
+      <Route path="/partner-edit-form-2">
+        <ProfileEditForm2 />
+      </Route>
+      <Route path="/partner-edit-form-3">
+        <ProfileEditForm3 />
+      </Route>
+      <Route path="/partner-edit-form-4">
+        <ProfileEditForm4 />
       </Route>
       <Route path="/apps">
         <App />
