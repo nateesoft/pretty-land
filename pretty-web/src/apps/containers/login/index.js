@@ -44,11 +44,13 @@ export default function LoginForm(props) {
       if (member.memberType === "admin" || member.memberType === "superadmin") {
         history.push("/admin", { userId: member.id })
       } else if (member.memberType === "partner") {
-        if(member.status===AppConfig.MemberStatus.active){
+        if (member.status === AppConfig.MemberStatus.active) {
           history.push("/partner", { userId: member.id })
-        }else{
-          alert("รอการอนุมัติข้อมูลจาก admin");
+        } else {
+          alert("รอการอนุมัติข้อมูลจาก admin")
         }
+      } else if (member.memberType === "customer") {
+        history.push("/customer", { member })
       }
     } else {
       alert("กรุณาระบุข้อมูลผู้ใช้งาน และรหัสผ่านให้ครบถ้วน !!!")

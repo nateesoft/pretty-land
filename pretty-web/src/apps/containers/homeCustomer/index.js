@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react"
+import styled from 'styled-components'
 import PropTypes from "prop-types"
 import { makeStyles } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import {
-  AccountBox,
   ExitToApp,
   InsertEmoticon,
   MonetizationOn,
@@ -16,10 +16,9 @@ import Box from "@material-ui/core/Box"
 import { useHistory } from "react-router-dom"
 
 import { getMemberProfile } from "../../../apis"
-import ProfileScreen from "./Profile"
 import Dashboard from "./Dashboard"
-import WorkRequest from "./WorkRequest"
-import MyWork from './MyWork'
+import Posts from "./Posts"
+import ContactAdmin from "./ContactAdmin"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -92,13 +91,10 @@ export default function ScrollableTabsButtonForce() {
         <Dashboard />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <WorkRequest />
+        <Posts />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <MyWork />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <ProfileScreen profile={profile} />
+        <ContactAdmin />
       </TabPanel>
       <AppBar position="static" style={{ backgroundColor: "#ff32ee" }}>
         <Tabs
@@ -109,10 +105,9 @@ export default function ScrollableTabsButtonForce() {
           indicatorColor="primary"
           textColor="white"
         >
-          <Tab label="โหมดงาน" icon={<InsertEmoticon />} {...a11yProps(0)} />
-          <Tab label="งานที่เสนอ" icon={<MonetizationOn />} {...a11yProps(1)} />
-          <Tab label="งานของฉัน" icon={<LibraryAddCheck />} {...a11yProps(2)} />
-          <Tab label="ข้อมูลส่วนตัว" icon={<AccountBox />} {...a11yProps(3)} />
+          <Tab label="หน้าหลัก" icon={<InsertEmoticon />} {...a11yProps(0)} />
+          <Tab label="รายการโพสท์" icon={<MonetizationOn />} {...a11yProps(1)} />
+          <Tab label="ติดต่อ Admin" icon={<LibraryAddCheck />} {...a11yProps(2)} />
           <Tab
             label="Logout"
             icon={<ExitToApp />}
