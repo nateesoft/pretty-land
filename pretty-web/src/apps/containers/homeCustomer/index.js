@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react"
-import styled from 'styled-components'
+import React from "react"
 import PropTypes from "prop-types"
 import { makeStyles } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
@@ -15,7 +14,6 @@ import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import { useHistory } from "react-router-dom"
 
-import { getMemberProfile } from "../../../apis"
 import Dashboard from "./Dashboard"
 import Posts from "./Posts"
 import ContactAdmin from "./ContactAdmin"
@@ -83,7 +81,7 @@ export default function ScrollableTabsButtonForce() {
         <Dashboard />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Posts />
+        <Posts member={member} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <ContactAdmin />

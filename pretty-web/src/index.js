@@ -12,15 +12,19 @@ import RegisterDetail3Form from "../src/apps/containers/register/RegisterDetail3
 import RegisterDetail4Form from "../src/apps/containers/register/RegisterDetail4"
 import LoginForm from "../src/apps/containers/login"
 
-import HomeAdmin from '../src/apps/containers/homeAdmin'
-import HomePartner from '../src/apps/containers/homePartner'
-import HomeCustomer from '../src/apps/containers/homeCustomer'
+import HomeAdmin from "../src/apps/containers/homeAdmin"
+import HomePartner from "../src/apps/containers/homePartner"
+import HomeCustomer from "../src/apps/containers/homeCustomer"
 
-import MemberProfile from '../src/apps/containers/homeAdmin/members/Profile'
-import ProfileEditForm from '../src/apps/containers/homePartner/edit/RegisterDetail1'
-import ProfileEditForm2 from '../src/apps/containers/homePartner/edit/RegisterDetail2'
-import ProfileEditForm3 from '../src/apps/containers/homePartner/edit/RegisterDetail3'
-import ProfileEditForm4 from '../src/apps/containers/homePartner/edit/RegisterDetail4'
+import MemberProfile from "../src/apps/containers/homeAdmin/members/Profile"
+import ProfileEditForm from "../src/apps/containers/homePartner/edit/RegisterDetail1"
+import ProfileEditForm2 from "../src/apps/containers/homePartner/edit/RegisterDetail2"
+import ProfileEditForm3 from "../src/apps/containers/homePartner/edit/RegisterDetail3"
+import ProfileEditForm4 from "../src/apps/containers/homePartner/edit/RegisterDetail4"
+
+import CustomerCreateWork from "../src/apps/containers/homeCustomer/work/CreateWorkForm"
+import PlaceForm from "../src/apps/containers/homeCustomer/work/PlaceForm"
+import CustomerCreateWork4 from "../src/apps/containers/homeCustomer/work/CreateWorkForm4"
 
 import reportWebVitals from "./reportWebVitals"
 // import Profile from "./Profile"
@@ -54,7 +58,7 @@ function getOS() {
 }
 
 if (getOS() !== "iOS" && getOS() !== "Android") {
-   console.log('application support only, iOS and Android')
+  console.log("application support only, iOS and Android")
   // window.location.href = "http://google.co.th"
 }
 
@@ -105,6 +109,15 @@ ReactDOM.render(
       </Route>
       <Route path="/customer">
         <HomeCustomer />
+      </Route>
+      <Route path="/customer-create-work">
+        <CustomerCreateWork />
+      </Route>
+      <Route path="/place-form">
+        <PlaceForm />
+      </Route>
+      <Route path="/customer-create-work4">
+        <CustomerCreateWork4 />
       </Route>
       <Route path="/apps">
         <App />

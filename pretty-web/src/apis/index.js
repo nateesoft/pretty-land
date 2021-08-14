@@ -1,8 +1,8 @@
 import base64 from "base-64"
+import uuid from "react-uuid"
+
 import firebase from "../util/firebase"
-
 import { AppConfig } from "../Constants"
-
 
 const clearOldFiles = (partnerId) => {
   return new Promise((resolve, reject) => {
@@ -25,6 +25,10 @@ const clearOldFiles = (partnerId) => {
       .catch((err) => console.error(err))
     resolve(true)
   })
+}
+
+const updatePosts = (postId, data) => {
+  firebase.database().ref(`${AppConfig.env}/posts/${postId}`).update(data)
 }
 
 const getConfigList = () => {
@@ -118,6 +122,17 @@ const updateWorkingStatus = (userId, isEnabled) => {
     })
 }
 
+const saveNewPosts = (postData) => {
+  const newId = uuid()
+  const saveData = {
+    id: newId,
+    sys_create_date: new Date().toUTCString(),
+    sys_update_date: new Date().toUTCString(),
+    ...postData
+  }
+  firebase.database().ref(`${AppConfig.env}/posts/${newId}`).set(saveData)
+}
+
 export {
   loginApp,
   saveNewPartner,
@@ -125,5 +140,7 @@ export {
   getMemberProfile,
   getConfigList,
   updateWorkingStatus,
-  clearOldFiles
+  clearOldFiles,
+  saveNewPosts,
+  updatePosts
 }

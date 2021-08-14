@@ -11,7 +11,7 @@ import { useHistory } from "react-router-dom"
 import ImageListItemBar from "@material-ui/core/ImageListItemBar"
 import IconButton from "@material-ui/core/IconButton"
 
-import { getProvinceName, getBankName } from "../../../data/apis"
+import { getProvinceName } from "../../../data/apis"
 import ProfileHeader from "./ProfileHeader"
 import IOSSwitch from "./iosSwitch"
 import { updateWorkingStatus } from "../../../apis"
@@ -87,12 +87,6 @@ export default function Profile(props) {
     }
     return ""
   }
-  const getBankNameShow = (p) => {
-    if (p.bank) {
-      return getBankName(p.bank)[0].label
-    }
-    return ""
-  }
 
   return (
     <div style={{ height: "500px", overflow: "auto" }}>
@@ -121,7 +115,7 @@ export default function Profile(props) {
             images.map((item, index) => (
               <ImageListItem cols={2} key={item.id}>
                 <img
-                  src={profile.imageUrl1}
+                  src={item.url}
                   style={{ height: "100%" }}
                   alt={""}
                 />

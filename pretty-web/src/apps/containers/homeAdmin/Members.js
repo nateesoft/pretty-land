@@ -22,11 +22,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Members(props) {
   const classes = useStyles()
   const history = useHistory()
+  const { member: adminProfile } = history.location.state
   const { members, items } = props
 
   const loadMemberDetail = (profile) => {
     history.push("/member-profile", {
-      profile,
+      adminProfile,
+      memberProfile: profile,
       mode: getPartnerTypeFromFirebase(profile)
     })
   }
@@ -63,7 +65,7 @@ export default function Members(props) {
               <Avatar
                 src={item.image}
                 alt=""
-                variant="circle"
+                variant="circular"
                 style={{ width: 64, height: 64}}
               />
             </ListItemAvatar>

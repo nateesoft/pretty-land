@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
+import { useHistory } from "react-router-dom"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -36,7 +37,11 @@ const ItemBottom = styled.div`
 `
 
 export default function Dashboard() {
+  const history = useHistory()
+  const { member } = history.location.state
   const [items, setItems] = useState([])
+  const [appconfigMaster, setAppConfigMaster] = useState({})
+
   useEffect(() => {
     const ref = firebase.database().ref(`${AppConfig.env}/posts`)
     const listener = ref.on("value", (snapshot) => {
@@ -48,6 +53,51 @@ export default function Dashboard() {
       ref.off("value", listener)
     }
   }, [])
+
+  useEffect(() => {
+    const ref = firebase.database().ref(`${AppConfig.env}/appconfig`)
+    ref.once("value", (snapshot) => {
+      const dataItems = []
+      const appconfig = snapshot.val()
+      dataItems.push({ ...appconfig.partner1 })
+      dataItems.push({ ...appconfig.partner2 })
+      dataItems.push({ ...appconfig.partner3 })
+      dataItems.push({ ...appconfig.partner4 })
+
+      setAppConfigMaster(appconfig)
+      setItems(dataItems)
+    })
+  }, [])
+
+  const loadDetailWork = (type) => {
+    let partnerRequest = ""
+    if (type === 1) {
+      partnerRequest = AppConfig.PartnerType.type1
+    } else if (type === 2) {
+      partnerRequest = AppConfig.PartnerType.type2
+    } else if (type === 3) {
+      partnerRequest = AppConfig.PartnerType.type3
+    } else if (type === 4) {
+      partnerRequest = AppConfig.PartnerType.type4
+    }
+    if (type === 4) {
+      console.log("loadDetailWork type4")
+      history.push("/customer-create-work4", {
+        customerProfile: member,
+        partnerRequest,
+        partnerType: type,
+        appconfig: appconfigMaster
+      })
+    } else {
+      console.log("loadDetailWork")
+      history.push("/customer-create-work", {
+        customerProfile: member,
+        partnerRequest,
+        partnerType: type,
+        appconfig: appconfigMaster
+      })
+    }
+  }
 
   return (
     <Container>
@@ -63,6 +113,7 @@ export default function Dashboard() {
                 border: "3px solid white"
               }}
               alt=""
+              onClick={() => loadDetailWork(1)}
             />
           )}
           <ItemBottom>
@@ -85,6 +136,7 @@ export default function Dashboard() {
                 border: "3px solid white"
               }}
               alt=""
+              onClick={() => loadDetailWork(2)}
             />
           )}
           <ItemBottom>
@@ -107,6 +159,7 @@ export default function Dashboard() {
                 border: "3px solid white"
               }}
               alt=""
+              onClick={() => loadDetailWork(3)}
             />
           )}
           <ItemBottom>
@@ -129,6 +182,7 @@ export default function Dashboard() {
                 border: "3px solid white"
               }}
               alt=""
+              onClick={() => loadDetailWork(4)}
             />
           )}
           <ItemBottom>

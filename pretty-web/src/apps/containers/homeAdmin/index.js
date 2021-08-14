@@ -72,6 +72,7 @@ export default function ScrollableTabsButtonForce() {
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
   const history = useHistory()
+  const { member: profile } = history.location.state
 
   const [members, setMembers] = useState([])
   const [items, setItems] = useState([])
@@ -131,7 +132,7 @@ export default function ScrollableTabsButtonForce() {
         )}
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <ProfileSettings />
+        <ProfileSettings profile={profile} />
       </TabPanel>
       <TabPanel value={value} index={3}>
         <SystemConfig />

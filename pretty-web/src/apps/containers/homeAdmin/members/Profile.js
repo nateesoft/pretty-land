@@ -46,57 +46,63 @@ const Container = styled.div`
 export default function BasicImageList(props) {
   const classes = useStyles()
   const history = useHistory()
-  const { profile, mode } = history.location.state
+  const { adminProfile, memberProfile, mode } = history.location.state
   const [images, setImages] = useState([])
 
   useEffect(() => {
     const list = []
     list.push({
       id: 1,
-      url: profile.imageUrl1,
+      url: memberProfile.imageUrl1,
       title: "รูปที่ 1"
     })
     list.push({
       id: 2,
-      url: profile.imageUrl2,
+      url: memberProfile.imageUrl2,
       title: "รูปที่ 2"
     })
     list.push({
       id: 3,
-      url: profile.imageUrl3,
+      url: memberProfile.imageUrl3,
       title: "รูปที่ 3"
     })
     list.push({
       id: 4,
-      url: profile.imageUrl4,
+      url: memberProfile.imageUrl4,
       title: "รูปที่ 4"
     })
     list.push({
       id: 5,
-      url: profile.imageUrl5,
+      url: memberProfile.imageUrl5,
       title: "รูปที่ 5"
     })
     setImages(list)
-  }, [profile])
+  }, [memberProfile])
 
   const approveMember = () => {
     if (window.confirm("ยืนยันการอนุมัติข้อมูล")) {
-      firebase.database().ref(`${AppConfig.env}/members/${profile.id}`).update({
-        status: AppConfig.MemberStatus.active,
-        statusText: AppConfig.MemberStatus.activeMessage,
-        status_priority: AppConfig.MemberStatus.activePriority,
-        member_register_date: new Date().toUTCString(),
-        member_update_date: new Date().toUTCString(),
-        sys_update_date: new Date().toUTCString()
-      })
+      firebase
+        .database()
+        .ref(`${AppConfig.env}/members/${memberProfile.id}`)
+        .update({
+          status: AppConfig.MemberStatus.active,
+          statusText: AppConfig.MemberStatus.activeMessage,
+          status_priority: AppConfig.MemberStatus.activePriority,
+          member_register_date: new Date().toUTCString(),
+          member_update_date: new Date().toUTCString(),
+          sys_update_date: new Date().toUTCString()
+        })
       alert("อัพเดตข้อมูลเรียบร้อยแล้ว")
-      history.push("/admin")
+      history.push("/admin", { member: adminProfile })
     }
   }
 
   const suspendMember = () => {
     if (window.confirm("คุณต้องการลบข้อมูลผู้ใช้งานนี้ใช่หรือไม่ ?")) {
-      firebase.database().ref(`${AppConfig.env}/members/${profile.id}`).remove()
+      firebase
+        .database()
+        .ref(`${AppConfig.env}/members/${memberProfile.id}`)
+        .remove()
       history.push("/admin")
     }
   }
@@ -114,6 +120,10 @@ export default function BasicImageList(props) {
     return ""
   }
 
+  const backPage = () => {
+    history.push("/admin", { member: adminProfile })
+  }
+
   return (
     <Container>
       <div
@@ -124,48 +134,62 @@ export default function BasicImageList(props) {
           verticalAlign: "center"
         }}
       >
-        <Link to="/admin" style={{ textDecoration: "none" }}>
-          <Button variant="contained" startIcon={<ArrowBack />}>
-            ย้อนกลับ
-          </Button>
-        </Link>
+        <Button
+          variant="contained"
+          startIcon={<ArrowBack />}
+          onClick={backPage}
+        >
+          ย้อนกลับ
+        </Button>
       </div>
       <div style={{ margin: 10 }}>
         <h3 style={{ textAlign: "center" }}>แสดงรายละเอียดสมาชิก</h3>
         <div style={{ borderRadius: 20, border: "1px solid", padding: 20 }}>
-          <div>ชื่อ: {profile.name || profile.username}</div>
+          <div style={{ color: "blue" }}>
+            ชื่อ: {memberProfile.name || memberProfile.username}
+          </div>
           <div>
             เพศ:{" "}
-            {profile.gender === "female"
+            {memberProfile.gender === "female"
               ? "หญิง"
-              : profile.gender === "male"
+              : memberProfile.gender === "male"
               ? "ชาย"
               : "อื่น ๆ"}
+          </div>
+          <div>
+            อายุ: {memberProfile.age} | สูง: {memberProfile.height} | น้ำหนัก:{" "}
+            {memberProfile.weight}
           </div>
           <div>โหมดงาน: {mode}</div>
           <div>
             วันที่เป็นสมาชิก:{" "}
-            {Moment(profile.sys_update_date).format("DD/MM/YYYY HH:mm:ss")}
+            {Moment(memberProfile.sys_update_date).format(
+              "DD/MM/YYYY HH:mm:ss"
+            )}
           </div>
-          <div>คะแนน: {profile.point || 0}</div>
-          <div>เบอร์ติดต่อ: {profile.mobile}</div>
-          <div>สถานะ: {profile.statusText}</div>
+          <div>สถานะ: {memberProfile.statusText}</div>
+          <div>คะแนน: {memberProfile.point || 0}</div>
           <hr />
-          <div>จังหวัด: {getProvinceNameShow(profile)}</div>
+          <div>จังหวัด: {getProvinceNameShow(memberProfile)}</div>
           <hr />
-          <div>ธนาคาร: {getBankNameShow(profile)}</div>
-          <div>เลขที่บัญชี: {profile.bankNo}</div>
+          <div>ธนาคาร: {getBankNameShow(memberProfile)}</div>
+          <div>เลขที่บัญชี: {memberProfile.bankNo}</div>
           <hr />
-          <div>Line: {profile.lineId}</div>
-          {profile.type4 && <div>ที่อยู่: {profile.address}</div>}
-          {profile.type4 && <div>ราคา: {profile.price4}</div>}
+          <div>Line ID: {memberProfile.lineId}</div>
+          <div>เบอร์ติดต่อ: {memberProfile.mobile}</div>
+          {memberProfile.type4 && <div>ที่อยู่: {memberProfile.address}</div>}
+          {memberProfile.type4 && <div>ราคา: {memberProfile.price4}</div>}
         </div>
       </div>
       <div style={{ margin: 10 }}>
         <ImageList rowHeight={450} cols={2}>
           {images &&
             images.map((item, index) => (
-              <ImageListItem cols={2} key={item.id}>
+              <ImageListItem
+                cols={2}
+                key={item.id}
+                style={{ textAlign: "center" }}
+              >
                 <img
                   src={item.url}
                   style={{ height: "100%", width: "auto" }}
@@ -175,8 +199,8 @@ export default function BasicImageList(props) {
                   title={item.title}
                   subtitle={
                     <span>
-                      น้อง: {profile.name} | {profile.charactor} |{" "}
-                      {getProvinceNameShow(profile)}
+                      น้อง: {memberProfile.name} | {memberProfile.charactor} |{" "}
+                      {getProvinceNameShow(memberProfile)}
                     </span>
                   }
                   actionIcon={
@@ -191,14 +215,14 @@ export default function BasicImageList(props) {
               </ImageListItem>
             ))}
         </ImageList>
-        {profile.imageUrl6 && (
+        {memberProfile.imageUrl6 && (
           <div align="center" style={{ margin: 10 }}>
-            <ReactPlayer url={profile.imageUrl6} width={300} controls />
+            <ReactPlayer url={memberProfile.imageUrl6} width={300} controls />
           </div>
         )}
       </div>
       <div style={{ margin: 10 }}>
-        {profile.status === AppConfig.MemberStatus.newRegister && (
+        {memberProfile.status === AppConfig.MemberStatus.newRegister && (
           <Button
             variant="contained"
             color="primary"

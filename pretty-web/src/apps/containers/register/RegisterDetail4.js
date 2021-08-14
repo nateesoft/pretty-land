@@ -13,6 +13,7 @@ import firebase from "../../../util/firebase"
 import * as ApiControl from "../../../apis"
 import { AppConfig } from "../../../Constants"
 
+const userId = uuid()
 function LinearProgressWithLabel(props) {
   return (
     <Box display="flex" alignItems="center">
@@ -42,7 +43,6 @@ const Container = styled.div`
   padding: 20px;
 `
 export default function RegisterDetail4() {
-  const userId = uuid()
   const history = useHistory()
   const {
     username,

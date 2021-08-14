@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Input from "@material-ui/core/Input"
 import InputLabel from "@material-ui/core/InputLabel"
@@ -7,6 +7,10 @@ import FormControl from "@material-ui/core/FormControl"
 import SaveIcon from "@material-ui/icons/Save"
 import { Person, LockOpen } from "@material-ui/icons"
 import { Button } from "@material-ui/core"
+import base64 from "base-64"
+
+import firebase from '../../../util/firebase'
+import { AppConfig } from "../../../Constants"
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -15,23 +19,57 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function InputWithIcon() {
+export default function InputWithIcon(props) {
   const classes = useStyles()
+  const { profile } = props
+  
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [reNewPassword, setReNewPassword] = useState('');
+
+  const updatePassword = () => {
+    if (!newPassword) {
+      alert('กรุณาระบุข้อมูลรหัสใหม่');
+      return;
+    }
+    if (!reNewPassword) {
+      alert('กรุณาระบุข้อมูยืนยันรหัสใหม่');
+      return;
+    }
+    if (newPassword !== reNewPassword) {
+      alert('รหัสผ่านใหม่ และรหัสผ่านใหม่่ไม่ตรงกัน');
+      return;
+    }
+    if (oldPassword !== base64.decode(profile.password)) {
+      alert('รหัสผ่านเดิมของท่านไม่ถูกต้อง');
+      return;
+    }
+
+    firebase
+      .database()
+      .ref(`${AppConfig.env}members/${profile.id}`)
+      .update({
+        password: base64.encode(newPassword),
+      });
+    alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+    setNewPassword('');
+    setReNewPassword('');
+  }
 
   return (
-    <div align="center" style={{ margin: 10, border: '3px solid #eee' }}>
+    <div align="center" style={{ margin: 10, border: "3px solid #eee" }}>
       <div
         style={{
           padding: 10,
           fontSize: 16,
           fontWeight: "bold",
           textAlign: "center",
-          textDecoration: 'underline'
+          textDecoration: "underline"
         }}
       >
         เปลี่ยนรหัสผ่าน
       </div>
-      <FormControl style={{ margin: 10, alignContent: 'center' }}>
+      <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
         <InputLabel htmlFor="input-with-icon-adornment">
           ชื่อผู้ใช้งาน
         </InputLabel>
@@ -42,9 +80,10 @@ export default function InputWithIcon() {
               <Person />
             </InputAdornment>
           }
+          value={profile.username}
         />
       </FormControl>
-      <FormControl style={{ margin: 10 }}>
+      <FormControl style={{ margin: 10, width: 250 }}>
         <InputLabel htmlFor="input-with-icon-adornment">
           ข้อมูลรหัสผ่านเดิมที่ใช้งาน
         </InputLabel>
@@ -55,9 +94,11 @@ export default function InputWithIcon() {
               <LockOpen />
             </InputAdornment>
           }
+          value={oldPassword}
+          onChange={(e)=>setOldPassword(e.target.value)}
         />
       </FormControl>
-      <FormControl style={{ margin: 10 }}>
+      <FormControl style={{ margin: 10, width: 250 }}>
         <InputLabel htmlFor="input-with-icon-adornment">
           ข้อมูลรหัสผ่านใหม่
         </InputLabel>
@@ -68,9 +109,11 @@ export default function InputWithIcon() {
               <LockOpen />
             </InputAdornment>
           }
+          value={newPassword}
+          onChange={(e)=>setNewPassword(e.target.value)}
         />
       </FormControl>
-      <FormControl style={{ margin: 10 }}>
+      <FormControl style={{ margin: 10, width: 250 }}>
         <InputLabel htmlFor="input-with-icon-adornment">
           ข้อมูลยืนยันรหัสผ่านใหม่
         </InputLabel>
@@ -81,6 +124,8 @@ export default function InputWithIcon() {
               <LockOpen />
             </InputAdornment>
           }
+          value={reNewPassword}
+          onChange={(e)=>setReNewPassword(e.target.value)}
         />
       </FormControl>
       <div style={{ margin: 10 }}>
@@ -89,6 +134,7 @@ export default function InputWithIcon() {
           color="primary"
           className={classes.button}
           startIcon={<SaveIcon />}
+          onClick={updatePassword}
         >
           บันทึกข้อมูล
         </Button>

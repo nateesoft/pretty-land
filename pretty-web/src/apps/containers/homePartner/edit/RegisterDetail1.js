@@ -26,7 +26,7 @@ const Container = styled.div`
 export default function RegisterDetail1() {
   const history = useHistory()
   const { profile } = history.location.state
-  console.log('id:', profile.id);
+  console.log("id:", profile.id)
 
   const [gender, setGender] = useState("male")
   const [state, setState] = useState({
@@ -67,19 +67,23 @@ export default function RegisterDetail1() {
     if (!type4) {
       setPrice4(0)
     }
-    await firebase.database().ref(`${AppConfig.env}/members/${profile.id}`).update({
-      name,
-      age,
-      charactor,
-      height,
-      weight,
-      stature,
-      price4,
-      type1,
-      type2,
-      type3,
-      type4
-    })
+    await firebase
+      .database()
+      .ref(`${AppConfig.env}/members/${profile.id}`)
+      .update({
+        name,
+        age,
+        charactor,
+        height,
+        weight,
+        stature,
+        price4,
+        type1,
+        type2,
+        type3,
+        type4,
+        gender
+      })
     history.push("/partner-edit-form-2", { profile })
   }
 
