@@ -4,7 +4,13 @@ import { makeStyles } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
-import { People, ExitToApp } from "@material-ui/icons"
+import {
+  People,
+  ExitToApp,
+  Receipt,
+  AccountBox,
+  Settings
+} from "@material-ui/icons"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import { useHistory } from "react-router-dom"
@@ -14,7 +20,11 @@ import { getConfigList } from "../../../apis"
 import firebase from "../../../util/firebase"
 import { snapshotToArray } from "../../../util"
 import { AppConfig } from "../../../Constants"
+
+import Dashboard from "./Dashboard"
 import Members from "./Members"
+import ProfileSettings from "./ProfileSetting"
+import SystemConfig from "./SystemConfig"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -113,9 +123,18 @@ export default function ScrollableTabsButtonForce() {
   return (
     <div className={classes.root}>
       <TabPanel value={value} index={0}>
+        <Dashboard />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
         {items && items.length > 0 && (
           <Members members={members} items={items} />
         )}
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <ProfileSettings />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <SystemConfig />
       </TabPanel>
       <AppBar position="static" style={{ backgroundColor: "#ff32ee" }}>
         <Tabs
@@ -126,7 +145,10 @@ export default function ScrollableTabsButtonForce() {
           indicatorColor="primary"
           textColor="white"
         >
-          <Tab label="สมาชิกในระบบ" icon={<People />} {...a11yProps(0)} />
+          <Tab label="โพสท์ทั้งหมด" icon={<Receipt />} {...a11yProps(0)} />
+          <Tab label="สมาชิกในระบบ" icon={<People />} {...a11yProps(1)} />
+          <Tab label="ข้อมูลส่วนตัว" icon={<AccountBox />} {...a11yProps(2)} />
+          <Tab label="ตั้งค่าระบบ" icon={<Settings />} {...a11yProps(3)} />
           <Tab
             label="Logout"
             icon={<ExitToApp />}

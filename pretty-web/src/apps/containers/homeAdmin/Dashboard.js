@@ -12,7 +12,6 @@ const Container = styled.div`
   background-size: contain;
   background-color: red;
   border-radius: 10px;
-  padding: 5px;
 `
 const ItemContainer = styled.div`
   display: flex;
