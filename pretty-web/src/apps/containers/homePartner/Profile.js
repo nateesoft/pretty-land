@@ -6,8 +6,12 @@ import FormControlLabel from "@material-ui/core/FormControlLabel"
 import ReactPlayer from "react-player"
 import Button from "@material-ui/core/Button"
 import EditIcon from "@material-ui/icons/Edit"
-import { Link, useHistory } from "react-router-dom"
+import InfoIcon from "@material-ui/icons/PhotoSizeSelectActual"
+import { useHistory } from "react-router-dom"
+import ImageListItemBar from "@material-ui/core/ImageListItemBar"
+import IconButton from "@material-ui/core/IconButton"
 
+import { getProvinceName, getBankName } from "../../../data/apis"
 import ProfileHeader from "./ProfileHeader"
 import IOSSwitch from "./iosSwitch"
 import { updateWorkingStatus } from "../../../apis"
@@ -30,11 +34,42 @@ export default function Profile(props) {
   const { profile } = props
   const classes = useStyles()
   const [checked, setChecked] = useState(false)
+  const [images, setImages] = useState([])
 
   const handleStatus = (evt) => {
     updateWorkingStatus(profile.id, !evt.target.checked)
     setChecked(evt.target.checked)
   }
+
+  useEffect(() => {
+    const list = []
+    list.push({
+      id: 1,
+      url: profile.imageUrl1,
+      title: "รูปที่ 1"
+    })
+    list.push({
+      id: 2,
+      url: profile.imageUrl2,
+      title: "รูปที่ 2"
+    })
+    list.push({
+      id: 3,
+      url: profile.imageUrl3,
+      title: "รูปที่ 3"
+    })
+    list.push({
+      id: 4,
+      url: profile.imageUrl4,
+      title: "รูปที่ 4"
+    })
+    list.push({
+      id: 5,
+      url: profile.imageUrl5,
+      title: "รูปที่ 5"
+    })
+    setImages(list)
+  }, [profile])
 
   useEffect(() => {
     if (profile) {
@@ -44,6 +79,19 @@ export default function Profile(props) {
 
   const handleNext = () => {
     history.push("/partner-edit-form", { profile })
+  }
+
+  const getProvinceNameShow = (p) => {
+    if (p.province) {
+      return getProvinceName(p.province)[0]
+    }
+    return ""
+  }
+  const getBankNameShow = (p) => {
+    if (p.bank) {
+      return getBankName(p.bank)[0].label
+    }
+    return ""
   }
 
   return (
@@ -68,58 +116,40 @@ export default function Profile(props) {
           แก้ไขข้อมูล
         </Button>
         <ProfileHeader profile={profile} />
+        <ImageList rowHeight={450} className={classes.imageList} cols={2}>
+          {images &&
+            images.map((item, index) => (
+              <ImageListItem cols={2} key={item.id}>
+                <img
+                  src={profile.imageUrl1}
+                  style={{ height: "100%" }}
+                  alt={""}
+                />
+                <ImageListItemBar
+                  title={item.title}
+                  subtitle={
+                    <span>
+                      น้อง: {profile.name} | {profile.charactor} |{" "}
+                      {getProvinceNameShow(profile)}
+                    </span>
+                  }
+                  actionIcon={
+                    <IconButton
+                      aria-label={`info about ${item.title}`}
+                      className={classes.icon}
+                    >
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />
+              </ImageListItem>
+            ))}
+        </ImageList>
         {profile.imageUrl6 && (
           <div align="center" style={{ margin: 10 }}>
             <ReactPlayer url={profile.imageUrl6} width={300} controls />
           </div>
         )}
-        <ImageList rowHeight={450} className={classes.imageList} cols={2}>
-          {profile.imageUrl1 && (
-            <ImageListItem cols={2}>
-              <img
-                src={profile.imageUrl1}
-                style={{ height: "100%" }}
-                alt={""}
-              />
-            </ImageListItem>
-          )}
-          {profile.imageUrl2 && (
-            <ImageListItem cols={2}>
-              <img
-                src={profile.imageUrl2}
-                style={{ height: "100%" }}
-                alt={""}
-              />
-            </ImageListItem>
-          )}
-          {profile.imageUrl3 && (
-            <ImageListItem cols={2}>
-              <img
-                src={profile.imageUrl3}
-                style={{ height: "100%" }}
-                alt={""}
-              />
-            </ImageListItem>
-          )}
-          {profile.imageUrl4 && (
-            <ImageListItem cols={2}>
-              <img
-                src={profile.imageUrl4}
-                style={{ height: "100%" }}
-                alt={""}
-              />
-            </ImageListItem>
-          )}
-          {profile.imageUrl5 && (
-            <ImageListItem cols={2}>
-              <img
-                src={profile.imageUrl5}
-                style={{ height: "100%" }}
-                alt={""}
-              />
-            </ImageListItem>
-          )}
-        </ImageList>
       </div>
     </div>
   )

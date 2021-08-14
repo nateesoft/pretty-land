@@ -3,6 +3,30 @@ import firebase from "../util/firebase"
 
 import { AppConfig } from "../Constants"
 
+
+const clearOldFiles = (partnerId) => {
+  return new Promise((resolve, reject) => {
+    const storage = firebase.storage()
+    const storageRef = storage.ref(`${AppConfig.env}/images/member/partner`)
+    storageRef
+      .listAll()
+      .then((res) => {
+        res.items.forEach((itemRef) => {
+          if (itemRef.name.startsWith(partnerId)) {
+            itemRef
+              .delete()
+              .then(() => {
+                console.log("delete files success")
+              })
+              .catch((err) => console.error("delete error:", err))
+          }
+        })
+      })
+      .catch((err) => console.error(err))
+    resolve(true)
+  })
+}
+
 const getConfigList = () => {
   return new Promise((resolve, reject) => {
     const ref = firebase.database().ref(`${AppConfig.env}/appconfig`)
@@ -100,5 +124,6 @@ export {
   validUserExist,
   getMemberProfile,
   getConfigList,
-  updateWorkingStatus
+  updateWorkingStatus,
+  clearOldFiles
 }

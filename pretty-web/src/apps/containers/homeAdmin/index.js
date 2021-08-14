@@ -8,6 +8,7 @@ import { People, ExitToApp } from "@material-ui/icons"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import { useHistory } from "react-router-dom"
+import Moment from "moment"
 
 import { getConfigList } from "../../../apis"
 import firebase from "../../../util/firebase"
@@ -80,6 +81,23 @@ export default function ScrollableTabsButtonForce() {
       let newMemberList = memberInCloud.filter(
         (item, index) => item.memberType === "partner"
       )
+      let waitApprove = memberInCloud.filter(
+        (item, index) =>
+          item.status === AppConfig.MemberStatus.newRegister &&
+          item.memberType === "partner"
+      )
+      waitApprove = waitApprove.sort((a, b) => {
+        return Moment(b.sys_update_date) - Moment(a.sys_update_date)
+      })
+      let readyApprove = memberInCloud.filter(
+        (item, index) =>
+          item.status === AppConfig.MemberStatus.active &&
+          item.memberType === "partner"
+      )
+      readyApprove = readyApprove.sort((a, b) => {
+        return Moment(b.sys_update_date) - Moment(a.sys_update_date)
+      })
+      newMemberList = waitApprove.concat(readyApprove)
       setMembers(newMemberList)
 
       getConfigList()

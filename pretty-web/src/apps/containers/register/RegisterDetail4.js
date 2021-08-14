@@ -5,7 +5,6 @@ import { Button } from "@material-ui/core"
 import { CloudUpload, Save } from "@material-ui/icons"
 import { useHistory } from "react-router-dom"
 import uuid from "react-uuid"
-
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
@@ -91,6 +90,8 @@ export default function RegisterDetail4() {
   const [progress5, setProgress5] = useState(0)
   const [progress6, setProgress6] = useState(0)
 
+  const [showSave, setShowSave] = useState(false)
+
   const uploadImageVideoToFirebase = async () => {
     if (
       !imageFile1 ||
@@ -157,6 +158,9 @@ export default function RegisterDetail4() {
         6
       )
     }
+
+    alert("Upload ข้อมูลเรียบร้อยแล้ว")
+    setShowSave(true)
   }
 
   const uploadImageAsync = (
@@ -392,41 +396,38 @@ export default function RegisterDetail4() {
         - กรุณาถ่ายคลิป Video ไม่ควรเกิน 10 วิ
         <br />- รูปภาพที่อัพโหลดไม่ควรเกิน 4 mb
       </div>
-      <div style={{ textAlign: "center" }}>
-        <Button
-          color="primary"
-          variant="contained"
-          style={{
-            width: 150,
-            borderRadius: 10,
-            marginBottom: 10,
-            backgroundColor: "green",
-            color: "white"
-          }}
-          startIcon={<CloudUpload />}
-          onClick={uploadImageVideoToFirebase}
-        >
-          อัพโหลด
-        </Button>
-      </div>
-      {imageUrl1 &&
-        imageUrl2 &&
-        imageUrl3 &&
-        imageUrl4 &&
-        imageUrl5 &&
-        imageUrl6 && (
-          <div style={{ textAlign: "center" }}>
-            <Button
-              color="primary"
-              variant="contained"
-              style={{ width: 150, marginBottom: 10, borderRadius: 10 }}
-              startIcon={<Save />}
-              onClick={saveDataToDatabase}
-            >
-              บันทึกข้อมูล
-            </Button>
-          </div>
-        )}
+      {!showSave && (
+        <div style={{ textAlign: "center" }}>
+          <Button
+            color="primary"
+            variant="contained"
+            style={{
+              width: 150,
+              borderRadius: 10,
+              marginBottom: 10,
+              backgroundColor: "green",
+              color: "white"
+            }}
+            startIcon={<CloudUpload />}
+            onClick={uploadImageVideoToFirebase}
+          >
+            อัพโหลด
+          </Button>
+        </div>
+      )}
+      {showSave && (
+        <div style={{ textAlign: "center" }}>
+          <Button
+            color="primary"
+            variant="contained"
+            style={{ width: 150, marginBottom: 10, borderRadius: 10 }}
+            startIcon={<Save />}
+            onClick={saveDataToDatabase}
+          >
+            บันทึกข้อมูล
+          </Button>
+        </div>
+      )}
     </Container>
   )
 }

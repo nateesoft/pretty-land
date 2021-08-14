@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import styled from "styled-components"
 import { Button, TextField } from "@material-ui/core"
-import { SkipNext } from "@material-ui/icons"
+import SaveIcon from "@material-ui/icons/Save"
 import FormControl from "@material-ui/core/FormControl"
 import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
@@ -10,6 +10,8 @@ import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
 
 import { getCountryList, getDistrictList } from "../../../../data/apis"
+import firebase from "../../../../util/firebase"
+import { AppConfig } from "../../../../Constants"
 
 const Container = styled.div`
   height: 100vh;
@@ -30,7 +32,7 @@ export default function RegisterDetail2() {
   const [provinceList] = useState(getCountryList())
   const [districtList, setDistrictList] = useState([])
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!lineId) {
       alert("กรุณาระบุ Line Id")
       return
@@ -47,6 +49,16 @@ export default function RegisterDetail2() {
       alert("กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
       return
     }
+    await firebase
+      .database()
+      .ref(`${AppConfig.env}/members/${profile.id}`)
+      .update({
+        lineId,
+        mobile,
+        province,
+        district,
+        address
+      })
     history.push("/partner-edit-form-3", { profile })
   }
 
@@ -151,10 +163,10 @@ export default function RegisterDetail2() {
             color="primary"
             variant="contained"
             style={{ width: 150, marginBottom: 10 }}
-            startIcon={<SkipNext />}
+            startIcon={<SaveIcon />}
             onClick={handleNext}
           >
-            ถัดไป
+            บันทึก/ถัดไป
           </Button>
         </div>
       </div>

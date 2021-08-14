@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { Button, Grid, TextField } from "@material-ui/core"
-import { SkipNext } from "@material-ui/icons"
+import SaveIcon from "@material-ui/icons/Save"
 import FormLabel from "@material-ui/core/FormLabel"
 import FormGroup from "@material-ui/core/FormGroup"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
@@ -10,6 +10,8 @@ import Checkbox from "@material-ui/core/Checkbox"
 import { useHistory } from "react-router-dom"
 
 import NumberFormatCustom from "../../../components/numberFormat"
+import firebase from "../../../../util/firebase"
+import { AppConfig } from "../../../../Constants"
 
 const Container = styled.div`
   height: 100vh;
@@ -24,6 +26,7 @@ const Container = styled.div`
 export default function RegisterDetail1() {
   const history = useHistory()
   const { profile } = history.location.state
+  console.log('id:', profile.id);
 
   const [gender, setGender] = useState("male")
   const [state, setState] = useState({
@@ -47,7 +50,7 @@ export default function RegisterDetail1() {
   const { type1, type2, type3, type4 } = state
   const error = [type1, type2, type3, type4].filter((v) => v).length !== 2
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!type1 && !type2 && !type3 && !type4) {
       alert("กรุณาระบุประเภทงานที่ต้องการรับบริการ !!!")
       return
@@ -64,6 +67,19 @@ export default function RegisterDetail1() {
     if (!type4) {
       setPrice4(0)
     }
+    await firebase.database().ref(`${AppConfig.env}/members/${profile.id}`).update({
+      name,
+      age,
+      charactor,
+      height,
+      weight,
+      stature,
+      price4,
+      type1,
+      type2,
+      type3,
+      type4
+    })
     history.push("/partner-edit-form-2", { profile })
   }
 
@@ -227,10 +243,10 @@ export default function RegisterDetail1() {
             color="primary"
             variant="contained"
             style={{ width: 150, marginBottom: 10 }}
-            startIcon={<SkipNext />}
+            startIcon={<SaveIcon />}
             onClick={handleNext}
           >
-            ถัดไป
+            บันทึก/ถัดไป
           </Button>
         </div>
       </div>

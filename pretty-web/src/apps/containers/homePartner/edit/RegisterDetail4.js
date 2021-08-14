@@ -4,15 +4,13 @@ import styled from "styled-components"
 import { Button } from "@material-ui/core"
 import { CloudUpload, Save } from "@material-ui/icons"
 import { useHistory } from "react-router-dom"
-import CircularProgress from "@material-ui/core/CircularProgress"
-
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 
 import firebase from "../../../../util/firebase"
-import * as ApiControl from "../../../../apis"
 import { AppConfig } from "../../../../Constants"
+import { clearOldFiles } from '../../../../apis'
 
 function LinearProgressWithLabel(props) {
   return (
@@ -68,6 +66,8 @@ export default function RegisterDetail4() {
   const [progress5, setProgress5] = useState(0)
   const [progress6, setProgress6] = useState(0)
 
+  const [showSave, setShowSave] = useState(false)
+
   const uploadImageVideoToFirebase = async () => {
     if (
       !imageFile1 ||
@@ -80,12 +80,16 @@ export default function RegisterDetail4() {
       alert("กรุณาเพิ่มรูปให้ครบ 5 รูป และวิดีโอ 1 คลิป ก่อนบันทึกข้อมูล !!!")
       return
     }
+    // clear all old files
+    await clearOldFiles(profile.id)
+
     if (imageFile1) {
       await uploadImageAsync(
         imageFile1,
         setImageUrl1,
         true,
-        `${profile.id}_pic1`
+        `${profile.id}_pic1`,
+        1
       )
     }
     if (imageFile2) {
@@ -93,7 +97,8 @@ export default function RegisterDetail4() {
         imageFile2,
         setImageUrl2,
         false,
-        `${profile.id}_pic2`
+        `${profile.id}_pic2`,
+        2
       )
     }
     if (imageFile3) {
@@ -101,7 +106,8 @@ export default function RegisterDetail4() {
         imageFile3,
         setImageUrl3,
         false,
-        `${profile.id}_pic3`
+        `${profile.id}_pic3`,
+        3
       )
     }
     if (imageFile4) {
@@ -109,7 +115,8 @@ export default function RegisterDetail4() {
         imageFile4,
         setImageUrl4,
         false,
-        `${profile.id}_pic4`
+        `${profile.id}_pic4`,
+        4
       )
     }
     if (imageFile5) {
@@ -117,7 +124,8 @@ export default function RegisterDetail4() {
         imageFile5,
         setImageUrl5,
         false,
-        `${profile.id}_pic5`
+        `${profile.id}_pic5`,
+        5
       )
     }
     if (imageFile6) {
@@ -125,9 +133,12 @@ export default function RegisterDetail4() {
         imageFile6,
         setImageUrl6,
         false,
-        `${profile.id}_video`
+        `${profile.id}_video`,
+        6
       )
     }
+    alert("Upload ข้อมูลเรียบร้อยแล้ว")
+    setShowSave(true)
   }
 
   const uploadImageAsync = (
@@ -203,8 +214,7 @@ export default function RegisterDetail4() {
       return
     }
 
-    const newData = {
-      userId: profile.id,
+    const dataToUpdate = {
       image,
       imageUrl1,
       imageUrl2,
@@ -216,20 +226,18 @@ export default function RegisterDetail4() {
       status: AppConfig.MemberStatus.newRegister,
       statusText: AppConfig.MemberStatus.newRegisterMessage,
       status_priority: AppConfig.MemberStatus.newRegisterPriority,
-      sys_create_date: new Date().toUTCString(),
       sys_update_date: new Date().toUTCString()
     }
 
-    const result = await ApiControl.saveNewPartner(newData)
-    if (result) {
-      alert(
-        "ลงทะเบียนเรียบร้อย รออนุมัติ ! กรุณาติดต่อ Admin ทางไลน์@ เพื่อนทำการยืนยันตัวตนอีกครั้ง"
-      )
-      window.location.href = "https://lin.ee/8f5kP3x"
-      history.push("/", {})
-    } else {
-      alert("ไม่สามารถบันทึกข้อมูลได้")
-    }
+    await firebase
+      .database()
+      .ref(`${AppConfig.env}/members/${profile.id}`)
+      .update(dataToUpdate)
+    alert(
+      "ลงทะเบียนเรียบร้อย รออนุมัติ ! กรุณาติดต่อ Admin ทางไลน์@ เพื่อนทำการยืนยันตัวตนอีกครั้ง"
+    )
+    window.location.href = "https://lin.ee/8f5kP3x"
+    history.push("/", {})
   }
 
   return (
@@ -378,41 +386,38 @@ export default function RegisterDetail4() {
         - กรุณาถ่ายคลิป Video ไม่ควรเกิน 10 วิ
         <br />- รูปภาพที่อัพโหลดไม่ควรเกิน 4 mb
       </div>
-      {/* <div style={{ textAlign: "center" }}>
-        <Button
-          color="primary"
-          variant="contained"
-          style={{
-            width: 150,
-            borderRadius: 10,
-            marginBottom: 10,
-            backgroundColor: "green",
-            color: "white"
-          }}
-          startIcon={<CloudUpload />}
-          onClick={uploadImageVideoToFirebase}
-        >
-          อัพโหลด
-        </Button>
-      </div> */}
-      {imageUrl1 &&
-        imageUrl2 &&
-        imageUrl3 &&
-        imageUrl4 &&
-        imageUrl5 &&
-        imageUrl6 && (
-          <div style={{ textAlign: "center" }}>
-            <Button
-              color="primary"
-              variant="contained"
-              style={{ width: 150, marginBottom: 10, borderRadius: 10 }}
-              startIcon={<Save />}
-              onClick={saveDataToDatabase}
-            >
-              บันทึกข้อมูล
-            </Button>
-          </div>
-        )}
+      {!showSave && (
+        <div style={{ textAlign: "center" }}>
+          <Button
+            color="primary"
+            variant="contained"
+            style={{
+              width: 150,
+              borderRadius: 10,
+              marginBottom: 10,
+              backgroundColor: "green",
+              color: "white"
+            }}
+            startIcon={<CloudUpload />}
+            onClick={uploadImageVideoToFirebase}
+          >
+            อัพโหลด
+          </Button>
+        </div>
+      )}
+      {showSave && (
+        <div style={{ textAlign: "center" }}>
+          <Button
+            color="primary"
+            variant="contained"
+            style={{ width: 150, marginBottom: 10, borderRadius: 10 }}
+            startIcon={<Save />}
+            onClick={saveDataToDatabase}
+          >
+            บันทึกข้อมูล
+          </Button>
+        </div>
+      )}
     </Container>
   )
 }
