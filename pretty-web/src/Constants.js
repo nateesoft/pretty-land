@@ -1,5 +1,5 @@
 export const AppConfig = {
-  env: "",
+  env: "production",
   MemberStatus: {
     newRegister: "new_register",
     newRegisterMessage: "รอออนุมัติ",

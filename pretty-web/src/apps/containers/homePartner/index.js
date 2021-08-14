@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import PropTypes from "prop-types"
 import { makeStyles } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
@@ -15,7 +15,6 @@ import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import { useHistory } from "react-router-dom"
 
-import { getMemberProfile } from "../../../apis"
 import ProfileScreen from "./Profile"
 import Dashboard from "./Dashboard"
 import WorkRequest from "./WorkRequest"
@@ -65,12 +64,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ScrollableTabsButtonForce() {
   const history = useHistory()
-  const { userId } = history.location.state
+  const { member } = history.location.state
 
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
-
-  const [profile, setProfile] = useState({})
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -79,12 +76,6 @@ export default function ScrollableTabsButtonForce() {
   const logout = () => {
     history.push("/")
   }
-
-  useEffect(() => {
-    getMemberProfile(userId).then((data) => {
-      setProfile(data)
-    })
-  }, [userId])
 
   return (
     <div className={classes.root}>
@@ -98,7 +89,7 @@ export default function ScrollableTabsButtonForce() {
         <MyWork />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <ProfileScreen profile={profile} />
+        <ProfileScreen profile={member} />
       </TabPanel>
       <AppBar position="static" style={{ backgroundColor: "#ff32ee" }}>
         <Tabs

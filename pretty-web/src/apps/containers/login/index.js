@@ -42,10 +42,10 @@ export default function LoginForm(props) {
     const { valid, member } = await ApiControl.loginApp(username, password)
     if (valid) {
       if (member.memberType === "admin" || member.memberType === "superadmin") {
-        history.push("/admin", { userId: member.id })
+        history.push("/admin", { member })
       } else if (member.memberType === "partner") {
         if (member.status === AppConfig.MemberStatus.active) {
-          history.push("/partner", { userId: member.id })
+          history.push("/partner", { member })
         } else {
           alert("รอการอนุมัติข้อมูลจาก admin")
         }

@@ -64,12 +64,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ScrollableTabsButtonForce() {
   const history = useHistory()
-  const { userId } = history.location.state
+  const { member } = history.location.state
 
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
-
-  const [profile, setProfile] = useState({})
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -78,12 +76,6 @@ export default function ScrollableTabsButtonForce() {
   const logout = () => {
     history.push("/")
   }
-
-  useEffect(() => {
-    getMemberProfile(userId).then((data) => {
-      setProfile(data)
-    })
-  }, [userId])
 
   return (
     <div className={classes.root}>
