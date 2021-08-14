@@ -80,13 +80,13 @@ export default function ScrollableTabsButtonForce() {
   return (
     <div className={classes.root}>
       <TabPanel value={value} index={0}>
-        <Dashboard />
+        <Dashboard profile={member} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <WorkRequest />
+        <WorkRequest profile={member} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <MyWork />
+        <MyWork profile={member} />
       </TabPanel>
       <TabPanel value={value} index={3}>
         <ProfileScreen profile={member} />
