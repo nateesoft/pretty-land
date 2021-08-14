@@ -3,7 +3,13 @@ import styled from "styled-components"
 import { Button, Grid } from "@material-ui/core"
 import ExitToApp from "@material-ui/icons/ExitToApp"
 import Icon from "@material-ui/core/Icon"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
+import base64 from "base-64"
+import uuid from "react-uuid"
+
+import { lineConfig } from "../../../util/appConfig"
+import firebase from "../../../util/firebase"
+import { AppConfig } from "../../../Constants"
 
 const Container = styled.div`
   height: 100vh;
@@ -45,6 +51,54 @@ const Footer = styled.div`
 `
 
 export default function Home() {
+  const history = useHistory()
+
+  const loginPassFacebook = () => {
+    console.log("loginPassFacebook")
+    const provider = new firebase.auth.FacebookAuthProvider()
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then((result) => {
+        const credential = result.credential
+        const user = result.user
+        const accessToken = credential.accessToken
+        console.log("facebook_login_success:", user, accessToken)
+        const memberData = {
+          id: user.uid,
+          profile: user.displayName || "",
+          name: user.displayName || "",
+          customerType: "facebook",
+          memberType: "customer",
+          status: "active",
+          email: user.email || "",
+          username: user.email || user.uid,
+          password: base64.decode("00000000"),
+          loginDate: new Date().toUTCString(),
+          photoURL: user.photoURL || "",
+          phoneNumber: user.phoneNumber || "",
+          mobile: user.phoneNumber || "",
+          customerLevel: 0,
+          sys_create_date: new Date().toUTCString(),
+          sys_update_date: new Date().toUTCString()
+        }
+        firebase.database().ref(`${AppConfig.env}/members/${user.uid}`).update(memberData)
+        // login by facebook'
+        history.push("/customer", { member: memberData })
+      })
+      .catch((err) => {
+        console.log("facebook_error:", err)
+        alert("Connecting facebook error !!!" + err.message)
+      })
+  }
+
+  const loginPassLineChannel = () => {
+    const state = uuid()
+    const query = `response_type=code&client_id=${lineConfig.client_id}&redirect_uri=${lineConfig.redirect_uri}&state=${state}&scope=${lineConfig.scope}`
+    const linkUri = `https://access.line.me/oauth2/v2.1/authorize?${query}`
+    window.location.href = linkUri
+  }
+
   const lineIcon = (
     <Icon>
       <img
@@ -84,6 +138,7 @@ export default function Home() {
                 justifyContent: "unset",
                 fontWeight: "bold"
               }}
+              onClick={loginPassLineChannel}
             >
               เข้าสู่ระบบด้วย LINE
             </ButtonAction>
@@ -101,6 +156,7 @@ export default function Home() {
                 textTransform: "none",
                 fontWeight: "bold"
               }}
+              onClick={loginPassFacebook}
             >
               เข้าสู่ระบบด้วย facebook
             </ButtonAction>

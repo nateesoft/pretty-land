@@ -25,13 +25,12 @@ import ProfileEditForm4 from "../src/apps/containers/homePartner/edit/RegisterDe
 import CustomerCreateWork from "../src/apps/containers/homeCustomer/work/CreateWorkForm"
 import PlaceForm from "../src/apps/containers/homeCustomer/work/PlaceForm"
 import CustomerCreateWork4 from "../src/apps/containers/homeCustomer/work/CreateWorkForm4"
+import LineLoginForm from '../src/apps/containers/lineLogin'
 
 import reportWebVitals from "./reportWebVitals"
 // import Profile from "./Profile"
 // import Support from "./Support"
 // import Privacy from "./Privacy"
-// import FacebookForm from "./pages/FacebookLogin"
-// import FacebookProfile from "./pages/FacebookProfile"
 // import HelpPage from "./pages/help"
 
 function getOS() {
@@ -86,6 +85,9 @@ ReactDOM.render(
       <Route path="/login">
         <LoginForm />
       </Route>
+      <Route path="/line-login">
+        <LineLoginForm />
+      </Route>
       <Route path="/admin">
         <HomeAdmin />
       </Route>
@@ -133,12 +135,6 @@ ReactDOM.render(
       </Route>
       <Route path="/privacy">
         <Privacy />
-      </Route>
-      <Route path="/facebook">
-        <FacebookForm />
-      </Route>
-      <Route path="/facebook-profile">
-        <FacebookProfile />
       </Route>
       <Route path="/help">
         <HelpPage />
