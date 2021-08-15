@@ -15,13 +15,14 @@ export default function Posts(props) {
   const { member } = history.location.state
   const [filterList, setFilterList] = useState([])
 
-  const onPressOptions = (item, status) => {
-    if (status === AppConfig.PostsStatus.waitCustomerSelectPartner) {
-      // navigation.navigate('Partner-List-Select', { postItem: item, userId });
-    } else if (status === AppConfig.PostsStatus.waitCustomerPayment) {
-      // navigation.navigate('Payment-Form', { item, userId });
+  const onPressOptions = (item) => {
+    if (item.status === AppConfig.PostsStatus.waitCustomerSelectPartner) {
+      history.push('/customer-select-partner', { postItem: item, customerProfile: member });
     } else {
-      // navigation.navigate('Review-Task', { postDetail: item, userId });
+      history.push("/customer-review-task", {
+        postDetail: item,
+        customerProfile: member
+      })
     }
   }
 
@@ -84,17 +85,18 @@ export default function Posts(props) {
       <div
         align="center"
         style={{
-          backgroundColor: "pink",
+          backgroundColor: "#ff2fe6",
           padding: 10,
           fontSize: 22,
-          fontWeight: "bold"
+          fontWeight: "bold",
+          color: "white"
         }}
       >
         แสดงรายการที่โพสท์
       </div>
       {filterList &&
         filterList.map((item, index) => (
-          <ListItem key={item.id}>
+          <ListItem key={item.id} onClick={() => onPressOptions(item)}>
             <ListItemAvatar>
               <Avatar
                 src={item.partnerImage}

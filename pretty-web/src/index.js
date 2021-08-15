@@ -25,14 +25,21 @@ import ProfileEditForm4 from "../src/apps/containers/homePartner/edit/RegisterDe
 import CustomerCreateWork from "../src/apps/containers/homeCustomer/work/CreateWorkForm"
 import PlaceForm from "../src/apps/containers/homeCustomer/work/PlaceForm"
 import CustomerCreateWork4 from "../src/apps/containers/homeCustomer/work/CreateWorkForm4"
-import LineLoginForm from '../src/apps/containers/lineLogin'
+import LineLoginForm from "../src/apps/containers/lineLogin"
 
-import AdminCustomerPosts from '../src/apps/containers/homeAdmin/posts'
-import CustomerPostDetail from '../src/apps/containers/homeAdmin/posts/PostDetail'
+import AdminCustomerPosts from "../src/apps/containers/homeAdmin/posts"
+import CustomerPostDetail from "../src/apps/containers/homeAdmin/posts/PostDetail"
 
-import PartnerCustomerPosts from '../src/apps/containers/homePartner/posts'
-import CustomerPostDetailForPartner from '../src/apps/containers/homePartner/posts/PostDetail'
-import PartnerConfrimPriceForm from '../src/apps/containers/homePartner/posts/ConfirmPriceForm'
+import PartnerCustomerPosts from "../src/apps/containers/homePartner/posts"
+import CustomerPostDetailForPartner from "../src/apps/containers/homePartner/posts/PostDetail"
+import PartnerConfrimPriceForm from "../src/apps/containers/homePartner/posts/ConfirmPriceForm"
+
+import CustomerReviewTask from "../src/apps/containers/homeCustomer/ReviewTask"
+import CustomerSelectPartner from "../src/apps/containers/homeCustomer/PartnerListSelect"
+import CustomerPartnerItem from "../src/apps/containers/homeCustomer/PartnerListItem"
+import PaymentForm from "../src/apps/containers/homeCustomer/work/PaymentForm"
+
+import FacebookForm from "./pages/FacebookLogin"
 
 import reportWebVitals from "./reportWebVitals"
 // import Profile from "./Profile"
@@ -137,6 +144,18 @@ ReactDOM.render(
       <Route path="/customer-create-work">
         <CustomerCreateWork />
       </Route>
+      <Route path="/customer-review-task">
+        <CustomerReviewTask />
+      </Route>
+      <Route path="/customer-select-partner">
+        <CustomerSelectPartner />
+      </Route>
+      <Route path="/customer-partner-item">
+        <CustomerPartnerItem />
+      </Route>
+      <Route path="/payment-form">
+        <PaymentForm />
+      </Route>
       <Route path="/place-form">
         <PlaceForm />
       </Route>
@@ -145,6 +164,9 @@ ReactDOM.render(
       </Route>
       <Route path="/apps">
         <App />
+      </Route>
+      <Route path="/facebook">
+        <FacebookForm />
       </Route>
       {/* <Route path="/apps">
         <App />

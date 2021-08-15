@@ -179,7 +179,6 @@ const partnerAcceptJobWaitCustomerReview = (item, profile) => {
   })
 
   // update partnerSelect
-  console.log(profile)
   const data = {
     partnerId: profile.id,
     partnerName: profile.name,
@@ -196,11 +195,22 @@ const partnerAcceptJobWaitCustomerReview = (item, profile) => {
     bankName: getBankName(profile.bank)[0].label,
     lineId: profile.lineId
   }
-  console.log('data:', data);
-  // firebase
-  //   .database()
-  //   .ref(`${AppConfig.env}/posts/${postId}/partnerSelect/${profile.id}`)
-  //   .update(data)
+
+  firebase
+    .database()
+    .ref(`${AppConfig.env}/posts/${postId}/partnerSelect/${profile.id}`)
+    .update(data)
+}
+
+const savePaymentSlip = (dataPayment, item) => {
+  return new Promise((resolve, reject) => {
+    firebase
+      .database()
+      .ref(`${AppConfig.env}/posts/${item.id}`)
+      .update(dataPayment)
+
+    resolve(true)
+  })
 }
 
 export {
@@ -218,5 +228,6 @@ export {
   getPartnerDashboardType2,
   getPartnerDashboardType3,
   getPartnerDashboardType4,
-  partnerAcceptJobWaitCustomerReview
+  partnerAcceptJobWaitCustomerReview,
+  savePaymentSlip
 }

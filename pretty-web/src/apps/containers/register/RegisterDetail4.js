@@ -175,7 +175,6 @@ export default function RegisterDetail4() {
       const storageRef = storage.ref(
         `${AppConfig.env}/images/member/partner/${fileName}`
       )
-      console.log(storageRef.getMetadata())
       const uploadTask = storageRef.put(imageSource)
       uploadTask.on(
         firebase.storage.TaskEvent.STATE_CHANGED,
