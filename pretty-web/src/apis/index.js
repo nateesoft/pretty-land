@@ -31,6 +31,17 @@ const updatePosts = (postId, data) => {
   firebase.database().ref(`${AppConfig.env}/posts/${postId}`).update(data)
 }
 
+const adminConfirmNewPost = (item) => {
+  return new Promise((resolve, reject) => {
+    updatePosts(item.id, {
+      status: AppConfig.PostsStatus.adminConfirmNewPost,
+      statusText: "อนุมัติโพสท์",
+      sys_update_date: new Date().toUTCString()
+    })
+    resolve(true)
+  })
+}
+
 const getConfigList = () => {
   return new Promise((resolve, reject) => {
     const ref = firebase.database().ref(`${AppConfig.env}/appconfig`)
@@ -126,11 +137,12 @@ const saveNewPosts = (postData) => {
   const newId = uuid()
   const saveData = {
     id: newId,
+    ...postData,
     sys_create_date: new Date().toUTCString(),
-    sys_update_date: new Date().toUTCString(),
-    ...postData
+    sys_update_date: new Date().toUTCString()
   }
-  firebase.database().ref(`${AppConfig.env}/posts/${newId}`).set(saveData)
+  console.log(saveData)
+  firebase.database().ref(`${AppConfig.env}/posts/${newId}`).update(saveData)
 }
 
 export {
@@ -142,5 +154,6 @@ export {
   updateWorkingStatus,
   clearOldFiles,
   saveNewPosts,
-  updatePosts
+  updatePosts,
+  adminConfirmNewPost
 }

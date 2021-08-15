@@ -15,12 +15,12 @@ import firebase from "../../../../util/firebase"
 
 export default function CreateWorkForm() {
   const history = useHistory()
-  const { customerProfile, partnerRequest, partnerType } =
+  const { customerProfile, partnerRequest, partnerType, partnerImage } =
     history.location.state
   const [province, setProvince] = useState("")
   const [provinceList] = useState(getCountryList())
   const [partnerQty, setPartnerQty] = useState("")
-  const [partnerWantQty, setPartnerWantQty] = useState('');
+  const [partnerWantQty, setPartnerWantQty] = useState("")
 
   const getPartnerQty = (value) => {
     return new Promise((resolve, reject) => {
@@ -68,7 +68,8 @@ export default function CreateWorkForm() {
       partnerRequest,
       partnerType,
       province,
-      partnerWantQty
+      partnerWantQty,
+      partnerImage
     })
   }
 
@@ -118,7 +119,7 @@ export default function CreateWorkForm() {
             </InputAdornment>
           }
           value={partnerWantQty}
-          onChange={(e)=>setPartnerWantQty(e.target.value)}
+          onChange={(e) => setPartnerWantQty(e.target.value)}
         />
       </FormControl>
       <div style={{ margin: 10 }}>

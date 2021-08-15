@@ -1,36 +1,26 @@
 import React, { useEffect, useState } from "react"
-import { useHistory } from "react-router-dom"
 import Moment from "moment"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
+import { useHistory } from "react-router-dom"
 
-import { AppConfig } from "../../../Constants"
-import firebase from "../../../util/firebase"
-import { snapshotToArray } from "../../../util"
-import { updatePosts } from "../../../apis"
+import { AppConfig } from "../../../../Constants"
+import firebase from "../../../../util/firebase"
+import { snapshotToArray } from "../../../../util"
+import { updatePosts } from "../../../../apis"
 
-export default function Posts(props) {
-  const history = useHistory()
-  const { member } = history.location.state
+export default function CustomerPosts(props) {
   const [filterList, setFilterList] = useState([])
+  const history = useHistory()
+  const { partnerType } = history.location.state
 
-  const onPressOptions = (item, status) => {
-    if (status === AppConfig.PostsStatus.waitCustomerSelectPartner) {
-      // navigation.navigate('Partner-List-Select', { postItem: item, userId });
-    } else if (status === AppConfig.PostsStatus.waitCustomerPayment) {
-      // navigation.navigate('Payment-Form', { item, userId });
-    } else {
-      // navigation.navigate('Review-Task', { postDetail: item, userId });
-    }
+  const onPressOptions = (item) => {
+    history.push("/admin-customer-post-detail", { item })
   }
 
   useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref(`${AppConfig.env}/posts`)
-      .orderByChild("customerId")
-      .equalTo(member.id)
+    const ref = firebase.database().ref(`${AppConfig.env}/posts`)
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
       let listData = postsList.filter((item, index) => {
@@ -46,7 +36,9 @@ export default function Posts(props) {
 
           if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
             if (diffHours <= 24) {
-              return item
+              if (item.partnerType === partnerType) {
+                return item
+              }
             } else {
               // update timeout
               updatePosts(item.id, {
@@ -59,7 +51,9 @@ export default function Posts(props) {
             item.status === AppConfig.PostsStatus.adminConfirmNewPost
           ) {
             if (diffHours <= 2) {
-              return item
+              if (item.partnerType === partnerType) {
+                return item
+              }
             } else {
               // update timeout
               updatePosts(item.id, {
@@ -70,7 +64,9 @@ export default function Posts(props) {
               })
             }
           } else {
-            return item
+            if (item.partnerType === partnerType) {
+              return item
+            }
           }
         }
       })
@@ -94,7 +90,7 @@ export default function Posts(props) {
       </div>
       {filterList &&
         filterList.map((item, index) => (
-          <ListItem key={item.id}>
+          <ListItem key={item.id} onClick={() => onPressOptions(item)}>
             <ListItemAvatar>
               <Avatar
                 src={item.partnerImage}

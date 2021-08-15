@@ -69,7 +69,7 @@ export default function Dashboard() {
     })
   }, [])
 
-  const loadDetailWork = (type) => {
+  const loadDetailWork = (type, imageUrl) => {
     let partnerRequest = ""
     if (type === 1) {
       partnerRequest = AppConfig.PartnerType.type1
@@ -81,12 +81,12 @@ export default function Dashboard() {
       partnerRequest = AppConfig.PartnerType.type4
     }
     if (type === 4) {
-      console.log("loadDetailWork type4")
       history.push("/customer-create-work4", {
         customerProfile: member,
         partnerRequest,
         partnerType: type,
-        appconfig: appconfigMaster
+        appconfig: appconfigMaster,
+        partnerImage: imageUrl,
       })
     } else {
       console.log("loadDetailWork")
@@ -94,7 +94,8 @@ export default function Dashboard() {
         customerProfile: member,
         partnerRequest,
         partnerType: type,
-        appconfig: appconfigMaster
+        appconfig: appconfigMaster,
+        partnerImage: imageUrl,
       })
     }
   }
@@ -113,7 +114,7 @@ export default function Dashboard() {
                 border: "3px solid white"
               }}
               alt=""
-              onClick={() => loadDetailWork(1)}
+              onClick={() => loadDetailWork(1, items[0].image_url)}
             />
           )}
           <ItemBottom>
@@ -136,7 +137,7 @@ export default function Dashboard() {
                 border: "3px solid white"
               }}
               alt=""
-              onClick={() => loadDetailWork(2)}
+              onClick={() => loadDetailWork(2, items[1].image_url)}
             />
           )}
           <ItemBottom>
@@ -159,7 +160,7 @@ export default function Dashboard() {
                 border: "3px solid white"
               }}
               alt=""
-              onClick={() => loadDetailWork(3)}
+              onClick={() => loadDetailWork(3, items[2].image_url)}
             />
           )}
           <ItemBottom>
@@ -182,7 +183,7 @@ export default function Dashboard() {
                 border: "3px solid white"
               }}
               alt=""
-              onClick={() => loadDetailWork(4)}
+              onClick={() => loadDetailWork(4, items[3].image_url)}
             />
           )}
           <ItemBottom>

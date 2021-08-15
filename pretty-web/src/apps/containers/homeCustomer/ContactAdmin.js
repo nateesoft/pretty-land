@@ -12,8 +12,6 @@ export default function ContactAdmin() {
   return (
     <div
       style={{
-        position: "fixed",
-        top: 0,
         backgroundImage: "url(assets/bg.png)",
         backgroundRepeat: "no-repeat",
         backgroundSize: "contain",

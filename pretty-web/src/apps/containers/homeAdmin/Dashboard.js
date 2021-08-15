@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
+import { useHistory } from "react-router-dom"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -36,6 +37,7 @@ const ItemBottom = styled.div`
 `
 
 export default function Dashboard() {
+  const history = useHistory()
   const [items, setItems] = useState([])
   useEffect(() => {
     const ref = firebase.database().ref(`${AppConfig.env}/posts`)
@@ -48,6 +50,13 @@ export default function Dashboard() {
       ref.off("value", listener)
     }
   }, [])
+
+  const loadDetailWork = (type) => {
+    if (type === 4) {
+    } else {
+      history.push("/admin-customer-posts", {partnerType: type})
+    }
+  }
 
   return (
     <Container>
@@ -63,6 +72,7 @@ export default function Dashboard() {
                 border: "3px solid white"
               }}
               alt=""
+              onClick={() => loadDetailWork(1)}
             />
           )}
           <ItemBottom>
@@ -85,6 +95,7 @@ export default function Dashboard() {
                 border: "3px solid white"
               }}
               alt=""
+              onClick={() => loadDetailWork(2)}
             />
           )}
           <ItemBottom>
@@ -107,6 +118,7 @@ export default function Dashboard() {
                 border: "3px solid white"
               }}
               alt=""
+              onClick={() => loadDetailWork(3)}
             />
           )}
           <ItemBottom>
@@ -129,6 +141,7 @@ export default function Dashboard() {
                 border: "3px solid white"
               }}
               alt=""
+              onClick={() => loadDetailWork(4)}
             />
           )}
           <ItemBottom>

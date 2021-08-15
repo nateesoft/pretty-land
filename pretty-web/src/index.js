@@ -27,6 +27,9 @@ import PlaceForm from "../src/apps/containers/homeCustomer/work/PlaceForm"
 import CustomerCreateWork4 from "../src/apps/containers/homeCustomer/work/CreateWorkForm4"
 import LineLoginForm from '../src/apps/containers/lineLogin'
 
+import AdminCustomerPosts from '../src/apps/containers/homeAdmin/posts'
+import CustomerPostDetail from '../src/apps/containers/homeAdmin/posts/PostDetail'
+
 import reportWebVitals from "./reportWebVitals"
 // import Profile from "./Profile"
 // import Support from "./Support"
@@ -90,6 +93,12 @@ ReactDOM.render(
       </Route>
       <Route path="/admin">
         <HomeAdmin />
+      </Route>
+      <Route path="/admin-customer-posts">
+        <AdminCustomerPosts />
+      </Route>
+      <Route path="/admin-customer-post-detail">
+        <CustomerPostDetail />
       </Route>
       <Route path="/member-profile">
         <MemberProfile />

@@ -23,7 +23,8 @@ export default function PlaceForm() {
     partnerRequest,
     partnerType,
     province,
-    partnerWantQty
+    partnerWantQty,
+    partnerImage
   } = history.location.state
   const [sex, setSex] = useState("female")
   const [phone, setPhone] = useState("")
@@ -50,24 +51,24 @@ export default function PlaceForm() {
       return
     }
     const newDataPost = {
-        customerId: customerProfile.id,
-        partnerRequest,
-        partnerImage: '',
-        customerPhone: phone,
-        placeMeeting: place,
-        status: AppConfig.PostsStatus.customerNewPostDone,
-        statusText: "โพสท์ใหม่",
-        province,
-        provinceName: getProvinceName(province)[0],
-        customerRemark: remark,
-        customerLevel: customerProfile.customerLevel,
-        customerName: customerProfile.profile,
-        startTime,
-        stopTime,
-        partnerWantQty,
-        sexTarget: sex,
-        partnerType: partnerType
-      }
+      customerId: customerProfile.id,
+      partnerRequest,
+      partnerImage: partnerImage||'',
+      customerPhone: phone,
+      placeMeeting: place,
+      status: AppConfig.PostsStatus.customerNewPostDone,
+      statusText: "โพสท์ใหม่",
+      province,
+      provinceName: getProvinceName(province)[0],
+      customerRemark: remark,
+      customerLevel: customerProfile.customerLevel || 0,
+      customerName: customerProfile.profile || "",
+      startTime,
+      stopTime,
+      partnerWantQty,
+      sexTarget: sex,
+      partnerType: partnerType
+    }
     saveNewPosts(newDataPost)
     alert("บันทึกข้อมูลสร้างโพสท์เรียบร้อยแล้ว")
     history.push("/customer", { member: customerProfile })
@@ -90,7 +91,7 @@ export default function PlaceForm() {
           aria-label="gender"
           name="gender1"
           value={sex}
-          onChange={(e)=>setSex(e.target.value)}
+          onChange={(e) => setSex(e.target.value)}
         >
           <FormControlLabel value="male" control={<Radio />} label="ชาย" />
           <FormControlLabel value="female" control={<Radio />} label="หญิง" />
@@ -109,7 +110,7 @@ export default function PlaceForm() {
             </InputAdornment>
           }
           value={place}
-          onChange={(e)=>setPlace(e.target.value)}
+          onChange={(e) => setPlace(e.target.value)}
         />
       </FormControl>
       <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -122,7 +123,7 @@ export default function PlaceForm() {
             </InputAdornment>
           }
           value={startTime}
-          onChange={(e)=>setStartTime(e.target.value)}
+          onChange={(e) => setStartTime(e.target.value)}
         />
       </FormControl>
       <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -135,7 +136,7 @@ export default function PlaceForm() {
             </InputAdornment>
           }
           value={stopTime}
-          onChange={(e)=>setStopTime(e.target.value)}
+          onChange={(e) => setStopTime(e.target.value)}
         />
       </FormControl>
       <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -150,7 +151,7 @@ export default function PlaceForm() {
             </InputAdornment>
           }
           value={phone}
-          onChange={(e)=>setPhone(e.target.value)}
+          onChange={(e) => setPhone(e.target.value)}
         />
       </FormControl>
       <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -165,7 +166,7 @@ export default function PlaceForm() {
             </InputAdornment>
           }
           value={remark}
-          onChange={(e)=>setRemark(e.target.value)}
+          onChange={(e) => setRemark(e.target.value)}
         />
       </FormControl>
       <div style={{ margin: 10 }}>

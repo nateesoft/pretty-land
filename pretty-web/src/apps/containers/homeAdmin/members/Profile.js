@@ -11,7 +11,6 @@ import ArrowBack from "@material-ui/icons/ArrowBack"
 import Moment from "moment"
 import { Button } from "@material-ui/core"
 import ReactPlayer from "react-player"
-import { Link } from "react-router-dom"
 
 import { getProvinceName, getBankName } from "../../../../data/apis"
 import firebase from "../../../../util/firebase"
@@ -103,7 +102,7 @@ export default function BasicImageList(props) {
         .database()
         .ref(`${AppConfig.env}/members/${memberProfile.id}`)
         .remove()
-      history.push("/admin")
+      history.push("/admin", { member: adminProfile })
     }
   }
 
