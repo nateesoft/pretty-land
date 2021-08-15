@@ -92,12 +92,16 @@ export default function BasicImageList(props) {
           sys_update_date: new Date().toUTCString()
         })
       alert("อัพเดตข้อมูลเรียบร้อยแล้ว")
-      history.push("/admin", { member: adminProfile })
+      history.goBack()
     }
   }
 
-  const suspendMember = () => {
-    if (window.confirm("คุณต้องการลบข้อมูลผู้ใช้งานนี้ใช่หรือไม่ ?")) {
+  const handleRemovePermanent = () => {
+    if (
+      window.confirm(
+        "กรุณายืนยันอีกครั้ง ถ้ากดลบข้อมูลจะไม่สามารถเรียกคืนได้อีก !!!"
+      )
+    ) {
       firebase
         .database()
         .ref(`${AppConfig.env}/members/${memberProfile.id}`)
@@ -123,6 +127,35 @@ export default function BasicImageList(props) {
     history.push("/admin", { member: adminProfile })
   }
 
+  const suspendMember = () => {
+    firebase
+      .database()
+      .ref(`${AppConfig.env}/members/${memberProfile.id}`)
+      .update({
+        status: AppConfig.MemberStatus.suspend,
+        statusText: AppConfig.MemberStatus.suspendMessage,
+        status_priority: AppConfig.MemberStatus.suspendPriority,
+        member_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString()
+      })
+    history.goBack()
+  }
+
+  const cancelSuspendMember = () => {
+    firebase
+      .database()
+      .ref(`${AppConfig.env}/members/${memberProfile.id}`)
+      .update({
+        status: AppConfig.MemberStatus.active,
+        statusText: AppConfig.MemberStatus.activeMessage,
+        status_priority: AppConfig.MemberStatus.activePriority,
+        member_register_date: new Date().toUTCString(),
+        member_update_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString()
+      })
+    history.goBack()
+  }
+
   return (
     <Container>
       <div
@@ -134,8 +167,9 @@ export default function BasicImageList(props) {
         }}
       >
         <Button
-          variant="contained"
+          variant="outlined"
           startIcon={<ArrowBack />}
+          style={{ fontSize: 16, color: 'white' }}
           onClick={backPage}
         >
           ย้อนกลับ
@@ -220,7 +254,7 @@ export default function BasicImageList(props) {
           </div>
         )}
       </div>
-      <div style={{ margin: 10 }}>
+      <div align="center" style={{ margin: 10 }}>
         {memberProfile.status === AppConfig.MemberStatus.newRegister && (
           <Button
             variant="contained"
@@ -231,7 +265,34 @@ export default function BasicImageList(props) {
             อนุมัติข้อมูล
           </Button>
         )}
-        <Button variant="contained" color="secondary" onClick={suspendMember}>
+        {memberProfile.status &&
+          memberProfile.status !== AppConfig.MemberStatus.newRegister &&
+          memberProfile.status !== AppConfig.MemberStatus.suspend && (
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{ margin: 5 }}
+              onClick={suspendMember}
+            >
+              สั่งพักงาน
+            </Button>
+          )}
+        {memberProfile.status === AppConfig.MemberStatus.suspend && (
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ margin: 5 }}
+            onClick={cancelSuspendMember}
+          >
+            ยกเลิกสั่งพักงาน
+          </Button>
+        )}
+        <Button
+          variant="contained"
+          color="secondary"
+          style={{ margin: 5 }}
+          onClick={handleRemovePermanent}
+        >
           ลบข้อมูลออกจากระบบ
         </Button>
       </div>

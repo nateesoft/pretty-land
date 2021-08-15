@@ -12,51 +12,69 @@ export default function PostDetail() {
   const { item } = history.location.state
 
   const updateToApprove = () => {
-    if (item.status === AppConfig.PostsStatus.waitAdminApprovePost) {
-      updatePosts(item.id, {
-        status: AppConfig.PostsStatus.waitCustomerPayment,
-        statusText: 'รอลูกค้าชำระเงิน',
-        sys_update_date: new Date().toUTCString(),
-      });
-    //   navigation.navigate('Post-List-All');
-    } else {
-      adminConfirmNewPost(item)
-        .then(res => {
-          if (res) {
-            // navigation.navigate('Post-List-All');
-          }
+    if (window.confirm("ยืนยันการอนุมัติข้อมูล")) {
+      if (item.status === AppConfig.PostsStatus.waitAdminApprovePost) {
+        updatePosts(item.id, {
+          status: AppConfig.PostsStatus.waitCustomerPayment,
+          statusText: "รอลูกค้าชำระเงิน",
+          sys_update_date: new Date().toUTCString()
         })
-        .catch(err => alert(err));
+        history.goBack()
+      } else {
+        adminConfirmNewPost(item)
+          .then((res) => {
+            if (res) {
+              history.goBack()
+            }
+          })
+          .catch((err) => alert(err))
+      }
     }
-  };
+  }
 
   const updateNotApprove = () => {
-    updatePosts(item.id, {
-      status: AppConfig.PostsStatus.notApprove,
-      statusText: 'ไม่อนุมัติโพสท์',
-      sys_update_date: new Date().toUTCString(),
-    });
-    // navigation.navigate('Post-List-All');
-  };
+    if (window.confirm("ยืนยัน ไม่อนุมัติข้อมูล !!!")) {
+      updatePosts(item.id, {
+        status: AppConfig.PostsStatus.notApprove,
+        statusText: "ไม่อนุมัติโพสท์",
+        sys_update_date: new Date().toUTCString()
+      })
+    }
+    history.goBack()
+  }
 
   return (
-    <div style={{margin: 20}}>
-      <div align="center">รายละเอียดโพสท์</div>
-      <div align="center">( สถานะ {item.statusText} )</div>
+    <div style={{ margin: 20 }}>
+      <div
+        style={{
+          backgroundColor: "#ff2fe6",
+          color: "white",
+          padding: 10,
+          fontSize: 22,
+          fontWeight: "bold"
+        }}
+      >
+        <div align="center">รายละเอียดโพสท์</div>
+        <div align="center" style={{ fontSize: 14 }}>
+          ( สถานะ {item.statusText} )
+        </div>
+      </div>
       <hr />
-      <div>
+      <div style={{ margin: 5, padding: 5 }}>
         <div>โหมดงาน: {item.partnerRequest}</div>
         <div>จำนวนน้องๆ ที่ต้องการ: {item.partnerWantQty} คน</div>
-        <div>ชื่อลูกค้า: {item.customerName}</div>
+        <div style={{ color: "blue" }}>ชื่อลูกค้า: {item.customerName}</div>
         <div>Level: {item.customerLevel}</div>
         <div>จังหวัด: {item.provinceName}</div>
-        <div>
+        <div style={{ color: "red" }}>
           เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTiem}
         </div>
         <hr />
-        <div>สถานที่: {item.placeMeeting}</div>
+        <div style={{ color: "green" }}>สถานที่: {item.placeMeeting}</div>
         <div>เบอร์โทร: {item.customerPhone}</div>
-        <div>รายละเอียดเพิ่มเติม: {item.customerRemark}</div>
+        <div style={{ color: "brown" }}>
+          รายละเอียดเพิ่มเติม: {item.customerRemark}
+        </div>
         <hr />
         <div>
           วันที่สร้างข้อมูล{" "}
@@ -68,26 +86,28 @@ export default function PostDetail() {
         </div>
       </div>
       <hr />
-      <div>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ margin: 5 }}
-          startIcon={<CheckBox />}
-          onClick={updateToApprove}
-        >
-          อนุมัติโพสท์
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          style={{ margin: 5 }}
-          startIcon={<Delete />}
-          onClick={updateNotApprove}
-        >
-          ไม่อนุมัติโพสท์
-        </Button>
-      </div>
+      {item.status === AppConfig.PostsStatus.customerNewPostDone && (
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ margin: 5 }}
+            startIcon={<CheckBox />}
+            onClick={updateToApprove}
+          >
+            อนุมัติโพสท์
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ margin: 5 }}
+            startIcon={<Delete />}
+            onClick={updateNotApprove}
+          >
+            ไม่อนุมัติโพสท์
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

@@ -73,21 +73,30 @@ export default function CustomerPosts(props) {
       setFilterList(listData)
     })
     return () => ref.off("value", listener)
-  }, [])
+  }, [partnerType])
 
   return (
     <div>
       <div
         align="center"
         style={{
-          backgroundColor: "pink",
+          backgroundColor: "#ff2fe6",
           padding: 10,
           fontSize: 22,
-          fontWeight: "bold"
+          fontWeight: "bold",
+          color: "white"
         }}
       >
-        แสดงรายการที่โพสท์
+        รายการโพสท์หางาน
       </div>
+      {filterList.length === 0 && (
+        <div
+          align="center"
+          style={{ marginTop: 35, fontSize: 28, color: "gray" }}
+        >
+          ไม่พบข้อมูลโพสท์ในระบบ
+        </div>
+      )}
       {filterList &&
         filterList.map((item, index) => (
           <ListItem key={item.id} onClick={() => onPressOptions(item)}>
@@ -108,9 +117,18 @@ export default function CustomerPosts(props) {
                 marginLeft: 5
               }}
             >
-              <div style={{ color: "blue" }}>ชื่อ: {item.customerName}</div>
-              <div>จังหวัด: {item.customerName}</div>
+              <div style={{ color: "blue" }}>
+                ชื่อลูกค้า: {item.customerName}
+              </div>
+              <div style={{ fontWeight: "bold" }}>
+                Level: {item.customerLevel}
+              </div>
+              <div>ประเภทงาน: {item.partnerRequest}</div>
               <div>Status: {item.statusText}</div>
+              <div>
+                วันที่:{" "}
+                {Moment(item.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
+              </div>
             </div>
           </ListItem>
         ))}
