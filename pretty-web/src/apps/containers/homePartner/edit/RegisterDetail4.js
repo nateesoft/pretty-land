@@ -10,7 +10,7 @@ import Box from "@material-ui/core/Box"
 
 import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../../Constants"
-import { clearOldFiles } from '../../../../apis'
+import { clearOldFiles } from "../../../../apis"
 
 function LinearProgressWithLabel(props) {
   return (
@@ -66,24 +66,9 @@ export default function RegisterDetail4() {
   const [progress5, setProgress5] = useState(0)
   const [progress6, setProgress6] = useState(0)
 
-  const [showSave, setShowSave] = useState(false)
-
   const uploadImageVideoToFirebase = async () => {
-    if (
-      !imageFile1 ||
-      !imageFile2 ||
-      !imageFile3 ||
-      !imageFile4 ||
-      !imageFile5 ||
-      !imageFile6
-    ) {
-      alert("กรุณาเพิ่มรูปให้ครบ 5 รูป และวิดีโอ 1 คลิป ก่อนบันทึกข้อมูล !!!")
-      return
-    }
-    // clear all old files
-    await clearOldFiles(profile.id)
-
     if (imageFile1) {
+      await clearOldFiles(profile.id + "_pic1")
       await uploadImageAsync(
         imageFile1,
         setImageUrl1,
@@ -93,6 +78,7 @@ export default function RegisterDetail4() {
       )
     }
     if (imageFile2) {
+      await clearOldFiles(profile.id + "_pic2")
       await uploadImageAsync(
         imageFile2,
         setImageUrl2,
@@ -102,6 +88,7 @@ export default function RegisterDetail4() {
       )
     }
     if (imageFile3) {
+      await clearOldFiles(profile.id + "_pic3")
       await uploadImageAsync(
         imageFile3,
         setImageUrl3,
@@ -111,6 +98,7 @@ export default function RegisterDetail4() {
       )
     }
     if (imageFile4) {
+      await clearOldFiles(profile.id + "_pic4")
       await uploadImageAsync(
         imageFile4,
         setImageUrl4,
@@ -120,6 +108,7 @@ export default function RegisterDetail4() {
       )
     }
     if (imageFile5) {
+      await clearOldFiles(profile.id + "_pic5")
       await uploadImageAsync(
         imageFile5,
         setImageUrl5,
@@ -129,6 +118,7 @@ export default function RegisterDetail4() {
       )
     }
     if (imageFile6) {
+      await clearOldFiles(profile.id + "_video")
       await uploadImageAsync(
         imageFile6,
         setImageUrl6,
@@ -138,7 +128,6 @@ export default function RegisterDetail4() {
       )
     }
     alert("Upload ข้อมูลเรียบร้อยแล้ว")
-    setShowSave(true)
   }
 
   const uploadImageAsync = (
@@ -202,33 +191,49 @@ export default function RegisterDetail4() {
   }
 
   const saveDataToDatabase = async () => {
-    if (
-      !imageUrl1 ||
-      !imageUrl2 ||
-      !imageUrl3 ||
-      !imageUrl4 ||
-      !imageUrl5 ||
-      !imageUrl6
-    ) {
-      alert("กรุณาเพิ่มรูปให้ครบ 5 รูป และวิดีโอ 1 คลิป ก่อนบันทึกข้อมูล !!!")
-      return
+    if (imageFile1) {
+      await firebase
+        .database()
+        .ref(`${AppConfig.env}/members/${profile.id}`)
+        .update({ image: imageUrl1, imageUrl1 })
     }
-
+    if (imageFile2) {
+      await firebase
+        .database()
+        .ref(`${AppConfig.env}/members/${profile.id}`)
+        .update({ imageUrl2 })
+    }
+    if (imageFile3) {
+      await firebase
+        .database()
+        .ref(`${AppConfig.env}/members/${profile.id}`)
+        .update({ imageUrl3 })
+    }
+    if (imageFile4) {
+      await firebase
+        .database()
+        .ref(`${AppConfig.env}/members/${profile.id}`)
+        .update({ imageUrl4 })
+    }
+    if (imageFile5) {
+      await firebase
+        .database()
+        .ref(`${AppConfig.env}/members/${profile.id}`)
+        .update({ imageUrl5 })
+    }
+    if (imageFile6) {
+      await firebase
+        .database()
+        .ref(`${AppConfig.env}/members/${profile.id}`)
+        .update({ imageUrl6 })
+    }
     const dataToUpdate = {
-      image,
-      imageUrl1,
-      imageUrl2,
-      imageUrl3,
-      imageUrl4,
-      imageUrl5,
-      imageUrl6,
       memberType: "partner",
       status: AppConfig.MemberStatus.newRegister,
       statusText: AppConfig.MemberStatus.newRegisterMessage,
       status_priority: AppConfig.MemberStatus.newRegisterPriority,
       sys_update_date: new Date().toUTCString()
     }
-
     await firebase
       .database()
       .ref(`${AppConfig.env}/members/${profile.id}`)
@@ -386,38 +391,34 @@ export default function RegisterDetail4() {
         - กรุณาถ่ายคลิป Video ไม่ควรเกิน 10 วิ
         <br />- รูปภาพที่อัพโหลดไม่ควรเกิน 4 mb
       </div>
-      {!showSave && (
-        <div style={{ textAlign: "center" }}>
-          <Button
-            color="primary"
-            variant="contained"
-            style={{
-              width: 150,
-              borderRadius: 10,
-              marginBottom: 10,
-              backgroundColor: "green",
-              color: "white"
-            }}
-            startIcon={<CloudUpload />}
-            onClick={uploadImageVideoToFirebase}
-          >
-            อัพโหลด
-          </Button>
-        </div>
-      )}
-      {showSave && (
-        <div style={{ textAlign: "center" }}>
-          <Button
-            color="primary"
-            variant="contained"
-            style={{ width: 150, marginBottom: 10, borderRadius: 10 }}
-            startIcon={<Save />}
-            onClick={saveDataToDatabase}
-          >
-            บันทึกข้อมูล
-          </Button>
-        </div>
-      )}
+      <div style={{ textAlign: "center" }}>
+        <Button
+          color="primary"
+          variant="contained"
+          style={{
+            width: 150,
+            borderRadius: 10,
+            marginBottom: 10,
+            backgroundColor: "green",
+            color: "white"
+          }}
+          startIcon={<CloudUpload />}
+          onClick={uploadImageVideoToFirebase}
+        >
+          อัพโหลด
+        </Button>
+      </div>
+      <div align="center">
+        <Button
+          color="primary"
+          variant="contained"
+          style={{ width: 150, marginBottom: 10, borderRadius: 10 }}
+          startIcon={<Save />}
+          onClick={saveDataToDatabase}
+        >
+          บันทึกข้อมูล
+        </Button>
+      </div>
     </Container>
   )
 }

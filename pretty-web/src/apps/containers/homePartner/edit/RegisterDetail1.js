@@ -26,9 +26,8 @@ const Container = styled.div`
 export default function RegisterDetail1() {
   const history = useHistory()
   const { profile } = history.location.state
-  console.log("id:", profile.id)
 
-  const [gender, setGender] = useState("male")
+  const [gender, setGender] = useState(profile.gender)
   const [state, setState] = useState({
     type1: profile.type1 || false,
     type2: profile.type2 || false,

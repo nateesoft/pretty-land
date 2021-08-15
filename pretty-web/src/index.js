@@ -30,6 +30,10 @@ import LineLoginForm from '../src/apps/containers/lineLogin'
 import AdminCustomerPosts from '../src/apps/containers/homeAdmin/posts'
 import CustomerPostDetail from '../src/apps/containers/homeAdmin/posts/PostDetail'
 
+import PartnerCustomerPosts from '../src/apps/containers/homePartner/posts'
+import CustomerPostDetailForPartner from '../src/apps/containers/homePartner/posts/PostDetail'
+import PartnerConfrimPriceForm from '../src/apps/containers/homePartner/posts/ConfirmPriceForm'
+
 import reportWebVitals from "./reportWebVitals"
 // import Profile from "./Profile"
 // import Support from "./Support"
@@ -100,8 +104,17 @@ ReactDOM.render(
       <Route path="/admin-customer-post-detail">
         <CustomerPostDetail />
       </Route>
+      <Route path="/partner-customer-posts">
+        <PartnerCustomerPosts />
+      </Route>
       <Route path="/member-profile">
         <MemberProfile />
+      </Route>
+      <Route path="/partner-customer-post-detail">
+        <CustomerPostDetailForPartner />
+      </Route>
+      <Route path="/partner-confirm-price-form">
+        <PartnerConfrimPriceForm />
       </Route>
       <Route path="/partner">
         <HomePartner />

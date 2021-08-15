@@ -3,8 +3,9 @@ import uuid from "react-uuid"
 
 import firebase from "../util/firebase"
 import { AppConfig } from "../Constants"
+import { getBankList } from "../data/apis"
 
-const clearOldFiles = (partnerId) => {
+const clearOldFiles = (fileName) => {
   return new Promise((resolve, reject) => {
     const storage = firebase.storage()
     const storageRef = storage.ref(`${AppConfig.env}/images/member/partner`)
@@ -12,7 +13,7 @@ const clearOldFiles = (partnerId) => {
       .listAll()
       .then((res) => {
         res.items.forEach((itemRef) => {
-          if (itemRef.name.startsWith(partnerId)) {
+          if (itemRef.name.startsWith(fileName)) {
             itemRef
               .delete()
               .then(() => {
@@ -145,6 +146,63 @@ const saveNewPosts = (postData) => {
   firebase.database().ref(`${AppConfig.env}/posts/${newId}`).update(saveData)
 }
 
+const getPartnerDashboardType1 = () => {
+  return new Promise((resolve, reject) => {
+    resolve(0)
+  })
+}
+const getPartnerDashboardType2 = () => {
+  return new Promise((resolve, reject) => {
+    resolve(0)
+  })
+}
+const getPartnerDashboardType3 = () => {
+  return new Promise((resolve, reject) => {
+    resolve(0)
+  })
+}
+const getPartnerDashboardType4 = () => {
+  return new Promise((resolve, reject) => {
+    resolve(0)
+  })
+}
+const getBankName = (bankId) => {
+  return getBankList().filter((item, index) => item.value === bankId)
+}
+const partnerAcceptJobWaitCustomerReview = (item, profile) => {
+  const { id: postId } = item
+  // update post status
+  updatePosts(postId, {
+    status: AppConfig.PostsStatus.waitCustomerSelectPartner,
+    statusText: "รอลูกค้าเลือกน้องๆ",
+    sys_update_date: new Date().toUTCString()
+  })
+
+  // update partnerSelect
+  console.log(profile)
+  const data = {
+    partnerId: profile.id,
+    partnerName: profile.name,
+    amount: profile.amount,
+    age: profile.age,
+    image: profile.image || null,
+    sex: profile.gender,
+    character: profile.charactor,
+    telephone: profile.mobile,
+    selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
+    selectStatusText: "เสนอรับงาน",
+    bankNo: profile.bankNo,
+    bankCode: profile.bank,
+    bankName: getBankName(profile.bank)[0].label,
+    lineId: profile.lineId
+  }
+  console.log('data:', data);
+  // firebase
+  //   .database()
+  //   .ref(`${AppConfig.env}/posts/${postId}/partnerSelect/${profile.id}`)
+  //   .update(data)
+}
+
 export {
   loginApp,
   saveNewPartner,
@@ -155,5 +213,10 @@ export {
   clearOldFiles,
   saveNewPosts,
   updatePosts,
-  adminConfirmNewPost
+  adminConfirmNewPost,
+  getPartnerDashboardType1,
+  getPartnerDashboardType2,
+  getPartnerDashboardType3,
+  getPartnerDashboardType4,
+  partnerAcceptJobWaitCustomerReview
 }

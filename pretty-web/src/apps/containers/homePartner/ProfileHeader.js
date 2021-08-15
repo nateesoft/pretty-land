@@ -50,6 +50,10 @@ const useStyles = makeStyles({
   }
 })
 
+const formatStature = (data) => {
+  return data.substr(0, 2) + "-" + data.substr(2, 2) + "-" + data.substr(4, 2)
+}
+
 export default function ProfileHeader(props) {
   const { profile } = props
   const classes = useStyles()
@@ -90,7 +94,7 @@ export default function ProfileHeader(props) {
               ? "หญิง"
               : "อื่นๆ"}{" "}
             | สูง {profile.height} | นิสัย {profile.charactor} | สัดส่วน{" "}
-            {profile.stature}
+            {formatStature(profile.stature)}
           </Typography>
         </CardContent>
       </CardActionArea>
