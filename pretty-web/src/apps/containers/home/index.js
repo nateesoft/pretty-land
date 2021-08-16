@@ -82,7 +82,10 @@ export default function Home() {
           sys_create_date: new Date().toUTCString(),
           sys_update_date: new Date().toUTCString()
         }
-        firebase.database().ref(`${AppConfig.env}/members/${user.uid}`).update(memberData)
+        firebase
+          .database()
+          .ref(`${AppConfig.env}/members/${user.uid}`)
+          .update(memberData)
         // login by facebook'
         history.push("/customer", { member: memberData })
       })
@@ -94,7 +97,8 @@ export default function Home() {
 
   const loginPassLineChannel = () => {
     const state = uuid()
-    const query = `response_type=code&client_id=${lineConfig.client_id}&redirect_uri=${lineConfig.redirect_uri}&state=${state}&scope=${lineConfig.scope}`
+    const redirect_uri = "https://pretty-land.web.app/line-login"
+    const query = `response_type=code&client_id=${lineConfig.client_id}&redirect_uri=${redirect_uri}&state=${state}&scope=${lineConfig.scope}`
     const linkUri = `https://access.line.me/oauth2/v2.1/authorize?${query}`
     window.location.href = linkUri
   }

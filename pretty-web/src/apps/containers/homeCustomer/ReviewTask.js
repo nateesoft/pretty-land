@@ -32,7 +32,7 @@ export default function ReviewTask() {
           ชื่อผู้โพสท์: {postDetail.customerName}
         </div>
         <div>Level: {postDetail.customerLevel}</div>
-        <div>เบอร์โทรศัพท์: {postDetail.customerName}</div>
+        <div>เบอร์โทรศัพท์: {postDetail.customerPhone}</div>
         <div style={{ color: "green" }}>สถานที่: {postDetail.placeMeeting}</div>
         <div>จังหวัด: {postDetail.provinceName}</div>
         <div align="center" style={{ marginTop: 20 }}>

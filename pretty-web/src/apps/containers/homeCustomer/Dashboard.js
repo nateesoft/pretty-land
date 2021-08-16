@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
+import { snapshotToArray } from "../../../util"
 import { getConfigList } from "../../../apis"
 
 const Container = styled.div`
@@ -42,6 +43,73 @@ export default function Dashboard() {
   const [items, setItems] = useState([])
   const [appconfigMaster, setAppConfigMaster] = useState({})
 
+  const [sumGirl1, setSumGirl1] = useState("0")
+  const [sumGirl2, setSumGirl2] = useState("0")
+  const [sumGirl3, setSumGirl3] = useState("0")
+  const [sumGirl4, setSumGirl4] = useState("0")
+
+  const [sumBoy1, setSumBoy1] = useState("0")
+  const [sumBoy2, setSumBoy2] = useState("0")
+  const [sumBoy3, setSumBoy3] = useState("0")
+  const [sumBoy4, setSumBoy4] = useState("0")
+
+  const getAllPartnerList = (snapshot) => {
+    return new Promise((resolve, reject) => {
+      const arr = snapshotToArray(snapshot)
+      let typeGirl1 = 0,
+        typeBoy1 = 0,
+        typeGirl2 = 0,
+        typeBoy2 = 0,
+        typeGirl3 = 0,
+        typeBoy3 = 0,
+        typeGirl4 = 0,
+        typeBoy4 = 0
+      arr.forEach((item) => {
+        if (item.memberType === "partner") {
+          if (item.type1) {
+            if (item.gender === "female") {
+              typeGirl1 = typeGirl1 + 1
+            } else if (item.gender === "male") {
+              typeBoy1 = typeBoy1 + 1
+            }
+          }
+          if (item.type2) {
+            if (item.gender === "female") {
+              typeGirl2 = typeGirl2 + 1
+            } else if (item.gender === "male") {
+              typeBoy2 = typeBoy2 + 1
+            }
+          }
+          if (item.type3) {
+            if (item.gender === "female") {
+              typeGirl3 = typeGirl3 + 1
+            } else if (item.gender === "male") {
+              typeBoy3 = typeBoy3 + 1
+            }
+          }
+          if (item.type4) {
+            if (item.gender === "female") {
+              typeGirl4 = typeGirl4 + 1
+            } else if (item.gender === "male") {
+              typeBoy4 = typeBoy4 + 1
+            }
+          }
+        }
+      })
+      setSumGirl1(typeGirl1)
+      setSumGirl2(typeGirl2)
+      setSumGirl3(typeGirl3)
+      setSumGirl4(typeGirl4)
+
+      setSumBoy1(typeBoy1)
+      setSumBoy2(typeBoy2)
+      setSumBoy3(typeBoy3)
+      setSumBoy4(typeBoy4)
+
+      resolve(true)
+    })
+  }
+
   useEffect(() => {
     const ref = firebase.database().ref(`${AppConfig.env}/posts`)
     const listener = ref.on("value", (snapshot) => {
@@ -69,6 +137,16 @@ export default function Dashboard() {
     })
   }, [])
 
+  useEffect(() => {
+    const ref = firebase.database().ref(`${AppConfig.env}/members`)
+    const listener = ref.on("value", (snapshot) => {
+      getAllPartnerList(snapshot).catch((err) => alert(err))
+    })
+    return () => {
+      ref.off("value", listener)
+    }
+  }, [])
+
   const loadDetailWork = (type, imageUrl) => {
     let partnerRequest = ""
     if (type === 1) {
@@ -86,7 +164,7 @@ export default function Dashboard() {
         partnerRequest,
         partnerType: type,
         appconfig: appconfigMaster,
-        partnerImage: imageUrl,
+        partnerImage: imageUrl
       })
     } else {
       console.log("loadDetailWork")
@@ -95,7 +173,7 @@ export default function Dashboard() {
         partnerRequest,
         partnerType: type,
         appconfig: appconfigMaster,
-        partnerImage: imageUrl,
+        partnerImage: imageUrl
       })
     }
   }
@@ -121,8 +199,8 @@ export default function Dashboard() {
             <div style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
               พริตตี้ Event / Mc
             </div>
-            <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
-              จำนวน 0 งาน
+            <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
+              ( Boy : {sumBoy1} Gril : {sumGirl1} )
             </div>
           </ItemBottom>
         </Item>
@@ -144,8 +222,8 @@ export default function Dashboard() {
             <div style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
               โคโยตี้ / งานเต้น
             </div>
-            <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
-              จำนวน 0 งาน
+            <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
+              ( Boy : {sumBoy2} Gril : {sumGirl2} )
             </div>
           </ItemBottom>
         </Item>
@@ -167,8 +245,8 @@ export default function Dashboard() {
             <div style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
               พริตตี้ En / Env
             </div>
-            <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
-              จำนวน 0 งาน
+            <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
+              ( Boy : {sumBoy3} Gril : {sumGirl3} )
             </div>
           </ItemBottom>
         </Item>
@@ -190,8 +268,8 @@ export default function Dashboard() {
             <div style={{ color: "white", fontWeight: "bold", fontSize: 18 }}>
               พริตตี้ นวดแผนไทย
             </div>
-            <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
-              จำนวน 0 งาน
+            <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
+              ( Boy : {sumBoy4} Gril : {sumGirl4} )
             </div>
           </ItemBottom>
         </Item>
