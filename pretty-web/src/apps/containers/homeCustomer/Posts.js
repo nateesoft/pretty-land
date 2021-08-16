@@ -5,6 +5,10 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
 
+import ImageBackground from "../../components/background"
+import Header from "../../components/header"
+import Footer from "../../components/footer/Customer"
+
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
 import { snapshotToArray } from "../../../util"
@@ -17,7 +21,10 @@ export default function Posts(props) {
 
   const onPressOptions = (item) => {
     if (item.status === AppConfig.PostsStatus.waitCustomerSelectPartner) {
-      history.push('/customer-select-partner', { postItem: item, customerProfile: member });
+      history.push("/customer-select-partner", {
+        postItem: item,
+        customerProfile: member
+      })
     } else {
       history.push("/customer-review-task", {
         postDetail: item,
@@ -81,7 +88,8 @@ export default function Posts(props) {
   }, [])
 
   return (
-    <div>
+    <ImageBackground>
+      <Header profile={member} hideBack />
       <div
         align="center"
         style={{
@@ -120,6 +128,7 @@ export default function Posts(props) {
             </div>
           </ListItem>
         ))}
-    </div>
+      <Footer profile={member} />
+    </ImageBackground>
   )
 }

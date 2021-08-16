@@ -158,7 +158,7 @@ export default function Dashboard() {
               />
             )}
             <ItemBottom>
-              <div style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
+              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
                 พริตตี้ Event / Mc
               </div>
               <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
@@ -183,7 +183,7 @@ export default function Dashboard() {
               />
             )}
             <ItemBottom>
-              <div style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
+              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
                 โคโยตี้ / งานเต้น
               </div>
               <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
@@ -208,7 +208,7 @@ export default function Dashboard() {
               />
             )}
             <ItemBottom>
-              <div style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
+              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
                 พริตตี้ En / Env
               </div>
               <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
@@ -233,7 +233,7 @@ export default function Dashboard() {
               />
             )}
             <ItemBottom>
-              <div style={{ color: "white", fontWeight: "bold", fontSize: 18 }}>
+              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
                 พริตตี้ นวดแผนไทย
               </div>
               <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>

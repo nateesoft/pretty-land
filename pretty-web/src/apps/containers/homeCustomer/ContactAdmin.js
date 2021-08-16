@@ -2,6 +2,10 @@ import React from "react"
 import { useHistory } from "react-router-dom"
 import { Button } from "@material-ui/core"
 
+import ImageBackground from "../../components/background"
+import Header from "../../components/header"
+import Footer from "../../components/footer/Customer"
+
 export default function ContactAdmin() {
   const history = useHistory()
   const { member } = history.location.state
@@ -10,15 +14,8 @@ export default function ContactAdmin() {
     window.location.href = "https://lin.ee/DgRh5Mw"
   }
   return (
-    <div
-      style={{
-        backgroundImage: "url(assets/bg.png)",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "contain",
-        backgroundPosition: "center",
-        height: "80vh"
-      }}
-    >
+    <ImageBackground>
+      <Header profile={member} hideBack />
       <div
         align="center"
         style={{
@@ -67,6 +64,7 @@ export default function ContactAdmin() {
           </Button>
         </div>
       </div>
-    </div>
+      <Footer profile={member} />
+    </ImageBackground>
   )
 }

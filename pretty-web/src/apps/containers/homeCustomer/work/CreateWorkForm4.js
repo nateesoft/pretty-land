@@ -8,7 +8,11 @@ import FormLabel from "@material-ui/core/FormLabel"
 import Radio from "@material-ui/core/Radio"
 import RadioGroup from "@material-ui/core/RadioGroup"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
+import { Grid } from "@material-ui/core"
 
+import Header from "../../../components/header"
+import Footer from "../../../components/footer/Customer"
+import ImageBackground from "../../../components/background"
 import { getCountryList, getDistrictList } from "../../../../data/apis"
 import { AppConfig } from "../../../../Constants"
 import firebase from "../../../../util/firebase"
@@ -39,7 +43,7 @@ export default function CreateWorkForm4() {
 
   const selectSex = (st) => {
     setSex(st)
-    onChangeProvinceSelect(sex, province, district)
+    onChangeProvinceSelect(st, province, district)
   }
 
   const onChangeProvinceSelect = (sexType, province, district) => {
@@ -54,21 +58,19 @@ export default function CreateWorkForm4() {
         let list = []
         snapshot.forEach((item) => {
           const data = { ...item.val() }
-          const type4 = AppConfig.PartnerType.type4 === partnerRequest
-          let isDistrict = true
-          if (district) {
-            isDistrict = data.district === district
-          }
-          if (
-            data.province === province &&
-            isDistrict &&
-            data.memberType === "partner" &&
-            data.status !== AppConfig.MemberStatus.newRegister &&
-            data.status !== AppConfig.MemberStatus.notApprove &&
-            data.status !== AppConfig.MemberStatus.suspend
-          ) {
-            if (data.type4 && type4) {
-              if (data.sex === sexType) {
+          if (data.memberType === "partner" && data.type4) {
+            let isDistrict = true
+            if (district) {
+              isDistrict = data.district === district
+            }
+            if (
+              data.province === province &&
+              isDistrict &&
+              data.status !== AppConfig.MemberStatus.newRegister &&
+              data.status !== AppConfig.MemberStatus.notApprove &&
+              data.status !== AppConfig.MemberStatus.suspend
+            ) {
+              if (data.gender === sexType) {
                 count = count + 1
                 list.push(data)
               }
@@ -83,86 +85,194 @@ export default function CreateWorkForm4() {
     })
   }
 
-  const handleNext = () => {
-    history.push("/place-form", {
+  const handleNext = (item) => {
+    history.push("/time-price-form", {
       customerProfile,
-      partnerRequest,
-      partnerType,
+      partnerProfile: item,
       province,
-      partnerWantQty
+      partnerRequest,
+      partnerType
     })
   }
 
   return (
-    <div align="center" style={{ padding: 10 }}>
-      <div style={{ color: "blue", fontSize: 22, fontWeight: "bold" }}>
-        {partnerRequest}
-      </div>
-      <FormControl variant="outlined" style={{ marginTop: 10, width: 250 }}>
-        <InputLabel id="demo-simple-select-outlined-label">จังหวัด</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={province}
-          onChange={(e) => selectProvince(e.target.value)}
-          label="จังหวัด"
+    <ImageBackground>
+      <Header profile={customerProfile} />
+      <div align="center" style={{ padding: 10 }}>
+        <div
+          align="center"
+          style={{ fontSize: 22, color: "blue", fontWeight: "bold" }}
         >
-          <MenuItem value="">
-            <em>-- เลือกจังหวัด --</em>
-          </MenuItem>
-          {provinceList.map((item, index) => (
-            <MenuItem value={item.value} key={item.label + index}>
-              {item.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl variant="outlined" style={{ marginTop: 10, width: 250 }}>
-        <InputLabel id="demo-simple-select-outlined-label">อำเภอ</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={district}
-          onChange={(e) => selectDistrict(e.target.value)}
-          label="อำเภอ"
-        >
-          <MenuItem value="">
-            <em>--- เลือกอำเภอ --</em>
-          </MenuItem>
-          {districtList.map((item, index) => (
-            <MenuItem value={item.value} key={item.label + index}>
-              {item.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl
-        component="fieldset"
-        style={{
-          padding: 10,
-          margin: 10,
-          borderRadius: 15,
-          border: "1px solid",
-          width: 250
-        }}
-      >
-        <FormLabel component="legend">Gender</FormLabel>
-        <RadioGroup
-          aria-label="gender"
-          name="gender1"
-          value={sex}
-          onChange={(e) => selectSex(e.target.value)}
-        >
-          <FormControlLabel value="male" control={<Radio />} label="ชาย" />
-          <FormControlLabel value="female" control={<Radio />} label="หญิง" />
-          <FormControlLabel value="other" control={<Radio />} label="อื่นๆ" />
-        </RadioGroup>
-      </FormControl>
-      {partnerList.length === 0 && (
-        <div style={{ fontSize: 22, color: "gray", fontWeight: "bold" }}>
-          ไม่พบข้อมูล {partnerRequest}
+          {partnerRequest}
         </div>
-      )}
-    </div>
+        <FormControl
+          variant="outlined"
+          style={{ marginTop: 10, width: 350, borderRadius: 5 }}
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            จังหวัด
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={province}
+            onChange={(e) => selectProvince(e.target.value)}
+            label="จังหวัด"
+          >
+            <MenuItem value="">
+              <em>-- เลือกจังหวัด --</em>
+            </MenuItem>
+            {provinceList.map((item, index) => (
+              <MenuItem value={item.value} key={item.label + index}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl
+          variant="outlined"
+          style={{
+            marginTop: 10,
+            width: 350,
+            borderRadius: 5,
+            marginBottom: 10
+          }}
+        >
+          <InputLabel id="demo-simple-select-outlined-label">อำเภอ</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={district}
+            onChange={(e) => selectDistrict(e.target.value)}
+            label="อำเภอ"
+          >
+            <MenuItem value="">
+              <em>--- เลือกอำเภอ --</em>
+            </MenuItem>
+            {districtList.map((item, index) => (
+              <MenuItem value={item.value} key={item.label + index}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        {province !== "" && (
+          <div
+            style={{
+              marginBottom: 10,
+              backgroundColor: "pink",
+              padding: 5,
+              width: 325
+            }}
+          >
+            <span style={{ fontSize: 16 }}>
+              จำนวนพนักงานนวด: {partnerQty} คน
+            </span>
+          </div>
+        )}
+        <FormControl
+          component="fieldset"
+          style={{
+            padding: 10,
+            margin: 10,
+            border: "1px solid gray",
+            width: 325,
+            borderRadius: 5
+          }}
+        >
+          <FormLabel component="legend">Gender</FormLabel>
+          <RadioGroup
+            row
+            aria-label="gender"
+            name="gender1"
+            value={sex}
+            onChange={(e) => selectSex(e.target.value)}
+          >
+            <FormControlLabel
+              value="male"
+              control={<Radio color="primary" />}
+              label="ชาย"
+              labelPlacement="end"
+            />
+            <FormControlLabel
+              value="female"
+              control={<Radio color="primary" />}
+              label="หญิง"
+              labelPlacement="end"
+            />
+            <FormControlLabel
+              value="other"
+              control={<Radio color="primary" />}
+              label="อื่นๆ"
+              labelPlacement="end"
+            />
+          </RadioGroup>
+        </FormControl>
+        {partnerList.length === 0 && (
+          <div style={{ fontSize: 22, color: "gray", fontWeight: "bold" }}>
+            ไม่พบข้อมูล {partnerRequest}
+          </div>
+        )}
+        <Grid container spacing={1}>
+          {partnerList.length > 0 &&
+            partnerList.map((item, index) => (
+              <Grid item xs={6}>
+                <div
+                  style={{
+                    color:
+                      item.work_status === "available" || !item.work_status
+                        ? "red"
+                        : "white",
+                    fontWeight: "bold",
+                    backgroundColor:
+                      item.work_status === "available" || !item.work_status
+                        ? "rgb(70, 240, 238)"
+                        : "green"
+                  }}
+                >
+                  {item.work_status === "available" ? "ว่าง" : "ไม่ว่าง"}
+                </div>
+                <div>
+                  <img
+                    src={item.image}
+                    alt=""
+                    style={{ width: "100%", height: "100%" }}
+                    onClick={() => handleNext(item)}
+                  />
+                  <div
+                    style={{
+                      backgroundColor: "#b8256e",
+                      color: "white",
+                      alignItems: "center",
+                      opacity: 0.8
+                    }}
+                  >
+                    ฿ {item.price4}
+                  </div>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      {item.name}
+                    </Grid>
+                    <Grid item xs={6}>
+                      อายุ: {item.age}
+                    </Grid>
+                    <Grid item xs={8}>
+                      {item.address}
+                    </Grid>
+                    <Grid item xs={4}>
+                      {item.gender === "female"
+                        ? "หญิง"
+                        : item.gender === "male"
+                        ? "ชาย"
+                        : "อื่นๆ"}
+                    </Grid>
+                  </Grid>
+                </div>
+              </Grid>
+            ))}
+        </Grid>
+      </div>
+      <Footer profile={customerProfile} />
+    </ImageBackground>
   )
 }

@@ -142,7 +142,7 @@ const saveNewPosts = (postData) => {
     sys_create_date: new Date().toUTCString(),
     sys_update_date: new Date().toUTCString()
   }
-  console.log(saveData)
+  // console.log(saveData)
   firebase.database().ref(`${AppConfig.env}/posts/${newId}`).update(saveData)
 }
 

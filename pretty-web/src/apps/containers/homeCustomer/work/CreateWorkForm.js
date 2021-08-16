@@ -9,6 +9,10 @@ import Input from "@material-ui/core/Input"
 import { Person, SkipNext } from "@material-ui/icons"
 import { Button } from "@material-ui/core"
 
+import Header from "../../../components/header"
+import Footer from "../../../components/footer/Customer"
+import ImageBackground from "../../../components/background"
+
 import { getCountryList } from "../../../../data/apis"
 import { AppConfig } from "../../../../Constants"
 import firebase from "../../../../util/firebase"
@@ -63,6 +67,14 @@ export default function CreateWorkForm() {
   }
 
   const handleNext = () => {
+    if (!province) {
+      alert("กรุณาระบุ จังหวัด")
+      return
+    }
+    if (!partnerWantQty) {
+      alert("กรุณาระบุ จำนวนสมาชิก")
+      return
+    }
     history.push("/place-form", {
       customerProfile,
       partnerRequest,
@@ -74,65 +86,77 @@ export default function CreateWorkForm() {
   }
 
   return (
-    <div align="center" style={{ padding: 10 }}>
-      <div>เลือกจังหวัด</div>
-      <div>โหมดงาน: {partnerRequest}</div>
-      <FormControl variant="outlined" style={{ marginTop: 10, width: 250 }}>
-        <InputLabel id="demo-simple-select-outlined-label">จังหวัด</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={province}
-          onChange={(e) => onChangeProvinceSelect(e.target.value)}
-          label="จังหวัด"
-        >
-          <MenuItem value="">
-            <em>-- เลือกจังหวัด --</em>
-          </MenuItem>
-          {provinceList.map((item, index) => (
-            <MenuItem value={item.value} key={item.label + index}>
-              {item.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      {partnerQty && (
+    <ImageBackground>
+      <Header profile={customerProfile} />
+      <div align="center" style={{ padding: 10 }}>
         <div
-          style={{
-            backgroundColor: "pink",
-            width: 250,
-            margin: 10
-          }}
+          align="center"
+          style={{ fontSize: 22, color: "blue", fontWeight: "bold" }}
         >
-          จำนวนสมาชิก ในระบบ: {partnerQty} คน
+          เลือกจังหวัด
         </div>
-      )}
-      <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
-        <InputLabel htmlFor="input-with-icon-adornment">
-          จำนวนน้องๆ ที่ต้องการ
-        </InputLabel>
-        <Input
-          id="input-with-icon-adornment"
-          startAdornment={
-            <InputAdornment position="start">
-              <Person />
-            </InputAdornment>
-          }
-          value={partnerWantQty}
-          onChange={(e) => setPartnerWantQty(e.target.value)}
-        />
-      </FormControl>
-      <div style={{ margin: 10 }}>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: "#ff32ee" }}
-          startIcon={<SkipNext />}
-          onClick={handleNext}
-        >
-          ถัดไป
-        </Button>
+        <div style={{ fontSize: 14 }}>โหมดงาน: {partnerRequest}</div>
+        <FormControl variant="outlined" style={{ marginTop: 10, width: 350 }}>
+          <InputLabel id="demo-simple-select-outlined-label">
+            จังหวัด
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={province}
+            onChange={(e) => onChangeProvinceSelect(e.target.value)}
+            label="จังหวัด"
+          >
+            <MenuItem value="">
+              <em>-- เลือกจังหวัด --</em>
+            </MenuItem>
+            {provinceList.map((item, index) => (
+              <MenuItem value={item.value} key={item.label + index}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        {partnerQty && (
+          <div
+            style={{
+              backgroundColor: "pink",
+              width: 250,
+              margin: 10
+            }}
+          >
+            จำนวนสมาชิก ในระบบ: {partnerQty} คน
+          </div>
+        )}
+        <FormControl style={{ margin: 10, alignContent: "center", width: 350 }}>
+          <InputLabel htmlFor="input-with-icon-adornment">
+            จำนวนน้องๆ ที่ต้องการ
+          </InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            startAdornment={
+              <InputAdornment position="start">
+                <Person />
+              </InputAdornment>
+            }
+            value={partnerWantQty}
+            type="number"
+            onChange={(e) => setPartnerWantQty(e.target.value)}
+          />
+        </FormControl>
+        <div style={{ margin: 10 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ backgroundColor: "#ff32ee" }}
+            startIcon={<SkipNext />}
+            onClick={handleNext}
+          >
+            ถัดไป
+          </Button>
+        </div>
       </div>
-    </div>
+      <Footer profile={customerProfile} />
+    </ImageBackground>
   )
 }

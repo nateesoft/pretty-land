@@ -14,7 +14,9 @@ import LoginForm from "../src/apps/containers/login"
 
 import HomeAdmin from "../src/apps/containers/homeAdmin"
 import HomePartner from "../src/apps/containers/homePartner"
-import HomeCustomer from "../src/apps/containers/homeCustomer"
+import HomeCustomer from "../src/apps/containers/homeCustomer/Dashboard"
+import CustomerPosts from "../src/apps/containers/homeCustomer/Posts"
+import CustomerContactAdmin from "../src/apps/containers/homeCustomer/ContactAdmin"
 
 import MemberProfile from "../src/apps/containers/homeAdmin/members/Profile"
 import ProfileEditForm from "../src/apps/containers/homePartner/edit/RegisterDetail1"
@@ -24,6 +26,7 @@ import ProfileEditForm4 from "../src/apps/containers/homePartner/edit/RegisterDe
 
 import CustomerCreateWork from "../src/apps/containers/homeCustomer/work/CreateWorkForm"
 import PlaceForm from "../src/apps/containers/homeCustomer/work/PlaceForm"
+import TimePriceForm from "../src/apps/containers/homeCustomer/work/TimePriceForm"
 import CustomerCreateWork4 from "../src/apps/containers/homeCustomer/work/CreateWorkForm4"
 import LineLoginForm from "../src/apps/containers/lineLogin"
 
@@ -141,6 +144,12 @@ ReactDOM.render(
       <Route path="/customer">
         <HomeCustomer />
       </Route>
+      <Route path="/customer-posts">
+        <CustomerPosts />
+      </Route>
+      <Route path="/customer-admin">
+        <CustomerContactAdmin />
+      </Route>
       <Route path="/customer-create-work">
         <CustomerCreateWork />
       </Route>
@@ -158,6 +167,9 @@ ReactDOM.render(
       </Route>
       <Route path="/place-form">
         <PlaceForm />
+      </Route>
+      <Route path="/time-price-form">
+        <TimePriceForm />
       </Route>
       <Route path="/customer-create-work4">
         <CustomerCreateWork4 />

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 
 import { AppConfig } from "../../../Constants"
@@ -7,35 +6,9 @@ import firebase from "../../../util/firebase"
 import { snapshotToArray } from "../../../util"
 import { getConfigList } from "../../../apis"
 
-const Container = styled.div`
-  background-image: url("assets/bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-color: red;
-  border-radius: 10px;
-`
-const ItemContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  justify-content: space-between;
-  border-radius: 5px;
-`
-const Item = styled.div`
-  width: 46%;
-  height: 40vh;
-  margin: 5px;
-  border-radius: 5px;
-  position: relative;
-`
-
-const ItemBottom = styled.div`
-  position: absolute;
-  bottom: 0;
-  text-align: center;
-  width: 100%;
-`
+import ImageBackground from "../../components/background"
+import Footer from "../../components/footer/Customer"
+import { Grid } from "@material-ui/core"
 
 export default function Dashboard() {
   const history = useHistory()
@@ -179,101 +152,146 @@ export default function Dashboard() {
   }
 
   return (
-    <Container>
-      <ItemContainer>
-        <Item>
-          {items[0] && (
-            <img
-              src={items[0].image_url}
+    <ImageBackground>
+      <Grid container spacing={1} justifyContent="center">
+        {items[0] && (
+          <Grid item xs={6}>
+            <div
               style={{
-                width: "90%",
-                height: "80%",
-                borderRadius: "5px",
-                border: "3px solid white"
+                backgroundColor: "red",
+                borderRadius: 15,
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                verticalAlign: "center",
+                margin: 5
               }}
-              alt=""
-              onClick={() => loadDetailWork(1, items[0].image_url)}
-            />
-          )}
-          <ItemBottom>
-            <div style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
-              พริตตี้ Event / Mc
+            >
+              <img
+                src="assets/type1.jpg"
+                style={{
+                  margin: 10,
+                  borderRadius: 15,
+                  width: "80%",
+                  height: "70%",
+                  border: "5px solid white"
+                }}
+                alt=""
+                onClick={() => loadDetailWork(1, items[0].image_url)}
+              />
+              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
+                พริตตี้ Event / Mc
+              </div>
+              <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
+                ( Boy : {sumBoy1} Gril : {sumGirl1} )
+              </div>
             </div>
-            <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
-              ( Boy : {sumBoy1} Gril : {sumGirl1} )
-            </div>
-          </ItemBottom>
-        </Item>
-        <Item>
-          {items[1] && (
-            <img
-              src={items[1].image_url}
+          </Grid>
+        )}
+        {items[1] && (
+          <Grid item xs={6}>
+            <div
               style={{
-                width: "90%",
-                height: "80%",
-                borderRadius: "5px",
-                border: "3px solid white"
+                backgroundColor: "red",
+                borderRadius: 15,
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                verticalAlign: "center",
+                margin: 5
               }}
-              alt=""
-              onClick={() => loadDetailWork(2, items[1].image_url)}
-            />
-          )}
-          <ItemBottom>
-            <div style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
-              โคโยตี้ / งานเต้น
+            >
+              <img
+                src="assets/type2.jpg"
+                style={{
+                  margin: 10,
+                  borderRadius: 15,
+                  width: "80%",
+                  height: "70%",
+                  border: "5px solid white"
+                }}
+                alt=""
+                onClick={() => loadDetailWork(2, items[1].image_url)}
+              />
+              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
+                โคโยตี้ / งานเต้น
+              </div>
+              <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
+                ( Boy : {sumBoy2} Gril : {sumGirl2} )
+              </div>
             </div>
-            <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
-              ( Boy : {sumBoy2} Gril : {sumGirl2} )
-            </div>
-          </ItemBottom>
-        </Item>
-        <Item>
-          {items[2] && (
-            <img
-              src={items[2].image_url}
+          </Grid>
+        )}
+        {items[2] && (
+          <Grid item xs={6}>
+            <div
               style={{
-                width: "90%",
-                height: "80%",
-                borderRadius: "5px",
-                border: "3px solid white"
+                backgroundColor: "red",
+                borderRadius: 15,
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                verticalAlign: "center",
+                margin: 5
               }}
-              alt=""
-              onClick={() => loadDetailWork(3, items[2].image_url)}
-            />
-          )}
-          <ItemBottom>
-            <div style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
-              พริตตี้ En / Env
+            >
+              <img
+                src="assets/type3.jpg"
+                style={{
+                  margin: 10,
+                  borderRadius: 15,
+                  width: "80%",
+                  height: "70%",
+                  border: "5px solid white"
+                }}
+                alt=""
+                onClick={() => loadDetailWork(3, items[2].image_url)}
+              />
+              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
+                พริตตี้ En / Env
+              </div>
+              <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
+                ( Boy : {sumBoy3} Gril : {sumGirl3} )
+              </div>
             </div>
-            <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
-              ( Boy : {sumBoy3} Gril : {sumGirl3} )
-            </div>
-          </ItemBottom>
-        </Item>
-        <Item>
-          {items[3] && (
-            <img
-              src={items[3].image_url}
+          </Grid>
+        )}
+        {items[3] && (
+          <Grid item xs={6}>
+            <div
               style={{
-                width: "90%",
-                height: "80%",
-                borderRadius: "5px",
-                border: "3px solid white"
+                backgroundColor: "red",
+                borderRadius: 15,
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                verticalAlign: "center",
+                margin: 5
               }}
-              alt=""
-              onClick={() => loadDetailWork(4, items[3].image_url)}
-            />
-          )}
-          <ItemBottom>
-            <div style={{ color: "white", fontWeight: "bold", fontSize: 18 }}>
-              พริตตี้ นวดแผนไทย
+            >
+              <img
+                src="assets/type4.jpg"
+                style={{
+                  margin: 10,
+                  borderRadius: 15,
+                  width: "80%",
+                  height: "70%",
+                  border: "5px solid white"
+                }}
+                alt=""
+                onClick={() => loadDetailWork(4, items[3].image_url)}
+              />
+              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
+                พริตตี้ นวดแผนไทย
+              </div>
+              <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
+                ( Boy : {sumBoy4} Gril : {sumGirl4} )
+              </div>
             </div>
-            <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
-              ( Boy : {sumBoy4} Gril : {sumGirl4} )
-            </div>
-          </ItemBottom>
-        </Item>
-      </ItemContainer>
-    </Container>
+          </Grid>
+        )}
+      </Grid>
+      <Footer profile={member} />
+    </ImageBackground>
   )
 }
