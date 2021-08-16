@@ -2,11 +2,16 @@ import React from "react"
 import { useHistory } from "react-router-dom"
 import { AppConfig } from "../../../Constants"
 
+import Header from "../../components/header"
+import Footer from "../../components/footer/Customer"
+import ImageBackground from "../../components/background"
+
 export default function ReviewTask() {
   const history = useHistory()
   const { postDetail, customerProfile } = history.location.state
   return (
-    <div>
+    <ImageBackground>
+      <Header profile={customerProfile} />
       <div
         align="center"
         style={{
@@ -103,6 +108,7 @@ export default function ReviewTask() {
           )}
         </div>
       </div>
-    </div>
+      <Footer profile={customerProfile} />
+    </ImageBackground>
   )
 }

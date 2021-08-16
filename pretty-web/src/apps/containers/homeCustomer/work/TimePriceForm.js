@@ -8,6 +8,10 @@ import SaveIcon from "@material-ui/icons/Save"
 import { Button } from "@material-ui/core"
 import { AccessTime, Phone } from "@material-ui/icons"
 
+import Header from "../../../components/header"
+import Footer from "../../../components/footer/Customer"
+import ImageBackground from "../../../components/background"
+
 import { getProvinceName, getBankName } from "../../../../data/apis"
 import { saveNewPosts } from "../../../../apis"
 import { AppConfig } from "../../../../Constants"
@@ -70,55 +74,59 @@ export default function TimePriceForm() {
   }
 
   return (
-    <div align="center" style={{ marginTop: 20 }}>
-      <div>{partnerProfile.name}</div>
-      <div>
-        <img
-          src={partnerProfile.image}
-          alt=""
-          style={{ width: 150, height: "auto" }}
-        />
+    <ImageBackground>
+      <Header profile={customer} />
+      <div align="center" style={{ marginTop: 20 }}>
+        <div>{partnerProfile.name}</div>
+        <div>
+          <img
+            src={partnerProfile.image}
+            alt=""
+            style={{ width: 150, height: "auto" }}
+          />
+        </div>
+        <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
+          <InputLabel htmlFor="input-with-icon-adornment">เวลาเริ่ม</InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            startAdornment={
+              <InputAdornment position="start">
+                <AccessTime />
+              </InputAdornment>
+            }
+            type="number"
+            value={timeMeeting}
+            onChange={(e) => setTimeMeeting(e.target.value)}
+          />
+        </FormControl>
+        <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
+          <InputLabel htmlFor="input-with-icon-adornment">
+            เบอร์โทรศัพท์
+          </InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            startAdornment={
+              <InputAdornment position="start">
+                <Phone />
+              </InputAdornment>
+            }
+            type="number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+        </FormControl>
+        <div style={{ margin: 10 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<SaveIcon />}
+            onClick={() => sendToMassagePartner(partnerProfile)}
+          >
+            ส่งไปยัง Partner
+          </Button>
+        </div>
       </div>
-      <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
-        <InputLabel htmlFor="input-with-icon-adornment">เวลาเริ่ม</InputLabel>
-        <Input
-          id="input-with-icon-adornment"
-          startAdornment={
-            <InputAdornment position="start">
-              <AccessTime />
-            </InputAdornment>
-          }
-          type="number"
-          value={timeMeeting}
-          onChange={(e) => setTimeMeeting(e.target.value)}
-        />
-      </FormControl>
-      <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
-        <InputLabel htmlFor="input-with-icon-adornment">
-          เบอร์โทรศัพท์
-        </InputLabel>
-        <Input
-          id="input-with-icon-adornment"
-          startAdornment={
-            <InputAdornment position="start">
-              <Phone />
-            </InputAdornment>
-          }
-          type="number"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-      </FormControl>
-      <div style={{ margin: 10 }}>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<SaveIcon />}
-          onClick={() => sendToMassagePartner(partnerProfile)}
-        >
-          ส่งไปยัง Partner
-        </Button>
-      </div>
-    </div>
+      <Footer profile={customer} />
+    </ImageBackground>
   )
 }

@@ -13,6 +13,7 @@ import { Grid } from "@material-ui/core"
 import Header from "../../../components/header"
 import Footer from "../../../components/footer/Customer"
 import ImageBackground from "../../../components/background"
+
 import { getCountryList, getDistrictList } from "../../../../data/apis"
 import { AppConfig } from "../../../../Constants"
 import firebase from "../../../../util/firebase"
@@ -98,7 +99,7 @@ export default function CreateWorkForm4() {
   return (
     <ImageBackground>
       <Header profile={customerProfile} />
-      <div align="center" style={{ padding: 10 }}>
+      <div align="center" style={{ padding: 10, overflow: 'auto' }}>
         <div
           align="center"
           style={{ fontSize: 22, color: "blue", fontWeight: "bold" }}
