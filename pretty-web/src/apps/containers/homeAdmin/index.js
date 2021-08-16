@@ -74,7 +74,6 @@ export default function ScrollableTabsButtonForce() {
   const history = useHistory()
   const { member: profile } = history.location.state
 
-  const [members, setMembers] = useState([])
   const [items, setItems] = useState([])
 
   const handleChange = (event, newValue) => {

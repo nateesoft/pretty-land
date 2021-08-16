@@ -3,30 +3,12 @@ import styled from "styled-components"
 import { Button, Grid, TextField } from "@material-ui/core"
 import { Save } from "@material-ui/icons"
 import { useHistory } from "react-router-dom"
+
+import Header from "../../components/header"
+import ImageBackground from "../../components/background"
+
 import * as ApiControl from "../../../apis"
 
-const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-image: url("assets/bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-attachment: fixed;
-`
-const Paper = styled.div`
-  margin: 0;
-  position: absolute;
-  top: 35vh;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  text-align: center;
-`
-const Image = styled.img`
-  width: 100px;
-  height: 100px;
-`
 const Footer = styled.div`
   position: fixed;
   bottom: 0;
@@ -73,15 +55,26 @@ export default function RegisterHome() {
   }
 
   return (
-    <Container>
-      <div style={{ margin: 10 }}>
-        <Paper>
-          <Image src="/assets/login.png" alt="" />
-          <h4 style={{ fontStyle: "italic" }}>PRETTY LAND</h4>
-          <h5 style={{ marginTop: -15 }}>Thailand</h5>
-          <p style={{ marginTop: -15, color: "gray", fontSize: "12px" }}>
-            ( Version 1.0 )
-          </p>
+    <ImageBackground>
+      <Header />
+      <div style={{ marginTop: 55 }}>
+        <div align="center">
+          <img
+            src="/assets/login.png"
+            alt=""
+            style={{ width: 100, height: 100, marginTop: 15 }}
+          />
+          <div style={{ margin: 5 }}>
+            <div
+              style={{
+                fontStyle: "italic",
+                fontWeight: "bold",
+                color: "purple"
+              }}
+            >
+              ลงทะเบียนเข้าใช้งานระบบ
+            </div>
+          </div>
           <Grid item style={{ padding: 20 }}>
             <div style={{ textAlign: "left" }}>
               <TextField
@@ -126,7 +119,7 @@ export default function RegisterHome() {
               </Button>
             </div>
           </Grid>
-        </Paper>
+        </div>
         <Footer>
           <div style={{ fontSize: "11px", color: "red" }}>Contact US</div>
           <div style={{ fontSize: "11px", marginTop: 10, padding: 10 }}>
@@ -138,6 +131,6 @@ export default function RegisterHome() {
           </div>
         </Footer>
       </div>
-    </Container>
+    </ImageBackground>
   )
 }

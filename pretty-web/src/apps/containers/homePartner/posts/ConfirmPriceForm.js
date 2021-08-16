@@ -7,6 +7,10 @@ import InputLabel from "@material-ui/core/InputLabel"
 import InputAdornment from "@material-ui/core/InputAdornment"
 import { useHistory } from "react-router-dom"
 
+import ImageBackground from "../../../components/background"
+import Header from "../../../components/header"
+import Footer from "../../../components/footer/Customer"
+
 import { partnerAcceptJobWaitCustomerReview } from "../../../../apis"
 import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../../Constants"
@@ -52,14 +56,16 @@ export default function ConfirmPriceForm() {
   }, [])
 
   return (
-    <div>
+    <ImageBackground>
+      <Header profile={profile} />
       <div
         style={{
           backgroundColor: "#ff2fe6",
           color: "white",
           padding: 10,
           fontSize: 22,
-          fontWeight: "bold"
+          fontWeight: "bold",
+          marginTop: 55
         }}
       >
         <div align="center">รายละเอียดโพสท์</div>
@@ -131,6 +137,7 @@ export default function ConfirmPriceForm() {
           งานนี้ถูกรับงานไปเต็มแล้ว
         </div>
       )}
-    </div>
+      <Footer profile={profile} />
+    </ImageBackground>
   )
 }

@@ -99,7 +99,7 @@ export default function CreateWorkForm4() {
   return (
     <ImageBackground>
       <Header profile={customerProfile} />
-      <div align="center" style={{ padding: 10, overflow: 'auto' }}>
+      <div align="center" style={{ padding: 10, marginTop: 55 }}>
         <div
           align="center"
           style={{ fontSize: 22, color: "blue", fontWeight: "bold" }}

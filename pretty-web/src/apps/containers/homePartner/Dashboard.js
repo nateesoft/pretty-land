@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
+import { Grid } from "@material-ui/core"
+
+import ImageBackground from "../../components/background"
+import Footer from "../../components/footer/Partner"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -13,40 +17,11 @@ import {
   getPartnerDashboardType4
 } from "../../../apis"
 
-const Container = styled.div`
-  background-image: url("assets/bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-color: red;
-  border-radius: 10px;
-`
-const ItemContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  justify-content: space-between;
-  border-radius: 5px;
-`
-const Item = styled.div`
-  width: 46%;
-  height: 40vh;
-  margin: 5px;
-  border-radius: 5px;
-  position: relative;
-`
-
-const ItemBottom = styled.div`
-  position: absolute;
-  bottom: 0;
-  text-align: center;
-  width: 100%;
-`
-
 export default function Dashboard() {
   const [items, setItems] = useState([])
   const history = useHistory()
   const { member } = history.location.state
+  console.log(history.location.state)
 
   const [taskList, setTaskList] = useState([])
 
@@ -140,109 +115,146 @@ export default function Dashboard() {
   }
 
   return (
-    <Container>
-      <ItemContainer>
-        {member.type1 && (
-          <Item>
-            {items[0] && (
+    <ImageBackground>
+      <Grid container spacing={1} justifyContent="center">
+        {items[0] && (
+          <Grid item xs={6}>
+            <div
+              style={{
+                backgroundColor: "red",
+                borderRadius: 15,
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                verticalAlign: "center",
+                margin: 5
+              }}
+            >
               <img
-                src={items[0].image_url}
+                src="assets/type1.jpg"
                 style={{
-                  width: "90%",
-                  height: "80%",
-                  borderRadius: "5px",
-                  border: "3px solid white"
+                  margin: 10,
+                  borderRadius: 15,
+                  width: "80%",
+                  height: "70%",
+                  border: "5px solid white"
                 }}
                 alt=""
-                onClick={() => onPressOptions(1)}
+                onClick={() => onPressOptions(1, items[0].image_url)}
               />
-            )}
-            <ItemBottom>
               <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
                 พริตตี้ Event / Mc
               </div>
               <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
                 จำนวน {sumType1} งาน
               </div>
-            </ItemBottom>
-          </Item>
+            </div>
+          </Grid>
         )}
-        {member.type2 && (
-          <Item>
-            {items[1] && (
+        {items[1] && (
+          <Grid item xs={6}>
+            <div
+              style={{
+                backgroundColor: "red",
+                borderRadius: 15,
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                verticalAlign: "center",
+                margin: 5
+              }}
+            >
               <img
-                src={items[1].image_url}
+                src="assets/type2.jpg"
                 style={{
-                  width: "90%",
-                  height: "80%",
-                  borderRadius: "5px",
-                  border: "3px solid white"
+                  margin: 10,
+                  borderRadius: 15,
+                  width: "80%",
+                  height: "70%",
+                  border: "5px solid white"
                 }}
                 alt=""
-                onClick={() => onPressOptions(2)}
+                onClick={() => onPressOptions(2, items[1].image_url)}
               />
-            )}
-            <ItemBottom>
               <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
                 โคโยตี้ / งานเต้น
               </div>
               <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
                 จำนวน {sumType2} งาน
               </div>
-            </ItemBottom>
-          </Item>
+            </div>
+          </Grid>
         )}
-        {member.type3 && (
-          <Item>
-            {items[2] && (
+        {items[2] && (
+          <Grid item xs={6}>
+            <div
+              style={{
+                backgroundColor: "red",
+                borderRadius: 15,
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                verticalAlign: "center",
+                margin: 5
+              }}
+            >
               <img
-                src={items[2].image_url}
+                src="assets/type3.jpg"
                 style={{
-                  width: "90%",
-                  height: "80%",
-                  borderRadius: "5px",
-                  border: "3px solid white"
+                  margin: 10,
+                  borderRadius: 15,
+                  width: "80%",
+                  height: "70%",
+                  border: "5px solid white"
                 }}
                 alt=""
-                onClick={() => onPressOptions(3)}
+                onClick={() => onPressOptions(3, items[2].image_url)}
               />
-            )}
-            <ItemBottom>
               <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
                 พริตตี้ En / Env
               </div>
               <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
                 จำนวน {sumType3} งาน
               </div>
-            </ItemBottom>
-          </Item>
+            </div>
+          </Grid>
         )}
-        {member.type4 && (
-          <Item>
-            {items[3] && (
+        {items[3] && (
+          <Grid item xs={6}>
+            <div
+              style={{
+                backgroundColor: "red",
+                borderRadius: 15,
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                verticalAlign: "center",
+                margin: 5
+              }}
+            >
               <img
-                src={items[3].image_url}
+                src="assets/type4.jpg"
                 style={{
-                  width: "90%",
-                  height: "80%",
-                  borderRadius: "5px",
-                  border: "3px solid white"
+                  margin: 10,
+                  borderRadius: 15,
+                  width: "80%",
+                  height: "70%",
+                  border: "5px solid white"
                 }}
                 alt=""
-                onClick={() => onPressOptions(4)}
+                onClick={() => onPressOptions(4, items[3].image_url)}
               />
-            )}
-            <ItemBottom>
               <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
                 พริตตี้ นวดแผนไทย
               </div>
               <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
                 จำนวน {sumType4} งาน
               </div>
-            </ItemBottom>
-          </Item>
+            </div>
+          </Grid>
         )}
-      </ItemContainer>
-    </Container>
+      </Grid>
+      <Footer profile={member} />
+    </ImageBackground>
   )
 }

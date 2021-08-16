@@ -10,6 +10,9 @@ import { RadioGroup, Radio } from "@material-ui/core"
 import Checkbox from "@material-ui/core/Checkbox"
 import { useHistory } from "react-router-dom"
 
+import Header from "../../components/header"
+import ImageBackground from "../../components/background"
+
 import NumberFormatCustom from "../../components/numberFormat"
 
 const Container = styled.div`
@@ -85,7 +88,8 @@ export default function RegisterDetail1() {
   }
 
   return (
-    <Container>
+    <ImageBackground>
+      <Header />
       <div style={{ margin: 10 }}>
         <div align="center">
           <h3>รายละเอียดงานที่สมัคร</h3>
@@ -251,6 +255,6 @@ export default function RegisterDetail1() {
           </Button>
         </div>
       </div>
-    </Container>
+    </ImageBackground>
   )
 }

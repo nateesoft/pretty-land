@@ -12,9 +12,10 @@ import RegisterDetail3Form from "../src/apps/containers/register/RegisterDetail3
 import RegisterDetail4Form from "../src/apps/containers/register/RegisterDetail4"
 import LoginForm from "../src/apps/containers/login"
 
-import HomeAdmin from "../src/apps/containers/homeAdmin"
-import HomePartner from "../src/apps/containers/homePartner"
+import HomeAdmin from "../src/apps/containers/homeAdmin/Dashboard"
+import HomePartner from "../src/apps/containers/homePartner/Dashboard"
 import HomeCustomer from "../src/apps/containers/homeCustomer/Dashboard"
+
 import CustomerPosts from "../src/apps/containers/homeCustomer/Posts"
 import CustomerContactAdmin from "../src/apps/containers/homeCustomer/ContactAdmin"
 
@@ -31,6 +32,9 @@ import CustomerCreateWork4 from "../src/apps/containers/homeCustomer/work/Create
 import LineLoginForm from "../src/apps/containers/lineLogin"
 
 import AdminCustomerPosts from "../src/apps/containers/homeAdmin/posts"
+import AdminMemberList from "../src/apps/containers/homeAdmin/Members"
+import AdminProfile from "../src/apps/containers/homeAdmin/ProfileSetting"
+import SystemConfig from "../src/apps/containers/homeAdmin/SystemConfig"
 import CustomerPostDetail from "../src/apps/containers/homeAdmin/posts/PostDetail"
 
 import PartnerCustomerPosts from "../src/apps/containers/homePartner/posts"
@@ -41,6 +45,11 @@ import CustomerReviewTask from "../src/apps/containers/homeCustomer/ReviewTask"
 import CustomerSelectPartner from "../src/apps/containers/homeCustomer/PartnerListSelect"
 import CustomerPartnerItem from "../src/apps/containers/homeCustomer/PartnerListItem"
 import PaymentForm from "../src/apps/containers/homeCustomer/work/PaymentForm"
+
+import PartnerRequest from "../src/apps/containers/homePartner/WorkRequest"
+import PartnerRequestDetail from "../src/apps/containers/homePartner/WorkRequestDetail"
+import PartnerMyWork from "../src/apps/containers/homePartner/MyWork"
+import PartnerProfile from "../src/apps/containers/homePartner/Profile"
 
 import FacebookForm from "./pages/FacebookLogin"
 
@@ -108,11 +117,20 @@ ReactDOM.render(
       <Route path="/admin">
         <HomeAdmin />
       </Route>
+      <Route path="/admin-members">
+        <AdminMemberList />
+      </Route>
+      <Route path="/admin-profile">
+        <AdminProfile />
+      </Route>
       <Route path="/admin-customer-posts">
         <AdminCustomerPosts />
       </Route>
       <Route path="/admin-customer-post-detail">
         <CustomerPostDetail />
+      </Route>
+      <Route path="/admin-config-system">
+        <SystemConfig />
       </Route>
       <Route path="/partner-customer-posts">
         <PartnerCustomerPosts />
@@ -128,6 +146,18 @@ ReactDOM.render(
       </Route>
       <Route path="/partner">
         <HomePartner />
+      </Route>
+      <Route path="/partner-request">
+        <PartnerRequest />
+      </Route>
+      <Route path="/partner-request-Detail">
+        <PartnerRequestDetail />
+      </Route>
+      <Route path="/partner-my-work">
+        <PartnerMyWork />
+      </Route>
+      <Route path="/partner-profile">
+        <PartnerProfile />
       </Route>
       <Route path="/partner-edit-form">
         <ProfileEditForm />

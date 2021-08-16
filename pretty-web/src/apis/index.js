@@ -79,7 +79,8 @@ const loginApp = (username, password) => {
         }
         resolve({ valid: result, member: memberMaster })
       })
-  }).catch((err) => alert(`${err}`))
+      .catch((err) => alert(`${err}`))
+  })
 }
 
 const validUserExist = (username) => {
@@ -229,5 +230,5 @@ export {
   getPartnerDashboardType3,
   getPartnerDashboardType4,
   partnerAcceptJobWaitCustomerReview,
-  savePaymentSlip
+  savePaymentSlip,
 }

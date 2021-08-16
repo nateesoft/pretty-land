@@ -88,7 +88,7 @@ export default function CreateWorkForm() {
   return (
     <ImageBackground>
       <Header profile={customerProfile} />
-      <div align="center" style={{ padding: 10 }}>
+      <div align="center" style={{ padding: 10, marginTop: 55 }}>
         <div
           align="center"
           style={{ fontSize: 22, color: "blue", fontWeight: "bold" }}

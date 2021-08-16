@@ -76,7 +76,7 @@ export default function TimePriceForm() {
   return (
     <ImageBackground>
       <Header profile={customer} />
-      <div align="center" style={{ marginTop: 20 }}>
+      <div align="center" style={{ marginTop: 55 }}>
         <div>{partnerProfile.name}</div>
         <div>
           <img

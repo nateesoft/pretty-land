@@ -1,11 +1,14 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import { Button, Grid } from "@material-ui/core"
 import ExitToApp from "@material-ui/icons/ExitToApp"
 import Icon from "@material-ui/core/Icon"
+import { Phone } from "@material-ui/icons"
 import { Link, useHistory } from "react-router-dom"
 import base64 from "base-64"
 import uuid from "react-uuid"
+import TextField from "@material-ui/core/TextField"
+import Cookies from "js-cookie"
 
 import { lineConfig } from "../../../util/appConfig"
 import firebase from "../../../util/firebase"
@@ -52,6 +55,8 @@ const Footer = styled.div`
 
 export default function Home() {
   const history = useHistory()
+  const [showFacebookLine] = useState(true)
+  const [phone, setPhone] = useState(Cookies.get("user_phone") || "")
 
   const loginPassFacebook = () => {
     console.log("loginPassFacebook")
@@ -73,7 +78,7 @@ export default function Home() {
           status: "active",
           email: user.email || "",
           username: user.email || user.uid,
-          password: base64.decode("00000000"),
+          password: base64.encode("00000000"),
           loginDate: new Date().toUTCString(),
           photoURL: user.photoURL || "",
           phoneNumber: user.phoneNumber || "",
@@ -101,6 +106,33 @@ export default function Home() {
     const query = `response_type=code&client_id=${lineConfig.client_id}&redirect_uri=${redirect_uri}&state=${state}&scope=${lineConfig.scope}`
     const linkUri = `https://access.line.me/oauth2/v2.1/authorize?${query}`
     window.location.href = linkUri
+  }
+
+  const loginByPhone = () => {
+    if (!phone && !Cookies.get("user_phone")) {
+      alert("กรุณาระบุเบอร์โทรศัพท์ !")
+      return
+    }
+    const memberData = {
+      id: phone,
+      profile: phone,
+      name: phone,
+      customerType: "phone",
+      memberType: "customer",
+      status: "active",
+      email: "",
+      username: phone,
+      password: base64.encode(phone),
+      mobile: phone,
+      customerLevel: 0,
+      sys_create_date: new Date().toUTCString(),
+      sys_update_date: new Date().toUTCString()
+    }
+    firebase
+      .database()
+      .ref(`${AppConfig.env}/members/${phone}`)
+      .update(memberData)
+    history.push("/customer", { member: memberData })
   }
 
   const lineIcon = (
@@ -132,39 +164,76 @@ export default function Home() {
           ( Version 1.0 )
         </p>
         <Grid item>
-          <div>
-            <ButtonAction
-              variant="contained"
-              startIcon={lineIcon}
-              style={{
-                color: "white",
-                backgroundColor: "#35d00d",
-                justifyContent: "unset",
-                fontWeight: "bold"
-              }}
-              onClick={loginPassLineChannel}
-            >
-              เข้าสู่ระบบด้วย LINE
-            </ButtonAction>
-          </div>
-          <div>
-            <ButtonAction
-              variant="contained"
-              size="medium"
-              startIcon={facebookIcon}
-              style={{
-                color: "white",
-                backgroundColor: "#0a69d6",
-                marginTop: 5,
-                justifyContent: "unset",
-                textTransform: "none",
-                fontWeight: "bold"
-              }}
-              onClick={loginPassFacebook}
-            >
-              เข้าสู่ระบบด้วย facebook
-            </ButtonAction>
-          </div>
+          {showFacebookLine && (
+            <div>
+              <ButtonAction
+                variant="contained"
+                startIcon={lineIcon}
+                style={{
+                  color: "white",
+                  backgroundColor: "#35d00d",
+                  justifyContent: "unset",
+                  fontWeight: "bold"
+                }}
+                onClick={loginPassLineChannel}
+              >
+                เข้าสู่ระบบด้วย LINE
+              </ButtonAction>
+            </div>
+          )}
+          {showFacebookLine && (
+            <div>
+              <ButtonAction
+                variant="contained"
+                size="medium"
+                startIcon={facebookIcon}
+                style={{
+                  color: "white",
+                  backgroundColor: "#0a69d6",
+                  marginTop: 5,
+                  justifyContent: "unset",
+                  textTransform: "none",
+                  fontWeight: "bold"
+                }}
+                onClick={loginPassFacebook}
+              >
+                เข้าสู่ระบบด้วย facebook
+              </ButtonAction>
+            </div>
+          )}
+          {!showFacebookLine && (
+            <div>
+              <div>
+                <TextField
+                  id="outlined-basic"
+                  label="เบอร์โทรศัพท์"
+                  variant="outlined"
+                  value={phone}
+                  style={{ width: 230 }}
+                  onChange={(e) => setPhone(phone)}
+                />
+              </div>
+              <div>
+                <ButtonAction
+                  variant="contained"
+                  size="medium"
+                  startIcon={<Phone />}
+                  style={{
+                    color: "white",
+                    backgroundColor: "darkblue",
+                    marginTop: 5,
+                    justifyContent: "unset",
+                    textTransform: "none",
+                    fontWeight: "bold",
+                    border: "1px solid orange"
+                  }}
+                  onClick={loginByPhone}
+                >
+                  เข้าสู่ระบบด้วยเบอร์มือถือ
+                </ButtonAction>
+              </div>
+            </div>
+          )}
           <div
             style={{
               color: "gray",

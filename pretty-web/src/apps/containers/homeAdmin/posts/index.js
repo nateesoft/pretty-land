@@ -5,6 +5,10 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
 import { useHistory } from "react-router-dom"
 
+import Header from "../../../components/header"
+import Footer from "../../../components/footer/Customer"
+import ImageBackground from "../../../components/background"
+
 import { AppConfig } from "../../../../Constants"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
@@ -13,10 +17,10 @@ import { updatePosts } from "../../../../apis"
 export default function CustomerPosts(props) {
   const [filterList, setFilterList] = useState([])
   const history = useHistory()
-  const { partnerType } = history.location.state
+  const { partnerType, member } = history.location.state
 
   const onPressOptions = (item) => {
-    history.push("/admin-customer-post-detail", { item })
+    history.push("/admin-customer-post-detail", { item, member })
   }
 
   useEffect(() => {
@@ -76,7 +80,8 @@ export default function CustomerPosts(props) {
   }, [partnerType])
 
   return (
-    <div>
+    <ImageBackground>
+      <Header profile={member} />
       <div
         align="center"
         style={{
@@ -84,7 +89,8 @@ export default function CustomerPosts(props) {
           padding: 10,
           fontSize: 22,
           fontWeight: "bold",
-          color: "white"
+          color: "white",
+          marginTop: 55
         }}
       >
         รายการโพสท์หางาน
@@ -124,7 +130,9 @@ export default function CustomerPosts(props) {
                 Level: {item.customerLevel}
               </div>
               <div>ประเภทงาน: {item.partnerRequest}</div>
-              <div>Status: {item.statusText}</div>
+              <div style={{ fontWeight: "bold" }}>
+                Status: {item.statusText}
+              </div>
               <div>
                 วันที่:{" "}
                 {Moment(item.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
@@ -132,6 +140,7 @@ export default function CustomerPosts(props) {
             </div>
           </ListItem>
         ))}
-    </div>
+      <Footer profile={member} />
+    </ImageBackground>
   )
 }

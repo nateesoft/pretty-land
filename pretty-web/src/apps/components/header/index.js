@@ -9,7 +9,11 @@ import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    position: "fixed",
+    top: 0,
+    width: "100%",
+    zIndex: 999
   },
   menuButton: {
     marginRight: theme.spacing(2)
@@ -22,8 +26,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function ButtonAppBar(props) {
+export default function Header(props) {
   const history = useHistory()
+  const { hideBack } = props
   const classes = useStyles()
 
   return (
@@ -41,7 +46,7 @@ export default function ButtonAppBar(props) {
           <Typography variant="h6" className={classes.title}>
             Pretty Land
           </Typography>
-          {!props.hideBack && (
+          {!hideBack && (
             <Button
               variant="outlined"
               color="inherit"

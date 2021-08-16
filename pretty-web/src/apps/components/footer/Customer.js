@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import BottomNavigation from "@material-ui/core/BottomNavigation"
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction"
 import { ListAlt, ExitToApp, ContactPhone, Home } from "@material-ui/icons"
-import { useHistory } from "react-router"
+import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles({
   root: {

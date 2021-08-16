@@ -81,7 +81,7 @@ export default function PlaceForm() {
   return (
     <ImageBackground>
       <Header profile={customerProfile} />
-      <div align="center" style={{ overflow: "auto", height: 450 }}>
+      <div align="center" style={{ overflow: "auto", height: 450, marginTop: 55 }}>
         <FormControl
           component="fieldset"
           style={{
@@ -92,7 +92,7 @@ export default function PlaceForm() {
             width: 250
           }}
         >
-          <FormLabel component="legend">Gender</FormLabel>
+          <FormLabel component="legend">เลือก</FormLabel>
           <RadioGroup
             row
             aria-label="gender"

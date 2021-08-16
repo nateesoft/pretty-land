@@ -29,9 +29,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function Profile(props) {
+export default function Profile() {
   const history = useHistory()
-  const { profile } = props
+  console.log(history.location.state)
+  const { profile } = history.location.state
   const classes = useStyles()
   const [checked, setChecked] = useState(false)
   const [images, setImages] = useState([])
@@ -114,11 +115,7 @@ export default function Profile(props) {
           {images &&
             images.map((item, index) => (
               <ImageListItem cols={2} key={item.id}>
-                <img
-                  src={item.url}
-                  style={{ height: "100%" }}
-                  alt={""}
-                />
+                <img src={item.url} style={{ height: "100%" }} alt={""} />
                 <ImageListItemBar
                   title={item.title}
                   subtitle={
@@ -139,11 +136,11 @@ export default function Profile(props) {
               </ImageListItem>
             ))}
         </ImageList>
-        {profile.imageUrl6 && (
+        {/* {profile.imageUrl6 && (
           <div align="center" style={{ margin: 10 }}>
             <ReactPlayer url={profile.imageUrl6} width={300} controls />
           </div>
-        )}
+        )} */}
       </div>
     </div>
   )

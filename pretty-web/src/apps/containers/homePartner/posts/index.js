@@ -5,6 +5,10 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
 import { useHistory } from "react-router-dom"
 
+import ImageBackground from "../../../components/background"
+import Header from "../../../components/header"
+import Footer from "../../../components/footer/Customer"
+
 import { AppConfig } from "../../../../Constants"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
@@ -76,7 +80,8 @@ export default function CustomerPosts(props) {
   }, [partnerType])
 
   return (
-    <div>
+    <ImageBackground>
+      <Header profile={profile} />
       <div
         align="center"
         style={{
@@ -84,7 +89,8 @@ export default function CustomerPosts(props) {
           padding: 10,
           fontSize: 22,
           fontWeight: "bold",
-          color: "white"
+          color: "white",
+          marginTop: 55,
         }}
       >
         โพสท์ทั้งหมดในระบบ
@@ -138,6 +144,6 @@ export default function CustomerPosts(props) {
             </div>
           </ListItem>
         ))}
-    </div>
+    </ImageBackground>
   )
 }

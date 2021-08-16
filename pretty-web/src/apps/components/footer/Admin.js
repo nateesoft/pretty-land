@@ -2,13 +2,13 @@ import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import BottomNavigation from "@material-ui/core/BottomNavigation"
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction"
-import { useHistory } from "react-router"
+import { useHistory } from "react-router-dom"
 import {
-  AccountBox,
+  People,
   ExitToApp,
-  InsertEmoticon,
-  MonetizationOn,
-  LibraryAddCheck
+  Receipt,
+  AccountBox,
+  Settings
 } from "@material-ui/icons"
 
 const useStyles = makeStyles({
@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     position: "fixed",
     bottom: 0,
     width: "100%",
-    backgroundColor: "#ff32ee"
+    backgroundColor: "#ff32ee",
   }
 })
 
@@ -34,6 +34,18 @@ export default function AdminFooter(props) {
     history.push("/admin", { member: profile })
   }
 
+  const goMembers = () => {
+    history.push("/admin-members", { member: profile })
+  }
+
+  const goSetting = () => {
+    history.push("/admin-profile", { member: profile })
+  }
+
+  const goSystemConfig = () => {
+    history.push("/admin-config-system", { member: profile })
+  }
+
   return (
     <BottomNavigation
       value={value}
@@ -42,34 +54,38 @@ export default function AdminFooter(props) {
     >
       <BottomNavigationAction
         style={{ whiteSpace: "nowrap", color: "white" }}
-        label="โหมดงาน"
+        label="โพสท์ทั้งหมด"
         value="tab1"
-        icon={<InsertEmoticon />}
+        icon={<Receipt />}
         onClick={goDashboard}
       />
       <BottomNavigationAction
         style={{ whiteSpace: "nowrap", color: "white" }}
-        label="งานที่เสนอ"
+        label="สมาชิกในระบบ"
         value="tab2"
-        icon={<MonetizationOn />}
-      />
-      <BottomNavigationAction
-        style={{ whiteSpace: "nowrap", color: "white" }}
-        label="งานของฉัน"
-        value="tab3"
-        icon={<LibraryAddCheck />}
+        icon={<People />}
+        onClick={goMembers}
       />
       <BottomNavigationAction
         style={{ whiteSpace: "nowrap", color: "white" }}
         label="ข้อมูลส่วนตัว"
-        value="tab4"
+        value="tab3"
         icon={<AccountBox />}
+        onClick={goSetting}
+      />
+      <BottomNavigationAction
+        style={{ whiteSpace: "nowrap", color: "white" }}
+        label="ตั้งค่าระบบ"
+        value="tab4"
+        icon={<Settings />}
+        onClick={goSystemConfig}
       />
       <BottomNavigationAction
         style={{ whiteSpace: "nowrap", color: "white" }}
         label="Logout"
         value="tab5"
         icon={<ExitToApp />}
+        onClick={() => history.push("/")}
       />
     </BottomNavigation>
   )

@@ -7,10 +7,13 @@ import ImageListItem from "@material-ui/core/ImageListItem"
 import ImageListItemBar from "@material-ui/core/ImageListItemBar"
 import IconButton from "@material-ui/core/IconButton"
 import InfoIcon from "@material-ui/icons/PhotoSizeSelectActual"
-import ArrowBack from "@material-ui/icons/ArrowBack"
 import Moment from "moment"
 import { Button } from "@material-ui/core"
 import ReactPlayer from "react-player"
+
+import ImageBackground from "../../../components/background"
+import Header from "../../../components/header"
+import Footer from "../../../components/footer/Admin"
 
 import { getProvinceName, getBankName } from "../../../../data/apis"
 import firebase from "../../../../util/firebase"
@@ -157,102 +160,107 @@ export default function BasicImageList(props) {
   }
 
   return (
-    <Container>
-      <div
-        style={{
-          padding: 10,
-          backgroundColor: "#ff32ee",
-          fontWeight: "bold",
-          verticalAlign: "center"
-        }}
-      >
-        <Button
-          variant="outlined"
-          startIcon={<ArrowBack />}
-          style={{ fontSize: 16, color: 'white' }}
-          onClick={backPage}
-        >
-          ย้อนกลับ
-        </Button>
-      </div>
-      <div style={{ margin: 10 }}>
-        <h3 style={{ textAlign: "center" }}>แสดงรายละเอียดสมาชิก</h3>
-        <div style={{ borderRadius: 20, border: "1px solid", padding: 20 }}>
-          <div style={{ color: "blue" }}>
-            ชื่อ: {memberProfile.name || memberProfile.username}
+    <ImageBackground>
+      <Header profile={adminProfile} />
+      <div style={{ height: 500, overflow: "auto" }}>
+        <div style={{ marginTop: 55 }}>
+          <div
+            style={{
+              padding: 10,
+              backgroundColor: "#ff32ee",
+              fontWeight: "bold",
+              verticalAlign: "center",
+              textAlign: "center",
+              color: "white",
+              fontSize: 20
+            }}
+          >
+            แสดงรายละเอียดสมาชิก
           </div>
-          <div>
-            เพศ:{" "}
-            {memberProfile.gender === "female"
-              ? "หญิง"
-              : memberProfile.gender === "male"
-              ? "ชาย"
-              : "อื่น ๆ"}
+          <div
+            style={{
+              borderRadius: 20,
+              border: "1px solid",
+              padding: 20,
+              margin: 5
+            }}
+          >
+            <div style={{ color: "blue" }}>
+              ชื่อ: {memberProfile.name || memberProfile.username}
+            </div>
+            <div>โหมดงาน: {mode}</div>
+            <div>
+              วันที่เป็นสมาชิก:{" "}
+              {Moment(memberProfile.sys_update_date).format(
+                "DD/MM/YYYY HH:mm:ss"
+              )}
+            </div>
+            <div>
+              เพศ:{" "}
+              {memberProfile.gender === "female"
+                ? "หญิง"
+                : memberProfile.gender === "male"
+                ? "ชาย"
+                : "อื่น ๆ"}
+            </div>
+            <div>
+              อายุ: {memberProfile.age} | สูง: {memberProfile.height} | น้ำหนัก:{" "}
+              {memberProfile.weight}
+            </div>
+            <div>สถานะ: {memberProfile.statusText}</div>
+            <div>คะแนน: {memberProfile.point || 0}</div>
+            <hr />
+            <div>จังหวัด: {getProvinceNameShow(memberProfile)}</div>
+            <hr />
+            <div>ธนาคาร: {getBankNameShow(memberProfile)}</div>
+            <div>เลขที่บัญชี: {memberProfile.bankNo}</div>
+            <hr />
+            <div>Line ID: {memberProfile.lineId}</div>
+            <div>เบอร์ติดต่อ: {memberProfile.mobile}</div>
+            {memberProfile.type4 && <div>ที่อยู่: {memberProfile.address}</div>}
+            {memberProfile.type4 && <div>ราคา: {memberProfile.price4}</div>}
           </div>
-          <div>
-            อายุ: {memberProfile.age} | สูง: {memberProfile.height} | น้ำหนัก:{" "}
-            {memberProfile.weight}
-          </div>
-          <div>โหมดงาน: {mode}</div>
-          <div>
-            วันที่เป็นสมาชิก:{" "}
-            {Moment(memberProfile.sys_update_date).format(
-              "DD/MM/YYYY HH:mm:ss"
-            )}
-          </div>
-          <div>สถานะ: {memberProfile.statusText}</div>
-          <div>คะแนน: {memberProfile.point || 0}</div>
-          <hr />
-          <div>จังหวัด: {getProvinceNameShow(memberProfile)}</div>
-          <hr />
-          <div>ธนาคาร: {getBankNameShow(memberProfile)}</div>
-          <div>เลขที่บัญชี: {memberProfile.bankNo}</div>
-          <hr />
-          <div>Line ID: {memberProfile.lineId}</div>
-          <div>เบอร์ติดต่อ: {memberProfile.mobile}</div>
-          {memberProfile.type4 && <div>ที่อยู่: {memberProfile.address}</div>}
-          {memberProfile.type4 && <div>ราคา: {memberProfile.price4}</div>}
         </div>
-      </div>
-      <div style={{ margin: 10 }}>
-        <ImageList rowHeight={450} cols={2}>
-          {images &&
-            images.map((item, index) => (
-              <ImageListItem
-                cols={2}
-                key={item.id}
-                style={{ textAlign: "center" }}
-              >
-                <img
-                  src={item.url}
-                  style={{ height: "100%", width: "auto" }}
-                  alt={""}
-                />
-                <ImageListItemBar
-                  title={item.title}
-                  subtitle={
-                    <span>
-                      น้อง: {memberProfile.name} | {memberProfile.charactor} |{" "}
-                      {getProvinceNameShow(memberProfile)}
-                    </span>
-                  }
-                  actionIcon={
-                    <IconButton
-                      aria-label={`info about ${item.title}`}
-                      className={classes.icon}
-                    >
-                      <InfoIcon />
-                    </IconButton>
-                  }
-                />
-              </ImageListItem>
-            ))}
-        </ImageList>
-        {memberProfile.imageUrl6 && (
-          <div align="center" style={{ margin: 10 }}>
-            <ReactPlayer url={memberProfile.imageUrl6} width={300} controls />
-          </div>
-        )}
+        <div style={{ margin: 10 }}>
+          <ImageList rowHeight={450} cols={2}>
+            {images &&
+              images.map((item, index) => (
+                <ImageListItem
+                  cols={2}
+                  key={item.id}
+                  style={{ textAlign: "center" }}
+                >
+                  <img
+                    src={item.url}
+                    style={{ height: "100%", width: "auto" }}
+                    alt={""}
+                  />
+                  <ImageListItemBar
+                    title={item.title}
+                    subtitle={
+                      <span>
+                        น้อง: {memberProfile.name} | {memberProfile.charactor} |{" "}
+                        {getProvinceNameShow(memberProfile)}
+                      </span>
+                    }
+                    actionIcon={
+                      <IconButton
+                        aria-label={`info about ${item.title}`}
+                        className={classes.icon}
+                      >
+                        <InfoIcon />
+                      </IconButton>
+                    }
+                  />
+                </ImageListItem>
+              ))}
+          </ImageList>
+          {memberProfile.imageUrl6 && (
+            <div align="center" style={{ margin: 10 }}>
+              <ReactPlayer url={memberProfile.imageUrl6} width={300} controls />
+            </div>
+          )}
+        </div>
       </div>
       <div align="center" style={{ margin: 10 }}>
         {memberProfile.status === AppConfig.MemberStatus.newRegister && (
@@ -296,6 +304,7 @@ export default function BasicImageList(props) {
           ลบข้อมูลออกจากระบบ
         </Button>
       </div>
-    </Container>
+      <Footer profile={adminProfile} />
+    </ImageBackground>
   )
 }

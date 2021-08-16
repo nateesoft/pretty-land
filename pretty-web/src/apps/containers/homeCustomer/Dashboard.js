@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
+import { Grid } from "@material-ui/core"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -8,7 +9,6 @@ import { getConfigList } from "../../../apis"
 
 import ImageBackground from "../../components/background"
 import Footer from "../../components/footer/Customer"
-import { Grid } from "@material-ui/core"
 
 export default function Dashboard() {
   const history = useHistory()
