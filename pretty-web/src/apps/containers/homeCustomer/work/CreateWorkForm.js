@@ -117,17 +117,15 @@ export default function CreateWorkForm() {
             ))}
           </Select>
         </FormControl>
-        {partnerQty && (
-          <div
-            style={{
-              backgroundColor: "pink",
-              width: 250,
-              margin: 10
-            }}
-          >
-            จำนวนสมาชิก ในระบบ: {partnerQty} คน
-          </div>
-        )}
+        <div
+          style={{
+            backgroundColor: "pink",
+            width: 250,
+            margin: 10
+          }}
+        >
+          จำนวนสมาชิก ในระบบ: {partnerQty} คน
+        </div>
         <FormControl style={{ margin: 10, alignContent: "center", width: 350 }}>
           <InputLabel htmlFor="input-with-icon-adornment">
             จำนวนน้องๆ ที่ต้องการ

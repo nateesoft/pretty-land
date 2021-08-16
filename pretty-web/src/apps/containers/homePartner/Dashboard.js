@@ -21,7 +21,6 @@ export default function Dashboard() {
   const [items, setItems] = useState([])
   const history = useHistory()
   const { member } = history.location.state
-  console.log(history.location.state)
 
   const [taskList, setTaskList] = useState([])
 

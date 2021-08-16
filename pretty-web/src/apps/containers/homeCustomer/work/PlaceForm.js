@@ -130,7 +130,7 @@ export default function PlaceForm() {
               </InputAdornment>
             }
             value={startTime}
-            type="number"
+            type="text"
             onChange={(e) => setStartTime(e.target.value)}
           />
         </FormControl>
@@ -144,7 +144,7 @@ export default function PlaceForm() {
               </InputAdornment>
             }
             value={stopTime}
-            type="number"
+            type="text"
             onChange={(e) => setStopTime(e.target.value)}
           />
         </FormControl>
@@ -160,7 +160,7 @@ export default function PlaceForm() {
               </InputAdornment>
             }
             value={phone}
-            type="number"
+            type="text"
             onChange={(e) => setPhone(e.target.value)}
           />
         </FormControl>

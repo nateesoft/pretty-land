@@ -32,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+const formatStature = (data) => {
+  return data.substr(0, 2) + "-" + data.substr(2, 2) + "-" + data.substr(4, 2)
+}
+
 export default function PartnerListItem() {
   const classes = useStyles()
   const history = useHistory()
@@ -164,7 +168,7 @@ export default function PartnerListItem() {
       >
         <div style={{ color: "blue" }}>ชื่อ: {partnerProfile.name}</div>
         <div>
-          สัดส่วน: {partnerProfile.stature} สูง: {partnerProfile.height}
+          สัดส่วน: {formatStature(partnerProfile.stature)} สูง: {partnerProfile.height}
         </div>
         <div>ราคาที่เสนอ: {item.amount}</div>
       </div>

@@ -51,6 +51,7 @@ export default function AdminFooter(props) {
       value={value}
       onChange={handleChange}
       className={classes.root}
+      showLabels
     >
       <BottomNavigationAction
         style={{ whiteSpace: "nowrap", color: "white" }}

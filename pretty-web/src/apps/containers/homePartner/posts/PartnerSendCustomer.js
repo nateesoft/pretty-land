@@ -8,7 +8,7 @@ import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
 import Footer from "../../../components/footer/Customer"
 
-export default function PostDetail() {
+export default function PartnerSendCustomer() {
   const history = useHistory()
   const { item, profile } = history.location.state
 
@@ -29,7 +29,7 @@ export default function PostDetail() {
             fontWeight: "bold"
           }}
         >
-          <div align="center">รายละเอียดโพสท์</div>
+          <div align="center">รายละเอียดงานที่แจ้งลูกค้า</div>
         </div>
         <hr />
         <div style={{ margin: 5, padding: 5 }}>

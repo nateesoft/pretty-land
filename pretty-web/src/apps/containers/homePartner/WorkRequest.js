@@ -48,7 +48,7 @@ export default function WorkRequest() {
           const statusMatch =
             item.status === AppConfig.PostsStatus.waitPartnerConfrimWork ||
             item.status === AppConfig.PostsStatus.waitCustomerSelectPartner
-          if (obj.partnerId === (profile && profile.id && statusMatch)) {
+          if (obj.partnerId === profile.id && statusMatch) {
             myWorkList.push(item)
           }
         }

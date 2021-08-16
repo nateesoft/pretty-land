@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Profile() {
   const history = useHistory()
-  console.log(history.location.state)
   const { profile } = history.location.state
   const classes = useStyles()
   const [checked, setChecked] = useState(false)

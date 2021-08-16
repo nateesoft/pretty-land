@@ -5,6 +5,43 @@ import firebase from "../util/firebase"
 import { AppConfig } from "../Constants"
 import { getBankList } from "../data/apis"
 
+const adminSaveConfirmPayment = (item, listPartner) => {
+  return new Promise((resolve, reject) => {
+    // save to firebase
+    firebase
+      .database()
+      .ref(`${AppConfig.env}/posts/${item.id}`)
+      .update({
+        status: AppConfig.PostsStatus.adminConfirmPayment,
+        statusText: "ชำระเงินเรียบร้อยแล้ว",
+        sys_update_date: new Date().toUTCString()
+      })
+
+    // update status partner in list
+    listPartner.forEach((obj) => {
+      firebase
+        .database()
+        .ref(`${AppConfig.env}/posts/${item.id}/partnerSelect/${obj.partnerId}`)
+        .update({
+          selectStatus: AppConfig.PostsStatus.customerPayment,
+          selectStatusText: "ชำระเงินเรียบร้อยแล้ว",
+          sys_update_date: new Date().toUTCString()
+        })
+    })
+
+    getMemberProfile(item.customerId).then((cust) => {
+      // update level to customer
+      firebase
+        .database()
+        .ref(`${AppConfig.env}/members/${item.customerId}`)
+        .update({
+          customerLevel: cust.customerLevel + 1
+        })
+    })
+    resolve(true)
+  })
+}
+
 const clearOldFiles = (fileName) => {
   return new Promise((resolve, reject) => {
     const storage = firebase.storage()
@@ -231,4 +268,5 @@ export {
   getPartnerDashboardType4,
   partnerAcceptJobWaitCustomerReview,
   savePaymentSlip,
+  adminSaveConfirmPayment,
 }

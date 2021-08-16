@@ -36,6 +36,7 @@ import AdminMemberList from "../src/apps/containers/homeAdmin/Members"
 import AdminProfile from "../src/apps/containers/homeAdmin/ProfileSetting"
 import SystemConfig from "../src/apps/containers/homeAdmin/SystemConfig"
 import CustomerPostDetail from "../src/apps/containers/homeAdmin/posts/PostDetail"
+import AdminCheckSlip from "../src/apps/containers/homeAdmin/posts/CheckSlip"
 
 import PartnerCustomerPosts from "../src/apps/containers/homePartner/posts"
 import CustomerPostDetailForPartner from "../src/apps/containers/homePartner/posts/PostDetail"
@@ -50,6 +51,7 @@ import PartnerRequest from "../src/apps/containers/homePartner/WorkRequest"
 import PartnerRequestDetail from "../src/apps/containers/homePartner/WorkRequestDetail"
 import PartnerMyWork from "../src/apps/containers/homePartner/MyWork"
 import PartnerProfile from "../src/apps/containers/homePartner/Profile"
+import PartnerSendCustomer from "../src/apps/containers/homePartner/posts/PartnerSendCustomer"
 
 import FacebookForm from "./pages/FacebookLogin"
 
@@ -135,6 +137,9 @@ ReactDOM.render(
       <Route path="/partner-customer-posts">
         <PartnerCustomerPosts />
       </Route>
+      <Route path="/admin-check-slip">
+        <AdminCheckSlip />
+      </Route>
       <Route path="/member-profile">
         <MemberProfile />
       </Route>
@@ -170,6 +175,9 @@ ReactDOM.render(
       </Route>
       <Route path="/partner-edit-form-4">
         <ProfileEditForm4 />
+      </Route>
+      <Route path="/partner-send-customer">
+        <PartnerSendCustomer />
       </Route>
       <Route path="/customer">
         <HomeCustomer />

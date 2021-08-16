@@ -33,7 +33,7 @@ export default function WorkRequest() {
 
   const onPressOptions = (item) => {
     if (item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment) {
-      // navigation.navigate("Work-Detail", { item })
+      history.push("/partner-send-customer", { item })
     }
   }
 
@@ -99,13 +99,13 @@ export default function WorkRequest() {
         <List className={classes.root}>
           {filterList &&
             filterList.map((item, index) => (
-              <ListItem key={item.id}>
+              <ListItem key={item.id} onClick={()=>onPressOptions(item)}>
                 <ListItemAvatar>
                   <Avatar
                     src={item.partnerImage}
                     alt=""
                     variant="circular"
-                    style={{ width: 64, height: 64 }}
+                    style={{ width: 64, height: 64, margin: 5 }}
                   />
                 </ListItemAvatar>
                 {item.status !== AppConfig.PostsStatus.adminConfirmPayment && (
@@ -136,6 +136,15 @@ export default function WorkRequest() {
                     <div>Lv.ลูกค้า: {item.customerLevel}</div>
                     <div>เบอร์ติดต่อ: {item.customerPhone}</div>
                     <hr />
+                    <div
+                      style={{
+                        padding: 5,
+                        backgroundColor: "blue",
+                        color: "white"
+                      }}
+                    >
+                      สถานะ: {item.statusText}
+                    </div>
                   </div>
                 )}
               </ListItem>

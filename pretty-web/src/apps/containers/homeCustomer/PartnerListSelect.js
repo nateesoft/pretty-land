@@ -3,6 +3,10 @@ import { Button, Grid } from "@material-ui/core"
 import { useHistory } from "react-router-dom"
 import { AttachMoney } from "@material-ui/icons"
 
+import Header from "../../components/header"
+import Footer from "../../components/footer/Customer"
+import ImageBackground from "../../components/background"
+
 import firebase from "../../../util/firebase"
 import { snapshotToArray } from "../../../util"
 import { AppConfig } from "../../../Constants"
@@ -30,7 +34,11 @@ export default function PartnerListSelect() {
   }
 
   const onPressShowPartnerDetail = (item) => {
-    history.push("customer-partner-item", { postItem, partnerItem: item, customerProfile })
+    history.push("customer-partner-item", {
+      postItem,
+      partnerItem: item,
+      customerProfile
+    })
   }
 
   useEffect(() => {
@@ -54,7 +62,8 @@ export default function PartnerListSelect() {
   }, [])
 
   return (
-    <div>
+    <ImageBackground>
+      <Header profile={customerProfile} />
       <div
         align="center"
         style={{
@@ -62,7 +71,9 @@ export default function PartnerListSelect() {
           padding: 10,
           fontSize: 22,
           fontWeight: "bold",
-          color: "white"
+          color: "white",
+          marginTop: 55,
+          width: "100%"
         }}
       >
         น้องๆ พร้อมทำงาน
@@ -106,6 +117,7 @@ export default function PartnerListSelect() {
           </Button>
         </div>
       )}
-    </div>
+      <Footer profile={customerProfile} />
+    </ImageBackground>
   )
 }

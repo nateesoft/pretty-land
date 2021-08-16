@@ -183,7 +183,8 @@ export default function Dashboard() {
                 พริตตี้ Event / Mc
               </div>
               <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
-                ( Boy : {sumBoy1} Gril : {sumGirl1} )
+                ( <span style={{ color: "blue" }}>Boy : {sumBoy1}</span>{" "}
+                <span style={{ color: "pink" }}>Girl : {sumGirl1}</span> )
               </div>
             </div>
           </Grid>
@@ -217,7 +218,8 @@ export default function Dashboard() {
                 โคโยตี้ / งานเต้น
               </div>
               <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
-                ( Boy : {sumBoy2} Gril : {sumGirl2} )
+                ( <span style={{ color: "blue" }}>Boy : {sumBoy2}</span>{" "}
+                <span style={{ color: "pink" }}>Girl : {sumGirl2}</span> )
               </div>
             </div>
           </Grid>
@@ -251,7 +253,8 @@ export default function Dashboard() {
                 พริตตี้ En / Env
               </div>
               <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
-                ( Boy : {sumBoy3} Gril : {sumGirl3} )
+                ( <span style={{ color: "blue" }}>Boy : {sumBoy3}</span>{" "}
+                <span style={{ color: "pink" }}>Girl : {sumGirl3}</span> )
               </div>
             </div>
           </Grid>
@@ -285,7 +288,8 @@ export default function Dashboard() {
                 พริตตี้ นวดแผนไทย
               </div>
               <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
-                ( Boy : {sumBoy4} Gril : {sumGirl4} )
+                ( <span style={{ color: "blue" }}>Boy : {sumBoy4}</span>{" "}
+                <span style={{ color: "pink" }}>Girl : {sumGirl4}</span> )
               </div>
             </div>
           </Grid>

@@ -41,6 +41,7 @@ export default function CustomerFooter(props) {
       value={value}
       onChange={handleChange}
       className={classes.root}
+      showLabels
     >
       <BottomNavigationAction
         style={{ whiteSpace: "nowrap", color: "white" }}
