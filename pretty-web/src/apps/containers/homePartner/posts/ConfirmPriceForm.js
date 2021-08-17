@@ -37,7 +37,7 @@ export default function ConfirmPriceForm() {
       ...profile,
       amount
     })
-    history.push("/partner", { member: profile })
+    history.push("/partner-request", { member: profile })
   }
 
   useEffect(() => {

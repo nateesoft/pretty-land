@@ -8,14 +8,11 @@ import { getBankList } from "../data/apis"
 const adminSaveConfirmPayment = (item, listPartner) => {
   return new Promise((resolve, reject) => {
     // save to firebase
-    firebase
-      .database()
-      .ref(`${AppConfig.env}/posts/${item.id}`)
-      .update({
-        status: AppConfig.PostsStatus.adminConfirmPayment,
-        statusText: "ชำระเงินเรียบร้อยแล้ว",
-        sys_update_date: new Date().toUTCString()
-      })
+    firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
+      status: AppConfig.PostsStatus.adminConfirmPayment,
+      statusText: "ชำระเงินเรียบร้อยแล้ว",
+      sys_update_date: new Date().toUTCString()
+    })
 
     // update status partner in list
     listPartner.forEach((obj) => {
@@ -35,7 +32,7 @@ const adminSaveConfirmPayment = (item, listPartner) => {
         .database()
         .ref(`${AppConfig.env}/members/${item.customerId}`)
         .update({
-          customerLevel: cust.customerLevel + 1
+          customerLevel: (cust.customerLevel || 0) + 1
         })
     })
     resolve(true)
@@ -268,5 +265,5 @@ export {
   getPartnerDashboardType4,
   partnerAcceptJobWaitCustomerReview,
   savePaymentSlip,
-  adminSaveConfirmPayment,
+  adminSaveConfirmPayment
 }
