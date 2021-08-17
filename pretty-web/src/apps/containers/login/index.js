@@ -26,15 +26,15 @@ export default function LoginForm(props) {
     const { valid, member } = await ApiControl.loginApp(username, password)
     if (valid) {
       if (member.memberType === "admin" || member.memberType === "superadmin") {
-        history.push("/admin", { member })
+        history.replace("/admin", { member })
       } else if (member.memberType === "partner") {
         if (member.status === AppConfig.MemberStatus.active) {
-          history.push("/partner", { member })
+          history.replace("/partner", { member })
         } else {
           alert("รอการอนุมัติข้อมูลจาก admin")
         }
       } else if (member.memberType === "customer") {
-        history.push("/customer", { member })
+        history.replace("/customer", { member })
       } else {
         alert('ไม่พบสิทธ์เข้าใช้งานระบบ')
       }

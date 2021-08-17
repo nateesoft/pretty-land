@@ -13,7 +13,7 @@ import ImageBackground from "../../components/background"
 
 export default function ReviewTask() {
   const [items, setItem] = useState([])
-  const [rate, setRate] = useState(5)
+  const [rate, setRate] = useState(0)
   const history = useHistory()
   const { postDetail, customerProfile } = history.location.state
 
@@ -24,7 +24,7 @@ export default function ReviewTask() {
       sys_update_date: new Date().toUTCString(),
       start_work_date: new Date().toUTCString()
     })
-    history.push("/customer-posts", { customerProfile })
+    history.push("/customer-posts", { member: customerProfile })
   }
 
   const saveHistoryStar = (partnerId) => {

@@ -355,7 +355,7 @@ export default function PaymentForm() {
           <Input
             id="input-with-icon-adornment"
             value={datetime}
-            type="date"
+            type="datetime-local"
             onChange={(e) => setDateTime(e.target.value)}
             startAdornment={
               <InputAdornment position="start">

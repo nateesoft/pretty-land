@@ -34,7 +34,7 @@ export default function PartnerFooter(props) {
     history.push("/partner", { member: profile })
   }
   const goRequest = () => {
-    history.push("/partner-request", { profile })
+    history.push("/partner-request", { member: profile })
   }
   const goMyWork = () => {
     history.push("/partner-my-work", { profile })

@@ -96,7 +96,7 @@ export default function Home() {
           .ref(`${AppConfig.env}/members/${user.uid}`)
           .update(memberData)
         // login by facebook'
-        history.push("/customer", { member: memberData })
+        history.replace("/customer", { member: memberData })
       })
       .catch((err) => {
         console.log("facebook_error:", err)
@@ -137,7 +137,7 @@ export default function Home() {
       .ref(`${AppConfig.env}/members/${phone}`)
       .update(memberData)
       Cookies.set('user_phone', phone);
-    history.push("/customer", { member: memberData })
+    history.replace("/customer", { member: memberData })
   }
 
   const lineIcon = (

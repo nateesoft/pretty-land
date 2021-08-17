@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 export default function WorkRequest() {
   const history = useHistory()
   const classes = useStyles()
-  const { profile } = history.location.state
+  const { member: profile } = history.location.state
   const [filterList, setFilterList] = useState([])
 
   const onPressOptions = (item) => {

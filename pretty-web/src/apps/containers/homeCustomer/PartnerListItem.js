@@ -92,10 +92,9 @@ export default function PartnerListItem() {
         .database()
         .ref(`${AppConfig.env}/partner_star/${item.partnerId}`)
       ref.once("value", (snapshot) => {
-        const item = snapshot.val()
-        if (item) {
+        const data = { ...snapshot.val() }
+        if (data) {
           count = count + 1
-          const data = { ...item.val() }
           if (data.star === 5) {
             r5 = r5 + 1
           }
