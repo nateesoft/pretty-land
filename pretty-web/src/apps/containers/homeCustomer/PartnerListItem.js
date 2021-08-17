@@ -10,7 +10,11 @@ import ImageListItemBar from "@material-ui/core/ImageListItemBar"
 import IconButton from "@material-ui/core/IconButton"
 import InfoIcon from "@material-ui/icons/PhotoSizeSelectActual"
 import ReactPlayer from "react-player"
-import NumberFormat from 'react-number-format'
+import NumberFormat from "react-number-format"
+
+import Header from "../../components/header"
+import Footer from "../../components/footer/Customer"
+import ImageBackground from "../../components/background"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -57,7 +61,7 @@ export default function PartnerListItem() {
         selectStatusText: "ลูกค้าคอนเฟิร์ม รอชำระเงิน",
         sys_create_date: new Date().toUTCString()
       })
-      history.goBack()
+    history.goBack()
   }
 
   const cancelSelectPartner = () => {
@@ -143,10 +147,12 @@ export default function PartnerListItem() {
   }, [])
 
   return (
-    <div>
+    <ImageBackground>
+      <Header profile={customerProfile} />
       <div
         align="center"
         style={{
+          marginTop: 60,
           padding: 10,
           backgroundColor: "#ff32ee",
           fontWeight: "bold",
@@ -168,7 +174,12 @@ export default function PartnerListItem() {
       >
         <div style={{ color: "blue" }}>ชื่อ: {partnerProfile.name}</div>
         <div>
-          สัดส่วน: <NumberFormat format="##-##-##" value={partnerProfile.stature} displayType="text" />
+          สัดส่วน:{" "}
+          <NumberFormat
+            format="##-##-##"
+            value={partnerProfile.stature}
+            displayType="text"
+          />
         </div>
         <div>
           น้ำหนัก: {partnerProfile.weight} สูง: {partnerProfile.height}
@@ -349,6 +360,6 @@ export default function PartnerListItem() {
           </div>
         )}
       </div>
-    </div>
+    </ImageBackground>
   )
 }

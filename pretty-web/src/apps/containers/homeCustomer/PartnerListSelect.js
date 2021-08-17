@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react"
 import { Button, Grid } from "@material-ui/core"
 import { useHistory } from "react-router-dom"
-import { AttachMoney } from "@material-ui/icons"
+import { AttachMoney, CheckCircle } from "@material-ui/icons"
 
 import Header from "../../components/header"
 import Footer from "../../components/footer/Customer"
 import ImageBackground from "../../components/background"
 
 import firebase from "../../../util/firebase"
-import { snapshotToArray } from "../../../util"
 import { AppConfig } from "../../../Constants"
 
 export default function PartnerListSelect() {
@@ -17,14 +16,19 @@ export default function PartnerListSelect() {
   const [listSelect, setListSelect] = useState([])
   const [paymentActive, setPaymentActive] = useState(false)
 
-  const mappingData = () => {
+  const mappingData = (pSelect) => {
     return new Promise((resolve, reject) => {
-      const data = postItem.partnerSelect
+      const data = pSelect.partnerSelect
       const listPartner = []
+      let activePaymentButton = false
       for (let key in data) {
         const obj = data[key]
+        if (obj.selectStatus === AppConfig.PostsStatus.customerConfirm) {
+          activePaymentButton = true
+        }
         listPartner.push(obj)
       }
+      setPaymentActive(activePaymentButton)
       resolve(listPartner)
     })
   }
@@ -42,20 +46,10 @@ export default function PartnerListSelect() {
   }
 
   useEffect(() => {
-    mappingData().then((res) => setListSelect(res))
-  }, [])
-
-  useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref(`${AppConfig.env}/posts/${postItem.id}/partnerSelect`)
-      .orderByChild("selectStatus")
-      .equalTo(AppConfig.PostsStatus.customerConfirm)
+    const ref = firebase.database().ref(`${AppConfig.env}/posts/${postItem.id}`)
     const listener = ref.on("value", (snapshot) => {
-      const sizePartner = snapshotToArray(snapshot)
-      if (sizePartner.length > 0) {
-        setPaymentActive(true)
-      }
+      const pSelect = { ...snapshot.val() }
+      mappingData(pSelect).then((res) => setListSelect(res))
     })
 
     return () => ref.off("value", listener)
@@ -78,33 +72,6 @@ export default function PartnerListSelect() {
       >
         น้องๆ พร้อมทำงาน
       </div>
-      <Grid container spacing={3} style={{ margin: 10 }}>
-        {listSelect &&
-          listSelect.map((item, index) => (
-            <Grid item xs={6} key={item.id}>
-              <img
-                src={item.image}
-                alt=""
-                style={{ width: 150, height: "auto" }}
-                onClick={() => onPressShowPartnerDetail(item)}
-              />
-              <div>
-                <div>
-                  {item.character}, {item.partnerName}
-                </div>
-                <div>
-                  อายุ: {item.age}{" "}
-                  {item.sex === "female"
-                    ? "หญิง"
-                    : item.sex === "male"
-                    ? "ชาย"
-                    : "อื่นๆ"}
-                </div>
-                <div>ราคา: {item.amount || 0} บาท</div>
-              </div>
-            </Grid>
-          ))}
-      </Grid>
       {paymentActive && (
         <div align="center">
           <Button
@@ -118,6 +85,45 @@ export default function PartnerListSelect() {
           </Button>
         </div>
       )}
+      <Grid container spacing={1} style={{ margin: 10 }}>
+        {listSelect &&
+          listSelect.map((item, index) => (
+            <Grid item xs={5} key={item.id}>
+              <img
+                src={item.image}
+                alt=""
+                style={{ width: 150, height: "auto" }}
+                onClick={() => onPressShowPartnerDetail(item)}
+              />
+              <div style={{ height: 125 }}>
+                <div>
+                  {item.character}, {item.partnerName}
+                </div>
+                <div>
+                  อายุ: {item.age}{" "}
+                  {item.sex === "female"
+                    ? "หญิง"
+                    : item.sex === "male"
+                    ? "ชาย"
+                    : "อื่นๆ"}
+                </div>
+                <div>ราคา: {item.amount || 0} บาท</div>
+                {item.selectStatus ===
+                  AppConfig.PostsStatus.customerConfirm && (
+                  <div>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      startIcon={<CheckCircle />}
+                    >
+                      เลือกคนนี้แล้ว
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </Grid>
+          ))}
+      </Grid>
       <Footer profile={customerProfile} />
     </ImageBackground>
   )

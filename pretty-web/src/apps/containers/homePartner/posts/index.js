@@ -7,7 +7,6 @@ import { useHistory } from "react-router-dom"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
-import Footer from "../../../components/footer/Partner"
 
 import { AppConfig } from "../../../../Constants"
 import firebase from "../../../../util/firebase"
@@ -19,8 +18,27 @@ export default function CustomerPosts(props) {
   const history = useHistory()
   const { partnerType, profile } = history.location.state
 
+  const registerThisPost = (item) => {
+    return new Promise((resolve, reject) => {
+      const listItem = item.partnerSelect
+      let foundPost = false
+      for (let key in listItem) {
+        if (key === profile.id) {
+          foundPost = true
+        }
+      }
+      resolve(foundPost)
+    })
+  }
+
   const onPressOptions = (item) => {
-    history.push("/partner-customer-post-detail", { item, profile })
+    registerThisPost(item).then((res) => {
+      if (res) {
+        history.push("/partner-request-Detail", { item, profile })
+      } else {
+        history.push("/partner-customer-post-detail", { item, profile })
+      }
+    })
   }
 
   useEffect(() => {
@@ -32,6 +50,7 @@ export default function CustomerPosts(props) {
           item.status !== AppConfig.PostsStatus.notApprove &&
           item.status !== AppConfig.PostsStatus.customerCancelPost &&
           item.status !== AppConfig.PostsStatus.closeJob &&
+          item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment &&
           item.status !== AppConfig.PostsStatus.postTimeout
         ) {
           const date1 = Moment()
@@ -90,7 +109,7 @@ export default function CustomerPosts(props) {
           fontSize: 22,
           fontWeight: "bold",
           color: "white",
-          marginTop: 55,
+          marginTop: 55
         }}
       >
         โพสท์ทั้งหมดในระบบ
@@ -129,6 +148,9 @@ export default function CustomerPosts(props) {
               </div>
               <div style={{ fontWeight: "bold" }}>
                 Level: {item.customerLevel}
+              </div>
+              <div>
+                จังหวัด: {item.provinceName}
               </div>
               <div style={{ color: "green" }}>สถานที่: {item.placeMeeting}</div>
               <div style={{ color: "red" }}>

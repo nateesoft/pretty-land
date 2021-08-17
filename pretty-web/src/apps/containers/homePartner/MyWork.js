@@ -48,7 +48,8 @@ export default function WorkRequest() {
           if (
             obj.selectStatus === AppConfig.PostsStatus.customerPayment &&
             (item.status === AppConfig.PostsStatus.adminConfirmPayment ||
-              item.status === AppConfig.PostsStatus.startWork) &&
+              item.status === AppConfig.PostsStatus.startWork ||
+              item.status === AppConfig.PostsStatus.closeJob) &&
             obj.partnerId === profile.id
           ) {
             myWorkList.push(item)
@@ -99,7 +100,7 @@ export default function WorkRequest() {
         <List className={classes.root}>
           {filterList &&
             filterList.map((item, index) => (
-              <ListItem key={item.id} onClick={()=>onPressOptions(item)}>
+              <ListItem key={item.id} onClick={() => onPressOptions(item)}>
                 <ListItemAvatar>
                   <Avatar
                     src={item.partnerImage}

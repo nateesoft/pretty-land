@@ -146,7 +146,7 @@ export default function Dashboard() {
                   border: "5px solid white"
                 }}
                 alt=""
-                onClick={() => onPressOptions(1, items[0].image_url)}
+                onClick={() => onPressOptions(1)}
               />
               <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
                 พริตตี้ Event / Mc
@@ -180,7 +180,7 @@ export default function Dashboard() {
                   border: "5px solid white"
                 }}
                 alt=""
-                onClick={() => onPressOptions(2, items[1].image_url)}
+                onClick={() => onPressOptions(2)}
               />
               <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
                 โคโยตี้ / งานเต้น
@@ -214,7 +214,7 @@ export default function Dashboard() {
                   border: "5px solid white"
                 }}
                 alt=""
-                onClick={() => onPressOptions(3, items[2].image_url)}
+                onClick={() => onPressOptions(3)}
               />
               <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
                 พริตตี้ En / Env
@@ -248,7 +248,7 @@ export default function Dashboard() {
                   border: "5px solid white"
                 }}
                 alt=""
-                onClick={() => onPressOptions(4, items[3].image_url)}
+                onClick={() => onPressOptions(4, items[3])}
               />
               <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
                 พริตตี้ นวดแผนไทย

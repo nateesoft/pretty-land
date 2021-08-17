@@ -140,6 +140,7 @@ export default function CreateWorkForm() {
             value={partnerWantQty}
             type="number"
             onChange={(e) => setPartnerWantQty(e.target.value)}
+            autoComplete={false}
           />
         </FormControl>
         <div style={{ margin: 10 }}>

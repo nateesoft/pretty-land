@@ -136,7 +136,7 @@ export default function Home() {
       .database()
       .ref(`${AppConfig.env}/members/${phone}`)
       .update(memberData)
-      Cookies.set('user_phone', phone);
+    Cookies.set("user_phone", phone)
     history.replace("/customer", { member: memberData })
   }
 
@@ -216,6 +216,7 @@ export default function Home() {
                   value={phone}
                   style={{ width: 230 }}
                   onChange={(e) => setPhone(e.target.value)}
+                  autoComplete={false}
                 />
               </div>
               <div>

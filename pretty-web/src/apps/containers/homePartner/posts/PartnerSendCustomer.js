@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import Moment from "moment"
 import { Button } from "@material-ui/core"
-import { SkipNext } from "@material-ui/icons"
+import Rating from "@material-ui/lab/Rating"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
 import Footer from "../../../components/footer/Partner"
 
-import { getMemberProfile } from "../../../../apis"
 import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../../Constants"
 
@@ -16,84 +15,18 @@ export default function PartnerSendCustomer() {
   const history = useHistory()
   const { item, profile } = history.location.state
   const [partner, setPartner] = useState({})
-  const rate = 5 // default rate
 
-  const saveHistoryStar = (partnerId) => {
-    return new Promise((resolve, reject) => {
-      firebase
-        .database()
-        .ref(`${AppConfig.env}/partner_star/${partnerId}/${item.id}`)
-        .update({
-          star: rate,
-          sys_date: new Date().toUTCString()
-        })
-        .then((result) => {
-          resolve("success")
-        })
-        .catch((err) => {
-          reject(err)
-        })
-    })
-  }
-
-  const updateMember = (workIn = 0, workPoint = 0, partnerId) => {
-    return new Promise((resolve, reject) => {
-      firebase
-        .database()
-        .ref(`${AppConfig.env}/members/${partnerId}`)
-        .update({
-          workIn: parseInt(workIn) + 1,
-          workPoint: parseInt(workPoint) + 10
-        })
-        .then((result) => {
-          resolve(result)
-        })
-        .catch((err) => {
-          reject(err)
-        })
-    })
-  }
-
-  const partnerCloseJob = (partnerId) => {
-    // update status post (for partner)
+  const partnerClosePosts = (posts, postsPartner) => {
     firebase
       .database()
-      .ref(`${AppConfig.env}/posts/${item.id}/partnerSelect/${partnerId}`)
+      .ref(`${AppConfig.env}/posts/${posts.id}/partnerSelect/${postsPartner.partnerId}`)
       .update({
-        selectStatus: AppConfig.PostsStatus.closeJob,
-        selectStatusText: "ปิดงานเรียบร้อย",
-        partnerStatus: AppConfig.PostsStatus.partnerCloseJob,
-        partnerStatusText: "น้องๆ แจ้งปิดงาน",
+        selectStatus: AppConfig.PostsStatus.partnerCloseJob,
+        selectStatusText: "รับทราบและปิดโพสท์",
         partner_close_date: new Date().toUTCString(),
         sys_update_date: new Date().toUTCString()
       })
-
-    if (item.partnerRequest === AppConfig.PartnerType.type4) {
-      // update partner close job
-      firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
-        selectStatus: AppConfig.PostsStatus.closeJob,
-        selectStatusText: "ปิดงานเรียบร้อย",
-        sys_update_date: new Date().toUTCString()
-      })
-    }
-
-    getMemberProfile(partnerId).then((pData) => {
-      updateMember(pData.workIn, pData.workPoint, partnerId).then((result) => {
-        saveHistoryStar(partnerId).then((result) => {
-          history.push("/partner", { member: profile })
-        })
-      })
-    })
-  }
-
-  const startWorking = () => {
-    firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
-      status: AppConfig.PostsStatus.startWork,
-      statusText: "เริ่มปฏิบัติงาน",
-      sys_update_date: new Date().toUTCString(),
-      start_work_date: new Date().toUTCString()
-    })
-    history.push("/partner", { member: profile })
+    history.push("/partner-my-work", { profile })
   }
 
   const partnerMassageCancel = (partnerId) => {
@@ -185,45 +118,22 @@ export default function PartnerSendCustomer() {
             <hr />
           </div>
         </div>
-        {partner.partnerStatus !== AppConfig.PostsStatus.partnerStartWork &&
-          partner.partnerStatus !== AppConfig.PostsStatus.partnerCloseJob &&
-          item.status === AppConfig.PostsStatus.adminConfirmPayment && (
-            <div align="center">
-              <Button
-                variant="contained"
-                style={{
-                  margin: 5,
-                  backgroundColor: "green",
-                  paddingHorizontal: 20,
-                  borderRadius: 5,
-                  color: "white"
-                }}
-                onClick={() => startWorking()}
-              >
-                กดเริ่มงาน
-              </Button>
-            </div>
-          )}
-        {partner.partnerStatus === AppConfig.PostsStatus.partnerStartWork && (
-          <div align="center">
-            <Button
-              variant="contained"
-              style={{
-                margin: 5,
-                backgroundColor: "#ff2fe6",
-                paddingHorizontal: 20,
-                borderRadius: 25
-              }}
-              title="บันทึกปิดงาน"
-              onClick={() => partnerCloseJob(profile.id)}
-            >
-              บันทึกปิดงาน
-            </Button>
-          </div>
-        )}
         {(partner.partnerStatus === AppConfig.PostsStatus.partnerCloseJob ||
           item.status === AppConfig.PostsStatus.closeJob) && (
-          <div style={{ fontSize: 20, color: "blue" }}>ปิดงานเรียบร้อยแล้ว</div>
+          <div align="center">
+            <div style={{ fontSize: 20, color: "blue" }}>
+              ปิดงานเรียบร้อยแล้ว
+            </div>
+            <Rating value={item.rate} />
+            <div style={{ fontSize: 20 }}>คะแนนที่ได้รับ {item.rate} ดาว</div>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => partnerClosePosts(item, partner)}
+            >
+              รับทราบ Clear รายการ
+            </Button>
+          </div>
         )}
         {item.status === AppConfig.PostsStatus.waitPartnerConfrimWork && (
           <div align="center">
@@ -236,7 +146,7 @@ export default function PartnerSendCustomer() {
                 width: 200
               }}
               title="ปฏิเสธงาน"
-              onPress={() => partnerMassageCancel(profile.id)}
+              onClick={() => partnerMassageCancel(profile.id)}
             >
               ปฏิเสธงาน
             </Button>

@@ -78,6 +78,7 @@ export default function RegisterDetail2() {
               style={{ width: "100%" }}
               value={lineId}
               onChange={(e) => setLineId(e.target.value)}
+              autoComplete={false}
             />
           </div>
           <div style={{ width: "100%", marginTop: 10 }}>
@@ -88,6 +89,7 @@ export default function RegisterDetail2() {
               style={{ width: "100%" }}
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
+              autoComplete={false}
             />
           </div>
           <FormControl
@@ -149,6 +151,7 @@ export default function RegisterDetail2() {
                 style={{ width: "100%" }}
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
+                autoComplete={false}
               />
             </div>
           </div>

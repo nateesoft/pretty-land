@@ -84,6 +84,7 @@ export default function RegisterHome() {
                 style={{ width: "100%" }}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                autoComplete={false}
               />
             </div>
             <div style={{ textAlign: "left", marginTop: 10 }}>
@@ -95,6 +96,7 @@ export default function RegisterHome() {
                 style={{ width: "100%" }}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete={false}
               />
             </div>
             <div style={{ textAlign: "left", marginTop: 10 }}>
@@ -106,6 +108,7 @@ export default function RegisterHome() {
                 style={{ width: "100%" }}
                 value={rePassword}
                 onChange={(e) => setRePassword(e.target.value)}
+                autoComplete={false}
               />
             </div>
             <div style={{ marginTop: 10 }}>

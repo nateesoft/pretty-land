@@ -89,6 +89,7 @@ export default function ProfileSetting() {
               </InputAdornment>
             }
             value={profile.username}
+            autoComplete={false}
           />
         </FormControl>
         <FormControl style={{ margin: 10, width: 250 }}>
@@ -104,6 +105,7 @@ export default function ProfileSetting() {
             }
             value={oldPassword}
             onChange={(e) => setOldPassword(e.target.value)}
+            autoComplete={false}
           />
         </FormControl>
         <FormControl style={{ margin: 10, width: 250 }}>
@@ -119,6 +121,7 @@ export default function ProfileSetting() {
             }
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
+            autoComplete={false}
           />
         </FormControl>
         <FormControl style={{ margin: 10, width: 250 }}>
@@ -134,6 +137,7 @@ export default function ProfileSetting() {
             }
             value={reNewPassword}
             onChange={(e) => setReNewPassword(e.target.value)}
+            autoComplete={false}
           />
         </FormControl>
         <div style={{ margin: 10 }}>

@@ -13,7 +13,7 @@ import ImageBackground from "../../components/background"
 
 export default function ReviewTask() {
   const [items, setItem] = useState([])
-  const [rate, setRate] = useState(0)
+  const [rate, setRate] = useState(1)
   const history = useHistory()
   const { postDetail, customerProfile } = history.location.state
 
@@ -64,19 +64,27 @@ export default function ReviewTask() {
   }
 
   const saveToCloseJob = async () => {
-    items.map(async (item, index) => {
-      await updateMember(item.workIn, item.workPoint, item.partnerId)
-      await saveHistoryStar(item.partnerId)
-    })
+    if (
+      window.confirm(`ยืนยันการปิดงานเรียบร้อย โดยให้คะแนนน้องๆ ${rate} ดาว`)
+    ) {
+      items.map(async (item, index) => {
+        await updateMember(item.workIn, item.workPoint, item.partnerId)
+        await saveHistoryStar(item.partnerId)
+      })
 
-    firebase.database().ref(`${AppConfig.env}/posts/${postDetail.id}`).update({
-      status: AppConfig.PostsStatus.closeJob,
-      statusText: "ปิดงานเรียบร้อย",
-      sys_update_date: new Date().toUTCString()
-    })
+      firebase
+        .database()
+        .ref(`${AppConfig.env}/posts/${postDetail.id}`)
+        .update({
+          rate,
+          status: AppConfig.PostsStatus.closeJob,
+          statusText: "ปิดงานเรียบร้อย",
+          sys_update_date: new Date().toUTCString()
+        })
 
-    alert("บันทึกให้คะแนนข้อมูลเรียบร้อยแล้ว")
-    history.goBack()
+      alert("บันทึกให้คะแนนข้อมูลเรียบร้อยแล้ว")
+      history.goBack()
+    }
   }
 
   const getListPartner = () => {
@@ -85,7 +93,12 @@ export default function ReviewTask() {
       const listPartner = []
       for (let key in list) {
         const obj = list[key]
-        listPartner.push(obj)
+        if (
+          obj.selectStatus === AppConfig.PostsStatus.customerConfirm ||
+          obj.selectStatus === AppConfig.PostsStatus.customerPayment
+        ) {
+          listPartner.push(obj)
+        }
       }
       resolve(listPartner)
     })

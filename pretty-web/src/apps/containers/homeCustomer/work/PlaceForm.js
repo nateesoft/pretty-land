@@ -118,6 +118,7 @@ export default function PlaceForm() {
             }
             value={place}
             onChange={(e) => setPlace(e.target.value)}
+            autoComplete={false}
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -132,6 +133,7 @@ export default function PlaceForm() {
             value={startTime}
             type="time"
             onChange={(e) => setStartTime(e.target.value)}
+            autoComplete={false}
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -146,6 +148,7 @@ export default function PlaceForm() {
             value={stopTime}
             type="time"
             onChange={(e) => setStopTime(e.target.value)}
+            autoComplete={false}
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -162,6 +165,7 @@ export default function PlaceForm() {
             value={phone}
             type="text"
             onChange={(e) => setPhone(e.target.value)}
+            autoComplete={false}
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -177,6 +181,7 @@ export default function PlaceForm() {
             }
             value={remark}
             onChange={(e) => setRemark(e.target.value)}
+            autoComplete={false}
           />
         </FormControl>
       </div>

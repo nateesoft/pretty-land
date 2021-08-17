@@ -245,6 +245,7 @@ export default function PaymentForm() {
                 <AttachMoney />
               </InputAdornment>
             }
+            autoComplete={false}
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 350 }}>
@@ -259,6 +260,7 @@ export default function PaymentForm() {
                 <AttachMoney />
               </InputAdornment>
             }
+            autoComplete={false}
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 350 }}>
@@ -273,6 +275,7 @@ export default function PaymentForm() {
                 <AttachMoney />
               </InputAdornment>
             }
+            autoComplete={false}
           />
         </FormControl>
       </div>
@@ -332,6 +335,7 @@ export default function PaymentForm() {
                 <AttachMoney />
               </InputAdornment>
             }
+            autoComplete={false}
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 350 }}>
@@ -347,6 +351,7 @@ export default function PaymentForm() {
                 <AttachMoney />
               </InputAdornment>
             }
+            autoComplete={false}
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 350 }}>
@@ -363,6 +368,7 @@ export default function PaymentForm() {
                 <DateRange />
               </InputAdornment>
             }
+            autoComplete={false}
           />
         </FormControl>
       </div>
