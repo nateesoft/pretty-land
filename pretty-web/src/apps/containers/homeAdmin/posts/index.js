@@ -6,7 +6,7 @@ import Avatar from "@material-ui/core/Avatar"
 import { useHistory } from "react-router-dom"
 
 import Header from "../../../components/header"
-import Footer from "../../../components/footer/Customer"
+import Footer from "../../../components/footer/Admin"
 import ImageBackground from "../../../components/background"
 
 import { AppConfig } from "../../../../Constants"

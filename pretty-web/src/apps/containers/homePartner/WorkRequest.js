@@ -112,7 +112,7 @@ export default function WorkRequest() {
                     <div>จังหวัด: {item.provinceName}</div>
                     <div>
                       วันที่แจ้ง:{" "}
-                      {Moment(item.sys_create_date).format("D MMM YYYY")}
+                      {Moment(item.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
                     </div>
                     <hr />
                     <div>ลูกค้า: {item.customerName}</div>

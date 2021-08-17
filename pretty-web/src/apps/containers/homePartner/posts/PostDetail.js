@@ -6,7 +6,7 @@ import { SkipNext } from "@material-ui/icons"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
-import Footer from "../../../components/footer/Customer"
+import Footer from "../../../components/footer/Partner"
 
 export default function PostDetail() {
   const history = useHistory()

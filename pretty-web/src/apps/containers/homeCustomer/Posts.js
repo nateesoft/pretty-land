@@ -97,11 +97,25 @@ export default function Posts(props) {
           padding: 10,
           fontSize: 22,
           fontWeight: "bold",
-          color: "white"
+          color: "white",
+          marginTop: 55
         }}
       >
         แสดงรายการที่โพสท์
       </div>
+      {filterList.length === 0 && (
+        <div
+          align="center"
+          style={{
+            verticalAlign: "center",
+            marginTop: 30,
+            fontSize: 22,
+            color: "gray"
+          }}
+        >
+          ไม่พบรายการที่โพสท์
+        </div>
+      )}
       {filterList &&
         filterList.map((item, index) => (
           <ListItem key={item.id} onClick={() => onPressOptions(item)}>
@@ -124,6 +138,10 @@ export default function Posts(props) {
             >
               <div style={{ color: "blue" }}>ชื่อ: {item.customerName}</div>
               <div>จังหวัด: {item.customerName}</div>
+              <div>
+                วันที่สร้าง:{" "}
+                {Moment(item.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
+              </div>
               <div>Status: {item.statusText}</div>
             </div>
           </ListItem>

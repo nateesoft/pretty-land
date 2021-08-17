@@ -33,7 +33,7 @@ export default function WorkRequest() {
 
   const onPressOptions = (item) => {
     if (item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment) {
-      history.push("/partner-send-customer", { item })
+      history.push("/partner-send-customer", { profile, item })
     }
   }
 

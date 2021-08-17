@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
-import Footer from "../../../components/footer/Customer"
+import Footer from "../../../components/footer/Partner"
 
 import { AppConfig } from "../../../../Constants"
 import firebase from "../../../../util/firebase"

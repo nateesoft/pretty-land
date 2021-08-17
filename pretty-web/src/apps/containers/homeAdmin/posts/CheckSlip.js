@@ -5,7 +5,7 @@ import { Button } from "@material-ui/core"
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline"
 
 import Header from "../../../components/header"
-import Footer from "../../../components/footer/Customer"
+import Footer from "../../../components/footer/Admin"
 import ImageBackground from "../../../components/background"
 
 import { adminSaveConfirmPayment } from "../../../../apis"
@@ -37,7 +37,7 @@ export default function CheckSlip() {
     adminSaveConfirmPayment(item, listPartner)
       .then((res) => {
         if (res) {
-          history.push("/admin", { member })
+          history.push("/admin-customer-posts", { member })
         }
       })
       .catch((err) => alert(err))

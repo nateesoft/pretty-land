@@ -210,63 +210,48 @@ export default function WorkRequestDetail(props) {
         >
           รายละเอียดงานที่แจ้งลูกค้า
         </div>
-        {filterList.length === 0 && (
-          <div
-            style={{
-              border: "1px solid #bbb",
-              padding: 10,
-              margin: 10
-            }}
-          >
-            ไม่พบข้อมูลงานที่เสนอในระบบ
-          </div>
-        )}
         <List className={classes.root}>
-          {filterList &&
-            filterList.map((item, index) => (
-              <ListItem key={item.id}>
-                <ListItemAvatar>
-                  <Avatar
-                    src={item.partnerImage}
-                    alt=""
-                    variant="circular"
-                    style={{ width: 64, height: 64 }}
-                  />
-                </ListItemAvatar>
-                <div style={{ margin: 10, width: "100%" }}>
-                  <div
-                    style={{
-                      backgroundColor: "#123456",
-                      color: "white",
-                      padding: 5
-                    }}
-                  >
-                    ลูกค้า: {item.customerName}
-                  </div>
-                  <div>จังหวัด: {item.provinceName}</div>
-                  <div>
-                    วันที่แจ้ง:{" "}
-                    {Moment(item.sys_create_date).format("D MMM YYYY")}
-                  </div>
-                  <div>Lv.ลูกค้า: {item.customerLevel}</div>
-                  <div>เบอร์ติดต่อ: {item.customerPhone}</div>
-                  <div style={{ backgroundColor: "chocolate", color: "white" }}>
-                    โหมดงาน: {item.partnerRequest}
-                  </div>
-                  <div
-                    style={{
-                      padding: 20,
-                      border: "1px solid",
-                      borderRadius: 10,
-                      marginTop: 10
-                    }}
-                  >
-                    <div>ราคาที่เสนอ {partner.amount}</div>
-                    <hr />
-                  </div>
-                </div>
-              </ListItem>
-            ))}
+          <ListItem key={item.id}>
+            <ListItemAvatar>
+              <Avatar
+                src={item.partnerImage}
+                alt=""
+                variant="circular"
+                style={{ width: 64, height: 64 }}
+              />
+            </ListItemAvatar>
+            <div style={{ margin: 10, width: "100%" }}>
+              <div
+                style={{
+                  backgroundColor: "#123456",
+                  color: "white",
+                  padding: 5
+                }}
+              >
+                ลูกค้า: {item.customerName}
+              </div>
+              <div>จังหวัด: {item.provinceName}</div>
+              <div>
+                วันที่แจ้ง: {Moment(item.sys_create_date).format("D MMM YYYY")}
+              </div>
+              <div>Lv.ลูกค้า: {item.customerLevel}</div>
+              <div>เบอร์ติดต่อ: {item.customerPhone}</div>
+              <div style={{ backgroundColor: "chocolate", color: "white" }}>
+                โหมดงาน: {item.partnerRequest}
+              </div>
+              <div
+                style={{
+                  padding: 20,
+                  border: "1px solid",
+                  borderRadius: 10,
+                  marginTop: 10
+                }}
+              >
+                <div>ราคาที่เสนอ {partner.amount}</div>
+                <hr />
+              </div>
+            </div>
+          </ListItem>
         </List>
       </div>
       <Footer profile={profile} />

@@ -5,7 +5,6 @@ import { Button } from "@material-ui/core"
 import { CheckBox, Delete } from "@material-ui/icons"
 
 import Header from "../../../components/header"
-import Footer from "../../../components/footer/Customer"
 import ImageBackground from "../../../components/background"
 
 import { updatePosts, adminConfirmNewPost } from "../../../../apis"
@@ -23,12 +22,12 @@ export default function PostDetail() {
           statusText: "รอลูกค้าชำระเงิน",
           sys_update_date: new Date().toUTCString()
         })
-        history.goBack()
+        history.push("/admin", { member })
       } else {
         adminConfirmNewPost(item)
           .then((res) => {
             if (res) {
-              history.goBack()
+              history.push("/admin", { member })
             }
           })
           .catch((err) => alert(err))
@@ -44,7 +43,7 @@ export default function PostDetail() {
         sys_update_date: new Date().toUTCString()
       })
     }
-    history.goBack()
+    history.push("/admin", { member })
   }
 
   return (

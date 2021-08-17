@@ -37,7 +37,7 @@ LinearProgressWithLabel.propTypes = {
 
 export default function PaymentForm() {
   const history = useHistory()
-  const { postItem } = history.location.state
+  const { postItem, customerProfile } = history.location.state
 
   const [partnerAmount, setPartnerAmount] = useState("")
   const [feeAmount, setFeeAmount] = useState("")
@@ -138,7 +138,7 @@ export default function PaymentForm() {
     if (imageFile) {
       uploadImageAsync(imageFile).then((res) => {
         if (res) {
-          history.push("/customer", {})
+          history.push("/customer-posts", { member: customerProfile })
         }
       })
     } else {

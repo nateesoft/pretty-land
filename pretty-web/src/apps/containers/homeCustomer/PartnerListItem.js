@@ -39,7 +39,11 @@ const formatStature = (data) => {
 export default function PartnerListItem() {
   const classes = useStyles()
   const history = useHistory()
-  const { partnerItem: item, postItem, customerProfile } = history.location.state
+  const {
+    partnerItem: item,
+    postItem,
+    customerProfile
+  } = history.location.state
 
   const [partnerProfile, setPartnerProfile] = useState({})
   const [selectStatus, setSelectStatus] = useState("")
@@ -56,7 +60,7 @@ export default function PartnerListItem() {
         selectStatusText: "ลูกค้าคอนเฟิร์ม รอชำระเงิน",
         sys_create_date: new Date().toUTCString()
       })
-    history.goBack()
+      history.goBack()
   }
 
   const cancelSelectPartner = () => {
@@ -168,7 +172,7 @@ export default function PartnerListItem() {
       >
         <div style={{ color: "blue" }}>ชื่อ: {partnerProfile.name}</div>
         <div>
-          สัดส่วน: {formatStature(partnerProfile.stature)} สูง: {partnerProfile.height}
+          สัดส่วน: {partnerProfile.stature} สูง: {partnerProfile.height}
         </div>
         <div>ราคาที่เสนอ: {item.amount}</div>
       </div>

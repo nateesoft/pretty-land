@@ -94,7 +94,7 @@ export default function ProfileHeader(props) {
               ? "หญิง"
               : "อื่นๆ"}{" "}
             | สูง {profile.height} | นิสัย {profile.charactor} | สัดส่วน{" "}
-            {formatStature(profile.stature)}
+            {profile.stature}
           </Typography>
         </CardContent>
       </CardActionArea>
