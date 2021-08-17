@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 
-import styled from "styled-components"
 import { Button, TextField } from "@material-ui/core"
 import SaveIcon from "@material-ui/icons/Save"
 import FormControl from "@material-ui/core/FormControl"
@@ -9,18 +8,13 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
 
+import ImageBackground from "../../../components/background"
+import Header from "../../../components/header"
+
 import { getCountryList, getDistrictList } from "../../../../data/apis"
 import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../../Constants"
 
-const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-image: url("assets/bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-`
 export default function RegisterDetail2() {
   const history = useHistory()
   const { profile } = history.location.state
@@ -68,8 +62,9 @@ export default function RegisterDetail2() {
   }
 
   return (
-    <Container>
-      <div style={{ margin: 10 }}>
+    <ImageBackground>
+      <Header profile={profile} />
+      <div style={{ marginTop: 65 }}>
         <div align="center">
           <h3>จังหวัดที่รับงาน</h3>
           <div>(Way to get a job)</div>
@@ -170,6 +165,6 @@ export default function RegisterDetail2() {
           </Button>
         </div>
       </div>
-    </Container>
+    </ImageBackground>
   )
 }

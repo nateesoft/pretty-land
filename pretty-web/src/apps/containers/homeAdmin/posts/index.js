@@ -21,9 +21,9 @@ export default function CustomerPosts(props) {
 
   const onPressOptions = (item) => {
     if (item.status === AppConfig.PostsStatus.waitAdminConfirmPayment) {
-      history.push("/admin-check-slip", { item, member })
+      history.push("/admin-check-slip", { item, member, partnerType })
     } else {
-      history.push("/admin-customer-post-detail", { item, member })
+      history.push("/admin-customer-post-detail", { item, member, partnerType })
     }
   }
 

@@ -100,173 +100,185 @@ export default function ReviewTask() {
   return (
     <ImageBackground>
       <Header profile={customerProfile} />
-      <div
-        align="center"
-        style={{
-          backgroundColor: "#ff2fe6",
-          padding: 10,
-          fontSize: 22,
-          fontWeight: "bold",
-          color: "white",
-          marginTop: 55
-        }}
-      >
-        รายละเอียดโพสท์
-      </div>
-      <div
-        style={{
-          border: "1px solid",
-          margin: 10,
-          padding: 10,
-          borderRadius: 5,
-          borderColor: "gray"
-        }}
-      >
-        <div style={{ color: "blue" }}>
-          ชื่อผู้โพสท์: {postDetail.customerName}
+      <div style={{ marginBottom: 50, overflow: "auto", height: 600 }}>
+        <div
+          align="center"
+          style={{
+            backgroundColor: "#ff2fe6",
+            padding: 10,
+            fontSize: 22,
+            fontWeight: "bold",
+            color: "white",
+            marginTop: 55
+          }}
+        >
+          รายละเอียดโพสท์
         </div>
-        <div>Level: {postDetail.customerLevel}</div>
-        <div>เบอร์โทรศัพท์: {postDetail.customerPhone}</div>
-        <div style={{ color: "green" }}>สถานที่: {postDetail.placeMeeting}</div>
-        <div>จังหวัด: {postDetail.provinceName}</div>
-        <div align="center" style={{ marginTop: 20 }}>
-          {postDetail.status === AppConfig.PostsStatus.customerNewPostDone && (
-            <div
-              style={{
-                fontSize: 18,
-                color: "blue",
-                alignSelf: "center",
-                padding: 20
-              }}
-            >
-              โพสท์ใหม่ รอตรวจสอบจาก admin...
-            </div>
-          )}
-          {postDetail.status === AppConfig.PostsStatus.adminConfirmNewPost && (
-            <div>
+        <div
+          style={{
+            border: "1px solid",
+            margin: 10,
+            padding: 10,
+            borderRadius: 5,
+            borderColor: "gray"
+          }}
+        >
+          <div style={{ color: "blue" }}>
+            ชื่อผู้โพสท์: {postDetail.customerName}
+          </div>
+          <div>Level: {postDetail.customerLevel}</div>
+          <div>เบอร์โทรศัพท์: {postDetail.customerPhone}</div>
+          <div style={{ color: "green" }}>
+            สถานที่: {postDetail.placeMeeting}
+          </div>
+          <div>จังหวัด: {postDetail.provinceName}</div>
+          <div align="center" style={{ marginTop: 20 }}>
+            {postDetail.status ===
+              AppConfig.PostsStatus.customerNewPostDone && (
               <div
                 style={{
                   fontSize: 18,
                   color: "blue",
                   alignSelf: "center",
-                  marginTop: 10
+                  padding: 20
                 }}
               >
-                ได้รับการอนุมัติจาก admin แล้ว
+                โพสท์ใหม่ รอตรวจสอบจาก admin...
               </div>
+            )}
+            {postDetail.status ===
+              AppConfig.PostsStatus.adminConfirmNewPost && (
+              <div>
+                <div
+                  style={{
+                    fontSize: 18,
+                    color: "blue",
+                    alignSelf: "center",
+                    marginTop: 10
+                  }}
+                >
+                  ได้รับการอนุมัติจาก admin แล้ว
+                </div>
+                <div
+                  style={{
+                    fontSize: 18,
+                    color: "red",
+                    alignSelf: "center"
+                  }}
+                >
+                  (รอรับงาน)
+                </div>
+              </div>
+            )}
+            {postDetail.status ===
+              AppConfig.PostsStatus.waitAdminConfirmPayment && (
               <div
                 style={{
                   fontSize: 18,
-                  color: "red",
-                  alignSelf: "center"
-                }}
-              >
-                (รอรับงาน)
-              </div>
-            </div>
-          )}
-          {postDetail.status ===
-            AppConfig.PostsStatus.waitAdminConfirmPayment && (
-            <div
-              style={{
-                fontSize: 18,
-                color: "blue",
-                alignSelf: "center",
-                padding: 20
-              }}
-            >
-              รอตรวจสอบ หลักฐานการโอนเงิน...
-            </div>
-          )}
-          {postDetail.status === AppConfig.PostsStatus.closeJob && (
-            <div>
-              <div
-                style={{
-                  fontSize: 18,
-                  color: "red",
+                  color: "blue",
                   alignSelf: "center",
                   padding: 20
                 }}
               >
-                ปิดงานเรียบร้อยแล้ว
+                รอตรวจสอบ หลักฐานการโอนเงิน...
               </div>
-              <div style={{ alignSelf: "center" }}>
-                คะแนนที่ได้รับ {postDetail.rate || 0} คะแนน
+            )}
+            {postDetail.status === AppConfig.PostsStatus.closeJob && (
+              <div>
+                <div
+                  style={{
+                    fontSize: 18,
+                    color: "red",
+                    alignSelf: "center",
+                    padding: 20
+                  }}
+                >
+                  ปิดงานเรียบร้อยแล้ว
+                </div>
+                <div style={{ alignSelf: "center" }}>
+                  คะแนนที่ได้รับ {postDetail.rate || 0} คะแนน
+                </div>
               </div>
+            )}
+          </div>
+        </div>
+        {postDetail.status === AppConfig.PostsStatus.adminConfirmPayment && (
+          <div align="center">
+            <div>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={saveStartWork}
+              >
+                กดเริ่มงาน
+              </Button>
             </div>
-          )}
-        </div>
-      </div>
-      {postDetail.status === AppConfig.PostsStatus.adminConfirmPayment && (
-        <div align="center">
-          <div>
-            <Button variant="contained" color="primary" onClick={saveStartWork}>
-              กดเริ่มงาน
-            </Button>
           </div>
-        </div>
-      )}
-      {postDetail.status === AppConfig.PostsStatus.startWork && (
-        <div align="center">
-          <div style={{ backgroundColor: "yellow", fontSize: 22, margin: 10 }}>
-            *** ให้คะแนนน้องๆ เมื่อทำงานเสร็จเรียบร้อยแล้วเท่านั้น
-          </div>
-          <div>
-            <Typography component="legend">ให้คะแนน</Typography>
-            <Rating
-              name="simple-controlled"
-              value={rate}
-              onChange={(event, newValue) => {
-                setRate(newValue)
-              }}
-            />
-          </div>
-          <div>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={saveToCloseJob}
+        )}
+        {postDetail.status === AppConfig.PostsStatus.startWork && (
+          <div align="center">
+            <div
+              style={{ backgroundColor: "yellow", fontSize: 22, margin: 10 }}
             >
-              ให้คะแนนน้อง ๆ
-            </Button>
+              *** ให้คะแนนน้องๆ เมื่อทำงานเสร็จเรียบร้อยแล้วเท่านั้น
+            </div>
+            <div>
+              <Typography component="legend">ให้คะแนน</Typography>
+              <Rating
+                name="simple-controlled"
+                value={rate}
+                onChange={(event, newValue) => {
+                  setRate(newValue)
+                }}
+              />
+            </div>
+            <div>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={saveToCloseJob}
+              >
+                ให้คะแนนน้อง ๆ
+              </Button>
+            </div>
           </div>
-        </div>
-      )}
-      <div align="center" style={{ marginTop: 20 }}>
-        {items &&
-          items.map((obj, index) => (
-            <Grid container spacing={1} style={{ border: "1px solid #eee" }}>
-              <Grid item xs={6}>
-                <div align="left" style={{ margin: 5 }}>
-                  <div>ชื่อน้อง: {obj.partnerName}</div>
-                  <div>ราคา: {obj.amount}</div>
-                  <div>เบอร์โทร: {obj.telephone}</div>
-                  <div>
-                    เพศ:{" "}
-                    {obj.sex === "female"
-                      ? "หญิง"
-                      : obj.sex === "male"
-                      ? "ชาย"
-                      : "อื่น ๆ"}
+        )}
+        <div align="center" style={{ marginTop: 20 }}>
+          {items &&
+            items.map((obj, index) => (
+              <Grid container justifyContent="center">
+                <Grid item xs={6}>
+                  <div align="left">
+                    <div>ชื่อน้อง: {obj.partnerName}</div>
+                    <div>ราคา: {obj.amount}</div>
+                    <div>เบอร์โทร: {obj.telephone}</div>
+                    <div>
+                      เพศ:{" "}
+                      {obj.sex === "female"
+                        ? "หญิง"
+                        : obj.sex === "male"
+                        ? "ชาย"
+                        : "อื่น ๆ"}
+                    </div>
                   </div>
                   <img
                     src={obj.image}
                     alt=""
                     style={{ width: 150, height: "auto" }}
                   />
-                </div>
+                </Grid>
               </Grid>
-            </Grid>
-          ))}
-      </div>
-      {postDetail.status === AppConfig.PostsStatus.customerCloseJob && (
-        <div align="center">
-          <div>
-            <div>สถานะ: </div>
-            <div>คะแนนที่ได้รับ: </div>
-          </div>
+            ))}
         </div>
-      )}
+        {postDetail.status === AppConfig.PostsStatus.customerCloseJob && (
+          <div align="center">
+            <div>
+              <div>สถานะ: </div>
+              <div>คะแนนที่ได้รับ: </div>
+            </div>
+          </div>
+        )}
+      </div>
       <Footer profile={customerProfile} />
     </ImageBackground>
   )

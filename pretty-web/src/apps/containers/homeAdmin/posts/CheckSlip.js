@@ -13,7 +13,7 @@ import { AppConfig } from "../../../../Constants"
 
 export default function CheckSlip() {
   const history = useHistory()
-  const { item, member } = history.location.state
+  const { item, member, partnerType } = history.location.state
   const [listPartner, setListPartner] = useState([])
 
   const getPartnerList = (item) => {
@@ -37,7 +37,9 @@ export default function CheckSlip() {
     adminSaveConfirmPayment(item, listPartner)
       .then((res) => {
         if (res) {
-          history.push("/admin-customer-posts", { member })
+          alert("บันทึกตรวจสอบสลิปการโอนเงิน เรียบร้อยแล้ว")
+          // history.push("/admin-customer-posts", { partnerType, member })
+          history.goBack();
         }
       })
       .catch((err) => alert(err))
@@ -172,7 +174,7 @@ export default function CheckSlip() {
           ยืนยันข้อมูลการโอนเงิน
         </Button>
       </div>
-      <Footer profile={member} />
+      {/* <Footer profile={member} /> */}
     </ImageBackground>
   )
 }

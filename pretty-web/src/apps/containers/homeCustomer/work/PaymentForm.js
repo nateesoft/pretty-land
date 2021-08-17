@@ -138,6 +138,7 @@ export default function PaymentForm() {
     if (imageFile) {
       uploadImageAsync(imageFile).then((res) => {
         if (res) {
+          alert("บันทึกข้อมูลการโอนเงินเรียบร้อยแล้ว")
           history.push("/customer-posts", { member: customerProfile })
         }
       })

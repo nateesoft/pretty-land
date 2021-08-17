@@ -8,6 +8,7 @@ import { snapshotToArray } from "../../../util"
 import { getConfigList } from "../../../apis"
 
 import ImageBackground from "../../components/background"
+import Header from "../../components/header"
 import Footer from "../../components/footer/Customer"
 
 export default function Dashboard() {
@@ -153,7 +154,13 @@ export default function Dashboard() {
 
   return (
     <ImageBackground>
-      <Grid container spacing={1} justifyContent="center">
+      <Header profile={member} hideBack />
+      <Grid
+        container
+        spacing={1}
+        justifyContent="center"
+        style={{ marginTop: 55 }}
+      >
         {items[0] && (
           <Grid item xs={6}>
             <div

@@ -3,13 +3,16 @@ import { makeStyles } from "@material-ui/core/styles"
 import ImageList from "@material-ui/core/ImageList"
 import ImageListItem from "@material-ui/core/ImageListItem"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
-import ReactPlayer from "react-player"
 import Button from "@material-ui/core/Button"
 import EditIcon from "@material-ui/icons/Edit"
 import InfoIcon from "@material-ui/icons/PhotoSizeSelectActual"
 import { useHistory } from "react-router-dom"
 import ImageListItemBar from "@material-ui/core/ImageListItemBar"
 import IconButton from "@material-ui/core/IconButton"
+
+import ImageBackground from "../../components/background"
+import Header from "../../components/header"
+import Footer from "../../components/footer/Partner"
 
 import { getProvinceName } from "../../../data/apis"
 import ProfileHeader from "./ProfileHeader"
@@ -20,8 +23,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-around",
-    backgroundColor: theme.palette.background.paper
+    justifyContent: "space-around"
   },
   imageList: {
     width: 500,
@@ -89,58 +91,62 @@ export default function Profile() {
   }
 
   return (
-    <div style={{ height: "500px", overflow: "auto" }}>
-      <div className={classes.root}>
-        <FormControlLabel
-          control={
-            <IOSSwitch
-              checked={checked}
-              onChange={handleStatus}
-              name="checked"
-            />
-          }
-          label={checked ? "พร้อมรับงาน" : "ไม่ว่าง"}
-        />
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<EditIcon />}
-          onClick={() => handleNext()}
-        >
-          แก้ไขข้อมูล
-        </Button>
-        <ProfileHeader profile={profile} />
-        <ImageList rowHeight={450} className={classes.imageList} cols={2}>
-          {images &&
-            images.map((item, index) => (
-              <ImageListItem cols={2} key={item.id}>
-                <img src={item.url} style={{ height: "100%" }} alt={""} />
-                <ImageListItemBar
-                  title={item.title}
-                  subtitle={
-                    <span>
-                      น้อง: {profile.name} | {profile.charactor} |{" "}
-                      {getProvinceNameShow(profile)}
-                    </span>
-                  }
-                  actionIcon={
-                    <IconButton
-                      aria-label={`info about ${item.title}`}
-                      className={classes.icon}
-                    >
-                      <InfoIcon />
-                    </IconButton>
-                  }
-                />
-              </ImageListItem>
-            ))}
-        </ImageList>
-        {/* {profile.imageUrl6 && (
+    <ImageBackground>
+      <Header profile={profile} hideBack />
+      <div align="center" style={{ marginTop: 65 }}>
+        <div className={classes.root}>
+          <FormControlLabel
+            control={
+              <IOSSwitch
+                checked={checked}
+                onChange={handleStatus}
+                name="checked"
+              />
+            }
+            label={checked ? "พร้อมรับงาน" : "ไม่ว่าง"}
+          />
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<EditIcon />}
+            onClick={() => handleNext()}
+          >
+            แก้ไขข้อมูล
+          </Button>
+          <ProfileHeader profile={profile} />
+          <ImageList rowHeight={450} className={classes.imageList} cols={2}>
+            {images &&
+              images.map((item, index) => (
+                <ImageListItem cols={2} key={item.id}>
+                  <img src={item.url} style={{ height: "100%" }} alt={""} />
+                  <ImageListItemBar
+                    title={item.title}
+                    subtitle={
+                      <span>
+                        น้อง: {profile.name} | {profile.charactor} |{" "}
+                        {getProvinceNameShow(profile)}
+                      </span>
+                    }
+                    actionIcon={
+                      <IconButton
+                        aria-label={`info about ${item.title}`}
+                        className={classes.icon}
+                      >
+                        <InfoIcon />
+                      </IconButton>
+                    }
+                  />
+                </ImageListItem>
+              ))}
+          </ImageList>
+          {/* {profile.imageUrl6 && (
           <div align="center" style={{ margin: 10 }}>
             <ReactPlayer url={profile.imageUrl6} width={300} controls />
           </div>
         )} */}
+        </div>
       </div>
-    </div>
+      <Footer profile={profile} />
+    </ImageBackground>
   )
 }

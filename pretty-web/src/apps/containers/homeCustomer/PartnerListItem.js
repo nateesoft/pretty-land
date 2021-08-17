@@ -10,6 +10,7 @@ import ImageListItemBar from "@material-ui/core/ImageListItemBar"
 import IconButton from "@material-ui/core/IconButton"
 import InfoIcon from "@material-ui/icons/PhotoSizeSelectActual"
 import ReactPlayer from "react-player"
+import NumberFormat from 'react-number-format'
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -31,10 +32,6 @@ const useStyles = makeStyles((theme) => ({
     color: "pink"
   }
 }))
-
-const formatStature = (data) => {
-  return data.substr(0, 2) + "-" + data.substr(2, 2) + "-" + data.substr(4, 2)
-}
 
 export default function PartnerListItem() {
   const classes = useStyles()
@@ -171,7 +168,10 @@ export default function PartnerListItem() {
       >
         <div style={{ color: "blue" }}>ชื่อ: {partnerProfile.name}</div>
         <div>
-          สัดส่วน: {partnerProfile.stature} สูง: {partnerProfile.height}
+          สัดส่วน: <NumberFormat format="##-##-##" value={partnerProfile.stature} displayType="text" />
+        </div>
+        <div>
+          น้ำหนัก: {partnerProfile.weight} สูง: {partnerProfile.height}
         </div>
         <div>ราคาที่เสนอ: {item.amount}</div>
       </div>

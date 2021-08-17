@@ -8,6 +8,9 @@ import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 
+import ImageBackground from "../../../components/background"
+import Header from "../../../components/header"
+
 import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../../Constants"
 import { clearOldFiles } from "../../../../apis"
@@ -31,15 +34,6 @@ LinearProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired
 }
 
-const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-image: url("assets/bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  padding: 20px;
-`
 export default function RegisterDetail4() {
   const history = useHistory()
   const { profile } = history.location.state
@@ -246,8 +240,9 @@ export default function RegisterDetail4() {
   }
 
   return (
-    <Container>
-      <div align="center">
+    <ImageBackground>
+      <Header profile={profile} />
+      <div align="center" style={{ marginTop: 65 }}>
         <h3>เพิ่ม/แก้ไข รูปภาพ และวิดีโอ</h3>
         <div>Insert an image/ Video</div>
       </div>
@@ -419,6 +414,6 @@ export default function RegisterDetail4() {
           บันทึกข้อมูล
         </Button>
       </div>
-    </Container>
+    </ImageBackground>
   )
 }

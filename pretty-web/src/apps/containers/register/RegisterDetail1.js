@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react'
+import React, { useState } from "react"
 import styled from "styled-components"
 import { Button, Grid, TextField } from "@material-ui/core"
 import { SkipNext } from "@material-ui/icons"
@@ -90,7 +89,7 @@ export default function RegisterDetail1() {
   return (
     <ImageBackground>
       <Header />
-      <div style={{ margin: 10 }}>
+      <div style={{ marginTop: 65 }}>
         <div align="center">
           <h3>รายละเอียดงานที่สมัคร</h3>
           <div>(Work Details)</div>
@@ -142,7 +141,7 @@ export default function RegisterDetail1() {
           </FormGroup>
         </div>
         {type4 && (
-          <Grid item xs={12}>
+          <div align="center" style={{ margin: 10 }}>
             <TextField
               required
               label="ราคาสำหรับการนวดแผนไทยต่อ 1 ครั้ง"
@@ -151,7 +150,7 @@ export default function RegisterDetail1() {
               value={price4}
               onChange={(e) => setPrice4(e.target.value)}
             />
-          </Grid>
+          </div>
         )}
         <div style={{ padding: 10 }}>
           <FormLabel component="legend">เพศ</FormLabel>

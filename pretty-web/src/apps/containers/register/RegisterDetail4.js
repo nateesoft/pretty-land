@@ -9,6 +9,9 @@ import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 
+import Header from "../../components/header"
+import ImageBackground from "../../components/background"
+
 import firebase from "../../../util/firebase"
 import * as ApiControl from "../../../apis"
 import { AppConfig } from "../../../Constants"
@@ -287,8 +290,9 @@ export default function RegisterDetail4() {
   }
 
   return (
-    <Container>
-      <div align="center">
+    <ImageBackground>
+      <Header hideBack />
+      <div align="center" style={{ marginTop: 65 }}>
         <h3>เพิ่ม/แก้ไข รูปภาพ และวิดีโอ</h3>
         <div>Insert an image/ Video</div>
       </div>
@@ -427,6 +431,6 @@ export default function RegisterDetail4() {
           </Button>
         </div>
       )}
-    </Container>
+    </ImageBackground>
   )
 }

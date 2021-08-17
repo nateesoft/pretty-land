@@ -9,6 +9,7 @@ import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 import { Link } from "react-router-dom"
+import NumberFormat from "react-number-format"
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -50,10 +51,6 @@ const useStyles = makeStyles({
   }
 })
 
-const formatStature = (data) => {
-  return data.substr(0, 2) + "-" + data.substr(2, 2) + "-" + data.substr(4, 2)
-}
-
 export default function ProfileHeader(props) {
   const { profile } = props
   const classes = useStyles()
@@ -61,11 +58,6 @@ export default function ProfileHeader(props) {
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        {/* <CardMedia
-          className={classes.media}
-          image={profile.image}
-          title="Contemplative Reptile"
-        /> */}
         <div align="center">
           <StyledBadge
             overlap="circular"
@@ -78,7 +70,7 @@ export default function ProfileHeader(props) {
             <Avatar
               alt={profile.name}
               src={profile.image}
-              style={{ width: 128, height: 128 }}
+              style={{ width: 100, height: 100, marginTop: 10 }}
             />
           </StyledBadge>
         </div>
@@ -93,8 +85,15 @@ export default function ProfileHeader(props) {
               : profile.sex === "female"
               ? "หญิง"
               : "อื่นๆ"}{" "}
-            | สูง {profile.height} | นิสัย {profile.charactor} | สัดส่วน{" "}
-            {profile.stature}
+            | สูง {profile.height} | นิสัย {profile.charactor}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="span">
+            สัดส่วน:{" "}
+            <NumberFormat
+              format="##-##-##"
+              value={profile.stature}
+              displayType="text"
+            />
           </Typography>
         </CardContent>
       </CardActionArea>

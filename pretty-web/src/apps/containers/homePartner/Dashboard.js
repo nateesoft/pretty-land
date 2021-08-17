@@ -5,6 +5,7 @@ import { Grid } from "@material-ui/core"
 
 import ImageBackground from "../../components/background"
 import Footer from "../../components/footer/Partner"
+import Header from "../../components/header"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -115,7 +116,13 @@ export default function Dashboard() {
 
   return (
     <ImageBackground>
-      <Grid container spacing={1} justifyContent="center">
+      <Header profile={member} hideBack />
+      <Grid
+        container
+        spacing={1}
+        justifyContent="center"
+        style={{ marginTop: 55 }}
+      >
         {items[0] && (
           <Grid item xs={6}>
             <div

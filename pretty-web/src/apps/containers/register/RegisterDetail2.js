@@ -9,6 +9,9 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
 
+import Header from "../../components/header"
+import ImageBackground from "../../components/background"
+
 import { getCountryList, getDistrictList } from "../../../data/apis"
 
 const Container = styled.div`
@@ -91,8 +94,9 @@ export default function RegisterDetail2() {
   }
 
   return (
-    <Container>
-      <div style={{ margin: 10 }}>
+    <ImageBackground>
+      <Header hideBack />
+      <div style={{ marginTop: 65 }}>
         <div align="center">
           <h3>จังหวัดที่รับงาน</h3>
           <div>(Way to get a job)</div>
@@ -193,6 +197,6 @@ export default function RegisterDetail2() {
           </Button>
         </div>
       </div>
-    </Container>
+    </ImageBackground>
   )
 }

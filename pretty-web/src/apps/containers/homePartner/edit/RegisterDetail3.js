@@ -9,18 +9,13 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
 
+import ImageBackground from "../../../components/background"
+import Header from "../../../components/header"
+
 import { getBankList } from "../../../../data/apis"
 import firebase from "../../../../util/firebase"
 import { AppConfig } from "../../../../Constants"
 
-const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-image: url("assets/bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-`
 export default function RegisterDetail3() {
   const history = useHistory()
   const { profile } = history.location.state
@@ -48,8 +43,9 @@ export default function RegisterDetail3() {
   }
 
   return (
-    <Container>
-      <div style={{ margin: 10 }}>
+    <ImageBackground>
+      <Header profile={profile} />
+      <div style={{ marginTop: 65 }}>
         <div align="center">
           <h3>เพิ่มข้อมูลธนาคาร</h3>
         </div>
@@ -103,6 +99,6 @@ export default function RegisterDetail3() {
           </Button>
         </div>
       </div>
-    </Container>
+    </ImageBackground>
   )
 }

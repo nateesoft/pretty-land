@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 
-import styled from "styled-components"
 import { Button, TextField } from "@material-ui/core"
 import { SkipNext } from "@material-ui/icons"
 import FormControl from "@material-ui/core/FormControl"
@@ -9,16 +8,11 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
 
+import Header from "../../components/header"
+import ImageBackground from "../../components/background"
+
 import { getBankList } from "../../../data/apis"
 
-const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-image: url("assets/bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-`
 export default function RegisterDetail3() {
   const history = useHistory()
   const {
@@ -81,8 +75,9 @@ export default function RegisterDetail3() {
   }
 
   return (
-    <Container>
-      <div style={{ margin: 10 }}>
+    <ImageBackground>
+      <Header hideBack />
+      <div style={{ marginTop: 65 }}>
         <div align="center">
           <h3>เพิ่มข้อมูลธนาคาร</h3>
         </div>
@@ -136,6 +131,6 @@ export default function RegisterDetail3() {
           </Button>
         </div>
       </div>
-    </Container>
+    </ImageBackground>
   )
 }
