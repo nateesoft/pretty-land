@@ -130,7 +130,7 @@ export default function PlaceForm() {
               </InputAdornment>
             }
             value={startTime}
-            type="text"
+            type="time"
             onChange={(e) => setStartTime(e.target.value)}
           />
         </FormControl>
@@ -144,7 +144,7 @@ export default function PlaceForm() {
               </InputAdornment>
             }
             value={stopTime}
-            type="text"
+            type="time"
             onChange={(e) => setStopTime(e.target.value)}
           />
         </FormControl>

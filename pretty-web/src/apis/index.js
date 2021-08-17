@@ -117,6 +117,28 @@ const loginApp = (username, password) => {
   })
 }
 
+const checkMobileNumberWithLink = (mobileNumber, uid) => {
+  return new Promise((resolve, reject) => {
+    firebase
+      .database()
+      .ref(`${AppConfig.env}/members`)
+      .once("value", (snapshot) => {
+        const members = { ...snapshot.val() }
+        let result = false
+        let memberMaster = {}
+        for (let key in members) {
+          const member = members[key]
+          if (member.username === mobileNumber) {
+            memberMaster = member
+            result = true
+          }
+        }
+        resolve({ valid: result, member: memberMaster })
+      })
+      .catch((err) => alert(`${err}`))
+  })
+}
+
 const validUserExist = (username) => {
   return new Promise((resolve, reject) => {
     firebase
@@ -265,5 +287,6 @@ export {
   getPartnerDashboardType4,
   partnerAcceptJobWaitCustomerReview,
   savePaymentSlip,
-  adminSaveConfirmPayment
+  adminSaveConfirmPayment,
+  checkMobileNumberWithLink
 }

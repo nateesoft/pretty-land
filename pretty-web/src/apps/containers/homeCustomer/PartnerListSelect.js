@@ -100,6 +100,7 @@ export default function PartnerListSelect() {
                     ? "ชาย"
                     : "อื่นๆ"}
                 </div>
+                <div>ราคา: {item.amount || 0} บาท</div>
               </div>
             </Grid>
           ))}

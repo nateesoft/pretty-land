@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { Button, Grid } from "@material-ui/core"
 import ExitToApp from "@material-ui/icons/ExitToApp"
@@ -55,8 +55,12 @@ const Footer = styled.div`
 
 export default function Home() {
   const history = useHistory()
-  const [showFacebookLine] = useState(true)
-  const [phone, setPhone] = useState(Cookies.get("user_phone") || "")
+  const [showFacebookLine] = useState(false)
+  const [phone, setPhone] = useState("")
+
+  useEffect(() => {
+    setPhone(Cookies.get("user_phone") || "")
+  }, [])
 
   const loginPassFacebook = () => {
     console.log("loginPassFacebook")
@@ -132,6 +136,7 @@ export default function Home() {
       .database()
       .ref(`${AppConfig.env}/members/${phone}`)
       .update(memberData)
+      Cookies.set('user_phone', phone);
     history.push("/customer", { member: memberData })
   }
 
@@ -210,7 +215,7 @@ export default function Home() {
                   variant="outlined"
                   value={phone}
                   style={{ width: 230 }}
-                  onChange={(e) => setPhone(phone)}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
               <div>

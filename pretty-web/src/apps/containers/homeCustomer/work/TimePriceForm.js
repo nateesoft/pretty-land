@@ -94,7 +94,7 @@ export default function TimePriceForm() {
                 <AccessTime />
               </InputAdornment>
             }
-            type="number"
+            type="time"
             value={timeMeeting}
             onChange={(e) => setTimeMeeting(e.target.value)}
           />

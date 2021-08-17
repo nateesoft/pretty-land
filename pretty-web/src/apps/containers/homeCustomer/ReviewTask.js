@@ -1,14 +1,102 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
+import { Button, Grid } from "@material-ui/core"
+import Rating from "@material-ui/lab/Rating"
+import Typography from "@material-ui/core/Typography"
+
 import { AppConfig } from "../../../Constants"
+import firebase from "../../../util/firebase"
 
 import Header from "../../components/header"
 import Footer from "../../components/footer/Customer"
 import ImageBackground from "../../components/background"
 
 export default function ReviewTask() {
+  const [items, setItem] = useState([])
+  const [rate, setRate] = useState(5)
   const history = useHistory()
   const { postDetail, customerProfile } = history.location.state
+
+  const saveStartWork = () => {
+    firebase.database().ref(`${AppConfig.env}/posts/${postDetail.id}`).update({
+      status: AppConfig.PostsStatus.startWork,
+      statusText: "เริ่มปฏิบัติงาน",
+      sys_update_date: new Date().toUTCString(),
+      start_work_date: new Date().toUTCString()
+    })
+    history.push("/customer-posts", { customerProfile })
+  }
+
+  const saveHistoryStar = (partnerId) => {
+    return new Promise((resolve, reject) => {
+      firebase
+        .database()
+        .ref(`${AppConfig.env}/partner_star/${partnerId}/${postDetail.id}`)
+        .update({
+          star: rate,
+          sys_date: new Date().toUTCString()
+        })
+        .then((result) => {
+          resolve(true)
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
+  }
+
+  const updateMember = (workIn = 0, workPoint = 0, partnerId) => {
+    return new Promise((resolve, reject) => {
+      firebase
+        .database()
+        .ref(`${AppConfig.env}/members/${partnerId}`)
+        .update({
+          workIn: parseInt(workIn) + 1,
+          workPoint: parseInt(workPoint) + 10
+        })
+        .then((result) => {
+          resolve(true)
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
+  }
+
+  const saveToCloseJob = async () => {
+    items.map(async (item, index) => {
+      await updateMember(item.workIn, item.workPoint, item.partnerId)
+      await saveHistoryStar(item.partnerId)
+    })
+
+    firebase.database().ref(`${AppConfig.env}/posts/${postDetail.id}`).update({
+      status: AppConfig.PostsStatus.closeJob,
+      statusText: "ปิดงานเรียบร้อย",
+      sys_update_date: new Date().toUTCString()
+    })
+
+    alert("บันทึกให้คะแนนข้อมูลเรียบร้อยแล้ว")
+    history.goBack()
+  }
+
+  const getListPartner = () => {
+    return new Promise((resolve, reject) => {
+      const list = postDetail.partnerSelect
+      const listPartner = []
+      for (let key in list) {
+        const obj = list[key]
+        listPartner.push(obj)
+      }
+      resolve(listPartner)
+    })
+  }
+
+  useEffect(() => {
+    getListPartner()
+      .then((res) => setItem(res))
+      .catch((err) => alert(err))
+  }, [])
+
   return (
     <ImageBackground>
       <Header profile={customerProfile} />
@@ -19,7 +107,8 @@ export default function ReviewTask() {
           padding: 10,
           fontSize: 22,
           fontWeight: "bold",
-          color: "white"
+          color: "white",
+          marginTop: 55
         }}
       >
         รายละเอียดโพสท์
@@ -108,6 +197,76 @@ export default function ReviewTask() {
           )}
         </div>
       </div>
+      {postDetail.status === AppConfig.PostsStatus.adminConfirmPayment && (
+        <div align="center">
+          <div>
+            <Button variant="contained" color="primary" onClick={saveStartWork}>
+              กดเริ่มงาน
+            </Button>
+          </div>
+        </div>
+      )}
+      {postDetail.status === AppConfig.PostsStatus.startWork && (
+        <div align="center">
+          <div style={{ backgroundColor: "yellow", fontSize: 22, margin: 10 }}>
+            *** ให้คะแนนน้องๆ เมื่อทำงานเสร็จเรียบร้อยแล้วเท่านั้น
+          </div>
+          <div>
+            <Typography component="legend">ให้คะแนน</Typography>
+            <Rating
+              name="simple-controlled"
+              value={rate}
+              onChange={(event, newValue) => {
+                setRate(newValue)
+              }}
+            />
+          </div>
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={saveToCloseJob}
+            >
+              ให้คะแนนน้อง ๆ
+            </Button>
+          </div>
+        </div>
+      )}
+      <div align="center" style={{ marginTop: 20 }}>
+        {items &&
+          items.map((obj, index) => (
+            <Grid container spacing={1} style={{ border: "1px solid #eee" }}>
+              <Grid item xs={6}>
+                <div align="left" style={{ margin: 5 }}>
+                  <div>ชื่อน้อง: {obj.partnerName}</div>
+                  <div>ราคา: {obj.amount}</div>
+                  <div>เบอร์โทร: {obj.telephone}</div>
+                  <div>
+                    เพศ:{" "}
+                    {obj.sex === "female"
+                      ? "หญิง"
+                      : obj.sex === "male"
+                      ? "ชาย"
+                      : "อื่น ๆ"}
+                  </div>
+                  <img
+                    src={obj.image}
+                    alt=""
+                    style={{ width: 150, height: "auto" }}
+                  />
+                </div>
+              </Grid>
+            </Grid>
+          ))}
+      </div>
+      {postDetail.status === AppConfig.PostsStatus.customerCloseJob && (
+        <div align="center">
+          <div>
+            <div>สถานะ: </div>
+            <div>คะแนนที่ได้รับ: </div>
+          </div>
+        </div>
+      )}
       <Footer profile={customerProfile} />
     </ImageBackground>
   )

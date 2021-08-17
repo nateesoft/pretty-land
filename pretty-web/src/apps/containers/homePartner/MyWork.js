@@ -82,7 +82,7 @@ export default function WorkRequest() {
             color: "white"
           }}
         >
-          งานที่รอดำเนินการ
+          งานขอฉัน
         </div>
         {filterList.length === 0 && (
           <div
