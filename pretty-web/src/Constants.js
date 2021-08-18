@@ -1,5 +1,8 @@
+const hostName = window.location.host
+const getEnv = hostName !== "pretty-land.web.app" ? "demo" : "production"
+console.log("Connection to...", getEnv)
 export const AppConfig = {
-  env: "production",
+  env: getEnv,
   MemberStatus: {
     newRegister: "new_register",
     newRegisterMessage: "รอออนุมัติ",
@@ -13,13 +16,13 @@ export const AppConfig = {
     suspend: "suspend",
     suspendMessage: "สั่งพักงานชั่วคราว",
     suspendPriority: 4,
-    suspendMessagePopup: "ขออภัย! บัญชีของท่านถูกยกเลิกชั่วคราว",
+    suspendMessagePopup: "ขออภัย! บัญชีของท่านถูกยกเลิกชั่วคราว"
   },
   PartnerType: {
     type1: "พริตตี้ Event / Mc",
     type2: "โคโยตี้ / งานเต้น",
     type3: "พริตตี้ En / Env",
-    type4: "พริตตี้ นวดแผนไทย",
+    type4: "พริตตี้ นวดแผนไทย"
   },
   PostsStatus: {
     customerNewPostDone: "customer_new_post_done",
@@ -44,6 +47,6 @@ export const AppConfig = {
     customerCloseJob: "customer_close_job",
     partnerCloseJob: "partner_close_job",
     startWork: "start_work",
-    closeJob: "close_job",
-  },
+    closeJob: "close_job"
+  }
 }
