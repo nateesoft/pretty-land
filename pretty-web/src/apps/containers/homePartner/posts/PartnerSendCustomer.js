@@ -124,7 +124,7 @@ export default function PartnerSendCustomer() {
             <div style={{ fontSize: 20, color: "blue" }}>
               ปิดงานเรียบร้อยแล้ว
             </div>
-            <Rating value={item.rate} />
+            <Rating value={item.rate} disabled />
             <div style={{ fontSize: 20 }}>คะแนนที่ได้รับ {item.rate} ดาว</div>
             <Button
               variant="contained"

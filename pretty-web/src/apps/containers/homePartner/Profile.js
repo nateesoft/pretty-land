@@ -9,6 +9,7 @@ import InfoIcon from "@material-ui/icons/PhotoSizeSelectActual"
 import { useHistory } from "react-router-dom"
 import ImageListItemBar from "@material-ui/core/ImageListItemBar"
 import IconButton from "@material-ui/core/IconButton"
+import ReactPlayer from "react-player"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -139,11 +140,11 @@ export default function Profile() {
                 </ImageListItem>
               ))}
           </ImageList>
-          {/* {profile.imageUrl6 && (
-          <div align="center" style={{ margin: 10 }}>
-            <ReactPlayer url={profile.imageUrl6} width={300} controls />
-          </div>
-        )} */}
+          {profile.imageUrl6 && (
+            <div align="center" style={{ margin: 10 }}>
+              <ReactPlayer url={profile.imageUrl6} width={300} controls />
+            </div>
+          )}
         </div>
       </div>
       <Footer profile={profile} />

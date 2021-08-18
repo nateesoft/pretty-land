@@ -37,9 +37,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "rm -rf ./build && react-scripts build",
+    "build:demo": "rm -rf ./build_demo && BUILD_PATH='./build_demo' react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy:prod": "npm run build && firebase deploy"
+    "deploy": "firebase deploy --only hosting:production",
+    "deploy:demo": "firebase deploy --only hosting:demo"
   },
   "eslintConfig": {
     "extends": [

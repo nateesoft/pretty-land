@@ -1,6 +1,5 @@
 import React from "react"
 import "date-fns"
-import DateFnsUtils from "@date-io/date-fns"
 import ReactDOM from "react-dom"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
@@ -90,12 +89,6 @@ if (getOS() !== "iOS" && getOS() !== "Android") {
   console.log("application support only, iOS and Android")
   // window.location.href = "http://google.co.th"
 }
-
-// const Hello = () => {
-//   return <div>Hello, world, REACT:JS 2021</div>
-// }
-
-// ReactDOM.render(<Hello />, document.getElementById("root"))
 
 ReactDOM.render(
   <Router>

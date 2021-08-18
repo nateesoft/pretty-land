@@ -45,24 +45,26 @@ export default function Dashboard() {
         type4 = 0
 
       arr.forEach((item) => {
-        if (
+        const statusMatch =
           item.status === AppConfig.PostsStatus.adminConfirmNewPost ||
           item.status === AppConfig.PostsStatus.waitCustomerSelectPartner ||
           item.status === AppConfig.PostsStatus.waitPartnerConfrimWork
-        ) {
-          if (item.partnerRequest === AppConfig.PartnerType.type1) {
-            type1 = type1 + 1
+        if (item.status !== AppConfig.PostsStatus.closeJob) {
+          if (statusMatch) {
+            if (item.partnerRequest === AppConfig.PartnerType.type1) {
+              type1 = type1 + 1
+            }
+            if (item.partnerRequest === AppConfig.PartnerType.type2) {
+              type2 = type2 + 1
+            }
+            if (item.partnerRequest === AppConfig.PartnerType.type3) {
+              type3 = type3 + 1
+            }
+            if (item.partnerRequest === AppConfig.PartnerType.type4) {
+              type4 = type4 + 1
+            }
+            listTrue.push(item)
           }
-          if (item.partnerRequest === AppConfig.PartnerType.type2) {
-            type2 = type2 + 1
-          }
-          if (item.partnerRequest === AppConfig.PartnerType.type3) {
-            type3 = type3 + 1
-          }
-          if (item.partnerRequest === AppConfig.PartnerType.type4) {
-            type4 = type4 + 1
-          }
-          listTrue.push(item)
         }
       })
       setSumType1(type1)
@@ -117,149 +119,162 @@ export default function Dashboard() {
   return (
     <ImageBackground>
       <Header profile={member} hideBack />
-      <Grid
-        container
-        spacing={1}
-        justifyContent="center"
-        style={{ marginTop: 55 }}
-      >
-        {items[0] && (
-          <Grid item xs={6}>
-            <div
-              style={{
-                backgroundColor: "red",
-                borderRadius: 15,
-                width: "100%",
-                height: "100%",
-                textAlign: "center",
-                verticalAlign: "center",
-                margin: 5
-              }}
-            >
-              <img
-                src="assets/type1.jpg"
+      <div align="center" style={{ position: "fixed", right: 10, bottom: 60 }}>
+        <Grid container spacing={1} style={{ marginTop: 55 }}>
+          {items[0] && (
+            <Grid item xs={6}>
+              <div
                 style={{
-                  margin: 10,
+                  backgroundColor: "red",
                   borderRadius: 15,
-                  width: "80%",
-                  height: "70%",
-                  border: "5px solid white"
+                  width: "100%",
+                  height: "100%",
+                  textAlign: "center",
+                  verticalAlign: "center",
+                  margin: 5
                 }}
-                alt=""
-                onClick={() => onPressOptions(1)}
-              />
-              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-                พริตตี้ Event / Mc
+              >
+                <img
+                  src="assets/type1.jpg"
+                  style={{
+                    margin: 10,
+                    borderRadius: 15,
+                    width: "80%",
+                    height: "70%",
+                    border: "5px solid white"
+                  }}
+                  alt=""
+                  onClick={() => onPressOptions(1)}
+                />
+                <div
+                  style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
+                >
+                  พริตตี้ Event / Mc
+                </div>
+                <div
+                  style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}
+                >
+                  จำนวน {sumType1} งาน
+                </div>
               </div>
-              <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
-                จำนวน {sumType1} งาน
-              </div>
-            </div>
-          </Grid>
-        )}
-        {items[1] && (
-          <Grid item xs={6}>
-            <div
-              style={{
-                backgroundColor: "red",
-                borderRadius: 15,
-                width: "100%",
-                height: "100%",
-                textAlign: "center",
-                verticalAlign: "center",
-                margin: 5
-              }}
-            >
-              <img
-                src="assets/type2.jpg"
+            </Grid>
+          )}
+          {items[1] && (
+            <Grid item xs={6}>
+              <div
                 style={{
-                  margin: 10,
+                  backgroundColor: "red",
                   borderRadius: 15,
-                  width: "80%",
-                  height: "70%",
-                  border: "5px solid white"
+                  width: "100%",
+                  height: "100%",
+                  textAlign: "center",
+                  verticalAlign: "center",
+                  margin: 5
                 }}
-                alt=""
-                onClick={() => onPressOptions(2)}
-              />
-              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-                โคโยตี้ / งานเต้น
+              >
+                <img
+                  src="assets/type2.jpg"
+                  style={{
+                    margin: 10,
+                    borderRadius: 15,
+                    width: "80%",
+                    height: "70%",
+                    border: "5px solid white"
+                  }}
+                  alt=""
+                  onClick={() => onPressOptions(2)}
+                />
+                <div
+                  style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
+                >
+                  โคโยตี้ / งานเต้น
+                </div>
+                <div
+                  style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}
+                >
+                  จำนวน {sumType2} งาน
+                </div>
               </div>
-              <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
-                จำนวน {sumType2} งาน
-              </div>
-            </div>
-          </Grid>
-        )}
-        {items[2] && (
-          <Grid item xs={6}>
-            <div
-              style={{
-                backgroundColor: "red",
-                borderRadius: 15,
-                width: "100%",
-                height: "100%",
-                textAlign: "center",
-                verticalAlign: "center",
-                margin: 5
-              }}
-            >
-              <img
-                src="assets/type3.jpg"
+            </Grid>
+          )}
+          {items[2] && (
+            <Grid item xs={6}>
+              <div
                 style={{
-                  margin: 10,
+                  backgroundColor: "red",
                   borderRadius: 15,
-                  width: "80%",
-                  height: "70%",
-                  border: "5px solid white"
+                  width: "100%",
+                  height: "100%",
+                  textAlign: "center",
+                  verticalAlign: "center",
+                  margin: 5
                 }}
-                alt=""
-                onClick={() => onPressOptions(3)}
-              />
-              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-                พริตตี้ En / Env
+              >
+                <img
+                  src="assets/type3.jpg"
+                  style={{
+                    margin: 10,
+                    borderRadius: 15,
+                    width: "80%",
+                    height: "70%",
+                    border: "5px solid white"
+                  }}
+                  alt=""
+                  onClick={() => onPressOptions(3)}
+                />
+                <div
+                  style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
+                >
+                  พริตตี้ En / Env
+                </div>
+                <div
+                  style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}
+                >
+                  จำนวน {sumType3} งาน
+                </div>
               </div>
-              <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
-                จำนวน {sumType3} งาน
-              </div>
-            </div>
-          </Grid>
-        )}
-        {items[3] && (
-          <Grid item xs={6}>
-            <div
-              style={{
-                backgroundColor: "red",
-                borderRadius: 15,
-                width: "100%",
-                height: "100%",
-                textAlign: "center",
-                verticalAlign: "center",
-                margin: 5
-              }}
-            >
-              <img
-                src="assets/type4.jpg"
+            </Grid>
+          )}
+          {items[3] && (
+            <Grid item xs={6}>
+              <div
                 style={{
-                  margin: 10,
+                  backgroundColor: "red",
                   borderRadius: 15,
-                  width: "80%",
-                  height: "70%",
-                  border: "5px solid white"
+                  width: "100%",
+                  height: "100%",
+                  textAlign: "center",
+                  verticalAlign: "center",
+                  margin: 5
                 }}
-                alt=""
-                onClick={() => onPressOptions(4, items[3])}
-              />
-              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-                พริตตี้ นวดแผนไทย
+              >
+                <img
+                  src="assets/type4.jpg"
+                  style={{
+                    margin: 10,
+                    borderRadius: 15,
+                    width: "80%",
+                    height: "70%",
+                    border: "5px solid white"
+                  }}
+                  alt=""
+                  onClick={() => onPressOptions(4, items[3])}
+                />
+                <div
+                  style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
+                >
+                  พริตตี้ นวดแผนไทย
+                </div>
+                <div
+                  style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}
+                >
+                  จำนวน {sumType4} งาน
+                </div>
               </div>
-              <div style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}>
-                จำนวน {sumType4} งาน
-              </div>
-            </div>
-          </Grid>
-        )}
-      </Grid>
+            </Grid>
+          )}
+        </Grid>
+      </div>
       <Footer profile={member} />
     </ImageBackground>
   )

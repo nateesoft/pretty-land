@@ -55,7 +55,7 @@ export default function AdminFooter(props) {
 
   const NotiAllPost = () => {
     return (
-      <Badge badgeContent={postsCount} color="primary">
+      <Badge badgeContent={0} color="primary">
         <Receipt />
       </Badge>
     )

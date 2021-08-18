@@ -10,6 +10,11 @@ import uuid from "react-uuid"
 import TextField from "@material-ui/core/TextField"
 import Cookies from "js-cookie"
 
+import {
+  checkMobileNumberWithLink,
+  getAppConfig,
+  updateAppConfig
+} from "../../../apis"
 import { lineConfig } from "../../../util/appConfig"
 import firebase from "../../../util/firebase"
 import { AppConfig } from "../../../Constants"
@@ -112,32 +117,50 @@ export default function Home() {
     window.location.href = linkUri
   }
 
-  const loginByPhone = () => {
+  const loginByPhone = async () => {
     if (!phone && !Cookies.get("user_phone")) {
       alert("กรุณาระบุเบอร์โทรศัพท์ !")
       return
     }
-    const memberData = {
-      id: phone,
-      profile: phone,
-      name: phone,
-      customerType: "phone",
-      memberType: "customer",
-      status: "active",
-      email: "",
-      username: phone,
-      password: base64.encode(phone),
-      mobile: phone,
-      customerLevel: 0,
-      sys_create_date: new Date().toUTCString(),
-      sys_update_date: new Date().toUTCString()
+    const { valid, member } = await checkMobileNumberWithLink(phone)
+    if (valid) {
+      // update
+      firebase.database().ref(`${AppConfig.env}/members/${member.id}`).update({
+        sys_update_date: new Date().toUTCString()
+      })
+      Cookies.set("user_phone", phone)
+      history.replace("/customer", { member })
+    } else {
+      const { running } = await getAppConfig()
+      const runningId = `${running.prefix}${running.index}`
+      const memberData = {
+        id: runningId,
+        profile: runningId,
+        name: runningId,
+        customerType: "phone",
+        memberType: "customer",
+        status: "active",
+        email: "",
+        username: runningId,
+        password: base64.encode(phone),
+        mobile: phone,
+        customerLevel: 0,
+        sys_create_date: new Date().toUTCString(),
+        sys_update_date: new Date().toUTCString()
+      }
+      firebase
+        .database()
+        .ref(`${AppConfig.env}/members/${runningId}`)
+        .update(memberData)
+      await updateAppConfig({
+        running: {
+          index: running.index + 1,
+          prefix: "cm"
+        }
+      })
+      Cookies.set("user_phone", phone)
+      history.replace("/customer", { member: memberData })
     }
-    firebase
-      .database()
-      .ref(`${AppConfig.env}/members/${phone}`)
-      .update(memberData)
-    Cookies.set("user_phone", phone)
-    history.replace("/customer", { member: memberData })
   }
 
   const lineIcon = (

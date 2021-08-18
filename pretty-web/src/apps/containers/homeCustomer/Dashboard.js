@@ -155,153 +155,166 @@ export default function Dashboard() {
   return (
     <ImageBackground>
       <Header profile={member} hideBack />
-      <Grid
-        container
-        spacing={1}
-        justifyContent="center"
-        style={{ marginTop: 55 }}
-      >
-        {items[0] && (
-          <Grid item xs={6}>
-            <div
-              style={{
-                backgroundColor: "red",
-                borderRadius: 15,
-                width: "100%",
-                height: "100%",
-                textAlign: "center",
-                verticalAlign: "center",
-                margin: 5
-              }}
-            >
-              <img
-                src="assets/type1.jpg"
+      <div align="center" style={{position: 'fixed', right: 10, bottom: 65}}>
+        <Grid container spacing={1} style={{ marginTop: 55 }}>
+          {items[0] && (
+            <Grid item xs={6}>
+              <div
                 style={{
-                  margin: 10,
+                  backgroundColor: "red",
                   borderRadius: 15,
-                  width: "80%",
-                  height: "70%",
-                  border: "5px solid white"
+                  width: "100%",
+                  height: "100%",
+                  textAlign: "center",
+                  verticalAlign: "center",
+                  margin: 5
                 }}
-                alt=""
-                onClick={() => loadDetailWork(1, items[0].image_url)}
-              />
-              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-                พริตตี้ Event / Mc
+              >
+                <img
+                  src="assets/type1.jpg"
+                  style={{
+                    margin: 10,
+                    borderRadius: 15,
+                    width: "80%",
+                    height: "70%",
+                    border: "5px solid white"
+                  }}
+                  alt=""
+                  onClick={() => loadDetailWork(1, items[0].image_url)}
+                />
+                <div
+                  style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
+                >
+                  พริตตี้ Event / Mc
+                </div>
+                <div
+                  style={{ color: "black", fontSize: 12, fontWeight: "bold" }}
+                >
+                  ( <span style={{ color: "blue" }}>Girl : {sumGirl1}</span>{" "}
+                  <span style={{ color: "black" }}>Boy : {sumBoy1}</span> )
+                </div>
               </div>
-              <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
-                ( <span style={{ color: "blue" }}>Girl : {sumGirl1}</span>{" "}
-                <span style={{ color: "black" }}>Boy : {sumBoy1}</span> )
-              </div>
-            </div>
-          </Grid>
-        )}
-        {items[1] && (
-          <Grid item xs={6}>
-            <div
-              style={{
-                backgroundColor: "red",
-                borderRadius: 15,
-                width: "100%",
-                height: "100%",
-                textAlign: "center",
-                verticalAlign: "center",
-                margin: 5
-              }}
-            >
-              <img
-                src="assets/type2.jpg"
+            </Grid>
+          )}
+          {items[1] && (
+            <Grid item xs={6}>
+              <div
                 style={{
-                  margin: 10,
+                  backgroundColor: "red",
                   borderRadius: 15,
-                  width: "80%",
-                  height: "70%",
-                  border: "5px solid white"
+                  width: "100%",
+                  height: "100%",
+                  textAlign: "center",
+                  verticalAlign: "center",
+                  margin: 5
                 }}
-                alt=""
-                onClick={() => loadDetailWork(2, items[1].image_url)}
-              />
-              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-                โคโยตี้ / งานเต้น
+              >
+                <img
+                  src="assets/type2.jpg"
+                  style={{
+                    margin: 10,
+                    borderRadius: 15,
+                    width: "80%",
+                    height: "70%",
+                    border: "5px solid white"
+                  }}
+                  alt=""
+                  onClick={() => loadDetailWork(2, items[1].image_url)}
+                />
+                <div
+                  style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
+                >
+                  โคโยตี้ / งานเต้น
+                </div>
+                <div
+                  style={{ color: "black", fontSize: 12, fontWeight: "bold" }}
+                >
+                  ( <span style={{ color: "blue" }}>Girl : {sumGirl2}</span>{" "}
+                  <span style={{ color: "black" }}>Boy : {sumBoy2}</span> )
+                </div>
               </div>
-              <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
-                ( <span style={{ color: "blue" }}>Girl : {sumGirl2}</span>{" "}
-                <span style={{ color: "black" }}>Boy : {sumBoy2}</span> )
-              </div>
-            </div>
-          </Grid>
-        )}
-        {items[2] && (
-          <Grid item xs={6}>
-            <div
-              style={{
-                backgroundColor: "red",
-                borderRadius: 15,
-                width: "100%",
-                height: "100%",
-                textAlign: "center",
-                verticalAlign: "center",
-                margin: 5
-              }}
-            >
-              <img
-                src="assets/type3.jpg"
+            </Grid>
+          )}
+          {items[2] && (
+            <Grid item xs={6}>
+              <div
                 style={{
-                  margin: 10,
+                  backgroundColor: "red",
                   borderRadius: 15,
-                  width: "80%",
-                  height: "70%",
-                  border: "5px solid white"
+                  width: "100%",
+                  height: "100%",
+                  textAlign: "center",
+                  verticalAlign: "center",
+                  margin: 5
                 }}
-                alt=""
-                onClick={() => loadDetailWork(3, items[2].image_url)}
-              />
-              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-                พริตตี้ En / Env
+              >
+                <img
+                  src="assets/type3.jpg"
+                  style={{
+                    margin: 10,
+                    borderRadius: 15,
+                    width: "80%",
+                    height: "70%",
+                    border: "5px solid white"
+                  }}
+                  alt=""
+                  onClick={() => loadDetailWork(3, items[2].image_url)}
+                />
+                <div
+                  style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
+                >
+                  พริตตี้ En / Env
+                </div>
+                <div
+                  style={{ color: "black", fontSize: 12, fontWeight: "bold" }}
+                >
+                  ( <span style={{ color: "blue" }}>Girl : {sumGirl3}</span>{" "}
+                  <span style={{ color: "black" }}>Boy : {sumBoy3}</span> )
+                </div>
               </div>
-              <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
-                ( <span style={{ color: "blue" }}>Girl : {sumGirl3}</span>{" "}
-                <span style={{ color: "black" }}>Boy : {sumBoy3}</span> )
-              </div>
-            </div>
-          </Grid>
-        )}
-        {items[3] && (
-          <Grid item xs={6}>
-            <div
-              style={{
-                backgroundColor: "red",
-                borderRadius: 15,
-                width: "100%",
-                height: "100%",
-                textAlign: "center",
-                verticalAlign: "center",
-                margin: 5
-              }}
-            >
-              <img
-                src="assets/type4.jpg"
+            </Grid>
+          )}
+          {items[3] && (
+            <Grid item xs={6}>
+              <div
                 style={{
-                  margin: 10,
+                  backgroundColor: "red",
                   borderRadius: 15,
-                  width: "80%",
-                  height: "70%",
-                  border: "5px solid white"
+                  width: "100%",
+                  height: "100%",
+                  textAlign: "center",
+                  verticalAlign: "center",
+                  margin: 5
                 }}
-                alt=""
-                onClick={() => loadDetailWork(4, items[3].image_url)}
-              />
-              <div style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-                พริตตี้ นวดแผนไทย
+              >
+                <img
+                  src="assets/type4.jpg"
+                  style={{
+                    margin: 10,
+                    borderRadius: 15,
+                    width: "80%",
+                    height: "70%",
+                    border: "5px solid white"
+                  }}
+                  alt=""
+                  onClick={() => loadDetailWork(4, items[3].image_url)}
+                />
+                <div
+                  style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
+                >
+                  พริตตี้ นวดแผนไทย
+                </div>
+                <div
+                  style={{ color: "black", fontSize: 12, fontWeight: "bold" }}
+                >
+                  ( <span style={{ color: "blue" }}>Girl : {sumGirl4}</span>{" "}
+                  <span style={{ color: "black" }}>Boy : {sumBoy4}</span> )
+                </div>
               </div>
-              <div style={{ color: "black", fontSize: 12, fontWeight: "bold" }}>
-                ( <span style={{ color: "blue" }}>Girl : {sumGirl4}</span>{" "}
-                <span style={{ color: "black" }}>Boy : {sumBoy4}</span> )
-              </div>
-            </div>
-          </Grid>
-        )}
-      </Grid>
+            </Grid>
+          )}
+        </Grid>
+      </div>
       <Footer profile={member} />
     </ImageBackground>
   )

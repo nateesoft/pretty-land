@@ -128,7 +128,7 @@ const checkMobileNumberWithLink = (mobileNumber, uid) => {
         let memberMaster = {}
         for (let key in members) {
           const member = members[key]
-          if (member.username === mobileNumber) {
+          if (member.mobile === mobileNumber) {
             memberMaster = member
             result = true
           }
@@ -179,6 +179,22 @@ const getMemberProfile = (userId) => {
       const data = { ...snapshot.val() }
       resolve(data)
     })
+  })
+}
+
+const getAppConfig = () => {
+  return new Promise((resolve, reject) => {
+    const ref = firebase.database().ref(`${AppConfig.env}/appconfig`)
+    ref.once("value", (snapshot) => {
+      const data = { ...snapshot.val() }
+      resolve(data)
+    })
+  })
+}
+const updateAppConfig = (data) => {
+  return new Promise((resolve, reject) => {
+    firebase.database().ref(`${AppConfig.env}/appconfig`).update(data)
+    resolve(true)
   })
 }
 
@@ -288,5 +304,7 @@ export {
   partnerAcceptJobWaitCustomerReview,
   savePaymentSlip,
   adminSaveConfirmPayment,
-  checkMobileNumberWithLink
+  checkMobileNumberWithLink,
+  getAppConfig,
+  updateAppConfig
 }
