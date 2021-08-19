@@ -52,6 +52,7 @@ export default function PaymentForm() {
   const [imageFile, setImageFile] = useState(null)
   const [bank, setBank] = useState("")
   const [toAccount, setToAccount] = useState("")
+  const [bankAccount, setBankAccount] = useState("")
   const [transferAmount, setTransferAmount] = useState("")
   const [datetime, setDateTime] = useState("")
 
@@ -68,6 +69,7 @@ export default function PaymentForm() {
         const data = { ...snapshot.val() }
         if (data.account_no) {
           setToAccount(data.account_no)
+          setBankAccount(data.account_name)
         }
       })
   }
@@ -336,6 +338,21 @@ export default function PaymentForm() {
           <Input
             id="input-with-icon-adornment"
             value={toAccount}
+            startAdornment={
+              <InputAdornment position="start">
+                <AttachMoney />
+              </InputAdornment>
+            }
+            autoComplete="off"
+          />
+        </FormControl>
+        <FormControl style={{ margin: 10, alignContent: "center", width: 350 }}>
+          <InputLabel htmlFor="input-with-icon-adornment">
+            ชื่อบัญชีปลายทาง
+          </InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            value={bankAccount}
             startAdornment={
               <InputAdornment position="start">
                 <AttachMoney />
