@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 import { Grid } from "@material-ui/core"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../components/background"
 import Footer from "../../components/footer/Partner"
@@ -21,6 +22,9 @@ import {
 export default function Dashboard() {
   const [items, setItems] = useState([])
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { member } = history.location.state
 
   const [taskList, setTaskList] = useState([])

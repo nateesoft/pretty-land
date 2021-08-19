@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import styled from "styled-components"
 import { Button, Grid, TextField } from "@material-ui/core"
 import SaveIcon from "@material-ui/icons/Save"
 import FormLabel from "@material-ui/core/FormLabel"
@@ -8,6 +7,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel"
 import { RadioGroup, Radio } from "@material-ui/core"
 import Checkbox from "@material-ui/core/Checkbox"
 import { useHistory } from "react-router-dom"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -18,6 +18,9 @@ import { AppConfig } from "../../../../Constants"
 
 export default function RegisterDetail1() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { profile } = history.location.state
 
   const [gender, setGender] = useState(profile.gender)

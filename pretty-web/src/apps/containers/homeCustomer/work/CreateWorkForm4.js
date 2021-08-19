@@ -9,9 +9,9 @@ import Radio from "@material-ui/core/Radio"
 import RadioGroup from "@material-ui/core/RadioGroup"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import { Grid } from "@material-ui/core"
+import Cookies from "js-cookie"
 
 import Header from "../../../components/header"
-import Footer from "../../../components/footer/Customer"
 import ImageBackground from "../../../components/background"
 
 import { getCountryList, getDistrictList } from "../../../../data/apis"
@@ -20,13 +20,15 @@ import firebase from "../../../../util/firebase"
 
 export default function CreateWorkForm4() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { customerProfile, partnerRequest, partnerType } =
     history.location.state
   const [sex, setSex] = useState("female")
   const [province, setProvince] = useState("")
   const [district, setDistrict] = useState("")
   const [partnerQty, setPartnerQty] = useState("")
-  const [partnerWantQty, setPartnerWantQty] = useState("")
   const [provinceList] = useState(getCountryList())
   const [districtList, setDistrictList] = useState([])
   const [partnerList, setPartnerList] = useState([])

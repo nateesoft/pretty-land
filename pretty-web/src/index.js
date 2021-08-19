@@ -62,6 +62,8 @@ import reportWebVitals from "./reportWebVitals"
 // import Privacy from "./Privacy"
 // import HelpPage from "./pages/help"
 
+const hostName = window.location.host
+
 function getOS() {
   var userAgent = window.navigator.userAgent,
     platform = window.navigator.platform,
@@ -87,7 +89,10 @@ function getOS() {
 
 if (getOS() !== "iOS" && getOS() !== "Android") {
   console.log("application support only, iOS and Android")
-  window.location.href = "http://google.co.th"
+  const checkBrowser = hostName === "localhost:3000" ? false : true
+  if (checkBrowser) {
+    window.location.href = "http://google.co.th"
+  }
 }
 
 ReactDOM.render(

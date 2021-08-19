@@ -8,6 +8,7 @@ import { HighlightOff, CheckCircle } from "@material-ui/icons"
 import Moment from "moment"
 import { useHistory } from "react-router-dom"
 import { Button } from "@material-ui/core"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -30,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function WorkRequestDetail(props) {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const classes = useStyles()
   const { item, profile } = history.location.state
   const [partner, setPartner] = useState({})

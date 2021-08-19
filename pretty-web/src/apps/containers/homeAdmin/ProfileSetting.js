@@ -9,6 +9,7 @@ import { Person, LockOpen } from "@material-ui/icons"
 import { Button } from "@material-ui/core"
 import base64 from "base-64"
 import { useHistory } from "react-router-dom"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -27,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
 export default function ProfileSetting() {
   const classes = useStyles()
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { member: profile } = history.location.state
 
   const [oldPassword, setOldPassword] = useState("")

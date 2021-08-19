@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
-import styled from "styled-components"
 import { Button } from "@material-ui/core"
 import { CloudUpload, Save } from "@material-ui/icons"
 import { useHistory } from "react-router-dom"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -36,6 +36,9 @@ LinearProgressWithLabel.propTypes = {
 
 export default function RegisterDetail4() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { profile } = history.location.state
 
   const [image, setImage] = useState(null)

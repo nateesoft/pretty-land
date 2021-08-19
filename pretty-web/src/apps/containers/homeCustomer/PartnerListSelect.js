@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Button, Grid } from "@material-ui/core"
 import { useHistory } from "react-router-dom"
 import { AttachMoney, CheckCircle } from "@material-ui/icons"
+import Cookies from "js-cookie"
 
 import Header from "../../components/header"
 import Footer from "../../components/footer/Customer"
@@ -12,6 +13,9 @@ import { AppConfig } from "../../../Constants"
 
 export default function PartnerListSelect() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { postItem, customerProfile } = history.location.state
   const [listSelect, setListSelect] = useState([])
   const [paymentActive, setPaymentActive] = useState(false)

@@ -2,6 +2,7 @@ import React from "react"
 import Button from "@material-ui/core/Button"
 import { Receipt, Send } from "@material-ui/icons"
 import { useHistory } from "react-router-dom"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -9,6 +10,9 @@ import Footer from "../../components/footer/Admin"
 
 export default function SystemConfig() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { member } = history.location.state
 
   return (

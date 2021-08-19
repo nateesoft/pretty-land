@@ -11,6 +11,7 @@ import Input from "@material-ui/core/Input"
 import SaveIcon from "@material-ui/icons/Save"
 import { Button } from "@material-ui/core"
 import { Home, AccessTime, Snooze, Phone, ListAlt } from "@material-ui/icons"
+import Cookies from "js-cookie"
 
 import Header from "../../../components/header"
 import Footer from "../../../components/footer/Customer"
@@ -22,6 +23,9 @@ import { AppConfig } from "../../../../Constants"
 
 export default function PlaceForm() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const {
     customerProfile,
     partnerRequest,

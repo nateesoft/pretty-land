@@ -64,6 +64,7 @@ export default function Home() {
   const [phone, setPhone] = useState("")
 
   useEffect(() => {
+    Cookies.set("logged_in", "")
     setPhone(Cookies.get("user_phone") || "")
   }, [])
 
@@ -129,6 +130,7 @@ export default function Home() {
         sys_update_date: new Date().toUTCString()
       })
       Cookies.set("user_phone", phone)
+      Cookies.set("logged_in", "customer")
       history.replace("/customer", { member })
     } else {
       const { running } = await getAppConfig()
@@ -159,6 +161,7 @@ export default function Home() {
         }
       })
       Cookies.set("user_phone", phone)
+      Cookies.set("logged_in", "customer")
       history.replace("/customer", { member: memberData })
     }
   }

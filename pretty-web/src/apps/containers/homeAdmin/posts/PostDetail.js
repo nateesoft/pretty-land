@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom"
 import Moment from "moment"
 import { Button } from "@material-ui/core"
 import { CheckBox, Delete } from "@material-ui/icons"
+import Cookies from "js-cookie"
 
 import Header from "../../../components/header"
 import ImageBackground from "../../../components/background"
@@ -12,6 +13,9 @@ import { AppConfig } from "../../../../Constants"
 
 export default function PostDetail() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { item, member } = history.location.state
 
   const updateToApprove = () => {
@@ -20,7 +24,9 @@ export default function PostDetail() {
         updatePosts(item.id, {
           status: AppConfig.PostsStatus.waitCustomerPayment,
           statusText: "รอลูกค้าชำระเงิน",
-          sys_update_date: new Date().toUTCString()
+          sys_update_date: new Date().toUTCString(),
+          admin_action: member.username || member.id,
+          action_date: new Date().toUTCString()
         })
         history.push("/admin", { member })
       } else {
@@ -40,7 +46,9 @@ export default function PostDetail() {
       updatePosts(item.id, {
         status: AppConfig.PostsStatus.notApprove,
         statusText: "ไม่อนุมัติโพสท์",
-        sys_update_date: new Date().toUTCString()
+        sys_update_date: new Date().toUTCString(),
+        admin_action: member.username || member.id,
+        action_date: new Date().toUTCString()
       })
     }
     history.push("/admin", { member })
@@ -110,27 +118,27 @@ export default function PostDetail() {
         <hr />
         {(item.status === AppConfig.PostsStatus.customerNewPostDone ||
           item.status === AppConfig.PostsStatus.waitAdminApprovePost) && (
-            <div>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ margin: 5 }}
-                startIcon={<CheckBox />}
-                onClick={updateToApprove}
-              >
-                อนุมัติโพสท์
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                style={{ margin: 5 }}
-                startIcon={<Delete />}
-                onClick={updateNotApprove}
-              >
-                ไม่อนุมัติโพสท์
-              </Button>
-            </div>
-          )}
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ margin: 5 }}
+              startIcon={<CheckBox />}
+              onClick={updateToApprove}
+            >
+              อนุมัติโพสท์
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{ margin: 5 }}
+              startIcon={<Delete />}
+              onClick={updateNotApprove}
+            >
+              ไม่อนุมัติโพสท์
+            </Button>
+          </div>
+        )}
       </div>
     </ImageBackground>
   )

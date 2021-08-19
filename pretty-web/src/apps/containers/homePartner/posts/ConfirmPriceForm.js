@@ -6,6 +6,7 @@ import Input from "@material-ui/core/Input"
 import InputLabel from "@material-ui/core/InputLabel"
 import InputAdornment from "@material-ui/core/InputAdornment"
 import { useHistory } from "react-router-dom"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -17,6 +18,9 @@ import { AppConfig } from "../../../../Constants"
 
 export default function ConfirmPriceForm() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { item: postDetail, profile } = history.location.state
   const [amount, setAmount] = useState("")
   const [workStatus, setWorkStatus] = useState("")

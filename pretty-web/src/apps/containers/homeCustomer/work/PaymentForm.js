@@ -10,8 +10,8 @@ import { Button, Grid } from "@material-ui/core"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
+import Cookies from "js-cookie"
 
-import { getAppConfig } from "../../../../apis"
 import { savePaymentSlip } from "../../../../apis"
 import { getBankName } from "../../../../data/apis"
 import firebase from "../../../../util/firebase"
@@ -38,6 +38,9 @@ LinearProgressWithLabel.propTypes = {
 
 export default function PaymentForm() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { postItem, customerProfile } = history.location.state
 
   const [partnerAmount, setPartnerAmount] = useState("")

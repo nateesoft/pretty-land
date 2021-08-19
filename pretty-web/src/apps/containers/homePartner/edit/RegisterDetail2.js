@@ -7,6 +7,7 @@ import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -17,6 +18,9 @@ import { AppConfig } from "../../../../Constants"
 
 export default function RegisterDetail2() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { profile } = history.location.state
   const [lineId, setLineId] = useState(profile.lineId || "")
   const [mobile, setMobile] = useState(profile.mobile || "")

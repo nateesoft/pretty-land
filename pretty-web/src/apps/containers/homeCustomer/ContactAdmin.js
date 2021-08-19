@@ -1,6 +1,7 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
 import { Button } from "@material-ui/core"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -8,6 +9,9 @@ import Footer from "../../components/footer/Customer"
 
 export default function ContactAdmin() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { member } = history.location.state
 
   const LinkToLineContact = () => {

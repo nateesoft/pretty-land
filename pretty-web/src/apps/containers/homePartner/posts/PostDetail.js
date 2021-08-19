@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom"
 import Moment from "moment"
 import { Button } from "@material-ui/core"
 import { SkipNext } from "@material-ui/icons"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -10,6 +11,9 @@ import Footer from "../../../components/footer/Partner"
 
 export default function PostDetail() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { item, profile } = history.location.state
 
   const handleNext = () => {

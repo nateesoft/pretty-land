@@ -15,6 +15,7 @@ import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import { useHistory } from "react-router-dom"
 import Moment from "moment"
+import Cookies from "js-cookie"
 
 import { getConfigList } from "../../../apis"
 import firebase from "../../../util/firebase"
@@ -72,6 +73,9 @@ export default function ScrollableTabsButtonForce() {
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { member: profile } = history.location.state
 
   const [items, setItems] = useState([])

@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom"
 import Moment from "moment"
 import { Button } from "@material-ui/core"
 import Rating from "@material-ui/lab/Rating"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -13,6 +14,9 @@ import { AppConfig } from "../../../../Constants"
 
 export default function PartnerSendCustomer() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { item, profile } = history.location.state
   const [partner, setPartner] = useState({})
 

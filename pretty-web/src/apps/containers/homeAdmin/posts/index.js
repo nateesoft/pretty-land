@@ -4,6 +4,7 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
 import { useHistory } from "react-router-dom"
+import Cookies from "js-cookie"
 
 import Header from "../../../components/header"
 import ImageBackground from "../../../components/background"
@@ -16,6 +17,9 @@ import { updatePosts } from "../../../../apis"
 export default function CustomerPosts(props) {
   const [filterList, setFilterList] = useState([])
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { partnerType, member } = history.location.state
 
   const onPressOptions = (item) => {
@@ -206,8 +210,8 @@ export default function CustomerPosts(props) {
                   </div>
                 )}
               <div>
-                วันที่:{" "}
-                {Moment(item.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
+                วันที่ล่าสุด:{" "}
+                {Moment(item.sys_update_date).format("DD/MM/YYYY HH:mm:ss")}
               </div>
             </div>
           </ListItem>

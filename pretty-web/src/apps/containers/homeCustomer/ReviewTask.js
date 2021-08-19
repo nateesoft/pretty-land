@@ -4,6 +4,7 @@ import { Button, Grid } from "@material-ui/core"
 import Rating from "@material-ui/lab/Rating"
 import Typography from "@material-ui/core/Typography"
 import Moment from "moment"
+import Cookies from "js-cookie"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -16,6 +17,9 @@ export default function ReviewTask() {
   const [items, setItem] = useState([])
   const [rate, setRate] = useState(1)
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { postDetail, customerProfile } = history.location.state
 
   const saveStartWork = () => {

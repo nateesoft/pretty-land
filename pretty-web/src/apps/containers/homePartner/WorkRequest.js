@@ -6,6 +6,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
 import Moment from "moment"
 import { useHistory } from "react-router-dom"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -27,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function WorkRequest() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const classes = useStyles()
   const { member: profile } = history.location.state
   const [filterList, setFilterList] = useState([])

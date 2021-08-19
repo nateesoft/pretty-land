@@ -8,6 +8,7 @@ import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
 import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -21,6 +22,9 @@ import { updatePosts } from "../../../../apis"
 export default function CustomerPosts(props) {
   const [filterList, setFilterList] = useState([])
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { partnerType, profile, partnerTypeNme } = history.location.state
 
   const [province, setProvince] = useState("")

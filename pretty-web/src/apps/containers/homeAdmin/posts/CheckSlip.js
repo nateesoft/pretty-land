@@ -3,9 +3,9 @@ import { useHistory } from "react-router-dom"
 import Moment from "moment"
 import { Button } from "@material-ui/core"
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline"
+import Cookies from "js-cookie"
 
 import Header from "../../../components/header"
-import Footer from "../../../components/footer/Admin"
 import ImageBackground from "../../../components/background"
 
 import { adminSaveConfirmPayment } from "../../../../apis"
@@ -13,7 +13,10 @@ import { AppConfig } from "../../../../Constants"
 
 export default function CheckSlip() {
   const history = useHistory()
-  const { item, member, partnerType } = history.location.state
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
+  const { item, member } = history.location.state
   const [listPartner, setListPartner] = useState([])
 
   const getPartnerList = (item) => {
@@ -38,7 +41,6 @@ export default function CheckSlip() {
       .then((res) => {
         if (res) {
           alert("บันทึกตรวจสอบสลิปการโอนเงิน เรียบร้อยแล้ว")
-          // history.push("/admin-customer-posts", { partnerType, member })
           history.goBack();
         }
       })

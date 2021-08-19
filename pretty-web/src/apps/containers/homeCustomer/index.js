@@ -13,6 +13,7 @@ import {
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import { useHistory } from "react-router-dom"
+import Cookies from "js-cookie"
 
 import Dashboard from "./Dashboard"
 import Posts from "./Posts"
@@ -62,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ScrollableTabsButtonForce() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { member } = history.location.state
 
   const classes = useStyles()

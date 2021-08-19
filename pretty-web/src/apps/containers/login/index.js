@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { Button, Grid, TextField } from "@material-ui/core"
 import { Lock } from "@material-ui/icons"
 import { Link, useHistory } from "react-router-dom"
+import Cookies from "js-cookie"
 
 import Header from "../../components/header"
 import ImageBackground from "../../components/background"
@@ -26,14 +27,17 @@ export default function LoginForm(props) {
     const { valid, member } = await ApiControl.loginApp(username, password)
     if (valid) {
       if (member.memberType === "admin" || member.memberType === "superadmin") {
+        Cookies.set("logged_in", "admin")
         history.replace("/admin", { member })
       } else if (member.memberType === "partner") {
         if (member.status === AppConfig.MemberStatus.active) {
+          Cookies.set("logged_in", "partner")
           history.replace("/partner", { member })
         } else {
           alert("รอการอนุมัติข้อมูลจาก admin")
         }
       } else if (member.memberType === "customer") {
+        Cookies.set("logged_in", "customer")
         history.replace("/customer", { member })
       } else {
         alert('ไม่พบสิทธ์เข้าใช้งานระบบ')

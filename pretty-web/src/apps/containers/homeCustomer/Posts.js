@@ -4,6 +4,7 @@ import Moment from "moment"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -16,6 +17,9 @@ import { updatePosts } from "../../../apis"
 
 export default function Posts(props) {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { member } = history.location.state
   const [filterList, setFilterList] = useState([])
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { Grid } from "@material-ui/core"
+import Cookies from "js-cookie"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -13,6 +14,9 @@ import Footer from "../../components/footer/Customer"
 
 export default function Dashboard() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { member } = history.location.state
   const [items, setItems] = useState([])
   const [appconfigMaster, setAppConfigMaster] = useState({})
@@ -154,7 +158,7 @@ export default function Dashboard() {
   return (
     <ImageBackground>
       <Header profile={member} hideBack />
-      <div align="center" style={{position: 'fixed', right: 10, bottom: 65}}>
+      <div align="center" style={{ position: "fixed", right: 10, bottom: 65 }}>
         <Grid container spacing={1} style={{ marginTop: 55 }}>
           {items[0] && (
             <Grid item xs={6}>

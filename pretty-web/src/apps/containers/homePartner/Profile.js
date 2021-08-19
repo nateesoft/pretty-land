@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom"
 import ImageListItemBar from "@material-ui/core/ImageListItemBar"
 import IconButton from "@material-ui/core/IconButton"
 import ReactPlayer from "react-player"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -34,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Profile() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { profile } = history.location.state
   const classes = useStyles()
   const [checked, setChecked] = useState(false)

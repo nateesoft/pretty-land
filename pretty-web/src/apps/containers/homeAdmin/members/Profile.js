@@ -10,6 +10,7 @@ import InfoIcon from "@material-ui/icons/PhotoSizeSelectActual"
 import Moment from "moment"
 import { Button } from "@material-ui/core"
 import ReactPlayer from "react-player"
+import Cookies from "js-cookie"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -36,18 +37,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-image: url("assets/bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-`
-
 export default function BasicImageList(props) {
   const classes = useStyles()
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { adminProfile, memberProfile, mode } = history.location.state
   const [images, setImages] = useState([])
 
@@ -92,7 +87,9 @@ export default function BasicImageList(props) {
           status_priority: AppConfig.MemberStatus.activePriority,
           member_register_date: new Date().toUTCString(),
           member_update_date: new Date().toUTCString(),
-          sys_update_date: new Date().toUTCString()
+          sys_update_date: new Date().toUTCString(),
+          admin_action: adminProfile.username || adminProfile.id,
+          action_date: new Date().toUTCString()
         })
       alert("อัพเดตข้อมูลเรียบร้อยแล้ว")
       history.goBack()
@@ -139,7 +136,9 @@ export default function BasicImageList(props) {
         statusText: AppConfig.MemberStatus.suspendMessage,
         status_priority: AppConfig.MemberStatus.suspendPriority,
         member_update_date: new Date().toUTCString(),
-        sys_update_date: new Date().toUTCString()
+        sys_update_date: new Date().toUTCString(),
+        admin_action: adminProfile.username || adminProfile.id,
+        action_date: new Date().toUTCString()
       })
     history.goBack()
   }
@@ -154,7 +153,9 @@ export default function BasicImageList(props) {
         status_priority: AppConfig.MemberStatus.activePriority,
         member_register_date: new Date().toUTCString(),
         member_update_date: new Date().toUTCString(),
-        sys_update_date: new Date().toUTCString()
+        sys_update_date: new Date().toUTCString(),
+        admin_action: adminProfile.username || adminProfile.id,
+        action_date: new Date().toUTCString()
       })
     history.goBack()
   }

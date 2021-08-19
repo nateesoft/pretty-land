@@ -11,9 +11,9 @@ import IconButton from "@material-ui/core/IconButton"
 import InfoIcon from "@material-ui/icons/PhotoSizeSelectActual"
 import ReactPlayer from "react-player"
 import NumberFormat from "react-number-format"
+import Cookies from "js-cookie"
 
 import Header from "../../components/header"
-import Footer from "../../components/footer/Customer"
 import ImageBackground from "../../components/background"
 
 import { AppConfig } from "../../../Constants"
@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
 export default function PartnerListItem() {
   const classes = useStyles()
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const {
     partnerItem: item,
     postItem,

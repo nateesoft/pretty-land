@@ -8,6 +8,7 @@ import InputAdornment from "@material-ui/core/InputAdornment"
 import Input from "@material-ui/core/Input"
 import { Person, SkipNext } from "@material-ui/icons"
 import { Button } from "@material-ui/core"
+import Cookies from "js-cookie"
 
 import Header from "../../../components/header"
 import Footer from "../../../components/footer/Customer"
@@ -19,6 +20,9 @@ import firebase from "../../../../util/firebase"
 
 export default function CreateWorkForm() {
   const history = useHistory()
+  if (!Cookies.get("logged_in")) {
+    window.location.href = ""
+  }
   const { customerProfile, partnerRequest, partnerType, partnerImage } =
     history.location.state
   const [province, setProvince] = useState("")
