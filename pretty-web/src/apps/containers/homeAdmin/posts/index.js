@@ -202,13 +202,6 @@ export default function CustomerPosts(props) {
                   Status: {item.statusText}
                 </div>
               )}
-              {item.status !== AppConfig.PostsStatus.customerNewPostDone &&
-                item.status !== AppConfig.PostsStatus.adminConfirmNewPost &&
-                item.status !== AppConfig.PostsStatus.customerPayment && (
-                  <div style={{ fontWeight: "bold" }}>
-                    Status: {item.statusText}
-                  </div>
-                )}
               <div>
                 วันที่ล่าสุด:{" "}
                 {Moment(item.sys_update_date).format("DD/MM/YYYY HH:mm:ss")}

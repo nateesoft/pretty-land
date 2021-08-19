@@ -89,6 +89,7 @@ export default function RegisterDetail3() {
               value={bankNo}
               onChange={(e) => setBankNo(e.target.value)}
               autoComplete="off"
+              type="number"
             />
           </div>
         </div>

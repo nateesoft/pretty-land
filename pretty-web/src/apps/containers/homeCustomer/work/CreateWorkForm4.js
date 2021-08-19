@@ -222,7 +222,7 @@ export default function CreateWorkForm4() {
         <Grid container spacing={1}>
           {partnerList.length > 0 &&
             partnerList.map((item, index) => (
-              <Grid item xs={6} key={item.partnerId}>
+              <Grid item xs={6} key={item.id}>
                 <div
                   style={{
                     color:

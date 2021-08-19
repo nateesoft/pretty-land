@@ -3,7 +3,7 @@ import "date-fns"
 import "react-notifications/lib/notifications.css"
 import ReactDOM from "react-dom"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import { NotificationContainer, NotificationManager } from "react-notifications"
+import { NotificationContainer } from "react-notifications"
 
 import "./index.css"
 import App from "./App"
@@ -242,7 +242,9 @@ const RouterContainers = () => (
     <HelpPage />
   </Route> */}
     </Switch>
-    <NotificationContainer />
+    <div align="center">
+      <NotificationContainer />
+    </div>
   </Router>
 )
 

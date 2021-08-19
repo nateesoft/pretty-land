@@ -13,6 +13,8 @@ import Box from "@material-ui/core/Box"
 import Cookies from "js-cookie"
 import { NotificationManager } from "react-notifications"
 
+import ImageBackground from "../../../components/background"
+
 import { savePaymentSlip } from "../../../../apis"
 import { getBankName } from "../../../../data/apis"
 import firebase from "../../../../util/firebase"
@@ -208,7 +210,7 @@ export default function PaymentForm() {
   }
 
   return (
-    <div style={{ marginBottom: 20 }}>
+    <ImageBackground>
       <div
         align="center"
         style={{
@@ -343,6 +345,7 @@ export default function PaymentForm() {
                 <AttachMoney />
               </InputAdornment>
             }
+            disabled
             autoComplete="off"
           />
         </FormControl>
@@ -358,6 +361,7 @@ export default function PaymentForm() {
                 <AttachMoney />
               </InputAdornment>
             }
+            disabled
             autoComplete="off"
           />
         </FormControl>
@@ -415,6 +419,6 @@ export default function PaymentForm() {
           ส่งข้อมูลการโอนเงิน
         </Button>
       </div>
-    </div>
+    </ImageBackground>
   )
 }

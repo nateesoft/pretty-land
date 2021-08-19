@@ -72,11 +72,8 @@ export default function CustomerPosts(props) {
             item.sexTarget === profile.gender
           ) {
             if (
-              item.status !== AppConfig.PostsStatus.notApprove &&
-              item.status !== AppConfig.PostsStatus.customerCancelPost &&
-              item.status !== AppConfig.PostsStatus.closeJob &&
-              item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment &&
-              item.status !== AppConfig.PostsStatus.postTimeout
+              item.status === AppConfig.PostsStatus.adminConfirmNewPost ||
+              item.status === AppConfig.PostsStatus.waitCustomerSelectPartner
             ) {
               const date1 = Moment()
               const date2 = Moment(item.sys_update_date)
@@ -162,7 +159,6 @@ export default function CustomerPosts(props) {
         >
           เลือกจังหวัดสำหรับค้นหาโพสท์
         </div>
-
         <FormControl variant="outlined" style={{ width: 350, marginTop: 10 }}>
           <InputLabel id="demo-simple-select-outlined-label">
             จังหวัด
@@ -186,6 +182,20 @@ export default function CustomerPosts(props) {
           </Select>
         </FormControl>
       </div>
+      {filterList.length === 0 && (
+        <div
+          align="center"
+          style={{
+            padding: 10,
+            margin: 10,
+            fontSize: 20,
+            fontWeight: "bold",
+            color: "gray"
+          }}
+        >
+          ไม่พบข้อมูลงาน
+        </div>
+      )}
       {filterList &&
         filterList.map((item, index) => (
           <ListItem key={item.id} onClick={() => onPressOptions(item)}>

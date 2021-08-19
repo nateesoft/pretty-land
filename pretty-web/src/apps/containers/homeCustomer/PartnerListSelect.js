@@ -89,46 +89,63 @@ export default function PartnerListSelect() {
           </Button>
         </div>
       )}
-      <Grid container spacing={1} style={{ margin: 10 }}>
+      <Grid container spacing={1} style={{ margin: 5 }}>
         {listSelect &&
           listSelect.map((item, index) => (
-            <Grid item xs={5} key={item.id}>
-              <img
-                src={item.image}
-                alt=""
-                style={{ width: 150, height: "auto" }}
-                onClick={() => onPressShowPartnerDetail(item)}
-              />
-              <div style={{ height: 125 }}>
-                <div>
-                  {item.character}, {item.partnerName}
+            <Grid item xs={6} key={item.id}>
+              <div>
+                <img
+                  src={item.image}
+                  alt=""
+                  style={{ width: "100%", height: "auto" }}
+                  onClick={() => onPressShowPartnerDetail(item)}
+                />
+                <div
+                  align="center"
+                  style={{
+                    backgroundColor: "#b8256e",
+                    color: "white",
+                    alignItems: "center",
+                    opacity: 0.8
+                  }}
+                >
+                  ฿ {item.amount}
                 </div>
-                <div>
-                  อายุ: {item.age}{" "}
+              </div>
+              <Grid container style={{ backgroundColor: "#fe9fbf" }}>
+                <Grid item xs={6} style={{ color: "red", paddingLeft: 5 }}>
+                  {item.partnerName}
+                </Grid>
+                <Grid item xs={6} style={{ color: "red", paddingLeft: 5 }}>
+                  อายุ: {item.age}
+                </Grid>
+                <Grid item xs={6} style={{ color: "purple", paddingLeft: 5 }}>
+                  {item.character}
+                </Grid>
+                <Grid item xs={6} style={{ color: "black", paddingLeft: 5 }}>
                   {item.sex === "female"
                     ? "หญิง"
                     : item.sex === "male"
                     ? "ชาย"
                     : "อื่นๆ"}
-                </div>
-                <div>ราคา: {item.amount || 0} บาท</div>
+                </Grid>
                 {item.selectStatus ===
                   AppConfig.PostsStatus.customerConfirm && (
-                  <div>
+                  <Grid item xs={12} style={{ color: "red" }}>
                     <Button
-                      variant="outlined"
-                      color="primary"
+                      style={{ background: "blue", color: "white" }}
+                      variant="contained"
                       startIcon={<CheckCircle />}
                     >
                       เลือกคนนี้แล้ว
                     </Button>
-                  </div>
+                  </Grid>
                 )}
-              </div>
+              </Grid>
             </Grid>
           ))}
       </Grid>
-      <Footer profile={customerProfile} />
+      {/* <Footer profile={customerProfile} /> */}
     </ImageBackground>
   )
 }
