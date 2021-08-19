@@ -29,6 +29,11 @@ export default function Posts(props) {
         postItem: item,
         customerProfile: member
       })
+    } else if (item.status === AppConfig.PostsStatus.waitCustomerPayment) {
+      history.push("/payment-form", {
+        postItem: item,
+        customerProfile: member
+      })
     } else {
       history.push("/customer-review-task", {
         postDetail: item,
@@ -38,7 +43,7 @@ export default function Posts(props) {
   }
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       await filterPostsToUpdate()
     })()
   }, [])

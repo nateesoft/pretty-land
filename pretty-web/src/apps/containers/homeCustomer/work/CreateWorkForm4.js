@@ -262,10 +262,10 @@ export default function CreateWorkForm4() {
                     <Grid item xs={6} style={{ color: "red" }}>
                       อายุ: {item.age}
                     </Grid>
-                    <Grid item xs={8} style={{ color: "purple" }}>
+                    {/* <Grid item xs={8} style={{ color: "purple" }}>
                       {item.address}
-                    </Grid>
-                    <Grid item xs={4} style={{ color: "black" }}>
+                    </Grid> */}
+                    <Grid item xs={12} style={{ color: "black" }}>
                       {item.gender === "female"
                         ? "หญิง"
                         : item.gender === "male"

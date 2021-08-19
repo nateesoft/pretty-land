@@ -138,13 +138,13 @@ export default function Dashboard() {
       partnerRequest = AppConfig.PartnerType.type4
     }
     if (type === 4) {
-      // history.push("/customer-create-work4", {
-      //   customerProfile: member,
-      //   partnerRequest,
-      //   partnerType: type,
-      //   appconfig: appconfigMaster,
-      //   partnerImage: imageUrl
-      // })
+      history.push("/customer-create-work4", {
+        customerProfile: member,
+        partnerRequest,
+        partnerType: type,
+        appconfig: appconfigMaster,
+        partnerImage: imageUrl
+      })
     } else {
       history.push("/customer-create-work", {
         customerProfile: member,

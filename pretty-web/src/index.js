@@ -163,7 +163,7 @@ const RouterContainers = () => (
       <Route path="/partner-request">
         <PartnerRequest />
       </Route>
-      <Route path="/partner-request-Detail">
+      <Route path="/partner-request-detail">
         <PartnerRequestDetail />
       </Route>
       <Route path="/partner-my-work">

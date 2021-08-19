@@ -9,6 +9,7 @@ import { Button } from "@material-ui/core"
 import { AccessTime, Phone } from "@material-ui/icons"
 import Cookies from "js-cookie"
 import { NotificationManager } from "react-notifications"
+import Swal from "sweetalert2"
 
 import Header from "../../../components/header"
 import Footer from "../../../components/footer/Customer"
@@ -74,7 +75,7 @@ export default function TimePriceForm() {
       }
     }
     saveNewPosts(dataToSave)
-
+    Swal.fire("ข้อมูลอัพเดตแล้ว", "ระบบบันทึกข้อมูลไปยังระบบแล้ว", "success")
     history.push("/customer", { member: customer })
   }
 

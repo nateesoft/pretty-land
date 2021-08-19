@@ -39,13 +39,21 @@ export default function PostDetail() {
             admin_action: member.username || member.id,
             action_date: new Date().toUTCString()
           })
-          Swal.fire("ข้อมูลอัพเดตแล้ว", "ระบบบันทึกข้อมูลไปยังระบบแล้ว", "success")
+          Swal.fire(
+            "ข้อมูลอัพเดตแล้ว",
+            "ระบบบันทึกข้อมูลไปยังระบบแล้ว",
+            "success"
+          )
           history.push("/admin", { member })
         } else {
           adminConfirmNewPost(item)
             .then((res) => {
               if (res) {
-                Swal.fire("ข้อมูลอัพเดตแล้ว", "ระบบบันทึกข้อมูลไปยังระบบแล้ว", "success")
+                Swal.fire(
+                  "ข้อมูลอัพเดตแล้ว",
+                  "ระบบบันทึกข้อมูลไปยังระบบแล้ว",
+                  "success"
+                )
                 history.push("/admin", { member })
               }
             })
@@ -73,7 +81,11 @@ export default function PostDetail() {
           admin_action: member.username || member.id,
           action_date: new Date().toUTCString()
         })
-        Swal.fire("ข้อมูลอัพเดตแล้ว", "ระบบบันทึกข้อมูลไปยังระบบแล้ว", "success")
+        Swal.fire(
+          "ข้อมูลอัพเดตแล้ว",
+          "ระบบบันทึกข้อมูลไปยังระบบแล้ว",
+          "success"
+        )
         history.push("/admin", { member })
       }
     })
@@ -121,15 +133,24 @@ export default function PostDetail() {
           </div>
           <div>Level: {item.customerLevel}</div>
           <div>จังหวัด: {item.provinceName}</div>
-          <div style={{ color: "red" }}>
-            เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
-          </div>
+          {!item.timeMeeting && (
+            <div style={{ color: "red" }}>
+              เวลาเริ่ม: {item.startTime}, เวลาเลิก: {item.stopTime}
+            </div>
+          )}
+          {item.timeMeeting && (
+            <div style={{ color: "red" }}>เวลาเริ่ม: {item.timeMeeting}</div>
+          )}
           <hr />
-          <div style={{ color: "green" }}>สถานที่: {item.placeMeeting}</div>
+          {!item.timeMeeting && (
+            <div style={{ color: "green" }}>สถานที่: {item.placeMeeting}</div>
+          )}
           <div>เบอร์โทร: {item.customerPhone}</div>
-          <div style={{ color: "brown" }}>
-            รายละเอียดเพิ่มเติม: {item.customerRemark}
-          </div>
+          {!item.timeMeeting && (
+            <div style={{ color: "brown" }}>
+              รายละเอียดเพิ่มเติม: {item.customerRemark}
+            </div>
+          )}
           <hr />
           <div>
             วันที่สร้างข้อมูล{" "}

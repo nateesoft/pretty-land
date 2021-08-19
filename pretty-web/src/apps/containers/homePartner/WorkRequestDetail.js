@@ -10,12 +10,12 @@ import { useHistory } from "react-router-dom"
 import { Button } from "@material-ui/core"
 import Cookies from "js-cookie"
 import { NotificationManager } from "react-notifications"
+import Swal from "sweetalert2"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
 import Footer from "../../components/footer/Partner"
 
-import { getMemberProfile } from "../../../apis"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
 import { snapshotToArray } from "../../../util"
@@ -39,132 +39,79 @@ export default function WorkRequestDetail(props) {
   const { item, profile } = history.location.state
   const [partner, setPartner] = useState({})
   const [filterList, setFilterList] = useState([])
-  const rate = 5 // default rate
 
-  const saveHistoryStar = (partnerId) => {
-    return new Promise((resolve, reject) => {
-      firebase
-        .database()
-        .ref(`${AppConfig.env}/partner_star/${partnerId}/${item.id}`)
-        .update({
-          star: rate,
-          sys_date: new Date().toUTCString()
+  const partnerReject = (partnerId) => {
+    Swal.fire({
+      title: "กรุณายืนยันข้อมูล",
+      text: "แจ้งไม่รับงานใช่หรือไม่ ?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ปฏิเสธรับงานนี้"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        firebase
+          .database()
+          .ref(`${AppConfig.env}/posts/${item.id}/partnerSelect/${partnerId}`)
+          .update({
+            selectStatus: AppConfig.PostsStatus.partnerCancelWork,
+            selectStatusText: "น้องๆ ปฏิเสธงาน",
+            sys_update_date: new Date().toUTCString()
+          })
+
+        firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
+          status: AppConfig.PostsStatus.closeJob,
+          statusText: "น้องๆ แจ้งไม่รับงาน",
+          sys_update_date: new Date().toUTCString()
         })
-        .then((result) => {
-          resolve("success")
-        })
-        .catch((err) => {
-          reject(err)
-        })
+        Swal.fire(
+          "ข้อมูลอัพเดตแล้ว",
+          "ระบบบันทึกข้อมูลไปยังระบบแล้ว",
+          "success"
+        )
+        history.goBack()
+      }
     })
   }
 
-  const updateMember = (workIn = 0, workPoint = 0, partnerId) => {
-    return new Promise((resolve, reject) => {
-      firebase
-        .database()
-        .ref(`${AppConfig.env}/members/${partnerId}`)
-        .update({
-          workIn: parseInt(workIn) + 1,
-          workPoint: parseInt(workPoint) + 10
+  const partnerConfrim = (partnerId) => {
+    Swal.fire({
+      title: "กรุณายืนยันข้อมูล",
+      text: "ต้องการรับงานนี้ใช่หรือไม่ ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "รับงานนี้"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        firebase
+          .database()
+          .ref(`${AppConfig.env}/posts/${item.id}/partnerSelect/${partnerId}`)
+          .update({
+            selectStatus: AppConfig.PostsStatus.customerConfirm,
+            selectStatusText: "น้องๆแจ้งรับงาน รอลูกค้าขำระเงิน",
+            place: profile.address,
+            charactor: profile.charactor,
+            start_work_date: new Date().toUTCString(),
+            sys_update_date: new Date().toUTCString()
+          })
+
+        firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
+          status: AppConfig.PostsStatus.waitCustomerPayment,
+          statusText: "รอลูกค้าชำระค่าดำเนินการ",
+          sys_update_date: new Date().toUTCString()
         })
-        .then((result) => {
-          resolve(result)
-        })
-        .catch((err) => {
-          reject(err)
-        })
+
+        Swal.fire(
+          "ข้อมูลอัพเดตแล้ว",
+          "ระบบบันทึกข้อมูลไปยังระบบแล้ว",
+          "success"
+        )
+        history.goBack()
+      }
     })
-  }
-
-  const partnerCloseJob = (partnerId) => {
-    // update status post (for partner)
-    firebase
-      .database()
-      .ref(`${AppConfig.env}/posts/${item.id}/partnerSelect/${partnerId}`)
-      .update({
-        selectStatus: AppConfig.PostsStatus.closeJob,
-        selectStatusText: "ปิดงานเรียบร้อย",
-        partnerStatus: AppConfig.PostsStatus.partnerCloseJob,
-        partnerStatusText: "น้องๆแจ้งปิดงาน",
-        partner_close_date: new Date().toUTCString(),
-        sys_update_date: new Date().toUTCString()
-      })
-
-    if (item.partnerRequest === AppConfig.PartnerType.type4) {
-      // update partner close job
-      firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
-        selectStatus: AppConfig.PostsStatus.closeJob,
-        selectStatusText: "ปิดงานเรียบร้อย",
-        sys_update_date: new Date().toUTCString()
-      })
-    }
-
-    getMemberProfile(partnerId).then((pData) => {
-      updateMember(pData.workIn, pData.workPoint, partnerId).then((result) => {
-        saveHistoryStar(partnerId).then((result) => {
-          // navigation.navigate('List-My-Work');
-        })
-      })
-    })
-  }
-
-  const startWorking = () => {
-    firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
-      status: AppConfig.PostsStatus.startWork,
-      statusText: "เริ่มปฏิบัติงาน",
-      sys_update_date: new Date().toUTCString(),
-      start_work_date: new Date().toUTCString()
-    })
-
-    // navigation.navigate('List-My-Work');
-  }
-
-  const partnerMassageCancel = (partnerId) => {
-    if (window.confirm("แจ้งไม่รับงานใช่หรือไม่ ?")) {
-      firebase
-        .database()
-        .ref(`${AppConfig.env}/posts/${item.id}/partnerSelect/${partnerId}`)
-        .update({
-          partnerStatus: AppConfig.PostsStatus.partnerCancelWork,
-          partnerStatusText: "น้องๆแจ้งไม่รับงาน",
-          partnerStart: new Date().toUTCString(),
-          sys_update_date: new Date().toUTCString(),
-          start_work_date: new Date().toUTCString()
-        })
-
-      firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
-        status: AppConfig.PostsStatus.postCancel,
-        statusText: "น้องๆ แจ้งไม่รับงาน",
-        sys_update_date: new Date().toUTCString()
-      })
-      NotificationManager.success("บันทึกแจ้งไม่รับงานเรียบร้อย")
-      history.goBack()
-    }
-  }
-
-  const partnerMassageAccept = (partnerId) => {
-    if (window.confirm("ยืนยันรับงานงานนี้ใช่หรือไม่ ?")) {
-      firebase
-        .database()
-        .ref(`${AppConfig.env}/posts/${item.id}/partnerSelect/${partnerId}`)
-        .update({
-          partnerStatus: AppConfig.PostsStatus.partnerAcceptWork,
-          partnerStatusText: "น้องๆ แจ้งรับงาน",
-          partnerStart: new Date().toUTCString(),
-          sys_update_date: new Date().toUTCString(),
-          start_work_date: new Date().toUTCString()
-        })
-
-      firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
-        status: AppConfig.PostsStatus.waitAdminApprovePost,
-        statusText: "รอ Admin อนุมัติโพสท์",
-        sys_update_date: new Date().toUTCString()
-      })
-
-      NotificationManager.success("บันทึกข้อมูลแจ้งรับงานเรียบร้อย รอลูกค้าชำระเงิน")
-      history.goBack()
-    }
   }
 
   useEffect(() => {
@@ -267,7 +214,7 @@ export default function WorkRequestDetail(props) {
                   <Button
                     startIcon={<HighlightOff />}
                     variant="contained"
-                    onClick={() => partnerMassageCancel(profile.id)}
+                    onClick={() => partnerReject(profile.id)}
                     style={{
                       margin: 5,
                       color: "white",
@@ -281,7 +228,7 @@ export default function WorkRequestDetail(props) {
                   <Button
                     startIcon={<CheckCircle />}
                     variant="contained"
-                    onClick={() => partnerMassageAccept(profile.id)}
+                    onClick={() => partnerConfrim(profile.id)}
                     style={{
                       margin: 5,
                       color: "white",

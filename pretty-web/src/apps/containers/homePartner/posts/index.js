@@ -51,7 +51,7 @@ export default function CustomerPosts(props) {
   const onPressOptions = (item) => {
     registerThisPost(item).then((res) => {
       if (res) {
-        history.push("/partner-request-Detail", { item, profile })
+        history.push("/partner-request-detail", { item, profile })
       } else {
         history.push("/partner-customer-post-detail", { item, profile })
       }
