@@ -13,6 +13,7 @@ import firebase from "../../../util/firebase"
 import Header from "../../components/header"
 import Footer from "../../components/footer/Customer"
 import ImageBackground from "../../components/background"
+import { updateMemberPoint, saveHistoryStar } from "../../../apis"
 
 export default function ReviewTask() {
   const [items, setItem] = useState([])
@@ -33,49 +34,13 @@ export default function ReviewTask() {
     history.push("/customer-posts", { member: customerProfile })
   }
 
-  const saveHistoryStar = (partnerId) => {
-    return new Promise((resolve, reject) => {
-      firebase
-        .database()
-        .ref(`${AppConfig.env}/partner_star/${partnerId}/${postDetail.id}`)
-        .update({
-          star: rate,
-          sys_date: new Date().toUTCString()
-        })
-        .then((result) => {
-          resolve(true)
-        })
-        .catch((err) => {
-          reject(err)
-        })
-    })
-  }
-
-  const updateMember = (workIn = 0, workPoint = 0, partnerId) => {
-    return new Promise((resolve, reject) => {
-      firebase
-        .database()
-        .ref(`${AppConfig.env}/members/${partnerId}`)
-        .update({
-          workIn: parseInt(workIn) + 1,
-          workPoint: parseInt(workPoint) + 10
-        })
-        .then((result) => {
-          resolve(true)
-        })
-        .catch((err) => {
-          reject(err)
-        })
-    })
-  }
-
   const saveToCloseJob = async () => {
     if (
       window.confirm(`ยืนยันการปิดงานเรียบร้อย โดยให้คะแนนน้องๆ ${rate} ดาว`)
     ) {
       items.map(async (item, index) => {
-        await updateMember(item.workIn, item.workPoint, item.partnerId)
-        await saveHistoryStar(item.partnerId)
+        await updateMemberPoint(item.workIn, item.workPoint, item.partnerId)
+        await saveHistoryStar(item.partnerId, postDetail.id, rate)
       })
 
       firebase

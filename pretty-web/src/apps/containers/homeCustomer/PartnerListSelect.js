@@ -97,7 +97,7 @@ export default function PartnerListSelect() {
                 <img
                   src={item.image}
                   alt=""
-                  style={{ width: "100%", height: "auto" }}
+                  style={{ width: "100%", height: 200 }}
                   onClick={() => onPressShowPartnerDetail(item)}
                 />
                 <div
@@ -132,13 +132,15 @@ export default function PartnerListSelect() {
                 {item.selectStatus ===
                   AppConfig.PostsStatus.customerConfirm && (
                   <Grid item xs={12} style={{ color: "red" }}>
-                    <Button
-                      style={{ background: "blue", color: "white" }}
-                      variant="contained"
-                      startIcon={<CheckCircle />}
-                    >
-                      เลือกคนนี้แล้ว
-                    </Button>
+                    <div align="center">
+                      <Button
+                        style={{ background: "blue", color: "white" }}
+                        variant="contained"
+                        startIcon={<CheckCircle />}
+                      >
+                        เลือกคนนี้แล้ว
+                      </Button>
+                    </div>
                   </Grid>
                 )}
               </Grid>

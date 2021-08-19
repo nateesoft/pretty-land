@@ -13,7 +13,7 @@ import Footer from "../../components/footer/Customer"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
 import { snapshotToArray } from "../../../util"
-import { updatePosts } from "../../../apis"
+import { filterPostsToUpdate } from "../../../apis"
 
 export default function Posts(props) {
   const history = useHistory()
@@ -38,6 +38,12 @@ export default function Posts(props) {
   }
 
   useEffect(() => {
+    (async () => {
+      await filterPostsToUpdate()
+    })()
+  }, [])
+
+  useEffect(() => {
     const ref = firebase
       .database()
       .ref(`${AppConfig.env}/posts`)
@@ -45,49 +51,7 @@ export default function Posts(props) {
       .equalTo(member.id)
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
-      let listData = postsList.filter((item, index) => {
-        if (
-          item.status !== AppConfig.PostsStatus.notApprove &&
-          item.status !== AppConfig.PostsStatus.customerCancelPost &&
-          item.status !== AppConfig.PostsStatus.closeJob &&
-          item.status !== AppConfig.PostsStatus.postTimeout
-        ) {
-          const date1 = Moment()
-          const date2 = Moment(item.sys_update_date)
-          const diffHours = date1.diff(date2, "hours")
-
-          if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
-            if (diffHours <= 24) {
-              return item
-            } else {
-              // update timeout
-              updatePosts(item.id, {
-                status: AppConfig.PostsStatus.postTimeout,
-                statusText: "ข้อมูลการโพสท์ใหม่หมดอายุ",
-                sys_update_date: new Date().toUTCString()
-              })
-            }
-          } else if (
-            item.status === AppConfig.PostsStatus.adminConfirmNewPost
-          ) {
-            if (diffHours <= 2) {
-              return item
-            } else {
-              // update timeout
-              updatePosts(item.id, {
-                status: AppConfig.PostsStatus.postTimeout,
-                statusText:
-                  "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
-                sys_update_date: new Date().toUTCString()
-              })
-            }
-          } else {
-            return item
-          }
-        }
-      })
-
-      listData = listData.sort((a, b) => {
+      let listData = postsList.sort((a, b) => {
         return Moment(b.sys_update_date) - Moment(a.sys_update_date)
       })
       setFilterList(listData)

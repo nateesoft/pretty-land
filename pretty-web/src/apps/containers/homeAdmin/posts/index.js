@@ -12,7 +12,7 @@ import ImageBackground from "../../../components/background"
 import { AppConfig } from "../../../../Constants"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
-import { updatePosts } from "../../../../apis"
+import { filterPostsToUpdate } from "../../../../apis"
 
 export default function CustomerPosts(props) {
   const [filterList, setFilterList] = useState([])
@@ -31,56 +31,16 @@ export default function CustomerPosts(props) {
   }
 
   useEffect(() => {
+    ;(async () => {
+      await filterPostsToUpdate()
+    })()
+  }, [])
+
+  useEffect(() => {
     const ref = firebase.database().ref(`${AppConfig.env}/posts`)
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
-      let listData = postsList.filter((item, index) => {
-        if (
-          item.status !== AppConfig.PostsStatus.notApprove &&
-          item.status !== AppConfig.PostsStatus.customerCancelPost &&
-          item.status !== AppConfig.PostsStatus.closeJob &&
-          item.status !== AppConfig.PostsStatus.postTimeout
-        ) {
-          const date1 = Moment()
-          const date2 = Moment(item.sys_update_date)
-          const diffHours = date1.diff(date2, "hours")
-          if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
-            if (diffHours <= 24) {
-              if (item.partnerType === partnerType) {
-                return item
-              }
-            } else {
-              // update timeout
-              updatePosts(item.id, {
-                status: AppConfig.PostsStatus.postTimeout,
-                statusText: "ข้อมูลการโพสท์ใหม่หมดอายุ",
-                sys_update_date: new Date().toUTCString()
-              })
-            }
-          } else if (
-            item.status === AppConfig.PostsStatus.adminConfirmNewPost
-          ) {
-            if (diffHours <= 2) {
-              if (item.partnerType === partnerType) {
-                return item
-              }
-            } else {
-              // update timeout
-              updatePosts(item.id, {
-                status: AppConfig.PostsStatus.postTimeout,
-                statusText:
-                  "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
-                sys_update_date: new Date().toUTCString()
-              })
-            }
-          } else {
-            if (item.partnerType === partnerType) {
-              return item
-            }
-          }
-        }
-      })
-      let allPost = listData.filter(
+      let allPost = postsList.filter(
         (item, index) =>
           item.status !== AppConfig.PostsStatus.customerNewPostDone &&
           item.status !== AppConfig.PostsStatus.customerPayment
@@ -88,14 +48,14 @@ export default function CustomerPosts(props) {
       allPost = allPost.sort((a, b) => {
         return Moment(b.sys_update_date) - Moment(a.sys_update_date)
       })
-      let waitApprove = listData.filter(
+      let waitApprove = postsList.filter(
         (item, index) =>
           item.status === AppConfig.PostsStatus.customerNewPostDone
       )
       waitApprove = waitApprove.sort((a, b) => {
         return Moment(b.sys_update_date) - Moment(a.sys_update_date)
       })
-      let waitCheckSlip = listData.filter(
+      let waitCheckSlip = postsList.filter(
         (item, index) => item.status === AppConfig.PostsStatus.customerPayment
       )
       waitCheckSlip = waitCheckSlip.sort((a, b) => {
@@ -106,6 +66,32 @@ export default function CustomerPosts(props) {
     })
     return () => ref.off("value", listener)
   }, [partnerType])
+
+  const GetStatusColor = ({ item }) => {
+    let bgColor = ""
+    let fontColor = ""
+    if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
+      bgColor = "red"
+      fontColor = "white"
+    } else if (item.status === AppConfig.PostsStatus.adminConfirmNewPost) {
+      bgColor = "green"
+      fontColor = "white"
+    } else if (item.status === AppConfig.PostsStatus.waitAdminConfirmPayment) {
+      bgColor = "yellow"
+      fontColor = "black"
+    }
+    return (
+      <div
+        style={{
+          fontWeight: "bold",
+          backgroundColor: bgColor,
+          color: fontColor
+        }}
+      >
+        Status: {item.statusText}
+      </div>
+    )
+  }
 
   return (
     <ImageBackground>
@@ -174,34 +160,7 @@ export default function CustomerPosts(props) {
                   ? "หญิง"
                   : "อื่น ๆ"}
               </div>
-              {item.status === AppConfig.PostsStatus.customerNewPostDone && (
-                <div
-                  style={{
-                    fontWeight: "bold",
-                    backgroundColor: "red",
-                    color: "white"
-                  }}
-                >
-                  Status: {item.statusText}
-                </div>
-              )}
-              {item.status === AppConfig.PostsStatus.adminConfirmNewPost && (
-                <div
-                  style={{
-                    fontWeight: "bold",
-                    backgroundColor: "green",
-                    color: "white"
-                  }}
-                >
-                  Status: {item.statusText}
-                </div>
-              )}
-              {item.status ===
-                AppConfig.PostsStatus.waitAdminConfirmPayment && (
-                <div style={{ fontWeight: "bold", backgroundColor: "yellow" }}>
-                  Status: {item.statusText}
-                </div>
-              )}
+              <GetStatusColor item={item} />
               <div>
                 วันที่ล่าสุด:{" "}
                 {Moment(item.sys_update_date).format("DD/MM/YYYY HH:mm:ss")}

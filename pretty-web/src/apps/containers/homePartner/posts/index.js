@@ -17,7 +17,7 @@ import { getCountryList } from "../../../../data/apis"
 import { AppConfig } from "../../../../Constants"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
-import { updatePosts } from "../../../../apis"
+import { updatePosts, filterPostsToUpdate } from "../../../../apis"
 
 export default function CustomerPosts(props) {
   const [filterList, setFilterList] = useState([])
@@ -67,10 +67,18 @@ export default function CustomerPosts(props) {
       ref.once("value", (snapshot) => {
         const postsList = snapshotToArray(snapshot)
         let listData = postsList.filter((item, index) => {
-          if (
-            item.partnerType === partnerType &&
-            item.sexTarget === profile.gender
-          ) {
+          let resultGender = false
+          if (item.sexTarget === "other") {
+            if (profile.gender === "female" || profile.gender === "other") {
+              resultGender = true
+            }
+          } else {
+            resultGender = item.sexTarget === profile.gender
+          }
+          if (item.sexTarget === "male" && profile.gender === "male") {
+            resultGender = true
+          }
+          if (item.partnerType === partnerType && resultGender) {
             if (
               item.status === AppConfig.PostsStatus.adminConfirmNewPost ||
               item.status === AppConfig.PostsStatus.waitCustomerSelectPartner
@@ -121,6 +129,12 @@ export default function CustomerPosts(props) {
       })
     })
   }
+
+  useEffect(() => {
+    (async () => {
+      await filterPostsToUpdate()
+    })()
+  }, [])
 
   useEffect(() => {
     getFilterPostByProvince("").then()
