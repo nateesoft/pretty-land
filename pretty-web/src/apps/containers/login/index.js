@@ -70,7 +70,7 @@ export default function LoginForm(props) {
               value={username}
               onChange={(evt) => setUsername(evt.target.value)}
               style={{ width: "100%" }}
-              autoComplete={false}
+              autoComplete="off"
             />
           </div>
           <div style={{ textAlign: "left", marginTop: 10 }}>
@@ -82,7 +82,7 @@ export default function LoginForm(props) {
               style={{ width: "100%" }}
               value={password}
               onChange={(evt) => setPassword(evt.target.value)}
-              autoComplete={false}
+              autoComplete="off"
             />
           </div>
           <div style={{ marginTop: 10 }}>

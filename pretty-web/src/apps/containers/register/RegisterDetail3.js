@@ -116,7 +116,7 @@ export default function RegisterDetail3() {
               style={{ width: "100%" }}
               value={bankNo}
               onChange={(e) => setBankNo(e.target.value)}
-              autoComplete={false}
+              autoComplete="off"
             />
           </div>
         </div>

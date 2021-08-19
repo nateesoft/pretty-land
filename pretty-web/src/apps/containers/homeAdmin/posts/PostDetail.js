@@ -67,6 +67,14 @@ export default function PostDetail() {
         <hr />
         <div style={{ margin: 5, padding: 5 }}>
           <div>โหมดงาน: {item.partnerRequest}</div>
+          <div>
+            เพศ:{" "}
+            {item.sexTarget === "female"
+              ? "หญิง"
+              : item.sexTarget === "male"
+              ? "ชาย"
+              : "อื่น ๆ"}
+          </div>
           <div>จำนวนน้องๆ ที่ต้องการ: {item.partnerWantQty} คน</div>
           <div style={{ color: "blue" }}>ชื่อลูกค้า: {item.customerName}</div>
           <div>Level: {item.customerLevel}</div>

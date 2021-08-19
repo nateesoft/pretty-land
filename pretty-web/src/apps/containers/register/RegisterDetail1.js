@@ -149,7 +149,7 @@ export default function RegisterDetail1() {
               style={{ width: "100%" }}
               value={price4}
               onChange={(e) => setPrice4(e.target.value)}
-              autoComplete={false}
+              autoComplete="off"
             />
           </div>
         )}
@@ -187,7 +187,7 @@ export default function RegisterDetail1() {
               style={{ width: "100%" }}
               value={name}
               onChange={(e) => setName(e.target.value)}
-              autoComplete={false}
+              autoComplete="off"
             />
           </div>
           <div style={{ width: "100%", marginTop: 10 }}>
@@ -198,7 +198,7 @@ export default function RegisterDetail1() {
               style={{ width: "100%" }}
               value={age}
               onChange={(e) => setAge(e.target.value)}
-              autoComplete={false}
+              autoComplete="off"
             />
           </div>
           <div style={{ width: "100%", marginTop: 10 }}>
@@ -209,7 +209,7 @@ export default function RegisterDetail1() {
               style={{ width: "100%" }}
               value={charactor}
               onChange={(e) => setCharactor(e.target.value)}
-              autoComplete={false}
+              autoComplete="off"
             />
           </div>
           <div style={{ width: "100%", marginTop: 10 }}>
@@ -220,7 +220,7 @@ export default function RegisterDetail1() {
               style={{ width: "100%" }}
               value={height}
               onChange={(e) => setHeight(e.target.value)}
-              autoComplete={false}
+              autoComplete="off"
             />
           </div>
           <div style={{ width: "100%", marginTop: 10 }}>
@@ -234,7 +234,7 @@ export default function RegisterDetail1() {
               InputProps={{
                 inputComponent: NumberFormatCustom
               }}
-              autoComplete={false}
+              autoComplete="off"
             />
           </div>
           <div style={{ width: "100%", marginTop: 10 }}>
@@ -245,7 +245,7 @@ export default function RegisterDetail1() {
               style={{ width: "100%" }}
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
-              autoComplete={false}
+              autoComplete="off"
             />
           </div>
         </div>

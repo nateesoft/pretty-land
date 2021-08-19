@@ -6,7 +6,6 @@ import Avatar from "@material-ui/core/Avatar"
 import { useHistory } from "react-router-dom"
 
 import Header from "../../../components/header"
-import Footer from "../../../components/footer/Admin"
 import ImageBackground from "../../../components/background"
 
 import { AppConfig } from "../../../../Constants"
@@ -78,7 +77,10 @@ export default function CustomerPosts(props) {
           }
         }
       })
-      setFilterList(listData)
+      let sortDate = listData.sort((a, b) => {
+        return Moment(b.sys_update_date) - Moment(a.sys_update_date)
+      })
+      setFilterList(sortDate)
     })
     return () => ref.off("value", listener)
   }, [partnerType])
@@ -130,13 +132,54 @@ export default function CustomerPosts(props) {
               <div style={{ color: "blue" }}>
                 ชื่อลูกค้า: {item.customerName}
               </div>
+              {item.customerGender && (
+                <div>
+                  เพศลูกค้า:{" "}
+                  {item.customerGender === "male"
+                    ? "ชาย"
+                    : item.customerGender === "female"
+                    ? "หญิง"
+                    : "อื่น ๆ"}
+                </div>
+              )}
               <div style={{ fontWeight: "bold" }}>
                 Level: {item.customerLevel}
               </div>
               <div>ประเภทงาน: {item.partnerRequest}</div>
-              <div style={{ fontWeight: "bold" }}>
-                Status: {item.statusText}
-              </div>
+              {item.status === AppConfig.PostsStatus.customerNewPostDone && (
+                <div
+                  style={{
+                    fontWeight: "bold",
+                    backgroundColor: "red",
+                    color: "white"
+                  }}
+                >
+                  Status: {item.statusText}
+                </div>
+              )}
+              {item.status === AppConfig.PostsStatus.adminConfirmNewPost && (
+                <div
+                  style={{
+                    fontWeight: "bold",
+                    backgroundColor: "green",
+                    color: "white"
+                  }}
+                >
+                  Status: {item.statusText}
+                </div>
+              )}
+              {item.status === AppConfig.PostsStatus.customerPayment && (
+                <div style={{ fontWeight: "bold", backgroundColor: "yellow" }}>
+                  Status: {item.statusText}
+                </div>
+              )}
+              {item.status !== AppConfig.PostsStatus.customerNewPostDone &&
+                item.status !== AppConfig.PostsStatus.adminConfirmNewPost &&
+                item.status !== AppConfig.PostsStatus.customerPayment && (
+                  <div style={{ fontWeight: "bold" }}>
+                    Status: {item.statusText}
+                  </div>
+                )}
               <div>
                 วันที่:{" "}
                 {Moment(item.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
@@ -144,7 +187,7 @@ export default function CustomerPosts(props) {
             </div>
           </ListItem>
         ))}
-      <Footer profile={member} />
+      {/* <Footer profile={member} /> */}
     </ImageBackground>
   )
 }

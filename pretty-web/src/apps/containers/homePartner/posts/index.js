@@ -4,10 +4,15 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
 import { useHistory } from "react-router-dom"
+import FormControl from "@material-ui/core/FormControl"
+import Select from "@material-ui/core/Select"
+import InputLabel from "@material-ui/core/InputLabel"
+import MenuItem from "@material-ui/core/MenuItem"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
 
+import { getCountryList } from "../../../../data/apis"
 import { AppConfig } from "../../../../Constants"
 import firebase from "../../../../util/firebase"
 import { snapshotToArray } from "../../../../util"
@@ -16,7 +21,10 @@ import { updatePosts } from "../../../../apis"
 export default function CustomerPosts(props) {
   const [filterList, setFilterList] = useState([])
   const history = useHistory()
-  const { partnerType, profile } = history.location.state
+  const { partnerType, profile, partnerTypeNme } = history.location.state
+
+  const [province, setProvince] = useState("")
+  const [provinceList] = useState(getCountryList())
 
   const registerThisPost = (item) => {
     return new Promise((resolve, reject) => {
@@ -31,6 +39,11 @@ export default function CustomerPosts(props) {
     })
   }
 
+  const onChangeProvinceSelect = async (value) => {
+    setProvince(value)
+    await getFilterPostByProvince(value)
+  }
+
   const onPressOptions = (item) => {
     registerThisPost(item).then((res) => {
       if (res) {
@@ -41,62 +54,72 @@ export default function CustomerPosts(props) {
     })
   }
 
-  useEffect(() => {
-    const ref = firebase.database().ref(`${AppConfig.env}/posts`)
-    const listener = ref.on("value", (snapshot) => {
-      const postsList = snapshotToArray(snapshot)
-      let listData = postsList.filter((item, index) => {
-        if (
-          item.status !== AppConfig.PostsStatus.notApprove &&
-          item.status !== AppConfig.PostsStatus.customerCancelPost &&
-          item.status !== AppConfig.PostsStatus.closeJob &&
-          item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment &&
-          item.status !== AppConfig.PostsStatus.postTimeout
-        ) {
-          const date1 = Moment()
-          const date2 = Moment(item.sys_update_date)
-          const diffHours = date1.diff(date2, "hours")
-
-          if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
-            if (diffHours <= 24) {
-              if (item.partnerType === partnerType) {
-                return item
-              }
-            } else {
-              // update timeout
-              updatePosts(item.id, {
-                status: AppConfig.PostsStatus.postTimeout,
-                statusText: "ข้อมูลการโพสท์ใหม่หมดอายุ",
-                sys_update_date: new Date().toUTCString()
-              })
-            }
-          } else if (
-            item.status === AppConfig.PostsStatus.adminConfirmNewPost
+  const getFilterPostByProvince = (provinceSelect) => {
+    return new Promise((resolve, reject) => {
+      let ref = firebase.database().ref(`${AppConfig.env}/posts`)
+      if (provinceSelect !== "") {
+        ref = ref.orderByChild("province").equalTo(provinceSelect)
+      }
+      ref.once("value", (snapshot) => {
+        const postsList = snapshotToArray(snapshot)
+        let listData = postsList.filter((item, index) => {
+          if (
+            item.partnerType === partnerType &&
+            item.sexTarget === profile.gender
           ) {
-            if (diffHours <= 2) {
-              if (item.partnerType === partnerType) {
-                return item
+            if (
+              item.status !== AppConfig.PostsStatus.notApprove &&
+              item.status !== AppConfig.PostsStatus.customerCancelPost &&
+              item.status !== AppConfig.PostsStatus.closeJob &&
+              item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment &&
+              item.status !== AppConfig.PostsStatus.postTimeout
+            ) {
+              const date1 = Moment()
+              const date2 = Moment(item.sys_update_date)
+              const diffHours = date1.diff(date2, "hours")
+
+              if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
+                if (diffHours <= 24) {
+                  if (item.partnerType === partnerType) {
+                    return item
+                  }
+                } else {
+                  // update timeout
+                  updatePosts(item.id, {
+                    status: AppConfig.PostsStatus.postTimeout,
+                    statusText: "ข้อมูลการโพสท์ใหม่หมดอายุ",
+                    sys_update_date: new Date().toUTCString()
+                  })
+                }
+              } else if (
+                item.status === AppConfig.PostsStatus.adminConfirmNewPost
+              ) {
+                if (diffHours <= 2) {
+                  if (item.partnerType === partnerType) {
+                    return item
+                  }
+                } else {
+                  // update timeout
+                  updatePosts(item.id, {
+                    status: AppConfig.PostsStatus.postTimeout,
+                    statusText:
+                      "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
+                    sys_update_date: new Date().toUTCString()
+                  })
+                }
+              } else {
+                if (item.partnerType === partnerType) {
+                  return item
+                }
               }
-            } else {
-              // update timeout
-              updatePosts(item.id, {
-                status: AppConfig.PostsStatus.postTimeout,
-                statusText:
-                  "ข้อมูลการโพสท์หมดอายุ หลังจากอนุมัติเกิน 2 ชั่วโมง",
-                sys_update_date: new Date().toUTCString()
-              })
-            }
-          } else {
-            if (item.partnerType === partnerType) {
-              return item
             }
           }
-        }
+        })
+        setFilterList(listData)
+        resolve(true)
       })
-      setFilterList(listData)
     })
-    return () => ref.off("value", listener)
-  }, [partnerType])
+  }
 
   return (
     <ImageBackground>
@@ -114,14 +137,46 @@ export default function CustomerPosts(props) {
       >
         โพสท์ทั้งหมดในระบบ
       </div>
-      {filterList.length === 0 && (
+      <div align="center">
+        <div
+          style={{ backgroundColor: "chocolate", padding: 5, color: "white" }}
+        >
+          โหมด: {partnerTypeNme}
+        </div>
         <div
           align="center"
-          style={{ marginTop: 35, fontSize: 28, color: "gray" }}
+          style={{
+            fontSize: 16,
+            color: "gray",
+            fontWeight: "bold",
+            marginTop: 10
+          }}
         >
-          ไม่พบข้อมูลโพสท์ในระบบ
+          เลือกจังหวัดสำหรับค้นหาโพสท์
         </div>
-      )}
+
+        <FormControl variant="outlined" style={{ width: 350, marginTop: 10 }}>
+          <InputLabel id="demo-simple-select-outlined-label">
+            จังหวัด
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={province}
+            onChange={(e) => onChangeProvinceSelect(e.target.value)}
+            label="จังหวัด"
+          >
+            <MenuItem value="">
+              <em>-- ทั่วประเทศ --</em>
+            </MenuItem>
+            {provinceList.map((item, index) => (
+              <MenuItem value={item.value} key={item.label + index}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
       {filterList &&
         filterList.map((item, index) => (
           <ListItem key={item.id} onClick={() => onPressOptions(item)}>
@@ -149,9 +204,7 @@ export default function CustomerPosts(props) {
               <div style={{ fontWeight: "bold" }}>
                 Level: {item.customerLevel}
               </div>
-              <div>
-                จังหวัด: {item.provinceName}
-              </div>
+              <div>จังหวัด: {item.provinceName}</div>
               <div style={{ color: "green" }}>สถานที่: {item.placeMeeting}</div>
               <div style={{ color: "red" }}>
                 เริ่ม: {item.startTime}, เลิก: {item.stopTime}

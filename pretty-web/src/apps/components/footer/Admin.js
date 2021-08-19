@@ -12,7 +12,7 @@ import {
 } from "@material-ui/icons"
 import { Badge } from "@material-ui/core"
 
-import firebase from '../../../util/firebase'
+import firebase from "../../../util/firebase"
 import { AppConfig } from "../../../Constants"
 
 const useStyles = makeStyles({
@@ -55,7 +55,7 @@ export default function AdminFooter(props) {
 
   const NotiAllPost = () => {
     return (
-      <Badge badgeContent={0} color="primary">
+      <Badge badgeContent={postsCount} color="primary">
         <Receipt />
       </Badge>
     )
@@ -87,6 +87,18 @@ export default function AdminFooter(props) {
       .orderByChild("status")
       .equalTo(AppConfig.PostsStatus.customerNewPostDone)
     const listener = ref.on("value", (snapshot) => {
+      const postsList = { ...snapshot.val() }
+      let count = 0
+      for (let key in postsList) {
+        const posts = postsList[key]
+        if (
+          posts.status !== AppConfig.PostsStatus.closeJob &&
+          posts.status !== AppConfig.PostsStatus.notApprove &&
+          AppConfig.PostsStatus.postTimeout
+        ) {
+          count = count + 1
+        }
+      }
       setPostCount(snapshot.numChildren())
     })
     return () => ref.off("value", listener)

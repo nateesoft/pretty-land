@@ -106,12 +106,13 @@ export default function Dashboard() {
     }
   }, [])
 
-  const onPressOptions = (type) => {
+  const onPressOptions = (type, partnerTypeNme) => {
     if (type === 4) {
     } else {
       history.push("/partner-customer-posts", {
         partnerType: type,
-        profile: member
+        profile: member,
+        partnerTypeNme
       })
     }
   }
@@ -144,7 +145,7 @@ export default function Dashboard() {
                     border: "5px solid white"
                   }}
                   alt=""
-                  onClick={() => onPressOptions(1)}
+                  onClick={() => onPressOptions(1, 'พริตตี้ Event / Mc')}
                 />
                 <div
                   style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
@@ -182,7 +183,7 @@ export default function Dashboard() {
                     border: "5px solid white"
                   }}
                   alt=""
-                  onClick={() => onPressOptions(2)}
+                  onClick={() => onPressOptions(2, 'โคโยตี้ / งานเต้น')}
                 />
                 <div
                   style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
@@ -220,7 +221,7 @@ export default function Dashboard() {
                     border: "5px solid white"
                   }}
                   alt=""
-                  onClick={() => onPressOptions(3)}
+                  onClick={() => onPressOptions(3, 'พริตตี้ En / Env')}
                 />
                 <div
                   style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
@@ -258,7 +259,7 @@ export default function Dashboard() {
                     border: "5px solid white"
                   }}
                   alt=""
-                  onClick={() => onPressOptions(4, items[3])}
+                  onClick={() => onPressOptions(4, '')}
                 />
                 <div
                   style={{ color: "white", fontWeight: "bold", fontSize: 16 }}

@@ -97,7 +97,7 @@ export default function TimePriceForm() {
             type="time"
             value={timeMeeting}
             onChange={(e) => setTimeMeeting(e.target.value)}
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -114,7 +114,7 @@ export default function TimePriceForm() {
             type="number"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
         <div style={{ margin: 10 }}>

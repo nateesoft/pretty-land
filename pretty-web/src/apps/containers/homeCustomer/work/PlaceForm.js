@@ -36,6 +36,7 @@ export default function PlaceForm() {
   const [remark, setRemark] = useState("")
   const [startTime, setStartTime] = useState("")
   const [stopTime, setStopTime] = useState("")
+  const [customerGender, setCustomerGender] = useState("male")
 
   const createNewPost = () => {
     if (!place) {
@@ -52,6 +53,10 @@ export default function PlaceForm() {
     }
     if (!phone) {
       alert("กรุณาระบุ โทรศัพท์มือถือ")
+      return
+    }
+    if (!customerGender) {
+      alert("กรุณาระบุ เพศของผู้เรียก")
       return
     }
     const newDataPost = {
@@ -71,7 +76,8 @@ export default function PlaceForm() {
       stopTime,
       partnerWantQty,
       sexTarget: sex,
-      partnerType: partnerType
+      partnerType: partnerType,
+      customerGender
     }
     saveNewPosts(newDataPost)
     alert("บันทึกข้อมูลสร้างโพสท์เรียบร้อยแล้ว")
@@ -81,7 +87,10 @@ export default function PlaceForm() {
   return (
     <ImageBackground>
       <Header profile={customerProfile} />
-      <div align="center" style={{ overflow: "auto", height: 450, marginTop: 55 }}>
+      <div
+        align="center"
+        style={{ overflow: "auto", marginTop: 55 }}
+      >
         <FormControl
           component="fieldset"
           style={{
@@ -118,7 +127,7 @@ export default function PlaceForm() {
             }
             value={place}
             onChange={(e) => setPlace(e.target.value)}
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -133,7 +142,7 @@ export default function PlaceForm() {
             value={startTime}
             type="time"
             onChange={(e) => setStartTime(e.target.value)}
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -148,7 +157,7 @@ export default function PlaceForm() {
             value={stopTime}
             type="time"
             onChange={(e) => setStopTime(e.target.value)}
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -165,7 +174,7 @@ export default function PlaceForm() {
             value={phone}
             type="text"
             onChange={(e) => setPhone(e.target.value)}
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 250 }}>
@@ -181,8 +190,29 @@ export default function PlaceForm() {
             }
             value={remark}
             onChange={(e) => setRemark(e.target.value)}
-            autoComplete={false}
+            autoComplete="off"
           />
+        </FormControl>
+        <FormControl
+          component="fieldset"
+          style={{
+            padding: 10,
+            margin: 10,
+            borderRadius: 15,
+            border: "1px solid",
+            width: 250
+          }}
+        >
+          <FormLabel component="legend">กรุณาระบุ เพศ ของผู้เรียก</FormLabel>
+          <RadioGroup
+            row
+            value={customerGender}
+            onChange={(e) => setCustomerGender(e.target.value)}
+          >
+            <FormControlLabel value="male" control={<Radio />} label="ชาย" />
+            <FormControlLabel value="female" control={<Radio />} label="หญิง" />
+            <FormControlLabel value="other" control={<Radio />} label="อื่นๆ" />
+          </RadioGroup>
         </FormControl>
       </div>
       <div align="center" style={{ margin: 10 }}>

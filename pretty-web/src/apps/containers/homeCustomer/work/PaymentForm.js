@@ -112,6 +112,7 @@ export default function PaymentForm() {
       setPartnerAmount(pAmount.toFixed(2))
       setFeeAmount(fAmount.toFixed(2))
       setNetTotalAmount(netTotalAmt.toFixed(2))
+      setTransferAmount(netTotalAmt.toFixed(2))
     })
   }, [])
 
@@ -245,7 +246,7 @@ export default function PaymentForm() {
                 <AttachMoney />
               </InputAdornment>
             }
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 350 }}>
@@ -260,7 +261,7 @@ export default function PaymentForm() {
                 <AttachMoney />
               </InputAdornment>
             }
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 350 }}>
@@ -275,7 +276,7 @@ export default function PaymentForm() {
                 <AttachMoney />
               </InputAdornment>
             }
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
       </div>
@@ -293,7 +294,7 @@ export default function PaymentForm() {
             />
             <div>กสิกรไทย</div>
           </Grid>
-          <Grid item xs={3}>
+          {/* <Grid item xs={3}>
             <img
               src="/assets/bank/scb.png"
               alt=""
@@ -319,7 +320,7 @@ export default function PaymentForm() {
               onClick={() => handleBankAccount("bay")}
             />
             <div>กรุงศรี</div>
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>
       <div align="center">
@@ -335,7 +336,7 @@ export default function PaymentForm() {
                 <AttachMoney />
               </InputAdornment>
             }
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 350 }}>
@@ -351,7 +352,7 @@ export default function PaymentForm() {
                 <AttachMoney />
               </InputAdornment>
             }
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
         <FormControl style={{ margin: 10, alignContent: "center", width: 350 }}>
@@ -368,7 +369,7 @@ export default function PaymentForm() {
                 <DateRange />
               </InputAdornment>
             }
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
       </div>

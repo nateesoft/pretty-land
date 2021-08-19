@@ -124,7 +124,7 @@ export default function CreateWorkForm() {
             margin: 10
           }}
         >
-          จำนวนสมาชิก ในระบบ: {partnerQty} คน
+          จำนวนสมาชิก ในระบบ: {partnerQty || 0} คน
         </div>
         <FormControl style={{ margin: 10, alignContent: "center", width: 350 }}>
           <InputLabel htmlFor="input-with-icon-adornment">
@@ -140,7 +140,7 @@ export default function CreateWorkForm() {
             value={partnerWantQty}
             type="number"
             onChange={(e) => setPartnerWantQty(e.target.value)}
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
         <div style={{ margin: 10 }}>

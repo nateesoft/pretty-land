@@ -84,7 +84,7 @@ export default function ConfirmPriceForm() {
             }
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            autoComplete={false}
+            autoComplete="off"
           />
         </FormControl>
       </div>
