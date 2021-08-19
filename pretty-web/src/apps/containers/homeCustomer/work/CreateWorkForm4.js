@@ -53,28 +53,30 @@ export default function CreateWorkForm4() {
 
   const getPartnerQty = (sexType, province) => {
     return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(`${AppConfig.env}/members`)
+      const ref = firebase
+        .database()
+        .ref(`${AppConfig.env}/members`)
+        .orderByChild("type4")
+        .equalTo(true)
       ref.once("value", (snapshot) => {
         let count = 0
         let list = []
         snapshot.forEach((item) => {
           const data = { ...item.val() }
-          if (data.memberType === "partner" && data.type4) {
-            let isDistrict = true
-            if (district) {
-              isDistrict = data.district === district
-            }
-            if (
-              data.province === province &&
-              isDistrict &&
-              data.status !== AppConfig.MemberStatus.newRegister &&
-              data.status !== AppConfig.MemberStatus.notApprove &&
-              data.status !== AppConfig.MemberStatus.suspend
-            ) {
-              if (data.gender === sexType) {
-                count = count + 1
-                list.push(data)
-              }
+          let isDistrict = true
+          if (district) {
+            isDistrict = data.district === district
+          }
+          if (
+            data.province === province &&
+            isDistrict &&
+            data.status !== AppConfig.MemberStatus.newRegister &&
+            data.status !== AppConfig.MemberStatus.notApprove &&
+            data.status !== AppConfig.MemberStatus.suspend
+          ) {
+            if (data.gender === sexType) {
+              count = count + 1
+              list.push(data)
             }
           }
         })

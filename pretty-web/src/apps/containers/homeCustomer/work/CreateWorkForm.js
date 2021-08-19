@@ -28,7 +28,11 @@ export default function CreateWorkForm() {
 
   const getPartnerQty = (value) => {
     return new Promise((resolve, reject) => {
-      const ref = firebase.database().ref(`${AppConfig.env}/members`)
+      const ref = firebase
+        .database()
+        .ref(`${AppConfig.env}/members`)
+        .orderByChild("memberType")
+        .equalTo("partner")
       ref.once("value", (snapshot) => {
         let count = 0
         snapshot.forEach((item) => {
@@ -39,7 +43,6 @@ export default function CreateWorkForm() {
           const type4 = AppConfig.PartnerType.type4 === partnerRequest
           if (
             data.province === value &&
-            data.memberType === "partner" &&
             data.status !== AppConfig.MemberStatus.newRegister &&
             data.status !== AppConfig.MemberStatus.notApprove &&
             data.status !== AppConfig.MemberStatus.suspend

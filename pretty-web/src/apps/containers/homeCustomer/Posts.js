@@ -82,6 +82,10 @@ export default function Posts(props) {
           }
         }
       })
+
+      listData = listData.sort((a, b) => {
+        return Moment(b.sys_update_date) - Moment(a.sys_update_date)
+      })
       setFilterList(listData)
     })
     return () => ref.off("value", listener)

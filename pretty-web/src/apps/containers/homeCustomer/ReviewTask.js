@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom"
 import { Button, Grid } from "@material-ui/core"
 import Rating from "@material-ui/lab/Rating"
 import Typography from "@material-ui/core/Typography"
+import Moment from "moment"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -136,6 +137,27 @@ export default function ReviewTask() {
             borderColor: "gray"
           }}
         >
+          <div>โหมดงาน: {postDetail.partnerRequest}</div>
+          <div>
+            เพศที่เรียก:{" "}
+            {postDetail.sexTarget === "female"
+              ? "หญิง"
+              : postDetail.sexTarget === "male"
+              ? "ชาย"
+              : "อื่น ๆ"}
+          </div>
+          <div>จำนวนที่ต้องการ: {postDetail.partnerWantQty} คน</div>
+          {postDetail.partnerType !== 4 && (
+            <div style={{ color: "red" }}>
+              เวลาเริ่ม: {postDetail.startTime} เวลาเลิก: {postDetail.stopTime}
+            </div>
+          )}
+          {postDetail.partnerType === 4 && (
+            <div style={{ color: "red" }}>
+              เวลานัดหมาย: {postDetail.timeMeeting}
+            </div>
+          )}
+          <hr />
           <div style={{ color: "blue" }}>
             ชื่อผู้โพสท์: {postDetail.customerName}
           </div>
@@ -145,6 +167,15 @@ export default function ReviewTask() {
             สถานที่: {postDetail.placeMeeting}
           </div>
           <div>จังหวัด: {postDetail.provinceName}</div>
+          <hr />
+          <div>
+            วันที่สร้างโพสท์:{" "}
+            {Moment(postDetail.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
+          </div>
+          <div>
+            วันที่อัพเดต:{" "}
+            {Moment(postDetail.sys_update_date).format("DD/MM/YYYY HH:mm:ss")}
+          </div>
           <div align="center" style={{ marginTop: 20 }}>
             {postDetail.status ===
               AppConfig.PostsStatus.customerNewPostDone && (
@@ -157,6 +188,19 @@ export default function ReviewTask() {
                 }}
               >
                 โพสท์ใหม่ รอตรวจสอบจาก admin...
+              </div>
+            )}
+            {postDetail.status ===
+              AppConfig.PostsStatus.waitPartnerConfrimWork && (
+              <div
+                style={{
+                  fontSize: 18,
+                  color: "blue",
+                  alignSelf: "center",
+                  padding: 20
+                }}
+              >
+                โพสท์ใหม่ รอน้องๆ แจ้งรับงาน และรอตรวจสอบจาก admin
               </div>
             )}
             {postDetail.status ===

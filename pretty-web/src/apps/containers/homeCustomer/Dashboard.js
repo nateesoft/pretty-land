@@ -141,7 +141,6 @@ export default function Dashboard() {
         partnerImage: imageUrl
       })
     } else {
-      console.log("loadDetailWork")
       history.push("/customer-create-work", {
         customerProfile: member,
         partnerRequest,

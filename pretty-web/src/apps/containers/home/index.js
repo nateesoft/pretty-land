@@ -240,6 +240,7 @@ export default function Home() {
                   style={{ width: 230 }}
                   onChange={(e) => setPhone(e.target.value)}
                   autoComplete="off"
+                  type="number"
                 />
               </div>
               <div>

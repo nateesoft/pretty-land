@@ -172,7 +172,7 @@ export default function PlaceForm() {
               </InputAdornment>
             }
             value={phone}
-            type="text"
+            type="number"
             onChange={(e) => setPhone(e.target.value)}
             autoComplete="off"
           />

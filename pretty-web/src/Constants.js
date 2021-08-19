@@ -1,8 +1,9 @@
 const hostName = window.location.host
 const getEnv = hostName !== "pretty-land.web.app" ? "demo" : "production"
-console.log("Connection to...", getEnv)
+const getEnvMaster = hostName === "localhost:3000" ? "test" : getEnv
+console.log("Connection to...", getEnvMaster, hostName)
 export const AppConfig = {
-  env: getEnv,
+  env: getEnvMaster,
   MemberStatus: {
     newRegister: "new_register",
     newRegisterMessage: "รอออนุมัติ",

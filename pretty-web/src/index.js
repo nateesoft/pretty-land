@@ -87,7 +87,7 @@ function getOS() {
 
 if (getOS() !== "iOS" && getOS() !== "Android") {
   console.log("application support only, iOS and Android")
-  // window.location.href = "http://google.co.th"
+  window.location.href = "http://google.co.th"
 }
 
 ReactDOM.render(

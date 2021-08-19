@@ -122,6 +122,7 @@ export default function RegisterDetail2() {
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
               autoComplete="off"
+              type="number"
             />
           </div>
           <FormControl
