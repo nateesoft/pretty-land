@@ -11,6 +11,7 @@ import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import { savePaymentSlip } from "../../../../apis"
 import { getBankName } from "../../../../data/apis"
@@ -122,20 +123,20 @@ export default function PaymentForm() {
 
   const saveCustomerPayment = () => {
     if (!bank) {
-      alert("กรุณาระบุธนาคารที่ท่านโอนเงิน")
+      NotificationManager.warning("กรุณาระบุธนาคารที่ท่านโอนเงิน")
       return
     }
     if (!transferAmount) {
-      alert("กรุณาระบุยอดเงินที่ท่านโอน")
+      NotificationManager.warning("กรุณาระบุยอดเงินที่ท่านโอน")
       return
     }
     if (!datetime) {
-      alert("กรุณาระบุวันที่ และเวลาที่โอนเงิน")
+      NotificationManager.warning("กรุณาระบุวันที่ และเวลาที่โอนเงิน")
       return
     }
 
     if (parseInt(transferAmount) < parseInt(netTotalAmount)) {
-      alert("จำนวนเงินรับชำระไม่ถูกต้อง !")
+      NotificationManager.warning("จำนวนเงินรับชำระไม่ถูกต้อง !")
       return
     }
 
@@ -143,12 +144,12 @@ export default function PaymentForm() {
     if (imageFile) {
       uploadImageAsync(imageFile).then((res) => {
         if (res) {
-          alert("บันทึกข้อมูลการโอนเงินเรียบร้อยแล้ว")
+          NotificationManager.success("บันทึกข้อมูลการโอนเงินเรียบร้อยแล้ว")
           history.push("/customer-posts", { member: customerProfile })
         }
       })
     } else {
-      alert("กรุณาเลือกสลิปการโอนเงิน !")
+      NotificationManager.warning("กรุณาเลือกสลิปการโอนเงิน !")
       return
     }
   }
@@ -195,7 +196,7 @@ export default function PaymentForm() {
                   setLoading("finish")
                 }
               })
-              .catch((err) => alert(err))
+              .catch((err) => NotificationManager.error(err))
 
             resolve(true)
           })

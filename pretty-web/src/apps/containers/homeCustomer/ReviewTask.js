@@ -5,6 +5,7 @@ import Rating from "@material-ui/lab/Rating"
 import Typography from "@material-ui/core/Typography"
 import Moment from "moment"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -87,7 +88,7 @@ export default function ReviewTask() {
           sys_update_date: new Date().toUTCString()
         })
 
-      alert("บันทึกให้คะแนนข้อมูลเรียบร้อยแล้ว")
+        NotificationManager.success("บันทึกให้คะแนนข้อมูลเรียบร้อยแล้ว")
       history.goBack()
     }
   }
@@ -112,7 +113,7 @@ export default function ReviewTask() {
   useEffect(() => {
     getListPartner()
       .then((res) => setItem(res))
-      .catch((err) => alert(err))
+      .catch((err) => NotificationManager.error(err))
   }, [])
 
   return (

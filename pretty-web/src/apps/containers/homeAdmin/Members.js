@@ -7,6 +7,7 @@ import Avatar from "@material-ui/core/Avatar"
 import Moment from "moment"
 import { useHistory } from "react-router-dom"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -95,7 +96,7 @@ export default function Members() {
         .then((res) => {
           setItems(res)
         })
-        .catch((err) => alert(err))
+        .catch((err) => NotificationManager.error(err))
     })
 
     return () => ref.off("value", listener)

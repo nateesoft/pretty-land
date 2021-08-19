@@ -9,6 +9,7 @@ import base64 from "base-64"
 import uuid from "react-uuid"
 import TextField from "@material-ui/core/TextField"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import {
   checkMobileNumberWithLink,
@@ -106,7 +107,7 @@ export default function Home() {
       })
       .catch((err) => {
         console.log("facebook_error:", err)
-        alert("Connecting facebook error !!!" + err.message)
+        NotificationManager.error("Connecting facebook error !!!" + err.message)
       })
   }
 
@@ -120,7 +121,12 @@ export default function Home() {
 
   const loginByPhone = async () => {
     if (!phone && !Cookies.get("user_phone")) {
-      alert("กรุณาระบุเบอร์โทรศัพท์ !")
+      NotificationManager.warning("กรุณาระบุเบอร์โทรศัพท์ !")
+      return
+    }
+    const regex = new RegExp("^0[0-9]{9}$")
+    if (!regex.test(phone)) {
+      NotificationManager.warning("เบอร์โทรศัพท์ของคุณไม่ถูกต้อง !")
       return
     }
     const { valid, member } = await checkMobileNumberWithLink(phone)

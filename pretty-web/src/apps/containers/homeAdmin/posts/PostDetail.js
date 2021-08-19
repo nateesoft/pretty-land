@@ -4,6 +4,7 @@ import Moment from "moment"
 import { Button } from "@material-ui/core"
 import { CheckBox, Delete } from "@material-ui/icons"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import Header from "../../../components/header"
 import ImageBackground from "../../../components/background"
@@ -36,7 +37,7 @@ export default function PostDetail() {
               history.push("/admin", { member })
             }
           })
-          .catch((err) => alert(err))
+          .catch((err) => NotificationManager.error(err))
       }
     }
   }

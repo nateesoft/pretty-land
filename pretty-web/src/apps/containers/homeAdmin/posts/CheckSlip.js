@@ -4,6 +4,7 @@ import Moment from "moment"
 import { Button } from "@material-ui/core"
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import Header from "../../../components/header"
 import ImageBackground from "../../../components/background"
@@ -40,15 +41,15 @@ export default function CheckSlip() {
     adminSaveConfirmPayment(item, listPartner)
       .then((res) => {
         if (res) {
-          alert("บันทึกตรวจสอบสลิปการโอนเงิน เรียบร้อยแล้ว")
+          NotificationManager.success("บันทึกตรวจสอบสลิปการโอนเงิน เรียบร้อยแล้ว")
           history.goBack();
         }
       })
-      .catch((err) => alert(err))
+      .catch((err) => NotificationManager.error(err))
   }
 
   useEffect(() => {
-    getPartnerList(item.partnerSelect).catch((err) => alert(err))
+    getPartnerList(item.partnerSelect).catch((err) => NotificationManager.error(err))
   }, [])
 
   return (

@@ -10,6 +10,7 @@ import RadioGroup from "@material-ui/core/RadioGroup"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import { Grid } from "@material-ui/core"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import Header from "../../../components/header"
 import ImageBackground from "../../../components/background"
@@ -50,7 +51,7 @@ export default function CreateWorkForm4() {
   }
 
   const onChangeProvinceSelect = (sexType, province, district) => {
-    getPartnerQty(sexType, province, district).catch((err) => alert(err))
+    getPartnerQty(sexType, province, district).catch((err) => NotificationManager.error(err))
   }
 
   const getPartnerQty = (sexType, province) => {

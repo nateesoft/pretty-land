@@ -7,6 +7,7 @@ import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -124,7 +125,7 @@ export default function RegisterDetail4() {
         6
       )
     }
-    alert("Upload ข้อมูลเรียบร้อยแล้ว")
+    NotificationManager.success("Upload ข้อมูลเรียบร้อยแล้ว")
   }
 
   const uploadImageAsync = (
@@ -180,7 +181,7 @@ export default function RegisterDetail4() {
   const checkFileSizeValid = (file, setImageFile, input) => {
     const sizeTotal = file.size / (1024 * 1024)
     if (sizeTotal > fixSize) {
-      alert("กรุณาอัพโหลด ไฟล์ภาพ หรือ video ไม่เกิน 4mb !!!")
+      NotificationManager.warning("กรุณาอัพโหลด ไฟล์ภาพ หรือ video ไม่เกิน 4mb !!!")
       input.target.value = ""
       return
     }
@@ -235,7 +236,7 @@ export default function RegisterDetail4() {
       .database()
       .ref(`${AppConfig.env}/members/${profile.id}`)
       .update(dataToUpdate)
-    alert(
+      NotificationManager.success(
       "ลงทะเบียนเรียบร้อย รออนุมัติ ! กรุณาติดต่อ Admin ทางไลน์@ เพื่อนทำการยืนยันตัวตนอีกครั้ง"
     )
     window.location.href = "https://lin.ee/8f5kP3x"

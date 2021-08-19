@@ -8,6 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -32,19 +33,19 @@ export default function RegisterDetail2() {
 
   const handleNext = async () => {
     if (!lineId) {
-      alert("กรุณาระบุ Line Id")
+      NotificationManager.warning("กรุณาระบุ Line Id")
       return
     }
     if (!mobile) {
-      alert("กรุณาระบุเบอร์โทรศัพท์ เพื่อติดต่อ")
+      NotificationManager.warning("กรุณาระบุเบอร์โทรศัพท์ เพื่อติดต่อ")
       return
     }
     if (!province) {
-      alert("กรุณาระบุจังหวัดที่รับงานได้")
+      NotificationManager.warning("กรุณาระบุจังหวัดที่รับงานได้")
       return
     }
     if (profile.type4 && !address) {
-      alert("กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
+      NotificationManager.warning("กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
       return
     }
     await firebase

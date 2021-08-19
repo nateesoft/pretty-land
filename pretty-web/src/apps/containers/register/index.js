@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { Button, Grid, TextField } from "@material-ui/core"
 import { Save } from "@material-ui/icons"
 import { useHistory } from "react-router-dom"
+import { NotificationManager } from "react-notifications"
 
 import Header from "../../components/header"
 import ImageBackground from "../../components/background"
@@ -26,23 +27,23 @@ export default function RegisterHome() {
     const existsUser = await ApiControl.validUserExist(username)
     if (!existsUser) {
       if (!username) {
-        alert("กรุณาระบุชื่อเข้าใช้งาน")
+        NotificationManager.warning("กรุณาระบุชื่อเข้าใช้งาน")
         return
       }
       if (password.length <= 0) {
-        alert("กรุณาระบุรหัสผ่าน เพื่อเข้าใช้งาน")
+        NotificationManager.warning("กรุณาระบุรหัสผ่าน เพื่อเข้าใช้งาน")
         return
       }
       if (password.length < 8) {
-        alert("จำนวนรหัสผ่านต้องไม่น้อยกว่า 8 หลัก")
+        NotificationManager.warning("จำนวนรหัสผ่านต้องไม่น้อยกว่า 8 หลัก")
         return
       }
       if (!rePassword) {
-        alert("กรุณายืนยันรหัสผ่าน")
+        NotificationManager.warning("กรุณายืนยันรหัสผ่าน")
         return
       }
       if (password !== rePassword) {
-        alert("รหัสผ่าน และรหัสยืนยันจะต้องตรงกัน !!!")
+        NotificationManager.warning("รหัสผ่าน และรหัสยืนยันจะต้องตรงกัน !!!")
         return
       }
       history.push("/registerDetail1", {
@@ -50,7 +51,7 @@ export default function RegisterHome() {
         password
       })
     } else {
-      alert(`ข้อมูลผู้ใช้งาน: ${username} มีอยู่แล้ว`)
+      NotificationManager.warning(`ข้อมูลผู้ใช้งาน: ${username} มีอยู่แล้ว`)
     }
   }
 

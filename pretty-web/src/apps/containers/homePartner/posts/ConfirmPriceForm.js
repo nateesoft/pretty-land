@@ -7,6 +7,7 @@ import InputLabel from "@material-ui/core/InputLabel"
 import InputAdornment from "@material-ui/core/InputAdornment"
 import { useHistory } from "react-router-dom"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -34,7 +35,7 @@ export default function ConfirmPriceForm() {
 
   const partnerQuatation = () => {
     if (!amount) {
-      alert("กรุณาระบุจำนวนเงินที่ต้องการ")
+      NotificationManager.warning("กรุณาระบุจำนวนเงินที่ต้องการ")
       return
     }
     partnerAcceptJobWaitCustomerReview(postDetail, {

@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 import { Grid } from "@material-ui/core"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import ImageBackground from "../../components/background"
 import Footer from "../../components/footer/Partner"
@@ -85,25 +86,25 @@ export default function Dashboard() {
   useEffect(() => {
     getPartnerDashboardType1()
       .then((res) => setPostType1Count(res))
-      .catch((err) => alert(err))
+      .catch((err) => NotificationManager.error(err))
     getPartnerDashboardType2()
       .then((res) => setPostType2Count(res))
-      .catch((err) => alert(err))
+      .catch((err) => NotificationManager.error(err))
     getPartnerDashboardType3()
       .then((res) => setPostType3Count(res))
-      .catch((err) => alert(err))
+      .catch((err) => NotificationManager.error(err))
     getPartnerDashboardType4()
       .then((res) => setPostType4Count(res))
-      .catch((err) => alert(err))
+      .catch((err) => NotificationManager.error(err))
   }, [])
 
   useEffect(() => {
     const ref = firebase.database().ref(`${AppConfig.env}/posts`)
     const listener = ref.on("value", (snapshot) => {
-      getComputeGroup(snapshot).catch((err) => alert(err))
+      getComputeGroup(snapshot).catch((err) => NotificationManager.error(err))
       getConfigList()
         .then((res) => setItems(res))
-        .catch((err) => alert(err))
+        .catch((err) => NotificationManager.error(err))
     })
     return () => {
       ref.off("value", listener)

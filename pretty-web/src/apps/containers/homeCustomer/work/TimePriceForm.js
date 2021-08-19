@@ -8,6 +8,7 @@ import SaveIcon from "@material-ui/icons/Save"
 import { Button } from "@material-ui/core"
 import { AccessTime, Phone } from "@material-ui/icons"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import Header from "../../../components/header"
 import Footer from "../../../components/footer/Customer"
@@ -34,11 +35,11 @@ export default function TimePriceForm() {
 
   const sendToMassagePartner = (data) => {
     if (!timeMeeting) {
-      alert("กรุณาระบุ เวลาที่จะไป")
+      NotificationManager.warning("กรุณาระบุ เวลาที่จะไป")
       return
     }
     if (!phone) {
-      alert("กรุณาระบุ โทรศัพท์มือถือ")
+      NotificationManager.warning("กรุณาระบุ โทรศัพท์มือถือ")
       return
     }
 

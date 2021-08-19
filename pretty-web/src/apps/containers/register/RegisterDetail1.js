@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import styled from "styled-components"
-import { Button, Grid, TextField } from "@material-ui/core"
+import { Button, TextField } from "@material-ui/core"
 import { SkipNext } from "@material-ui/icons"
 import FormLabel from "@material-ui/core/FormLabel"
 import FormGroup from "@material-ui/core/FormGroup"
@@ -8,21 +7,12 @@ import FormControlLabel from "@material-ui/core/FormControlLabel"
 import { RadioGroup, Radio } from "@material-ui/core"
 import Checkbox from "@material-ui/core/Checkbox"
 import { useHistory } from "react-router-dom"
+import { NotificationManager } from "react-notifications"
 
 import Header from "../../components/header"
 import ImageBackground from "../../components/background"
 
 import NumberFormatCustom from "../../components/numberFormat"
-
-const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-image: url("assets/bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-attachment: fixed;
-`
 
 export default function RegisterDetail1() {
   const history = useHistory()
@@ -53,15 +43,15 @@ export default function RegisterDetail1() {
 
   const handleNext = () => {
     if (!type1 && !type2 && !type3 && !type4) {
-      alert("กรุณาระบุประเภทงานที่ต้องการรับบริการ !!!")
+      NotificationManager.warning("กรุณาระบุประเภทงานที่ต้องการรับบริการ !!!")
       return
     }
     if (!name) {
-      alert("กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
+      NotificationManager.warning("กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
       return
     }
     if (type4 && !price4) {
-      alert("กรุณาระบุราคา สำหรับประเภทนวดแผนไทย")
+      NotificationManager.warning("กรุณาระบุราคา สำหรับประเภทนวดแผนไทย")
       return
     }
 

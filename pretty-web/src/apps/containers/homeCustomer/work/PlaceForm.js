@@ -12,6 +12,7 @@ import SaveIcon from "@material-ui/icons/Save"
 import { Button } from "@material-ui/core"
 import { Home, AccessTime, Snooze, Phone, ListAlt } from "@material-ui/icons"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import Header from "../../../components/header"
 import Footer from "../../../components/footer/Customer"
@@ -44,23 +45,23 @@ export default function PlaceForm() {
 
   const createNewPost = () => {
     if (!place) {
-      alert("กรุณาระบุ สถานที่")
+      NotificationManager.warning("กรุณาระบุ สถานที่")
       return
     }
     if (!startTime) {
-      alert("กรุณาระบุ เวลาเริ่ม")
+      NotificationManager.warning("กรุณาระบุ เวลาเริ่ม")
       return
     }
     if (!stopTime) {
-      alert("กรุณาระบุ เวลาหยุด")
+      NotificationManager.warning("กรุณาระบุ เวลาหยุด")
       return
     }
     if (!phone) {
-      alert("กรุณาระบุ โทรศัพท์มือถือ")
+      NotificationManager.warning("กรุณาระบุ โทรศัพท์มือถือ")
       return
     }
     if (!customerGender) {
-      alert("กรุณาระบุ เพศของผู้เรียก")
+      NotificationManager.warning("กรุณาระบุ เพศของผู้เรียก")
       return
     }
     const newDataPost = {
@@ -84,7 +85,7 @@ export default function PlaceForm() {
       customerGender
     }
     saveNewPosts(newDataPost)
-    alert("บันทึกข้อมูลสร้างโพสท์เรียบร้อยแล้ว")
+    NotificationManager.success("บันทึกข้อมูลสร้างโพสท์เรียบร้อยแล้ว")
     history.push("/customer", { member: customerProfile })
   }
 

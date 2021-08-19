@@ -11,6 +11,7 @@ import {
   AccountBox,
   Settings
 } from "@material-ui/icons"
+import { NotificationManager } from "react-notifications"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import { useHistory } from "react-router-dom"
@@ -72,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ScrollableTabsButtonForce() {
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
+  const [members, setMembers] = useState([])
   const history = useHistory()
   if (!Cookies.get("logged_in")) {
     window.location.href = ""
@@ -118,7 +120,7 @@ export default function ScrollableTabsButtonForce() {
         .then((res) => {
           setItems(res)
         })
-        .catch((err) => alert(err))
+        .catch((err) => NotificationManager.error(err))
     })
 
     return () => ref.off("value", listener)

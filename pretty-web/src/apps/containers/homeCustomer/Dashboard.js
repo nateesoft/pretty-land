@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { Grid } from "@material-ui/core"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -93,7 +94,7 @@ export default function Dashboard() {
     const listener = ref.on("value", (snapshot) => {
       getConfigList()
         .then((res) => setItems(res))
-        .catch((err) => alert(err))
+        .catch((err) => NotificationManager.error(err))
     })
     return () => {
       ref.off("value", listener)
@@ -118,7 +119,7 @@ export default function Dashboard() {
   useEffect(() => {
     const ref = firebase.database().ref(`${AppConfig.env}/members`)
     const listener = ref.on("value", (snapshot) => {
-      getAllPartnerList(snapshot).catch((err) => alert(err))
+      getAllPartnerList(snapshot).catch((err) => NotificationManager.error(err))
     })
     return () => {
       ref.off("value", listener)

@@ -8,6 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -28,11 +29,11 @@ export default function RegisterDetail3() {
 
   const handleNext = async () => {
     if (!bank) {
-      alert("กรุณาระบุธนาคารที่รอรับเงินโอน")
+      NotificationManager.warning("กรุณาระบุธนาคารที่รอรับเงินโอน")
       return
     }
     if (!bankNo) {
-      alert("กรุณาระบุเลขที่บัญชีธนาคาร")
+      NotificationManager.warning("กรุณาระบุเลขที่บัญชีธนาคาร")
       return
     }
     await firebase

@@ -4,6 +4,7 @@ import { Button, Grid, TextField } from "@material-ui/core"
 import { Lock } from "@material-ui/icons"
 import { Link, useHistory } from "react-router-dom"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import Header from "../../components/header"
 import ImageBackground from "../../components/background"
@@ -34,16 +35,16 @@ export default function LoginForm(props) {
           Cookies.set("logged_in", "partner")
           history.replace("/partner", { member })
         } else {
-          alert("รอการอนุมัติข้อมูลจาก admin")
+          NotificationManager.info("รอการอนุมัติข้อมูลจาก admin")
         }
       } else if (member.memberType === "customer") {
         Cookies.set("logged_in", "customer")
         history.replace("/customer", { member })
       } else {
-        alert('ไม่พบสิทธ์เข้าใช้งานระบบ')
+        NotificationManager.warning('ไม่พบสิทธ์เข้าใช้งานระบบ')
       }
     } else {
-      alert("กรุณาระบุข้อมูลผู้ใช้งาน และรหัสผ่านให้ครบถ้วน !!!")
+      NotificationManager.warning("กรุณาระบุข้อมูลผู้ใช้งาน และรหัสผ่านให้ครบถ้วน !!!")
     }
   }
 

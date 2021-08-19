@@ -10,6 +10,7 @@ import { Button } from "@material-ui/core"
 import base64 from "base-64"
 import { useHistory } from "react-router-dom"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -39,19 +40,19 @@ export default function ProfileSetting() {
 
   const updatePassword = () => {
     if (!newPassword) {
-      alert("กรุณาระบุข้อมูลรหัสใหม่")
+      NotificationManager.warning("กรุณาระบุข้อมูลรหัสใหม่")
       return
     }
     if (!reNewPassword) {
-      alert("กรุณาระบุข้อมูยืนยันรหัสใหม่")
+      NotificationManager.warning("กรุณาระบุข้อมูยืนยันรหัสใหม่")
       return
     }
     if (newPassword !== reNewPassword) {
-      alert("รหัสผ่านใหม่ และรหัสผ่านใหม่่ไม่ตรงกัน")
+      NotificationManager.warning("รหัสผ่านใหม่ และรหัสผ่านใหม่่ไม่ตรงกัน")
       return
     }
     if (oldPassword !== base64.decode(profile.password)) {
-      alert("รหัสผ่านเดิมของท่านไม่ถูกต้อง")
+      NotificationManager.warning("รหัสผ่านเดิมของท่านไม่ถูกต้อง")
       return
     }
 
@@ -61,7 +62,7 @@ export default function ProfileSetting() {
       .update({
         password: base64.encode(newPassword)
       })
-    alert("บันทึกข้อมูลเรียบร้อยแล้ว")
+    NotificationManager.success("บันทึกข้อมูลเรียบร้อยแล้ว")
     setNewPassword("")
     setReNewPassword("")
   }

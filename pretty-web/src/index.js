@@ -1,7 +1,9 @@
 import React from "react"
 import "date-fns"
+import "react-notifications/lib/notifications.css"
 import ReactDOM from "react-dom"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { NotificationContainer, NotificationManager } from "react-notifications"
 
 import "./index.css"
 import App from "./App"
@@ -95,7 +97,7 @@ if (getOS() !== "iOS" && getOS() !== "Android") {
   }
 }
 
-ReactDOM.render(
+const RouterContainers = () => (
   <Router>
     <Switch>
       <Route exact path="/">
@@ -225,24 +227,26 @@ ReactDOM.render(
         <FacebookForm />
       </Route>
       {/* <Route path="/apps">
-        <App />
-      </Route>
-      <Route path="/profile">
-        <Profile />
-      </Route>
-      <Route path="/support">
-        <Support />
-      </Route>
-      <Route path="/privacy">
-        <Privacy />
-      </Route>
-      <Route path="/help">
-        <HelpPage />
-      </Route> */}
+    <App />
+  </Route>
+  <Route path="/profile">
+    <Profile />
+  </Route>
+  <Route path="/support">
+    <Support />
+  </Route>
+  <Route path="/privacy">
+    <Privacy />
+  </Route>
+  <Route path="/help">
+    <HelpPage />
+  </Route> */}
     </Switch>
-  </Router>,
-  document.getElementById("root")
+    <NotificationContainer />
+  </Router>
 )
+
+ReactDOM.render(<RouterContainers />, document.getElementById("root"))
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

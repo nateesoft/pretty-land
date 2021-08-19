@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import { useHistory } from "react-router-dom"
-import styled from "styled-components"
 import ImageList from "@material-ui/core/ImageList"
 import ImageListItem from "@material-ui/core/ImageListItem"
 import ImageListItemBar from "@material-ui/core/ImageListItemBar"
@@ -11,6 +10,7 @@ import Moment from "moment"
 import { Button } from "@material-ui/core"
 import ReactPlayer from "react-player"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -91,7 +91,7 @@ export default function BasicImageList(props) {
           admin_action: adminProfile.username || adminProfile.id,
           action_date: new Date().toUTCString()
         })
-      alert("อัพเดตข้อมูลเรียบร้อยแล้ว")
+      NotificationManager.success("อัพเดตข้อมูลเรียบร้อยแล้ว")
       history.goBack()
     }
   }

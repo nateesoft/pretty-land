@@ -9,6 +9,7 @@ import Input from "@material-ui/core/Input"
 import { Person, SkipNext } from "@material-ui/icons"
 import { Button } from "@material-ui/core"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import Header from "../../../components/header"
 import Footer from "../../../components/footer/Customer"
@@ -75,11 +76,11 @@ export default function CreateWorkForm() {
 
   const handleNext = () => {
     if (!province) {
-      alert("กรุณาระบุ จังหวัด")
+      NotificationManager.warning("กรุณาระบุ จังหวัด")
       return
     }
     if (!partnerWantQty) {
-      alert("กรุณาระบุ จำนวนสมาชิก")
+      NotificationManager.warning("กรุณาระบุ จำนวนสมาชิก")
       return
     }
     history.push("/place-form", {

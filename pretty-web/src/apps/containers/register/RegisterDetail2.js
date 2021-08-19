@@ -8,20 +8,13 @@ import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
+import { NotificationManager } from "react-notifications"
 
 import Header from "../../components/header"
 import ImageBackground from "../../components/background"
 
 import { getCountryList, getDistrictList } from "../../../data/apis"
 
-const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-image: url("assets/bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-`
 export default function RegisterDetail2() {
   const history = useHistory()
   const {
@@ -50,19 +43,19 @@ export default function RegisterDetail2() {
 
   const handleNext = () => {
     if (!lineId) {
-      alert("กรุณาระบุ Line Id")
+      NotificationManager.warning("กรุณาระบุ Line Id")
       return
     }
     if (!mobile) {
-      alert("กรุณาระบุเบอร์โทรศัพท์ เพื่อติดต่อ")
+      NotificationManager.warning("กรุณาระบุเบอร์โทรศัพท์ เพื่อติดต่อ")
       return
     }
     if (!province) {
-      alert("กรุณาระบุจังหวัดที่รับงานได้")
+      NotificationManager.warning("กรุณาระบุจังหวัดที่รับงานได้")
       return
     }
     if (type4 && !address) {
-      alert("กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
+      NotificationManager.warning("กรุณาระบุรายละเอียดที่อยู่เพิ่มเติม")
       return
     }
     history.push("/registerDetail3", {

@@ -8,6 +8,7 @@ import uuid from "react-uuid"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
+import { NotificationManager } from "react-notifications"
 
 import Header from "../../components/header"
 import ImageBackground from "../../components/background"
@@ -36,15 +37,6 @@ LinearProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired
 }
 
-const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-image: url("assets/bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  padding: 20px;
-`
 export default function RegisterDetail4() {
   const history = useHistory()
   const {
@@ -104,7 +96,7 @@ export default function RegisterDetail4() {
       !imageFile5 ||
       !imageFile6
     ) {
-      alert("กรุณาเพิ่มรูปให้ครบ 5 รูป และวิดีโอ 1 คลิป ก่อนบันทึกข้อมูล !!!")
+      NotificationManager.warning("กรุณาเพิ่มรูปให้ครบ 5 รูป และวิดีโอ 1 คลิป ก่อนบันทึกข้อมูล !!!")
       return
     }
     if (imageFile1) {
@@ -162,7 +154,7 @@ export default function RegisterDetail4() {
       )
     }
 
-    alert("Upload ข้อมูลเรียบร้อยแล้ว")
+    NotificationManager.success("Upload ข้อมูลเรียบร้อยแล้ว")
     setShowSave(true)
   }
 
@@ -219,7 +211,7 @@ export default function RegisterDetail4() {
   const checkFileSizeValid = (file, setImageFile, input) => {
     const sizeTotal = file.size / (1024 * 1024)
     if (sizeTotal > fixSize) {
-      alert("กรุณาอัพโหลด ไฟล์ภาพ หรือ video ไม่เกิน 4mb !!!")
+      NotificationManager.warning("กรุณาอัพโหลด ไฟล์ภาพ หรือ video ไม่เกิน 4mb !!!")
       input.target.value = ""
       return
     }
@@ -235,7 +227,7 @@ export default function RegisterDetail4() {
       !imageUrl5 ||
       !imageUrl6
     ) {
-      alert("กรุณาเพิ่มรูปให้ครบ 5 รูป และวิดีโอ 1 คลิป ก่อนบันทึกข้อมูล !!!")
+      NotificationManager.warning("กรุณาเพิ่มรูปให้ครบ 5 รูป และวิดีโอ 1 คลิป ก่อนบันทึกข้อมูล !!!")
       return
     }
 
@@ -279,13 +271,13 @@ export default function RegisterDetail4() {
 
     const result = await ApiControl.saveNewPartner(newData)
     if (result) {
-      alert(
+      NotificationManager.success(
         "ลงทะเบียนเรียบร้อย รออนุมัติ ! กรุณาติดต่อ Admin ทางไลน์@ เพื่อนทำการยืนยันตัวตนอีกครั้ง"
       )
       window.location.href = "https://lin.ee/8f5kP3x"
       history.push("/", {})
     } else {
-      alert("ไม่สามารถบันทึกข้อมูลได้")
+      NotificationManager.error("ไม่สามารถบันทึกข้อมูลได้")
     }
   }
 

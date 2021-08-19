@@ -9,6 +9,7 @@ import Moment from "moment"
 import { useHistory } from "react-router-dom"
 import { Button } from "@material-ui/core"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -137,7 +138,7 @@ export default function WorkRequestDetail(props) {
         statusText: "น้องๆ แจ้งไม่รับงาน",
         sys_update_date: new Date().toUTCString()
       })
-      alert("บันทึกแจ้งไม่รับงานเรียบร้อย")
+      NotificationManager.success("บันทึกแจ้งไม่รับงานเรียบร้อย")
       history.goBack()
     }
   }
@@ -161,7 +162,7 @@ export default function WorkRequestDetail(props) {
         sys_update_date: new Date().toUTCString()
       })
 
-      alert("บันทึกข้อมูลแจ้งรับงานเรียบร้อย รอลูกค้าชำระเงิน")
+      NotificationManager.success("บันทึกข้อมูลแจ้งรับงานเรียบร้อย รอลูกค้าชำระเงิน")
       history.goBack()
     }
   }
@@ -200,7 +201,7 @@ export default function WorkRequestDetail(props) {
   useEffect(() => {
     const ref = firebase.database().ref(`${AppConfig.env}/posts`)
     const listener = ref.on("value", (snapshot) => {
-      getListMyWork(snapshot).catch((err) => alert(err))
+      getListMyWork(snapshot).catch((err) => NotificationManager.error(err))
     })
     return () => ref.off("value", listener)
   }, [])

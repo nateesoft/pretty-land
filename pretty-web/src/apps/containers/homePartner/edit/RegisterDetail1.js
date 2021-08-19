@@ -8,6 +8,7 @@ import { RadioGroup, Radio } from "@material-ui/core"
 import Checkbox from "@material-ui/core/Checkbox"
 import { useHistory } from "react-router-dom"
 import Cookies from "js-cookie"
+import { NotificationManager } from "react-notifications"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -47,15 +48,15 @@ export default function RegisterDetail1() {
 
   const handleNext = async () => {
     if (!type1 && !type2 && !type3 && !type4) {
-      alert("กรุณาระบุประเภทงานที่ต้องการรับบริการ !!!")
+      NotificationManager.warning("กรุณาระบุประเภทงานที่ต้องการรับบริการ !!!")
       return
     }
     if (!name) {
-      alert("กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
+      NotificationManager.warning("กรุณาระบุชื่อหรือชื่อเล่น เพื่อใช้เรียก")
       return
     }
     if (type4 && !price4) {
-      alert("กรุณาระบุราคา สำหรับประเภทนวดแผนไทย")
+      NotificationManager.warning("กรุณาระบุราคา สำหรับประเภทนวดแผนไทย")
       return
     }
 

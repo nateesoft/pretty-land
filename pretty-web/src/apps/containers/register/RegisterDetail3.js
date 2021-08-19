@@ -7,6 +7,7 @@ import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
+import { NotificationManager } from "react-notifications"
 
 import Header from "../../components/header"
 import ImageBackground from "../../components/background"
@@ -42,11 +43,11 @@ export default function RegisterDetail3() {
 
   const handleNext = () => {
     if (!bank) {
-      alert("กรุณาระบุธนาคารที่รอรับเงินโอน")
+      NotificationManager.warning("กรุณาระบุธนาคารที่รอรับเงินโอน")
       return
     }
     if (!bankNo) {
-      alert("กรุณาระบุเลขที่บัญชีธนาคาร")
+      NotificationManager.warning("กรุณาระบุเลขที่บัญชีธนาคาร")
       return
     }
     history.push("/registerDetail4", {
