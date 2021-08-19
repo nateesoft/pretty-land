@@ -13,6 +13,7 @@ import { Button } from "@material-ui/core"
 import { Home, AccessTime, Snooze, Phone, ListAlt } from "@material-ui/icons"
 import Cookies from "js-cookie"
 import { NotificationManager } from "react-notifications"
+import Swal from "sweetalert2"
 
 import Header from "../../../components/header"
 import Footer from "../../../components/footer/Customer"
@@ -85,7 +86,13 @@ export default function PlaceForm() {
       customerGender
     }
     saveNewPosts(newDataPost)
-    NotificationManager.success("บันทึกข้อมูลสร้างโพสท์เรียบร้อยแล้ว")
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'บันทึกข้อมูลสร้างโพสท์เรียบร้อยแล้ว',
+      showConfirmButton: false,
+      timer: 1500
+    })
     history.push("/customer", { member: customerProfile })
   }
 

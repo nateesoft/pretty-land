@@ -51,7 +51,7 @@ export default function PartnerListItem() {
 
   const [partnerProfile, setPartnerProfile] = useState({})
   const [selectStatus, setSelectStatus] = useState("")
-  const [starCount, setStarCount] = useState(5)
+  const [starCount, setStarCount] = useState(0)
 
   const onPressSelectPartner = () => {
     firebase
@@ -97,29 +97,14 @@ export default function PartnerListItem() {
         .ref(`${AppConfig.env}/partner_star/${item.partnerId}`)
       ref.once("value", (snapshot) => {
         const data = { ...snapshot.val() }
-        if (data) {
-          count = count + 1
-          if (data.star === 5) {
-            r5 = r5 + 1
-          }
-          if (data.star === 4) {
-            r4 = r4 + 1
-          }
-          if (data.star === 3) {
-            r3 = r3 + 1
-          }
-          if (data.star === 2) {
-            r2 = r2 + 1
-          }
-          if (data.star === 1) {
-            r1 = r1 + 1
-          }
-          if (data.star) {
-            point = point + data.star
-          }
-          setStarCount(point / count)
+        let count = 0
+        let starTotal = 0
+        for (let key in data) {
+          count += 1
+          const obj = data[key]
+          starTotal += obj.star
         }
-
+        setStarCount(starTotal / count)
         resolve(true)
       })
     })
@@ -200,14 +185,8 @@ export default function PartnerListItem() {
         }}
       >
         <Typography component="legend">{starCount.toFixed(2)}</Typography>
-        <Typography component="legend">คะแนนสะสม</Typography>
-        <Rating
-          name="simple-controlled"
-          value={starCount}
-          onChange={(event, newValue) => {
-            setStarCount(newValue)
-          }}
-        />
+        <Typography component="legend">คะแนนสะสมเฉลี่ย</Typography>
+        <Rating value={starCount} />
       </div>
       {selectStatus !== AppConfig.PostsStatus.customerConfirm && (
         <div align="center" style={{ margin: 10 }}>

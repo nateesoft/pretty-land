@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core"
 import { CheckBox, Delete } from "@material-ui/icons"
 import Cookies from "js-cookie"
 import { NotificationManager } from "react-notifications"
+import Swal from "sweetalert2"
 
 import Header from "../../../components/header"
 import ImageBackground from "../../../components/background"
@@ -20,39 +21,62 @@ export default function PostDetail() {
   const { item, member } = history.location.state
 
   const updateToApprove = () => {
-    if (window.confirm("ยืนยันการอนุมัติข้อมูล")) {
-      if (item.status === AppConfig.PostsStatus.waitAdminApprovePost) {
+    Swal.fire({
+      title: "พิจารณาตรวจสอบ",
+      text: "ยืนยันข้อมูลถูกต้อง กดอนุมัติข้อมูล",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "อนุมัติ"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (item.status === AppConfig.PostsStatus.waitAdminApprovePost) {
+          updatePosts(item.id, {
+            status: AppConfig.PostsStatus.waitCustomerPayment,
+            statusText: "รอลูกค้าชำระเงิน",
+            sys_update_date: new Date().toUTCString(),
+            admin_action: member.username || member.id,
+            action_date: new Date().toUTCString()
+          })
+          Swal.fire("ข้อมูลอัพเดตแล้ว", "ระบบบันทึกข้อมูลไปยังระบบแล้ว", "success")
+          history.push("/admin", { member })
+        } else {
+          adminConfirmNewPost(item)
+            .then((res) => {
+              if (res) {
+                Swal.fire("ข้อมูลอัพเดตแล้ว", "ระบบบันทึกข้อมูลไปยังระบบแล้ว", "success")
+                history.push("/admin", { member })
+              }
+            })
+            .catch((err) => NotificationManager.error(err))
+        }
+      }
+    })
+  }
+
+  const updateNotApprove = () => {
+    Swal.fire({
+      title: "พิจารณาตรวจสอบ",
+      text: "ยืนยันไม่อนุมัติข้อมูล ใช่หรือไม่ ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ใช่, ไม่อนุมัตืข้อมูล"
+    }).then((result) => {
+      if (result.isConfirmed) {
         updatePosts(item.id, {
-          status: AppConfig.PostsStatus.waitCustomerPayment,
-          statusText: "รอลูกค้าชำระเงิน",
+          status: AppConfig.PostsStatus.notApprove,
+          statusText: "ไม่อนุมัติโพสท์",
           sys_update_date: new Date().toUTCString(),
           admin_action: member.username || member.id,
           action_date: new Date().toUTCString()
         })
+        Swal.fire("ข้อมูลอัพเดตแล้ว", "ระบบบันทึกข้อมูลไปยังระบบแล้ว", "success")
         history.push("/admin", { member })
-      } else {
-        adminConfirmNewPost(item)
-          .then((res) => {
-            if (res) {
-              history.push("/admin", { member })
-            }
-          })
-          .catch((err) => NotificationManager.error(err))
       }
-    }
-  }
-
-  const updateNotApprove = () => {
-    if (window.confirm("ยืนยัน ไม่อนุมัติข้อมูล !!!")) {
-      updatePosts(item.id, {
-        status: AppConfig.PostsStatus.notApprove,
-        statusText: "ไม่อนุมัติโพสท์",
-        sys_update_date: new Date().toUTCString(),
-        admin_action: member.username || member.id,
-        action_date: new Date().toUTCString()
-      })
-    }
-    history.push("/admin", { member })
+    })
   }
 
   return (

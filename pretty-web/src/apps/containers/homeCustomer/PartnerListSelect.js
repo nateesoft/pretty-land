@@ -134,9 +134,10 @@ export default function PartnerListSelect() {
                   <Grid item xs={12} style={{ color: "red" }}>
                     <div align="center">
                       <Button
-                        style={{ background: "blue", color: "white" }}
-                        variant="contained"
+                        color="primary"
+                        variant="outlined"
                         startIcon={<CheckCircle />}
+                        style={{ margin: 5 }}
                       >
                         เลือกคนนี้แล้ว
                       </Button>

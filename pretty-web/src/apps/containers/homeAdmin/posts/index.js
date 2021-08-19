@@ -62,7 +62,9 @@ export default function CustomerPosts(props) {
         return Moment(b.sys_update_date) - Moment(a.sys_update_date)
       })
       let newFilterList = waitApprove.concat(waitCheckSlip).concat(allPost)
-      setFilterList(newFilterList)
+      setFilterList(
+        newFilterList.filter((item) => item.partnerType === partnerType)
+      )
     })
     return () => ref.off("value", listener)
   }, [partnerType])
