@@ -4,8 +4,10 @@ import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
+import { HighlightOff, CheckCircle } from "@material-ui/icons"
 import Moment from "moment"
 import { useHistory } from "react-router-dom"
+import { Button } from "@material-ui/core"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -114,45 +116,50 @@ export default function WorkRequestDetail(props) {
   }
 
   const partnerMassageCancel = (partnerId) => {
-    firebase
-      .database()
-      .ref(`${AppConfig.env}/posts/${item.id}/partnerSelect/${partnerId}`)
-      .update({
-        partnerStatus: AppConfig.PostsStatus.partnerCancelWork,
-        partnerStatusText: "น้องๆแจ้งไม่รับงาน",
-        partnerStart: new Date().toUTCString(),
-        sys_update_date: new Date().toUTCString(),
-        start_work_date: new Date().toUTCString()
+    if (window.confirm("แจ้งไม่รับงานใช่หรือไม่ ?")) {
+      firebase
+        .database()
+        .ref(`${AppConfig.env}/posts/${item.id}/partnerSelect/${partnerId}`)
+        .update({
+          partnerStatus: AppConfig.PostsStatus.partnerCancelWork,
+          partnerStatusText: "น้องๆแจ้งไม่รับงาน",
+          partnerStart: new Date().toUTCString(),
+          sys_update_date: new Date().toUTCString(),
+          start_work_date: new Date().toUTCString()
+        })
+
+      firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
+        status: AppConfig.PostsStatus.postCancel,
+        statusText: "น้องๆ แจ้งไม่รับงาน",
+        sys_update_date: new Date().toUTCString()
       })
-
-    firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
-      status: AppConfig.PostsStatus.postCancel,
-      statusText: "น้องๆแจ้งไม่รับงาน",
-      sys_update_date: new Date().toUTCString()
-    })
-
-    // navigation.navigate("List-My-Work")
+      alert("บันทึกแจ้งไม่รับงานเรียบร้อย")
+      history.goBack()
+    }
   }
 
   const partnerMassageAccept = (partnerId) => {
-    firebase
-      .database()
-      .ref(`${AppConfig.env}/posts/${item.id}/partnerSelect/${partnerId}`)
-      .update({
-        partnerStatus: AppConfig.PostsStatus.partnerAcceptWork,
-        partnerStatusText: "น้องๆแจ้งรับงาน",
-        partnerStart: new Date().toUTCString(),
-        sys_update_date: new Date().toUTCString(),
-        start_work_date: new Date().toUTCString()
+    if (window.confirm("ยืนยันรับงานงานนี้ใช่หรือไม่ ?")) {
+      firebase
+        .database()
+        .ref(`${AppConfig.env}/posts/${item.id}/partnerSelect/${partnerId}`)
+        .update({
+          partnerStatus: AppConfig.PostsStatus.partnerAcceptWork,
+          partnerStatusText: "น้องๆ แจ้งรับงาน",
+          partnerStart: new Date().toUTCString(),
+          sys_update_date: new Date().toUTCString(),
+          start_work_date: new Date().toUTCString()
+        })
+
+      firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
+        status: AppConfig.PostsStatus.waitAdminApprovePost,
+        statusText: "รอ Admin อนุมัติโพสท์",
+        sys_update_date: new Date().toUTCString()
       })
 
-    firebase.database().ref(`${AppConfig.env}/posts/${item.id}`).update({
-      status: AppConfig.PostsStatus.waitAdminApprovePost,
-      statusText: "รอ Admin อนุมัติโพสท์",
-      sys_update_date: new Date().toUTCString()
-    })
-
-    // navigation.navigate("List-My-Work")
+      alert("บันทึกข้อมูลแจ้งรับงานเรียบร้อย รอลูกค้าชำระเงิน")
+      history.goBack()
+    }
   }
 
   useEffect(() => {
@@ -250,6 +257,39 @@ export default function WorkRequestDetail(props) {
                 <div>ราคาที่เสนอ {partner.amount}</div>
                 <hr />
               </div>
+              {item.status === AppConfig.PostsStatus.waitPartnerConfrimWork && (
+                <div style={{ width: "100%" }}>
+                  <Button
+                    startIcon={<HighlightOff />}
+                    variant="contained"
+                    onClick={() => partnerMassageCancel(profile.id)}
+                    style={{
+                      margin: 5,
+                      color: "white",
+                      backgroundColor: "red",
+                      borderRadius: 5,
+                      width: 200
+                    }}
+                  >
+                    ปฏิเสธงาน
+                  </Button>
+                  <Button
+                    startIcon={<CheckCircle />}
+                    variant="contained"
+                    onClick={() => partnerMassageAccept(profile.id)}
+                    style={{
+                      margin: 5,
+                      color: "white",
+                      backgroundColor: "#ff2fe6",
+                      borderRadius: 5,
+                      fontSize: 18,
+                      width: 200
+                    }}
+                  >
+                    แจ้งรับงาน
+                  </Button>
+                </div>
+              )}
             </div>
           </ListItem>
         </List>

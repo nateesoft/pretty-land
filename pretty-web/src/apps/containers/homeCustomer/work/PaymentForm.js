@@ -11,6 +11,7 @@ import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 
+import { getAppConfig } from "../../../../apis"
 import { savePaymentSlip } from "../../../../apis"
 import { getBankName } from "../../../../data/apis"
 import firebase from "../../../../util/firebase"

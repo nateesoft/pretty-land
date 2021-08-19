@@ -40,7 +40,6 @@ export default function CustomerPosts(props) {
           const date1 = Moment()
           const date2 = Moment(item.sys_update_date)
           const diffHours = date1.diff(date2, "hours")
-
           if (item.status === AppConfig.PostsStatus.customerNewPostDone) {
             if (diffHours <= 24) {
               if (item.partnerType === partnerType) {
@@ -77,10 +76,29 @@ export default function CustomerPosts(props) {
           }
         }
       })
-      let sortDate = listData.sort((a, b) => {
+      let allPost = listData.filter(
+        (item, index) =>
+          item.status !== AppConfig.PostsStatus.customerNewPostDone &&
+          item.status !== AppConfig.PostsStatus.customerPayment
+      )
+      allPost = allPost.sort((a, b) => {
         return Moment(b.sys_update_date) - Moment(a.sys_update_date)
       })
-      setFilterList(sortDate)
+      let waitApprove = listData.filter(
+        (item, index) =>
+          item.status === AppConfig.PostsStatus.customerNewPostDone
+      )
+      waitApprove = waitApprove.sort((a, b) => {
+        return Moment(b.sys_update_date) - Moment(a.sys_update_date)
+      })
+      let waitCheckSlip = listData.filter(
+        (item, index) => item.status === AppConfig.PostsStatus.customerPayment
+      )
+      waitCheckSlip = waitCheckSlip.sort((a, b) => {
+        return Moment(b.sys_update_date) - Moment(a.sys_update_date)
+      })
+      let newFilterList = waitApprove.concat(waitCheckSlip).concat(allPost)
+      setFilterList(newFilterList)
     })
     return () => ref.off("value", listener)
   }, [partnerType])
@@ -132,20 +150,26 @@ export default function CustomerPosts(props) {
               <div style={{ color: "blue" }}>
                 ชื่อลูกค้า: {item.customerName}
               </div>
-              {item.customerGender && (
-                <div>
-                  เพศลูกค้า:{" "}
-                  {item.customerGender === "male"
-                    ? "ชาย"
-                    : item.customerGender === "female"
-                    ? "หญิง"
-                    : "อื่น ๆ"}
-                </div>
-              )}
+              <div>
+                เพศลูกค้า:{" "}
+                {item.customerGender === "male"
+                  ? "ชาย"
+                  : item.customerGender === "female"
+                  ? "หญิง"
+                  : "อื่น ๆ"}
+              </div>
               <div style={{ fontWeight: "bold" }}>
                 Level: {item.customerLevel}
               </div>
               <div>ประเภทงาน: {item.partnerRequest}</div>
+              <div>
+                เพศที่เรียก:{" "}
+                {item.sexTarget === "male"
+                  ? "ชาย"
+                  : item.sexTarget === "female"
+                  ? "หญิง"
+                  : "อื่น ๆ"}
+              </div>
               {item.status === AppConfig.PostsStatus.customerNewPostDone && (
                 <div
                   style={{
@@ -168,7 +192,8 @@ export default function CustomerPosts(props) {
                   Status: {item.statusText}
                 </div>
               )}
-              {item.status === AppConfig.PostsStatus.customerPayment && (
+              {item.status ===
+                AppConfig.PostsStatus.waitAdminConfirmPayment && (
                 <div style={{ fontWeight: "bold", backgroundColor: "yellow" }}>
                   Status: {item.statusText}
                 </div>

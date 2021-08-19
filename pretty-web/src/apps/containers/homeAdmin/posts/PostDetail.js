@@ -68,7 +68,7 @@ export default function PostDetail() {
         <div style={{ margin: 5, padding: 5 }}>
           <div>โหมดงาน: {item.partnerRequest}</div>
           <div>
-            เพศ:{" "}
+            เพศที่เรียก:{" "}
             {item.sexTarget === "female"
               ? "หญิง"
               : item.sexTarget === "male"
@@ -76,7 +76,16 @@ export default function PostDetail() {
               : "อื่น ๆ"}
           </div>
           <div>จำนวนน้องๆ ที่ต้องการ: {item.partnerWantQty} คน</div>
+          <hr />
           <div style={{ color: "blue" }}>ชื่อลูกค้า: {item.customerName}</div>
+          <div>
+            เพศลูกค้า:{" "}
+            {item.customerGender === "female"
+              ? "หญิง"
+              : item.customerGender === "male"
+              ? "ชาย"
+              : "อื่น ๆ"}
+          </div>
           <div>Level: {item.customerLevel}</div>
           <div>จังหวัด: {item.provinceName}</div>
           <div style={{ color: "red" }}>
@@ -99,28 +108,29 @@ export default function PostDetail() {
           </div>
         </div>
         <hr />
-        {item.status === AppConfig.PostsStatus.customerNewPostDone && (
-          <div>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ margin: 5 }}
-              startIcon={<CheckBox />}
-              onClick={updateToApprove}
-            >
-              อนุมัติโพสท์
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              style={{ margin: 5 }}
-              startIcon={<Delete />}
-              onClick={updateNotApprove}
-            >
-              ไม่อนุมัติโพสท์
-            </Button>
-          </div>
-        )}
+        {(item.status === AppConfig.PostsStatus.customerNewPostDone ||
+          item.status === AppConfig.PostsStatus.waitAdminApprovePost) && (
+            <div>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ margin: 5 }}
+                startIcon={<CheckBox />}
+                onClick={updateToApprove}
+              >
+                อนุมัติโพสท์
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                style={{ margin: 5 }}
+                startIcon={<Delete />}
+                onClick={updateNotApprove}
+              >
+                ไม่อนุมัติโพสท์
+              </Button>
+            </div>
+          )}
       </div>
     </ImageBackground>
   )

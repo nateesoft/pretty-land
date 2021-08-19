@@ -121,6 +121,10 @@ export default function CustomerPosts(props) {
     })
   }
 
+  useEffect(() => {
+    getFilterPostByProvince("").then()
+  }, [])
+
   return (
     <ImageBackground>
       <Header profile={profile} />
@@ -165,6 +169,7 @@ export default function CustomerPosts(props) {
             value={province}
             onChange={(e) => onChangeProvinceSelect(e.target.value)}
             label="จังหวัด"
+            displayEmpty
           >
             <MenuItem value="">
               <em>-- ทั่วประเทศ --</em>
@@ -198,8 +203,30 @@ export default function CustomerPosts(props) {
               }}
             >
               <div>จำนวนน้องๆ ที่ต้องการ: {item.partnerWantQty}</div>
-              <div style={{ color: "blue" }}>
-                ชื่อลูกค้า: {item.customerName}
+              {item.sexTarget && (
+                <div>
+                  เพศที่ที่เรียก:{" "}
+                  {item.sexTarget === "male"
+                    ? "ชาย"
+                    : item.sexTarget === "female"
+                    ? "หญิง"
+                    : "อื่น ๆ"}
+                </div>
+              )}
+              <div style={{ backgroundColor: "#FBE0D6" }}>
+                <div style={{ color: "blue" }}>
+                  ชื่อลูกค้า: {item.customerName}
+                </div>
+                {item.customerGender && (
+                  <div>
+                    เพศลูกค้า:{" "}
+                    {item.customerGender === "male"
+                      ? "ชาย"
+                      : item.customerGender === "female"
+                      ? "หญิง"
+                      : "อื่น ๆ"}
+                  </div>
+                )}
               </div>
               <div style={{ fontWeight: "bold" }}>
                 Level: {item.customerLevel}

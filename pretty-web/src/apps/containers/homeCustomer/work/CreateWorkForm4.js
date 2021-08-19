@@ -217,7 +217,7 @@ export default function CreateWorkForm4() {
         <Grid container spacing={1}>
           {partnerList.length > 0 &&
             partnerList.map((item, index) => (
-              <Grid item xs={6}>
+              <Grid item xs={6} key={item.partnerId}>
                 <div
                   style={{
                     color:
@@ -237,7 +237,7 @@ export default function CreateWorkForm4() {
                   <img
                     src={item.image}
                     alt=""
-                    style={{ width: "100%", height: "100%" }}
+                    style={{ width: "100%", height: 200 }}
                     onClick={() => handleNext(item)}
                   />
                   <div
@@ -250,17 +250,17 @@ export default function CreateWorkForm4() {
                   >
                     ฿ {item.price4}
                   </div>
-                  <Grid container>
-                    <Grid item xs={6}>
+                  <Grid container style={{ backgroundColor: "#fe9fbf" }}>
+                    <Grid item xs={6} style={{ color: "red" }}>
                       {item.name}
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={6} style={{ color: "red" }}>
                       อายุ: {item.age}
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={8} style={{ color: "purple" }}>
                       {item.address}
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={4} style={{ color: "black" }}>
                       {item.gender === "female"
                         ? "หญิง"
                         : item.gender === "male"
@@ -273,7 +273,7 @@ export default function CreateWorkForm4() {
             ))}
         </Grid>
       </div>
-      <Footer profile={customerProfile} />
+      {/* <Footer profile={customerProfile} /> */}
     </ImageBackground>
   )
 }
