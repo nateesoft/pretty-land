@@ -12,13 +12,13 @@ import InfoIcon from "@material-ui/icons/PhotoSizeSelectActual"
 import ReactPlayer from "react-player"
 import NumberFormat from "react-number-format"
 import Cookies from "js-cookie"
-
-import Header from "../../components/header"
-import ImageBackground from "../../components/background"
-
-import { AppConfig } from "../../../Constants"
-import firebase from "../../../util/firebase"
 import { Button } from "@material-ui/core"
+
+import Header from "../../../components/header"
+import ImageBackground from "../../../components/background"
+
+import { AppConfig } from "../../../../Constants"
+import firebase from "../../../../util/firebase"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,64 +37,38 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function PartnerListItem() {
+export default function Type4ProfileReview() {
   const classes = useStyles()
   const history = useHistory()
   if (!Cookies.get("logged_in")) {
     window.location.href = ""
   }
   const {
-    partnerItem: item,
-    postItem,
-    customerProfile
+    partnerProfile,
+    customerProfile,
+    province,
+    partnerRequest,
+    partnerType
   } = history.location.state
 
-  const [partnerProfile, setPartnerProfile] = useState({})
   const [selectStatus, setSelectStatus] = useState("")
   const [starCount, setStarCount] = useState(0)
 
   const onPressSelectPartner = () => {
-    firebase
-      .database()
-      .ref(
-        `${AppConfig.env}/posts/${postItem.id}/partnerSelect/${item.partnerId}`
-      )
-      .update({
-        selectStatus: AppConfig.PostsStatus.customerConfirm,
-        selectStatusText: "ลูกค้าคอนเฟิร์ม รอชำระเงิน",
-        sys_create_date: new Date().toUTCString()
-      })
-    history.goBack()
-  }
-
-  const cancelSelectPartner = () => {
-    firebase
-      .database()
-      .ref(
-        `${AppConfig.env}/posts/${postItem.id}/partnerSelect/${item.partnerId}`
-      )
-      .update({
-        selectStatus: AppConfig.PostsStatus.waitCustomerSelectPartner,
-        selectStatusText: "เสนอรับงาน",
-        sys_update_date: new Date().toUTCString()
-      })
-    history.goBack()
+    history.push("/time-price-form", {
+      customerProfile,
+      partnerProfile,
+      province,
+      partnerRequest,
+      partnerType
+    })
   }
 
   const getStarFromPosts = () => {
     return new Promise((resolve, reject) => {
-      let count = 0
-      let point = 0
-
-      let r5 = 0
-      let r4 = 0
-      let r3 = 0
-      let r2 = 0
-      let r1 = 0
-
       const ref = firebase
         .database()
-        .ref(`${AppConfig.env}/partner_star/${item.partnerId}`)
+        .ref(`${AppConfig.env}/partner_star/${partnerProfile.id}`)
       ref.once("value", (snapshot) => {
         const data = { ...snapshot.val() }
         let count = 0
@@ -113,25 +87,12 @@ export default function PartnerListItem() {
   useEffect(() => {
     firebase
       .database()
-      .ref(`${AppConfig.env}/members/${item.partnerId}`)
+      .ref(`${AppConfig.env}/members/${partnerProfile.id}`)
       .once("value", (snapshot) => {
-        setPartnerProfile(snapshot.val())
         getStarFromPosts().then((res) => {
           console.log(res)
         })
       })
-  }, [])
-
-  useEffect(() => {
-    const ref = firebase
-      .database()
-      .ref(
-        `${AppConfig.env}/posts/${postItem.id}/partnerSelect/${item.partnerId}`
-      )
-    ref.once("value", (snapshot) => {
-      const partnerStatusSelect = { ...snapshot.val() }
-      setSelectStatus(partnerStatusSelect.selectStatus)
-    })
   }, [])
 
   return (
@@ -172,7 +133,7 @@ export default function PartnerListItem() {
         <div>
           น้ำหนัก: {partnerProfile.weight} สูง: {partnerProfile.height}
         </div>
-        <div>ราคาที่เสนอ: {item.amount}</div>
+        <div>ราคาที่เสนอ: {partnerProfile.price4}</div>
       </div>
       <div
         align="center"
@@ -204,28 +165,10 @@ export default function PartnerListItem() {
           </Button>
         </div>
       )}
-      {selectStatus === AppConfig.PostsStatus.customerConfirm && (
-        <div align="center" style={{ margin: 10 }}>
-          <div style={{ margin: 5 }}>status: คุณเลือกสมาชิกคนนี้แล้ว</div>
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: "#ff2fe6",
-              color: "white",
-              borderRadius: 25
-            }}
-            startIcon={<CheckCircleOutline />}
-            onClick={cancelSelectPartner}
-          >
-            ยกเลิกการเลือก
-          </Button>
-        </div>
-      )}
       <div align="center">
         <ImageList rowHeight={450} cols={2}>
           <ImageListItem
             cols={2}
-            key={partnerProfile.partnerId}
             style={{ textAlign: "center" }}
           >
             <img
@@ -247,7 +190,6 @@ export default function PartnerListItem() {
           </ImageListItem>
           <ImageListItem
             cols={2}
-            key={partnerProfile.partnerId}
             style={{ textAlign: "center" }}
           >
             <img
@@ -269,7 +211,6 @@ export default function PartnerListItem() {
           </ImageListItem>
           <ImageListItem
             cols={2}
-            key={partnerProfile.partnerId}
             style={{ textAlign: "center" }}
           >
             <img
@@ -291,7 +232,6 @@ export default function PartnerListItem() {
           </ImageListItem>
           <ImageListItem
             cols={2}
-            key={partnerProfile.partnerId}
             style={{ textAlign: "center" }}
           >
             <img
@@ -313,7 +253,6 @@ export default function PartnerListItem() {
           </ImageListItem>
           <ImageListItem
             cols={2}
-            key={partnerProfile.partnerId}
             style={{ textAlign: "center" }}
           >
             <img

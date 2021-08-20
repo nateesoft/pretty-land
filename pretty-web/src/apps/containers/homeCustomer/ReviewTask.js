@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography"
 import Moment from "moment"
 import Cookies from "js-cookie"
 import { NotificationManager } from "react-notifications"
+import Swal from "sweetalert2"
 
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
@@ -35,27 +36,37 @@ export default function ReviewTask() {
   }
 
   const saveToCloseJob = async () => {
-    if (
-      window.confirm(`ยืนยันการปิดงานเรียบร้อย โดยให้คะแนนน้องๆ ${rate} ดาว`)
-    ) {
-      items.map(async (item, index) => {
-        await updateMemberPoint(item.workIn, item.workPoint, item.partnerId)
-        await saveHistoryStar(item.partnerId, postDetail.id, rate)
-      })
-
-      firebase
-        .database()
-        .ref(`${AppConfig.env}/posts/${postDetail.id}`)
-        .update({
-          rate,
-          status: AppConfig.PostsStatus.closeJob,
-          statusText: "ปิดงานเรียบร้อย",
-          sys_update_date: new Date().toUTCString()
+    Swal.fire({
+      title: "บันทึกปิดงาน",
+      html: `ยืนยันการปิดงาน <br />คะแนนที่ให้น้องๆ คือ ${rate} ดาว`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ยืนยันปิดงาน"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        items.map(async (item, index) => {
+          await updateMemberPoint(item.workIn, item.workPoint, item.partnerId)
+          await saveHistoryStar(item.partnerId, postDetail.id, rate)
         })
-
-        NotificationManager.success("บันทึกให้คะแนนข้อมูลเรียบร้อยแล้ว")
-      history.goBack()
-    }
+        firebase
+          .database()
+          .ref(`${AppConfig.env}/posts/${postDetail.id}`)
+          .update({
+            rate,
+            status: AppConfig.PostsStatus.closeJob,
+            statusText: "ปิดงานเรียบร้อย",
+            sys_update_date: new Date().toUTCString()
+          })
+        Swal.fire(
+          "ข้อมูลอัพเดตแล้ว",
+          "ระบบบันทึกข้อมูลไปยังระบบแล้ว",
+          "success"
+        )
+        history.goBack()
+      }
+    })
   }
 
   const getListPartner = () => {

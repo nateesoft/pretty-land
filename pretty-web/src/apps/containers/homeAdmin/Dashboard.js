@@ -60,46 +60,70 @@ export default function Dashboard() {
         countType3 = 0,
         countType4 = 0
 
+      // all available post in system
       arr.forEach((item) => {
         const statusMatch =
-          item.status === AppConfig.PostsStatus.customerNewPostDone ||
-          item.status === AppConfig.PostsStatus.waitAdminConfirmPayment
-        if (item.status !== AppConfig.PostsStatus.closeJob) {
-          if (item.partnerRequest === AppConfig.PartnerType.type1) {
-            if (statusMatch) {
-              type1 = type1 + 1
-              countType1 = countType1 + 1
-            }
+          item.status !== AppConfig.PostsStatus.postTimeout &&
+          item.status !== AppConfig.PostsStatus.notApprove &&
+          item.status !== AppConfig.PostsStatus.closeJob
+        if (item.partnerRequest === AppConfig.PartnerType.type1) {
+          if (statusMatch) {
+            type1 = type1 + 1
           }
-          if (item.partnerRequest === AppConfig.PartnerType.type2) {
-            if (statusMatch) {
-              type2 = type2 + 1
-              countType2 = countType2 + 1
-            }
+        }
+        if (item.partnerRequest === AppConfig.PartnerType.type2) {
+          if (statusMatch) {
+            type2 = type2 + 1
           }
-          if (item.partnerRequest === AppConfig.PartnerType.type3) {
-            if (statusMatch) {
-              type3 = type3 + 1
-              countType3 = countType3 + 1
-            }
+        }
+        if (item.partnerRequest === AppConfig.PartnerType.type3) {
+          if (statusMatch) {
+            type3 = type3 + 1
           }
-          if (item.partnerRequest === AppConfig.PartnerType.type4) {
-            if (
-              statusMatch ||
-              item.status === AppConfig.PostsStatus.waitAdminApprovePost
-              ) {
-              type4 = type4 + 1
-              countType4 = countType4 + 1
-            }
+        }
+        if (item.partnerRequest === AppConfig.PartnerType.type4) {
+          if (
+            statusMatch ||
+            item.status === AppConfig.PostsStatus.waitAdminApprovePost
+          ) {
+            type4 = type4 + 1
           }
         }
       })
-
       setSumType1(type1)
       setSumType2(type2)
       setSumType3(type3)
       setSumType4(type4)
 
+      // work to wait process
+      arr.forEach((item) => {
+        const statusMatch =
+          item.status === AppConfig.PostsStatus.customerNewPostDone ||
+          item.status === AppConfig.PostsStatus.waitAdminConfirmPayment
+        if (item.partnerRequest === AppConfig.PartnerType.type1) {
+          if (statusMatch) {
+            countType1 = countType1 + 1
+          }
+        }
+        if (item.partnerRequest === AppConfig.PartnerType.type2) {
+          if (statusMatch) {
+            countType2 = countType2 + 1
+          }
+        }
+        if (item.partnerRequest === AppConfig.PartnerType.type3) {
+          if (statusMatch) {
+            countType3 = countType3 + 1
+          }
+        }
+        if (item.partnerRequest === AppConfig.PartnerType.type4) {
+          if (
+            statusMatch ||
+            item.status === AppConfig.PostsStatus.waitAdminApprovePost
+          ) {
+            countType4 = countType4 + 1
+          }
+        }
+      })
       setPostType1Count(countType1)
       setPostType2Count(countType2)
       setPostType3Count(countType3)

@@ -59,6 +59,7 @@ import PartnerSendCustomer from "../src/apps/containers/homePartner/posts/Partne
 import FacebookForm from "./pages/FacebookLogin"
 
 import reportWebVitals from "./reportWebVitals"
+import Type4ProfileReview from "./apps/containers/homeCustomer/work/Type4ProfileReview"
 // import Profile from "./Profile"
 // import Support from "./Support"
 // import Privacy from "./Privacy"
@@ -219,6 +220,9 @@ const RouterContainers = () => (
       </Route>
       <Route path="/customer-create-work4">
         <CustomerCreateWork4 />
+      </Route>
+      <Route path="/customer-review-type4-profile">
+        <Type4ProfileReview />
       </Route>
       <Route path="/apps">
         <App />

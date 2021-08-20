@@ -5,7 +5,6 @@ import { AttachMoney, CheckCircle } from "@material-ui/icons"
 import Cookies from "js-cookie"
 
 import Header from "../../components/header"
-import Footer from "../../components/footer/Customer"
 import ImageBackground from "../../components/background"
 
 import firebase from "../../../util/firebase"
@@ -92,7 +91,7 @@ export default function PartnerListSelect() {
       <Grid container spacing={1} style={{ margin: 5 }}>
         {listSelect &&
           listSelect.map((item, index) => (
-            <Grid item xs={6} key={item.id}>
+            <Grid item xs={6} key={item.partnerId}>
               <div>
                 <img
                   src={item.image}
@@ -148,7 +147,6 @@ export default function PartnerListSelect() {
             </Grid>
           ))}
       </Grid>
-      {/* <Footer profile={customerProfile} /> */}
     </ImageBackground>
   )
 }

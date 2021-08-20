@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 import { Grid } from "@material-ui/core"
 import Cookies from "js-cookie"
@@ -21,14 +20,11 @@ import {
 } from "../../../apis"
 
 export default function Dashboard() {
-  const [items, setItems] = useState([])
   const history = useHistory()
   if (!Cookies.get("logged_in")) {
     window.location.href = ""
   }
   const { member } = history.location.state
-
-  const [taskList, setTaskList] = useState([])
 
   const [sumType1, setSumType1] = useState("0")
   const [sumType2, setSumType2] = useState("0")
@@ -49,6 +45,45 @@ export default function Dashboard() {
         type3 = 0,
         type4 = 0
 
+      let countType1 = 0,
+        countType2 = 0,
+        countType3 = 0,
+        countType4 = 0
+
+      // all available post in system for this partner
+      arr.forEach((item) => {
+        const statusMatch =
+          item.status !== AppConfig.PostsStatus.postTimeout &&
+          item.status !== AppConfig.PostsStatus.notApprove &&
+          item.status !== AppConfig.PostsStatus.closeJob
+        let sexMatch = false
+        if (item.sexTarget === "female") {
+          sexMatch = member.gender === "female" || member.gender === "other"
+        } else {
+          sexMatch = item.sexTarget === member.gender
+        }
+        if (statusMatch && sexMatch) {
+          if (item.partnerRequest === AppConfig.PartnerType.type1) {
+            type1 = type1 + 1
+          }
+          if (item.partnerRequest === AppConfig.PartnerType.type2) {
+            type2 = type2 + 1
+          }
+          if (item.partnerRequest === AppConfig.PartnerType.type3) {
+            type3 = type3 + 1
+          }
+          if (item.partnerRequest === AppConfig.PartnerType.type4) {
+            type4 = type4 + 1
+          }
+          listTrue.push(item)
+        }
+      })
+      setSumType1(type1)
+      setSumType2(type2)
+      setSumType3(type3)
+      setSumType4(type4)
+
+      // work to wait process
       arr.forEach((item) => {
         const statusMatch =
           item.status === AppConfig.PostsStatus.adminConfirmNewPost ||
@@ -57,27 +92,24 @@ export default function Dashboard() {
         if (item.status !== AppConfig.PostsStatus.closeJob) {
           if (statusMatch) {
             if (item.partnerRequest === AppConfig.PartnerType.type1) {
-              type1 = type1 + 1
+              countType1 = countType1 + 1
             }
             if (item.partnerRequest === AppConfig.PartnerType.type2) {
-              type2 = type2 + 1
+              countType2 = countType2 + 1
             }
             if (item.partnerRequest === AppConfig.PartnerType.type3) {
-              type3 = type3 + 1
+              countType3 = countType3 + 1
             }
             if (item.partnerRequest === AppConfig.PartnerType.type4) {
-              type4 = type4 + 1
+              countType4 = countType4 + 1
             }
-            listTrue.push(item)
           }
         }
       })
-      setSumType1(type1)
-      setSumType2(type2)
-      setSumType3(type3)
-      setSumType4(type4)
-
-      setTaskList(listTrue)
+      setPostType1Count(countType1)
+      setPostType2Count(countType2)
+      setPostType3Count(countType3)
+      setPostType4Count(countType4)
 
       resolve(true)
     })
@@ -102,9 +134,6 @@ export default function Dashboard() {
     const ref = firebase.database().ref(`${AppConfig.env}/posts`)
     const listener = ref.on("value", (snapshot) => {
       getComputeGroup(snapshot).catch((err) => NotificationManager.error(err))
-      getConfigList()
-        .then((res) => setItems(res))
-        .catch((err) => NotificationManager.error(err))
     })
     return () => {
       ref.off("value", listener)
@@ -113,6 +142,7 @@ export default function Dashboard() {
 
   const onPressOptions = (type, partnerTypeNme) => {
     if (type === 4) {
+      history.push("/partner-request", { member })
     } else {
       history.push("/partner-customer-posts", {
         partnerType: type,
@@ -127,7 +157,7 @@ export default function Dashboard() {
       <Header profile={member} hideBack />
       <div align="center" style={{ position: "fixed", right: 10, bottom: 60 }}>
         <Grid container spacing={1} style={{ marginTop: 55 }}>
-          {items[0] && (
+          {member.type1 && (
             <Grid item xs={6}>
               <div
                 style={{
@@ -150,7 +180,7 @@ export default function Dashboard() {
                     border: "5px solid white"
                   }}
                   alt=""
-                  onClick={() => onPressOptions(1, 'พริตตี้ Event / Mc')}
+                  onClick={() => onPressOptions(1, "พริตตี้ Event / Mc")}
                 />
                 <div
                   style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
@@ -165,7 +195,7 @@ export default function Dashboard() {
               </div>
             </Grid>
           )}
-          {items[1] && (
+          {member.type2 && (
             <Grid item xs={6}>
               <div
                 style={{
@@ -188,7 +218,7 @@ export default function Dashboard() {
                     border: "5px solid white"
                   }}
                   alt=""
-                  onClick={() => onPressOptions(2, 'โคโยตี้ / งานเต้น')}
+                  onClick={() => onPressOptions(2, "โคโยตี้ / งานเต้น")}
                 />
                 <div
                   style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
@@ -203,7 +233,7 @@ export default function Dashboard() {
               </div>
             </Grid>
           )}
-          {items[2] && (
+          {member.type3 && (
             <Grid item xs={6}>
               <div
                 style={{
@@ -226,7 +256,7 @@ export default function Dashboard() {
                     border: "5px solid white"
                   }}
                   alt=""
-                  onClick={() => onPressOptions(3, 'พริตตี้ En / Env')}
+                  onClick={() => onPressOptions(3, "พริตตี้ En / Env")}
                 />
                 <div
                   style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
@@ -241,7 +271,7 @@ export default function Dashboard() {
               </div>
             </Grid>
           )}
-          {items[3] && (
+          {member.type4 && (
             <Grid item xs={6}>
               <div
                 style={{
@@ -264,7 +294,7 @@ export default function Dashboard() {
                     border: "5px solid white"
                   }}
                   alt=""
-                  onClick={() => onPressOptions(4, '')}
+                  onClick={() => onPressOptions(4, "")}
                 />
                 <div
                   style={{ color: "white", fontWeight: "bold", fontSize: 16 }}

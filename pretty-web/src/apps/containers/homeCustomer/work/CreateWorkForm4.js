@@ -51,7 +51,9 @@ export default function CreateWorkForm4() {
   }
 
   const onChangeProvinceSelect = (sexType, province, district) => {
-    getPartnerQty(sexType, province, district).catch((err) => NotificationManager.error(err))
+    getPartnerQty(sexType, province, district).catch((err) =>
+      NotificationManager.error(err)
+    )
   }
 
   const getPartnerQty = (sexType, province) => {
@@ -92,7 +94,7 @@ export default function CreateWorkForm4() {
   }
 
   const handleNext = (item) => {
-    history.push("/time-price-form", {
+    history.push("/customer-review-type4-profile", {
       customerProfile,
       partnerProfile: item,
       province,
@@ -225,13 +227,10 @@ export default function CreateWorkForm4() {
               <Grid item xs={6} key={item.id}>
                 <div
                   style={{
-                    color:
-                      item.work_status === "available" || !item.work_status
-                        ? "red"
-                        : "white",
+                    color: item.work_status === "available" ? "red" : "white",
                     fontWeight: "bold",
                     backgroundColor:
-                      item.work_status === "available" || !item.work_status
+                      item.work_status === "available"
                         ? "rgb(70, 240, 238)"
                         : "green"
                   }}
@@ -262,9 +261,6 @@ export default function CreateWorkForm4() {
                     <Grid item xs={6} style={{ color: "red" }}>
                       อายุ: {item.age}
                     </Grid>
-                    {/* <Grid item xs={8} style={{ color: "purple" }}>
-                      {item.address}
-                    </Grid> */}
                     <Grid item xs={12} style={{ color: "black" }}>
                       {item.gender === "female"
                         ? "หญิง"
@@ -278,7 +274,6 @@ export default function CreateWorkForm4() {
             ))}
         </Grid>
       </div>
-      {/* <Footer profile={customerProfile} /> */}
     </ImageBackground>
   )
 }
