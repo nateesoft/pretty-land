@@ -42,12 +42,16 @@ export default function CustomerPosts(props) {
       const postsList = snapshotToArray(snapshot)
       let allPost = postsList.filter(
         (item, index) =>
+          item.status !== AppConfig.PostsStatus.closeJob &&
+          item.status !== AppConfig.PostsStatus.notApprove &&
+          item.status !== AppConfig.PostsStatus.postTimeout &&
           item.status !== AppConfig.PostsStatus.customerNewPostDone &&
           item.status !== AppConfig.PostsStatus.customerPayment
       )
       allPost = allPost.sort((a, b) => {
         return Moment(b.sys_update_date) - Moment(a.sys_update_date)
       })
+      // sorting wait approve
       let waitApprove = postsList.filter(
         (item, index) =>
           item.status === AppConfig.PostsStatus.customerNewPostDone
@@ -55,6 +59,7 @@ export default function CustomerPosts(props) {
       waitApprove = waitApprove.sort((a, b) => {
         return Moment(b.sys_update_date) - Moment(a.sys_update_date)
       })
+      // sorting wait check slip
       let waitCheckSlip = postsList.filter(
         (item, index) => item.status === AppConfig.PostsStatus.customerPayment
       )

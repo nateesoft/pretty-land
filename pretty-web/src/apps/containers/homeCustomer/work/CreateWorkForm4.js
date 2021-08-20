@@ -86,8 +86,11 @@ export default function CreateWorkForm4() {
           }
         })
 
+        let avList = list.filter(item=>item.work_status==='available')
+        let notAvList = list.filter(item=>item.work_status!=='available')
+
         setPartnerQty(count)
-        setPartnerList(list)
+        setPartnerList(avList.concat(notAvList))
         resolve(true)
       })
     })
@@ -149,7 +152,9 @@ export default function CreateWorkForm4() {
               marginBottom: 10
             }}
           >
-            <InputLabel id="demo-simple-select-outlined-label">อำเภอ</InputLabel>
+            <InputLabel id="demo-simple-select-outlined-label">
+              อำเภอ
+            </InputLabel>
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
@@ -235,6 +240,7 @@ export default function CreateWorkForm4() {
                     color: item.work_status === "available" ? "white" : "red",
                     fontWeight: "bold",
                     padding: 5,
+                    width: 45,
                     backgroundColor:
                       item.work_status === "available"
                         ? "green"
@@ -259,42 +265,42 @@ export default function CreateWorkForm4() {
                       bottom: 90,
                       fontSize: 18,
                       padding: 5,
-                      fontWeight: "bold",
+                      fontWeight: "bold"
                     }}
                   >
                     ฿ {item.price4}
                   </div>
-                  <Grid container style={{ backgroundColor: "#fe9fbf" }}>
-                    <Grid
-                      item
-                      xs={6}
-                      style={{ color: "red", fontWeight: "bold" }}
-                    >
-                      {item.name}
-                    </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                      style={{ color: "red", fontWeight: "bold" }}
-                    >
-                      อายุ: {item.age}
-                    </Grid>
-                    <Grid
-                      item
-                      xs={8}
-                      style={{ color: "purple", fontWeight: "bold" }}
-                    >
-                      {item.address}
-                    </Grid>
-                    <Grid
-                      item
-                      xs={4}
-                      style={{ color: "black", fontWeight: "bold" }}
-                    >
-                      {item.gender}
-                    </Grid>
-                  </Grid>
                 </div>
+                <Grid container style={{ backgroundColor: "#fe9fbf" }}>
+                  <Grid
+                    item
+                    xs={6}
+                    style={{ color: "red", fontWeight: "bold" }}
+                  >
+                    {item.name}
+                  </Grid>
+                  <Grid
+                    item
+                    xs={6}
+                    style={{ color: "red", fontWeight: "bold" }}
+                  >
+                    อายุ: {item.age}
+                  </Grid>
+                  <Grid
+                    item
+                    xs={8}
+                    style={{ color: "purple", fontWeight: "bold" }}
+                  >
+                    {item.address}
+                  </Grid>
+                  <Grid
+                    item
+                    xs={4}
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    {item.gender}
+                  </Grid>
+                </Grid>
               </Grid>
             ))}
         </Grid>

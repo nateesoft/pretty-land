@@ -7,6 +7,7 @@ import { NotificationContainer } from "react-notifications"
 
 import "./index.css"
 import App from "./App"
+import WaterMark from "../src/apps/components/WaterMark"
 import Home from "../src/apps/containers/home"
 import RegisterForm from "../src/apps/containers/register"
 import RegisterDetail1Form from "../src/apps/containers/register/RegisterDetail1"
@@ -60,10 +61,6 @@ import FacebookForm from "./pages/FacebookLogin"
 
 import reportWebVitals from "./reportWebVitals"
 import Type4ProfileReview from "./apps/containers/homeCustomer/work/Type4ProfileReview"
-// import Profile from "./Profile"
-// import Support from "./Support"
-// import Privacy from "./Privacy"
-// import HelpPage from "./pages/help"
 
 const hostName = window.location.host
 
@@ -102,7 +99,9 @@ const RouterContainers = () => (
   <Router>
     <Switch>
       <Route exact path="/">
-        <Home />
+        <WaterMark>
+          <Home />
+        </WaterMark>
       </Route>
       <Route path="/register">
         <RegisterForm />
@@ -120,13 +119,17 @@ const RouterContainers = () => (
         <RegisterDetail4Form />
       </Route>
       <Route path="/login">
-        <LoginForm />
+        <WaterMark>
+          <LoginForm />
+        </WaterMark>
       </Route>
       <Route path="/line-login">
         <LineLoginForm />
       </Route>
       <Route path="/admin">
-        <HomeAdmin />
+        <WaterMark>
+          <HomeAdmin />
+        </WaterMark>
       </Route>
       <Route path="/admin-members">
         <AdminMemberList />
@@ -159,7 +162,9 @@ const RouterContainers = () => (
         <PartnerConfrimPriceForm />
       </Route>
       <Route path="/partner">
-        <HomePartner />
+        <WaterMark>
+          <HomePartner />
+        </WaterMark>
       </Route>
       <Route path="/partner-request">
         <PartnerRequest />
@@ -189,7 +194,9 @@ const RouterContainers = () => (
         <PartnerSendCustomer />
       </Route>
       <Route path="/customer">
-        <HomeCustomer />
+        <WaterMark>
+          <HomeCustomer />
+        </WaterMark>
       </Route>
       <Route path="/customer-posts">
         <CustomerPosts />
@@ -230,21 +237,6 @@ const RouterContainers = () => (
       <Route path="/facebook">
         <FacebookForm />
       </Route>
-      {/* <Route path="/apps">
-    <App />
-  </Route>
-  <Route path="/profile">
-    <Profile />
-  </Route>
-  <Route path="/support">
-    <Support />
-  </Route>
-  <Route path="/privacy">
-    <Privacy />
-  </Route>
-  <Route path="/help">
-    <HelpPage />
-  </Route> */}
     </Switch>
     <div align="center">
       <NotificationContainer />
