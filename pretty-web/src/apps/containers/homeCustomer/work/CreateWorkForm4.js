@@ -113,57 +113,61 @@ export default function CreateWorkForm4() {
         >
           {partnerRequest}
         </div>
-        <FormControl
-          variant="outlined"
-          style={{ marginTop: 10, width: 350, borderRadius: 5 }}
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            จังหวัด
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={province}
-            onChange={(e) => selectProvince(e.target.value)}
-            label="จังหวัด"
+        <div algin="center">
+          <FormControl
+            variant="outlined"
+            style={{ marginTop: 10, width: 350, borderRadius: 5 }}
           >
-            <MenuItem value="">
-              <em>-- เลือกจังหวัด --</em>
-            </MenuItem>
-            {provinceList.map((item, index) => (
-              <MenuItem value={item.value} key={item.label + index}>
-                {item.label}
+            <InputLabel id="demo-simple-select-outlined-label">
+              จังหวัด
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={province}
+              onChange={(e) => selectProvince(e.target.value)}
+              label="จังหวัด"
+            >
+              <MenuItem value="">
+                <em>-- เลือกจังหวัด --</em>
               </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl
-          variant="outlined"
-          style={{
-            marginTop: 10,
-            width: 350,
-            borderRadius: 5,
-            marginBottom: 10
-          }}
-        >
-          <InputLabel id="demo-simple-select-outlined-label">อำเภอ</InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={district}
-            onChange={(e) => selectDistrict(e.target.value)}
-            label="อำเภอ"
+              {provinceList.map((item, index) => (
+                <MenuItem value={item.value} key={item.label + index}>
+                  {item.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+        <div align="center">
+          <FormControl
+            variant="outlined"
+            style={{
+              marginTop: 10,
+              width: 350,
+              borderRadius: 5,
+              marginBottom: 10
+            }}
           >
-            <MenuItem value="">
-              <em>--- เลือกอำเภอ --</em>
-            </MenuItem>
-            {districtList.map((item, index) => (
-              <MenuItem value={item.value} key={item.label + index}>
-                {item.label}
+            <InputLabel id="demo-simple-select-outlined-label">อำเภอ</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={district}
+              onChange={(e) => selectDistrict(e.target.value)}
+              label="อำเภอ"
+            >
+              <MenuItem value="">
+                <em>--- เลือกอำเภอ --</em>
               </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              {districtList.map((item, index) => (
+                <MenuItem value={item.value} key={item.label + index}>
+                  {item.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
         {province !== "" && (
           <div
             style={{
@@ -188,7 +192,7 @@ export default function CreateWorkForm4() {
             borderRadius: 5
           }}
         >
-          <FormLabel component="legend">Gender</FormLabel>
+          <FormLabel component="legend">เลือกเพศ</FormLabel>
           <RadioGroup
             row
             aria-label="gender"
@@ -227,12 +231,14 @@ export default function CreateWorkForm4() {
               <Grid item xs={6} key={item.id}>
                 <div
                   style={{
-                    color: item.work_status === "available" ? "red" : "white",
+                    position: "absolute",
+                    color: item.work_status === "available" ? "white" : "red",
                     fontWeight: "bold",
+                    padding: 5,
                     backgroundColor:
                       item.work_status === "available"
-                        ? "rgb(70, 240, 238)"
-                        : "green"
+                        ? "green"
+                        : "rgb(70, 240, 238)"
                   }}
                 >
                   {item.work_status === "available" ? "ว่าง" : "ไม่ว่าง"}
@@ -249,24 +255,43 @@ export default function CreateWorkForm4() {
                       backgroundColor: "#b8256e",
                       color: "white",
                       alignItems: "center",
-                      opacity: 0.8
+                      opacity: 0.8,
+                      bottom: 90,
+                      fontSize: 18,
+                      padding: 5,
+                      fontWeight: "bold",
                     }}
                   >
                     ฿ {item.price4}
                   </div>
                   <Grid container style={{ backgroundColor: "#fe9fbf" }}>
-                    <Grid item xs={6} style={{ color: "red" }}>
+                    <Grid
+                      item
+                      xs={6}
+                      style={{ color: "red", fontWeight: "bold" }}
+                    >
                       {item.name}
                     </Grid>
-                    <Grid item xs={6} style={{ color: "red" }}>
+                    <Grid
+                      item
+                      xs={6}
+                      style={{ color: "red", fontWeight: "bold" }}
+                    >
                       อายุ: {item.age}
                     </Grid>
-                    <Grid item xs={12} style={{ color: "black" }}>
-                      {item.gender === "female"
-                        ? "หญิง"
-                        : item.gender === "male"
-                        ? "ชาย"
-                        : "อื่นๆ"}
+                    <Grid
+                      item
+                      xs={8}
+                      style={{ color: "purple", fontWeight: "bold" }}
+                    >
+                      {item.address}
+                    </Grid>
+                    <Grid
+                      item
+                      xs={4}
+                      style={{ color: "black", fontWeight: "bold" }}
+                    >
+                      {item.gender}
                     </Grid>
                   </Grid>
                 </div>

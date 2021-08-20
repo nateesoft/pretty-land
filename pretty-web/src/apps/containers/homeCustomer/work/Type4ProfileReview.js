@@ -78,7 +78,11 @@ export default function Type4ProfileReview() {
           const obj = data[key]
           starTotal += obj.star
         }
-        setStarCount(starTotal / count)
+        if (starTotal === 0 && count === 0) {
+          setStarCount(0)
+        } else {
+          setStarCount(starTotal / count)
+        }
         resolve(true)
       })
     })
@@ -167,10 +171,7 @@ export default function Type4ProfileReview() {
       )}
       <div align="center">
         <ImageList rowHeight={450} cols={2}>
-          <ImageListItem
-            cols={2}
-            style={{ textAlign: "center" }}
-          >
+          <ImageListItem cols={2} style={{ textAlign: "center" }}>
             <img
               src={partnerProfile.imageUrl1}
               style={{ height: "100%", width: "auto", borderRadius: 10 }}
@@ -188,10 +189,7 @@ export default function Type4ProfileReview() {
               }
             />
           </ImageListItem>
-          <ImageListItem
-            cols={2}
-            style={{ textAlign: "center" }}
-          >
+          <ImageListItem cols={2} style={{ textAlign: "center" }}>
             <img
               src={partnerProfile.imageUrl2}
               style={{ height: "100%", width: "auto", borderRadius: 10 }}
@@ -209,10 +207,7 @@ export default function Type4ProfileReview() {
               }
             />
           </ImageListItem>
-          <ImageListItem
-            cols={2}
-            style={{ textAlign: "center" }}
-          >
+          <ImageListItem cols={2} style={{ textAlign: "center" }}>
             <img
               src={partnerProfile.imageUrl3}
               style={{ height: "100%", width: "auto", borderRadius: 10 }}
@@ -230,10 +225,7 @@ export default function Type4ProfileReview() {
               }
             />
           </ImageListItem>
-          <ImageListItem
-            cols={2}
-            style={{ textAlign: "center" }}
-          >
+          <ImageListItem cols={2} style={{ textAlign: "center" }}>
             <img
               src={partnerProfile.imageUrl4}
               style={{ height: "100%", width: "auto", borderRadius: 10 }}
@@ -251,10 +243,7 @@ export default function Type4ProfileReview() {
               }
             />
           </ImageListItem>
-          <ImageListItem
-            cols={2}
-            style={{ textAlign: "center" }}
-          >
+          <ImageListItem cols={2} style={{ textAlign: "center" }}>
             <img
               src={partnerProfile.imageUrl5}
               style={{ height: "100%", width: "auto", borderRadius: 10 }}

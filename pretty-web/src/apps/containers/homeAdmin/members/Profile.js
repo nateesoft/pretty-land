@@ -10,7 +10,7 @@ import Moment from "moment"
 import { Button } from "@material-ui/core"
 import ReactPlayer from "react-player"
 import Cookies from "js-cookie"
-import { NotificationManager } from "react-notifications"
+import Swal from 'sweetalert2'
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -91,7 +91,11 @@ export default function BasicImageList(props) {
           admin_action: adminProfile.username || adminProfile.id,
           action_date: new Date().toUTCString()
         })
-      NotificationManager.success("อัพเดตข้อมูลเรียบร้อยแล้ว")
+      Swal.fire(
+        "ข้อมูลอัพเดตแล้ว",
+        "บันทึกข้อมูลเรียบร้อยแล้ว",
+        "success"
+      )
       history.goBack()
     }
   }

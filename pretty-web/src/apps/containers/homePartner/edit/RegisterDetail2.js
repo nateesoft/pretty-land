@@ -40,6 +40,11 @@ export default function RegisterDetail2() {
       NotificationManager.warning("กรุณาระบุเบอร์โทรศัพท์ เพื่อติดต่อ")
       return
     }
+    const regex = new RegExp("^0[0-9]{9}$")
+    if (!regex.test(mobile)) {
+      NotificationManager.warning("เบอร์โทรศัพท์ของคุณไม่ถูกต้อง !")
+      return
+    }
     if (!province) {
       NotificationManager.warning("กรุณาระบุจังหวัดที่รับงานได้")
       return

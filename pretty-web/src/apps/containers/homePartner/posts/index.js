@@ -233,7 +233,7 @@ export default function CustomerPosts(props) {
               <div>จำนวนน้องๆ ที่ต้องการ: {item.partnerWantQty}</div>
               {item.sexTarget && (
                 <div>
-                  เพศที่ที่เรียก:{" "}
+                  เพศที่เรียก:{" "}
                   {item.sexTarget === "male"
                     ? "ชาย"
                     : item.sexTarget === "female"

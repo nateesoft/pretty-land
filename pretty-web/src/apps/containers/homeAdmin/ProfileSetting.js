@@ -11,6 +11,7 @@ import base64 from "base-64"
 import { useHistory } from "react-router-dom"
 import Cookies from "js-cookie"
 import { NotificationManager } from "react-notifications"
+import Swal from 'sweetalert2'
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -62,7 +63,11 @@ export default function ProfileSetting() {
       .update({
         password: base64.encode(newPassword)
       })
-    NotificationManager.success("บันทึกข้อมูลเรียบร้อยแล้ว")
+    Swal.fire(
+      "ข้อมูลอัพเดตแล้ว",
+      "บันทึกข้อมูลเรียบร้อยแล้ว",
+      "success"
+    )
     setNewPassword("")
     setReNewPassword("")
   }

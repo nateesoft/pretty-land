@@ -80,9 +80,9 @@ export default function ProfileHeader(props) {
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             เพศ{" "}
-            {profile.sex === "male"
+            {profile.gender === "male"
               ? "ชาย"
-              : profile.sex === "female"
+              : profile.gender === "female"
               ? "หญิง"
               : "อื่นๆ"}{" "}
             | สูง {profile.height} | นิสัย {profile.charactor}

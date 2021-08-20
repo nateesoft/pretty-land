@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core"
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline"
 import Cookies from "js-cookie"
 import { NotificationManager } from "react-notifications"
+import Swal from 'sweetalert2'
 
 import Header from "../../../components/header"
 import ImageBackground from "../../../components/background"
@@ -41,7 +42,11 @@ export default function CheckSlip() {
     adminSaveConfirmPayment(item, listPartner)
       .then((res) => {
         if (res) {
-          NotificationManager.success("บันทึกตรวจสอบสลิปการโอนเงิน เรียบร้อยแล้ว")
+          Swal.fire(
+            "ข้อมูลอัพเดตแล้ว",
+            "บันทึกตรวจสอบสลิปการโอนเงิน เรียบร้อยแล้ว",
+            "success"
+          )
           history.goBack();
         }
       })

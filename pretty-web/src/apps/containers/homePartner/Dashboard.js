@@ -12,7 +12,6 @@ import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
 import { snapshotToArray } from "../../../util"
 import {
-  getConfigList,
   getPartnerDashboardType1,
   getPartnerDashboardType2,
   getPartnerDashboardType3,
@@ -55,7 +54,9 @@ export default function Dashboard() {
         const statusMatch =
           item.status !== AppConfig.PostsStatus.postTimeout &&
           item.status !== AppConfig.PostsStatus.notApprove &&
-          item.status !== AppConfig.PostsStatus.closeJob
+          item.status !== AppConfig.PostsStatus.closeJob &&
+          item.status !== AppConfig.PostsStatus.customerNewPostDone &&
+          item.status !== AppConfig.PostsStatus.waitAdminConfirmPayment
         let sexMatch = false
         if (item.sexTarget === "female") {
           sexMatch = member.gender === "female" || member.gender === "other"

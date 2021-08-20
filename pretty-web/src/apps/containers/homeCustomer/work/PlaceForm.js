@@ -61,6 +61,11 @@ export default function PlaceForm() {
       NotificationManager.warning("กรุณาระบุ โทรศัพท์มือถือ")
       return
     }
+    const regex = new RegExp("^0[0-9]{9}$")
+    if (!regex.test(phone)) {
+      NotificationManager.warning("เบอร์โทรศัพท์ของคุณไม่ถูกต้อง !")
+      return
+    }
     if (!customerGender) {
       NotificationManager.warning("กรุณาระบุ เพศของผู้เรียก")
       return

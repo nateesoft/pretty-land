@@ -63,7 +63,11 @@ export default function CustomerPosts(props) {
       })
       let newFilterList = waitApprove.concat(waitCheckSlip).concat(allPost)
       setFilterList(
-        newFilterList.filter((item) => item.partnerType === partnerType)
+        newFilterList.filter(
+          (item) =>
+            item.partnerType === partnerType &&
+            item.status !== AppConfig.PostsStatus.closeJob
+        )
       )
     })
     return () => ref.off("value", listener)

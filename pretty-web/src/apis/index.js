@@ -338,12 +338,11 @@ const filterPostsToUpdate = () => {
     const ref = firebase.database().ref(`${AppConfig.env}/posts`)
     ref.once("value", (snapshot) => {
       const posts = { ...snapshot.val() }
-      console.log('posts:', posts)
       for (let key in posts) {
         const post = posts[key]
         const date2 = Moment(post.sys_update_date)
         const diffHours = date1.diff(date2, "hours")
-        if (post.item === AppConfig.PostsStatus.customerNewPostDone) {
+        if (post.status === AppConfig.PostsStatus.customerNewPostDone) {
           console.log("in case (customerNewPostDone)", post.id, diffHours)
           if (diffHours > 24) {
             updatePosts(post.id, {
@@ -354,8 +353,8 @@ const filterPostsToUpdate = () => {
             })
           }
         } else if (
-          post.item === AppConfig.PostsStatus.adminConfirmNewPost ||
-          post.item === AppConfig.PostsStatus.waitCustomerSelectPartner
+          post.status === AppConfig.PostsStatus.adminConfirmNewPost ||
+          post.status === AppConfig.PostsStatus.waitCustomerSelectPartner
         ) {
           console.log(
             "in case (adminConfirmNewPost||waitCustomerSelectPartner)",
@@ -370,7 +369,7 @@ const filterPostsToUpdate = () => {
               system_action: "auto"
             })
           }
-        } else if (post.item === AppConfig.PostsStatus.adminConfirmPayment) {
+        } else if (post.status === AppConfig.PostsStatus.adminConfirmPayment) {
           console.log("in case (adminConfirmPayment)", post.id, diffHours)
           if (diffHours > 24) {
             ;(async () => {

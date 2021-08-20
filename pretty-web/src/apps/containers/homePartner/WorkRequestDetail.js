@@ -193,10 +193,28 @@ export default function WorkRequestDetail(props) {
               <div>
                 วันที่แจ้ง: {Moment(item.sys_create_date).format("D MMM YYYY")}
               </div>
+              <div>
+                เพศลูกค้า:{" "}
+                {item.customerGender === "male"
+                  ? "ชาย"
+                  : item.customerGender === "female"
+                  ? "หญิง"
+                  : "อื่น ๆ"}
+              </div>
               <div>Lv.ลูกค้า: {item.customerLevel}</div>
-              <div>เบอร์ติดต่อ: {item.customerPhone}</div>
               <div style={{ backgroundColor: "chocolate", color: "white" }}>
                 โหมดงาน: {item.partnerRequest}
+              </div>
+              <hr />
+              <div>
+                สถานที่เรียก: {item.placeMeeting}
+              </div>
+              <div style={{ color: "brown" }}>
+                รายละเอียดเพิ่มเติม: {item.customerRemark}
+              </div>
+              <div>
+                วันที่โพสท์:{" "}
+                {Moment(item.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
               </div>
               <div
                 style={{

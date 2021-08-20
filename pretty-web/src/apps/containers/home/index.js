@@ -66,7 +66,9 @@ export default function Home() {
 
   useEffect(() => {
     Cookies.set("logged_in", "")
-    setPhone(Cookies.get("user_phone") || "")
+    setPhone(
+      Cookies.get("user_phone") || localStorage.getItem("user_phone") || ""
+    )
   }, [])
 
   const loginPassFacebook = () => {
@@ -135,6 +137,7 @@ export default function Home() {
       firebase.database().ref(`${AppConfig.env}/members/${member.id}`).update({
         sys_update_date: new Date().toUTCString()
       })
+      localStorage.setItem("user_hone", phone)
       Cookies.set("user_phone", phone)
       Cookies.set("logged_in", "customer")
       history.replace("/customer", { member })
@@ -166,6 +169,7 @@ export default function Home() {
           prefix: "cm"
         }
       })
+      localStorage.setItem("user_hone", phone)
       Cookies.set("user_phone", phone)
       Cookies.set("logged_in", "customer")
       history.replace("/customer", { member: memberData })

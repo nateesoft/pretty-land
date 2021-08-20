@@ -12,9 +12,9 @@ import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import Cookies from "js-cookie"
 import { NotificationManager } from "react-notifications"
+import Swal from "sweetalert2"
 
 import ImageBackground from "../../../components/background"
-
 import { savePaymentSlip } from "../../../../apis"
 import { getBankName } from "../../../../data/apis"
 import firebase from "../../../../util/firebase"
@@ -148,7 +148,11 @@ export default function PaymentForm() {
     if (imageFile) {
       uploadImageAsync(imageFile).then((res) => {
         if (res) {
-          NotificationManager.success("บันทึกข้อมูลการโอนเงินเรียบร้อยแล้ว")
+          Swal.fire(
+            "ข้อมูลอัพเดตแล้ว",
+            "บันทึกข้อมูลการโอนเงินเรียบร้อยแล้ว",
+            "success"
+          )
           history.push("/customer-posts", { member: customerProfile })
         }
       })

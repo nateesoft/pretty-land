@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
-import styled from "styled-components"
 import { Button } from "@material-ui/core"
 import { CloudUpload, Save } from "@material-ui/icons"
 import { useHistory } from "react-router-dom"
@@ -9,6 +8,7 @@ import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import { NotificationManager } from "react-notifications"
+import Swal from 'sweetalert2'
 
 import Header from "../../components/header"
 import ImageBackground from "../../components/background"
@@ -154,7 +154,11 @@ export default function RegisterDetail4() {
       )
     }
 
-    NotificationManager.success("Upload ข้อมูลเรียบร้อยแล้ว")
+    Swal.fire(
+      "ข้อมูลอัพเดตแล้ว",
+      "Upload ข้อมูลเรียบร้อยแล้ว",
+      "success"
+    )
     setShowSave(true)
   }
 
@@ -271,8 +275,10 @@ export default function RegisterDetail4() {
 
     const result = await ApiControl.saveNewPartner(newData)
     if (result) {
-      NotificationManager.success(
-        "ลงทะเบียนเรียบร้อย รออนุมัติ ! กรุณาติดต่อ Admin ทางไลน์@ เพื่อนทำการยืนยันตัวตนอีกครั้ง"
+      Swal.fire(
+        "ข้อมูลอัพเดตแล้ว",
+        "ลงทะเบียนเรียบร้อย รออนุมัติ ! กรุณาติดต่อ Admin ทางไลน์@ เพื่อนทำการยืนยันตัวตนอีกครั้ง",
+        "success"
       )
       window.location.href = "https://lin.ee/8f5kP3x"
       history.push("/", {})

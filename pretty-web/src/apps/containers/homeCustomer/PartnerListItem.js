@@ -104,7 +104,11 @@ export default function PartnerListItem() {
           const obj = data[key]
           starTotal += obj.star
         }
-        setStarCount(starTotal / count)
+        if (starTotal === 0 && count === 0) {
+          setStarCount(0)
+        } else {
+          setStarCount(starTotal / count)
+        }
         resolve(true)
       })
     })

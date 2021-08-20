@@ -6,7 +6,7 @@ import { ListAlt, ExitToApp, ContactPhone, Home } from "@material-ui/icons"
 import { useHistory } from "react-router-dom"
 import { Badge } from "@material-ui/core"
 
-import firebase from '../../../util/firebase'
+import firebase from "../../../util/firebase"
 import { AppConfig } from "../../../Constants"
 
 const useStyles = makeStyles({
@@ -32,7 +32,10 @@ export default function CustomerFooter(props) {
       for (let key in list) {
         const postObj = list[key]
         if (
-          postObj.status === AppConfig.PostsStatus.waitCustomerPayment &&
+          (postObj.status === AppConfig.PostsStatus.waitCustomerPayment ||
+            postObj.status === AppConfig.PostsStatus.adminConfirmNewPost ||
+            postObj.status === AppConfig.PostsStatus.waitCustomerSelectPartner ||
+            postObj.status === AppConfig.PostsStatus.adminConfirmPayment) &&
           postObj.customerId === profile.id
         ) {
           count = count + 1
@@ -50,7 +53,6 @@ export default function CustomerFooter(props) {
 
     return () => ref.off("value", listener)
   }, [])
-
 
   const handleChange = (event, newValue) => {
     setValue(newValue)

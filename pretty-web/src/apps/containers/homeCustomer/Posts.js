@@ -56,9 +56,27 @@ export default function Posts(props) {
       .equalTo(member.id)
     const listener = ref.on("value", (snapshot) => {
       const postsList = snapshotToArray(snapshot)
-      let listData = postsList.sort((a, b) => {
+      let newPostList = postsList.filter(
+        (item) => item.status === AppConfig.PostsStatus.customerNewPostDone
+      )
+      newPostList = newPostList.sort((a, b) => {
         return Moment(b.sys_update_date) - Moment(a.sys_update_date)
       })
+      let allPostList = postsList.filter(
+        (item) =>
+          item.status !== AppConfig.PostsStatus.customerNewPostDone &&
+          item.status !== AppConfig.PostsStatus.closeJob
+      )
+      allPostList = allPostList.sort((a, b) => {
+        return Moment(b.sys_update_date) - Moment(a.sys_update_date)
+      })
+      let closeJobList = postsList.filter(
+        (item) => item.status === AppConfig.PostsStatus.closeJob
+      )
+      closeJobList = closeJobList.sort((a, b) => {
+        return Moment(b.sys_update_date) - Moment(a.sys_update_date)
+      })
+      let listData = newPostList.concat(allPostList).concat(closeJobList)
       setFilterList(listData)
     })
     return () => ref.off("value", listener)
