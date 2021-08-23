@@ -89,7 +89,12 @@ function getOS() {
 
 if (getOS() !== "iOS" && getOS() !== "Android") {
   console.log("application support only, iOS and Android")
-  const checkBrowser = hostName === "localhost:3000" ? false : true
+  let checkBrowser =
+    hostName === "localhost:3000"
+      ? false
+      : hostName === "172.20.10.6:3000"
+      ? false
+      : true
   if (checkBrowser) {
     window.location.href = "http://google.co.th"
   }

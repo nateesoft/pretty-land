@@ -10,7 +10,9 @@ import Moment from "moment"
 import { Button } from "@material-ui/core"
 import ReactPlayer from "react-player"
 import Cookies from "js-cookie"
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2"
+import NumberFormat from "react-number-format"
+import base64 from "base-64"
 
 import ImageBackground from "../../../components/background"
 import Header from "../../../components/header"
@@ -91,11 +93,7 @@ export default function BasicImageList(props) {
           admin_action: adminProfile.username || adminProfile.id,
           action_date: new Date().toUTCString()
         })
-      Swal.fire(
-        "ข้อมูลอัพเดตแล้ว",
-        "บันทึกข้อมูลเรียบร้อยแล้ว",
-        "success"
-      )
+      Swal.fire("ข้อมูลอัพเดตแล้ว", "บันทึกข้อมูลเรียบร้อยแล้ว", "success")
       history.goBack()
     }
   }
@@ -194,6 +192,7 @@ export default function BasicImageList(props) {
               ชื่อ: {memberProfile.name || memberProfile.username}
             </div>
             <div>โหมดงาน: {mode}</div>
+            <div>นิสัย: {memberProfile.charactor}</div>
             <div>
               วันที่เป็นสมาชิก:{" "}
               {Moment(memberProfile.sys_update_date).format(
@@ -212,6 +211,11 @@ export default function BasicImageList(props) {
               อายุ: {memberProfile.age} | สูง: {memberProfile.height} | น้ำหนัก:{" "}
               {memberProfile.weight}
             </div>
+            สัดส่วน: <NumberFormat
+              format="##-##-##"
+              value={memberProfile.stature}
+              displayType="text"
+            />
             <div>สถานะ: {memberProfile.statusText}</div>
             <div>คะแนน: {memberProfile.point || 0}</div>
             <hr />
@@ -224,6 +228,10 @@ export default function BasicImageList(props) {
             <div>เบอร์ติดต่อ: {memberProfile.mobile}</div>
             {memberProfile.type4 && <div>ที่อยู่: {memberProfile.address}</div>}
             {memberProfile.type4 && <div>ราคา: {memberProfile.price4}</div>}
+            <hr />
+            <div>id: {memberProfile.id}</div>
+            <div>username: {memberProfile.username}</div>
+            {adminProfile.memberType==='superadmin' && <div>password: {base64.decode(memberProfile.password)}</div>}
           </div>
         </div>
         <div style={{ margin: 10 }}>

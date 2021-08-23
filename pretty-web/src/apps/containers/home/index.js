@@ -63,6 +63,24 @@ export default function Home() {
   const history = useHistory()
   const [showFacebookLine] = useState(false)
   const [phone, setPhone] = useState("")
+  const [tokenNoti, setTokenNoti] = useState("")
+
+  // useEffect(() => {
+  //   const messaging = firebase.messaging()
+  //   messaging
+  //     .requestPermission()
+  //     .then((token) => {
+  //       return messaging.getToken()
+  //     })
+  //     .then((token) => {
+  //       console.log(token);
+  //       setTokenNoti(token)
+  //     })
+  //     .catch((err) => {
+  //       alert(err);
+  //       console.log("error:", err)
+  //     })
+  // }, [])
 
   useEffect(() => {
     Cookies.set("logged_in", "")
@@ -135,6 +153,7 @@ export default function Home() {
     if (valid) {
       // update
       firebase.database().ref(`${AppConfig.env}/members/${member.id}`).update({
+        access_client_token: tokenNoti,
         sys_update_date: new Date().toUTCString()
       })
       localStorage.setItem("user_hone", phone)
@@ -156,6 +175,7 @@ export default function Home() {
         password: base64.encode(phone),
         mobile: phone,
         customerLevel: 0,
+        access_client_token: tokenNoti,
         sys_create_date: new Date().toUTCString(),
         sys_update_date: new Date().toUTCString()
       }

@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react"
+import React, { memo, useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
-import { Grid } from "@material-ui/core"
 import Cookies from "js-cookie"
 import { NotificationManager } from "react-notifications"
 
-import ImageBackground from "../../components/background"
-import Footer from "../../components/footer/Partner"
-import Header from "../../components/header"
-
+import Dashboard from "../../components/dashboard"
 import { AppConfig } from "../../../Constants"
 import firebase from "../../../util/firebase"
 import { snapshotToArray } from "../../../util"
@@ -18,7 +14,7 @@ import {
   getPartnerDashboardType4
 } from "../../../apis"
 
-export default function Dashboard() {
+const DashboardComponent = () => {
   const history = useHistory()
   if (!Cookies.get("logged_in")) {
     window.location.href = ""
@@ -144,7 +140,7 @@ export default function Dashboard() {
   const onPressOptions = (type, partnerTypeNme) => {
     if (type === 4) {
       history.push("/partner-request", { member })
-    } else {
+    } else if (type === 1 || type === 2 || type === 3) {
       history.push("/partner-customer-posts", {
         partnerType: type,
         profile: member,
@@ -152,167 +148,22 @@ export default function Dashboard() {
       })
     }
   }
-
   return (
-    <ImageBackground>
-      <Header profile={member} hideBack />
-      <div align="center" style={{ position: "fixed", right: 10, bottom: 60 }}>
-        <Grid container spacing={1} style={{ marginTop: 55 }}>
-          {member.type1 && (
-            <Grid item xs={6}>
-              <div
-                style={{
-                  backgroundColor: "red",
-                  borderRadius: 15,
-                  width: "100%",
-                  height: "100%",
-                  textAlign: "center",
-                  verticalAlign: "center",
-                  margin: 5
-                }}
-              >
-                <img
-                  src="assets/type1.jpg"
-                  style={{
-                    margin: 10,
-                    borderRadius: 15,
-                    width: "80%",
-                    height: "70%",
-                    border: "5px solid white"
-                  }}
-                  alt=""
-                  onClick={() => onPressOptions(1, "พริตตี้ Event / Mc")}
-                />
-                <div
-                  style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
-                >
-                  พริตตี้ Event / Mc
-                </div>
-                <div
-                  style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}
-                >
-                  จำนวน {sumType1} งาน
-                </div>
-              </div>
-            </Grid>
-          )}
-          {member.type2 && (
-            <Grid item xs={6}>
-              <div
-                style={{
-                  backgroundColor: "red",
-                  borderRadius: 15,
-                  width: "100%",
-                  height: "100%",
-                  textAlign: "center",
-                  verticalAlign: "center",
-                  margin: 5
-                }}
-              >
-                <img
-                  src="assets/type2.jpg"
-                  style={{
-                    margin: 10,
-                    borderRadius: 15,
-                    width: "80%",
-                    height: "70%",
-                    border: "5px solid white"
-                  }}
-                  alt=""
-                  onClick={() => onPressOptions(2, "โคโยตี้ / งานเต้น")}
-                />
-                <div
-                  style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
-                >
-                  โคโยตี้ / งานเต้น
-                </div>
-                <div
-                  style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}
-                >
-                  จำนวน {sumType2} งาน
-                </div>
-              </div>
-            </Grid>
-          )}
-          {member.type3 && (
-            <Grid item xs={6}>
-              <div
-                style={{
-                  backgroundColor: "red",
-                  borderRadius: 15,
-                  width: "100%",
-                  height: "100%",
-                  textAlign: "center",
-                  verticalAlign: "center",
-                  margin: 5
-                }}
-              >
-                <img
-                  src="assets/type3.jpg"
-                  style={{
-                    margin: 10,
-                    borderRadius: 15,
-                    width: "80%",
-                    height: "70%",
-                    border: "5px solid white"
-                  }}
-                  alt=""
-                  onClick={() => onPressOptions(3, "พริตตี้ En / Env")}
-                />
-                <div
-                  style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
-                >
-                  พริตตี้ En / Env
-                </div>
-                <div
-                  style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}
-                >
-                  จำนวน {sumType3} งาน
-                </div>
-              </div>
-            </Grid>
-          )}
-          {member.type4 && (
-            <Grid item xs={6}>
-              <div
-                style={{
-                  backgroundColor: "red",
-                  borderRadius: 15,
-                  width: "100%",
-                  height: "100%",
-                  textAlign: "center",
-                  verticalAlign: "center",
-                  margin: 5
-                }}
-              >
-                <img
-                  src="assets/type4.jpg"
-                  style={{
-                    margin: 10,
-                    borderRadius: 15,
-                    width: "80%",
-                    height: "70%",
-                    border: "5px solid white"
-                  }}
-                  alt=""
-                  onClick={() => onPressOptions(4, "")}
-                />
-                <div
-                  style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
-                >
-                  พริตตี้ นวดแผนไทย
-                </div>
-                <div
-                  style={{ color: "blue", fontSize: 12, fontWeight: "bold" }}
-                >
-                  จำนวน {sumType4} งาน
-                </div>
-              </div>
-            </Grid>
-          )}
-        </Grid>
-      </div>
-      <Footer profile={member} />
-    </ImageBackground>
+    <Dashboard
+      type="partner"
+      profile={member}
+      onPressOptions={onPressOptions}
+      partnerProps={{
+        notifys: [
+          postType1Count,
+          postType2Count,
+          postType3Count,
+          postType4Count
+        ],
+        works: [sumType1, sumType2, sumType3, sumType4]
+      }}
+    />
   )
 }
+
+export default memo(DashboardComponent)

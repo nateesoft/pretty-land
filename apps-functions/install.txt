@@ -1,0 +1,8 @@
+firebase login
+firebase init
+
+firebase init emulators
+firebase emulators:start
+
+firebase deploy --only functions:api
+firebase deploy --debug --only functions:api
