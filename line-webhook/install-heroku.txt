@@ -1,0 +1,8 @@
+git clone https://github.com/heroku/node-js-getting-started.git
+cd node-js-getting-started
+
+heroku create
+git push heroku main
+heroku ps:scale web=1
+
+heroku logs --tail
