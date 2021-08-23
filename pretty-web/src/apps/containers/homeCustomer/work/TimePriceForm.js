@@ -75,7 +75,8 @@ export default function TimePriceForm() {
           bankNo: data.bankNo,
           bankCode: data.bank,
           bankName: getBankName(data.bank)[0].label,
-          lineId: data.lineId
+          lineId: data.lineId,
+          place: data.address,
         }
       }
     }

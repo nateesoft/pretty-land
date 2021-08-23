@@ -104,6 +104,14 @@ export default function WorkRequestDetail(props) {
           sys_update_date: new Date().toUTCString()
         })
 
+        // update status of work
+        firebase
+          .database()
+          .ref(`${AppConfig.env}/members/${partnerId}`)
+          .update({
+            work_status: ""
+          })
+
         Swal.fire(
           "ข้อมูลอัพเดตแล้ว",
           "ระบบบันทึกข้อมูลไปยังระบบแล้ว",
@@ -206,9 +214,7 @@ export default function WorkRequestDetail(props) {
                 โหมดงาน: {item.partnerRequest}
               </div>
               <hr />
-              <div>
-                สถานที่เรียก: {item.placeMeeting}
-              </div>
+              <div>สถานที่เรียก: {item.placeMeeting}</div>
               <div style={{ color: "brown" }}>
                 รายละเอียดเพิ่มเติม: {item.customerRemark}
               </div>

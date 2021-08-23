@@ -343,7 +343,6 @@ const filterPostsToUpdate = () => {
         const date2 = Moment(post.sys_update_date)
         const diffHours = date1.diff(date2, "hours")
         if (post.status === AppConfig.PostsStatus.customerNewPostDone) {
-          console.log("in case (customerNewPostDone)", post.id, diffHours)
           if (diffHours > 24) {
             updatePosts(post.id, {
               status: AppConfig.PostsStatus.postTimeout,
@@ -356,11 +355,6 @@ const filterPostsToUpdate = () => {
           post.status === AppConfig.PostsStatus.adminConfirmNewPost ||
           post.status === AppConfig.PostsStatus.waitCustomerSelectPartner
         ) {
-          console.log(
-            "in case (adminConfirmNewPost||waitCustomerSelectPartner)",
-            post.id,
-            diffHours
-          )
           if (diffHours > 4) {
             updatePosts(post.id, {
               status: AppConfig.PostsStatus.postTimeout,
@@ -370,7 +364,6 @@ const filterPostsToUpdate = () => {
             })
           }
         } else if (post.status === AppConfig.PostsStatus.adminConfirmPayment) {
-          console.log("in case (adminConfirmPayment)", post.id, diffHours)
           if (diffHours > 24) {
             ;(async () => {
               const partnerList = post.partnerSelect

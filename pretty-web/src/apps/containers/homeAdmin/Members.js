@@ -73,7 +73,11 @@ export default function Members() {
 
   const searchKey = (item) => {
     if (search) {
-      return item.mobile === search || item.username === search
+      return (
+        item.mobile === search ||
+        item.username === search ||
+        item.name === search
+      )
     }
     return true
   }
@@ -177,7 +181,8 @@ export default function Members() {
                     padding: 10
                   }}
                 >
-                  <div>งานที่สมัคร: {getPartnerTypeFromFirebase(item)}</div>
+                  {/* <div>งานที่สมัคร: {getPartnerTypeFromFirebase(item)}</div> */}
+                  <div>เบอร์โทร: {item.mobile}</div>
                   <div>
                     วันที่:{" "}
                     {Moment(item.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}

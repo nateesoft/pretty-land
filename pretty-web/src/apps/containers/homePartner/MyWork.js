@@ -61,6 +61,9 @@ export default function WorkRequest() {
           }
         }
       })
+      myWorkList.sort((a, b) => {
+        return Moment(b.sys_update_date) - Moment(a.sys_update_date)
+      })
       setFilterList(myWorkList)
       resolve(true)
     })

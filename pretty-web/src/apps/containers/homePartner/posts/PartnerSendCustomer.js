@@ -23,7 +23,9 @@ export default function PartnerSendCustomer() {
   const partnerClosePosts = (posts, postsPartner) => {
     firebase
       .database()
-      .ref(`${AppConfig.env}/posts/${posts.id}/partnerSelect/${postsPartner.partnerId}`)
+      .ref(
+        `${AppConfig.env}/posts/${posts.id}/partnerSelect/${postsPartner.partnerId}`
+      )
       .update({
         selectStatus: AppConfig.PostsStatus.partnerCloseJob,
         selectStatusText: "รับทราบและปิดโพสท์",
@@ -108,7 +110,10 @@ export default function PartnerSendCustomer() {
             {Moment(item.sys_create_date).format("DD/MM/YYYY HH:mm:ss")}
           </div>
           <div>Lv.ลูกค้า: {item.customerLevel}</div>
-          <div>เบอร์ติดต่อ: {item.customerPhone}</div>
+          {(item.status === AppConfig.PostsStatus.adminConfirmPayment ||
+            item.status === AppConfig.PostsStatus.closeJob) && (
+            <div>เบอร์ติดต่อ: {item.customerPhone}</div>
+          )}
           <div
             align="center"
             style={{

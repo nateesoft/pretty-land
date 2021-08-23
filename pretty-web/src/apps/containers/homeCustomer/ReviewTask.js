@@ -75,11 +75,15 @@ export default function ReviewTask() {
       const listPartner = []
       for (let key in list) {
         const obj = list[key]
-        if (
-          obj.selectStatus === AppConfig.PostsStatus.customerConfirm ||
-          obj.selectStatus === AppConfig.PostsStatus.customerPayment
-        ) {
+        if (postDetail.partnerType === 4) {
           listPartner.push(obj)
+        } else {
+          if (
+            obj.selectStatus === AppConfig.PostsStatus.customerConfirm ||
+            obj.selectStatus === AppConfig.PostsStatus.customerPayment
+          ) {
+            listPartner.push(obj)
+          }
         }
       }
       resolve(listPartner)
@@ -144,9 +148,11 @@ export default function ReviewTask() {
           </div>
           <div>Level: {postDetail.customerLevel}</div>
           <div>เบอร์โทรศัพท์: {postDetail.customerPhone}</div>
-          <div style={{ color: "green" }}>
-            สถานที่: {postDetail.placeMeeting}
-          </div>
+          {postDetail.placeMeeting && (
+            <div style={{ color: "green" }}>
+              สถานที่: {postDetail.placeMeeting}
+            </div>
+          )}
           <div>จังหวัด: {postDetail.provinceName}</div>
           <hr />
           <div>
@@ -286,10 +292,26 @@ export default function ReviewTask() {
             items.map((obj, index) => (
               <Grid container justifyContent="center">
                 <Grid item xs={6}>
-                  <div align="left">
-                    <div>ชื่อน้อง: {obj.partnerName}</div>
-                    <div>ราคา: {obj.amount}</div>
-                    <div>เบอร์โทร: {obj.telephone}</div>
+                  <div
+                    align="center"
+                    style={{
+                      backgroundColor: "pink",
+                      margin: 5,
+                      borderRadius: 20,
+                      padding: 5
+                    }}
+                  >
+                    <div style={{ color: "blue" }}>
+                      ชื่อน้อง: {obj.partnerName || obj.name}
+                    </div>
+                    <div style={{ color: "purple", fontWeight: "bold" }}>
+                      ราคา: {obj.amount}
+                    </div>
+                    {postDetail.status ===
+                      AppConfig.PostsStatus.adminConfirmPayment && (
+                      <div>เบอร์โทร: {obj.telephone}</div>
+                    )}
+                    <div style={{ color: "brown" }}>สถานที่: {obj.place}</div>
                     <div>
                       เพศ:{" "}
                       {obj.sex === "female"
@@ -302,7 +324,7 @@ export default function ReviewTask() {
                   <img
                     src={obj.image}
                     alt=""
-                    style={{ width: 150, height: "auto" }}
+                    style={{ width: 150, height: "auto", borderRadius: 15 }}
                   />
                 </Grid>
               </Grid>

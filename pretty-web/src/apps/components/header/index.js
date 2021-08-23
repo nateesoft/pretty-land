@@ -31,6 +31,10 @@ export default function Header(props) {
   const { hideBack } = props
   const classes = useStyles()
 
+  const handleBack = () => {
+    history.goBack()
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="static" style={{ backgroundColor: "#ff32ee" }}>
@@ -50,7 +54,7 @@ export default function Header(props) {
             <Button
               variant="outlined"
               color="inherit"
-              onClick={() => history.goBack()}
+              onClick={handleBack}
             >
               Back
             </Button>
