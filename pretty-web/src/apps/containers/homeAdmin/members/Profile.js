@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function BasicImageList(props) {
+export default function BasicImageList() {
   const classes = useStyles()
   const history = useHistory()
   if (!Cookies.get("logged_in")) {
@@ -125,10 +125,6 @@ export default function BasicImageList(props) {
     return ""
   }
 
-  const backPage = () => {
-    history.push("/admin", { member: adminProfile })
-  }
-
   const suspendMember = () => {
     firebase
       .database()
@@ -211,7 +207,8 @@ export default function BasicImageList(props) {
               อายุ: {memberProfile.age} | สูง: {memberProfile.height} | น้ำหนัก:{" "}
               {memberProfile.weight}
             </div>
-            สัดส่วน: <NumberFormat
+            สัดส่วน:{" "}
+            <NumberFormat
               format="##-##-##"
               value={memberProfile.stature}
               displayType="text"
@@ -231,7 +228,9 @@ export default function BasicImageList(props) {
             <hr />
             <div>id: {memberProfile.id}</div>
             <div>username: {memberProfile.username}</div>
-            {adminProfile.memberType==='superadmin' && <div>password: {base64.decode(memberProfile.password)}</div>}
+            {adminProfile.memberType === "superadmin" && (
+              <div>password: {base64.decode(memberProfile.password)}</div>
+            )}
           </div>
         </div>
         <div style={{ margin: 10 }}>

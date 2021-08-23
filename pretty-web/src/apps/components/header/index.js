@@ -28,11 +28,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header(props) {
   const history = useHistory()
-  const { hideBack } = props
+  const { hideBack, backPage } = props
   const classes = useStyles()
 
   const handleBack = () => {
-    history.goBack()
+    if (backPage) {
+      backPage()
+    } else {
+      history.goBack()
+    }
   }
 
   return (
@@ -51,11 +55,7 @@ export default function Header(props) {
             Pretty Land
           </Typography>
           {!hideBack && (
-            <Button
-              variant="outlined"
-              color="inherit"
-              onClick={handleBack}
-            >
+            <Button variant="outlined" color="inherit" onClick={handleBack}>
               Back
             </Button>
           )}

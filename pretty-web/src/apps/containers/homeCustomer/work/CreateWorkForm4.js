@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
@@ -24,8 +24,12 @@ export default function CreateWorkForm4() {
   if (!Cookies.get("logged_in")) {
     window.location.href = ""
   }
-  const { customerProfile, partnerRequest, partnerType } =
-    history.location.state
+  const {
+    customerProfile,
+    partnerRequest,
+    partnerType,
+    province: privinceTmpSelect
+  } = history.location.state
   const [sex, setSex] = useState("female")
   const [province, setProvince] = useState("")
   const [district, setDistrict] = useState("")
@@ -102,9 +106,16 @@ export default function CreateWorkForm4() {
       partnerProfile: item,
       province,
       partnerRequest,
-      partnerType
+      partnerType,
+      linkBack: "/customer-create-work4"
     })
   }
+
+  useEffect(() => {
+    if (privinceTmpSelect) {
+      selectProvince(privinceTmpSelect)
+    }
+  }, [])
 
   return (
     <ImageBackground>

@@ -31,8 +31,9 @@ export default function ContactAdmin() {
         ข้อมูลสมาชิก
       </div>
       <div
+        align="center"
         style={{
-          margin: 10,
+          margin: 50,
           border: "2px solid #eee",
           padding: 5,
           borderRadius: 15

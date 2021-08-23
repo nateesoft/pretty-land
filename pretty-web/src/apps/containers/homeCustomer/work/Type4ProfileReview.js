@@ -48,7 +48,8 @@ export default function Type4ProfileReview() {
     customerProfile,
     province,
     partnerRequest,
-    partnerType
+    partnerType,
+    linkBack
   } = history.location.state
 
   const [selectStatus, setSelectStatus] = useState("")
@@ -99,9 +100,20 @@ export default function Type4ProfileReview() {
       })
   }, [])
 
+  const backPage = () => {
+    history.replace(linkBack, {
+      partnerProfile,
+      customerProfile,
+      province,
+      partnerRequest,
+      partnerType,
+      linkBack
+    })
+  }
+
   return (
     <ImageBackground>
-      <Header profile={customerProfile} />
+      <Header profile={customerProfile} backPage={backPage} />
       <div
         align="center"
         style={{

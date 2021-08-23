@@ -47,7 +47,9 @@ export default function Members() {
     history.push("/member-profile", {
       adminProfile,
       memberProfile: profile,
-      mode: getPartnerTypeFromFirebase(profile)
+      mode: getPartnerTypeFromFirebase(profile),
+      search,
+      linkBack: "/admin-members"
     })
   }
 
@@ -181,7 +183,6 @@ export default function Members() {
                     padding: 10
                   }}
                 >
-                  {/* <div>งานที่สมัคร: {getPartnerTypeFromFirebase(item)}</div> */}
                   <div>เบอร์โทร: {item.mobile}</div>
                   <div>
                     วันที่:{" "}
