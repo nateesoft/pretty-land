@@ -86,8 +86,8 @@ export default function CreateWorkForm4() {
           }
         })
 
-        let avList = list.filter(item=>item.work_status==='available')
-        let notAvList = list.filter(item=>item.work_status!=='available')
+        let avList = list.filter((item) => item.work_status === "available")
+        let notAvList = list.filter((item) => item.work_status !== "available")
 
         setPartnerQty(count)
         setPartnerList(avList.concat(notAvList))
@@ -254,7 +254,11 @@ export default function CreateWorkForm4() {
                     src={item.image}
                     alt=""
                     style={{ width: "100%", height: 200 }}
-                    onClick={() => handleNext(item)}
+                    onClick={() =>
+                      item.work_status === "available"
+                        ? handleNext(item)
+                        : console.log("cannot select")
+                    }
                   />
                   <div
                     style={{

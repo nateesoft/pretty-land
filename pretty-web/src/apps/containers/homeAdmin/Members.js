@@ -8,6 +8,8 @@ import Moment from "moment"
 import { useHistory } from "react-router-dom"
 import Cookies from "js-cookie"
 import { NotificationManager } from "react-notifications"
+import { Button, TextField } from "@material-ui/core"
+import { SearchOutlined } from "@material-ui/icons"
 
 import ImageBackground from "../../components/background"
 import Header from "../../components/header"
@@ -38,6 +40,9 @@ export default function Members() {
   const [members, setMembers] = useState([])
   const [items, setItems] = useState([])
 
+  // for search
+  const [search, setSearch] = useState("")
+
   const loadMemberDetail = (profile) => {
     history.push("/member-profile", {
       adminProfile,
@@ -66,32 +71,50 @@ export default function Members() {
     return ms.memberType
   }
 
+  const searchKey = (item) => {
+    if (search) {
+      return item.mobile === search || item.username === search
+    }
+    return true
+  }
+
+  const getMemberList = () => {
+    return new Promise((resolve, reject) => {
+      const ref = firebase.database().ref(`${AppConfig.env}/members`)
+      ref.once("value", (snapshot) => {
+        const memberInCloud = snapshotToArray(snapshot)
+        let newMemberList = memberInCloud.filter(
+          (item, index) => item.memberType === "partner" && searchKey(item)
+        )
+        let waitApprove = memberInCloud.filter(
+          (item, index) =>
+            item.status === AppConfig.MemberStatus.newRegister &&
+            item.memberType === "partner" &&
+            searchKey(item)
+        )
+        waitApprove = waitApprove.sort((a, b) => {
+          return Moment(b.sys_update_date) - Moment(a.sys_update_date)
+        })
+        let readyApprove = memberInCloud.filter(
+          (item, index) =>
+            item.status === AppConfig.MemberStatus.active &&
+            item.memberType === "partner" &&
+            searchKey(item)
+        )
+        readyApprove = readyApprove.sort((a, b) => {
+          return Moment(b.sys_update_date) - Moment(a.sys_update_date)
+        })
+        newMemberList = waitApprove.concat(readyApprove)
+        setMembers(newMemberList)
+        resolve(true)
+      })
+    })
+  }
+
   useEffect(() => {
     const ref = firebase.database().ref(`${AppConfig.env}/members`)
-    const listener = ref.on("value", (snapshot) => {
-      const memberInCloud = snapshotToArray(snapshot)
-      let newMemberList = memberInCloud.filter(
-        (item, index) => item.memberType === "partner"
-      )
-      let waitApprove = memberInCloud.filter(
-        (item, index) =>
-          item.status === AppConfig.MemberStatus.newRegister &&
-          item.memberType === "partner"
-      )
-      waitApprove = waitApprove.sort((a, b) => {
-        return Moment(b.sys_update_date) - Moment(a.sys_update_date)
-      })
-      let readyApprove = memberInCloud.filter(
-        (item, index) =>
-          item.status === AppConfig.MemberStatus.active &&
-          item.memberType === "partner"
-      )
-      readyApprove = readyApprove.sort((a, b) => {
-        return Moment(b.sys_update_date) - Moment(a.sys_update_date)
-      })
-      newMemberList = waitApprove.concat(readyApprove)
-      setMembers(newMemberList)
-
+    const listener = ref.on("value", () => {
+      getMemberList().then((res) => console.log("loaded."))
       getConfigList()
         .then((res) => {
           setItems(res)
@@ -105,7 +128,25 @@ export default function Members() {
   return (
     <ImageBackground>
       <Header profile={adminProfile} hideBack />
-      <List className={classes.root} style={{ marginTop: 55 }}>
+      <div align="center" style={{ marginTop: 75 }}>
+        <TextField
+          label="ค้นหาด้วยเบอร์โทรศัพท์, username"
+          variant="outlined"
+          placeholder="ค้นหา เบอร์โทรศัพท์, username"
+          style={{ marginRight: 10, width: "65%" }}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <Button
+          startIcon={<SearchOutlined />}
+          variant="contained"
+          color="primary"
+          onClick={getMemberList}
+        >
+          ค้นหา
+        </Button>
+      </div>
+      <List className={classes.root}>
         {members.length === 0 && (
           <div align="center">ไม่พบข้อมูลสมาชิกในระบบ</div>
         )}
